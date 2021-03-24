@@ -6,16 +6,17 @@ package it.polimi.ingsw.client.model;
  */
 public class DevelopmentCard
 {
+    /**
+     * Production is the class to effectively use the card, yet to be added
+     */
     private int level;
 
     //private Production production;
     /**
-     * Class to effectively use the card, yet to be added
-     */
-    private DevelopmentCardColor cardType;
-    /**
      * Enum to indicate card color
      */
+    private DevelopmentCardColor cardType;
+
     // private CostCell costcell;
 
 
