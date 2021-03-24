@@ -18,4 +18,5 @@ public enum Resource
     BADFAITH,
     TOCHOOSE,
     WHITEMARBLE,
+    EMPTY,
 }
