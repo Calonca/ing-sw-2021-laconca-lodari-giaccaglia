@@ -39,14 +39,15 @@ public class ProductionCardCellTest
     {
         ProductionCardCell testCardCell_aTT = new ProductionCardCell();
         assertEquals(0,testCardCell_aTT.stackHeight);
+
         DevelopmentCard testCardOne_aTT= new DevelopmentCard(1, DevelopmentCardColor.GREEN);
         testCardCell_aTT.addToTop(testCardOne_aTT);
         assertEquals(1,testCardCell_aTT.stackHeight);
-        assertTrue(testCardCell_aTT.isSpotAvailable());
+
         DevelopmentCard testCardTwo_aTT= new DevelopmentCard(1, DevelopmentCardColor.GREEN);
         testCardCell_aTT.addToTop(testCardTwo_aTT);
         assertEquals(2,testCardCell_aTT.stackHeight);
-        assertTrue(testCardCell_aTT.isSpotAvailable());
+
         DevelopmentCard testCardThree_aTT= new DevelopmentCard(1, DevelopmentCardColor.GREEN);
         testCardCell_aTT.addToTop(testCardThree_aTT);
         assertEquals(3,testCardCell_aTT.stackHeight);
