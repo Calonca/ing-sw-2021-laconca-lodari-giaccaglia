@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.model.player;
+package it.polimi.ingsw.server.model.player;
 
 public enum FaithZone {
     NORMAL(-1),

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.model;
+package it.polimi.ingsw.server.model;
 
 /**
  * A DISCARDED card can no longer be played.

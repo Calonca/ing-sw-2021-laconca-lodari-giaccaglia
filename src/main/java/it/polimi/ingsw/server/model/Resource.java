@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.model;
+package it.polimi.ingsw.server.model;
 
 /**
  * Enum class for resources. Resources order is the same as in Box.

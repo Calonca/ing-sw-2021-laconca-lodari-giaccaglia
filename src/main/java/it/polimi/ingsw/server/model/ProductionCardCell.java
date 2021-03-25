@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.model;
+package it.polimi.ingsw.server.model;
 
 /**
  * Container class for Development Cards, similiar to a stack

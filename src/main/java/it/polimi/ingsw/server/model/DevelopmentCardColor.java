@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.model;
+package it.polimi.ingsw.server.model;
 /**
  * Development Cards colors. New colors can be added anytime
  * @author PSP10
