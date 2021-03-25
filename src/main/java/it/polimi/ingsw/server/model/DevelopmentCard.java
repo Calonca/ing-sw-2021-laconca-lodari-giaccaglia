@@ -6,6 +6,12 @@ package it.polimi.ingsw.server.model;
  */
 public class DevelopmentCard
 {
+    public DevelopmentCard(int level, DevelopmentCardColor cardType)
+    {
+        this.level = level;
+        this.cardType = cardType;
+    }
+
     /**
      * Production is the class to effectively use the card, yet to be added
      */

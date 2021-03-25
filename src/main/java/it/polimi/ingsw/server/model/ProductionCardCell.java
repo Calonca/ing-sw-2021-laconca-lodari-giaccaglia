@@ -7,10 +7,10 @@ package it.polimi.ingsw.server.model;
 
 public class ProductionCardCell {
     private DevelopmentCard[] cards;
-    int stackHeight;
+    public int stackHeight;
 
     /**
-     * Returns the card on top of the stack
+     * Returns the card on top of the stack.
      */
     public DevelopmentCard getFrontCard()
     {
@@ -18,7 +18,7 @@ public class ProductionCardCell {
     }
 
     /**
-     * Checks if the stack is full
+     * Returns True if more cards can be added to the stack.
      */
     public boolean isSpotAvailable()
     {
@@ -28,6 +28,7 @@ public class ProductionCardCell {
     /**
      * Adds one to the stack
      * @param card!=NULL
+     * Ensures that the stack size increases by one and that "card" is the front card.
      */
     public void addToTop(DevelopmentCard card)
     {
