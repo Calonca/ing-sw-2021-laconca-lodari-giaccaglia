@@ -2,7 +2,6 @@ package it.polimi.ingsw.server.model;
 
 /**
  * Container class for Development Cards, similiar to a stack
- * @author Gianmarco Lodari
  */
 
 public class ProductionCardCell {
@@ -11,6 +10,7 @@ public class ProductionCardCell {
 
     /**
      * Returns the card on top of the stack.
+     * CANNOT be called on empty stack.
      */
     public DevelopmentCard getFrontCard()
     {
@@ -19,6 +19,7 @@ public class ProductionCardCell {
 
     /**
      * Returns True if more cards can be added to the stack.
+     *
      */
     public boolean isSpotAvailable()
     {

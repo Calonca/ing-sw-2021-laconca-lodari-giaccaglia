@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.model;
+package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.server.model.DevelopmentCard;
 import it.polimi.ingsw.server.model.DevelopmentCardColor;
@@ -20,7 +20,7 @@ public class ProductionCardCellTest
         testCardCell_iSA.addToTop(testCardOne_iSA);
         assertTrue(testCardCell_iSA.isSpotAvailable());
 
-        DevelopmentCard testCardTwo_iSA= new DevelopmentCard(1, DevelopmentCardColor.GREEN);
+        DevelopmentCard testCardTwo_iSA= new DevelopmentCard(1, DevelopmentCardColor.YELLOW);
         testCardCell_iSA.addToTop(testCardTwo_iSA);
         assertTrue(testCardCell_iSA.isSpotAvailable());
 
@@ -28,9 +28,7 @@ public class ProductionCardCellTest
         testCardCell_iSA.addToTop(testCardThree_iSA);
         assertTrue(testCardCell_iSA.isSpotAvailable());
 
-        DevelopmentCard testCardFour_iSA= new DevelopmentCard(1, DevelopmentCardColor.GREEN);
-        testCardCell_iSA.addToTop(testCardFour_iSA);
-        assertFalse(testCardCell_iSA.isSpotAvailable());
+
     }
 
 
@@ -44,11 +42,11 @@ public class ProductionCardCellTest
         testCardCell_aTT.addToTop(testCardOne_aTT);
         assertEquals(1,testCardCell_aTT.stackHeight);
 
-        DevelopmentCard testCardTwo_aTT= new DevelopmentCard(1, DevelopmentCardColor.GREEN);
+        DevelopmentCard testCardTwo_aTT= new DevelopmentCard(1, DevelopmentCardColor.BLUE);
         testCardCell_aTT.addToTop(testCardTwo_aTT);
         assertEquals(2,testCardCell_aTT.stackHeight);
 
-        DevelopmentCard testCardThree_aTT= new DevelopmentCard(1, DevelopmentCardColor.GREEN);
+        DevelopmentCard testCardThree_aTT= new DevelopmentCard(1, DevelopmentCardColor.PURPLE);
         testCardCell_aTT.addToTop(testCardThree_aTT);
         assertEquals(3,testCardCell_aTT.stackHeight);
 
