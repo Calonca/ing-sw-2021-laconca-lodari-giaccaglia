@@ -4,7 +4,7 @@ import it.polimi.ingsw.server.model.Resource;
 
 public enum Marble {
 
-    WHITE(Resource.EMPTY),
+    WHITE(Resource.WHITEMARBLE),
     BLUE(Resource.SHIELD),
     GRAY(Resource.STONE),
     YELLOW(Resource.GOLD),
