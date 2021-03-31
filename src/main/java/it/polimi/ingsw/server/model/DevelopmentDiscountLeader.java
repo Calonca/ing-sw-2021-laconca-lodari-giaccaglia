@@ -1,8 +1,9 @@
 package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.server.model.player.LeaderState;
-import it.polimi.ingsw.server.model.player.Player;
 import javafx.util.Pair;
+
+import java.util.List;
 
 /**
  * This Leader class doesn't need extra methods, discount is used by gamemodel.
@@ -11,8 +12,28 @@ import javafx.util.Pair;
 public class DevelopmentDiscountLeader extends Leader
 {
     private LeaderState state;
+    private int victoryPoints;
+    public List<Pair<Resource, Integer>> requirements;
+
+
+
     public Pair<Resource,Integer> discount;
-    private void activate(GameModel gamemodel)
+
+    public DevelopmentDiscountLeader(LeaderState state, int victoryPoints, List<Pair<Resource,Integer>> requirements, Pair<Resource,Integer> discount)
+    {
+        this.state = state;
+        this.victoryPoints = victoryPoints;
+        this.requirements = requirements;
+        this.discount = discount;
+    }
+
+
+    public Pair<Resource, Integer> getDiscount()
+    {
+        return discount;
+    }
+
+    public void activate(GameModel gamemodel)
     {
         gamemodel.getCurrentPlayer().applyDiscount(discount);
         state = LeaderState.ACTIVE; //assumo che il leader attivato sia "in cima"
