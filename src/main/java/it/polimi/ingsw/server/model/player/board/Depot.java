@@ -140,17 +140,17 @@ abstract class Depot {
 
     /**
      * Adds a the given resource in the depot at the given position
-     * @param posAndRes a pair of an integer that represents a global position and a resource, the pair represents the position and resource to add
+     * @param pos_Res a pair of an integer that represents a global position and a resource, the pair represents the position and resource to add
      */
-    void addResource(Pair<Integer,Resource> posAndRes) {
+    void addResource(Pair<Integer,Resource> pos_Res) {
         try {
-            if (!res_sel.get(globalToLocalPos(posAndRes.getKey())).getKey().equals(Resource.EMPTY))
+            if (!res_sel.get(globalToLocalPos(pos_Res.getKey())).getKey().equals(Resource.EMPTY))
                 throw new ResourceNotEmptyException();
         } catch (ResourceNotEmptyException e) {
             e.printStackTrace();
         }
         numberOfOccupiedSpots +=1;
-        res_sel.set(globalToLocalPos(posAndRes.getKey()), new Pair<>(posAndRes.getValue(),false));
+        res_sel.set(globalToLocalPos(pos_Res.getKey()), new Pair<>(pos_Res.getValue(),false));
     }
 
     /**
