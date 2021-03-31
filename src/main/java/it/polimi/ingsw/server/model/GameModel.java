@@ -35,6 +35,12 @@ public class GameModel {
 
     }
 
+
+    public Player getCurrentPlayer()
+    {
+        return currentPlayer;
+    }
+
     public Player getPlayer(String nickname) {
           return players.stream()
                 .filter(player1 -> player1.getNickName().equals(nickname))
