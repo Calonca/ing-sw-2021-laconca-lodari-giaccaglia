@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.server.model.player.LeaderState;
+import it.polimi.ingsw.server.model.player.Player;
 import javafx.util.Pair;
 import org.junit.Test;
 
@@ -22,7 +23,7 @@ public class LeaderTest
         List<Pair<Resource, Integer>> requirementsTest = new ArrayList<Pair<Resource, Integer>>();
         requirementsTest.add(costTest);
         GameModel gamemodel = new GameModel();
-        Leader leadertest = new DevelopmentDiscountLeader(LeaderState.INACTIVE, 3, requirementsTest, discountTest);
+        DevelopmentDiscountLeader leadertest = new DevelopmentDiscountLeader(LeaderState.INACTIVE, 3, requirementsTest, discountTest);
         assertEquals(LeaderState.INACTIVE, leadertest.getState());
         leadertest.activate(gamemodel);
         assertEquals(LeaderState.ACTIVE, leadertest.getState());
@@ -30,7 +31,12 @@ public class LeaderTest
         leadertest.discard(gamemodel);
         assertEquals(LeaderState.DISCARDED, leadertest.getState());
 
-        //leadertest = new DevelopmentDiscountLeader(LeaderState.INACTIVE, 3, requirementsTest, discountTest);
-        //Player playerTest= new Player();
+
+        leadertest = new DevelopmentDiscountLeader(LeaderState.INACTIVE, 3, requirementsTest, discountTest);
+        Player playerTest= new Player();
+        playerTest.applyDiscount(leadertest.discount);
+        assertEquals(playerTest.getDiscounts()[leadertest.discount.getKey().getResourceNumber()], (int) leadertest.discount.getValue());
+
+
     }
 }
