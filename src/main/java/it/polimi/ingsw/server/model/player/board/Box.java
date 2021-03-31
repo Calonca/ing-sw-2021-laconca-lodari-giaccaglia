@@ -22,6 +22,9 @@ public class Box {
      * selected means that the player wants to use thar resource for a production
      */
     private int[] nSel;
+    /**
+     * The number of different resourced that this deposit can contain
+     */
     private final int length;
 
     /**
@@ -58,7 +61,7 @@ public class Box {
         IntStream.range(0, toAdd.length).forEach((i)->nResAtPos[i]+=toAdd[i]);
     }
 
-    /**
+    /** Returns how many selected resources of the given type there are
      * @param toGet type of resource of which you want to know how many you have
      * @return Number of resources selected of the input type
      */
@@ -84,7 +87,7 @@ public class Box {
         nSel[R2Desel.getResourceNumber()]=max(nSel[R2Desel.getResourceNumber()]-nToDesel,0);
     }
 
-    /**
+    /** Returns how many resources of the given type there are
      * @param resType represents the resource that has this position in the resources ordering
      * @return number of resources of the given type in the deposit
      */
