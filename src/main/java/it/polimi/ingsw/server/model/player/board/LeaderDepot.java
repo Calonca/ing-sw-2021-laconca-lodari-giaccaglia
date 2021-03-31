@@ -8,7 +8,7 @@ import it.polimi.ingsw.server.model.Resource;
 public class LeaderDepot extends Depot {
 
     /**
-     * Creates a depot of dimension 2 and given type
+     * Creates a depot of dimension 2 and given type and global position
      * @param globalPositionOfFirstElement global position of first element
      * @param type type of resource that the leaderDepot can store
      */
