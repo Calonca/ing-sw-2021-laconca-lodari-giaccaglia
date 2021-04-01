@@ -16,8 +16,7 @@ public enum Resource
     FAITH(4),
     BADFAITH(5),
     TOCHOOSE(6),
-    WHITEMARBLE(7),
-    EMPTY(8);
+    EMPTY(7);
 
     private final int resourceNumber;
 

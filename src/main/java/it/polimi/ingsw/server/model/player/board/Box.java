@@ -5,6 +5,7 @@ import it.polimi.ingsw.server.model.Resource;
 import java.util.stream.IntStream;
 
 import static java.lang.Integer.max;
+import static java.lang.Math.min;
 
 
 /**
@@ -21,7 +22,10 @@ public class Box {
      * selected means that the player wants to use thar resource for a production
      */
     private int[] nSel;
-    int length;
+    /**
+     * The number of different resourced that this deposit can contain
+     */
+    private final int length;
 
     /**
      * Use this construct is you want to create a deposit that can contain kindsOfRes different kinds of resources
@@ -57,12 +61,12 @@ public class Box {
         IntStream.range(0, toAdd.length).forEach((i)->nResAtPos[i]+=toAdd[i]);
     }
 
-    /**
+    /** Returns how many selected resources of the given type there are
      * @param toGet type of resource of which you want to know how many you have
      * @return Number of resources selected of the input type
      */
     public int getNSelected(Resource toGet){
-        return nSel[toGet.ordinal()];
+        return nSel[toGet.getResourceNumber()];
     }
 
     /**
@@ -71,7 +75,7 @@ public class Box {
      * @param R2Sel type of the resource to select
      */
     void selectN(int nToSel, Resource R2Sel){
-        nSel[R2Sel.ordinal()]+=nToSel;
+        nSel[R2Sel.getResourceNumber()]=min(nSel[R2Sel.getResourceNumber()]+nToSel,nResAtPos[R2Sel.getResourceNumber()]);
     }
 
     /**
@@ -80,10 +84,10 @@ public class Box {
      * @param R2Desel type of the resource to deselect
      */
     void deselectN(int nToDesel,Resource R2Desel){
-        nSel[R2Desel.ordinal()]+=nToDesel;
+        nSel[R2Desel.getResourceNumber()]=max(nSel[R2Desel.getResourceNumber()]-nToDesel,0);
     }
 
-    /**
+    /** Returns how many resources of the given type there are
      * @param resType represents the resource that has this position in the resources ordering
      * @return number of resources of the given type in the deposit
      */
