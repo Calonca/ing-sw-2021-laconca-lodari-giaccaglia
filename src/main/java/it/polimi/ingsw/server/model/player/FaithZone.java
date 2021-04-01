@@ -33,7 +33,7 @@ public enum FaithZone {
 
     /**
      * <em>Faith Track Zone</em> corresponding to Faith Cell
-     * belonging to the third <br>Vatican Report section</br>.
+     * belonging to the third <em>Vatican Report section</em>.
      */
     ZONE3(2);
 
