@@ -160,7 +160,7 @@ abstract class Depot {
     }
 
     /**
-     * Flags a resource at the given to given position to selected or not selected for production
+     * Flags a resource at the given global position as selected or not selected for production
      * @param value true if the resource needs to be selected, false elsewhere
      * @param resGlobalPos the global position of the resource that needs to be flagged for production
      */
