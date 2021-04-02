@@ -99,6 +99,9 @@ abstract class Depot {
             if (localPosition>= getSize())
                 throw new IndexOutOfBoundsException();
         } catch (IndexOutOfBoundsException e){
+            System.out.println("The given global position is not in the depot");
+            System.out.println("GlobalPosition: "+globalPosition);
+            System.out.println("Depot Range: "+globalPositionOfFirstElement+"->"+getLastGlobalPosition());
             e.printStackTrace();
         }
         return localPosition;
@@ -133,9 +136,8 @@ abstract class Depot {
      * @param globalPosition is the position of the resource to remove
      */
     void removeResource(int globalPosition){
+        numberOfOccupiedSpots -=1;
         res_sel.set(globalToLocalPos(globalPosition),new Pair<>(Resource.EMPTY,false));
-        if (!res_sel.get(globalToLocalPos(globalPosition)).getKey().equals(Resource.EMPTY))
-            numberOfOccupiedSpots -=1;
     }
 
     /**
@@ -143,12 +145,7 @@ abstract class Depot {
      * @param pos_Res a pair of an integer that represents a global position and a resource, the pair represents the position and resource to add
      */
     void addResource(Pair<Integer,Resource> pos_Res) {
-        try {
-            if (!res_sel.get(globalToLocalPos(pos_Res.getKey())).getKey().equals(Resource.EMPTY))
-                throw new ResourceNotEmptyException();
-        } catch (ResourceNotEmptyException e) {
-            e.printStackTrace();
-        }
+        if (getOccupiedSpotsInDepotNum()==0) setType(pos_Res.getValue());
         numberOfOccupiedSpots +=1;
         res_sel.set(globalToLocalPos(pos_Res.getKey()), new Pair<>(pos_Res.getValue(),false));
     }
