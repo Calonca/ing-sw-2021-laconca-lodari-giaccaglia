@@ -1,8 +1,5 @@
 package it.polimi.ingsw.server.model.player;
 import it.polimi.ingsw.server.model.*;
-import it.polimi.ingsw.server.model.player.*;
-import it.polimi.ingsw.server.model.player.board.*;
-
 
 
 /**
@@ -29,7 +26,7 @@ public enum SoloActionToken {
 
         @Override
         public void applyEffect(GameModel gameModel) {
-            discardCardFromShop(color, gameModel, 2);
+            discardCards(color, gameModel, 2);
         }
     },
 
@@ -43,14 +40,14 @@ public enum SoloActionToken {
 
         @Override
         public void applyEffect(GameModel gameModel) {
-            discardCardFromShop(color, gameModel, 2);
+            discardCards(color, gameModel, 2);
         }
     },
 
     /**
      * When this effect is applied 2 yellow {@link DevelopmentCard DevelopmentCards} are discarded
      * from the belonging {@link DevelopmentCardDeck} following the
-     * {@link #discardCardFromShop(DevelopmentCardColor, GameModel, int) discardCardFromShop} rules.
+     * {@link #discardCards(DevelopmentCardColor, GameModel, int) discardCardFromShop} rules.
      */
     DISCARD2YELLOW{
 
@@ -58,21 +55,21 @@ public enum SoloActionToken {
 
         @Override
         public void applyEffect(GameModel gameModel) {
-            discardCardFromShop(color, gameModel, 2);
+            discardCards(color, gameModel, 2);
         }
     },
 
     /**
      * When this effect is applied 2 purple {@link DevelopmentCard DevelopmentCards} are discarded
      * from the belonging {@link DevelopmentCardDeck} following the
-     * {@link #discardCardFromShop(DevelopmentCardColor, GameModel, int) discardCardFromShop} rules.
+     * {@link #discardCards(DevelopmentCardColor, GameModel, int) discardCardFromShop} rules.
      */
     DISCARD2PURPLE{
         final DevelopmentCardColor color = DevelopmentCardColor.PURPLE;
 
         @Override
         public void applyEffect(GameModel gameModel) {
-            discardCardFromShop(color, gameModel, 2);
+            discardCards(color, gameModel, 2);
 
         }
     },
@@ -122,8 +119,9 @@ public enum SoloActionToken {
      * method is accessed to modify the {@link CardShop}.
      * @param amount The number of {@link DevelopmentCard}s to discard.
      */
-    public void discardCardFromShop(DevelopmentCardColor color, GameModel gameModel, int amount){
+    public void discardCards(DevelopmentCardColor color, GameModel gameModel, int amount){
         gameModel.discardCardFromShop(color, amount);
     }
 }
+
 
