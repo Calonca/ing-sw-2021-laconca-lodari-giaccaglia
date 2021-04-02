@@ -1,16 +1,44 @@
 package it.polimi.ingsw.server.model.player;
+import it.polimi.ingsw.server.model.MarketBoard;
+import it.polimi.ingsw.server.model.*;
+
+
 import java.util.*;
 
-
+/**
+ * Represents the {@link Player} <em>FaithTrack</em>
+ */
 public class FaithTrack {
 
+    /**
+     *  <p>Enum class for the <em>Faith Marker</em> and the <em>Black Cross</em> token of <em>Solo mode</em>
+     */
     public enum Piece{
+
+        /**
+         * Represents the <em>Faith Marker</em>
+         */
         PLAYER(0),
+
+        /**
+         * Represents the <em>Black Cross</em>, which is the <em>Faith Marker</em> of <em>Lorenzo il Magnifico</em> for
+         * the <em>Solo mode</em> game
+         */
         LORENZO(0);
+
+        /**
+         * Int value to track the position of this <em>Piece</em> along the <em>FaithTrack</em>
+         */
         private int position;
+
         Piece(int position) {
             this.position = position;
         }
+
+        /**
+         * Increments by one the <em>position</em> of this <em>Piece</em> when a <em>Vatican Report</em> occurs,
+         * an opponent's {@link Leader} or {@link Resource} is discarded.
+         */
         public void incrementPosition(){
             this.position++;
         }
@@ -18,30 +46,84 @@ public class FaithTrack {
 
     private final Piece playerPiece = Piece.PLAYER;
     private final Piece lorenzoPiece = Piece.LORENZO;
+
+    /**
+     * <p>{@link List} of {@link FaithCell FaithCells} objects representing the core structure of the <em>FaithTrack</em>.<br>
+     * The default number of elements is 25, which is set on the game setup.
+     */
     private List<FaithCell> track;
+
+    /**
+     * <p>{@link List} of {@link PopeFavourTile PopeFavourTiles} objects of the <em>FaithTrack</em>.<br>
+     * The default number of elements is 3, which is set on the game setup.<br>
+     */
     private List<PopeFavourTile> tiles;
 
+    /**
+     * <p>Increments by one the <em>position</em> of the <em>Piece</em> parameter when a <em>Vatican Report</em> occurs,
+     * an opponent's {@link Leader} or {@link Resource} is discarded.<br>
+     * If the Piece's{@link Piece#position position} equals to 24, after the increment has been done, the game ends as
+     * the {@link Piece} has reached the last place of this <em>FaithTrack</em>
+     *
+     * @param piece <em>FaithTrack</em> piece which can be either a multiplayer <em>FaithMarker</em> or a solo mode
+     * <em>Black Cross</em> token.
+     */
     private void addFaithPoint(Piece piece){
         if(piece.position < 25)
             piece.incrementPosition();
+        else{
+            piece.incrementPosition();
+            //notify end of the game
+        }
     }
 
+    /**
+     * Increments by one the <em>position</em> of the <em>playerPiece</em> when a <em>Vatican Report</em> occurs,
+     * an opponent's {@link Leader} or {@link Resource} is discarded.
+     */
     public void moveOnePosition(){
         addFaithPoint(playerPiece);
     }
 
+    /**
+     * Increments by one the <em>position</em> of the <em>lorenzoPiece</em> when a <em>Vatican Report</em> occurs,
+     * single player's {@link Leader} or {@link Resource} is discarded, {@link SoloActionToken#ADD2FAITH ADD2FAITH}
+     * or {@link SoloActionToken#SHUFFLE_ADD1FAITH SHUFFLE_ADD1FAITH} <em>Solo Action tokens</em> are revealed.
+     */
     public void moveLorenzoOnePosition(){
         addFaithPoint(lorenzoPiece);
     }
 
+    /**
+     * Checks if the <em>Piece</em> passed as a parameter is currently in a <em>Pope Space</em>.
+     *
+     * @param piece <em>FaithTrack</em> piece which can be either a multiplayer <em>FaithMarker</em> or a solo mode
+     * <em>Black Cross</em> token.
+     *
+     * @return the boolean returned value of FaithCell's {@link FaithCell#isPopeSpace() isPopeSpace} method
+     */
     public boolean isPieceInPopeSpace(Piece piece){
         return(track.get(piece.position).isPopeSpace());
     }
 
+    /**
+     * Gets the current position along the <em>FaithTrack</em> of the <em>Piece</em> passed as a parameter.
+     *
+     * @param piece <em>FaithTrack</em> piece which can be either a multiplayer <em>FaithMarker</em> or a solo mode
+     * <em>Black Cross</em> token.
+     *
+     * @return the Int value of the current <em>Piece</em> position
+     */
     public int getPiecePosition(Piece piece){
         return piece.position;
     }
 
+    /**
+     * Invoked when <em>Vatican Report</em> occurs, this method checks if the <em>popeSpacePosition</em> passed as
+     * a parameter matches or is a previously crossed <em>track</em> position of the {@link Piece#PLAYER PLAYER} <em>Piece</em>
+     *
+     * @param popeSpacePosition The track position which has led to the <em>Vatican Report</em>
+     */
     public void turnPopeFavourTile(int popeSpacePosition) {
 
         FaithZone currentZone = track.get(playerPiece.position).getZone();
@@ -60,17 +142,38 @@ public class FaithTrack {
             tiles.get(popeSpaceZoneNumber).setTileState(TileState.DISCARDED);
     }
 
-    public boolean hasWon(Piece piece){
-        return piece.position == 24;
+    /**
+     * <p>If the current Piece's{@link Piece#position position} equals to 25 the game ends as
+     * the {@link Piece} parameter has reached the last place of this <em>FaithTrack</em>.<br>
+     * In case of <em>Solo mode</em>, if {@link Piece#LORENZO LORENZO} <em>Black cross</em>
+     * current position equals to 25 the game ends and the player loses the game.
+     *
+     * @param piece <em>FaithTrack</em> piece which can be either a multiplayer <em>FaithMarker</em> or a solo mode
+     * <em>Black Cross</em> token.
+     */
+    public boolean hasReached(Piece piece){
+        return piece.position == 25;
     }
 
-    public int victoryPointsFromFaithTrackCells(){
+    /**
+     * Calculates the amount of <em>Victory Points</em> player scores from the {@link FaithCell#points VictoryPoints} of
+     * the last {@link FaithCell FaithCell} giving points, if crossed.
+     *
+     * @return <em>Victory Points</em> from {@link PopeFavourTile PopeFavourTiles}
+     */
+    public int victoryPointsFromFaithTrackCell(){
         return track.stream()
                 .filter(cell -> (track.indexOf(cell) <= playerPiece.position))
                 .mapToInt(FaithCell::getPoints)
                 .sum();
     }
 
+    /**
+     * Calculates the amount of <em>Victory Points</em> player score from the {@link PopeFavourTile PopeFavourTiles}
+     * having the current state set to {@link TileState#ACTIVE ACTIVE}
+     *
+     * @return sum of <em>Victory Points</em> from {@link PopeFavourTile PopeFavourTiles}
+     */
     public int victoryPointsFromPopeFavourTiles(){
         return tiles.stream()
                 .filter(tile -> (tile.getTileState().equals(TileState.ACTIVE)))
@@ -80,7 +183,6 @@ public class FaithTrack {
 
     }
 }
-
 
 
 /*    public static void main(String[] args) throws IOException {
