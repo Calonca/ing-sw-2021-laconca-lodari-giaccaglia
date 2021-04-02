@@ -213,12 +213,12 @@ public class WarehouseLeadersDepots {
      * @param resources an array in which at position i there is the resource at position i in the resource ordering
      * @return true if the given resources were found, else false
      */
-    boolean areThereEnoughResources(int[] resources){
+    boolean enoughResourcesForProductions(int[] resources){
         int totalToFind = Arrays.stream(resources).reduce(0, Integer::sum);
         if (totalToFind>getOccupiedSpotsNum())
             return false;
         for (int c=0;c<depotAtPosition.size();c++){
-            if (resources[getResourceAt(c).getResourceNumber()]>0 && totalToFind>0) {
+            if (!getResourceAt(c).equals(Resource.EMPTY) && resources[getResourceAt(c).getResourceNumber()]>0 && totalToFind>0) {
                 totalToFind -=1;
                 resources[getResourceAt(c).getResourceNumber()]-=1;
             }
