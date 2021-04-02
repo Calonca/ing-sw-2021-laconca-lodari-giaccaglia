@@ -168,7 +168,7 @@ abstract class Depot {
      * @param resGlobalPos the global position of the resource that needs to be flagged for production
      */
     void setSelected(boolean value,int resGlobalPos){
-        res_sel.set(globalToLocalPos(resGlobalPos),new Pair<>(getAtGPos(resGlobalPos).getKey(),true));
+        res_sel.set(globalToLocalPos(resGlobalPos),new Pair<>(getAtGPos(resGlobalPos).getKey(),value));
     }
 
     /**
