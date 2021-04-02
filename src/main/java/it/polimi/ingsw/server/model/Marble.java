@@ -1,7 +1,9 @@
 package it.polimi.ingsw.server.model;
+
+
 /**
- *  <p>Enum class for <em>Market Marbles</em> of <code>MarketBoard</code><br>
- *  Each Marble but White is mapped to a different <code>Resource</code>
+ *  <p>Enum class for <em>Market Marbles</em> of  {@link MarketBoard }<br>
+ *  Each Marble but White is mapped to a different {@link Resource}.
  *  <ul>
  *  <li>{@link #WHITE}
  *  <li>{@link #BLUE}
@@ -14,32 +16,32 @@ package it.polimi.ingsw.server.model;
 public enum Marble {
 
     /**
-     * According to the official rulebook this <em>Marble</em> hasn't a mapped Resource. <br>
-     * Any possible mapping to a resource due to dedicated leader effect is done in the <code>MarketBoard</code>
+     * According to the official rulebook this <em>Marble</em> hasn't a mapped {@link Resource}. <br>
+     * Any possible mapping to a resource due to dedicated leader effect is done in the{@link MarketBoard}
      */
     WHITE(Resource.EMPTY),
     /**
-     * This <em>Marble</em> is mapped to the <em>SHIELD</em> Resource
+     * This <em>Marble</em> is mapped to the {@link Resource#SHIELD SHIELD} Resource
      */
     BLUE(Resource.SHIELD),
 
     /**
-     * This <em>Marble</em> is mapped to the <em>STONE</em> Resource
+     * This <em>Marble</em> is mapped to the {@link Resource#STONE STONE} Resource
      */
     GRAY(Resource.STONE),
 
     /**
-     * This <em>Marble</em> is mapped to the <em>GOLD</em> Resource
+     * This <em>Marble</em> is mapped to the {@link Resource#GOLD GOLD} Resource
      */
     YELLOW(Resource.GOLD),
 
     /**
-     * This <em>Marble</em> is mapped to the <em>SERVANT</em> Resource
+     * This <em>Marble</em> is mapped to the {@link Resource#SERVANT SERVANT} Resource
      */
     PURPLE(Resource.SERVANT),
 
     /**
-     * This <em>Marble</em> is mapped to the <em>FAITH</em> Resource
+     * This <em>Marble</em> is mapped to the {@link Resource#FAITH FAITH} Resource
      */
     RED(Resource.FAITH);
 
@@ -50,7 +52,7 @@ public enum Marble {
     }
 
     /** Returns
-      * @return mapped Resource corresponding to the <em>Marble</em> on which method is called
+      * @return mapped {@link Resource} corresponding to the <em>Marble</em> on which method is called
     */
     public Resource getConvertedMarble() {
         return this.mappedResource;
