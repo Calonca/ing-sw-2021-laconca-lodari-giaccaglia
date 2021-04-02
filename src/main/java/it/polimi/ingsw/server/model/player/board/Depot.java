@@ -78,7 +78,7 @@ abstract class Depot {
      * @param localPosition the local position of the resource
      * @return the global position of the resource
      */
-    int globalPositionFromLocal(int localPosition){
+    private int globalPositionFromLocal(int localPosition){
         try {
             if (localPosition>= getSize())
                 throw new IndexOutOfBoundsException();
