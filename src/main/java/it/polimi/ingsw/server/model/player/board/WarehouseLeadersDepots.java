@@ -75,6 +75,33 @@ public class WarehouseLeadersDepots {
         return getResourceAndSelectedAt(position).getKey();
     }
 
+
+    /**
+     * Returns if the resource at the given global position is selected for production
+     * @param resGlobalPos the global position of the resource to check whether selected
+     * @return if the resource at the given global position is selected for production
+     */
+    boolean getSelected(int resGlobalPos){
+        return depotThatHasPos(resGlobalPos).getSelected(resGlobalPos);
+    }
+
+    /**
+     * Flags a resource at the given global position as selected or not selected for production
+     * @param value true if the resource needs to be selected, false elsewhere
+     * @param resGlobalPos the global position of the resource that needs to be flagged for production
+     */
+    void setSelected(boolean value,int resGlobalPos){
+        depotThatHasPos(resGlobalPos).setSelected(value,resGlobalPos);
+    }
+
+    /**
+     * Toggles the resource at the given global position as flagged for production
+     * @param resGlobalPos the global position of the resource that needs to be flagged for production
+     */
+    void toggleSelected(int resGlobalPos){
+        setSelected(!getSelected(resGlobalPos),resGlobalPos);
+    }
+
     /**
      * Removes the resources in all the positions present in given array
      * @param positions an array of global positions.
