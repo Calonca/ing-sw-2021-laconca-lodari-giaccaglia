@@ -31,7 +31,7 @@ abstract class Depot {
 
     /**
      * Creates a depot with parameters
-     * @param length the size of the depot
+     * @param length the size of the depot, must be greater than zero
      * @param globalPositionOfFirstElement Resources in the depot have a global position to make it easier to move them between depots
      * @param type the newly created depot will only accept Resources of this type, can be Resource.EMPTY
      */
@@ -67,7 +67,7 @@ abstract class Depot {
 
     /**
      * Used to get the number of occupied cells in the depot
-     * @return number of cells that conti
+     * @return number of occupied cells
      */
     int getOccupiedSpotsInDepotNum(){
         return numberOfOccupiedSpots;
@@ -78,7 +78,7 @@ abstract class Depot {
      * @param localPosition the local position of the resource
      * @return the global position of the resource
      */
-    int globalPositionFromLocal(int localPosition){
+    private int globalPositionFromLocal(int localPosition){
         try {
             if (localPosition>= getSize())
                 throw new IndexOutOfBoundsException();
@@ -99,6 +99,9 @@ abstract class Depot {
             if (localPosition>= getSize())
                 throw new IndexOutOfBoundsException();
         } catch (IndexOutOfBoundsException e){
+            System.out.println("The given global position is not in the depot");
+            System.out.println("GlobalPosition: "+globalPosition);
+            System.out.println("Depot Range: "+globalPositionOfFirstElement+"->"+getLastGlobalPosition());
             e.printStackTrace();
         }
         return localPosition;
@@ -110,7 +113,7 @@ abstract class Depot {
      * @return an IntStream of the positions this depot where you can move the given resource
      */
     IntStream availableSpotsFor(Resource resource){
-        if (type.equals(resource))
+        if (type.equals(resource)||type.equals(Resource.EMPTY))
             return IntStream.range(0, getSize()).
                     filter((pos)->
                         !res_sel.get(pos).getValue()&&//isNotSelected
@@ -133,9 +136,8 @@ abstract class Depot {
      * @param globalPosition is the position of the resource to remove
      */
     void removeResource(int globalPosition){
+        numberOfOccupiedSpots -=1;
         res_sel.set(globalToLocalPos(globalPosition),new Pair<>(Resource.EMPTY,false));
-        if (!res_sel.get(globalToLocalPos(globalPosition)).getKey().equals(Resource.EMPTY))
-            numberOfOccupiedSpots -=1;
     }
 
     /**
@@ -143,12 +145,7 @@ abstract class Depot {
      * @param pos_Res a pair of an integer that represents a global position and a resource, the pair represents the position and resource to add
      */
     void addResource(Pair<Integer,Resource> pos_Res) {
-        try {
-            if (!res_sel.get(globalToLocalPos(pos_Res.getKey())).getKey().equals(Resource.EMPTY))
-                throw new ResourceNotEmptyException();
-        } catch (ResourceNotEmptyException e) {
-            e.printStackTrace();
-        }
+        if (getOccupiedSpotsInDepotNum()==0) setType(pos_Res.getValue());
         numberOfOccupiedSpots +=1;
         res_sel.set(globalToLocalPos(pos_Res.getKey()), new Pair<>(pos_Res.getValue(),false));
     }
@@ -168,7 +165,7 @@ abstract class Depot {
      * @param resGlobalPos the global position of the resource that needs to be flagged for production
      */
     void setSelected(boolean value,int resGlobalPos){
-        res_sel.set(globalToLocalPos(resGlobalPos),new Pair<>(getAtGPos(resGlobalPos).getKey(),true));
+        res_sel.set(globalToLocalPos(resGlobalPos),new Pair<>(getAtGPos(resGlobalPos).getKey(),value));
     }
 
     /**

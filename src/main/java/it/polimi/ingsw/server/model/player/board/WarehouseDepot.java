@@ -17,15 +17,13 @@ public class WarehouseDepot extends Depot {
     }
 
     /**
-     * Adds a the given resource in the depot at the given position.
-     * When empty it will change the type of resource that the depot can store to the resource to add.
-     * @param pos_Res a pair of an integer that represents a global position and a resource,
-     * the pair represents the position and resource to add
+     * Removes the resource at the given global position
+     * and sets the type of depot to empty
+     * @param globalPosition is the position of the resource to remove
      */
     @Override
-    void addResource(Pair<Integer, Resource> pos_Res) {
-        super.addResource(pos_Res);
-        if (getOccupiedSpotsInDepotNum()==0) setType(pos_Res.getValue());
+    void removeResource(int globalPosition) {
+        super.removeResource(globalPosition);
+        if (getOccupiedSpotsInDepotNum()==0) setType(Resource.EMPTY);
     }
-
 }
