@@ -1,11 +1,14 @@
 package it.polimi.ingsw.server.model.player.board;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.server.model.Resource;
 import javafx.util.Pair;
 
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * Contains both warehouse and leader depots,
@@ -15,12 +18,12 @@ public class WarehouseLeadersDepots {
     /**
      * List of warehouse depot followed by leader depots in order of activation
      */
-    private List<Depot> depots;
+    private final List<Depot> depots;
     /**
      * In position i there is the number of the depot that contains that global position.
      * Used to get the depot for a given position in O(1) time
      */
-    private List<Integer> depotAtPosition;
+    private final List<Integer> depotAtPosition;
 
 
     /**
@@ -30,7 +33,7 @@ public class WarehouseLeadersDepots {
     WarehouseLeadersDepots(List<Depot> depots){
         this.depots = depots;
         depotAtPosition = IntStream.range(0,depots.size()).
-                flatMap((value)-> IntStream.generate(()->value).limit(depots.size()))
+                flatMap((value)-> IntStream.generate(()->value).limit(depots.get(value).getSize()))
                 .boxed().collect(Collectors.toList());
     }
 
@@ -38,11 +41,11 @@ public class WarehouseLeadersDepots {
      * Default construct for a game of Maestri del Rinascimento
      */
     WarehouseLeadersDepots(){
-        List<Depot> depotsToAdd = new ArrayList<>();
-        depotsToAdd.add(new WarehouseDepot(1,0));
-        depotsToAdd.add(new WarehouseDepot(2,1));
-        depotsToAdd.add(new WarehouseDepot(3,3));
-        new WarehouseLeadersDepots(depotsToAdd);
+        this(Stream.of(
+        new WarehouseDepot(1,0),
+        new WarehouseDepot(2,1),
+        new WarehouseDepot(3,3)).collect(Collectors.toList())
+        );
     }
 
     /**
