@@ -196,8 +196,8 @@ public class WarehouseLeadersDepots {
      * @param depot the depot that will be added to the list
      */
     void addDepot(Depot depot){
-        depots.add(depot);
         depotAtPosition.addAll(Collections.nCopies(depot.getSize(),depots.size()));
+        depots.add(depot);
     }
 
     /**
