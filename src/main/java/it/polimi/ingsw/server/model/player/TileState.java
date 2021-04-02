@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model.player;
 
 /**
- *  <p>Enum class for <em>Tile State</em> of <em>Pope's Favour tiles</em> in the {@link FaithTrack}.<br>
+ *  <p>Enum class for the <em>Tile State</em> of <em>Pope's Favour tiles</em> in the {@link FaithTrack}.<br>
  *  <ul>
  *  <li>{@link #ACTIVE}
  *  <li>{@link #INACTIVE}
