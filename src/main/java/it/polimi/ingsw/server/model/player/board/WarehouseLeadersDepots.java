@@ -157,6 +157,41 @@ public class WarehouseLeadersDepots {
     }
 
     /**
+     * Json serialization for all available positions
+     * @return a string with this format,
+     * {"0":[],"1":[],"2":[0,1,3,4,5],"3":[],"4":[],"5":[],"6":[0,3,4,5,7],"7":[]}
+     */
+    String allAvbPosToJson(){
+        Gson gson = new GsonBuilder().create();
+        return gson.toJson(availableMovingPositionsForAllResources());
+    }
+
+    /**
+     * Json serialization of all the data contained in all the depots in an organized way
+     * @return a string with this format,
+     * {"0":[{key:STONE,value:false}],
+     * "1":[{key:EMPTY,value:false},{key:STONE,value:false}],
+     * "2":[{key:EMPTY,value:false},{key:EMPTY,value:false},{key:GOLD,value:false}],
+     * "3":[{key:EMPTY,value:false},{key:GOLD,value:false}]}
+     */
+    public String structuredTableJson(){
+        Map<Integer, List<Pair<Integer, Pair<Resource, Boolean>>>> a = IntStream.range(0, depotAtPosition.size())
+                .mapToObj((pos)->new Pair<>(pos,getResourceAndSelectedAt(pos)))
+                .collect(Collectors.groupingBy(
+                        (p)->depotAtPosition.get(p.getKey())
+                )
+                );
+        Map<Integer, List<Pair<Resource, Boolean>>> b = a.entrySet().stream().map((entry)->
+        {
+            List<Pair<Resource, Boolean>> test = entry.getValue().stream().map(Pair::getValue).collect(Collectors.toList());
+            return new Pair<>(entry.getKey(),test);
+        }).collect(Collectors.toMap(Pair::getKey,Pair::getValue));
+
+        Gson gson = new GsonBuilder().create();
+        return gson.toJson(b);
+    }
+
+    /**
      * Adds a new depot at the end of the list of depots
      * @param depot the depot that will be added to the list
      */
