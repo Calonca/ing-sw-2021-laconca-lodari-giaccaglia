@@ -148,7 +148,7 @@ public class WarehouseLeadersDepots {
      * @return a list of available moving global positions for all the resources in all the depots
      */
     Map<Integer,int[]> availableMovingPositionsForAllResources(){
-        return IntStream.range(0, depots.size())
+        return IntStream.range(0, depotAtPosition.size())
                 .mapToObj((pos)->new Pair<>(pos,availableMovingPositionsForResourceAt(pos)))
                 .collect(Collectors.toMap(
                         Pair::getKey,
@@ -195,7 +195,7 @@ public class WarehouseLeadersDepots {
      * Removes all resources that will be used for a production from all the depots
      */
     void  removeSelected(){
-        removeResources(IntStream.range(0,depots.size()).filter((pos)->depotThatHasPos(pos).getSelected(pos)).toArray());
+        removeResources(IntStream.range(0,depotAtPosition.size()).filter((pos)->depotThatHasPos(pos).getSelected(pos)).toArray());
     }
 
     /**
