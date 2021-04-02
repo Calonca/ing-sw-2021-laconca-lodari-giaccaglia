@@ -31,7 +31,7 @@ abstract class Depot {
 
     /**
      * Creates a depot with parameters
-     * @param length the size of the depot
+     * @param length the size of the depot, must be greater than zero
      * @param globalPositionOfFirstElement Resources in the depot have a global position to make it easier to move them between depots
      * @param type the newly created depot will only accept Resources of this type, can be Resource.EMPTY
      */
@@ -67,7 +67,7 @@ abstract class Depot {
 
     /**
      * Used to get the number of occupied cells in the depot
-     * @return number of cells that conti
+     * @return number of occupied cells
      */
     int getOccupiedSpotsInDepotNum(){
         return numberOfOccupiedSpots;
