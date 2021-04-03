@@ -23,6 +23,9 @@ public class LeaderTest
         List<Pair<Resource, Integer>> requirementsTest = new ArrayList<Pair<Resource, Integer>>();
         requirementsTest.add(costTest);
         GameModel gamemodel = new GameModel();
+        /**
+         * Testing basic functions
+         */
         DevelopmentDiscountLeader leadertest = new DevelopmentDiscountLeader(LeaderState.INACTIVE, 3, requirementsTest, discountTest);
         assertEquals(LeaderState.INACTIVE, leadertest.getState());
         leadertest.activate(gamemodel);
@@ -31,10 +34,15 @@ public class LeaderTest
         leadertest.discard(gamemodel);
         assertEquals(LeaderState.DISCARDED, leadertest.getState());
 
-
+        /**
+         *  TODO TESTING REQUIREMENT FUNCTION
+         */
+        /**
+        *  Testing specific functions
+        */
+        discountTest = new Pair<>(Resource.SERVANT, 3);
         leadertest = new DevelopmentDiscountLeader(LeaderState.INACTIVE, 3, requirementsTest, discountTest);
         Player playerTest= new Player();
-        playerTest.applyDiscount(leadertest.discount);
         assertEquals(playerTest.getDiscounts()[leadertest.discount.getKey().getResourceNumber()], (int) leadertest.discount.getValue());
 
 
