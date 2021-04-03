@@ -1,11 +1,14 @@
 package it.polimi.ingsw.server.model.player.board;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.server.model.Resource;
 import javafx.util.Pair;
 
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * Contains both warehouse and leader depots,
@@ -15,12 +18,12 @@ public class WarehouseLeadersDepots {
     /**
      * List of warehouse depot followed by leader depots in order of activation
      */
-    private List<Depot> depots;
+    private final List<Depot> depots;
     /**
      * In position i there is the number of the depot that contains that global position.
      * Used to get the depot for a given position in O(1) time
      */
-    private List<Integer> depotAtPosition;
+    private final List<Integer> depotAtPosition;
 
 
     /**
@@ -30,7 +33,7 @@ public class WarehouseLeadersDepots {
     WarehouseLeadersDepots(List<Depot> depots){
         this.depots = depots;
         depotAtPosition = IntStream.range(0,depots.size()).
-                flatMap((value)-> IntStream.generate(()->value).limit(depots.size()))
+                flatMap((value)-> IntStream.generate(()->value).limit(depots.get(value).getSize()))
                 .boxed().collect(Collectors.toList());
     }
 
@@ -38,11 +41,11 @@ public class WarehouseLeadersDepots {
      * Default construct for a game of Maestri del Rinascimento
      */
     WarehouseLeadersDepots(){
-        List<Depot> depotsToAdd = new ArrayList<>();
-        depotsToAdd.add(new WarehouseDepot(1,0));
-        depotsToAdd.add(new WarehouseDepot(2,1));
-        depotsToAdd.add(new WarehouseDepot(3,3));
-        new WarehouseLeadersDepots(depotsToAdd);
+        this(Stream.of(
+        new WarehouseDepot(1,0),
+        new WarehouseDepot(2,1),
+        new WarehouseDepot(3,3)).collect(Collectors.toList())
+        );
     }
 
     /**
@@ -70,6 +73,33 @@ public class WarehouseLeadersDepots {
      */
     private Resource getResourceAt(int position){
         return getResourceAndSelectedAt(position).getKey();
+    }
+
+
+    /**
+     * Returns if the resource at the given global position is selected for production
+     * @param resGlobalPos the global position of the resource to check whether selected
+     * @return if the resource at the given global position is selected for production
+     */
+    boolean getSelected(int resGlobalPos){
+        return depotThatHasPos(resGlobalPos).getSelected(resGlobalPos);
+    }
+
+    /**
+     * Flags a resource at the given global position as selected or not selected for production
+     * @param value true if the resource needs to be selected, false elsewhere
+     * @param resGlobalPos the global position of the resource that needs to be flagged for production
+     */
+    void setSelected(boolean value,int resGlobalPos){
+        depotThatHasPos(resGlobalPos).setSelected(value,resGlobalPos);
+    }
+
+    /**
+     * Toggles the resource at the given global position as flagged for production
+     * @param resGlobalPos the global position of the resource that needs to be flagged for production
+     */
+    void toggleSelected(int resGlobalPos){
+        setSelected(!getSelected(resGlobalPos),resGlobalPos);
     }
 
     /**
@@ -118,7 +148,7 @@ public class WarehouseLeadersDepots {
      * @return a list of available moving global positions for all the resources in all the depots
      */
     Map<Integer,int[]> availableMovingPositionsForAllResources(){
-        return IntStream.range(0, depots.size())
+        return IntStream.range(0, depotAtPosition.size())
                 .mapToObj((pos)->new Pair<>(pos,availableMovingPositionsForResourceAt(pos)))
                 .collect(Collectors.toMap(
                         Pair::getKey,
@@ -127,12 +157,47 @@ public class WarehouseLeadersDepots {
     }
 
     /**
+     * Json serialization for all available positions
+     * @return a string with this format,
+     * {"0":[],"1":[],"2":[0,1,3,4,5],"3":[],"4":[],"5":[],"6":[0,3,4,5,7],"7":[]}
+     */
+    String allAvbPosToJson(){
+        Gson gson = new GsonBuilder().create();
+        return gson.toJson(availableMovingPositionsForAllResources());
+    }
+
+    /**
+     * Json serialization of all the data contained in all the depots in an organized way
+     * @return a string with this format,
+     * {"0":[{key:STONE,value:false}],
+     * "1":[{key:EMPTY,value:false},{key:STONE,value:false}],
+     * "2":[{key:EMPTY,value:false},{key:EMPTY,value:false},{key:GOLD,value:false}],
+     * "3":[{key:EMPTY,value:false},{key:GOLD,value:false}]}
+     */
+    public String structuredTableJson(){
+        Map<Integer, List<Pair<Integer, Pair<Resource, Boolean>>>> a = IntStream.range(0, depotAtPosition.size())
+                .mapToObj((pos)->new Pair<>(pos,getResourceAndSelectedAt(pos)))
+                .collect(Collectors.groupingBy(
+                        (p)->depotAtPosition.get(p.getKey())
+                )
+                );
+        Map<Integer, List<Pair<Resource, Boolean>>> b = a.entrySet().stream().map((entry)->
+        {
+            List<Pair<Resource, Boolean>> test = entry.getValue().stream().map(Pair::getValue).collect(Collectors.toList());
+            return new Pair<>(entry.getKey(),test);
+        }).collect(Collectors.toMap(Pair::getKey,Pair::getValue));
+
+        Gson gson = new GsonBuilder().create();
+        return gson.toJson(b);
+    }
+
+    /**
      * Adds a new depot at the end of the list of depots
      * @param depot the depot that will be added to the list
      */
     void addDepot(Depot depot){
-        depots.add(depot);
         depotAtPosition.addAll(Collections.nCopies(depot.getSize(),depots.size()));
+        depots.add(depot);
     }
 
     /**
@@ -148,12 +213,12 @@ public class WarehouseLeadersDepots {
      * @param resources an array in which at position i there is the resource at position i in the resource ordering
      * @return true if the given resources were found, else false
      */
-    boolean areThereEnoughResources(int[] resources){
+    boolean enoughResourcesForProductions(int[] resources){
         int totalToFind = Arrays.stream(resources).reduce(0, Integer::sum);
         if (totalToFind>getOccupiedSpotsNum())
             return false;
         for (int c=0;c<depotAtPosition.size();c++){
-            if (resources[getResourceAt(c).getResourceNumber()]>0 && totalToFind>0) {
+            if (!getResourceAt(c).equals(Resource.EMPTY) && resources[getResourceAt(c).getResourceNumber()]>0 && totalToFind>0) {
                 totalToFind -=1;
                 resources[getResourceAt(c).getResourceNumber()]-=1;
             }
@@ -165,7 +230,7 @@ public class WarehouseLeadersDepots {
      * Removes all resources that will be used for a production from all the depots
      */
     void  removeSelected(){
-        removeResources(IntStream.range(0,depots.size()).filter((pos)->depotThatHasPos(pos).getSelected(pos)).toArray());
+        removeResources(IntStream.range(0,depotAtPosition.size()).filter((pos)->depotThatHasPos(pos).getSelected(pos)).toArray());
     }
 
     /**
