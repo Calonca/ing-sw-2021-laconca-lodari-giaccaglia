@@ -2,22 +2,46 @@ package it.polimi.ingsw.server.model;
 
 import com.google.gson.Gson;
 import javafx.util.Pair;
-
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.stream.*;
 import java.util.concurrent.ThreadLocalRandom;
+import it.polimi.ingsw.server.model.player.*;
 
+/**
+ * Matrix data structure to store {@link Marble MarketMarbles} representing {@link Resource Resources}
+ * available in the MarketBoard.
+ */
 public class MarketBoard {
 
+    /**
+     * <p>Represents the actual structure of the (rows x columns) marble matrix
+     */
     private Marble[][] marbleMatrix;
+
+    /**
+     * {@link MarketBoard#marbleMatrix} number of rows.
+     */
     private int rows;
+
+    /**
+     * {@link MarketBoard#marbleMatrix} number of columns.
+     */
     private int columns;
-    Marble externalMarble;
+
+    /**
+     * Extra {@link Marble} to place on the top right corner of MarketBoard slide.
+     * Changes value everytime {@link MarketBoard#updateMatrix} is invoked.
+     */
+    Marble slideMarble;
+
+    /**
+     * Each row and column of the {@link MarketBoard#marbleMatrix} has a corresponding {@link MarketLine}.
+     * A <em>MarketLine</em> is needed to pick an entire row or column during {@link State#CHOOSING_RESOURCE_FOR_PRODUCTION}
+     * turn phase.
+     */
     private MarketLine Market;
 
     public static MarketBoard initializeMarketBoard(String configFilePath) {
@@ -46,8 +70,8 @@ public class MarketBoard {
         int randomRowPos = ThreadLocalRandom.current().nextInt(0, test.rows);
         int randomColumnPos = ThreadLocalRandom.current().nextInt(0, test.columns);
         Marble temporaryMarble = test.marbleMatrix[randomRowPos][randomColumnPos];
-        test.marbleMatrix[randomRowPos][randomColumnPos] = test.externalMarble;
-        test.externalMarble = temporaryMarble;
+        test.marbleMatrix[randomRowPos][randomColumnPos] = test.slideMarble;
+        test.slideMarble = temporaryMarble;
 
 
         } catch (IOException e) {
@@ -67,27 +91,45 @@ public class MarketBoard {
         return initializeMarketBoard(file.getAbsolutePath());
     }
 
+    /**
+     * Gets a whole {@link MarketBoard#marbleMatrix} row or column as an array of {@link Marble Marbles}.
+     *
+     * @param line {@link MarketLine} corresponding to the row or column to get.
+     *
+     * @return array of {@link Marble Marbles} from the line passed as a parameter.
+     */
     public Marble[] pickResources(MarketLine line){
         int lineNumber = line.getLineNumber();
         return (lineNumber < rows) ? marbleMatrix[lineNumber] : getColumn(lineNumber);
     }
 
+    /**
+     * <p>Invoked after {@link MarketBoard#pickResources} method execution, to update {@link MarketBoard#marbleMatrix}
+     * structure by inserting the {@link MarketBoard#slideMarble} in the chosen line.<br>
+     * If the chosen line is a row, Marble in first position becomes the next <em>slideMarble</em> and the current <em>slideMarble</em>
+     * is inserted in the last position of the line, after Marbles shifting one position to
+     * the left.<br>
+     * If the chosen line is a column, Marble in first position becomes the next <em>slideMarble</em> and the current <em>slideMarble</em>
+     * is inserted in the last position of the column, after Marbles shifting one position down.
+     *
+     * @param line {@link MarketLine} corresponding to the row or column to update.
+     */
     public void updateMatrix(MarketLine line) {
 
         int lineNumber = line.getLineNumber();
         if (lineNumber < rows) {
                 Marble nextExternalMarble = marbleMatrix[lineNumber][0];
                 System.arraycopy(marbleMatrix[lineNumber], 1, marbleMatrix[lineNumber], 0, columns - 1);
-                marbleMatrix[lineNumber][columns-1] = externalMarble;
-                externalMarble = nextExternalMarble;
+                marbleMatrix[lineNumber][columns-1] = slideMarble;
+                slideMarble = nextExternalMarble;
         }
         else {
-            Marble nextExternalMarbel = marbleMatrix[rows-1][lineNumber];
+            Marble nextExternalMarble = marbleMatrix[rows-1][lineNumber];
             for(int i=1; i<rows; i++)
                 marbleMatrix[i][lineNumber] = marbleMatrix[i-1][lineNumber];
 
-            marbleMatrix[0][lineNumber] = externalMarble;
-            externalMarble = nextExternalMarbel;
+            marbleMatrix[0][lineNumber] = slideMarble;
+            slideMarble = nextExternalMarble;
         }
 
     }
