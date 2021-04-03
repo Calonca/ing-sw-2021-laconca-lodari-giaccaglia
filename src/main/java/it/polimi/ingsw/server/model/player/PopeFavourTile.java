@@ -31,7 +31,7 @@ public class PopeFavourTile {
     }
 
     /**
-     * @return The <em>Victory Points</em> associated with this tile.
+     * @return <em>Victory Points</em> associated with this tile.
      */
     public int getVictoryPoints() {
         return victoryPoints;

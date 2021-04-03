@@ -112,7 +112,7 @@ public class FaithTrack {
      * @param piece <em>FaithTrack</em> piece which can be either a multiplayer <em>FaithMarker</em> or a solo mode
      * <em>Black Cross</em> token.
      *
-     * @return the Int value of the current <em>Piece</em> position
+     * @return Int value of the current <em>Piece</em> position
      */
     public int getPiecePosition(Piece piece){
         return piece.position;
@@ -150,6 +150,8 @@ public class FaithTrack {
      *
      * @param piece <em>FaithTrack</em> piece which can be either a multiplayer <em>FaithMarker</em> or a solo mode
      * <em>Black Cross</em> token.
+     *
+     * @return true if current position equals 25, otherwise false
      */
     public boolean hasReached(Piece piece){
         return piece.position == 25;

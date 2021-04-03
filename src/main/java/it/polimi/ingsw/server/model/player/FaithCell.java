@@ -29,8 +29,6 @@ public class FaithCell {
         this.popeSpace = popeSpace;
     }
 
-
-
     /**
      * @return The <em>Victory Points</em> associated with this cell.
      */
@@ -39,7 +37,7 @@ public class FaithCell {
     }
 
     /**
-     * @return Boolean value indicating if this cell is a <em>Pope Space</em>
+     * @return true if this cell is a <em>Pope Space</em>, otherwise false.
      */
     public boolean isPopeSpace () {
         return popeSpace;
@@ -51,6 +49,5 @@ public class FaithCell {
     public FaithZone getZone() {
         return zone;
     }
-
 
 }

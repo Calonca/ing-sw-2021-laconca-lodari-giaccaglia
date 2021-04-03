@@ -44,9 +44,8 @@ public enum FaithZone {
     }
 
     /**
-     * <p>Called when inspecting the {@link FaithTrack}during <em>Vatican Report</em> to check if Vatican Report section conditions are met.<br>
+     * Invoked when inspecting the {@link FaithTrack} during <em>Vatican Report</em> to check if Vatican Report section conditions are met.
      * @return zoneNumber Int value corresponding to the <em>Zone Number</em> on which method is called
-     * </p>
      */
     public int getZoneNumber() {
         return this.zoneNumber;
