@@ -11,7 +11,7 @@ import java.util.List;
 public class Leader
 {
     private LeaderState state;
-    private int victoryPoints;
+    public int victoryPoints;
     public List<Pair<Resource, Integer>> requirementsResources;
     public List<Pair<DevelopmentCardColor, Integer>> requirementsCards;
 

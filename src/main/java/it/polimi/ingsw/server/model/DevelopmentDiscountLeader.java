@@ -13,14 +13,16 @@ public class DevelopmentDiscountLeader extends Leader
 {
     private LeaderState state;
     private int victoryPoints;
-    public List<Pair<Resource, Integer>> requirements;
+    public List<Pair<Resource, Integer>> requirementsResources;
+    public List<Pair<DevelopmentCardColor, Integer>> requirementsCards;
     public Pair<Resource,Integer> discount;
 
-    public DevelopmentDiscountLeader(LeaderState state, int victoryPoints, List<Pair<Resource,Integer>> requirements, Pair<Resource,Integer> discount)
+    public DevelopmentDiscountLeader(LeaderState state, int victoryPoints, List<Pair<Resource,Integer>> requirementsResources, List<Pair<DevelopmentCardColor, Integer>> requirementsCards, Pair<Resource,Integer> discount)
     {
         this.state = state;
         this.victoryPoints = victoryPoints;
-        this.requirements = requirements;
+        this.requirementsCards = requirementsCards;
+        this.requirementsResources = requirementsResources;
         this.discount = discount;
     }
 
