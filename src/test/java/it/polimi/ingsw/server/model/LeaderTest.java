@@ -51,7 +51,7 @@ public class LeaderTest
     public void ProductionLeaderTest() throws IOException
     {
         //ROUTINE
-        Production productiontest= new Production();
+        Production productiontest = Production.basicProduction();
         Pair<Resource, Integer> costTest = new Pair<>(Resource.SERVANT, 3);
         Pair<DevelopmentCardColor, Integer> cardcostTest = new Pair<DevelopmentCardColor,Integer>(DevelopmentCardColor.BLUE, 3);
 
