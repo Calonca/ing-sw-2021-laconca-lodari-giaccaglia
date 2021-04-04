@@ -45,6 +45,5 @@ public class LeaderTest
         Player playerTest= new Player();
         assertEquals(playerTest.getDiscounts()[leadertest.discount.getKey().getResourceNumber()], (int) leadertest.discount.getValue());
 
-
     }
 }

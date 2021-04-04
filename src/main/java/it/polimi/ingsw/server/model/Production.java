@@ -47,10 +47,11 @@ public class Production {
         input[Resource.TOCHOOSE.getResourceNumber()]--;
     }
 
-    public boolean isChoiceAvailable()
+    public boolean choiceCanBeMade()
     {
         return this.input[Resource.TOCHOOSE.getResourceNumber()] != 0;
     }
+
     public void resetchoice()
     {
         System.arraycopy(restoreinput, 0, input, 0, input.length);
