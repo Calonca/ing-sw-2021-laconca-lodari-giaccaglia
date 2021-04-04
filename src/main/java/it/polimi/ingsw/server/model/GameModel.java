@@ -12,10 +12,10 @@ import java.util.stream.Collectors;
 
 public class GameModel {
 
+    public static Player currentPlayer;
     private final List<Player> players;
     private List<Player> onlinePlayers;
     private final MarketBoard resourcesMarket;
-    private Player currentPlayer;
     private State gamePhase;
     private Player winnerPlayer;
     private boolean isStarted;
@@ -40,6 +40,8 @@ public class GameModel {
     {
         return currentPlayer;
     }
+
+
 
     public Player getPlayer(String nickname) {
           return players.stream()

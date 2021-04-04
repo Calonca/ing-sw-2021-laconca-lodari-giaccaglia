@@ -2,6 +2,8 @@ package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.player.board.Box;
+import it.polimi.ingsw.server.model.player.board.PersonalBoard;
+import it.polimi.ingsw.server.model.player.board.WarehouseLeadersDepots;
 
 import java.util.Arrays;
 import java.util.stream.IntStream;
@@ -26,20 +28,20 @@ public class Production {
      * Returns True if
      */
 
-  /*  public boolean isAvailable(PersonalBoard personalboard)
+    public boolean isAvailable(PersonalBoard personalboard)
     {
-        Box box= personalboard.getbox();
+        Box box= personalboard.getStrongBox();
 
-        WarehouseLeaderDepot depots= personalboard.getWarehouseLeaderDepot;
-        int[] array=IntStream.range(0,4).map( pos -> input[pos]-box.numOfResources(pos)).map( res -> Math.max(res, 0)).toArray();
-        if(!depots.areThereEnoughResources(array))
+        WarehouseLeadersDepots depots= personalboard.getWarehouseLeadersDepots();
+        int[] array=IntStream.range(0,4).map( pos -> input[pos]-box.getNumberOf(pos)).map( res -> Math.max(res, 0)).toArray();
+        if(!depots.enoughResourcesForProductions(array))
                 return false;
         return Arrays.stream(input).limit(4).reduce(0, Integer::sum)+input[6]<personalboard.numOfResources();
     }
 
     /**
      * This class memorizes the choice for "black" resource
-     * @param personalboard != NULL
+     * @param resource != NULL
      */
     public void performChoice(Resource resource)
     {

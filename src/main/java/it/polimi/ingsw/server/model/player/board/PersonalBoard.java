@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.player.board;
 
 import it.polimi.ingsw.server.model.DevelopmentCard;
+import it.polimi.ingsw.server.model.Production;
 import it.polimi.ingsw.server.model.ProductionCardCell;
 import it.polimi.ingsw.server.model.Resource;
 
@@ -13,7 +14,7 @@ public class PersonalBoard {
 
     WarehouseLeadersDepots warehouseLeadersDepots;
     Box strongBox,discardBox,fromMarketBox;
-    //List<Production> productions;
+    List<Production> productions;
     ProductionCardCell[] cardCells;
     List<Boolean> prodsSelected;
     int faithPointsToAdd, badFaithToAdd =0;
@@ -25,6 +26,10 @@ public class PersonalBoard {
         //productions.add(new Production());//Adds basic production
         cardCells = Stream.generate(ProductionCardCell::new).limit(3).toArray(ProductionCardCell[]::new);
         prodsSelected.add(false);
+    }
+
+    public List<ProductionCardCell> getCardCells() {
+        return Arrays.stream(cardCells).toList();
     }
 
     public void produce(){
@@ -63,6 +68,11 @@ public class PersonalBoard {
     }
     public void resetChoices(){
         //productions.stream().filter((pro)->pro.choiceCanBeMade()).forEach((pro)->pro.resetChoice());
+    }
+
+    public void addProduction(Production production)
+    {
+        productions.add(production);
     }
 
     void resetSelectedProductions(){
