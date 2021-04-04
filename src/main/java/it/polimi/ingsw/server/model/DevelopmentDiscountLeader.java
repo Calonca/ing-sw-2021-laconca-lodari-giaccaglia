@@ -6,7 +6,7 @@ import javafx.util.Pair;
 import java.util.List;
 
 /**
- * This Leader class doesn't need extra methods, discount is used by gamemodel.
+ * This Leader class' activate method adds the discount to the player's card market
  */
 
 public class DevelopmentDiscountLeader extends Leader

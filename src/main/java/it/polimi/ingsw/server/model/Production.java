@@ -9,11 +9,14 @@ import java.util.Arrays;
 import java.util.stream.IntStream;
 
 /**
- * Class to apply the production cards logic
+ * Class to apply the production cards logic TODO testing
  */
 public class Production {
     /**
-     * Resources in these two arrays are atomic, and in the same group order as indicated in Enum Resources.
+     * Resources in these two arrays are atomic, and in the same group order as indicated in Enum Resources, for
+     * easier access. The seventh cell of each array indicates the number of choices to be made on input and output,
+     * then the counter will decrease and the basic resource's cells will increase. The two arrays are restored at
+     * the end of the operations.
      */
     private int input[];
     private int restoreinput[];
@@ -50,7 +53,6 @@ public class Production {
 
     /**
      * This method returns TRUE if there are any other resources to be chosen from input
-     * @return
      */
     public boolean choiceCanBeMadeOnInput()
     {
@@ -69,7 +71,6 @@ public class Production {
 
     /**
      * This method returns TRUE if there are any other resources to be chosen from output
-     * @return
      */
     public boolean choiceCanBeMadeOnOutput()
     {
@@ -80,4 +81,5 @@ public class Production {
     {
         System.arraycopy(restoreinput, 0, input, 0, input.length);
     }
+
 }

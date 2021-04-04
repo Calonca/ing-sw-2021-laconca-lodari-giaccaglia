@@ -16,7 +16,7 @@ public class DevelopmentCard
      */
     private final DevelopmentCardColor cardType;
     /**
-     * Production is the class to effectively use the card, yet to be added
+     * Production is the class to effectively use the card
      */
     private Production production;
     private List<Pair<Resource,Integer>> costList;
