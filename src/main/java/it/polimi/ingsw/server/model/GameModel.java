@@ -1,9 +1,5 @@
 package it.polimi.ingsw.server.model;
-import it.polimi.ingsw.server.model.player.Player;
-import it.polimi.ingsw.server.model.player.SinglePlayerDeck;
-import it.polimi.ingsw.server.model.player.SoloActionToken;
-import it.polimi.ingsw.server.model.player.State;
-import it.polimi.ingsw.server.model.player.board.*;
+import it.polimi.ingsw.server.model.player.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
