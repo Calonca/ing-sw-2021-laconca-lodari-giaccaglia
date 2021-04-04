@@ -6,6 +6,7 @@ import java.util.List;
 
 /**
  * Abstract Leader Class. Each leader may override the "basic" methods according to its needs
+ * TODO AreRequirementsSatisfied Test
  */
 
 public class Leader
@@ -65,7 +66,6 @@ public class Leader
                 return false;
         }
         return true;
-
     }
 
 }

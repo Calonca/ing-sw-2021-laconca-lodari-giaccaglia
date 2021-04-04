@@ -14,7 +14,7 @@ import javafx.util.Pair;
 import javax.lang.model.type.NullType;
 import java.util.List;
 import java.util.stream.IntStream;
-
+//TODO SISTEMARE TUTTO
 public class LeaderDepot extends Depot {
 
     /**
@@ -183,4 +183,5 @@ public class LeaderDepot extends Depot {
     void toggleSelected(int resGlobalPos){
         setSelected(!getSelected(resGlobalPos),resGlobalPos);
     }
+    //TODO TEST
 }
