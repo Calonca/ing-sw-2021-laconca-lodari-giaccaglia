@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.model.player.board;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import it.polimi.ingsw.server.model.LeaderDepot;
 import it.polimi.ingsw.server.model.Resource;
 import javafx.util.Pair;
 import org.junit.Before;

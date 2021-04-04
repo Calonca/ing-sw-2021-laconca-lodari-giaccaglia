@@ -11,7 +11,8 @@ import java.util.stream.Stream;
 /**
  * A deposit composed of cells in which each cell can contain one Resource or be empty.
  */
-abstract class Depot {
+public abstract class Depot {
+
     /**
      * A pair of Resource and boolean that indicates if the resource is selected for production, meaning that it will be used in a selected production
      */
@@ -41,6 +42,8 @@ abstract class Depot {
         this.globalPositionOfFirstElement = globalPositionOfFirstElement;
     }
 
+
+
     /**
      * Used to get the size of the depot
      * @return the size of the depot
@@ -48,6 +51,7 @@ abstract class Depot {
     int getSize(){
         return res_sel.size();
     }
+
 
     /**
      * Sets the type of the resource stored in depot to the given type
