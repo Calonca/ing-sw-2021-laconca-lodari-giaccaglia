@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 public class PersonalBoard {
 
     WarehouseLeadersDepots warehouseLeadersDepots;
-    Box strongBox,discardBox,fromMarketBox;
+    Box strongBox,discardBox;
     List<Production> productions;
     ProductionCardCell[] cardCells;
     List<Boolean> prodsSelected;
@@ -23,30 +23,34 @@ public class PersonalBoard {
     PersonalBoard(){
         warehouseLeadersDepots = new WarehouseLeadersDepots();
         strongBox = new Box();
-        //productions.add(new Production());//Adds basic production
+        discardBox = new Box();
+        productions.add(Production.basicProduction());
         cardCells = Stream.generate(ProductionCardCell::new).limit(3).toArray(ProductionCardCell[]::new);
         prodsSelected.add(false);
     }
 
     public List<ProductionCardCell> getCardCells() {
-        return Arrays.stream(cardCells).toList();
+        return Arrays.stream(cardCells).collect(Collectors.toList());
     }
 
     public void produce(){
-        //warehouseLeadersDepots.removeSelected();
-        //strongBox.removeSelected();
-        //Map<Resource,Resource[]> a = IntStream.range(0,prodsSelected.size()).filter((pos)->prodsSelected.get(pos))
-        //        .flatMap((pos)->productions.get(pos).getOutputs()).collect(Collectors.groupingBy((type)->type));
-        //int[] resourcesRoAdd = a.values().stream().mapToInt(res -> res.length).toArray();
-        //faithPointsToAdd = resourcesRoAdd[4];
-        //badFaithToAdd = resourcesRoAdd[5];
-        //strongBox.addResources(Arrays.stream(resourcesRoAdd).limit(4).toArray());
+        warehouseLeadersDepots.removeSelected();
+        strongBox.removeSelected();
+        IntStream.range(0,prodsSelected.size()).filter((pos)->prodsSelected.get(pos))
+                .mapToObj((pos)->productions.get(pos).getOutputs())
+                .reduce((a,b)->IntStream.range(0,6).map((pos)->a[pos]+b[pos]).toArray()).ifPresent((resources)->{
+                faithPointsToAdd = resources[4];
+                badFaithToAdd = resources[5];
+                strongBox.addResources(Arrays.stream(resources).limit(4).toArray());
+                }
+        );
     }
 
     public boolean isProductionEmpty()
     {
         return productions.size()!=0;
     }
+    
     public int getFaithToAdd(){
         return faithPointsToAdd;
     }
@@ -64,14 +68,15 @@ public class PersonalBoard {
     }
 
     public OptionalInt firstProductionWithChoice(){
-        //return IntStream.range(0,productions.size()).filter((pos)->productions[pos].choiceCanBeMade).findFirst();
-        return OptionalInt.empty();
+        return IntStream.range(0,productions.size()).filter(
+                (pos)->productions.get(pos).choiceCanBeMade()).findFirst();
     }
-    public Boolean[] calculateAvailableProductions(){
-        return null;
+
+    public Boolean[] getAvailableProductions(){
+        return productions.stream().map((p)->p.isAvailable(this)).toArray(Boolean[]::new);
     }
     public void resetChoices(){
-        //productions.stream().filter((pro)->pro.choiceCanBeMade()).forEach((pro)->pro.resetChoice());
+        productions.stream().filter(Production::choiceCanBeMade).forEach(Production::resetchoice);
     }
 
     public void addProduction(Production production)
@@ -82,15 +87,24 @@ public class PersonalBoard {
     void resetSelectedProductions(){
         IntStream.range(0,prodsSelected.size()).forEach((pos)->prodsSelected.set(pos,false));
     }
-    public int[] getSelectedProduction(){return null;}
-    public void toggleSelectProductionAt(int pos) {}
-    public void selectProductionAt(int pos) {}
-    public void deselectProductionAt(int pos) {}
-    public void setTemporaryCard(DevelopmentCard card) {}
-    public boolean playerHasSixCards() {return false;}
-    public int numOfResourcesOfType(Resource resources) {return  0;
+
+    public Boolean[] getSelectedProduction(){return prodsSelected.toArray(Boolean[]::new);}
+
+    public void toggleSelectProductionAt(int pos) {prodsSelected.set(pos,!prodsSelected.get(pos));}
+    public void selectProductionAt(int pos) {prodsSelected.set(pos,true);}
+    public void deselectProductionAt(int pos) {prodsSelected.set(pos,false);}
+    public void addDevelopmentCardToCell(DevelopmentCard card,int pos) {
+        cardCells[pos].addToTop(card);
     }
-    public int numOfResources(){return 0;}
+    public boolean playerHasSixCards() {
+        return Arrays.stream(cardCells).map((p)->p.stackedCards.size())
+                .reduce(0, Integer::sum)==6;
+    }
+
+    public int getNumberOf(int type) {
+        return strongBox.getNumberOf(type)+warehouseLeadersDepots.getNumberOf(type);
+    }
+    public int numOfResources(){return IntStream.range(0,Resource.nRes).map(this::getNumberOf).reduce(0,Integer::sum);}
 
     public Box getStrongBox(){
         return strongBox;
@@ -98,7 +112,14 @@ public class PersonalBoard {
     public WarehouseLeadersDepots getWarehouseLeadersDepots(){
         return warehouseLeadersDepots;
     }
-    void discardResources(){}
-    void setMarketBox(){}
-    void move(int startPos, int endPos){}
+    void discardResources(){
+        badFaithToAdd += IntStream.range(0,Resource.nRes).map(discardBox::getNumberOf).reduce(0,Integer::sum);
+        discardBox = new Box();
+    }
+    void setMarketBox(){
+        //Todo setMarketBox and check usage
+    }
+    void move(int startPos, int endPos){
+        //Todo move
+    }
 }
