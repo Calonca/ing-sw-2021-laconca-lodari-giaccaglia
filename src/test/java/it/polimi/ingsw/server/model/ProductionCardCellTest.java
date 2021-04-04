@@ -56,19 +56,19 @@ public class ProductionCardCellTest
     public void addToTop()
     {
         ProductionCardCell testCardCell_aTT = new ProductionCardCell();
-        assertEquals(0,testCardCell_aTT.stackHeight);
+        assertEquals(0,testCardCell_aTT.stackedCards.size());
 
         DevelopmentCard testCardOne_aTT= new DevelopmentCard(1, DevelopmentCardColor.GREEN);
         testCardCell_aTT.addToTop(testCardOne_aTT);
-        assertEquals(1,testCardCell_aTT.stackHeight);
+        assertEquals(1,testCardCell_aTT.stackedCards.size());
 
         DevelopmentCard testCardTwo_aTT= new DevelopmentCard(1, DevelopmentCardColor.BLUE);
         testCardCell_aTT.addToTop(testCardTwo_aTT);
-        assertEquals(2,testCardCell_aTT.stackHeight);
+        assertEquals(2,testCardCell_aTT.stackedCards.size());
 
         DevelopmentCard testCardThree_aTT= new DevelopmentCard(1, DevelopmentCardColor.PURPLE);
         testCardCell_aTT.addToTop(testCardThree_aTT);
-        assertEquals(3,testCardCell_aTT.stackHeight);
+        assertEquals(3,testCardCell_aTT.stackedCards.size());
 
 
 

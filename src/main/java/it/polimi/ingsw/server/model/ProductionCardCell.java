@@ -1,20 +1,22 @@
 package it.polimi.ingsw.server.model;
 
+import java.util.List;
+
 /**
  * Container class for Development Cards, similiar to a stack
  */
 
 public class ProductionCardCell {
-    private DevelopmentCard[] cards;
-    public int stackHeight;
-
+    private DevelopmentCard cardOnTop;
+    private int maxsize;
+    public List<DevelopmentCard> stackedCards;
     /**
      * Returns the card on top of the stack.
      * CANNOT be called on empty stack.
      */
     public DevelopmentCard getFrontCard()
     {
-        return cards[stackHeight];
+        return cardOnTop;
     }
 
     /**
@@ -23,7 +25,7 @@ public class ProductionCardCell {
      */
     public boolean isSpotAvailable()
     {
-        return stackHeight < 3;
+        return stackedCards.size()<maxsize;
     }
 
     /**
@@ -33,7 +35,7 @@ public class ProductionCardCell {
      */
     public void addToTop(DevelopmentCard card)
     {
-        cards[stackHeight]=card;
-        stackHeight++;
+        cardOnTop=card;
+        stackedCards.add(card);
     }
 }
