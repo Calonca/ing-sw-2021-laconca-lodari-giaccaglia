@@ -52,6 +52,8 @@ public class Production {
         return this.input[Resource.TOCHOOSE.getResourceNumber()] != 0;
     }
 
+
+
     public void resetchoice()
     {
         System.arraycopy(restoreinput, 0, input, 0, input.length);
