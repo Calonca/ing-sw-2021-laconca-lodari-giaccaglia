@@ -10,7 +10,7 @@ public class ProductionLeader extends Leader
 {
 
     private LeaderState state;
-   // public Production production;
+    public Production production;
 
     /**
      * Adds the leader's production to the others
@@ -25,7 +25,7 @@ public class ProductionLeader extends Leader
     public void activate(GameModel gamemodel)
     {
         state = LeaderState.ACTIVE;
-       // gamemodel.getCurrentPlayer().getPersonalBoard.addProduction(production);
+        gamemodel.getCurrentPlayer().getPersonalBoard().addProduction(production);
     }
 
 }

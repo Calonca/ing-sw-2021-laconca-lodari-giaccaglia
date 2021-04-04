@@ -30,6 +30,10 @@ public class Player {
         initializeFaithTrack();
     }
 
+    public PersonalBoard getPersonalBoard() {
+        return personalBoard;
+    }
+
     public int[] getDiscounts()
     {
         return discounts;

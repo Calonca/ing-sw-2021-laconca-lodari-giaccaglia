@@ -38,4 +38,14 @@ public class ProductionCardCell {
         cardOnTop=card;
         stackedCards.add(card);
     }
+    public int howManyOfColor(DevelopmentCardColor color)
+    {
+
+        int temp=0;
+        for (DevelopmentCard stackedCard : stackedCards) {
+            if (stackedCard.getCardType() == color)
+                temp++;
+        }
+        return temp;
+    }
 }
