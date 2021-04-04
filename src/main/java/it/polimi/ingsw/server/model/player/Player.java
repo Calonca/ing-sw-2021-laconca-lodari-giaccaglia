@@ -1,22 +1,20 @@
 package it.polimi.ingsw.server.model.player;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.server.model.Leader;
-import it.polimi.ingsw.server.model.Resource;
-import it.polimi.ingsw.server.model.player.board.PersonalBoard;
+import it.polimi.ingsw.server.model.*;
+import it.polimi.ingsw.server.model.player.board.*;
 import javafx.util.Pair;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.List;
+import java.nio.file.*;
+import java.util.*;
+
 
 public class Player {
 
     private String nickName;
     PersonalBoard personalBoard;
-    public final List<Leader> leaders;
+    public List<Leader> leaders;
     private State currentState;
     private boolean currentlyOnline;
     private FaithTrack faithTrack;
