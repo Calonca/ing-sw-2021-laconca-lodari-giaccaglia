@@ -25,6 +25,29 @@ public class Production {
     private int victorypoints;
 
     /**
+     * Constructor for basic production
+     * @return the basic Production of Maestri del rinascimento
+     */
+    public static Production basicProduction() {
+        return new Production(new int[]{0,0,0,0,0,0,2},new int[]{0,0,0,0,0,1,1});
+    }
+
+
+    /**
+     * Creates a production with the given input and outputs
+     * @param inputs an array of int with the inputs of the production.
+     *               In position i of the array there is the number of resources of type i in the enum ordering
+     * @param outputs an array of int with the outputs of the production.
+     *                In position i of the array there is the number of resources of type i in the enum ordering
+     */
+    public Production(int[] inputs,int[] outputs){
+        restoreinput = inputs;
+        restoreoutput = outputs;
+        System.arraycopy(restoreinput, 0, input, 0, input.length);
+        System.arraycopy(restoreoutput, 0, outputs, 0, outputs.length);
+    }
+
+    /**
      * This method will check the normal resources first through box,
      * then through warehouse and then if the choiches are possible.
     // * @param personalboard != NULL
