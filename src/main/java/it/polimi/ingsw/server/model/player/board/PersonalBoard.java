@@ -43,6 +43,10 @@ public class PersonalBoard {
         //strongBox.addResources(Arrays.stream(resourcesRoAdd).limit(4).toArray());
     }
 
+    public boolean isProductionEmpty()
+    {
+        return productions.size()!=0;
+    }
     public int getFaithToAdd(){
         return faithPointsToAdd;
     }
