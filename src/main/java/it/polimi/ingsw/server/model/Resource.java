@@ -19,6 +19,10 @@ public enum Resource
     EMPTY(7);
 
     private final int resourceNumber;
+    /**
+     * Indicated the number of "physical" resources
+     */
+    public static final int nRes = 4;
 
     Resource(final int resourceNumber)
     {
