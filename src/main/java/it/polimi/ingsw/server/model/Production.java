@@ -64,6 +64,15 @@ public class Production {
         return Arrays.stream(input).limit(4).reduce(0, Integer::sum)+input[6]<personalboard.numOfResources();
     }
 
+
+    /**
+     * This method returns TRUE if there are any other resources to be chosen from input or output
+     */
+    public boolean choiceCanBeMade()
+    {
+        return choiceCanBeMadeOnInput()||choiceCanBeMadeOnOutput();
+    }
+
     /**
      * This method memorizes the choice for "black" resource input
      * @param resource != NULL
