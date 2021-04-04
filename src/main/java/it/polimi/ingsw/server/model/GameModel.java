@@ -41,7 +41,7 @@ public class GameModel {
         return currentPlayer;
     }
 
-
+    public static void setCurrentPlayer(Player currentPlayer) {GameModel.currentPlayer = currentPlayer;}
 
     public Player getPlayer(String nickname) {
           return players.stream()
