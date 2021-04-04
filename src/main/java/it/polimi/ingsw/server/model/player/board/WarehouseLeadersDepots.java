@@ -166,6 +166,11 @@ public class WarehouseLeadersDepots {
         return gson.toJson(availableMovingPositionsForAllResources());
     }
 
+    public Boolean isEmpty(){
+        return depots.size()==0;
+    }
+
+
     /**
      * Json serialization of all the data contained in all the depots in an organized way
      * @return a string with this format,
