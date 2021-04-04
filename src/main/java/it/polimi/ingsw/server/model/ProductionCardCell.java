@@ -38,6 +38,10 @@ public class ProductionCardCell {
         cardOnTop=card;
         stackedCards.add(card);
     }
+    /**
+     * Returns the number of cards of the requested color
+     * @param color!=NULL
+     */
     public int howManyOfColor(DevelopmentCardColor color)
     {
 

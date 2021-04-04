@@ -23,11 +23,10 @@ public class Production {
 
     /**
      * This method will check the normal resources first through box,
-     * then thorugh warehouse and then if the choiches are possible.
+     * then through warehouse and then if the choiches are possible.
     // * @param personalboard != NULL
      * Returns True if
      */
-
     public boolean isAvailable(PersonalBoard personalboard)
     {
         Box box= personalboard.getStrongBox();
@@ -40,21 +39,42 @@ public class Production {
     }
 
     /**
-     * This class memorizes the choice for "black" resource
+     * This method memorizes the choice for "black" resource input
      * @param resource != NULL
      */
-    public void performChoice(Resource resource)
+    public void performChoiceOnInput(Resource resource)
     {
         input[resource.getResourceNumber()]++;
         input[Resource.TOCHOOSE.getResourceNumber()]--;
     }
 
-    public boolean choiceCanBeMade()
+    /**
+     * This method returns TRUE if there are any other resources to be chosen from input
+     * @return
+     */
+    public boolean choiceCanBeMadeOnInput()
     {
         return this.input[Resource.TOCHOOSE.getResourceNumber()] != 0;
     }
 
+    /**
+     * This method memorizes the choice for "black" output
+     * @param resource != NULL
+     */
+    public void performChoiceOnOutput(Resource resource)
+    {
+        output[resource.getResourceNumber()]++;
+        output[Resource.TOCHOOSE.getResourceNumber()]--;
+    }
 
+    /**
+     * This method returns TRUE if there are any other resources to be chosen from output
+     * @return
+     */
+    public boolean choiceCanBeMadeOnOutput()
+    {
+        return this.output[Resource.TOCHOOSE.getResourceNumber()] != 0;
+    }
 
     public void resetchoice()
     {
