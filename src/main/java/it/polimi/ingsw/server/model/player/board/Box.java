@@ -88,11 +88,11 @@ public class Box {
     }
 
     /** Returns how many resources of the given type there are
-     * @param resType represents the resource that has this position in the resources ordering
+     * @param type represents the resource that has this position in the resources ordering
      * @return number of resources of the given type in the deposit
      */
-    public int getNumberOf(int resType){
-        return nResAtPos[resType];
+    public int getNumberOf(int type){
+        return nResAtPos[type];
     }
 
     /**
