@@ -46,9 +46,9 @@ public class Leader
     }
 
 
-    /*/**
+    /**
      * Every requirement is checked before activating a leader
-     * @param player != NULL
+     * @param gamemodel != NULL
      * Returns True if the player has at least all the resources in each pair, in the given quantity
      */
     public boolean areRequirementsSatisfied(GameModel gamemodel)

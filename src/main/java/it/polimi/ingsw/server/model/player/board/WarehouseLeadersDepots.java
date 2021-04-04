@@ -195,7 +195,7 @@ public class WarehouseLeadersDepots {
      * Adds a new depot at the end of the list of depots
      * @param depot the depot that will be added to the list
      */
-    void addDepot(Depot depot){
+    public void addDepot(Depot depot){
         depotAtPosition.addAll(Collections.nCopies(depot.getSize(),depots.size()));
         depots.add(depot);
     }
@@ -213,7 +213,7 @@ public class WarehouseLeadersDepots {
      * @param resources an array in which at position i there is the resource at position i in the resource ordering
      * @return true if the given resources were found, else false
      */
-    boolean enoughResourcesForProductions(int[] resources){
+    public boolean enoughResourcesForProductions(int[] resources){
         int totalToFind = Arrays.stream(resources).reduce(0, Integer::sum);
         if (totalToFind>getOccupiedSpotsNum())
             return false;

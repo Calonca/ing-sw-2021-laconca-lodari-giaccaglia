@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.model;
 
+import javafx.util.Pair;
+
 import java.util.List;
 
 /**
@@ -12,13 +14,12 @@ public class DevelopmentCard
     /**
      * Enum to indicate card color
      */
-    private DevelopmentCardColor cardType;
+    private final DevelopmentCardColor cardType;
     /**
      * Production is the class to effectively use the card, yet to be added
      */
-    //private Production production;
-    // private CostCell costcell;
-
+    private Production production;
+    private List<Pair<Resource,Integer>> costList;
     private int level;
 
     public DevelopmentCard(int level, DevelopmentCardColor cardType)

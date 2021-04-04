@@ -21,7 +21,7 @@ public class DepositLeader extends Leader
      */
     public void activate(GameModel gamemodel)
     {
-        //gamemodel.getCurrentPlayer().getPersonalBoard().addDeposit(leaderdepot);
+        //gamemodel.getCurrentPlayer().getPersonalBoard().addDepot(leaderdepot);
         state = LeaderState.ACTIVE; //assumo che il leader attivato sia "in cima"
     }
 }
