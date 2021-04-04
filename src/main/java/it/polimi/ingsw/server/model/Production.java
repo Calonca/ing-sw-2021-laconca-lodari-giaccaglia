@@ -70,6 +70,15 @@ public class Production {
     }
 
     /**
+     * Return an array with the outputs of the production
+     * @return an array of int with the outputs of the production.
+     * In position i of the array there is the number of resources in position i of the resource ordering
+     */
+    public int[] getOutputs(){
+        return output;
+    }
+
+    /**
      * This method returns TRUE if there are any other resources to be chosen from output
      */
     public boolean choiceCanBeMadeOnOutput()
