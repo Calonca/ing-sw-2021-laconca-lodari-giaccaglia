@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.model;
 import it.polimi.ingsw.server.model.player.LeaderState;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.player.board.Depot;
+import it.polimi.ingsw.server.model.player.board.LeaderDepot;
 import javafx.util.Pair;
 
 import java.util.List;
