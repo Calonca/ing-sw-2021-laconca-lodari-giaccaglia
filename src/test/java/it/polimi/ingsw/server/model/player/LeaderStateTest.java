@@ -8,8 +8,8 @@ public class LeaderStateTest {
 
     @Test
     public void valueOf() {
-        assertNotNull(TileState.valueOf("ACTIVE"));
-        assertNotNull(TileState.valueOf("INACTIVE"));
-        assertNotNull(TileState.valueOf("DISCARDED"));
+        assertNotNull(LeaderState.valueOf("ACTIVE"));
+        assertNotNull(LeaderState.valueOf("INACTIVE"));
+        assertNotNull(LeaderState.valueOf("DISCARDED"));
     }
 }
