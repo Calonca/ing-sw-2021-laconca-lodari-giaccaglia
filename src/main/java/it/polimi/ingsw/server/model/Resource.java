@@ -46,6 +46,16 @@ public enum Resource
         return rNum>vals.length||rNum<0? EMPTY: vals[rNum];
     }
 
+    /**
+     * Returns a {@link Stream} of "Physical" {@link Resource Resources} of the given size,
+     * if size is greater than the number of "Physical" {@link Resource resources} concatenates {@link Resource#EMPTY} until reaching the given size
+     * @param size the size of the {@link Stream}
+     * @return a {@link Stream} of {@link Resource Resources}
+     */
+    public static Stream<Resource> getStream(int size){
+        return Stream.concat(Arrays.stream(vals),Stream.generate(()->Resource.EMPTY)).limit(size);
+    }
+
     public int getResourceNumber()
     {
         return this.resourceNumber;
