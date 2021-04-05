@@ -17,14 +17,9 @@ public class SinglePlayerDeckTest {
     private Field field;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         deckTest = new SinglePlayerDeck();
         soloTokensTest = Arrays.asList(SoloActionToken.values());
-    }
-
-    @After
-    public void tearDown() throws Exception {
-
     }
 
     @Test
