@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -8,8 +10,14 @@ import java.util.List;
 
 public class ProductionCardCell {
     private DevelopmentCard cardOnTop;
-    private int maxsize;
+    private int maxsize=3;
     public List<DevelopmentCard> stackedCards;
+
+    public ProductionCardCell()
+    {
+        this.stackedCards=new ArrayList<DevelopmentCard>();
+    }
+
     /**
      * Returns the card on top of the stack.
      * CANNOT be called on empty stack.

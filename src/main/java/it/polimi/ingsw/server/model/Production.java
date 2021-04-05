@@ -43,7 +43,7 @@ public class Production {
     public Production(int[] inputs,int[] outputs){
         restoreinput = inputs;
         restoreoutput = outputs;
-        System.arraycopy(restoreinput, 0, input, 0, input.length);
+        System.arraycopy(restoreinput, 0, inputs, 0, inputs.length);
         System.arraycopy(restoreoutput, 0, outputs, 0, outputs.length);
     }
 

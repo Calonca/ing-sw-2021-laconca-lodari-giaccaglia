@@ -46,7 +46,7 @@ public class ProductionCardCellTest
 
         DevelopmentCard testCardThree_iSA= new DevelopmentCard(1, DevelopmentCardColor.GREEN);
         testCardCell_iSA.addToTop(testCardThree_iSA);
-        assertTrue(testCardCell_iSA.isSpotAvailable());
+        assertFalse(testCardCell_iSA.isSpotAvailable());
 
 
     }

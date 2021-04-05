@@ -246,4 +246,11 @@ public class WarehouseLeadersDepots {
     int getNextGlobalPosition() {
         return depots.get(depots.size()-1).getLastGlobalPosition()+1;
     }
+
+    public int getNumberOf(int type){
+        //Todo
+        // you can use numOfOccupiedSpots andType
+        return 0;
+    }
+
 }

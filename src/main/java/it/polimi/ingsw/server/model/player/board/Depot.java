@@ -179,4 +179,9 @@ public abstract class Depot {
     void toggleSelected(int resGlobalPos){
         setSelected(!getSelected(resGlobalPos),resGlobalPos);
     }
+
+    int getNumberOf(Resource type){
+        //Todo this method
+        return 0;
+    }
 }
