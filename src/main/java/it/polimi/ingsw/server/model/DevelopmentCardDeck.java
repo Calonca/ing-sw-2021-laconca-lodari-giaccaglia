@@ -1,7 +1,5 @@
 package it.polimi.ingsw.server.model;
-
 import com.google.gson.Gson;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;

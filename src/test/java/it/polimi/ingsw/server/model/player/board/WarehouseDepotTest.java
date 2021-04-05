@@ -27,6 +27,7 @@ public class WarehouseDepotTest {
     
     @Test
     public void testAddAndRemove() {
+
         //Add first resource
         warehouseDepot.addResource(new Pair<>(0,Resource.SERVANT));
         warehouseDepot.toggleSelected(0);
@@ -35,6 +36,7 @@ public class WarehouseDepotTest {
         assertArrayEquals(new Resource[]{Resource.SERVANT,Resource.EMPTY,Resource.EMPTY},getResources(warehouseDepot));
         assertArrayEquals(new Boolean[]{true,false,false},getSelectedS(warehouseDepot));
         assertArrayEquals(new int[]{},warehouseDepot.availableSpotsFor(Resource.GOLD).toArray());
+
         //Remove 1 resource
         warehouseDepot.removeResource(0);
         assertArrayEquals(new Boolean[]{false,false,false},getSelectedS(warehouseDepot));
@@ -42,6 +44,7 @@ public class WarehouseDepotTest {
         assertArrayEquals(new int[]{0,1,2},warehouseDepot.availableSpotsFor(Resource.GOLD).toArray());
         assertArrayEquals(new int[]{0,1,2},warehouseDepot.availableSpotsFor(Resource.SERVANT).toArray());
         assertEquals(0,warehouseDepot.getOccupiedSpotsInDepotNum());
+
         //Add all the resources
         warehouseDepot.addResource(new Pair<>(2,Resource.STONE));
         warehouseDepot.addResource(new Pair<>(0,Resource.STONE));
@@ -54,10 +57,17 @@ public class WarehouseDepotTest {
     }
 
     private Resource[] getResources(Depot dep) {
-        return IntStream.range(dep.getLastGlobalPosition()-dep.getSize()+1,dep.getLastGlobalPosition()+1).mapToObj(dep::getAtGPos).map(Pair::getKey).toArray(Resource[]::new);
+        return IntStream.range(dep.getLastGlobalPosition()-dep.getSize()+1,dep.getLastGlobalPosition()+1)
+                .mapToObj(dep::getAtGPos)
+                .map(Pair::getKey)
+                .toArray(Resource[]::new);
     }
 
     private Boolean[] getSelectedS(Depot dep) {
-        return IntStream.range(dep.getLastGlobalPosition()-dep.getSize()+1,dep.getLastGlobalPosition()+1).mapToObj(dep::getAtGPos).map(Pair::getValue).toArray(Boolean[]::new);
+        return IntStream
+                .range(dep.getLastGlobalPosition()-dep.getSize()+1,dep.getLastGlobalPosition()+1)
+                .mapToObj(dep::getAtGPos)
+                .map(Pair::getValue)
+                .toArray(Boolean[]::new);
     }
 }

@@ -1,9 +1,6 @@
 package it.polimi.ingsw.server.model.player.board;
-
 import it.polimi.ingsw.server.model.Resource;
-
 import java.util.stream.IntStream;
-
 import static java.lang.Integer.max;
 import static java.lang.Math.min;
 
@@ -83,7 +80,7 @@ public class Box {
      * @param nToDesel number of resources to deselect
      * @param R2Desel type of the resource to deselect
      */
-    void deselectN(int nToDesel,Resource R2Desel){
+    void deselectN(int nToDesel, Resource R2Desel){
         nSel[R2Desel.getResourceNumber()]=max(nSel[R2Desel.getResourceNumber()]-nToDesel,0);
     }
 

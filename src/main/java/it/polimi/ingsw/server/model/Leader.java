@@ -56,12 +56,12 @@ public class Leader
     {
         int temp=0;
         for (Pair<Resource, Integer> requirementsResource : requirementsResources) {
-            if (GameModel.currentPlayer.getPersonalBoard().getNumberOf(requirementsResource.getKey().getResourceNumber()) < requirementsResource.getValue())
+            if (gamemodel.getCurrentPlayer().getPersonalBoard().getNumberOf(requirementsResource.getKey().getResourceNumber()) < requirementsResource.getValue())
                 return false;
         }
         for (Pair<DevelopmentCardColor, Integer> requirementsCard : requirementsCards) {
-            for (int j = 0; j < GameModel.currentPlayer.getPersonalBoard().getCardCells().size(); j++)
-                temp += GameModel.currentPlayer.getPersonalBoard().getCardCells().get(j).howManyOfColor(requirementsCard.getKey());
+            for (int j = 0; j < gamemodel.getCurrentPlayer().getPersonalBoard().getCardCells().size(); j++)
+                temp +=gamemodel.getCurrentPlayer().getPersonalBoard().getCardCells().get(j).howManyOfColor(requirementsCard.getKey());
             if (temp < requirementsCard.getValue())
                 return false;
         }
