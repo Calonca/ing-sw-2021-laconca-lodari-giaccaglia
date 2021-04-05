@@ -1,5 +1,8 @@
 package it.polimi.ingsw.server.model;
 
+import java.util.Arrays;
+import java.util.stream.Stream;
+
 /**
  * Enum class for resources. Resources order is the same as in Box.
  * New resources are to be added after STONE.
@@ -34,12 +37,13 @@ public enum Resource
     }
 
     /**
-     * Return the Resource corresponding to its value in the Resource ordering
-     * @param rNum int representing the resource ordering
-     * @return a Resource
+     * Return the  {@link Resource} corresponding to given value in the {@link Resource} ordering,
+     * returns {@link Resource#EMPTY} if the given value is outside the array
+     * @param rNum int representing the {@link Resource} ordering
+     * @return a {@link Resource}
      */
     public static Resource fromInt(int rNum){
-        return vals[rNum];
+        return rNum>vals.length||rNum<0? EMPTY: vals[rNum];
     }
 
     public int getResourceNumber()
