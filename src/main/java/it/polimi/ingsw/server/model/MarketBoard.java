@@ -143,13 +143,13 @@ public class MarketBoard {
     }
 
 
-    public static void main(String[] args) {
+    /* public static void main(String[] args) {
         MarketBoard resourcesMarket = initializeMarketBoard("/Users/pablo/IdeaProjects/ing-sw-2021-laconca-lodari-giaccaglia/target/classes/config/MarketBoardConfig.json");
         System.out.println(Arrays.deepToString(resourcesMarket.marbleMatrix));
         System.out.println(Arrays.toString(resourcesMarket.pickResources(MarketLine.FIRST_COLUMN)));
         resourcesMarket.updateMatrix(MarketLine.FIRST_ROW);
         System.out.println(Arrays.deepToString(resourcesMarket.marbleMatrix));
-    }
+    }*/
 }
 
 

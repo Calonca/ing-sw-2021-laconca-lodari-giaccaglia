@@ -12,7 +12,7 @@ public class LeaderDepot extends Depot {
      * @param globalPositionOfFirstElement global position of first element
      * @param type type of resource that the leaderDepot can store
      */
-    LeaderDepot(int globalPositionOfFirstElement, Resource type) {
+    public LeaderDepot(int globalPositionOfFirstElement, Resource type) {
         super(2, globalPositionOfFirstElement, type);
     }
 }
