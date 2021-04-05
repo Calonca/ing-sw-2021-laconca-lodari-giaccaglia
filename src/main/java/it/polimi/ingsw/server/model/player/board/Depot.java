@@ -180,8 +180,13 @@ public abstract class Depot {
         setSelected(!getSelected(resGlobalPos),resGlobalPos);
     }
 
-    int getNumberOf(Resource type){
-        //Todo this method
+
+    /** Returns how many {@link Resource resources} of the given type there are
+     * @param type is a {@link Resource}
+     * @return number of {@link Resource resources} of the given type in the deposit
+     */
+    public int getNumberOf(Resource type){
+        //Todo this
         return 0;
     }
 }

@@ -84,12 +84,12 @@ public class Box {
         nSel[R2Desel.getResourceNumber()]=max(nSel[R2Desel.getResourceNumber()]-nToDesel,0);
     }
 
-    /** Returns how many resources of the given type there are
-     * @param type represents the resource that has this position in the resources ordering
-     * @return number of resources of the given type in the deposit
+    /** Returns how many {@link Resource resources} of the given type there are
+     * @param type is a {@link Resource}
+     * @return number of {@link Resource resources} of the given type in the deposit
      */
-    public int getNumberOf(int type){
-        return nResAtPos[type];
+    public int getNumberOf(Resource type){
+        return nResAtPos[type.getResourceNumber()];
     }
 
     /**

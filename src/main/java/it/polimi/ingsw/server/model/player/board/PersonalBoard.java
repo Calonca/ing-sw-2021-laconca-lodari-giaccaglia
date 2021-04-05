@@ -101,10 +101,11 @@ public class PersonalBoard {
                 .reduce(0, Integer::sum)==6;
     }
 
-    public int getNumberOf(int type) {
+    public int getNumberOf(Resource type) {
         return strongBox.getNumberOf(type)+warehouseLeadersDepots.getNumberOf(type);
     }
-    public int numOfResources(){return IntStream.range(0,Resource.nRes).map(this::getNumberOf).reduce(0,Integer::sum);}
+
+    public int numOfResources(){return Resource.getStream(Resource.nRes).map(this::getNumberOf).reduce(0,Integer::sum);}
 
     public Box getStrongBox(){
         return strongBox;
@@ -113,7 +114,7 @@ public class PersonalBoard {
         return warehouseLeadersDepots;
     }
     void discardResources(){
-        badFaithToAdd += IntStream.range(0,Resource.nRes).map(discardBox::getNumberOf).reduce(0,Integer::sum);
+        badFaithToAdd += Resource.getStream(Resource.nRes).map(discardBox::getNumberOf).reduce(0,Integer::sum);
         discardBox = new Box();
     }
     void setMarketBox(){

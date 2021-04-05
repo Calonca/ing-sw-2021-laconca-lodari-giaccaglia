@@ -56,7 +56,7 @@ public class Leader
     {
         int temp=0;
         for (Pair<Resource, Integer> requirementsResource : requirementsResources) {
-            if (gamemodel.getCurrentPlayer().getPersonalBoard().getNumberOf(requirementsResource.getKey().getResourceNumber()) < requirementsResource.getValue())
+            if (gamemodel.getCurrentPlayer().getPersonalBoard().getNumberOf(requirementsResource.getKey()) < requirementsResource.getValue())
                 return false;
         }
         for (Pair<DevelopmentCardColor, Integer> requirementsCard : requirementsCards) {

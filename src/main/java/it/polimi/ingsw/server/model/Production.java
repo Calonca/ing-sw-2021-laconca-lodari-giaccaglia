@@ -58,7 +58,7 @@ public class Production {
         Box box= personalboard.getStrongBox();
 
         WarehouseLeadersDepots depots= personalboard.getWarehouseLeadersDepots();
-        int[] array=IntStream.range(0,4).map( pos -> input[pos]-box.getNumberOf(pos)).map( res -> Math.max(res, 0)).toArray();
+        int[] array=IntStream.range(0,4).map( pos -> input[pos]-box.getNumberOf(Resource.fromInt(pos))).map(res -> Math.max(res, 0)).toArray();
         if(!depots.enoughResourcesForProductions(array))
                 return false;
         return Arrays.stream(input).limit(4).reduce(0, Integer::sum)+input[6]<personalboard.numOfResources();

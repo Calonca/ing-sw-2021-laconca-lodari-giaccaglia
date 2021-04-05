@@ -13,15 +13,15 @@ public class BoxTest {
     @Test
     public void strongBoxSetCorrectly() {
         Box b = new Box();
-        IntStream.range(0,4).forEach((pos)->assertEquals(b.getNumberOf(pos),0));
+        Resource.getStream(Resource.nRes).forEach((type)->assertEquals(b.getNumberOf(type),0));
     }
 
     @Test
     public void boxSetCorrectly() {
-        final int[] testList = {0,1,4,10};
+        final int[] testList = {0,1,4,20};
         for (int a:testList){
             Box b = new Box(a);
-            IntStream.range(0,a).forEach((pos)->assertEquals(b.getNumberOf(pos),0));
+            Resource.getStream(a).forEach((type)->assertEquals(b.getNumberOf(type),0));
         }
     }
 
@@ -32,7 +32,7 @@ public class BoxTest {
         int[] b = {22,2};
         box.addResources(a);
         box.removeResources(b);
-        assertArrayEquals(IntStream.range(0, 3).map(box::getNumberOf).toArray(), new int[]{0,1,0});
+        assertArrayEquals(Resource.getStream(3).mapToInt(box::getNumberOf).toArray(), new int[]{0,1,0});
     }
 
     @Test
@@ -41,9 +41,9 @@ public class BoxTest {
         int[] a = {1,0,23,4,0};
         int[] b = {24,11,9};
         box.addResources(a);
-        assertArrayEquals(IntStream.range(0, 5).map(box::getNumberOf).toArray(), a);
+        assertArrayEquals(Resource.getStream(5).mapToInt(box::getNumberOf).toArray(), a);
         box.addResources(b);
-        assertArrayEquals(IntStream.range(0, 5).map(box::getNumberOf).toArray(), new int[]{25,11,32,4,0});
+        assertArrayEquals(Resource.getStream(5).mapToInt(box::getNumberOf).toArray(), new int[]{25,11,32,4,0});
     }
 
     @Test
@@ -69,7 +69,7 @@ public class BoxTest {
         box.selectN(5,Resource.GOLD);
         box.selectN(11, Resource.SHIELD);
         box.removeSelected();
-        assertArrayEquals(IntStream.range(0, 5).map(box::getNumberOf).toArray(), new int[]{0,10,12,40,0});
+        assertArrayEquals(Resource.getStream(5).mapToInt(box::getNumberOf).toArray(), new int[]{0,10,12,40,0});
     }
 
 }
