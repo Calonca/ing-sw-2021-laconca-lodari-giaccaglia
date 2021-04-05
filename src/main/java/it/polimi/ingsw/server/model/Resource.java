@@ -23,10 +23,23 @@ public enum Resource
      * Indicated the number of "physical" resources
      */
     public static final int nRes = 4;
+    /**
+     * Array containing "physical" resources, used to get resource from it's number in the ordering.
+     */
+    private static final Resource[] vals = {GOLD,SERVANT,SHIELD,STONE};
 
     Resource(final int resourceNumber)
     {
         this.resourceNumber= resourceNumber;
+    }
+
+    /**
+     * Return the Resource corresponding to its value in the Resource ordering
+     * @param rNum int representing the resource ordering
+     * @return a Resource
+     */
+    public static Resource fromInt(int rNum){
+        return vals[rNum];
     }
 
     public int getResourceNumber()
