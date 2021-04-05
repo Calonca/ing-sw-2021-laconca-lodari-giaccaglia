@@ -29,7 +29,7 @@ public enum Resource
     /**
      * Array containing "physical" resources, used to get resource from it's number in the ordering.
      */
-    private static final Resource[] vals = {GOLD,SERVANT,SHIELD,STONE};
+    private static final Resource[] vals = {GOLD,SERVANT,SHIELD,STONE,FAITH,BADFAITH,TOCHOOSE,EMPTY};
 
     Resource(final int resourceNumber)
     {
@@ -45,10 +45,9 @@ public enum Resource
     public static Resource fromInt(int rNum){
         return rNum>vals.length||rNum<0? EMPTY: vals[rNum];
     }
-
     /**
-     * Returns a {@link Stream} of "Physical" {@link Resource Resources} of the given size,
-     * if size is greater than the number of "Physical" {@link Resource resources} concatenates {@link Resource#EMPTY} until reaching the given size
+     * Returns a {@link Stream} of {@link Resource Resources} of the given size,
+     * if size is greater than the number of {@link Resource resources} concatenates {@link Resource#EMPTY} until reaching the given size
      * @param size the size of the {@link Stream}
      * @return a {@link Stream} of {@link Resource Resources}
      */
