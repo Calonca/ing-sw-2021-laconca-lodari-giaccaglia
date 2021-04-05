@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 public class GameModel {
 
-    public static Player currentPlayer;
+    private Player currentPlayer;
     private final List<Player> players;
     private List<Player> onlinePlayers;
     private final MarketBoard resourcesMarket;
@@ -37,7 +37,7 @@ public class GameModel {
         return currentPlayer;
     }
 
-    public static void setCurrentPlayer(Player currentPlayer) {GameModel.currentPlayer = currentPlayer;}
+    public void setCurrentPlayer(Player currentPlayer) {this.currentPlayer = currentPlayer;}
 
     public Player getPlayer(String nickname) {
           return players.stream()

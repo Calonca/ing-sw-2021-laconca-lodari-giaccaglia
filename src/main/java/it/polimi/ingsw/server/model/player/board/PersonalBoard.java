@@ -29,7 +29,7 @@ public class PersonalBoard {
     }
 
     public List<ProductionCardCell> getCardCells() {
-        return Arrays.stream(cardCells).toList();
+        return Arrays.stream(cardCells).collect(Collectors.toList());
     }
 
     public void produce(){

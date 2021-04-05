@@ -69,9 +69,9 @@ public class FaithTrack {
      * <em>Black Cross</em> token.
      */
     private void addFaithPoint(Piece piece){
-        if(piece.position < 25)
+        if(piece.position < 24)
             piece.incrementPosition();
-        else{
+        else if(piece.position == 24){
             piece.incrementPosition();
             //notify end of the game
         }
@@ -153,7 +153,7 @@ public class FaithTrack {
      *
      * @return true if current position equals 25, otherwise false
      */
-    public boolean hasReached(Piece piece){
+    public boolean hasReachedLastSpace(Piece piece){
         return piece.position == 25;
     }
 

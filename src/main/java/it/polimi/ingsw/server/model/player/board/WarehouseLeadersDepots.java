@@ -38,7 +38,7 @@ public class WarehouseLeadersDepots {
     }
 
     /**
-     * Default construct for a game of Maestri del Rinascimento
+     * Default construct for a game of Masters of Renaissance
      */
     WarehouseLeadersDepots(){
         this(Stream.of(

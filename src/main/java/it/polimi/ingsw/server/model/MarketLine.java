@@ -1,6 +1,11 @@
 package it.polimi.ingsw.server.model;
 
+/**
+ * Enum class for
+ */
+
 public enum MarketLine {
+
     FIRST_ROW(0),
     SECOND_ROW(1),
     THIRD_ROW(2),
@@ -17,6 +22,4 @@ public enum MarketLine {
     public int getLineNumber(){
         return this.lineNumber;
     }
-
-    
 }
