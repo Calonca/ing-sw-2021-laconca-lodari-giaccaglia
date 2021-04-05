@@ -34,18 +34,16 @@ public class ProductionCardCellTest
     public void isSpotAvailable()
     {
         ProductionCardCell testCardCell_iSA = new ProductionCardCell();
+        DevelopmentCard testCardOne_iSA;
 
-        DevelopmentCard testCardOne_iSA= new DevelopmentCard(1, DevelopmentCardColor.GREEN);
+        for(int i=0; i<testCardCell_iSA.getMaxsize()-1; i++)
+        {
+            testCardOne_iSA= new DevelopmentCard(1, DevelopmentCardColor.GREEN);
+            testCardCell_iSA.addToTop(testCardOne_iSA);
+            assertTrue(testCardCell_iSA.isSpotAvailable());
+        }
+        testCardOne_iSA= new DevelopmentCard(1, DevelopmentCardColor.GREEN);
         testCardCell_iSA.addToTop(testCardOne_iSA);
-        assertTrue(testCardCell_iSA.isSpotAvailable());
-        assertEquals(testCardOne_iSA, testCardCell_iSA.getFrontCard());
-
-        DevelopmentCard testCardTwo_iSA= new DevelopmentCard(1, DevelopmentCardColor.YELLOW);
-        testCardCell_iSA.addToTop(testCardTwo_iSA);
-        assertTrue(testCardCell_iSA.isSpotAvailable());
-
-        DevelopmentCard testCardThree_iSA= new DevelopmentCard(1, DevelopmentCardColor.GREEN);
-        testCardCell_iSA.addToTop(testCardThree_iSA);
         assertFalse(testCardCell_iSA.isSpotAvailable());
 
 

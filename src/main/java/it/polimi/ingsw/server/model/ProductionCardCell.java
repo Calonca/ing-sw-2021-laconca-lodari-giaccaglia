@@ -18,6 +18,10 @@ public class ProductionCardCell {
         this.stackedCards=new ArrayList<DevelopmentCard>();
     }
 
+    public int getMaxsize() {
+        return maxsize;
+    }
+
     /**
      * Returns the card on top of the stack.
      * CANNOT be called on empty stack.
