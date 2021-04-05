@@ -6,7 +6,7 @@ import javafx.util.Pair;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public abstract class LeaderDepot {
+public class LeaderDepot {
 
     /**
      * A pair of Resource and boolean that indicates if the resource is selected for production, meaning that it will be used in a selected production
@@ -20,6 +20,7 @@ public abstract class LeaderDepot {
      * number of occupied cells
      */
     private int numberOfOccupiedSpots;
+    private Depot leaderdepot;
     /**
      * Type of the resource that this depot can contain
      */
