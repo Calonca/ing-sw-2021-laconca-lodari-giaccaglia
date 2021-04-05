@@ -16,4 +16,13 @@ public class MarketLeader extends Leader
     public List<Pair<DevelopmentCardColor, Integer>> requirementsCards;
     private Resource bonus;
 
+    public MarketLeader(LeaderState state, int victoryPoints, List<Pair<Resource,Integer>> requirementsResources, List<Pair<DevelopmentCardColor, Integer>> requirementsCards, Resource bonus)
+    {
+        this.state = state;
+        this.victoryPoints = victoryPoints;
+        this.requirementsCards = requirementsCards;
+        this.requirementsResources = requirementsResources;
+        this.bonus = bonus;
+    }
+
 }
