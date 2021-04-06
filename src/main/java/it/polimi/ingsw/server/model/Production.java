@@ -18,10 +18,10 @@ public class Production {
      * then the counter will decrease and the basic resource's cells will increase. The two arrays are restored at
      * the end of the operations.
      */
-    private int input[];
-    private int restoreinput[];
-    private int output[];
-    private int restoreoutput[];
+    private int[] input;
+    private final int[] restoreinput;
+    private int[] output;
+    private final int[] restoreoutput;
     private int victorypoints;
 
     /**
