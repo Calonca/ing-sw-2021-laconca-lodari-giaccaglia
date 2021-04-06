@@ -72,7 +72,7 @@ public class LeaderTest
 
         leadertest.activate(gamemodel);
         assertEquals(LeaderState.ACTIVE, leadertest.getState());
-        assertFalse(player.getPersonalBoard().isProductionEmpty());
+        assertNotEquals(0, player.getPersonalBoard().getSelectedProduction().length);
 
         leadertest = new ProductionLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, productiontest);
         leadertest.discard(gamemodel);
@@ -80,6 +80,7 @@ public class LeaderTest
 
     }
 
+    @Test
     public void DepositLeaderTest() throws IOException
     {
         //ROUTINE
@@ -103,7 +104,7 @@ public class LeaderTest
 
         leadertest.activate(gamemodel);
         assertEquals(LeaderState.ACTIVE, leadertest.getState());
-        assertEquals(player.getPersonalBoard().getWarehouseLeadersDepots().isEmpty(),0);
+        assertEquals(Resource.EMPTY,player.getPersonalBoard().getWarehouseLeadersDepots().getResourceAt(7));
 
         leadertest = new DepositLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, depotTest);
         leadertest.discard(gamemodel);
