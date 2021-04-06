@@ -28,6 +28,13 @@ public class DevelopmentCard
         this.cardType = cardType;
     }
 
+    public DevelopmentCard(int level, DevelopmentCardColor cardType,Production production)
+    {
+        this.production = production;
+        this.level = level;
+        this.cardType = cardType;
+    }
+
     public DevelopmentCardColor getCardType() {
         return cardType;
     }
