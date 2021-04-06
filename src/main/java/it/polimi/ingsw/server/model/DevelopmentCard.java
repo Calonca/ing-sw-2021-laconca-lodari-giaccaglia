@@ -39,5 +39,6 @@ public class DevelopmentCard
         return cardType;
     }
 
+    public Production getProduction(){return production;}
 
 }
