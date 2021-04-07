@@ -116,7 +116,7 @@ public class Production {
      */
     public boolean choiceCanBeMadeOnOutput()
     {
-        return this.output[Resource.TOCHOOSE.getResourceNumber()] != 0;
+        return output.length >= Resource.TOCHOOSE.getResourceNumber() && this.output[Resource.TOCHOOSE.getResourceNumber()] != 0;
     }
 
     public void resetchoice()
