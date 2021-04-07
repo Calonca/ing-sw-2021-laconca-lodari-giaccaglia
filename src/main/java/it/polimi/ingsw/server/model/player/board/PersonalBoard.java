@@ -20,7 +20,7 @@ public class PersonalBoard {
     int faithPointsToAdd, badFaithToAdd =0;
 
 
-    PersonalBoard(){
+    public PersonalBoard(){
         warehouseLeadersDepots = new WarehouseLeadersDepots();
         strongBox = new Box();
         discardBox = new Box();
