@@ -28,6 +28,7 @@ public class Player {
         personalBoard= new PersonalBoard();
         currentlyOnline = true;
         currentState = State.IDLE;
+        discounts=new int[7];
         initializeFaithTrack();
     }
 
