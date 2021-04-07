@@ -43,10 +43,10 @@ public class LeaderTest
         GameModel gamemodel = new GameModel();
         gamemodel.setCurrentPlayer(player);
 
-        DevelopmentDiscountLeader leadertestDD;
-        DepositLeader leadertestD;
+        Leader leadertestDD;
+        Leader leadertestD;
         Leader leadertestM;
-        ProductionLeader leadertestP;
+        Leader leadertestP;
 
         //FALLISCE NON HA NIENTE
         leadertestM = new MarketLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, bonus);
