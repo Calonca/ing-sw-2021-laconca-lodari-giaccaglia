@@ -110,7 +110,42 @@ public class LeaderTest
         gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().removeResources(new int[]{30,0,0,0});
 
 
+        cardcostTest = new Pair<DevelopmentCardColor,Integer>(DevelopmentCardColor.GREEN, 1);
+        requirementsCardsTest.add(cardcostTest);
+        //NON HA CARTE DI COLORI DIVERSI E TANTE RISORSE
+        leadertestP = new ProductionLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, productiontest);
+        assertFalse(leadertestP.areRequirementsSatisfied(gamemodel));
+        gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().addResources(new int[]{30,0,0,0});
+        assertFalse(leadertestP.areRequirementsSatisfied(gamemodel));
+        gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().removeResources(new int[]{30,0,0,0});
 
+
+        testcard= new DevelopmentCard(1,DevelopmentCardColor.GREEN,new Production(new int[]{0,0,0,0,0,0,2},new int[]{0,0,0,0,0,1,1}));
+        gamemodel.getCurrentPlayer().getPersonalBoard().addDevelopmentCardToCell(testcard,1);
+        //HA CARTE DI COLORI DIVERSI E TANTE RISORSE
+        leadertestP = new ProductionLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, productiontest);
+        assertFalse(leadertestP.areRequirementsSatisfied(gamemodel));
+        gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().addResources(new int[]{30,0,0,0});
+        assertTrue(leadertestP.areRequirementsSatisfied(gamemodel));
+        gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().removeResources(new int[]{30,0,0,0});
+
+        testcard= new DevelopmentCard(2,DevelopmentCardColor.GREEN,new Production(new int[]{0,0,0,0,0,0,2},new int[]{0,0,0,0,0,1,1}));
+        gamemodel.getCurrentPlayer().getPersonalBoard().addDevelopmentCardToCell(testcard,1);
+        //HA CARTE DI COLORI DIVERSI MA NON DEL LIVELLO GIUSTO E TANTE RISORSE
+        leadertestP = new ProductionLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, productiontest,2);
+        assertFalse(leadertestP.areRequirementsSatisfied(gamemodel));
+        gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().addResources(new int[]{30,0,0,0});
+        assertFalse(leadertestP.areRequirementsSatisfied(gamemodel));
+        gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().removeResources(new int[]{30,0,0,0});
+
+        testcard= new DevelopmentCard(2,DevelopmentCardColor.BLUE,new Production(new int[]{0,0,0,0,0,0,2},new int[]{0,0,0,0,0,1,1}));
+        gamemodel.getCurrentPlayer().getPersonalBoard().addDevelopmentCardToCell(testcard,2);
+        //HA CARTE DI COLORI DIVERSI DEL LIVELLO GIUSTO E TANTE RISORSE
+        leadertestP = new ProductionLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, productiontest,2);
+        assertFalse(leadertestP.areRequirementsSatisfied(gamemodel));
+        gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().addResources(new int[]{30,0,0,0});
+        assertTrue(leadertestP.areRequirementsSatisfied(gamemodel));
+        gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().removeResources(new int[]{30,0,0,0});
     }
 
 
