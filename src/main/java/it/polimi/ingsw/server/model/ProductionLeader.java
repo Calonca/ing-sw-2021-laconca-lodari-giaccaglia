@@ -14,23 +14,28 @@ public class ProductionLeader extends Leader
 
     private LeaderState state;
     public int victorypoints;
-    public Production production;
     public List<Pair<Resource, Integer>> requirementsResources;
     public List<Pair<DevelopmentCardColor, Integer>> requirementsCards;
-
+    public int requirementsCardsLevel=1;
+    public Production production;
 
     public LeaderState getState()
     {
         return state;
     }
 
-    public ProductionLeader(LeaderState state, int victoryPoints, List<Pair<Resource,Integer>> requirementsResources, List<Pair<DevelopmentCardColor, Integer>> requirementsCards, Production production)
+    public ProductionLeader(LeaderState state, int victoryPoints, List<Pair<Resource,Integer>> requirementsResources, List<Pair<DevelopmentCardColor, Integer>> requirementsCards, Production production, int requirementsCardsLevel )
     {
         this.state = state;
         this.victoryPoints = victoryPoints;
         this.requirementsCards = requirementsCards;
         this.requirementsResources = requirementsResources;
         this.production= production;
+        this.requirementsCardsLevel=requirementsCardsLevel;
+    }
+    public ProductionLeader(LeaderState state, int victoryPoints, List<Pair<Resource,Integer>> requirementsResources, List<Pair<DevelopmentCardColor, Integer>> requirementsCards, Production production)
+    {
+        this(state, victoryPoints,requirementsResources,requirementsCards,production, 1);
     }
     /**
      * Adds the leader's production to the others
@@ -58,7 +63,7 @@ public class ProductionLeader extends Leader
         }
         for (Pair<DevelopmentCardColor, Integer> requirementsCard : requirementsCards) {
             for (int j = 0; j < gamemodel.getCurrentPlayer().getPersonalBoard().getCardCells().size(); j++)
-                temp +=gamemodel.getCurrentPlayer().getPersonalBoard().getCardCells().get(j).howManyOfColor(requirementsCard.getKey());
+                temp +=gamemodel.getCurrentPlayer().getPersonalBoard().getCardCells().get(j).howManyOfColor(requirementsCard.getKey(),requirementsCardsLevel);
             if (temp < requirementsCard.getValue())
                 return false;
             temp=0;

@@ -20,6 +20,7 @@ public class ProductionCardCell {
         this.stackedCards=new ArrayList<DevelopmentCard>();
     }
 
+
     public int getMaxsize() {
         return maxsize;
     }
@@ -56,14 +57,20 @@ public class ProductionCardCell {
      * Returns the number of cards of the requested color
      * @param color!=NULL
      */
-    public int howManyOfColor(DevelopmentCardColor color)
+    public int howManyOfColor(DevelopmentCardColor color, int level)
     {
 
         int temp=0;
         for (DevelopmentCard stackedCard : stackedCards) {
             if (stackedCard.getCardType() == color)
-                temp++;
+                if(stackedCard.getLevel() == level)
+                    temp++;
         }
         return temp;
+    }
+
+    public int howManyOfColor(DevelopmentCardColor color)
+    {
+        return howManyOfColor(color,1);
     }
 }

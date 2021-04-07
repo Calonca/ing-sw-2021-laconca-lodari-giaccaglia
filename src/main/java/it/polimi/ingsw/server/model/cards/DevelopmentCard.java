@@ -22,6 +22,9 @@ public class DevelopmentCard
      */
     private Production production;
     private List<Pair<Resource,Integer>> costList;
+
+
+
     private int level;
 
     public DevelopmentCard(int level, DevelopmentCardColor cardType)
@@ -37,6 +40,9 @@ public class DevelopmentCard
         this.cardType = cardType;
     }
 
+    public int getLevel() {
+        return level;
+    }
     public DevelopmentCardColor getCardType() {
         return cardType;
     }

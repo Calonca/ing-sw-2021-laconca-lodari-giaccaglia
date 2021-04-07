@@ -17,6 +17,7 @@ public class DepositLeader extends Leader
     public LeaderDepot leaderdepot;
     public List<Pair<Resource, Integer>> requirementsResources;
     public List<Pair<DevelopmentCardColor, Integer>> requirementsCards;
+    public int requirementsCardsLevel;
 
 
     public LeaderState getState()
@@ -25,13 +26,19 @@ public class DepositLeader extends Leader
     }
 
 
-    public DepositLeader(LeaderState state, int victoryPoints, List<Pair<Resource,Integer>> requirementsResources, List<Pair<DevelopmentCardColor, Integer>> requirementsCards, LeaderDepot leaderdepot)
+    public DepositLeader(LeaderState state, int victoryPoints, List<Pair<Resource,Integer>> requirementsResources, List<Pair<DevelopmentCardColor, Integer>> requirementsCards, LeaderDepot leaderdepot, int requirementsCardsLevel)
     {
         this.state = state;
         this.victoryPoints = victoryPoints;
         this.requirementsCards = requirementsCards;
         this.requirementsResources = requirementsResources;
         this.leaderdepot = leaderdepot;
+        this.requirementsCardsLevel=requirementsCardsLevel;
+    }
+
+    public DepositLeader(LeaderState state, int victoryPoints, List<Pair<Resource,Integer>> requirementsResources, List<Pair<DevelopmentCardColor, Integer>> requirementsCards, LeaderDepot leaderdepot)
+    {
+        this(state, victoryPoints,requirementsResources,requirementsCards,leaderdepot, 1);
     }
     /**
      * Basic Leader activation function, but adds a deposit
@@ -59,7 +66,7 @@ public class DepositLeader extends Leader
         }
         for (Pair<DevelopmentCardColor, Integer> requirementsCard : requirementsCards) {
             for (int j = 0; j < gamemodel.getCurrentPlayer().getPersonalBoard().getCardCells().size(); j++)
-                temp +=gamemodel.getCurrentPlayer().getPersonalBoard().getCardCells().get(j).howManyOfColor(requirementsCard.getKey());
+                temp +=gamemodel.getCurrentPlayer().getPersonalBoard().getCardCells().get(j).howManyOfColor(requirementsCard.getKey(),requirementsCardsLevel);
             if (temp < requirementsCard.getValue())
                 return false;
             temp=0;

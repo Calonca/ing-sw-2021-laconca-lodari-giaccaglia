@@ -18,6 +18,7 @@ public class MarketLeader extends Leader
     private LeaderState state;
     public List<Pair<Resource, Integer>> requirementsResources;
     public List<Pair<DevelopmentCardColor, Integer>> requirementsCards;
+    public int requirementsCardsLevel;
     private Resource bonus;
 
 
@@ -26,13 +27,19 @@ public class MarketLeader extends Leader
         return state;
     }
 
-    public MarketLeader(LeaderState state, int victoryPoints, List<Pair<Resource,Integer>> requirementsResources, List<Pair<DevelopmentCardColor, Integer>> requirementsCards, Resource bonus)
+    public MarketLeader(LeaderState state, int victoryPoints, List<Pair<Resource,Integer>> requirementsResources, List<Pair<DevelopmentCardColor, Integer>> requirementsCards, Resource bonus, int requirementsCardsLevel)
     {
         this.state = state;
         this.victoryPoints = victoryPoints;
         this.requirementsCards = requirementsCards;
         this.requirementsResources = requirementsResources;
         this.bonus = bonus;
+        this.requirementsCardsLevel=requirementsCardsLevel;
+    }
+
+    public MarketLeader(LeaderState state, int victoryPoints, List<Pair<Resource,Integer>> requirementsResources, List<Pair<DevelopmentCardColor, Integer>> requirementsCards, Resource bonus)
+    {
+        this(state, victoryPoints,requirementsResources,requirementsCards,bonus, 1);
     }
 
     public void activate(GameModel gamemodel)
@@ -56,7 +63,7 @@ public class MarketLeader extends Leader
         }
         for (Pair<DevelopmentCardColor, Integer> requirementsCard : requirementsCards) {
             for (int j = 0; j < gamemodel.getCurrentPlayer().getPersonalBoard().getCardCells().size(); j++)
-                temp +=gamemodel.getCurrentPlayer().getPersonalBoard().getCardCells().get(j).howManyOfColor(requirementsCard.getKey());
+                temp +=gamemodel.getCurrentPlayer().getPersonalBoard().getCardCells().get(j).howManyOfColor(requirementsCard.getKey(),requirementsCardsLevel);
             if (temp < requirementsCard.getValue())
                 return false;
             temp=0;
