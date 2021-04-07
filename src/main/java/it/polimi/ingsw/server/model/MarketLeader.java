@@ -25,4 +25,10 @@ public class MarketLeader extends Leader
         this.bonus = bonus;
     }
 
+    public void activate(GameModel gamemodel)
+    {
+        state = LeaderState.ACTIVE;
+        //add market bonus
+    }
+
 }
