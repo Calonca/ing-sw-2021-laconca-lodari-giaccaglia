@@ -61,15 +61,15 @@ public class ProductionTest {
         productiontest= new Production(new int[]{0,0,0,0,0,0,40},new int[]{0,0,0,0,0,1,1});
         assertFalse(productiontest.isAvailable(personalboardtest));
         personalboardtest.getStrongBox().addResources(new int[]{10,10,9,10,0,0,0});
-        assertTrue(productiontest.isAvailable(personalboardtest));
+        assertFalse(productiontest.isAvailable(personalboardtest));
         personalboardtest.getStrongBox().removeResources(new int[]{10,10,9,10,0,0,0});
 
         //RISORSE A SCELTA SPARSE, FALLIMENTO
         productiontest= new Production(new int[]{0,0,0,0,0,0,40},new int[]{0,0,0,0,0,1,1});
         assertFalse(productiontest.isAvailable(personalboardtest));
         personalboardtest.getStrongBox().addResources(new int[]{10,10,0,10,0,0,0});
-        assertTrue(productiontest.isAvailable(personalboardtest));
-        personalboardtest.getStrongBox().removeResources(new int[]{10,10,9,10,0,0,0});
+        assertFalse(productiontest.isAvailable(personalboardtest));
+        personalboardtest.getStrongBox().removeResources(new int[]{10,10,0,10,0,0,0});
 
         //RISORSA NORMALE E A SCELTA, SUCCESSO PER ENTRAMBI
         productiontest= new Production(new int[]{1,0,0,0,0,0,1},new int[]{0,0,0,0,0,1,1});
@@ -82,7 +82,7 @@ public class ProductionTest {
         productiontest= new Production(new int[]{1,0,0,0,0,0,1},new int[]{0,0,0,0,0,1,1});
         assertFalse(productiontest.isAvailable(personalboardtest));
         personalboardtest.getStrongBox().addResources(new int[]{0,1,0,0,0,0,0});
-        assertTrue(productiontest.isAvailable(personalboardtest));
+        assertFalse(productiontest.isAvailable(personalboardtest));
         personalboardtest.getStrongBox().removeResources(new int[]{0,1,0,0,0,0,0});
 
         //RISORSA NORMALE E A SCELTA, SUCCESSO ABBONDANTE PER SCELTA
@@ -90,64 +90,64 @@ public class ProductionTest {
         assertFalse(productiontest.isAvailable(personalboardtest));
         personalboardtest.getStrongBox().addResources(new int[]{1,10,0,0,0,0,0});
         assertTrue(productiontest.isAvailable(personalboardtest));
-        personalboardtest.getStrongBox().removeResources(new int[]{0,1,0,0,0,0,0});
+        personalboardtest.getStrongBox().removeResources(new int[]{1,10,0,0,0,0,0});
 
         //RISORSA NORMALE E A SCELTA, SUCCESSO ABBONDANTE PER ENTRAMBI
         productiontest= new Production(new int[]{1,0,0,0,0,0,1},new int[]{0,0,0,0,0,1,1});
         assertFalse(productiontest.isAvailable(personalboardtest));
         personalboardtest.getStrongBox().addResources(new int[]{100,100,0,0,0,0,0});
         assertTrue(productiontest.isAvailable(personalboardtest));
-        personalboardtest.getStrongBox().removeResources(new int[]{1,100,0,0,0,0,0});
+        personalboardtest.getStrongBox().removeResources(new int[]{100,100,0,0,0,0,0});
 
         //RISORSA NORMALE E A SCELTA, SUCCESSO ABBONDANTE PER SCELTA
         productiontest= new Production(new int[]{1,0,0,0,0,0,1},new int[]{0,0,0,0,0,1,1});
         assertFalse(productiontest.isAvailable(personalboardtest));
         personalboardtest.getStrongBox().addResources(new int[]{0,100,0,0,0,0,0});
-        assertTrue(productiontest.isAvailable(personalboardtest));
+        assertFalse(productiontest.isAvailable(personalboardtest));
         personalboardtest.getStrongBox().removeResources(new int[]{0,100,0,0,0,0,0});
 
         //RISORSA NORMALE E A SCELTA, SUCCESSO ABBONDANTE PER SCELTA E FALLIMENTO VICINO PER NORMALE
         productiontest= new Production(new int[]{10,0,0,0,0,0,1},new int[]{0,0,0,0,0,1,1});
         assertFalse(productiontest.isAvailable(personalboardtest));
         personalboardtest.getStrongBox().addResources(new int[]{9,100,0,0,0,0,0});
-        assertTrue(productiontest.isAvailable(personalboardtest));
-        personalboardtest.getStrongBox().removeResources(new int[]{0,100,0,0,0,0,0});
+        assertFalse(productiontest.isAvailable(personalboardtest));
+        personalboardtest.getStrongBox().removeResources(new int[]{9,100,0,0,0,0,0});
 
         //RISORSA NORMALE E A SCELTA, SUCCESSO PER QUELLA NORMALE
         productiontest= new Production(new int[]{1,1,1,0,0,0,1},new int[]{0,0,0,0,0,1,1});
         assertFalse(productiontest.isAvailable(personalboardtest));
         personalboardtest.getStrongBox().addResources(new int[]{1,1,1,0,0,0,0});
-        assertTrue(productiontest.isAvailable(personalboardtest));
-        personalboardtest.getStrongBox().removeResources(new int[]{1,0,0,0,0,0,0});
+        assertFalse(productiontest.isAvailable(personalboardtest));
+        personalboardtest.getStrongBox().removeResources(new int[]{1,1,1,0,0,0,0});
 
         //RISORSA NORMALE E A SCELTA, SUCCESSO PER QUELLA NORMALE FALLIMENTO VICINO PER SCELTA
         productiontest= new Production(new int[]{1,1,1,0,0,0,10},new int[]{0,0,0,0,0,1,1});
         assertFalse(productiontest.isAvailable(personalboardtest));
         personalboardtest.getStrongBox().addResources(new int[]{1,1,1,9,0,0,0});
-        assertTrue(productiontest.isAvailable(personalboardtest));
-        personalboardtest.getStrongBox().removeResources(new int[]{1,0,0,0,0,0,0});
+        assertFalse(productiontest.isAvailable(personalboardtest));
+        personalboardtest.getStrongBox().removeResources(new int[]{1,1,1,9,0,0,0});
 
 
         //RISORSA NORMALE E A SCELTA, SUCCESSO ABBONDANTE PER NORMALE E FALLIMENTO PER SCELTA
         productiontest= new Production(new int[]{1,1,1,0,0,0,100},new int[]{0,0,0,0,0,1,1});
         assertFalse(productiontest.isAvailable(personalboardtest));
         personalboardtest.getStrongBox().addResources(new int[]{10,10,10,9,0,0,0});
-        assertTrue(productiontest.isAvailable(personalboardtest));
-        personalboardtest.getStrongBox().removeResources(new int[]{1,0,0,0,0,0,0});
+        assertFalse(productiontest.isAvailable(personalboardtest));
+        personalboardtest.getStrongBox().removeResources(new int[]{10,10,10,9,0,0,0});
 
         //RISORSA NORMALE E A SCELTA, SUCCESSO ABBONDANTE PER NORMALE E FALLIMENTO VICINO PER SCELTA
         productiontest= new Production(new int[]{1,1,1,0,0,0,31},new int[]{0,0,0,0,0,1,1});
         assertFalse(productiontest.isAvailable(personalboardtest));
         personalboardtest.getStrongBox().addResources(new int[]{10,10,10,3,0,0,0});
-        assertTrue(productiontest.isAvailable(personalboardtest));
-        personalboardtest.getStrongBox().removeResources(new int[]{1,0,0,0,0,0,0});
+        assertFalse(productiontest.isAvailable(personalboardtest));
+        personalboardtest.getStrongBox().removeResources(new int[]{10,10,10,3,0,0,0});
 
         //RISORSA NORMALE E A SCELTA, FALLIMENTO VICINO PER ENTRAMBI
         productiontest= new Production(new int[]{10,10,10,0,0,0,29},new int[]{0,0,0,0,0,1,1});
         assertFalse(productiontest.isAvailable(personalboardtest));
         personalboardtest.getStrongBox().addResources(new int[]{9,9,9,3,0,0,0});
-        assertTrue(productiontest.isAvailable(personalboardtest));
-        personalboardtest.getStrongBox().removeResources(new int[]{1,0,0,0,0,0,0});
+        assertFalse(productiontest.isAvailable(personalboardtest));
+        personalboardtest.getStrongBox().removeResources(new int[]{9,9,9,3,0,0,0});
 
 
 
