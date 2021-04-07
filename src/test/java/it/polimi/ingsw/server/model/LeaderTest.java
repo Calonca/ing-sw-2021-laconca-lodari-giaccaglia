@@ -30,8 +30,8 @@ public class LeaderTest
 
 
         Pair<Resource, Integer> costTest = new Pair<>(Resource.GOLD, 3);
-        Pair<DevelopmentCardColor, Integer> cardcostTest = new Pair<DevelopmentCardColor,Integer>(DevelopmentCardColor.BLUE, 3);
-        DevelopmentCard testcard= new DevelopmentCard(1,DevelopmentCardColor.BLUE);
+        Pair<DevelopmentCardColor, Integer> cardcostTest = new Pair<DevelopmentCardColor,Integer>(DevelopmentCardColor.BLUE, 1);
+        DevelopmentCard testcard= new DevelopmentCard(1,DevelopmentCardColor.BLUE,new Production(new int[]{0,0,0,0,0,0,2},new int[]{0,0,0,0,0,1,1}));
 
         List<Pair<Resource, Integer>> requirementsTest = new ArrayList<Pair<Resource, Integer>>();
         List<Pair<DevelopmentCardColor, Integer>> requirementsCardsTest = new ArrayList<Pair<DevelopmentCardColor, Integer>>();
@@ -51,23 +51,23 @@ public class LeaderTest
         //FALLISCE NON HA NIENTE
         leadertestM = new MarketLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, bonus);
         assertFalse(leadertestM.areRequirementsSatisfied(gamemodel));
-        gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().addResources(new int[]{0,0,3,0,0,0,0});
+        gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().addResources(new int[]{0,0,3,0});
         assertFalse(leadertestM.areRequirementsSatisfied(gamemodel));
-        gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().removeResources(new int[]{0,0,3,0,0,0,0});
+        gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().removeResources(new int[]{0,0,3,0});
 
         // FALLISCE HA RISORSA MA NON CARTA
         leadertestDD = new DevelopmentDiscountLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, discountTest);
         assertFalse(leadertestDD.areRequirementsSatisfied(gamemodel));
-        gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().addResources(new int[]{3,0,0,0,0,0,0});
+        gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().addResources(new int[]{3,0,0,0});
         assertFalse(leadertestDD.areRequirementsSatisfied(gamemodel));
-        gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().removeResources(new int[]{3,0,0,0,0,0,0});
+        gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().removeResources(new int[]{3,0,0,0});
 
         // FALLISCE HA MOLTA RISORSA MA NON CARTA
         leadertestDD = new DevelopmentDiscountLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, discountTest);
         assertFalse(leadertestDD.areRequirementsSatisfied(gamemodel));
-        gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().addResources(new int[]{30,0,0,0,0,0,0});
+        gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().addResources(new int[]{30,0,0,0});
         assertFalse(leadertestDD.areRequirementsSatisfied(gamemodel));
-        gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().removeResources(new int[]{30,0,0,0,0,0,0});
+        gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().removeResources(new int[]{30,0,0,0});
 
         gamemodel.getCurrentPlayer().getPersonalBoard().addDevelopmentCardToCell(testcard,1);
         //HA CARTA MA NON RISORSA
@@ -78,37 +78,36 @@ public class LeaderTest
         //HA CARTA E RISORSA
         leadertestP = new ProductionLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, productiontest);
         assertFalse(leadertestP.areRequirementsSatisfied(gamemodel));
-        gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().addResources(new int[]{3,0,0,0,0,0,0});
+        gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().addResources(new int[]{3,0,0,0});
         assertTrue(leadertestP.areRequirementsSatisfied(gamemodel));
-        gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().removeResources(new int[]{3,0,0,0,0,0,0});
+        gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().removeResources(new int[]{3,0,0,0});
 
         //HA CARTA E TANTA RISORSA
         leadertestP = new ProductionLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, productiontest);
         assertFalse(leadertestP.areRequirementsSatisfied(gamemodel));
-        gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().addResources(new int[]{30,0,0,0,0,0,0});
+        gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().addResources(new int[]{30,0,0,0});
         assertTrue(leadertestP.areRequirementsSatisfied(gamemodel));
-        gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().removeResources(new int[]{30,0,0,0,0,0,0});
+        gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().removeResources(new int[]{30,0,0,0});
 
 
         gamemodel.getCurrentPlayer().getPersonalBoard().addDevelopmentCardToCell(testcard,1);
         //HA TANTE CARTE E NON RISORSA
         leadertestP = new ProductionLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, productiontest);
         assertFalse(leadertestP.areRequirementsSatisfied(gamemodel));
-        assertTrue(leadertestP.areRequirementsSatisfied(gamemodel));
 
         //HA TANTE CARTE E RISORSE GIUSTE
         leadertestP = new ProductionLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, productiontest);
         assertFalse(leadertestP.areRequirementsSatisfied(gamemodel));
-        gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().addResources(new int[]{3,0,0,0,0,0,0});
+        gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().addResources(new int[]{3,0,0,0});
         assertTrue(leadertestP.areRequirementsSatisfied(gamemodel));
-        gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().removeResources(new int[]{3,0,0,0,0,0,0});
+        gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().removeResources(new int[]{3,0,0,0});
 
         //HA TANTE CARTE E TANTE RISORSE
         leadertestP = new ProductionLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, productiontest);
         assertFalse(leadertestP.areRequirementsSatisfied(gamemodel));
-        gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().addResources(new int[]{30,0,0,0,0,0,0});
+        gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().addResources(new int[]{30,0,0,0});
         assertTrue(leadertestP.areRequirementsSatisfied(gamemodel));
-        gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().removeResources(new int[]{30,0,0,0,0,0,0});
+        gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().removeResources(new int[]{30,0,0,0});
 
 
 

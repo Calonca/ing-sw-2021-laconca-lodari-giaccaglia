@@ -31,7 +31,6 @@ public class ProductionLeaderTest {
         requirementsCardsTest.add(cardcostTest);
 
         Player player= new Player();
-        //player.personalBoard= new PersonalBoard();
         GameModel gamemodel = new GameModel();
         gamemodel.setCurrentPlayer(player);
 

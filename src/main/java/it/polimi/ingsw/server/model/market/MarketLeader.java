@@ -59,6 +59,7 @@ public class MarketLeader extends Leader
                 temp +=gamemodel.getCurrentPlayer().getPersonalBoard().getCardCells().get(j).howManyOfColor(requirementsCard.getKey());
             if (temp < requirementsCard.getValue())
                 return false;
+            temp=0;
         }
         return true;
     }

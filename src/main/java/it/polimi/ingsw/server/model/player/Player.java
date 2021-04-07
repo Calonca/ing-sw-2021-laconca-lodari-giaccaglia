@@ -25,6 +25,7 @@ public class Player {
 
     public Player() throws IOException {
      //   leaders = Arrays.asList(new Pair<Leader, LeaderState>[2]);
+        personalBoard= new PersonalBoard();
         currentlyOnline = true;
         currentState = State.IDLE;
         initializeFaithTrack();
