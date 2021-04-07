@@ -60,7 +60,7 @@ public class PersonalBoard {
     /**
      * Initializes the personalBoard like in a standard game of Maestri del Rinascimento
      */
-    PersonalBoard(){
+    public PersonalBoard(){
         warehouseLeadersDepots = new WarehouseLeadersDepots();
         strongBox = Box.strongBox();
         discardBox = Box.discardBox();
