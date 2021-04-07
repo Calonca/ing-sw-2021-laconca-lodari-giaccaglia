@@ -62,7 +62,8 @@ public class Production {
         int[] array=IntStream.range(0,Resource.nRes).map(pos -> inputOfLengthResources[pos]-box.getNumberOf(Resource.fromInt(pos))).map(res -> Math.max(res, 0)).toArray();
         if(!depots.enoughResourcesForProductions(array))
                 return false;
-        return Arrays.stream(inputOfLengthResources).reduce(0, Integer::sum)+inputOfLengthResources[6]<personalboard.numOfResources();
+        int[] subArray = Arrays.copyOfRange(inputOfLengthResources, 0, 4);
+        return Arrays.stream(subArray).reduce(0, Integer::sum)+inputOfLengthResources[6]<=personalboard.numOfResources();
     }
 
 

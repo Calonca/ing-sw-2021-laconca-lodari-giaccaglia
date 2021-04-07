@@ -64,4 +64,14 @@ public class ProductionCardCellTest
 
 
     }
+
+    @Test
+    public void getMaxsize()
+    {
+        ProductionCardCell testcardcell_gMs= new ProductionCardCell();
+        assertEquals(3,testcardcell_gMs.getMaxsize());
+    }
+
+
+
 }
