@@ -2,8 +2,6 @@ package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.server.model.player.LeaderState;
 import it.polimi.ingsw.server.model.player.Player;
-import it.polimi.ingsw.server.model.player.board.Depot;
-import it.polimi.ingsw.server.model.player.board.LeaderDepot;
 import javafx.util.Pair;
 import org.junit.Test;
 
@@ -13,13 +11,13 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class LeaderTest
-{
+public class ProductionLeaderTest {
 
     @Test
-    public void areRequirementsSatisfied() throws IOException
+    public void ActivateAndDiscard() throws IOException
     {
-        Pair<Resource, Integer> discountTest = new Pair<>(Resource.GOLD, 3);
+        //ROUTINE
+        Production productiontest = Production.basicProduction();
         Pair<Resource, Integer> costTest = new Pair<>(Resource.SERVANT, 3);
         Pair<DevelopmentCardColor, Integer> cardcostTest = new Pair<DevelopmentCardColor,Integer>(DevelopmentCardColor.BLUE, 3);
 
@@ -34,13 +32,18 @@ public class LeaderTest
         GameModel gamemodel = new GameModel();
         gamemodel.setCurrentPlayer(player);
 
-        DevelopmentDiscountLeader leadertest = new DevelopmentDiscountLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, discountTest);
-        assertFalse(leadertest.areRequirementsSatisfied(gamemodel));
-        gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().addResources(new int[]{3,0,0,0,0,0,0});
-        assertTrue(leadertest.areRequirementsSatisfied(gamemodel));
+        ProductionLeader leadertest = new ProductionLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, productiontest);
+        assertEquals(LeaderState.INACTIVE, leadertest.getState());
+
+        leadertest.activate(gamemodel);
+        assertEquals(LeaderState.ACTIVE, leadertest.getState());
+        assertNotEquals(0, player.getPersonalBoard().getSelectedProduction().length);
+
+        leadertest = new ProductionLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, productiontest);
+        leadertest.discard(gamemodel);
+        assertEquals(LeaderState.DISCARDED, leadertest.getState());
 
     }
-
 
 
 

@@ -6,7 +6,7 @@ import javafx.util.Pair;
 import java.util.List;
 
 /**
- * This Leader class TODO adds the resource choice to the player's resource market
+ * This Leader class adds the resource choice to the player's resource market
  */
 
 public class MarketLeader extends Leader

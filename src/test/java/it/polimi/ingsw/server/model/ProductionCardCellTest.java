@@ -13,19 +13,15 @@ public class ProductionCardCellTest
     @Test
     public void getFrontCard()
     {
-        ProductionCardCell testCardCell_iSA = new ProductionCardCell();
+        ProductionCardCell testCardCell_gFC = new ProductionCardCell();
+        DevelopmentCard testCardOne_gFC;
 
-        DevelopmentCard testCardOne_gFC= new DevelopmentCard(1, DevelopmentCardColor.GREEN);
-        testCardCell_iSA.addToTop(testCardOne_gFC);
-        assertEquals(testCardOne_gFC, testCardCell_iSA.getFrontCard());
-
-        DevelopmentCard testCardTwo_gFC= new DevelopmentCard(1, DevelopmentCardColor.YELLOW);
-        testCardCell_iSA.addToTop(testCardTwo_gFC);
-        assertEquals(testCardTwo_gFC, testCardCell_iSA.getFrontCard());
-
-        DevelopmentCard testCardThree_gFC= new DevelopmentCard(1, DevelopmentCardColor.GREEN);
-        testCardCell_iSA.addToTop(testCardThree_gFC);
-        assertEquals(testCardThree_gFC, testCardCell_iSA.getFrontCard());
+        for(int i=0; i<testCardCell_gFC.getMaxsize()-1; i++)
+        {
+            testCardOne_gFC= new DevelopmentCard(1, DevelopmentCardColor.GREEN);
+            testCardCell_gFC.addToTop(testCardOne_gFC);
+            assertEquals(testCardOne_gFC, testCardCell_gFC.getFrontCard());
+        }
 
 
     }
@@ -55,18 +51,16 @@ public class ProductionCardCellTest
     {
         ProductionCardCell testCardCell_aTT = new ProductionCardCell();
         assertEquals(0,testCardCell_aTT.stackedCards.size());
+        DevelopmentCard testCardOne_aTT;
 
-        DevelopmentCard testCardOne_aTT= new DevelopmentCard(1, DevelopmentCardColor.GREEN);
-        testCardCell_aTT.addToTop(testCardOne_aTT);
-        assertEquals(1,testCardCell_aTT.stackedCards.size());
+        for(int i=0; i<testCardCell_aTT.getMaxsize()-1; i++)
+        {
+            testCardOne_aTT= new DevelopmentCard(1, DevelopmentCardColor.GREEN);
+            testCardCell_aTT.addToTop(testCardOne_aTT);
+            assertTrue(testCardCell_aTT.isSpotAvailable());
+            assertEquals(i+1,testCardCell_aTT.stackedCards.size());
+        }
 
-        DevelopmentCard testCardTwo_aTT= new DevelopmentCard(1, DevelopmentCardColor.BLUE);
-        testCardCell_aTT.addToTop(testCardTwo_aTT);
-        assertEquals(2,testCardCell_aTT.stackedCards.size());
-
-        DevelopmentCard testCardThree_aTT= new DevelopmentCard(1, DevelopmentCardColor.PURPLE);
-        testCardCell_aTT.addToTop(testCardThree_aTT);
-        assertEquals(3,testCardCell_aTT.stackedCards.size());
 
 
 

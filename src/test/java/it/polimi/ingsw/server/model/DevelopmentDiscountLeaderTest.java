@@ -2,8 +2,6 @@ package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.server.model.player.LeaderState;
 import it.polimi.ingsw.server.model.player.Player;
-import it.polimi.ingsw.server.model.player.board.Depot;
-import it.polimi.ingsw.server.model.player.board.LeaderDepot;
 import javafx.util.Pair;
 import org.junit.Test;
 
@@ -13,12 +11,13 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class LeaderTest
+public class DevelopmentDiscountLeaderTest
 {
 
     @Test
-    public void areRequirementsSatisfied() throws IOException
+    public void ActivateAndDiscard() throws IOException
     {
+        //ROUTINE
         Pair<Resource, Integer> discountTest = new Pair<>(Resource.GOLD, 3);
         Pair<Resource, Integer> costTest = new Pair<>(Resource.SERVANT, 3);
         Pair<DevelopmentCardColor, Integer> cardcostTest = new Pair<DevelopmentCardColor,Integer>(DevelopmentCardColor.BLUE, 3);
@@ -35,13 +34,16 @@ public class LeaderTest
         gamemodel.setCurrentPlayer(player);
 
         DevelopmentDiscountLeader leadertest = new DevelopmentDiscountLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, discountTest);
-        assertFalse(leadertest.areRequirementsSatisfied(gamemodel));
-        gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().addResources(new int[]{3,0,0,0,0,0,0});
-        assertTrue(leadertest.areRequirementsSatisfied(gamemodel));
+        assertEquals(LeaderState.INACTIVE, leadertest.getState());
+
+        leadertest.activate(gamemodel);
+        assertEquals(LeaderState.ACTIVE, leadertest.getState());
+        int[] a=player.getDiscounts();
+        assertEquals(java.util.Optional.of(a[leadertest.discount.getKey().getResourceNumber()]),leadertest.discount.getValue());
+
+        leadertest = new DevelopmentDiscountLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, discountTest);
+        leadertest.discard(gamemodel);
+        assertEquals(LeaderState.DISCARDED, leadertest.getState());
 
     }
-
-
-
-
 }

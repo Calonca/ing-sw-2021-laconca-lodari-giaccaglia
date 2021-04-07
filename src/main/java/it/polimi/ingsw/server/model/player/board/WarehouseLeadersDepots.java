@@ -71,7 +71,7 @@ public class WarehouseLeadersDepots {
      * @param position the global position of the resource to get
      * @return The resource at the given global position
      */
-    private Resource getResourceAt(int position){
+    public Resource getResourceAt(int position){
         return getResourceAndSelectedAt(position).getKey();
     }
 
