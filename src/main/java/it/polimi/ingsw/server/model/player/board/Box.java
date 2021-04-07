@@ -101,7 +101,7 @@ public class Box implements StorageUnit {
      */
     @Override
     public Resource getResourceAt(int globalPos) {
-        return Resource.fromInt(globalPos -globalPosition);
+        return Resource.fromInt(globalPos-globalPosition);
     }
 
 
