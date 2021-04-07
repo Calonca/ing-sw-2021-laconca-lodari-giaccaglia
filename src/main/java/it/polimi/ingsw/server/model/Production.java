@@ -89,7 +89,9 @@ public class Production {
      */
     public boolean choiceCanBeMadeOnInput()
     {
-        return input.length >= Resource.TOCHOOSE.getResourceNumber() && this.input[Resource.TOCHOOSE.getResourceNumber()] != 0;
+        if (input.length<Resource.TOCHOOSE.getResourceNumber()+1)
+            return false;
+        else return this.input[Resource.TOCHOOSE.getResourceNumber()] != 0;
     }
 
     /**
@@ -124,7 +126,10 @@ public class Production {
      */
     public boolean choiceCanBeMadeOnOutput()
     {
-        return output.length >= Resource.TOCHOOSE.getResourceNumber() && this.output[Resource.TOCHOOSE.getResourceNumber()] != 0;
+        if (output.length<Resource.TOCHOOSE.getResourceNumber()+1)
+            return false;
+        else
+            return this.output[Resource.TOCHOOSE.getResourceNumber()] != 0;
     }
 
     public void resetchoice()
