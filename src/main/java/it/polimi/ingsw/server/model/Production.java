@@ -103,6 +103,14 @@ public class Production {
     }
 
     /**
+     * Returns how many {@link Resource resources} there are in the {@link #input} array
+     * @return how many {@link Resource resources} there are in the {@link #input} array
+     */
+    public int getNumOfResInInput(){
+        return Arrays.stream(input).reduce(0,Integer::sum);
+    }
+
+    /**
      * Return an array with the outputs of the production
      * @return an array of int with the outputs of the production.
      * In position i of the array there is the number of resources of type i in the enum ordering

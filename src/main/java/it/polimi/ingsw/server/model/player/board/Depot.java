@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 /**
  * A deposit composed of cells in which each cell can contain one Resource or be empty.
  */
-public abstract class Depot {
+public abstract class Depot{
 
     /**
      * A pair of Resource and boolean that indicates if the resource is selected for production, meaning that it will be used in a selected production
@@ -41,8 +41,6 @@ public abstract class Depot {
         this.type = type;
         this.globalPositionOfFirstElement = globalPositionOfFirstElement;
     }
-
-
 
     /**
      * Used to get the size of the depot
@@ -83,12 +81,6 @@ public abstract class Depot {
      * @return the global position of the resource
      */
     private int globalPositionFromLocal(int localPosition){
-        try {
-            if (localPosition>= getSize())
-                throw new IndexOutOfBoundsException();
-        } catch (IndexOutOfBoundsException e){
-            e.printStackTrace();
-        }
         return globalPositionOfFirstElement+localPosition;
     }
 
@@ -186,7 +178,9 @@ public abstract class Depot {
      * @return number of {@link Resource resources} of the given type in the deposit
      */
     public int getNumberOf(Resource type){
-        //Todo this
-        return 0;
+        if (!type.equals(this.type))
+            return 0;
+        else return getOccupiedSpotsInDepotNum();
     }
+
 }

@@ -14,7 +14,7 @@ import java.util.stream.Stream;
  * Contains both warehouse and leader depots,
  * uses global position to address each cell in both leader and warehouse depots as a single entity
  */
-public class WarehouseLeadersDepots {
+public class WarehouseLeadersDepots implements StorageUnit {
     /**
      * List of warehouse depot followed by leader depots in order of activation
      */
@@ -68,11 +68,12 @@ public class WarehouseLeadersDepots {
 
     /**
      * Return the resource stored is a depot at the given global position
-     * @param position the global position of the resource to get
+     * @param globalPos the global position of the resource to get
      * @return The resource at the given global position
      */
-    public Resource getResourceAt(int position){
-        return getResourceAndSelectedAt(position).getKey();
+    @Override
+    public Resource getResourceAt(int globalPos){
+        return getResourceAndSelectedAt(globalPos).getKey();
     }
 
 
@@ -86,20 +87,43 @@ public class WarehouseLeadersDepots {
     }
 
     /**
-     * Flags a resource at the given global position as selected or not selected for production
-     * @param value true if the resource needs to be selected, false elsewhere
-     * @param resGlobalPos the global position of the resource that needs to be flagged for production
+     * Flags the {@link Resource resource} at the given global position in the {@link StorageUnit} as selected for production
+     *
+     * @param globalPos the global position of the {@link Resource resource} that needs to be selected for production
      */
-    void setSelected(boolean value,int resGlobalPos){
-        depotThatHasPos(resGlobalPos).setSelected(value,resGlobalPos);
+    @Override
+    public void selectResourceAt(int globalPos) {
+        depotThatHasPos(globalPos).setSelected(true,globalPos);
     }
 
     /**
-     * Toggles the resource at the given global position as flagged for production
-     * @param resGlobalPos the global position of the resource that needs to be flagged for production
+     * Flags the {@link Resource resource} at the given global position in the {@link StorageUnit} as deselected for production
+     *
+     * @param globalPos the global position of the {@link Resource resource} that needs to be deselected for production
      */
-    void toggleSelected(int resGlobalPos){
-        setSelected(!getSelected(resGlobalPos),resGlobalPos);
+    @Override
+    public void deselectResourceAt(int globalPos) {
+        depotThatHasPos(globalPos).setSelected(false,globalPos);
+    }
+
+    /**
+     * Removes the {@link Resource resource} at the given global position from the right {@link Depot}
+     *
+     * @param globalPos an int representing the global position
+     */
+    @Override
+    public void removeResource(int globalPos) {
+        depotThatHasPos(globalPos).removeResource(globalPos);
+    }
+
+    /**
+     * Adds the given {@link Resource resource} to the right {@link Depot} at the given global position
+     *
+     * @param gPos_res a {@link Pair} of global position and {@link Resource}
+     */
+    @Override
+    public void addResource(Pair<Integer, Resource> gPos_res) {
+        depotThatHasPos(gPos_res.getKey()).addResource(gPos_res);
     }
 
     /**
@@ -108,10 +132,9 @@ public class WarehouseLeadersDepots {
      *                  The resources at those positions will be removed
      */
     void removeResources(int[] positions){
-        Arrays.stream(positions).forEach(
-                (pos)->depotThatHasPos(pos).removeResource(pos)
-        );
+        Arrays.stream(positions).forEach(this::removeResource);
     }
+
 
     /**
      * Adds resources to the deposits
@@ -119,18 +142,7 @@ public class WarehouseLeadersDepots {
      *                  Each element of the array represents a resource and the global position where it will be added
      */
     void addResources(Pair<Integer,Resource>[] resources){
-        Arrays.stream(resources).forEach((pos_res)->depotThatHasPos(pos_res.getKey()).addResource(pos_res));
-    }
-
-    /**
-     * Moves a resource from the starting position to the end position
-     * @param startPos the starting global position of the resource that will be moved
-     * @param endPos the ending global position of the resource that will be moved
-     */
-    void moveResource(int startPos,int endPos){
-        depotThatHasPos(endPos).addResource(
-                new Pair<>(endPos,getResourceAt(startPos)));
-        depotThatHasPos(startPos).removeResource(startPos);
+        Arrays.stream(resources).forEach(this::addResource);
     }
 
     /**
@@ -165,11 +177,6 @@ public class WarehouseLeadersDepots {
         Gson gson = new GsonBuilder().create();
         return gson.toJson(availableMovingPositionsForAllResources());
     }
-
-    public Boolean isEmpty(){
-        return depots.size()==0;
-    }
-
 
     /**
      * Json serialization of all the data contained in all the depots in an organized way
@@ -253,9 +260,15 @@ public class WarehouseLeadersDepots {
      * @return number of {@link Resource resources} of the given type in the deposit
      */
     public int getNumberOf(Resource type){
-        //Todo
-        // you can use numOfOccupiedSpots andTyp
-        return 0;
+        return depots.stream().mapToInt((dep)->dep.getNumberOf(type)).reduce(0, Integer::sum);
+    }
+
+    /** Returns how many {@link Resource resources} flagged for production there are in the {@link StorageUnit}
+     * @return Number of selected {@link Resource resource}
+     */
+    @Override
+    public int getTotalSelected(){
+        return (int) IntStream.range(0,depotAtPosition.size()).filter((pos)->depotThatHasPos(pos).getSelected(pos)).count();
     }
 
 }

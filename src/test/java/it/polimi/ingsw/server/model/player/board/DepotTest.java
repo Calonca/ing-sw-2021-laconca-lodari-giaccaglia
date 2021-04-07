@@ -46,10 +46,6 @@ public class DepotTest {
     }
 
     @Test
-    public void removeResource() {
-    }
-
-    @Test
     public void testAddAndRemove() {
         //depotGoldTest
         //Add first resource
@@ -59,6 +55,7 @@ public class DepotTest {
         assertEquals(1,depotGold.getOccupiedSpotsInDepotNum());
         assertArrayEquals(new Resource[]{Resource.EMPTY,Resource.EMPTY,Resource.EMPTY,Resource.GOLD},getResources(depotGold));
         assertArrayEquals(new Boolean[]{false,false,false,true},getSelectedS(depotGold));
+
         //Remove 1 resource
         depotGold.removeResource(13);
         assertArrayEquals(new Boolean[]{false,false,false,false},getSelectedS(depotGold));
@@ -117,6 +114,31 @@ public class DepotTest {
         assertEquals(false,depotEmpty.getAtGPos(1).getValue());
     }
 
+    @Test
+    public void getNumberOf(){
+        assertArrayEquals(new int[]{0,0,0,0,0},Resource.getStream(5).mapToInt((res)->depotGold.getNumberOf(res)).toArray());
+        depotGold.addResource(new Pair<>(13,Resource.GOLD));
+        assertArrayEquals(new int[]{1,0,0,0,0},Resource.getStream(5).mapToInt((res)->depotGold.getNumberOf(res)).toArray());
+        depotGold.addResource(new Pair<>(12,Resource.GOLD));
+        assertArrayEquals(new int[]{2,0,0,0,0},Resource.getStream(5).mapToInt((res)->depotGold.getNumberOf(res)).toArray());
+
+        assertArrayEquals(new int[]{0,0,0,0},Resource.getStream(4).mapToInt((res)->depotEmpty.getNumberOf(res)).toArray());
+        depotEmpty.addResource(new Pair<>(1,Resource.STONE));
+        assertArrayEquals(new int[]{0,0,0,1},Resource.getStream(4).mapToInt((res)->depotEmpty.getNumberOf(res)).toArray());
+        depotEmpty.addResource(new Pair<>(2,Resource.STONE));
+        assertArrayEquals(new int[]{0,0,0,2},Resource.getStream(4).mapToInt((res)->depotEmpty.getNumberOf(res)).toArray());
+
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void whenExceptionInGlobalPositionFromLocalThrown_thenExpectationSatisfied(){
+        depotGold.getSelected(110);
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void whenExceptionInGlobalToLocalPosThrown_thenExpectationSatisfied(){
+        depotGold.getSelected(110);
+    }
 
     private Resource[] getResources(Depot dep) {
         return IntStream.range(dep.getLastGlobalPosition()-dep.getSize()+1,dep.getLastGlobalPosition()+1).mapToObj(dep::getAtGPos).map(Pair::getKey).toArray(Resource[]::new);
