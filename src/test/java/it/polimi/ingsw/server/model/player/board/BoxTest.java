@@ -24,6 +24,12 @@ public class BoxTest {
     }
 
     @Test
+    public void discardBoxSetCorrectly() {
+        Box discardBox = Box.discardBox();
+        Resource.getStream(Resource.nRes+1).forEach((type)->assertEquals(0, discardBox.getNumberOf(type)));
+    }
+
+    @Test
     public void boxSetCorrectly() {
         final int[] testList = {0,1,4,20};
         for (int a:testList){
@@ -69,6 +75,17 @@ public class BoxTest {
     }
 
     @Test
+    public void getResourceAtTest() {
+        Box box = new Box(6,-10);
+        assertArrayEquals(
+                new int[]{0,1,2,3,4,5},
+                Resource.getStream(6)
+                        .mapToInt(Resource::getResourceNumber)
+                        .map((a)->a-10).mapToObj(box::getResourceAt)
+                        .mapToInt(Resource::getResourceNumber).toArray());
+    }
+
+    @Test
     public void getResourceAt() {
         assertArrayEquals(
                 Resource.getStream(111).toArray(),
@@ -82,9 +99,14 @@ public class BoxTest {
         Box box = new Box(3,6);
         int[] a = {11,2,0};
         box.addResources(a);
-        box.selectN(21, Resource.GOLD);
-        box.deselectN(100, Resource.SERVANT);
+        box.selectN(20, Resource.GOLD);
+        box.selectResourceAt(6);
+        assertEquals(11,box.getTotalSelected());
+        box.deselectN(99, Resource.SERVANT);
+        box.deselectResourceAt(7);
+        assertEquals(0,box.getNSelected(Resource.SERVANT));
         box.selectN(1, Resource.SERVANT);
+        assertEquals(12,box.getTotalSelected());
         box.selectN(10,Resource.SHIELD);
 
         assertEquals(11,box.getNSelected(Resource.GOLD));
