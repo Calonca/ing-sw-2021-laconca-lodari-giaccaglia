@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.server.model.player.board.*;
 import javafx.util.Pair;
+
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
@@ -47,7 +49,8 @@ public class Player {
     }
 
     private void initializeFaithTrack() throws IOException {
-        String FaithTrackClassConfig = Files.readString(Path.of("FaithTrackConfig.json"), StandardCharsets.US_ASCII);
+        File file = new File("src/main/resources/config/FaithTrackConfig.json");
+        String FaithTrackClassConfig = Files.readString(Path.of(file.getAbsolutePath()), StandardCharsets.US_ASCII);
         Gson gson = new Gson();
         faithTrack = gson.fromJson(FaithTrackClassConfig, FaithTrack.class);
     }
