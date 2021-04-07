@@ -1,17 +1,9 @@
 package it.polimi.ingsw.server.model.player.board;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.server.model.Resource;
 import javafx.util.Pair;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
-import java.util.Arrays;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -46,6 +38,7 @@ public class WarehouseLeadersDepotsTest {
                         "2:[{key:EMPTY,value:false},{key:EMPTY,value:false},{key:GOLD,value:false}]," +
                         "3:[{key:EMPTY,value:false},{key:GOLD,value:false}]}",
                 house.structuredTableJson().replace("\"","") );
+        assertEquals(0, house.getTotalSelected());
     }
 
     @Test
@@ -113,10 +106,16 @@ public class WarehouseLeadersDepotsTest {
     }
 
     @Test
-    public void removeSelected() {
+    public void testSelection() {
         house.selectResourceAt(0);
+        assertTrue(house.getSelected(0));
+        assertEquals(1, house.getTotalSelected());
         house.selectResourceAt(7);
+        assertEquals(2, house.getTotalSelected());
+        assertTrue(house.getSelected(0));
         house.deselectResourceAt(0);
+        assertEquals(1, house.getTotalSelected());
+        assertFalse(house.getSelected(0));
         house.selectResourceAt(2);
         assertEquals(8,house.getNextGlobalPosition());
         assertEquals(4,house.getOccupiedSpotsNum());
