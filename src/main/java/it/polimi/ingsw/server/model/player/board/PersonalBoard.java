@@ -93,11 +93,12 @@ public class PersonalBoard {
         warehouseLeadersDepots.removeSelected();
         strongBox.removeSelected();
         int[] resources = IntStream.range(0,prodsSelected.size()).filter((pos)->prodsSelected.get(pos).isPresent())
+                .filter((pos)->prodsSelected.get(pos).get())
                 .mapToObj((pos)->productions.get(pos).get().getOutputs())
                 .reduce(IntStream.generate(()->0).limit(6).toArray(),(a,b)-> Util.sumArray(a,b,6));
         faithPointsToAdd = resources[4];
         badFaithToAdd = resources[5];
-        strongBox.addResources(Arrays.stream(resources).limit(4).toArray());
+        strongBox.addResources(Arrays.stream(resources).limit(Resource.nRes).toArray());
         resetChoices();
         resetSelectedProductions();
     }
@@ -309,8 +310,8 @@ public class PersonalBoard {
     /**
      * Returns the {@link StorageUnit} that contains the given position<br>
      * Deposits position convention:<br>
-     * -8 to -5 for {@link #strongBox}<br>
-     * -4 to -1 for {@link #discardBox}<br>
+     * -9 to -6 for {@link #strongBox}<br>
+     * -5 to -1 for {@link #discardBox}<br>
      * >=0 for {@link #warehouseLeadersDepots}<br>
      * The lower number always indicates the {@link Resource resource} int the lower position of the {@link Resource} ordering
      * @param pos position of the {@link StorageUnit} to get
@@ -347,8 +348,8 @@ public class PersonalBoard {
     /**
      * Moves {@link Resource resources} across deposits from the given start to given end position.<br>
      * Deposits position convention:<br>
-     * -8 to -5 for {@link #strongBox}<br>
-     * -4 to -1 for {@link #discardBox}<br>
+     * -9 to -6 for {@link #strongBox}<br>
+     * -5 to -1 for {@link #discardBox}<br>
      * >=0 for {@link #warehouseLeadersDepots}<br>
      * The lower number always indicates the {@link Resource resource} int the lower position of the {@link Resource} ordering
      * @param startPos the position from where to take the {@link Resource resource} following the deposits position convention

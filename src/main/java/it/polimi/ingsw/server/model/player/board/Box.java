@@ -45,7 +45,7 @@ public class Box implements StorageUnit {
      * @return  a deposit for four Resources
      */
     public static Box strongBox(){
-        return new Box(4,-8);
+        return new Box(4,-9);
     }
 
     /**
@@ -53,7 +53,7 @@ public class Box implements StorageUnit {
      * @return  a deposit for four Resources
      */
     public static Box discardBox(){
-        return new Box(4,-4);
+        return new Box(5,-5);
     }
 
 
