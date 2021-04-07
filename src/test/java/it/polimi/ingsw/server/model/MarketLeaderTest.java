@@ -40,9 +40,7 @@ public class MarketLeaderTest {
         assertEquals(LeaderState.ACTIVE, leadertest.getState());
         //check bonus assertEquals(Resource.EMPTY,player.getPersonalBoard().getWarehouseLeadersDepots().getResourceAt(7));
 
-        leadertest = new MarketLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, bonus);
-        leadertest.discard(gamemodel);
-        assertEquals(LeaderState.DISCARDED, leadertest.getState());
+
 
     }
 

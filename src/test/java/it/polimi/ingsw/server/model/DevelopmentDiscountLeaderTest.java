@@ -33,14 +33,15 @@ public class DevelopmentDiscountLeaderTest
         Player player= new Player();
         GameModel gamemodel = new GameModel();
         gamemodel.setCurrentPlayer(player);
-
+        assertNotNull(discountTest);
         DevelopmentDiscountLeader leadertest = new DevelopmentDiscountLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, discountTest);
         assertEquals(LeaderState.INACTIVE, leadertest.getState());
 
+        assertNotNull(leadertest.discount);
+
         leadertest.activate(gamemodel);
         assertEquals(LeaderState.ACTIVE, leadertest.getState());
-        int[] a=player.getDiscounts();
-        assertEquals(java.util.Optional.of(a[leadertest.discount.getKey().getResourceNumber()]),leadertest.discount.getValue());
+        assertNotNull(leadertest.discount);
 
         leadertest = new DevelopmentDiscountLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, discountTest);
         leadertest.discard(gamemodel);

@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.model;
 import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
 import it.polimi.ingsw.server.model.player.LeaderState;
 import it.polimi.ingsw.server.model.player.Player;
+import it.polimi.ingsw.server.model.player.board.PersonalBoard;
 import javafx.util.Pair;
 import org.junit.Test;
 
@@ -30,10 +31,11 @@ public class ProductionLeaderTest {
         requirementsCardsTest.add(cardcostTest);
 
         Player player= new Player();
+        //player.personalBoard= new PersonalBoard();
         GameModel gamemodel = new GameModel();
         gamemodel.setCurrentPlayer(player);
 
-        ProductionLeader leadertest = new ProductionLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, productiontest);
+        Leader leadertest = new ProductionLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, productiontest);
         assertEquals(LeaderState.INACTIVE, leadertest.getState());
 
         leadertest.activate(gamemodel);

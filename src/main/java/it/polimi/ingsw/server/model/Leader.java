@@ -20,10 +20,7 @@ public abstract class Leader
 
 
 
-    public LeaderState getState()
-    {
-        return state;
-    }
+    public abstract LeaderState getState();
 
     /**
      * Basic Leader activation method
@@ -37,11 +34,7 @@ public abstract class Leader
      * @param gamemodel!= NULL
      * Ensures that the Player's Faith Points are increased by 1
      */
-    public void discard(GameModel gamemodel)
-    {
-        state = LeaderState.DISCARDED;
-        gamemodel.getCurrentPlayer().moveOnePosition();
-    }
+    public abstract void discard(GameModel gamemodel);
 
 
     /**
@@ -49,20 +42,6 @@ public abstract class Leader
      * @param gamemodel != NULL
      * Returns True if the player has at least all the resources in each pair, in the given quantity
      */
-    public boolean areRequirementsSatisfied(GameModel gamemodel)
-    {
-        int temp=0;
-        for (Pair<Resource, Integer> requirementsResource : requirementsResources) {
-            if (gamemodel.getCurrentPlayer().getPersonalBoard().getNumberOf(requirementsResource.getKey()) < requirementsResource.getValue())
-                return false;
-        }
-        for (Pair<DevelopmentCardColor, Integer> requirementsCard : requirementsCards) {
-            for (int j = 0; j < gamemodel.getCurrentPlayer().getPersonalBoard().getCardCells().size(); j++)
-                temp +=gamemodel.getCurrentPlayer().getPersonalBoard().getCardCells().get(j).howManyOfColor(requirementsCard.getKey());
-            if (temp < requirementsCard.getValue())
-                return false;
-        }
-        return true;
-    }
+    public abstract boolean areRequirementsSatisfied(GameModel gamemodel);
 
 }

@@ -20,6 +20,12 @@ public class MarketLeader extends Leader
     public List<Pair<DevelopmentCardColor, Integer>> requirementsCards;
     private Resource bonus;
 
+
+    public LeaderState getState()
+    {
+        return state;
+    }
+
     public MarketLeader(LeaderState state, int victoryPoints, List<Pair<Resource,Integer>> requirementsResources, List<Pair<DevelopmentCardColor, Integer>> requirementsCards, Resource bonus)
     {
         this.state = state;
@@ -33,6 +39,28 @@ public class MarketLeader extends Leader
     {
         state = LeaderState.ACTIVE;
         //add market bonus
+    }
+
+    public void discard(GameModel gamemodel)
+    {
+        state = LeaderState.DISCARDED;
+        gamemodel.getCurrentPlayer().moveOnePosition();
+    }
+
+    public boolean areRequirementsSatisfied(GameModel gamemodel)
+    {
+        int temp=0;
+        for (Pair<Resource, Integer> requirementsResource : requirementsResources) {
+            if (gamemodel.getCurrentPlayer().getPersonalBoard().getNumberOf(requirementsResource.getKey()) < requirementsResource.getValue())
+                return false;
+        }
+        for (Pair<DevelopmentCardColor, Integer> requirementsCard : requirementsCards) {
+            for (int j = 0; j < gamemodel.getCurrentPlayer().getPersonalBoard().getCardCells().size(); j++)
+                temp +=gamemodel.getCurrentPlayer().getPersonalBoard().getCardCells().get(j).howManyOfColor(requirementsCard.getKey());
+            if (temp < requirementsCard.getValue())
+                return false;
+        }
+        return true;
     }
 
 }

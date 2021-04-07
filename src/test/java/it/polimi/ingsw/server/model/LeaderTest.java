@@ -6,6 +6,7 @@ import it.polimi.ingsw.server.model.market.MarketLeader;
 import it.polimi.ingsw.server.model.player.LeaderState;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.player.board.LeaderDepot;
+import it.polimi.ingsw.server.model.player.board.PersonalBoard;
 import javafx.util.Pair;
 import org.junit.Test;
 
@@ -44,7 +45,7 @@ public class LeaderTest
 
         DevelopmentDiscountLeader leadertestDD;
         DepositLeader leadertestD;
-        MarketLeader leadertestM;
+        Leader leadertestM;
         ProductionLeader leadertestP;
 
         //FALLISCE NON HA NIENTE

@@ -4,6 +4,7 @@ import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
 import it.polimi.ingsw.server.model.player.LeaderState;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.player.board.LeaderDepot;
+import it.polimi.ingsw.server.model.player.board.PersonalBoard;
 import javafx.util.Pair;
 import org.junit.Test;
 
@@ -31,15 +32,17 @@ public class DepositLeaderTest
         requirementsCardsTest.add(cardcostTest);
 
         Player player= new Player();
+        //player.personalBoard= new PersonalBoard();
         GameModel gamemodel = new GameModel();
         gamemodel.setCurrentPlayer(player);
 
-        DepositLeader leadertest = new DepositLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, depotTest);
+        Leader leadertest = new DepositLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, depotTest);
         assertEquals(LeaderState.INACTIVE, leadertest.getState());
 
         leadertest.activate(gamemodel);
         assertEquals(LeaderState.ACTIVE, leadertest.getState());
-        assertEquals(Resource.EMPTY,player.getPersonalBoard().getWarehouseLeadersDepots().getResourceAt(7));
+        assertEquals(Resource.EMPTY,player.getPersonalBoard().getWarehouseLeadersDepots().getResourceAt(0));
+        assertEquals(Resource.EMPTY,player.getPersonalBoard().getWarehouseLeadersDepots().getResourceAt(1));
 
         leadertest = new DepositLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, depotTest);
         leadertest.discard(gamemodel);
