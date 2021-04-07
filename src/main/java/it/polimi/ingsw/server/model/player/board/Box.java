@@ -110,7 +110,7 @@ public class Box implements StorageUnit {
      */
     @Override
     public int getTotalSelected(){
-        return Resource.getStream(Resource.nRes).mapToInt(this::getNSelected).reduce(0,Integer::sum);
+        return Resource.getStream(length).mapToInt(this::getNSelected).reduce(0,Integer::sum);
     }
 
     /** Returns how many selected resources of the given type there are
