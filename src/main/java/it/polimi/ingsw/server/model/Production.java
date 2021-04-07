@@ -89,7 +89,7 @@ public class Production {
      */
     public boolean choiceCanBeMadeOnInput()
     {
-        return this.input[Resource.TOCHOOSE.getResourceNumber()] != 0;
+        return input.length >= Resource.TOCHOOSE.getResourceNumber() && this.input[Resource.TOCHOOSE.getResourceNumber()] != 0;
     }
 
     /**
