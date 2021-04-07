@@ -9,7 +9,7 @@ import java.util.List;
  * TODO AreRequirementsSatisfied Test
  */
 
-public class Leader
+public abstract class Leader
 {
     private LeaderState state;
     public int victoryPoints;
@@ -30,10 +30,7 @@ public class Leader
      * Ensures that the leader's status is ACTIVE after the call
      */
 
-    public void activate(GameModel gamemodel)
-    {
-        state = LeaderState.ACTIVE; //assumo che il leader attivato sia "in cima"
-    }
+    public abstract void activate(GameModel gamemodel);
     /**
      * Basic Leader discard method. It's the same for all leaders
      * @param gamemodel!= NULL
@@ -42,8 +39,7 @@ public class Leader
     public void discard(GameModel gamemodel)
     {
         state = LeaderState.DISCARDED;
-        //gamemodel.addBadFaith;
-
+        gamemodel.getCurrentPlayer().moveOnePosition();
     }
 
 
