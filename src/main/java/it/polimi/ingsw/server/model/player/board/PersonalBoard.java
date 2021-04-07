@@ -310,8 +310,8 @@ public class PersonalBoard {
     /**
      * Returns the {@link StorageUnit} that contains the given position<br>
      * Deposits position convention:<br>
-     * -9 to -6 for {@link #strongBox}<br>
-     * -5 to -1 for {@link #discardBox}<br>
+     * -8 to -5 for {@link #strongBox}<br>
+     * -4 to -1 for {@link #discardBox}<br>
      * >=0 for {@link #warehouseLeadersDepots}<br>
      * The lower number always indicates the {@link Resource resource} int the lower position of the {@link Resource} ordering
      * @param pos position of the {@link StorageUnit} to get
@@ -348,8 +348,8 @@ public class PersonalBoard {
     /**
      * Moves {@link Resource resources} across deposits from the given start to given end position.<br>
      * Deposits position convention:<br>
-     * -9 to -6 for {@link #strongBox}<br>
-     * -5 to -1 for {@link #discardBox}<br>
+     * -8 to -5 for {@link #strongBox}<br>
+     * -4 to -1 for {@link #discardBox}<br>
      * >=0 for {@link #warehouseLeadersDepots}<br>
      * The lower number always indicates the {@link Resource resource} int the lower position of the {@link Resource} ordering
      * @param startPos the position from where to take the {@link Resource resource} following the deposits position convention
