@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model.player.board;
 
-import it.polimi.ingsw.server.model.DevelopmentCard;
+import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.Production;
 import it.polimi.ingsw.server.model.ProductionCardCell;
 import it.polimi.ingsw.server.model.Resource;

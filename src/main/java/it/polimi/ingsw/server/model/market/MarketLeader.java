@@ -1,5 +1,9 @@
-package it.polimi.ingsw.server.model;
+package it.polimi.ingsw.server.model.market;
 
+import it.polimi.ingsw.server.model.GameModel;
+import it.polimi.ingsw.server.model.Leader;
+import it.polimi.ingsw.server.model.Resource;
+import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
 import it.polimi.ingsw.server.model.player.LeaderState;
 import javafx.util.Pair;
 

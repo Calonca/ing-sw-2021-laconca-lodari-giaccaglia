@@ -1,8 +1,9 @@
-package it.polimi.ingsw.server.model;
+package it.polimi.ingsw.server.model.cards;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
 import it.polimi.ingsw.server.model.player.*;
 
 /**

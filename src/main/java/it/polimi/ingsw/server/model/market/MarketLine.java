@@ -1,7 +1,7 @@
-package it.polimi.ingsw.server.model;
+package it.polimi.ingsw.server.model.market;
 
 /**
- * Enum class for
+ * Enum class for MarketBoard rows and columns selection
  */
 
 public enum MarketLine {

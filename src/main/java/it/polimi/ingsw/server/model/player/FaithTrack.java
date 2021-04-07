@@ -1,8 +1,14 @@
 package it.polimi.ingsw.server.model.player;
-import it.polimi.ingsw.server.model.MarketBoard;
+import com.google.gson.Gson;
 import it.polimi.ingsw.server.model.*;
+import org.apache.commons.lang3.*;
+import org.apache.commons.lang3.tuple.MutablePair;
 
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 
 /**
@@ -18,34 +24,24 @@ public class FaithTrack {
         /**
          * Represents the <em>Faith Marker</em>
          */
-        PLAYER(0),
+        PLAYER,
 
         /**
          * Represents the <em>Black Cross</em>, which is the <em>Faith Marker</em> of <em>Lorenzo il Magnifico</em> for
          * the <em>Solo mode</em> game
          */
-        LORENZO(0);
+        LORENZO;
 
-        /**
-         * Int value to track the position of this <em>Piece</em> along the <em>FaithTrack</em>
-         */
-        private int position;
-
-        Piece(int position) {
-            this.position = position;
-        }
-
-        /**
-         * Increments by one the <em>position</em> of this <em>Piece</em> when a <em>Vatican Report</em> occurs,
-         * an opponent's {@link Leader} or {@link Resource} is discarded.
-         */
-        public void incrementPosition(){
-            this.position++;
-        }
     }
 
-    private final Piece playerPiece = Piece.PLAYER;
-    private final Piece lorenzoPiece = Piece.LORENZO;
+    private final MutablePair<Piece, Integer> playerPiece = new MutablePair<>(Piece.PLAYER, 0);
+    private final MutablePair<Piece, Integer> lorenzoPiece = new MutablePair<>(Piece.LORENZO, 0);
+
+    public FaithTrack faithTrackConstructor() throws IOException {
+        Gson gson = new Gson();
+        String FaithTrackClassConfig = Files.readString(Path.of("src/main/resources/config/FaithTrackConfig.json"), StandardCharsets.US_ASCII);
+        return gson.fromJson(FaithTrackClassConfig, FaithTrack.class);
+    }
 
     /**
      * <p>{@link List} of {@link FaithCell FaithCells} objects representing the core structure of the <em>FaithTrack</em>.<br>
@@ -62,18 +58,16 @@ public class FaithTrack {
     /**
      * <p>Increments by one the <em>position</em> of the <em>Piece</em> parameter when a <em>Vatican Report</em> occurs,
      * an opponent's {@link Leader} or {@link Resource} is discarded.<br>
-     * If the Piece's{@link Piece#position position} equals to 24, after the increment has been done, the game ends as
+     * If the Piece's position equals to 24, after the increment has been done, the game ends as
      * the {@link Piece} has reached the last place of this <em>FaithTrack</em>
      *
      * @param piece <em>FaithTrack</em> piece which can be either a multiplayer <em>FaithMarker</em> or a solo mode
      * <em>Black Cross</em> token.
      */
-    private void addFaithPoint(Piece piece){
-        if(piece.position < 24)
-            piece.incrementPosition();
-        else if(piece.position == 24){
-            piece.incrementPosition();
-            //notify end of the game
+    private void addFaithPoint(MutablePair<Piece, Integer>  piece){
+        if(piece.getValue() < 24) {
+            int pos = piece.getValue() + 1;
+            piece.setValue(pos);
         }
     }
 
@@ -102,8 +96,24 @@ public class FaithTrack {
      *
      * @return the boolean returned value of FaithCell's {@link FaithCell#isPopeSpace() isPopeSpace} method
      */
-    public boolean isPieceInPopeSpace(Piece piece){
-        return(track.get(piece.position).isPopeSpace());
+    public boolean isPieceInPopeSpace(MutablePair<Piece, Integer> piece){
+        return(track.get(piece.getValue()).isPopeSpace());
+    }
+
+    /**
+     *
+     * @return Piece
+     */
+    public MutablePair<Piece, Integer> getPlayerPiece() {
+        return playerPiece;
+    }
+
+    /**
+     *
+     * @return Piece
+     */
+    public MutablePair<Piece, Integer> getLorenzoPiece() {
+        return lorenzoPiece;
     }
 
     /**
@@ -114,8 +124,8 @@ public class FaithTrack {
      *
      * @return Int value of the current <em>Piece</em> position
      */
-    public int getPiecePosition(Piece piece){
-        return piece.position;
+    public int getPiecePosition(MutablePair<Piece, Integer> piece){
+        return piece.getValue();
     }
 
     /**
@@ -126,7 +136,7 @@ public class FaithTrack {
      */
     public void turnPopeFavourTile(int popeSpacePosition) {
 
-        FaithZone currentZone = track.get(playerPiece.position).getZone();
+        FaithZone currentZone = track.get(playerPiece.getValue()).getZone();
         int currentZoneNumber = currentZone.getZoneNumber();
 
         FaithZone popeSpaceZone = track.get(popeSpacePosition).getZone();
@@ -135,7 +145,7 @@ public class FaithTrack {
         if(currentZone.getZoneNumber() == popeSpaceZone.getZoneNumber())
             tiles.get(currentZoneNumber).setTileState(TileState.ACTIVE);
 
-        else if(playerPiece.position > popeSpacePosition)
+        else if(playerPiece.getValue() > popeSpacePosition)
             tiles.get(popeSpaceZoneNumber).setTileState(TileState.ACTIVE);
 
         else
@@ -143,7 +153,7 @@ public class FaithTrack {
     }
 
     /**
-     * <p>If the current Piece's{@link Piece#position position} equals to 25 the game ends as
+     * <p>If the current Piece's position equals to 25 the game ends as
      * the {@link Piece} parameter has reached the last place of this <em>FaithTrack</em>.<br>
      * In case of <em>Solo mode</em>, if {@link Piece#LORENZO LORENZO} <em>Black cross</em>
      * current position equals to 25 the game ends and the player loses the game.
@@ -153,8 +163,8 @@ public class FaithTrack {
      *
      * @return true if current position equals 25, otherwise false
      */
-    public boolean hasReachedLastSpace(Piece piece){
-        return piece.position == 25;
+    public boolean hasReachedLastSpace(MutablePair<Piece, Integer> piece){
+        return piece.getValue() == 24;
     }
 
     /**
@@ -165,9 +175,10 @@ public class FaithTrack {
      */
     public int victoryPointsFromFaithTrackCell(){
         return track.stream()
-                .filter(cell -> (track.indexOf(cell) <= playerPiece.position))
+                .filter(cell -> (track.indexOf(cell) <= playerPiece.getValue()))
                 .mapToInt(FaithCell::getPoints)
-                .sum();
+                .max()
+                .orElse(0);
     }
 
     /**
@@ -186,15 +197,3 @@ public class FaithTrack {
     }
 }
 
-
-/*    public static void main(String[] args) throws IOException {
-
-        /*FaithTrack testTrack = new FaithTrack("/Users/pablo/IdeaProjects/ing-sw-2021-laconca-lodari-giaccaglia/operatorList.json");
-        System.out.println(testTrack.track.get(6).getPoints());
-        Gson gson = new GsonBuilder().create();
-        Writer writer = new FileWriter("popeTilesList.json");
-        gson.toJson(testTrack.ti, writer);
-        System.out.println(5);
-        writer.flush(); //flush data to file   <---
-        writer.close(); //close write
-    } */

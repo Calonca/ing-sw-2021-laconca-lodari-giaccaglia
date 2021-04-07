@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.server.model.market.MarketLine;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -8,7 +9,7 @@ public class MarketLineTest {
 
     @Test
     public void getLineNumber() {
-        MarketLine [] lines = MarketLine.values();
+        MarketLine[] lines = MarketLine.values();
 
         for(MarketLine line : lines){
             assertEquals(line.getLineNumber(), line.ordinal());

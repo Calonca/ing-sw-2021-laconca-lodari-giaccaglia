@@ -12,7 +12,6 @@ public class SinglePlayerDeckTest {
 
     private SinglePlayerDeck deckTest;
     private List<SoloActionToken> soloTokensTest, deckTokens;
-    private static final Object[] EMPTY = {};
     private Class<?> DeckClass;
     private Field field;
 
@@ -26,7 +25,7 @@ public class SinglePlayerDeckTest {
     public void testActionTokens() throws IllegalAccessException, IllegalArgumentException, ClassCastException, NoSuchFieldException {
 
         DeckClass = deckTest.getClass();
-        Field field = DeckClass.getDeclaredField("actionTokens");
+        field = DeckClass.getDeclaredField("actionTokens");
         field.setAccessible(true);
         deckTokens = (List<SoloActionToken>) field.get(deckTest);
 
@@ -40,7 +39,7 @@ public class SinglePlayerDeckTest {
         deckTest.shuffleActionTokens();
         DeckClass = deckTest.getClass();
 
-        Field field = DeckClass.getDeclaredField("actionTokens");
+        field = DeckClass.getDeclaredField("actionTokens");
         field.setAccessible(true);
         deckTokens = (List<SoloActionToken>) field.get(deckTest);
 
@@ -53,7 +52,7 @@ public class SinglePlayerDeckTest {
 
         SoloActionToken testFirstToken = deckTest.showToken();
         DeckClass = deckTest.getClass();
-        Field field = DeckClass.getDeclaredField("actionTokens");
+        field = DeckClass.getDeclaredField("actionTokens");
         field.setAccessible(true);
         deckTokens = (List<SoloActionToken>) field.get(deckTest);
         assertEquals(testFirstToken, deckTokens.get(0));

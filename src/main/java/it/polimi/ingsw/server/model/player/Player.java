@@ -72,10 +72,8 @@ public class Player {
         return nickName;
     }
 
-    public void moveOnePosition()
-    {
+    public void moveOnePosition(){
         faithTrack.moveOnePosition();
-        getPersonalBoard().getStrongBox().addResources(new int[]{0,0,0,0,1,0,0});
     }
 
     public void moveLorenzoOnePosition(){

@@ -1,6 +1,7 @@
-package it.polimi.ingsw.server.model;
+package it.polimi.ingsw.server.model.market;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.server.model.Resource;
 import javafx.util.Pair;
 import java.io.*;
 import java.nio.charset.StandardCharsets;

@@ -25,6 +25,13 @@
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
+
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.1</version>
+    </dependency>
+
       <dependency>
           <groupId>org.jetbrains</groupId>
           <artifactId>annotations</artifactId>
@@ -63,7 +70,7 @@
           <target>11</target>
         </configuration>
       </plugin>
-
     </plugins>
   </build>
+
 </project>

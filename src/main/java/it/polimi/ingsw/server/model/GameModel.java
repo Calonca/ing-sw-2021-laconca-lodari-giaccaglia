@@ -1,4 +1,8 @@
 package it.polimi.ingsw.server.model;
+import it.polimi.ingsw.server.model.cards.*;
+import it.polimi.ingsw.server.model.market.Marble;
+import it.polimi.ingsw.server.model.market.MarketBoard;
+import it.polimi.ingsw.server.model.market.MarketLine;
 import it.polimi.ingsw.server.model.player.*;
 
 import java.io.IOException;
@@ -22,7 +26,7 @@ public class GameModel {
 
     public GameModel() throws IOException {
 
-        resourcesMarket = MarketBoard.initializeMarketBoard("MarketBoardConfig.json");
+        resourcesMarket = MarketBoard.initializeMarketBoard("src/main/resources/config/MarketBoardConfig.json");
         //temporary assignments to avoid warnings
         soloDeck = new SinglePlayerDeck();
         singlePlayer = new Player();

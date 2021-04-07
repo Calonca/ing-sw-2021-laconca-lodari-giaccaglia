@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
 import it.polimi.ingsw.server.model.player.LeaderState;
-import it.polimi.ingsw.server.model.player.Player;
 import javafx.util.Pair;
 
 import java.util.List;

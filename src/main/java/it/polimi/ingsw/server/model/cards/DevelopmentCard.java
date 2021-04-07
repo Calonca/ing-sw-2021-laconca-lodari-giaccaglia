@@ -1,5 +1,7 @@
-package it.polimi.ingsw.server.model;
+package it.polimi.ingsw.server.model.cards;
 
+import it.polimi.ingsw.server.model.Production;
+import it.polimi.ingsw.server.model.Resource;
 import javafx.util.Pair;
 
 import java.util.List;

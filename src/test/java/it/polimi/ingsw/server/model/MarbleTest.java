@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.server.model.player.FaithZone;
+import it.polimi.ingsw.server.model.market.Marble;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

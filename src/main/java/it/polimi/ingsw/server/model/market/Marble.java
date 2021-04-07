@@ -1,5 +1,7 @@
-package it.polimi.ingsw.server.model;
+package it.polimi.ingsw.server.model.market;
 
+
+import it.polimi.ingsw.server.model.Resource;
 
 /**
  *  <p>Enum class for <em>Market Marbles</em> of  {@link MarketBoard }<br>
