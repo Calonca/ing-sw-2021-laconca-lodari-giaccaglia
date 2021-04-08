@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.model.player;
 import java.lang.reflect.Field;
+
+import it.polimi.ingsw.server.model.cards.SinglePlayerDeck;
 import org.junit.*;
 
 import java.util.Arrays;

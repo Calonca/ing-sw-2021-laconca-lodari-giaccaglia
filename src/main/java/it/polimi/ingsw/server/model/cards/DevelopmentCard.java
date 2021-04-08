@@ -12,7 +12,6 @@ import java.util.List;
 public class DevelopmentCard
 {
 
-
     /**
      * Enum to indicate card color
      */
@@ -22,8 +21,6 @@ public class DevelopmentCard
      */
     private Production production;
     private List<Pair<Resource,Integer>> costList;
-
-
 
     private int level;
 

@@ -4,7 +4,6 @@ import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
 import it.polimi.ingsw.server.model.player.LeaderState;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.player.board.LeaderDepot;
-import it.polimi.ingsw.server.model.player.board.PersonalBoard;
 import javafx.util.Pair;
 import org.junit.Test;
 
@@ -22,19 +21,21 @@ public class DepositLeaderTest
         //ROUTINE
         LeaderDepot depotTest= new LeaderDepot(2,Resource.GOLD);
         Pair<Resource, Integer> costTest = new Pair<>(Resource.SERVANT, 3);
-        Pair<DevelopmentCardColor, Integer> cardcostTest = new Pair<DevelopmentCardColor,Integer>(DevelopmentCardColor.BLUE, 3);
+        Pair<DevelopmentCardColor, Integer> cardcostTest = new Pair<>(DevelopmentCardColor.BLUE, 3);
 
 
-        List<Pair<Resource, Integer>> requirementsTest = new ArrayList<Pair<Resource, Integer>>();
-        List<Pair<DevelopmentCardColor, Integer>> requirementsCardsTest = new ArrayList<Pair<DevelopmentCardColor, Integer>>();
+        List<Pair<Resource, Integer>> requirementsTest = new ArrayList<>();
+        List<Pair<DevelopmentCardColor, Integer>> requirementsCardsTest = new ArrayList<>();
 
         requirementsTest.add(costTest);
         requirementsCardsTest.add(cardcostTest);
 
-        Player player= new Player();
         //player.personalBoard= new PersonalBoard();
-        GameModel gamemodel = new GameModel();
-        gamemodel.setCurrentPlayer(player);
+        List<String> nicknames = new ArrayList<>();
+        nicknames.add("testPlayer");
+        boolean isSinglePlayer = true;
+        GameModel gamemodel = new GameModel(nicknames, isSinglePlayer);
+        Player player = gamemodel.getCurrentPlayer();
 
         Leader leadertest = new DepositLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, depotTest);
         assertEquals(LeaderState.INACTIVE, leadertest.getState());

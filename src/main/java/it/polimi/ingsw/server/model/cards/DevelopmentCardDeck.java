@@ -41,7 +41,7 @@ public class DevelopmentCardDeck {
 
     public DevelopmentCard getCard(){
         deckSize--;
-        return this.deck.remove(deckCapacity);
+        return deck.remove(deckSize);
     }
 
     public DevelopmentCardColor getColor(){

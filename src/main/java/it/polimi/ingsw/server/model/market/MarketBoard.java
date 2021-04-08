@@ -2,14 +2,19 @@ package it.polimi.ingsw.server.model.market;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.server.model.Resource;
+import it.polimi.ingsw.server.model.player.board.Box;
 import javafx.util.Pair;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.*;
+import java.util.function.*;
 import java.util.stream.*;
 import java.util.concurrent.ThreadLocalRandom;
 import it.polimi.ingsw.server.model.player.*;
+
+import static java.util.stream.Collectors.counting;
+import static java.util.stream.Collectors.groupingBy;
 
 /**
  * Matrix data structure to store {@link Marble MarketMarbles} representing {@link Resource Resources}
@@ -21,6 +26,24 @@ public class MarketBoard {
      * <p>Represents the actual structure of the (rows x columns) marble matrix
      */
     private Marble[][] marbleMatrix;
+
+    /**
+     * {@link Marble MarketMarbles} picked from the MarketBoard and stored for white marble identification
+     * and conversion process.
+     */
+    private Marble[] pickedMarbles;
+
+    /**
+     * Converted {@link Marble MarketMarbles} picked from the MarketBoard and stored in a
+     * {@link Box} of Resources for player to store;
+     */
+    private Box mappedResources;
+
+    /**
+     * Number of White {@link Marble MarketMarbles} picked from the MarketBoard, necessary for
+     * conversion process.
+     */
+    private int whiteMarblesQuantity;
 
     /**
      * {@link MarketBoard#marbleMatrix} number of rows.
@@ -43,7 +66,7 @@ public class MarketBoard {
      * A <em>MarketLine</em> is needed to pick an entire row or column during {@link State#CHOOSING_RESOURCE_FOR_PRODUCTION}
      * turn phase.
      */
-    private MarketLine Market;
+    private MarketLine line;
 
     public static MarketBoard initializeMarketBoard(String configFilePath) {
         Gson gson = new Gson();
@@ -62,7 +85,7 @@ public class MarketBoard {
 
         test.marbleMatrix = IntStream.range(0,test.columns * test.rows)
                 .mapToObj((pos)->new Pair<>(pos,marbles.get(pos)))
-                .collect(Collectors.groupingBy((e)->e.getKey()% rows))
+                .collect(groupingBy((e)->e.getKey()% rows))
                 .values()
                 .stream()
                 .map(MarketBoard::pairToValue)
@@ -93,19 +116,73 @@ public class MarketBoard {
     }
 
     /**
-     * Gets a whole {@link MarketBoard#marbleMatrix} row or column as an array of {@link Marble Marbles}.
+     * Selects a whole {@link MarketBoard#marbleMatrix} row or column as an array of {@link Marble Marbles}.
      *
      * @param line {@link MarketLine} corresponding to the row or column to get.
      *
-     * @return array of {@link Marble Marbles} from the line passed as a parameter.
      */
-    public Marble[] pickResources(MarketLine line){
+    public void chooseMarketLine(MarketLine line){
+
         int lineNumber = line.getLineNumber();
-        return (lineNumber < rows) ? marbleMatrix[lineNumber] : getColumn(lineNumber);
+        mappedResources = Box.discardBox();
+
+        pickedMarbles =  (lineNumber < rows) ?
+                marbleMatrix[lineNumber]
+                : getColumn(lineNumber);
+
+        Map<Marble, Long> resourceOccurrences = getResourcesOccurrences(pickedMarbles);
+
+        //counts number of white marbles in the picked line
+        whiteMarblesQuantity = resourceOccurrences
+                .entrySet()
+                .stream()
+                .filter(e -> e.getKey()==Marble.WHITE)
+                .mapToInt(e -> 1).sum();
+
+        //all marbles but white ones are mapped to their corresponding resources
+        resourceOccurrences
+                .entrySet()
+                .stream()
+                .filter(e -> e.getKey()!=Marble.WHITE)
+                .forEach(
+                        e -> mapResource(e.getKey().getConvertedMarble().getResourceNumber(),
+                                e.getValue().intValue())
+                );
+
+    }
+
+    private void mapResource(int resourceNumber, int quantity){
+
+        int [] resourcesQuantites =IntStream.range(0, 4)
+                .map(i ->  (i==resourceNumber) ? quantity : 0).toArray();
+
+        mappedResources.addResources(resourcesQuantites);
+
+    }
+
+    private Map<Marble, Long> getResourcesOccurrences(Marble [] pickedMarbles){
+        return Arrays.stream(pickedMarbles)
+                .collect(groupingBy(Function.identity(), counting()));
+    }
+
+    public boolean areThereWhiteMarbles(){
+        return whiteMarblesQuantity>0;
+    }
+
+    public int getNumberOfWhiteMarbles(){
+        return whiteMarblesQuantity;
+    }
+
+    public void convertWhiteMarble() {
+        mapResource(Marble.WHITE.getConvertedMarble().getResourceNumber(), 1);
+    }
+
+    public Box getMappedResourcesBox(){
+        return mappedResources;
     }
 
     /**
-     * <p>Invoked after {@link MarketBoard#pickResources} method execution, to update {@link MarketBoard#marbleMatrix}
+     * <p>Invoked after {@link MarketBoard#chooseMarketLine} method execution, to update {@link MarketBoard#marbleMatrix}
      * structure by inserting the {@link MarketBoard#slideMarble} in the chosen line.<br>
      * If the chosen line is a row, Marble in first position becomes the next <em>slideMarble</em> and the current <em>slideMarble</em>
      * is inserted in the last position of the line, after Marbles shifting one position to
@@ -113,9 +190,8 @@ public class MarketBoard {
      * If the chosen line is a column, Marble in first position becomes the next <em>slideMarble</em> and the current <em>slideMarble</em>
      * is inserted in the last position of the column, after Marbles shifting one position down.
      *
-     * @param line {@link MarketLine} corresponding to the row or column to update.
      */
-    public void updateMatrix(MarketLine line) {
+    public void updateMatrix() {
 
         int lineNumber = line.getLineNumber();
         if (lineNumber < rows) {
@@ -143,11 +219,10 @@ public class MarketBoard {
         );
     }
 
-
     /* public static void main(String[] args) {
         MarketBoard resourcesMarket = initializeMarketBoard("/Users/pablo/IdeaProjects/ing-sw-2021-laconca-lodari-giaccaglia/target/classes/config/MarketBoardConfig.json");
         System.out.println(Arrays.deepToString(resourcesMarket.marbleMatrix));
-        System.out.println(Arrays.toString(resourcesMarket.pickResources(MarketLine.FIRST_COLUMN)));
+        System.out.println(Arrays.toString(resourcesMarket.chooseMarketLine(MarketLine.FIRST_COLUMN)));
         resourcesMarket.updateMatrix(MarketLine.FIRST_ROW);
         System.out.println(Arrays.deepToString(resourcesMarket.marbleMatrix));
     }*/

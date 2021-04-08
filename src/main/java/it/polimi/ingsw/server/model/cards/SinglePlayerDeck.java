@@ -1,6 +1,7 @@
-package it.polimi.ingsw.server.model.player;
+package it.polimi.ingsw.server.model.cards;
 
 import it.polimi.ingsw.server.model.GameModel;
+import it.polimi.ingsw.server.model.player.SoloActionToken;
 
 import java.util.*;
 
@@ -36,8 +37,7 @@ public class SinglePlayerDeck {
      * @return {@link SoloActionToken} on top of the stack
      */
     public SoloActionToken showToken(){
-        SoloActionToken token;
-        return token = actionTokens.get(0);
+        return actionTokens.get(0);
     }
 
     /**

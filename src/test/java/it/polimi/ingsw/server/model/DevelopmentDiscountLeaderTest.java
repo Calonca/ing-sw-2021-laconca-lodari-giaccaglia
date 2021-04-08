@@ -30,9 +30,11 @@ public class DevelopmentDiscountLeaderTest
         requirementsTest.add(costTest);
         requirementsCardsTest.add(cardcostTest);
 
-        Player player= new Player();
-        GameModel gamemodel = new GameModel();
-        gamemodel.setCurrentPlayer(player);
+        List<String> nicknames = new ArrayList<>();
+        nicknames.add("testPlayer");
+        boolean isSinglePlayer = true;
+        GameModel gamemodel = new GameModel(nicknames, isSinglePlayer);
+
         assertNotNull(discountTest);
         DevelopmentDiscountLeader leadertest = new DevelopmentDiscountLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, discountTest);
         assertEquals(LeaderState.INACTIVE, leadertest.getState());

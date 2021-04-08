@@ -39,9 +39,10 @@ public class LeaderTest
         requirementsTest.add(costTest);
         requirementsCardsTest.add(cardcostTest);
 
-        Player player= new Player();
-        GameModel gamemodel = new GameModel();
-        gamemodel.setCurrentPlayer(player);
+        List<String> nicknames = new ArrayList<>();
+        nicknames.add("testPlayer");
+        boolean isSinglePlayer = true;
+        GameModel gamemodel = new GameModel(nicknames, isSinglePlayer);
 
         Leader leadertestDD;
         Leader leadertestD;

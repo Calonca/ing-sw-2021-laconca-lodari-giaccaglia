@@ -29,9 +29,11 @@ public class MarketLeaderTest {
         requirementsTest.add(costTest);
         requirementsCardsTest.add(cardcostTest);
 
-        Player player= new Player();
-        GameModel gamemodel = new GameModel();
-        gamemodel.setCurrentPlayer(player);
+        List<String> nicknames = new ArrayList<>();
+        nicknames.add("testPlayer");
+        boolean isSinglePlayer = true;
+        GameModel gamemodel = new GameModel(nicknames, isSinglePlayer);
+        Player player = gamemodel.getCurrentPlayer();
 
         MarketLeader leadertest = new MarketLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, bonus);
         assertEquals(LeaderState.INACTIVE, leadertest.getState());
