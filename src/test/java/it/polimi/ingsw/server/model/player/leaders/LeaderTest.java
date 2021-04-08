@@ -1,5 +1,8 @@
-package it.polimi.ingsw.server.model;
+package it.polimi.ingsw.server.model.player.leaders;
 
+import it.polimi.ingsw.server.model.GameModel;
+import it.polimi.ingsw.server.model.Production;
+import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
 import it.polimi.ingsw.server.model.player.leaders.*;

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.model;
+package it.polimi.ingsw.server.model.market;
 
 import it.polimi.ingsw.server.model.market.MarketLine;
 import org.junit.Test;
