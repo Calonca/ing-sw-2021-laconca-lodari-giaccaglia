@@ -39,11 +39,11 @@ public class DevelopmentDiscountLeaderTest
         DevelopmentDiscountLeader leadertest = new DevelopmentDiscountLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, discountTest);
         assertEquals(LeaderState.INACTIVE, leadertest.getState());
 
-        assertNotNull(leadertest.discount);
+        assertNotNull(leadertest.getDiscount());
 
         leadertest.activate(gamemodel);
         assertEquals(LeaderState.ACTIVE, leadertest.getState());
-        assertNotNull(leadertest.discount);
+        assertNotNull(leadertest.getDiscount());
 
         leadertest = new DevelopmentDiscountLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, discountTest);
         leadertest.discard(gamemodel);
