@@ -69,8 +69,4 @@ public class ProductionCardCell {
         return temp;
     }
 
-    public int howManyOfColor(DevelopmentCardColor color)
-    {
-        return howManyOfColor(color,1);
-    }
 }

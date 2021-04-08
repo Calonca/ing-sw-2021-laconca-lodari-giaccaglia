@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model;
 
+import com.google.gson.annotations.Expose;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.player.board.Box;
 import it.polimi.ingsw.server.model.player.board.PersonalBoard;
@@ -22,7 +23,6 @@ public class Production {
     private final int[] restoreinput;
     private int[] output;
     private final int[] restoreoutput;
-    private int victorypoints;
 
     /**
      * Constructor for basic production
