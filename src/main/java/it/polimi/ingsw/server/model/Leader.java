@@ -18,8 +18,6 @@ public abstract class Leader
     public List<Pair<DevelopmentCardColor, Integer>> requirementsCards;
 
 
-
-
     public abstract LeaderState getState();
 
     /**
@@ -35,7 +33,6 @@ public abstract class Leader
      * Ensures that the Player's Faith Points are increased by 1
      */
     public abstract void discard(GameModel gamemodel);
-
 
     /**
      * Every requirement is checked before activating a leader

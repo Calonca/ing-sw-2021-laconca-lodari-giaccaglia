@@ -1,9 +1,6 @@
 package it.polimi.ingsw.server.model.player;
 import it.polimi.ingsw.server.model.*;
-import it.polimi.ingsw.server.model.cards.CardShop;
-import it.polimi.ingsw.server.model.cards.DevelopmentCard;
-import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
-import it.polimi.ingsw.server.model.cards.DevelopmentCardDeck;
+import it.polimi.ingsw.server.model.cards.*;
 
 
 /**

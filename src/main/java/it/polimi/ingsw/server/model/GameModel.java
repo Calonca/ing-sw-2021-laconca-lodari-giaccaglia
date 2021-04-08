@@ -1,43 +1,59 @@
 package it.polimi.ingsw.server.model;
 import it.polimi.ingsw.server.model.cards.*;
-import it.polimi.ingsw.server.model.market.Marble;
 import it.polimi.ingsw.server.model.market.MarketBoard;
 import it.polimi.ingsw.server.model.market.MarketLine;
 import it.polimi.ingsw.server.model.player.*;
+import it.polimi.ingsw.server.model.player.board.Box;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class GameModel {
 
     private Player currentPlayer;
-    private final List<Player> players;
+    private List<Player> players;
     private List<Player> onlinePlayers;
-    private final MarketBoard resourcesMarket;
+    private MarketBoard resourcesMarket;
     private State gamePhase;
     private Player winnerPlayer;
     private boolean isStarted;
-    private boolean isSinglePlayer;
-    private final Player singlePlayer;
-    private final SinglePlayerDeck soloDeck;
-    private final CardShop cardShop;
+    private final boolean isSinglePlayer;
+    private Player singlePlayer;
+    private SinglePlayerDeck soloDeck;
+    private CardShop cardShop;
 
-    public GameModel() throws IOException {
+    public GameModel(List<String> nicknames, boolean isSinglePlayer){
 
-        resourcesMarket = MarketBoard.initializeMarketBoard("src/main/resources/config/MarketBoardConfig.json");
-        //temporary assignments to avoid warnings
-        soloDeck = new SinglePlayerDeck();
-        singlePlayer = new Player();
-        players = new ArrayList<>(4);
-        cardShop = new CardShop();
+        this.isSinglePlayer = isSinglePlayer;
+        commonInit(nicknames);
 
+        if(isSinglePlayer) soloModeInit(nicknames.get(0));
+
+        isStarted = false;
     }
 
+    private void commonInit(List<String> nicknames){
+        resourcesMarket = MarketBoard.initializeMarketBoard("src/main/resources/config/MarketBoardConfig.json");
+        players = new ArrayList<>(nicknames.size());
+        players = nicknames.stream().map(Player::new).collect(Collectors.toList());
+        onlinePlayers = nicknames.stream().map(Player::new).collect(Collectors.toList());
+        cardShop = new CardShop();
+    }
 
-    public Player getCurrentPlayer()
-    {
+    private void soloModeInit(String nickName){
+        singlePlayer = new Player(nickName);
+        soloDeck = new SinglePlayerDeck();
+        currentPlayer = singlePlayer;
+    }
+
+    public Player getCurrentPlayer(){
         return currentPlayer;
     }
 
@@ -76,7 +92,7 @@ public class GameModel {
 
     public void addFaithPointToOtherPlayers() {
         onlinePlayers.stream()
-                .filter(player1 -> !(player1 == currentPlayer))
+                .filter(player -> !(player == currentPlayer))
                 .forEach(Player::moveOnePosition);
     }
 
@@ -104,12 +120,49 @@ public class GameModel {
         return singlePlayer;
     }
 
-    public Marble[] pickResourcesFromMarket(MarketLine line){
-        return resourcesMarket.pickResources(line);
+    public void chooseLineFromMarketBoard(MarketLine line){
+        resourcesMarket.chooseMarketLine(line);
     }
 
-    public void updateMatrixAfterTakingResources(MarketLine line ){
-        resourcesMarket.updateMatrix(line);
+    public void updateMatrixAfterTakingResources(){
+        resourcesMarket.updateMatrix();
     }
+
+    public boolean areThereWhiteMarblesInPickedLine(){
+        return resourcesMarket.areThereWhiteMarbles();
+    }
+
+    public int getNumberOfWhiteMarblesInPickedLine(){
+        return resourcesMarket.getNumberOfWhiteMarbles();
+    }
+
+    public void convertWhiteMarbleInPickedLine(){
+        resourcesMarket.convertWhiteMarble();
+    }
+
+    public Box getBoxResourcesFromMarketBoard(){
+        return resourcesMarket.getMappedResourcesBox();
+    }
+
+    public void setPlayerStatus(int playerNumber, boolean currentlyOnline){
+        players.get(playerNumber).setCurrentStatus(currentlyOnline);
+
+        if(currentlyOnline) {
+            if (onlinePlayers.stream()
+                    .noneMatch(player -> player == players.get(playerNumber)))
+                onlinePlayers.add(players.get(playerNumber));
+        }
+        else{
+            onlinePlayers = onlinePlayers.stream()
+                    .filter(player -> player!= players.get(playerNumber))
+                    .collect(Collectors.toList());
+        }
+    }
+
+    public boolean isPlayerCurrentlyOnline(int playerNumber){
+        return onlinePlayers.stream()
+                .anyMatch(player -> player == players.get(playerNumber));
+    }
+
 
 }

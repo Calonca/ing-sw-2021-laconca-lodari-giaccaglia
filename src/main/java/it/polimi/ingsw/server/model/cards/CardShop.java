@@ -18,6 +18,7 @@ public class CardShop {
      */
     private Integer maxLevel;
 
+    private DevelopmentCard purchasedCard;
 
     /**
      * <p>Represents the actual structure of the grid, implemented by using a {@link Map} where values, {@link List Lists} of
@@ -26,7 +27,6 @@ public class CardShop {
      * inside the same List have the same level value.
      */
     private Map<DevelopmentCardColor, List<DevelopmentCardDeck>> devDecks;
-
 
     /**
      * <p>Solo mode method to discard development cards from the <em>CardShop</em> when dedicated
@@ -50,10 +50,29 @@ public class CardShop {
                 }
             }
         }
-        if (discarded!= amount)
-            isColorOutOfStock(color);
     }
 
+    /**
+     * Method for purchasing a {@link DevelopmentCard}. Firstly the card is chosen,
+     * then the payment process takes place.
+     *
+     * @param color Color of the {@link DevelopmentCard} to purchase.
+     * @param level {@link DevelopmentCard#level} of the {@link DevelopmentCard} to purchase.
+     * Has to be lower than the {@link CardShop#maxLevel} of this CardShop.
+     */
+    public void purchaseCard(DevelopmentCardColor color, int level){
+        purchasedCard =devDecks.get(color).get(0).getCard();
+    }
+
+    /**
+     * Method to retrieve previously selected card through {@link CardShop#discardCard},
+     * after resources' payment has completed successfully.
+     *
+     * @return purchased {@link DevelopmentCard}
+     */
+    public DevelopmentCard pickPurchasedCard(){
+        return purchasedCard;
+    }
 
     /**
      * <p>Checks if one type of {@link DevelopmentCardColor} is no longer available in

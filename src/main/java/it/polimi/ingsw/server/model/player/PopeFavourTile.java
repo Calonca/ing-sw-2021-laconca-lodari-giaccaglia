@@ -8,7 +8,7 @@ public class PopeFavourTile {
     /**
      * The number of <em>Victory Points</em> associated with this tile.
      */
-    private final int victoryPoints;
+    private int victoryPoints;
 
     /**
      * The current {@link TileState} associated with this tile.
@@ -18,18 +18,21 @@ public class PopeFavourTile {
     /**
      * The {@link FaithZone} to which this cell belongs.
      */
-    private final FaithZone zone;
+    private FaithZone zone;
 
+    /*
     /**
      * This constructor creates a <em>PopeFavourTile</em> when the {@link FaithTrack} is populated during game setup.
      * When the object is created, the initialization process sets the {@link TileState} to the default
      * {@link TileState#INACTIVE INACTIVE} value.
-     */
+     *
     public PopeFavourTile(int victoryPoints, FaithZone zone) {
         this.victoryPoints = victoryPoints;
         this.state = TileState.INACTIVE;
         this.zone = zone;
     }
+
+    */
 
     /**
      * @return <em>Victory Points</em> associated with this tile.
@@ -55,11 +58,12 @@ public class PopeFavourTile {
         this.state = tileState;
     }
 
+    /*
     /**
      * @return The {@link FaithZone} to which this tile belongs.
-     */
+     *
     public FaithZone getZone() {
         return zone;
     }
-
+   */
 }
