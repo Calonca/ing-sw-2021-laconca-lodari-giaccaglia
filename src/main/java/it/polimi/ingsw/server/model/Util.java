@@ -145,7 +145,6 @@ public class Util
         listOfDecks.put(DevelopmentCardColor.GREEN, greenDecks);
 
         CardShop shop = new CardShop(listOfDecks);
-
         Writer writer = new FileWriter("src/main/resources/config/CardShopConfig.json");
         Gson gson = new GsonBuilder().create();
         gson.toJson(shop, writer);

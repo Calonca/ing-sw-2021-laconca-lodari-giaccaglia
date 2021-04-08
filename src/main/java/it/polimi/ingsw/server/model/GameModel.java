@@ -49,11 +49,19 @@ public class GameModel {
      * @param nicknames a List of unique names of players.
      */
     private void commonInit(List<String> nicknames){
-        resourcesMarket = MarketBoard.initializeMarketBoard("src/main/resources/config/MarketBoardConfig.json");
+        try {
+            resourcesMarket = MarketBoard.initializeMarketBoard("src/main/resources/config/MarketBoardConfig.json");
+            cardShop = CardShop.initializeCardShop("src/main/resources/config/CardShopConfig.json");
+
+        } catch (IOException e) {
+            System.out.println("Error while class initialization with json config file");
+            e.printStackTrace();
+        }
+
         players = new ArrayList<>(nicknames.size());
         players = nicknames.stream().map(Player::new).collect(Collectors.toList());
         onlinePlayers = nicknames.stream().map(Player::new).collect(Collectors.toList());
-        cardShop = new CardShop();
+       // cardShop = new CardShop();
     }
 
     /**
@@ -129,16 +137,19 @@ public class GameModel {
      * Makes the players different from the current player advance of one position in the faith track.
      */
     public void addFaithPointToOtherPlayers() {
+        if(!isSinglePlayer)
         onlinePlayers.stream()
                 .filter(player -> !(player == currentPlayer))
                 .forEach(Player::moveOnePosition);
+        else
+            addFaithPointToLorenzo();
     }
 
     /**
      * In the single players game the player plays against Lorenzo il Magnifico.
      * This methods makes Lorenzo advance of one position in the {@link FaithTrack}.
      */
-    public void addFaithPointToLorenzo(){
+    private void addFaithPointToLorenzo(){
         singlePlayer.moveLorenzoOnePosition();
     }
 

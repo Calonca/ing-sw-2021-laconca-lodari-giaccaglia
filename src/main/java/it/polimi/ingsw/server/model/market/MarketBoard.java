@@ -68,22 +68,20 @@ public class MarketBoard {
      */
     private MarketLine line;
 
-    public static MarketBoard initializeMarketBoard(String configFilePath) {
+    public static MarketBoard initializeMarketBoard(String configFilePath) throws IOException {
         Gson gson = new Gson();
-        MarketBoard test = null;
-        try {
-
+        MarketBoard marketBoard;
         String MarketBoardClassConfig = Files.readString(Path.of(configFilePath), StandardCharsets.US_ASCII);
-        test = gson.fromJson(MarketBoardClassConfig, MarketBoard.class);
+        marketBoard = gson.fromJson(MarketBoardClassConfig, MarketBoard.class);
         List<Marble> marbles  = Arrays
-                .stream(test.marbleMatrix)
+                .stream(marketBoard.marbleMatrix)
                 .flatMap(Arrays::stream).collect(Collectors.toList());
 
         Collections.shuffle(marbles);
 
-        final int rows = test.rows;
+        final int rows = marketBoard.rows;
 
-        test.marbleMatrix = IntStream.range(0,test.columns * test.rows)
+        marketBoard.marbleMatrix = IntStream.range(0,marketBoard.columns * marketBoard.rows)
                 .mapToObj((pos)->new Pair<>(pos,marbles.get(pos)))
                 .collect(groupingBy((e)->e.getKey()% rows))
                 .values()
@@ -91,28 +89,17 @@ public class MarketBoard {
                 .map(MarketBoard::pairToValue)
                     .toArray(Marble[][]::new);
 
-        int randomRowPos = ThreadLocalRandom.current().nextInt(0, test.rows);
-        int randomColumnPos = ThreadLocalRandom.current().nextInt(0, test.columns);
-        Marble temporaryMarble = test.marbleMatrix[randomRowPos][randomColumnPos];
-        test.marbleMatrix[randomRowPos][randomColumnPos] = test.slideMarble;
-        test.slideMarble = temporaryMarble;
+        int randomRowPos = ThreadLocalRandom.current().nextInt(0, marketBoard.rows);
+        int randomColumnPos = ThreadLocalRandom.current().nextInt(0, marketBoard.columns);
+        Marble temporaryMarble = marketBoard.marbleMatrix[randomRowPos][randomColumnPos];
+        marketBoard.marbleMatrix[randomRowPos][randomColumnPos] = marketBoard.slideMarble;
+        marketBoard.slideMarble = temporaryMarble;
 
-
-        } catch (IOException e) {
-            System.out.println("Error while class initialization with json config file at path: " + configFilePath);
-            e.printStackTrace();
-        }
-
-        return test;
+        return marketBoard;
     }
 
     private static Marble[] pairToValue(List<Pair<Integer, Marble>> pos_marArray){
         return pos_marArray.stream().map(Pair::getValue).toArray(Marble[]::new);
-    }
-
-    public static MarketBoard initializeMarketBoard(){
-        File file = new File("src/main/resources/config/MarketBoardConfig.json");
-        return initializeMarketBoard(file.getAbsolutePath());
     }
 
     /**

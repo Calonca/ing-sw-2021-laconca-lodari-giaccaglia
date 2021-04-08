@@ -1,10 +1,22 @@
 package it.polimi.ingsw.server.model.cards;
 
+import java.awt.*;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+import com.google.gson.Gson;
+import it.polimi.ingsw.server.model.Resource;
+import it.polimi.ingsw.server.model.market.MarketBoard;
 import it.polimi.ingsw.server.model.player.*;
+import javafx.util.Pair;
 
 /**
  * Represents a matrix like data structure to store the purchasable {@link DevelopmentCard DevelopmentCards} during
@@ -20,14 +32,26 @@ public class CardShop {
 
     private DevelopmentCard purchasedCard;
 
+    public CardShop(Map<DevelopmentCardColor, Map<Integer, DevelopmentCardDeck>> devDecks) {
+        this.maxLevel = 4;
+        this.devDecks = devDecks;
+    }
+
+    public static CardShop initializeCardShop(String configFilePath) throws IOException {
+        Gson gson = new Gson();
+        String CardShopClassConfig = Files.readString(Path.of(configFilePath), StandardCharsets.US_ASCII);
+        return gson.fromJson(CardShopClassConfig, CardShop.class);
+    }
+
+
+
     /**
      * <p>Represents the actual structure of the grid, implemented by using a {@link Map} where values, {@link List Lists} of
      * <em>Decks</em> with same color cards, are accessed through {@link DevelopmentCardColor} as the key.<br>
      * Each List member is a Deck containing {@link DevelopmentCard DevelopmentCards} of the same level. No different decks
      * inside the same List have the same level value.
      */
-    private Map<DevelopmentCardColor, List<DevelopmentCardDeck>> devDecks;
-
+        private Map<DevelopmentCardColor, Map<Integer, DevelopmentCardDeck>> devDecks;
     /**
      * <p>Solo mode method to discard development cards from the <em>CardShop</em> when dedicated
      * {@link SoloActionToken SoloActionTokens}effects are applied.<br>
@@ -41,7 +65,7 @@ public class CardShop {
     public void discardCard(DevelopmentCardColor color, int amount){
         int discarded = 0;
         for(int i=0; i<amount; i++){
-            for(int j = 0; j< maxLevel; j++) {
+            for(int j = 1; j<= maxLevel; j++) {
 
                 if (!devDecks.get(color).get(j).isDeckEmpty()) {
                     devDecks.get(color).get(j).getCard();
@@ -61,7 +85,11 @@ public class CardShop {
      * Has to be lower than the {@link CardShop#maxLevel} of this CardShop.
      */
     public void purchaseCard(DevelopmentCardColor color, int level){
-        purchasedCard =devDecks.get(color).get(0).getCard();
+        purchasedCard =devDecks.get(color).get(1).getCard();
+    }
+
+    public List<Pair<Resource,Integer>> resourcesToPay(){
+        return purchasedCard.getCostList();
     }
 
     /**
@@ -84,7 +112,7 @@ public class CardShop {
     public boolean isSomeColourOutOfStock(){
         return Arrays.stream(DevelopmentCardColor.values())
                 .map(color -> devDecks.get(color))
-                .anyMatch(deckList -> deckList.stream()
+                .anyMatch(deckList -> deckList.values().stream()
                         .allMatch(DevelopmentCardDeck::isDeckEmpty));
     }
 
@@ -98,7 +126,7 @@ public class CardShop {
      */
     public DevelopmentCardColor getColourOutOfStock() {
         return Arrays.stream(DevelopmentCardColor.values())
-                .filter(color -> devDecks.get(color)
+                .filter(color -> devDecks.get(color).values()
                         .stream()
                         .allMatch(DevelopmentCardDeck::isDeckEmpty))
                 .findFirst()
@@ -115,9 +143,10 @@ public class CardShop {
      * @return true if the specified color list of {@link DevelopmentCardDeck DevelopmentCardDecks} has only empty Decks, otherwise false.
      */
     public boolean isColorOutOfStock(DevelopmentCardColor color){
-        return devDecks.get(color)
+        return devDecks.get(color).values()
                 .stream()
                 .allMatch(DevelopmentCardDeck::isDeckEmpty);
     }
+
 
 }
