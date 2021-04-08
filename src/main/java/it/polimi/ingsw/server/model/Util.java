@@ -23,18 +23,19 @@ public class Util
     }
 
     /**
-     * Returns the sum of two arrays a and b, if the dimensions differ it will sum with zero
-     * if both array are shorten then the given length zeroes will be added to them
-     * @param a the first array
-     * @param b the second array
-     * @param length the requested lenght for the sum array
+     * Returns the sum of two arrays a and b, an array of the given length<br>
+     * If the dimensions differ it will sum with zero.<br>
+     * If any array is shorten then the given length zeroes will be added until reaching the given length.<br>
+     * If any array is longer than the given length the return array will be cut to length.<br>
+     * @param a the first array, != null
+     * @param b the second array, != null
+     * @param len the requested length for the sum array, positive
      * @return sum of two arrays
      */
-    public static int[] sumArray(final int[] a,final int[] b,int length){
-        final int max = Math.max(Math.max(a.length, b.length), length);
-        final int[] aa = IntStream.concat(Arrays.stream(a),IntStream.generate(()->0)).limit(max).toArray();
-        final int[] bb = IntStream.concat(Arrays.stream(b),IntStream.generate(()->0)).limit(max).toArray();
-        return IntStream.range(0,max).map((i)->aa[i]+ bb[i]).toArray();
+    public static int[] sumArray(final int[] a,final int[] b,int len){
+        final int[] aa = IntStream.concat(Arrays.stream(a),IntStream.generate(()->0)).limit(len).toArray();
+        final int[] bb = IntStream.concat(Arrays.stream(b),IntStream.generate(()->0)).limit(len).toArray();
+        return IntStream.range(0,len).map((i)->aa[i]+ bb[i]).toArray();
     }
 
 }
