@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.model.player;
+package it.polimi.ingsw.server.model.player.leaders;
 
 import it.polimi.ingsw.server.model.player.leaders.LeaderState;
 import org.junit.Test;

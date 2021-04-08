@@ -1,6 +1,8 @@
-package it.polimi.ingsw.server.model;
+package it.polimi.ingsw.server.model.market;
 
+import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.market.Marble;
+import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -9,7 +11,7 @@ public class MarbleTest {
 
     @Test
     public void getConvertedMarble() {
-        assertEquals(Marble.valueOf("WHITE").getConvertedMarble(), Resource.EMPTY );
+        Assert.assertEquals(Marble.valueOf("WHITE").getConvertedMarble(), Resource.EMPTY );
         assertEquals(Marble.valueOf("BLUE").getConvertedMarble(), Resource.SHIELD );
         assertEquals(Marble.valueOf("GRAY").getConvertedMarble(), Resource.STONE);
         assertEquals(Marble.valueOf("YELLOW").getConvertedMarble(), Resource.GOLD);
