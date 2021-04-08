@@ -39,7 +39,7 @@ public class ProductionLeaderTest {
 
         leadertest.activate(gamemodel);
         assertEquals(LeaderState.ACTIVE, leadertest.getState());
-        assertNotEquals(0, player.getPersonalBoard().getSelectedProduction().length);
+        assertNotEquals(1, player.getPersonalBoard().getSelectedProduction().length);
 
         leadertest = new ProductionLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, productiontest);
         leadertest.discard(gamemodel);

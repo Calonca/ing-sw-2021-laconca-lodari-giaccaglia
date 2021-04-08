@@ -38,7 +38,7 @@ public class MarketLeaderTest {
 
         leadertest.activate(gamemodel);
         assertEquals(LeaderState.ACTIVE, leadertest.getState());
-        //check bonus assertEquals(Resource.EMPTY,player.getPersonalBoard().getWarehouseLeadersDepots().getResourceAt(7));
+        assertTrue(player.getMarketBonus()[bonus.getResourceNumber()]);
 
 
 

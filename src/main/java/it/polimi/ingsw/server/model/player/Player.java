@@ -22,6 +22,7 @@ public class Player {
     private FaithTrack faithTrack;
     private SinglePlayerDeck deck;
     private int[] discounts;
+    private boolean[] marketBonus;
 
     public Player() throws IOException {
      //   leaders = Arrays.asList(new Pair<Leader, LeaderState>[2]);
@@ -29,6 +30,7 @@ public class Player {
         currentlyOnline = true;
         currentState = State.IDLE;
         discounts=new int[7];
+        marketBonus=new boolean[5];
         initializeFaithTrack();
     }
 
@@ -40,6 +42,10 @@ public class Player {
     {
         return discounts;
     }
+
+    public boolean[] getMarketBonus() {
+        return marketBonus;
+    }
     /**
      * Applies Discount Leader effect on discount array
      * @param discount != NULL
@@ -49,6 +55,12 @@ public class Player {
     {
         discounts[discount.getKey().getResourceNumber()]+=discount.getValue();
     }
+
+    public void applyMarketBonus(Resource resource)
+    {
+        marketBonus[resource.getResourceNumber()]=true;
+    }
+
 
     private void initializeFaithTrack() throws IOException {
         File file = new File("src/main/resources/config/FaithTrackConfig.json");

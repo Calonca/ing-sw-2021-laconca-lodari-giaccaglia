@@ -45,7 +45,7 @@ public class MarketLeader extends Leader
     public void activate(GameModel gamemodel)
     {
         state = LeaderState.ACTIVE;
-        //add market bonus
+        gamemodel.getCurrentPlayer().applyMarketBonus(bonus);
     }
 
     public void discard(GameModel gamemodel)
