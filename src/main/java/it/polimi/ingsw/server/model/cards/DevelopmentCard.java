@@ -21,22 +21,33 @@ public class DevelopmentCard
      */
     private Production production;
     private List<Pair<Resource,Integer>> costList;
-
+    private int victoryPoints;
     private int level;
 
     public DevelopmentCard(int level, DevelopmentCardColor cardType)
     {
-        this.level = level;
-        this.cardType = cardType;
+        this(level,cardType,Production.basicProduction(),1);
     }
 
     public DevelopmentCard(int level, DevelopmentCardColor cardType,Production production)
     {
+        this(level,cardType,production,1);
+    }
+
+    public DevelopmentCard(int level, DevelopmentCardColor cardType,Production production, int victoryPoints)
+    {
         this.production = production;
         this.level = level;
         this.cardType = cardType;
+        this.victoryPoints=victoryPoints;
     }
-
+    public DevelopmentCard(int level, DevelopmentCardColor cardType,Production production, int victoryPoints, List<Pair<Resource,Integer>> costList)
+    {
+        this.production = production;
+        this.level = level;
+        this.cardType = cardType;
+        this.victoryPoints=victoryPoints;
+    }
     public int getLevel() {
         return level;
     }
