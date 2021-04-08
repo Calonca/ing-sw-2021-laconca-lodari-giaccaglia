@@ -66,7 +66,7 @@ public class GameModel {
     }
 
     private void updateOnlinePlayers() {
-        onlinePlayers = onlinePlayers
+        onlinePlayers = players
                 .stream()
                 .filter(Player::isOnline)
                 .collect(Collectors.toList());
