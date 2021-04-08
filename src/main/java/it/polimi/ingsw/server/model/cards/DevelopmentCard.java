@@ -4,6 +4,7 @@ import it.polimi.ingsw.server.model.Production;
 import it.polimi.ingsw.server.model.Resource;
 import javafx.util.Pair;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,10 +37,7 @@ public class DevelopmentCard
 
     public DevelopmentCard(int level, DevelopmentCardColor cardType,Production production, int victoryPoints)
     {
-        this.production = production;
-        this.level = level;
-        this.cardType = cardType;
-        this.victoryPoints=victoryPoints;
+        this(level,cardType,production,victoryPoints,new ArrayList<Pair<Resource,Integer>>());
     }
     public DevelopmentCard(int level, DevelopmentCardColor cardType,Production production, int victoryPoints, List<Pair<Resource,Integer>> costList)
     {
@@ -47,6 +45,7 @@ public class DevelopmentCard
         this.level = level;
         this.cardType = cardType;
         this.victoryPoints=victoryPoints;
+        this.costList=costList;
     }
     public int getLevel() {
         return level;

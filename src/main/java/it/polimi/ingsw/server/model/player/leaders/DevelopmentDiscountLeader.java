@@ -14,7 +14,7 @@ import java.util.List;
 public class DevelopmentDiscountLeader extends Leader
 {
 
-    public Pair<Resource,Integer> discount;
+    private Pair<Resource,Integer> discount;
 
     public DevelopmentDiscountLeader(LeaderState state, int victoryPoints, List<Pair<Resource,Integer>> requirementsResources, List<Pair<DevelopmentCardColor, Integer>> requirementsCards, Pair<Resource,Integer> discount, int requirementsCardsLevel)
     {
