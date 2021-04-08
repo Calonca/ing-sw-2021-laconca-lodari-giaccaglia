@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.model.player.board;
 
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
+import it.polimi.ingsw.server.model.player.leaders.ProductionLeader;
 import javafx.util.Pair;
 
 import java.util.*;
@@ -30,12 +31,12 @@ public class PersonalBoard {
     private Box discardBox;
     /**
      * A list of {@link Production productions}, composed both of {@link Production productions}
-     * from {@link it.polimi.ingsw.server.model.ProductionLeader ProductionLeader} and
+     * from {@link ProductionLeader ProductionLeader} and
      * {@link ProductionCardCell}<br>
      * The first one is the basic {@link Production},
      * then there are {@link Production productions} from {@link DevelopmentCard developmentCards}
      * that are initialized to Optional.empty() before being set
-     * and then the ones from {@link it.polimi.ingsw.server.model.ProductionLeader leaders}
+     * and then the ones from {@link ProductionLeader leaders}
      */
     private  List<Optional<Production>> productions;
     /**

@@ -1,7 +1,8 @@
-package it.polimi.ingsw.server.model;
+package it.polimi.ingsw.server.model.player.leaders;
 
+import it.polimi.ingsw.server.model.GameModel;
+import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
-import it.polimi.ingsw.server.model.player.LeaderState;
 import it.polimi.ingsw.server.model.player.board.LeaderDepot;
 import javafx.util.Pair;
 
@@ -12,19 +13,8 @@ import java.util.List;
  */
 public class DepositLeader extends Leader
 {
-    private LeaderState state;
 
     public LeaderDepot leaderdepot;
-    public List<Pair<Resource, Integer>> requirementsResources;
-    public List<Pair<DevelopmentCardColor, Integer>> requirementsCards;
-    public int requirementsCardsLevel;
-
-
-    public LeaderState getState()
-    {
-        return state;
-    }
-
 
     public DepositLeader(LeaderState state, int victoryPoints, List<Pair<Resource,Integer>> requirementsResources, List<Pair<DevelopmentCardColor, Integer>> requirementsCards, LeaderDepot leaderdepot, int requirementsCardsLevel)
     {
@@ -51,27 +41,4 @@ public class DepositLeader extends Leader
         state = LeaderState.ACTIVE; //assumo che il leader attivato sia "in cima"
     }
 
-    public void discard(GameModel gamemodel)
-    {
-        state = LeaderState.DISCARDED;
-        gamemodel.getCurrentPlayer().moveOnePosition();
-    }
-
-    public boolean areRequirementsSatisfied(GameModel gamemodel)
-    {
-        int temp=0;
-        for (Pair<Resource, Integer> requirementsResource : requirementsResources) {
-            if (gamemodel.getCurrentPlayer().getPersonalBoard().getNumberOf(requirementsResource.getKey()) < requirementsResource.getValue())
-                return false;
-        }
-        for (Pair<DevelopmentCardColor, Integer> requirementsCard : requirementsCards) {
-            for (int j = 0; j < gamemodel.getCurrentPlayer().getPersonalBoard().getCardCells().size(); j++)
-                temp +=gamemodel.getCurrentPlayer().getPersonalBoard().getCardCells().get(j).howManyOfColor(requirementsCard.getKey(),requirementsCardsLevel);
-            if (temp < requirementsCard.getValue())
-                return false;
-            temp=0;
-
-        }
-        return true;
-    }
 }

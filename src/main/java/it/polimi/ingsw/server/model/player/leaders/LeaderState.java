@@ -1,5 +1,4 @@
-package it.polimi.ingsw.server.model.player;
-import  it.polimi.ingsw.server.model.*;
+package it.polimi.ingsw.server.model.player.leaders;
 
 /**
  *  <p>Enum class for the <em>Leader State</em> of a {@link Leader Leader}.
