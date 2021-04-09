@@ -100,17 +100,19 @@ public class FaithTrack {
         return(track.get(piece.getValue()).isPopeSpace());
     }
 
+    private MutablePair<Piece, Integer> getPiece(MutablePair<Piece, Integer> piece){
+        MutablePair<Piece, Integer> PieceCopy = new MutablePair<>();
+        PieceCopy.setLeft(piece.getLeft());
+        PieceCopy.setRight(piece.getRight());
+        return PieceCopy;
+    }
+
     /**
      *
      * @return Piece
      */
     public MutablePair<Piece, Integer> getPlayerPiece() {
-
-        MutablePair<Piece, Integer> playerPieceCopy = new MutablePair<>();
-        playerPieceCopy.setLeft(playerPiece.getLeft());
-        playerPieceCopy.setRight(playerPiece.getRight());
-
-        return playerPieceCopy;
+        return getPiece(playerPiece);
     }
 
     /**
@@ -118,12 +120,8 @@ public class FaithTrack {
      * @return Piece
      */
     public MutablePair<Piece, Integer> getLorenzoPiece() {
-        MutablePair<Piece, Integer> lorenzoPieceCopy = new MutablePair<>();
-        lorenzoPieceCopy.setLeft(lorenzoPiece.getLeft());
-        lorenzoPieceCopy.setRight(lorenzoPiece.getRight());
-
-        return lorenzoPieceCopy;
-    }
+            return getPiece(lorenzoPiece);
+        }
 
     /**
      * Gets the current position along the <em>FaithTrack</em> of the <em>Piece</em> passed as a parameter.
