@@ -63,7 +63,7 @@ public class ProductionCardCell {
         int temp=0;
         for (DevelopmentCard stackedCard : stackedCards) {
             if (stackedCard.getCardType() == color)
-                if(stackedCard.getLevel() == level)
+                if(stackedCard.getLevel() >= level)
                     temp++;
         }
         return temp;
