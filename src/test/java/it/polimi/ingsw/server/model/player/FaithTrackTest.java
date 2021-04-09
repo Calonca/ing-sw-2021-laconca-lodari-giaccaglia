@@ -34,6 +34,10 @@ public class FaithTrackTest {
         for(int i=0; i<=24; i++) {
             testTrack.moveOnePosition();
         }
+
+        lorenzo = testTrack.getLorenzoPiece();
+        player = testTrack.getPlayerPiece();
+
         assertEquals(testTrack.getPiecePosition(lorenzo), 0);
         assertEquals(testTrack.getPiecePosition(player), 24);
 
@@ -54,6 +58,10 @@ public class FaithTrackTest {
         for(int i=0; i<=24; i++) {
             testTrack.moveLorenzoOnePosition();
         }
+
+        lorenzo = testTrack.getLorenzoPiece();
+        player = testTrack.getPlayerPiece();
+
         assertEquals(testTrack.getPiecePosition(lorenzo), 24);
         assertEquals(testTrack.getPiecePosition(player), 0);
 

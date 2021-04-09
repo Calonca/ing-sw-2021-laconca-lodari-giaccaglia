@@ -23,7 +23,7 @@ public enum SoloActionToken {
      */
     DISCARD2GREEN{
 
-        final DevelopmentCardColor color = DevelopmentCardColor.YELLOW;
+        final DevelopmentCardColor color = DevelopmentCardColor.GREEN;
 
         @Override
         public void applyEffect(GameModel gameModel) {
@@ -37,7 +37,7 @@ public enum SoloActionToken {
      */
     DISCARD2BLUE {
 
-        final DevelopmentCardColor color = DevelopmentCardColor.YELLOW;
+        final DevelopmentCardColor color = DevelopmentCardColor.BLUE;
 
         @Override
         public void applyEffect(GameModel gameModel) {

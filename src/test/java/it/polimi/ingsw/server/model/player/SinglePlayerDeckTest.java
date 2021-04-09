@@ -1,11 +1,16 @@
 package it.polimi.ingsw.server.model.player;
 import java.lang.reflect.Field;
 
+import it.polimi.ingsw.server.model.GameModel;
+import it.polimi.ingsw.server.model.cards.CardShop;
+import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
+import it.polimi.ingsw.server.model.cards.DevelopmentCardDeck;
 import it.polimi.ingsw.server.model.cards.SinglePlayerDeck;
 import org.junit.*;
-
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
@@ -71,7 +76,60 @@ public class SinglePlayerDeckTest {
     }
 
     @Test
-    public void testActivateToken() {
-        //yet to be done
+    public void testActivateToken() throws NoSuchFieldException, IllegalAccessException {
+        for(int i=0; i<20; i++){
+            testToken();
+        }
+    }
+
+    private void testToken() throws NoSuchFieldException, IllegalAccessException {
+
+
+        List<String> players = new ArrayList<>();
+        players.add("testPlayer");
+        boolean isSinglePlayer = true;
+        GameModel gameModelTest = new GameModel(players, isSinglePlayer);
+        SoloActionToken tokenTest = gameModelTest.showSoloActionToken();
+        gameModelTest.activateSoloActionToken();
+
+        Class<?> gameModelTestClass = gameModelTest.getClass();
+        field = gameModelTestClass.getDeclaredField("cardShop");
+        field.setAccessible(true);
+        CardShop cardShopTest = (CardShop) field.get(gameModelTest);
+
+        Map<DevelopmentCardColor, Map<Integer, DevelopmentCardDeck>> devDecks;
+        Class<?> cardShopClassTest = cardShopTest.getClass();
+        field = cardShopClassTest.getDeclaredField("devDecks");
+        field.setAccessible(true);
+        Map<DevelopmentCardColor, Map<Integer, DevelopmentCardDeck>> devDecksTest = (Map<DevelopmentCardColor, Map<Integer, DevelopmentCardDeck>>) field.get(cardShopTest);
+
+        System.out.println("token Tested : " + tokenTest.name());
+
+        if(tokenTest == SoloActionToken.DISCARD2GREEN) {
+            assertEquals(2, devDecksTest.get(DevelopmentCardColor.GREEN).get(1).getDeckSize());
+        }
+        else if(tokenTest == SoloActionToken.DISCARD2YELLOW){
+            assertEquals(2, devDecksTest.get(DevelopmentCardColor.YELLOW).get(1).getDeckSize());
+        }
+
+        else if(tokenTest == SoloActionToken.DISCARD2BLUE){
+            assertEquals(2, devDecksTest.get(DevelopmentCardColor.BLUE).get(1).getDeckSize());
+        }
+
+        else if(tokenTest == SoloActionToken.DISCARD2PURPLE){
+            assertEquals(2, devDecksTest.get(DevelopmentCardColor.PURPLE).get(1).getDeckSize());
+        }
+
+        else if(tokenTest == SoloActionToken.SHUFFLE_ADD1FAITH){
+            assertEquals(1, gameModelTest.getLorenzoPosition(gameModelTest.getCurrentPlayer()));
+        }
+
+        else if(tokenTest == SoloActionToken.ADD2FAITH){
+            assertEquals(2, gameModelTest.getLorenzoPosition(gameModelTest.getCurrentPlayer()));
+            testShuffleActionTokens();
+        }
+
+
+
     }
 }

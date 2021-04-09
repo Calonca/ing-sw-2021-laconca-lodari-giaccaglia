@@ -55,8 +55,6 @@ public class Player {
 
     /**
      * Class constructor
-     * @throws IOException Exception thrown when {@link Player#initializeFaithTrack()} fails to
-     * read class configuration from json file.
      */
     public Player(String nickName) {
      //   leaders = Arrays.asList(new Pair<Leader, LeaderState>[2]);
@@ -158,4 +156,11 @@ public class Player {
         faithTrack.moveLorenzoOnePosition();
     }
 
+    public int getPlayerPosition(){
+        return faithTrack.getPlayerPosition();
+    }
+
+    public int getLorenzoPosition(){
+        return faithTrack.getLorenzoPosition();
+    }
 }

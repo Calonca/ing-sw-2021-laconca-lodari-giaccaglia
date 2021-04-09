@@ -5,15 +5,10 @@ import it.polimi.ingsw.server.model.market.MarketLine;
 import it.polimi.ingsw.server.model.player.*;
 import it.polimi.ingsw.server.model.player.board.Box;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 public class GameModel {
 
@@ -49,15 +44,23 @@ public class GameModel {
      * @param nicknames a List of unique names of players.
      */
     private void commonInit(List<String> nicknames){
-        resourcesMarket = MarketBoard.initializeMarketBoard("src/main/resources/config/MarketBoardConfig.json");
+        try {
+            resourcesMarket = MarketBoard.initializeMarketBoard("src/main/resources/config/MarketBoardConfig.json");
+            cardShop = CardShop.initializeCardShop("src/main/resources/config/CardShopConfig.json");
+
+        } catch (IOException e) {
+            System.out.println("Error while class initialization with json config file");
+            e.printStackTrace();
+        }
+
         players = new ArrayList<>(nicknames.size());
         players = nicknames.stream().map(Player::new).collect(Collectors.toList());
         onlinePlayers = nicknames.stream().map(Player::new).collect(Collectors.toList());
-        cardShop = new CardShop();
+       // cardShop = new CardShop();
     }
 
     /**
-     * Initializes attributes far a single player game.
+     * Initializes attributes for a single player game.
      * @param nickName the unique name of the player.
      */
     private void soloModeInit(String nickName){
@@ -129,16 +132,19 @@ public class GameModel {
      * Makes the players different from the current player advance of one position in the faith track.
      */
     public void addFaithPointToOtherPlayers() {
+        if(!isSinglePlayer)
         onlinePlayers.stream()
                 .filter(player -> !(player == currentPlayer))
                 .forEach(Player::moveOnePosition);
+        else
+            addFaithPointToLorenzo();
     }
 
     /**
      * In the single players game the player plays against Lorenzo il Magnifico.
      * This methods makes Lorenzo advance of one position in the {@link FaithTrack}.
      */
-    public void addFaithPointToLorenzo(){
+    private void addFaithPointToLorenzo(){
         singlePlayer.moveLorenzoOnePosition();
     }
 
@@ -210,8 +216,8 @@ public class GameModel {
      * Convert the first white marble in the picked market board line to a resource
      * based on the {@link it.polimi.ingsw.server.model.player.leaders.MarketLeader leader} selected for that conversion.
      */
-    public void convertWhiteMarbleInPickedLine(){
-        resourcesMarket.convertWhiteMarble();
+    public void convertWhiteMarbleInPickedLine(Resource mappedResource){
+        resourcesMarket.convertWhiteMarble(mappedResource);
     }
 
     /**
@@ -254,5 +260,12 @@ public class GameModel {
                 .anyMatch(player -> player == players.get(playerNumber));
     }
 
+    public int getPlayerPosition(Player player){
+        return player.getPlayerPosition();
+    }
+
+    public int getLorenzoPosition(Player player){
+        return player.getLorenzoPosition();
+    }
 
 }

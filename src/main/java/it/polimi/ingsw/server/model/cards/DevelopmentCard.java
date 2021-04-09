@@ -37,7 +37,7 @@ public class DevelopmentCard
 
     public DevelopmentCard(int level, DevelopmentCardColor cardType,Production production, int victoryPoints)
     {
-        this(level,cardType,production,victoryPoints,new ArrayList<Pair<Resource,Integer>>());
+        this(level,cardType,production,victoryPoints,new ArrayList<>());
     }
     public DevelopmentCard(int level, DevelopmentCardColor cardType,Production production, int victoryPoints, List<Pair<Resource,Integer>> costList)
     {
@@ -55,5 +55,9 @@ public class DevelopmentCard
     }
 
     public Production getProduction(){return production;}
+
+    public List<Pair<Resource,Integer>> getCostList(){
+        return costList;
+    }
 
 }

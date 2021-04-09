@@ -6,16 +6,7 @@ import static org.junit.Assert.*;
 public class SoloActionTokenTest {
 
 
-    @Test
-    public void applyEffect() {
-        //yet to be done , GameModel mock needed
-    }
-
-    @Test
-    public void discardCards() {
-        //yet to be done , GameModel mock needed
-
-    }
+    //effects are tested in SinglePlayerDeckTest
 
     @Test
     public void values() {
