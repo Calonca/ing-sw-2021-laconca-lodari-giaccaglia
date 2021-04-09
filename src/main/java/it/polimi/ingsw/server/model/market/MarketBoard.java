@@ -59,7 +59,7 @@ public class MarketBoard {
      * Extra {@link Marble} to place on the top right corner of MarketBoard slide.
      * Changes value everytime {@link MarketBoard#updateMatrix} is invoked.
      */
-    Marble slideMarble;
+    private Marble slideMarble;
 
     /**
      * Each row and column of the {@link MarketBoard#marbleMatrix} has a corresponding {@link MarketLine}.
@@ -91,6 +91,7 @@ public class MarketBoard {
 
         int randomRowPos = ThreadLocalRandom.current().nextInt(0, marketBoard.rows);
         int randomColumnPos = ThreadLocalRandom.current().nextInt(0, marketBoard.columns);
+        marketBoard.slideMarble = Marble.WHITE;
         Marble temporaryMarble = marketBoard.marbleMatrix[randomRowPos][randomColumnPos];
         marketBoard.marbleMatrix[randomRowPos][randomColumnPos] = marketBoard.slideMarble;
         marketBoard.slideMarble = temporaryMarble;
@@ -110,6 +111,7 @@ public class MarketBoard {
      */
     public void chooseMarketLine(MarketLine line){
 
+        this.line = line;
         int lineNumber = line.getLineNumber();
         mappedResources = Box.discardBox();
 
@@ -160,8 +162,8 @@ public class MarketBoard {
         return whiteMarblesQuantity;
     }
 
-    public void convertWhiteMarble() {
-        mapResource(Marble.WHITE.getConvertedMarble().getResourceNumber(), 1);
+    public void convertWhiteMarble(Resource mappedResource) {
+        mapResource(mappedResource.getResourceNumber(), 1);
     }
 
     public Box getMappedResourcesBox(){
@@ -188,11 +190,11 @@ public class MarketBoard {
                 slideMarble = nextExternalMarble;
         }
         else {
-            Marble nextExternalMarble = marbleMatrix[rows-1][lineNumber];
+            Marble nextExternalMarble = marbleMatrix[rows-1][lineNumber-3];
             for(int i=1; i<rows; i++)
-                marbleMatrix[i][lineNumber] = marbleMatrix[i-1][lineNumber];
+                marbleMatrix[i][lineNumber-3] = marbleMatrix[i-1][lineNumber-3];
 
-            marbleMatrix[0][lineNumber] = slideMarble;
+            marbleMatrix[0][lineNumber-3] = slideMarble;
             slideMarble = nextExternalMarble;
         }
 

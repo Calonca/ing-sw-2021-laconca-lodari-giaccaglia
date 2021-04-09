@@ -30,7 +30,7 @@ public class FaithTrack {
          * Represents the <em>Black Cross</em>, which is the <em>Faith Marker</em> of <em>Lorenzo il Magnifico</em> for
          * the <em>Solo mode</em> game
          */
-        LORENZO;
+        LORENZO
 
     }
 
@@ -105,7 +105,12 @@ public class FaithTrack {
      * @return Piece
      */
     public MutablePair<Piece, Integer> getPlayerPiece() {
-        return playerPiece;
+
+        MutablePair<Piece, Integer> playerPieceCopy = new MutablePair<>();
+        playerPieceCopy.setLeft(playerPiece.getLeft());
+        playerPieceCopy.setRight(playerPiece.getRight());
+
+        return playerPieceCopy;
     }
 
     /**
@@ -113,7 +118,11 @@ public class FaithTrack {
      * @return Piece
      */
     public MutablePair<Piece, Integer> getLorenzoPiece() {
-        return lorenzoPiece;
+        MutablePair<Piece, Integer> lorenzoPieceCopy = new MutablePair<>();
+        lorenzoPieceCopy.setLeft(lorenzoPiece.getLeft());
+        lorenzoPieceCopy.setRight(lorenzoPiece.getRight());
+
+        return lorenzoPieceCopy;
     }
 
     /**
@@ -195,5 +204,14 @@ public class FaithTrack {
                 .orElse(0);
 
     }
+
+    public int getLorenzoPosition(){
+        return getPiecePosition(lorenzoPiece);
+    }
+
+    public int getPlayerPosition(){
+        return getPiecePosition(playerPiece);
+    }
+
 }
 

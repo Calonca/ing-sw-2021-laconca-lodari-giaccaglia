@@ -1,13 +1,8 @@
 package it.polimi.ingsw.server.model.cards;
-import com.google.gson.Gson;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Collections;
 import java.util.List;
 
 public class DevelopmentCardDeck {
+
 
     private int level;
     private DevelopmentCardColor color;
@@ -23,6 +18,9 @@ public class DevelopmentCardDeck {
         this.deckSize = deckSize;
     }
 
+    public int getDeckSize() {
+        return deckSize;
+    }
 
     public boolean isDeckEmpty(){
         return deckSize == 0;
@@ -33,9 +31,10 @@ public class DevelopmentCardDeck {
         return deck.remove(deckSize);
     }
 
-    public DevelopmentCardColor getColor(){
+
+  /*  public DevelopmentCardColor getColor(){
         return color;
-    }
+    } */
 
 
 }
