@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.model.player;
+package it.polimi.ingsw.server.model.player.track;
 
 import org.junit.Test;
 
@@ -8,7 +8,7 @@ public class FaithZoneTest {
 
     @Test
     public void getZoneNumber() {
-        FaithZone [] zones = FaithZone.values();
+        FaithZone[] zones = FaithZone.values();
 
         for (FaithZone zone : zones)
             assertEquals(zone.getZoneNumber(), (zone.ordinal() - 1));

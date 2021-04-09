@@ -1,4 +1,7 @@
-package it.polimi.ingsw.server.model.player;
+package it.polimi.ingsw.server.model.player.track;
+
+import it.polimi.ingsw.server.model.player.track.FaithTrack;
+import it.polimi.ingsw.server.model.player.track.PopeFavourTile;
 
 /**
  *  <p>Enum class for the <em>Tile State</em> of <em>Pope's Favour tiles</em> in the {@link FaithTrack}.<br>

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.model.player;
+package it.polimi.ingsw.server.model.player.track;
 
 import com.google.gson.Gson;
 import com.google.gson.*;

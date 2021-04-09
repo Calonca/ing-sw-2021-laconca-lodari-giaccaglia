@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.model.player;
+package it.polimi.ingsw.server.model.player.track;
 
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.junit.Before;
@@ -146,7 +146,7 @@ public class FaithTrackTest {
     @Test
     public void testTurnPopeFavourTile() throws Exception {
 
-        testFavourTile(11, 8 ,TileState.ACTIVE, 0);
+        testFavourTile(11, 8 , TileState.ACTIVE, 0);
 
         setUp();
         testFavourTile(16, 16, TileState.ACTIVE, 1);

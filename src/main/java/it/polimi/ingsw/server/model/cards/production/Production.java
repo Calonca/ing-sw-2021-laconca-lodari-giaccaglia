@@ -1,6 +1,5 @@
-package it.polimi.ingsw.server.model;
+package it.polimi.ingsw.server.model.cards.production;
 
-import com.google.gson.annotations.Expose;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.player.board.Box;
 import it.polimi.ingsw.server.model.player.board.PersonalBoard;

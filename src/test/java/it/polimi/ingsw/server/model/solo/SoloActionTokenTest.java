@@ -1,4 +1,5 @@
-package it.polimi.ingsw.server.model.player;
+package it.polimi.ingsw.server.model.solo;
+import it.polimi.ingsw.server.model.solo.SoloActionToken;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
