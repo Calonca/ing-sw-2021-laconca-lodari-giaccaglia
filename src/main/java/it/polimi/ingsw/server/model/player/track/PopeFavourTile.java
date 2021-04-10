@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.model.player;
+package it.polimi.ingsw.server.model.player.track;
 
 /**
  * Represents a <em>Pope Space</em> of the {@link FaithTrack}, in which is part of the {@link FaithTrack#tiles tiles} list.

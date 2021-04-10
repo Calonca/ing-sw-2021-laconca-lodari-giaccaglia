@@ -1,5 +1,7 @@
-package it.polimi.ingsw.server.model;
+package it.polimi.ingsw.server.model.cards.production;
 
+import it.polimi.ingsw.server.model.Resource;
+import it.polimi.ingsw.server.model.cards.production.Production;
 import it.polimi.ingsw.server.model.player.board.PersonalBoard;
 import org.junit.Test;
 

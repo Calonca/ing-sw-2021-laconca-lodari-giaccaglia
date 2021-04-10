@@ -1,9 +1,11 @@
-package it.polimi.ingsw.server.model.player;
+package it.polimi.ingsw.server.model.player.track;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import it.polimi.ingsw.server.model.player.track.PopeFavourTile;
+import it.polimi.ingsw.server.model.player.track.TileState;
 import org.junit.Before;
 import org.junit.Test;
 

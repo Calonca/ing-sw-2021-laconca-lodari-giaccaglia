@@ -1,7 +1,6 @@
-package it.polimi.ingsw.server.model.cards;
+package it.polimi.ingsw.server.model.solo;
 
 import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.server.model.player.SoloActionToken;
 
 import java.util.*;
 

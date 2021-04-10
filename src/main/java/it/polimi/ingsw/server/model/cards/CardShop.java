@@ -1,21 +1,16 @@
 package it.polimi.ingsw.server.model.cards;
 
-import java.awt.*;
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.server.model.Resource;
-import it.polimi.ingsw.server.model.market.MarketBoard;
-import it.polimi.ingsw.server.model.player.*;
+import it.polimi.ingsw.server.model.solo.SoloActionToken;
 import javafx.util.Pair;
 
 /**

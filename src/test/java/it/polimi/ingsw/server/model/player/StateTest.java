@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.player;
 
+import it.polimi.ingsw.server.model.player.State;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

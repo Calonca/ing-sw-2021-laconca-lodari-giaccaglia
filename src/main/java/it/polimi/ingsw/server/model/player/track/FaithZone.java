@@ -1,4 +1,7 @@
-package it.polimi.ingsw.server.model.player;
+package it.polimi.ingsw.server.model.player.track;
+
+import it.polimi.ingsw.server.model.player.track.FaithCell;
+import it.polimi.ingsw.server.model.player.track.FaithTrack;
 
 /**
  *  <p>Enum class for <em>Faith Zones</em> in the {@link FaithTrack}.<br>

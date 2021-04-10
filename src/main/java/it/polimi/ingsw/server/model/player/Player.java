@@ -5,6 +5,7 @@ import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.server.model.cards.*;
 import it.polimi.ingsw.server.model.player.leaders.DevelopmentDiscountLeader;
 import it.polimi.ingsw.server.model.player.board.*;
+import it.polimi.ingsw.server.model.player.track.FaithTrack;
 import javafx.util.Pair;
 import java.io.*;
 import java.nio.charset.StandardCharsets;

@@ -2,7 +2,10 @@ package it.polimi.ingsw.server.model.player.board;
 
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
+import it.polimi.ingsw.server.model.cards.production.Production;
+import it.polimi.ingsw.server.model.cards.production.ProductionCardCell;
 import it.polimi.ingsw.server.model.player.leaders.ProductionLeader;
+import it.polimi.ingsw.server.model.player.track.FaithTrack;
 import javafx.util.Pair;
 
 import java.util.*;
@@ -48,12 +51,12 @@ public class PersonalBoard {
      */
     private List<Optional<Boolean>> prodsSelected;
     /**
-     * The faith points that need to added by the strategy to the {@link it.polimi.ingsw.server.model.player.FaithTrack FaithTrack}
+     * The faith points that need to added by the strategy to the {@link FaithTrack FaithTrack}
      */
     private int faithPointsToAdd = 0;
     /**
      * The faith points that need to added by the strategy to the
-     * {@link it.polimi.ingsw.server.model.player.FaithTrack FaithTrack}
+     * {@link FaithTrack FaithTrack}
      * of the other players
      */
     private int badFaithToAdd = 0;

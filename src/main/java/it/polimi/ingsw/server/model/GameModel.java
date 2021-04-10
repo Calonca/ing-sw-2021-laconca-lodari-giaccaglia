@@ -4,6 +4,9 @@ import it.polimi.ingsw.server.model.market.MarketBoard;
 import it.polimi.ingsw.server.model.market.MarketLine;
 import it.polimi.ingsw.server.model.player.*;
 import it.polimi.ingsw.server.model.player.board.Box;
+import it.polimi.ingsw.server.model.player.track.FaithTrack;
+import it.polimi.ingsw.server.model.solo.SinglePlayerDeck;
+import it.polimi.ingsw.server.model.solo.SoloActionToken;
 
 import java.io.IOException;
 import java.util.ArrayList;
