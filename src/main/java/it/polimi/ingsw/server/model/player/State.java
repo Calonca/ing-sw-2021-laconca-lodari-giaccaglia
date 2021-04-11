@@ -22,9 +22,10 @@ import it.polimi.ingsw.server.model.player.board.*;
  *      </ul>
  *  <li>{@link #MIDDLE_PHASE} <em>"Normal actions"</em>
  *      <ul>
+ *          <li>
  *          <li><em>Activate the Production :</em>
  *          <li>{@link #CHOOSING_CARD_FOR_PRODUCTION}
- *          <li>{@link #CHOOSING_RESOURCE_FOR_PRODUCTION}
+ *          <li>{@link #CHOOSING_RESOURCES_FOR_PRODUCTION}
  *
  *          <li><em>Take Resources from Market :</em>
  *          <li>{@link #SHOWING_MARKET_RESOURCES}
@@ -34,6 +35,7 @@ import it.polimi.ingsw.server.model.player.board.*;
  *          <li><em>Buy one Development Card :</em>
  *          <li>{@link #SHOWING_CARD_SHOP}
  *          <li>{@link #CHOOSING_DEVELOPMENT_CARD}
+ *          <li>{@link #CHOOSING_RESOURCES_FOR_DEVCARD}
  *          <li>
  *      </ul>
  *  <li>{@link #FINAL_PHASE}
@@ -77,7 +79,7 @@ public enum State {
      * <em>Normal Action</em> phase following {@link State#CHOOSING_CARD_FOR_PRODUCTION}, where player chooses
      * {@link Resource Resources} stored in any available type of {@link Box}, to complete the production process.
      */
-    CHOOSING_RESOURCE_FOR_PRODUCTION,
+    CHOOSING_RESOURCES_FOR_PRODUCTION,
 
     /**
      * <em>Normal Action</em> phase to show {@link MarketBoard} and let player choose a
@@ -107,6 +109,12 @@ public enum State {
      * where player chooses one {@link DevelopmentCard DevelopmentCard} to purchase.
      */
     CHOOSING_DEVELOPMENT_CARD,
+
+    /**
+     * <em>Normal Action</em> phase following {@link State#CHOOSING_DEVELOPMENT_CARD} where player chooses resources
+     * among available ones in {@link PersonalBoard}.
+     */
+    CHOOSING_RESOURCES_FOR_DEVCARD,
 
 
     /**

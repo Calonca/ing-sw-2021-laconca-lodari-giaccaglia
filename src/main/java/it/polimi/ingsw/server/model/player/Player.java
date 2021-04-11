@@ -73,6 +73,12 @@ public class Player {
         return personalBoard;
     }
 
+
+    /**
+     * Method to get currentlu active {@link DevelopmentCard} required resources discounts, stored inside player's
+     * {@link Player#discounts} array as positional int values-
+     * @return {@link Player#discounts} array storing updated values.
+     */
     public int[] getDiscounts()
     {
         return discounts;
@@ -81,9 +87,12 @@ public class Player {
     public boolean[] getMarketBonus() {
         return marketBonus;
     }
+
     /**
-     * Applies Discount Leader effect on discount array
-     * @param discount != NULL
+     * Method to store inside player's {@link Player#discounts} array a new positional {@link Resource} value to discount
+     * after the appropriate {@link it.polimi.ingsw.server.model.player.leaders.Leader} <em>effect</em> has been activated.
+     * @param discount {@link Pair} containing a Resource to discount when purchasing a {@link DevelopmentCard} from {@link CardShop} as a key
+     * and an int as a value indicating the discount amount.
      * Used by leader interface
      */
     public void applyDiscount(Pair<Resource,Integer> discount)
@@ -91,6 +100,14 @@ public class Player {
         discounts[discount.getKey().getResourceNumber()]+=discount.getValue();
     }
 
+
+    /**
+     * Method to store inside player's {@link Player#marketBonus} array a new {@link Resource} for
+     * {@link it.polimi.ingsw.server.model.market.Marble#WHITE WHITE MARBLE} conversion when choosing a row/column from
+     * {@link it.polimi.ingsw.server.model.market.MarketBoard}.
+     *
+     * @param resource {@link Resource}
+     */
     public void applyMarketBonus(Resource resource)
     {
         marketBonus[resource.getResourceNumber()]=true;
@@ -153,14 +170,25 @@ public class Player {
         faithTrack.moveOnePosition();
     }
 
+    /**
+     * Method to move {@link FaithTrack#playerPiece playerPiece} one position along {@link FaithTrack} during
+     * <em>Solo mode</em> method.
+     */
     public void moveLorenzoOnePosition(){
         faithTrack.moveLorenzoOnePosition();
     }
 
+    /**
+     * @return parameter this player position along {@link FaithTrack} as an int value.
+     */
     public int getPlayerPosition(){
         return faithTrack.getPlayerPosition();
     }
 
+    /**
+     * Solo mode method to get current {@link FaithTrack#lorenzoPiece lorenzoPiece} along {@link FaithTrack}.
+     * @return {@link FaithTrack#lorenzoPiece lorenzoPiece} along {@link FaithTrack} as an int value.
+     */
     public int getLorenzoPosition(){
         return faithTrack.getLorenzoPosition();
     }

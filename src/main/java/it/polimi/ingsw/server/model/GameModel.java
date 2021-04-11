@@ -1,31 +1,71 @@
 package it.polimi.ingsw.server.model;
 import it.polimi.ingsw.server.model.cards.*;
-import it.polimi.ingsw.server.model.market.MarketBoard;
-import it.polimi.ingsw.server.model.market.MarketLine;
+import it.polimi.ingsw.server.model.market.*;
 import it.polimi.ingsw.server.model.player.*;
-import it.polimi.ingsw.server.model.player.board.Box;
-import it.polimi.ingsw.server.model.player.track.FaithTrack;
-import it.polimi.ingsw.server.model.solo.SinglePlayerDeck;
-import it.polimi.ingsw.server.model.solo.SoloActionToken;
+import it.polimi.ingsw.server.model.player.board.*;
+import it.polimi.ingsw.server.model.player.track.*;
+import it.polimi.ingsw.server.model.solo.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.*;
+import java.util.stream.*;
 
 public class GameModel {
 
+
+    /**
+     * Player currently facing playing a game turn.
+     */
     private Player currentPlayer;
+
+    /**
+     * List of current game registered players after lobby creation.
+     */
     private List<Player> players;
+
+    /**
+     * List of currently online players among ones in {@link GameModel#players} list.
+     */
     private List<Player> onlinePlayers;
+
+    /**
+     * This game market to store <em>MarketBoard</em> marbles for {@link State#SHOWING_MARKET_RESOURCES} <em>Game phase</em>
+     */
     private MarketBoard resourcesMarket;
-    private State gamePhase;
+
+    /**
+     * Ending game variable referencing the winner player, if present, determined after last played {@link State#FINAL_PHASE}
+     */
     private Player winnerPlayer;
+
+    /**
+     * Boolean value indicating if current player has started or is still in setup phase.
+     */
     private boolean isStarted;
+
+    /**
+     * Boolean value indicating if current game is either multiplayer or singleplayer
+     */
     private final boolean isSinglePlayer;
+
+    /**
+     * Unique player facing <em>Lorenzo Il Magnifico</em> in <em>Solo Mode</em> game.
+     * player is still contained in {@link GameModel#players} and {@link GameModel#onlinePlayers} lists as in multiplayer game.
+     */
     private Player singlePlayer;
+
+    /**
+     * <em>Solo Mode</em> container to store {@link SoloActionToken SoloActionTokens} to reveal after each turn.
+     */
     private SinglePlayerDeck soloDeck;
+
+
+    /**
+     * This game data structure to represent a {@link DevelopmentCard DevelopmentCards} grid structured according to
+     * official game rules
+     */
     private CardShop cardShop;
+
 
     /**
      * Constructor for a game of Maestri del Rinascimento.
@@ -59,7 +99,6 @@ public class GameModel {
         players = new ArrayList<>(nicknames.size());
         players = nicknames.stream().map(Player::new).collect(Collectors.toList());
         onlinePlayers = nicknames.stream().map(Player::new).collect(Collectors.toList());
-       // cardShop = new CardShop();
     }
 
     /**
@@ -97,6 +136,10 @@ public class GameModel {
                 .findAny().orElse(null);
     }
 
+    /**
+     * Updates this {@link GameModel#onlinePlayers} list with currently online players, by checking
+     * {@link GameModel#players players} connection status variable.
+     */
     private void updateOnlinePlayers() {
         onlinePlayers = players
                 .stream()
@@ -104,18 +147,23 @@ public class GameModel {
                 .collect(Collectors.toList());
     }
 
+    //TODO CHECK IF IS REASONABLE TO RETURN PLAYER REFERENCE, MAYBE STRING NAME IS ENOUGH
+    /**
+     * @return a list of currently online {@link Player Players}
+     */
     public List<Player> getOnlinePlayers() {
         return new ArrayList<>(onlinePlayers);
     }
 
-    /**
-     * Returns the {@link State state} of the game of the current player.<br>
-     * The {@link State state} of the game of each player can be different.
-     * @return the {@link State state} of the game for the current player.
-     */
+    /* //TODO CHECK IF IS A USELESS METHOD
+   /**
+    * Returns the {@link State state} of the game of the current player.<br>
+    * The {@link State state} of the game of each player can be different.
+    * @return the {@link State state} of the game for the current player.
+
     public State getGamePhase(){
         return gamePhase;
-    }
+    } */
 
     /**
      * Returns the {@link Player player} that will play in the next turn.
@@ -207,6 +255,7 @@ public class GameModel {
         resourcesMarket.updateMatrix();
     }
 
+
     public boolean areThereWhiteMarblesInPickedLine(){
         return resourcesMarket.areThereWhiteMarbles();
     }
@@ -263,12 +312,22 @@ public class GameModel {
                 .anyMatch(player -> player == players.get(playerNumber));
     }
 
+    /**
+     * @param player Current Game player, belonging to {@link GameModel#players} list.
+     * @return parameter player position along {@link FaithTrack} as an int value.
+     */
     public int getPlayerPosition(Player player){
         return player.getPlayerPosition();
     }
 
+    /**
+     * Solo mode method to get current {@link FaithTrack#lorenzoPiece lorenzoPiece} along {@link FaithTrack}.
+     * @param player Current Game player, belonging to {@link GameModel#players} list.
+     * @return {@link FaithTrack#lorenzoPiece lorenzoPiece} along {@link FaithTrack} as an int value.
+     */
     public int getLorenzoPosition(Player player){
         return player.getLorenzoPosition();
     }
+
 
 }

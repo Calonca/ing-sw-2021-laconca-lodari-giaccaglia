@@ -3,7 +3,6 @@ package it.polimi.ingsw.server.model.market;
 /**
  * Enum class for MarketBoard rows and columns selection
  */
-
 public enum MarketLine {
 
     FIRST_ROW(0),

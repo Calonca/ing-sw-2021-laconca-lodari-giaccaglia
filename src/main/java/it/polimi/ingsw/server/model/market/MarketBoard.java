@@ -63,7 +63,7 @@ public class MarketBoard {
 
     /**
      * Each row and column of the {@link MarketBoard#marbleMatrix} has a corresponding {@link MarketLine}.
-     * A <em>MarketLine</em> is needed to pick an entire row or column during {@link State#CHOOSING_RESOURCE_FOR_PRODUCTION}
+     * A <em>MarketLine</em> is needed to pick an entire row or column during {@link State#CHOOSING_RESOURCES_FOR_PRODUCTION}
      * turn phase.
      */
     private MarketLine line;

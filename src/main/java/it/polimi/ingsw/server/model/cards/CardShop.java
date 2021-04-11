@@ -25,6 +25,10 @@ public class CardShop {
      */
     private Integer maxLevel;
 
+
+    /**
+     * Temporary variable to store purchased {@link DevelopmentCard} during {@link it.polimi.ingsw.server.model.player.State#}
+     */
     private DevelopmentCard purchasedCard;
 
     public CardShop(Map<DevelopmentCardColor, Map<Integer, DevelopmentCardDeck>> devDecks) {
@@ -47,6 +51,7 @@ public class CardShop {
      * inside the same List have the same level value.
      */
         private Map<DevelopmentCardColor, Map<Integer, DevelopmentCardDeck>> devDecks;
+
     /**
      * <p>Solo mode method to discard development cards from the <em>CardShop</em> when dedicated
      * {@link SoloActionToken SoloActionTokens}effects are applied.<br>
