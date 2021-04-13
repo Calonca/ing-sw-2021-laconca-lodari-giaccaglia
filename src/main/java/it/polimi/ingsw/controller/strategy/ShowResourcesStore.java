@@ -5,9 +5,9 @@ import it.polimi.ingsw.server.model.player.State;
 
 public class ShowResourcesStore extends GameStrategy
 {
-    public void execute(GameModel gamemodel)
+    public State execute(GameModel gamemodel)
     {
         //ON EVENT CHOOSEMARKETBOARD
-        gamemodel.getCurrentPlayer().setCurrentState(State.SHOWING_MARKET_RESOURCES);
+        return State.SHOWING_MARKET_RESOURCES;
     }
 }

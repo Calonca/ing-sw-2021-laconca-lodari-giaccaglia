@@ -5,9 +5,9 @@ import it.polimi.ingsw.server.model.player.State;
 
 public class ShowProductionCards extends GameStrategy
 {
-    public void execute(GameModel gamemodel)
+    public State execute(GameModel gamemodel)
     {
         //ON EVENT CHOOSEPRODUCTIONEVENT
-        gamemodel.getCurrentPlayer().setCurrentState(State.CHOOSING_CARD_FOR_PRODUCTION);
+        return State.CHOOSING_CARD_FOR_PRODUCTION;
     }
 }
