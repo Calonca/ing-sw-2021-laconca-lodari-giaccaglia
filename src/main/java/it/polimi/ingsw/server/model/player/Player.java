@@ -62,8 +62,8 @@ public class Player {
         personalBoard= new PersonalBoard();
         currentlyOnline = true;
         currentState = State.IDLE;
-        discounts=new int[7];
-        marketBonus=new boolean[5];
+        discounts=new int[4];
+        marketBonus=new boolean[4];
         this.nickName = nickName;
         initializeFaithTrack();
     }
