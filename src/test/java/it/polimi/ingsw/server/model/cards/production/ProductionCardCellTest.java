@@ -34,13 +34,13 @@ public class ProductionCardCellTest
 
         for(int i=0; i<testCardCell_iSA.getMaxsize()-1; i++)
         {
-            testCardOne_iSA= new DevelopmentCard(1, DevelopmentCardColor.GREEN);
+            testCardOne_iSA= new DevelopmentCard(i+1, DevelopmentCardColor.GREEN);
+            assertTrue(testCardCell_iSA.isSpotAvailable(testCardOne_iSA));
             testCardCell_iSA.addToTop(testCardOne_iSA);
-            assertTrue(testCardCell_iSA.isSpotAvailable());
         }
         testCardOne_iSA= new DevelopmentCard(1, DevelopmentCardColor.GREEN);
         testCardCell_iSA.addToTop(testCardOne_iSA);
-        assertFalse(testCardCell_iSA.isSpotAvailable());
+        assertFalse(testCardCell_iSA.isSpotAvailable(testCardOne_iSA));
 
 
     }
@@ -55,9 +55,8 @@ public class ProductionCardCellTest
 
         for(int i=0; i<testCardCell_aTT.getMaxsize()-1; i++)
         {
-            testCardOne_aTT= new DevelopmentCard(1, DevelopmentCardColor.GREEN);
+            testCardOne_aTT= new DevelopmentCard(i+1, DevelopmentCardColor.GREEN);
             testCardCell_aTT.addToTop(testCardOne_aTT);
-            assertTrue(testCardCell_aTT.isSpotAvailable());
             assertEquals(i+1,testCardCell_aTT.stackedCards.size());
         }
 

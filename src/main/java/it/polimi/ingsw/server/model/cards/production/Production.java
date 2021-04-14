@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.stream.IntStream;
 
 /**
- * Class to apply the production cards logic TODO testing
+ * Class to apply the production cards logic
  */
 public class Production {
     /**

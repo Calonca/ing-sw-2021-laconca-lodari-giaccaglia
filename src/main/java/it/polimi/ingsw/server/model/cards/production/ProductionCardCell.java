@@ -38,9 +38,9 @@ public class ProductionCardCell {
      * Returns True if more cards can be added to the stack.
      *
      */
-    public boolean isSpotAvailable()
+    public boolean isSpotAvailable(DevelopmentCard card)
     {
-        return stackedCards.size()<maxsize;
+        return stackedCards.size()<maxsize&&card.getLevel()==stackedCards.size()+1;
     }
 
     /**

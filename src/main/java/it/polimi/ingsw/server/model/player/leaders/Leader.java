@@ -48,6 +48,7 @@ public abstract class Leader
      */
     public boolean areRequirementsSatisfied(GameModel gamemodel){
         int temp=0;
+        //TODO FAR CICLARE NEL METODO? USO LA STESSA COSA ANCHE IN DEVELOPMENTCARD
         for (Pair<Resource, Integer> requirementsResource : requirementsResources) {
             if (gamemodel.getCurrentPlayer().getPersonalBoard().getNumberOf(requirementsResource.getKey()) < requirementsResource.getValue())
                 return false;
