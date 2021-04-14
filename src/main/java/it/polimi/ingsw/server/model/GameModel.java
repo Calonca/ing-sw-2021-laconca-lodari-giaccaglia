@@ -8,6 +8,7 @@ import it.polimi.ingsw.server.model.solo.*;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.*;
 
 public class GameModel {
@@ -21,12 +22,12 @@ public class GameModel {
     /**
      * List of current game registered players after lobby creation.
      */
-    private List<Player> players;
+    private Map<Integer, Player> players;
 
     /**
      * List of currently online players among ones in {@link GameModel#players} list.
      */
-    private List<Player> onlinePlayers;
+    private Map<Integer, Player> onlinePlayers;
 
     /**
      * This game market to store <em>MarketBoard</em> marbles for {@link State#SHOWING_MARKET_RESOURCES} <em>Game phase</em>
@@ -77,7 +78,7 @@ public class GameModel {
         this.isSinglePlayer = isSinglePlayer;
         commonInit(nicknames);
 
-        if(isSinglePlayer) soloModeInit(nicknames.get(0));
+        if(isSinglePlayer) soloModeInit(players.get(0));
 
         isStarted = false;
     }
@@ -87,6 +88,7 @@ public class GameModel {
      * @param nicknames a List of unique names of players.
      */
     private void commonInit(List<String> nicknames){
+
         try {
             resourcesMarket = MarketBoard.initializeMarketBoard("src/main/resources/config/MarketBoardConfig.json");
             cardShop = CardShop.initializeCardShop("src/main/resources/config/CardShopConfig.json");
@@ -96,19 +98,29 @@ public class GameModel {
             e.printStackTrace();
         }
 
-        players = new ArrayList<>(nicknames.size());
-        players = nicknames.stream().map(Player::new).collect(Collectors.toList());
-        onlinePlayers = nicknames.stream().map(Player::new).collect(Collectors.toList());
+        players = IntStream.range(0, nicknames.size())
+                .boxed()
+                .collect(Collectors.toMap(Function.identity(), i -> new Player(nicknames.get(i))));
+
+       // players = nicknames.stream().map(Player::new).collect(Collectors.toList());
+        onlinePlayers = IntStream.range(0, nicknames.size())
+                .boxed()
+                .collect(Collectors.toMap(Function.identity(), i -> players.get(i)));
+
     }
 
     /**
      * Initializes attributes for a single player game.
-     * @param nickName the unique name of the player.
+     * @param singlePlayer the unique player.
      */
-    private void soloModeInit(String nickName){
-        singlePlayer = new Player(nickName);
+    private void soloModeInit(Player singlePlayer){
+        this.singlePlayer = singlePlayer;
         soloDeck = new SinglePlayerDeck();
         currentPlayer = singlePlayer;
+    }
+
+    public void setGameStatus(boolean isStarted){
+        this.isStarted = isStarted;
     }
 
     /**
@@ -138,9 +150,29 @@ public class GameModel {
      * @return the {@link Player player} with the given nickname.
      */
     public Player getPlayer(String nickname) {
-          return players.stream()
-                .filter(player1 -> player1.getNickName().equals(nickname))
+          return players.values().stream()
+                  .filter(player1 -> player1.getNickName().equals(nickname))
                 .findAny().orElse(null);
+    }
+
+    public void setOfflinePlayer(Player player){
+        player.setCurrentStatus(false);
+        updateOnlinePlayers();
+        setCurrentPlayer(getNextPlayer());
+    }
+
+    public void setOnlinePlayer(Player player){
+
+        int playerIndex = getPlayerIndex(player, players);
+        setPlayerStatus(playerIndex, true);
+
+    }
+
+    private int getPlayerIndex(Player player, Map<Integer, Player> playersMap){
+
+        return playersMap.keySet().stream()
+                .filter(index -> playersMap.get(index).equals(player))
+                .findFirst().orElse(0);
     }
 
     /**
@@ -148,18 +180,21 @@ public class GameModel {
      * {@link GameModel#players players} connection status variable.
      */
     private void updateOnlinePlayers() {
-        onlinePlayers = players
-                .stream()
-                .filter(Player::isOnline)
-                .collect(Collectors.toList());
+        onlinePlayers = onlinePlayers.keySet().stream().filter(key -> onlinePlayers.get(key).isOnline())
+                .collect(Collectors.toMap(Function.identity(), index -> onlinePlayers.get(index)));
     }
 
     //TODO CHECK IF IS REASONABLE TO RETURN PLAYER REFERENCE, MAYBE STRING NAME IS ENOUGH
     /**
      * @return a list of currently online {@link Player Players}
      */
-    public List<Player> getOnlinePlayers() {
-        return new ArrayList<>(onlinePlayers);
+    public Map<Integer, Player> getOnlinePlayers() {
+        return onlinePlayers;
+    }
+
+    public Map<Integer, Player> getOfflinePlayers(){
+        return players.keySet().stream().filter(key -> !players.get(key).isOnline()).collect(Collectors.toMap(
+                Function.identity(), index -> players.get(index)));
     }
 
     /* //TODO CHECK IF IS A USELESS METHOD
@@ -178,12 +213,42 @@ public class GameModel {
      */
     public Player getNextPlayer() {
 
-        int currentPlayerIndex = onlinePlayers.indexOf(currentPlayer);
+        int currentPlayerIndex = getPlayerIndex(currentPlayer, onlinePlayers);
 
-        if(currentPlayerIndex == (onlinePlayers.size() -1 ) )
+        if(currentPlayerIndex == (players.size() -1 ) )
             return players.get(0);
         else
-            return players.get(onlinePlayers.indexOf(currentPlayer) + 1);
+            return players.get(currentPlayerIndex + 1);
+
+    }
+
+    public void setCurrentPlayerState(State currentState) {
+        currentPlayer.setCurrentState(currentState);
+    }
+
+    public boolean purchaseCardFromCardShop(DevelopmentCardColor color, int level){
+
+        if(cardShop.isLevelOfColourOutOfStock(color, level))
+            return false;
+
+        cardShop.purchaseCard(color, level);
+        return true;
+    }
+
+    public DevelopmentCard getPurchasedCard(){
+        return cardShop.getPurchasedCard();
+    }
+
+    public boolean isCardColorOutOfStock(DevelopmentCardColor color){
+        return cardShop.isColorOutOfStock(color);
+    }
+
+    public boolean isSomeDevCardColourOutOfStock(){
+        return cardShop.isSomeColourOutOfStock();
+    }
+
+    public DevelopmentCardColor getDevCardColorOutOfStock(){
+        return cardShop.getColourOutOfStock();
     }
 
     /**
@@ -191,7 +256,7 @@ public class GameModel {
      */
     public void addFaithPointToOtherPlayers() {
         if(!isSinglePlayer)
-        onlinePlayers.stream()
+        onlinePlayers.values().stream()
                 .filter(player -> !(player == currentPlayer))
                 .forEach(Player::moveOnePosition);
         else
@@ -251,8 +316,8 @@ public class GameModel {
      * to get the resources in that line.
      * @param line an enum indicating the row or column.
      */
-    public void chooseLineFromMarketBoard(MarketLine line){
-        resourcesMarket.chooseMarketLine(line);
+    public Marble[] chooseLineFromMarketBoard(MarketLine line){
+        return resourcesMarket.chooseMarketLine(line);
     }
 
     /**
@@ -261,7 +326,6 @@ public class GameModel {
     public void updateMatrixAfterTakingResources(){
         resourcesMarket.updateMatrix();
     }
-
 
     public boolean areThereWhiteMarblesInPickedLine(){
         return resourcesMarket.areThereWhiteMarbles();
@@ -295,18 +359,20 @@ public class GameModel {
      * @param currentlyOnline if the status of the {@link Player player} needs to be set to online.
      */
     public void setPlayerStatus(int playerNumber, boolean currentlyOnline){
-        players.get(playerNumber).setCurrentStatus(currentlyOnline);
 
+        players.get(playerNumber).setCurrentStatus(currentlyOnline);
         if(currentlyOnline) {
-            if (onlinePlayers.stream()
+            if (onlinePlayers.values().stream()
                     .noneMatch(player -> player == players.get(playerNumber)))
-                onlinePlayers.add(players.get(playerNumber));
+                onlinePlayers.put(playerNumber,players.get(playerNumber));
         }
         else{
-            onlinePlayers = onlinePlayers.stream()
-                    .filter(player -> player!= players.get(playerNumber))
-                    .collect(Collectors.toList());
+
+            onlinePlayers = onlinePlayers.keySet().stream()
+                    .filter(index -> players.get(index).isOnline())
+                    .collect(Collectors.toMap(Function.identity(), index -> players.get(index)));
         }
+
     }
 
     /**
@@ -315,8 +381,7 @@ public class GameModel {
      * @return if the {@link Player player} at the given position is online.
      */
     public boolean isPlayerCurrentlyOnline(int playerNumber){
-        return onlinePlayers.stream()
-                .anyMatch(player -> player == players.get(playerNumber));
+        return players.get(playerNumber).isOnline();
     }
 
     /**

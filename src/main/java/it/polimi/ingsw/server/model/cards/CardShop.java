@@ -9,9 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.solo.SoloActionToken;
-import javafx.util.Pair;
 
 /**
  * Represents a matrix like data structure to store the purchasable {@link DevelopmentCard DevelopmentCards} during
@@ -27,7 +25,7 @@ public class CardShop {
 
 
     /**
-     * Temporary variable to store purchased {@link DevelopmentCard} during {@link it.polimi.ingsw.server.model.player.State#}
+     * Temporary variable to store purchased {@link DevelopmentCard} during {@link it.polimi.ingsw.server.model.player.State}
      */
     private DevelopmentCard purchasedCard;
 
@@ -63,6 +61,8 @@ public class CardShop {
      * @param amount Specified number of cards to be discarded.
      */
     public void discardCard(DevelopmentCardColor color, int amount){
+
+        // TODO IMPLEMENTARE LOGICA SINGLE PLAYER DI FINE GIOCO
         int discarded = 0;
         for(int i=0; i<amount; i++){
             for(int j = 1; j<= maxLevel; j++) {
@@ -85,12 +85,13 @@ public class CardShop {
      * Has to be lower than the {@link CardShop#maxLevel} of this CardShop.
      */
     public void purchaseCard(DevelopmentCardColor color, int level){
-        purchasedCard =devDecks.get(color).get(1).getCard();
+        purchasedCard =devDecks.get(color).get(level).getCard();
     }
 
-    public List<Pair<Resource,Integer>> resourcesToPay(){
-        return purchasedCard.getCostList();
+    public boolean isLevelOfColourOutOfStock(DevelopmentCardColor color, int level){
+        return devDecks.get(color).get(level).isDeckEmpty();
     }
+
 
     /**
      * Method to retrieve previously selected card through {@link CardShop#discardCard},
@@ -98,8 +99,9 @@ public class CardShop {
      *
      * @return purchased {@link DevelopmentCard}
      */
-    public DevelopmentCard pickPurchasedCard(){
-        return purchasedCard;
+
+    public DevelopmentCard getPurchasedCard(){
+        return new DevelopmentCard(purchasedCard);
     }
 
     /**

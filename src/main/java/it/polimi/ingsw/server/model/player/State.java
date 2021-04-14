@@ -25,7 +25,7 @@ import it.polimi.ingsw.server.model.player.board.*;
  *          <li>
  *          <li><em>Activate the Production :</em>
  *          <li>{@link #CHOOSING_CARD_FOR_PRODUCTION}
- *          <li>{@link #CHOOSING_RESOURCES_FOR_PRODUCTION}
+ *          <li>{@link #CHOOSING_RESOURCE_FOR_PRODUCTION}
  *
  *          <li><em>Take Resources from Market :</em>
  *          <li>{@link #SHOWING_MARKET_RESOURCES}
@@ -79,7 +79,7 @@ public enum State {
      * <em>Normal Action</em> phase following {@link State#CHOOSING_CARD_FOR_PRODUCTION}, where player chooses
      * {@link Resource Resources} stored in any available type of {@link Box}, to complete the production process.
      */
-    CHOOSING_RESOURCES_FOR_PRODUCTION,
+    CHOOSING_RESOURCE_FOR_PRODUCTION,
 
     /**
      * <em>Normal Action</em> phase to show {@link MarketBoard} and let player choose a

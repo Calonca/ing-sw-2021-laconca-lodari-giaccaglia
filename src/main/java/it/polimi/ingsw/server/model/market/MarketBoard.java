@@ -2,7 +2,7 @@ package it.polimi.ingsw.server.model.market;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.server.model.Resource;
-import it.polimi.ingsw.server.model.player.board.Box;
+import it.polimi.ingsw.server.model.player.board.*;
 import javafx.util.Pair;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -12,9 +12,7 @@ import java.util.function.*;
 import java.util.stream.*;
 import java.util.concurrent.ThreadLocalRandom;
 import it.polimi.ingsw.server.model.player.*;
-
-import static java.util.stream.Collectors.counting;
-import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.*;
 
 /**
  * Matrix data structure to store {@link Marble MarketMarbles} representing {@link Resource Resources}
@@ -45,6 +43,8 @@ public class MarketBoard {
      */
     private int whiteMarblesQuantity;
 
+    private int faithPointsFromMarbles;
+
     /**
      * {@link MarketBoard#marbleMatrix} number of rows.
      */
@@ -63,7 +63,7 @@ public class MarketBoard {
 
     /**
      * Each row and column of the {@link MarketBoard#marbleMatrix} has a corresponding {@link MarketLine}.
-     * A <em>MarketLine</em> is needed to pick an entire row or column during {@link State#CHOOSING_RESOURCES_FOR_PRODUCTION}
+     * A <em>MarketLine</em> is needed to pick an entire row or column during {@link State#CHOOSING_RESOURCE_FOR_PRODUCTION}
      * turn phase.
      */
     private MarketLine line;
@@ -109,7 +109,7 @@ public class MarketBoard {
      * @param line {@link MarketLine} corresponding to the row or column to get.
      *
      */
-    public void chooseMarketLine(MarketLine line){
+    public Marble[] chooseMarketLine(MarketLine line){
 
         this.line = line;
         int lineNumber = line.getLineNumber();
@@ -119,14 +119,36 @@ public class MarketBoard {
                 marbleMatrix[lineNumber]
                 : getColumn(lineNumber);
 
-        Map<Marble, Long> resourceOccurrences = getResourcesOccurrences(pickedMarbles);
+       calculateFaithPointsFromMarbles(pickedMarbles);
 
-        //counts number of white marbles in the picked line
-        whiteMarblesQuantity = resourceOccurrences
-                .entrySet()
-                .stream()
-                .filter(e -> e.getKey()==Marble.WHITE)
-                .mapToInt(e -> 1).sum();
+       removeFaithPointMarble(pickedMarbles);
+
+       Map<Marble, Long> resourceOccurrences = getResourcesOccurrences(pickedMarbles);
+
+       mapMarblesToResources(resourceOccurrences);
+
+       countNumberOfWhiteMarbles(resourceOccurrences);
+
+       return pickedMarbles;
+
+    }
+
+    private void calculateFaithPointsFromMarbles(Marble[] marbles){
+
+        faithPointsFromMarbles = Arrays.stream(pickedMarbles)
+                .filter(marble -> marble.equals(Marble.RED))
+                .mapToInt(marble -> 1).sum();
+
+    }
+
+    private void removeFaithPointMarble(Marble[] marbles){
+
+        pickedMarbles = Arrays.stream(pickedMarbles)
+                .filter(marble -> !marble.equals(Marble.RED)).toArray(Marble[]::new);
+
+    }
+
+    private void mapMarblesToResources(Map<Marble, Long> resourceOccurrences){
 
         //all marbles but white ones are mapped to their corresponding resources
         resourceOccurrences
@@ -137,6 +159,18 @@ public class MarketBoard {
                         e -> mapResource(e.getKey().getConvertedMarble().getResourceNumber(),
                                 e.getValue().intValue())
                 );
+
+    }
+
+    private void countNumberOfWhiteMarbles(Map<Marble, Long> resourceOccurrences){
+
+        //counts number of white marbles in the picked line
+        whiteMarblesQuantity = resourceOccurrences
+                .entrySet()
+                .stream()
+                .filter(e -> e.getKey()==Marble.WHITE)
+                .mapToInt(e -> Math.toIntExact(e.getValue())).sum();
+
 
     }
 
@@ -154,14 +188,29 @@ public class MarketBoard {
                 .collect(groupingBy(Function.identity(), counting()));
     }
 
+    /**
+     * @return true if currently stored {@link MarketLine} contains any @link Marble#WHITE WHITE MARBLE}, otherwise returns
+     * false.
+     */
     public boolean areThereWhiteMarbles(){
         return whiteMarblesQuantity>0;
     }
 
+    /**
+     * Method to get the amount of {@link Marble#WHITE WHITE MARBLES} contained in selected {@link MarketLine}.
+     * @return number of {@link Marble#WHITE WHITE MARBLES} in previously selected {@link MarketLine}
+     * when {@link MarketBoard#pickedMarbles} method is invoked.
+     */
     public int getNumberOfWhiteMarbles(){
         return whiteMarblesQuantity;
     }
 
+    /**
+     * Method to convert a {@link Resource} passed as a parameter for a {@link Marble#WHITE WHITE MARBLE} resource
+     * picked together with other {@link Marble Marbles} after {@link MarketBoard#pickedMarbles} method invocation.
+     * @param mappedResource {@link Resource} of {@link Marble#WHITE WHITEMARBLE} to convert when
+     * corresponding {@link it.polimi.ingsw.server.model.player.leaders.Leader} effect has been enabled.
+     */
     public void convertWhiteMarble(Resource mappedResource) {
         mapResource(mappedResource.getResourceNumber(), 1);
     }
@@ -173,10 +222,10 @@ public class MarketBoard {
     /**
      * <p>Invoked after {@link MarketBoard#chooseMarketLine} method execution, to update {@link MarketBoard#marbleMatrix}
      * structure by inserting the {@link MarketBoard#slideMarble} in the chosen line.<br>
-     * If the chosen line is a row, Marble in first position becomes the next <em>slideMarble</em> and the current <em>slideMarble</em>
+     * <em>If the chosen line is a row, Marble in first position becomes the next <em>slideMarble</em> and the current <em>slideMarble</em>
      * is inserted in the last position of the line, after Marbles shifting one position to
      * the left.<br>
-     * If the chosen line is a column, Marble in first position becomes the next <em>slideMarble</em> and the current <em>slideMarble</em>
+     * <br>If the chosen line is a column, Marble in first position becomes the next <em>slideMarble</em> and the current <em>slideMarble</em>
      * is inserted in the last position of the column, after Marbles shifting one position down.
      *
      */

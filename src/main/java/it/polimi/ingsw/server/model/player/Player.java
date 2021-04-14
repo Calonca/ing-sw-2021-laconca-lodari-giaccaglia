@@ -49,9 +49,10 @@ public class Player {
     private FaithTrack faithTrack;
 
     /**
-     * Keeps track of currently active {@link DevelopmentDiscountLeader related resources discounts;.
+     * Keeps track of currently active {@link DevelopmentDiscountLeader} related resources discounts.
      */
     private int[] discounts;
+
     private boolean[] marketBonus;
 
     /**

@@ -49,9 +49,19 @@ public class DevelopmentCard
         this.victoryPoints=victoryPoints;
         this.costList=costList;
     }
+
+    public DevelopmentCard(DevelopmentCard another) {
+        this.production = another.production;
+        this.level = another.level;
+        this.cardType = another.cardType;
+        this.victoryPoints= another.victoryPoints;
+        this.costList= another.costList;
+    }
+
     public int getLevel() {
         return level;
     }
+
     public DevelopmentCardColor getCardType() {
         return cardType;
     }

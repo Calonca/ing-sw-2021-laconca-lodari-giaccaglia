@@ -141,6 +141,9 @@ public class FaithTrackTest {
         assertEquals(position, testTrack.getPiecePosition(lorenzo));
         assertEquals(position, testTrack.getPiecePosition(player));
 
+        assertEquals(position, testTrack.getPlayerPosition());
+        assertEquals(position, testTrack.getLorenzoPosition());
+
     }
 
     @Test
