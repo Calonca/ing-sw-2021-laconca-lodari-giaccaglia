@@ -115,7 +115,10 @@ public enum State {
      * among available ones in {@link PersonalBoard}.
      */
     CHOOSING_RESOURCES_FOR_DEVCARD,
-
+    /**
+     * Performed after correctly choosing the resources
+     */
+    CHOOSING_POSITION_FOR_DEVCARD,
 
     /**
      * Final turn phase where player can either perform a <em>"Leader action"</em> or finish his turn,
