@@ -1,9 +1,10 @@
-package it.polimi.ingsw.controller.strategy;
+package it.polimi.ingsw.controller.strategy.production;
 
+import it.polimi.ingsw.controller.strategy.production.ProductionStrategy;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.player.State;
 
-public class ShowProductionCards extends GameStrategy
+public class ShowProductionCards extends ProductionStrategy
 {
     public State execute(GameModel gamemodel)
     {

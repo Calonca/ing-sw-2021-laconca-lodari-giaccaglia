@@ -1,9 +1,9 @@
-package it.polimi.ingsw.controller.strategy;
+package it.polimi.ingsw.controller.strategy.cardmarket;
 
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.player.State;
 
-public class ChooseCard extends GameStrategy
+public class ChooseCard extends CardMarketStrategy
 {
     public State execute(GameModel gamemodel)
     {
