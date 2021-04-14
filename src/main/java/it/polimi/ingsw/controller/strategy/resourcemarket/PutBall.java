@@ -33,7 +33,8 @@ public class PutBall extends ResourceMarketStrategy
         gamemodel.getBoxResourcesFromMarketBoard().removeSelected();
 
 
-        if (gamemodel.getBoxResourcesFromMarketBoard().getNumberOf(Resource.TOCHOOSE)>0)
+        //if (gamemodel.getBoxResourcesFromMarketBoard().getNumberOf(Resource.TOCHOOSE)>0)
+        if (gamemodel.areThereWhiteMarblesInPickedLine())
             for(i=0; i<gamemodel.getCurrentPlayer().getMarketBonus().length; i++)
                 if (gamemodel.getCurrentPlayer().getMarketBonus()[i])
                     return State.CHOOSING_WHITEMARBLE_CONVERSION;

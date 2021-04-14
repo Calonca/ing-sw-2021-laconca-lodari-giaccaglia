@@ -13,11 +13,14 @@ public class ChooseMarketBonus extends ResourceMarketStrategy
         //ON EVENT CHOOSEWHITEMARBLECONVERSIONEVENT
         //RICEVO MESSAGGIO RISORSA Resource.SHIELD (DI CUI CONTROLLO LA CORRETTEZZA)
 
-        gamemodel.getBoxResourcesFromMarketBoard().selectN(1,Resource.TOCHOOSE);
-        gamemodel.getBoxResourcesFromMarketBoard().removeSelected();
-        gamemodel.getBoxResourcesFromMarketBoard().addResource(new Pair<>(1, Resource.SHIELD));
+        //gamemodel.getBoxResourcesFromMarketBoard().selectN(1,Resource.TOCHOOSE);
+        //gamemodel.getBoxResourcesFromMarketBoard().removeSelected();
+        //gamemodel.getBoxResourcesFromMarketBoard().addResource(new Pair<>(1, Resource.SHIELD));
 
-        if(gamemodel.getBoxResourcesFromMarketBoard().getNumberOf(Resource.TOCHOOSE)>0)
+        gamemodel.convertWhiteMarbleInPickedLine(Resource.SHIELD);
+
+        //if(gamemodel.getBoxResourcesFromMarketBoard().getNumberOf(Resource.TOCHOOSE)>0)
+        if(gamemodel.areThereWhiteMarblesInPickedLine())
             return State.CHOOSING_WHITEMARBLE_CONVERSION;
 
 
