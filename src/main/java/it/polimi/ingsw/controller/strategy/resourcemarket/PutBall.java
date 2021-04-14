@@ -16,7 +16,7 @@ public class PutBall extends ResourceMarketStrategy
     {
         int i;
         //ON EVENT CHOOSEROWEVENT
-        //RICEVO MESSAGGIO SELEZIONE
+        //RICEVO MESSAGGIO SELEZIONE MarketLine.FIRST_COLUMN
 
         gamemodel.chooseLineFromMarketBoard(MarketLine.FIRST_COLUMN);
         gamemodel.updateMatrixAfterTakingResources();
@@ -28,8 +28,9 @@ public class PutBall extends ResourceMarketStrategy
             gamemodel.getCurrentPlayer().moveOnePosition();
 
 
-        gamemodel.getBoxResourcesFromMarketBoard().removeResources(new int[]{0,0,0,0,faithnum,0,0});
-
+        // che è meglio? gamemodel.getBoxResourcesFromMarketBoard().removeResources(new int[]{0,0,0,0,faithnum,0,0});
+        gamemodel.getBoxResourcesFromMarketBoard().selectN(faithnum,Resource.FAITH);
+        gamemodel.getBoxResourcesFromMarketBoard().removeSelected();
 
 
         if (gamemodel.getBoxResourcesFromMarketBoard().getNumberOf(Resource.TOCHOOSE)>0)
