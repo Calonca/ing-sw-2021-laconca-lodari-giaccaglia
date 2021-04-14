@@ -16,10 +16,8 @@ public class AcquireCard extends CardMarketStrategy
         int level=4%3; //1      CARTA LIVELLO 2
         int color=4/3; //1      BLU
         gamemodel.getCardShop().purchaseCard(DevelopmentCardColor.fromInt(color),level);
-        //if(gamemodel.getCardShop().pickPurchasedCard().isAvailable(gamemodel.getCurrentPlayer().getPersonalBoard()));
-            ////vengono rimosse le risorse
-
-
-        return State.CHOOSING_RESOURCES_FOR_DEVCARD;
+        if(gamemodel.getCardShop().pickPurchasedCard().isAvailable(gamemodel.getCurrentPlayer().getPersonalBoard()))
+            return State.CHOOSING_RESOURCES_FOR_DEVCARD;
+        return State.SHOWING_CARD_SHOP;
     }
 }
