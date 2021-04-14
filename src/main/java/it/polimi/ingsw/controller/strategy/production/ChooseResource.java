@@ -8,7 +8,7 @@ public class ChooseResource extends ProductionStrategy
 {
     public State execute(GameModel gamemodel)
     {
-        //ON EVENT CHOOSEPRODUCTIONEVENT
-        return State.CHOOSING_CARD_FOR_PRODUCTION;
+        //ON EVENT CHOOSERESOURCEATPOSITION
+        return State.CHOOSING_RESOURCES_FOR_PRODUCTION;
     }
 }

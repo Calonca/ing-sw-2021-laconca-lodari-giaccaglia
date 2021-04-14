@@ -4,11 +4,11 @@ import it.polimi.ingsw.controller.strategy.production.ProductionStrategy;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.player.State;
 
-public class ExecuteProduction extends ProductionStrategy
+public class DeselectForProduction extends ProductionStrategy
 {
     public State execute(GameModel gamemodel)
     {
-        //ON EVENT EXECUTEPRODUCTIONEVENT
+        //ON EVENT DESELECTPRODUCTIONATPOSITION
         return State.CHOOSING_CARD_FOR_PRODUCTION;
     }
 }

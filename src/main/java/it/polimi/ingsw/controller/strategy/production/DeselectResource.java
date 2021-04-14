@@ -8,7 +8,7 @@ public class DeselectResource extends ProductionStrategy
 {
     public State execute(GameModel gamemodel)
     {
-        //ON EVENT CHOOSEPRODUCTIONEVENT
-        return State.CHOOSING_CARD_FOR_PRODUCTION;
+        //ON EVENT DESELECTRESOURCEATPOSITION
+        return State.CHOOSING_RESOURCES_FOR_PRODUCTION;
     }
 }
