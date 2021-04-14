@@ -119,6 +119,13 @@ public class GameModel {
         return currentPlayer;
     }
 
+
+    /**
+     * @return the cardshop
+     */
+    public CardShop getCardShop() {
+        return cardShop;
+    }
     /**
      * Sets the player currently playing to the given {@link Player player}.
      * @param currentPlayer the player to set to current player.
