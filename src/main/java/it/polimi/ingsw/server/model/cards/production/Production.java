@@ -52,16 +52,21 @@ public class Production {
     // * @param personalboard != NULL
      * Returns True if
      */
-    public boolean isAvailable(PersonalBoard personalboard)
+    public boolean isAvailable(PersonalBoard personalboard,int[] check)
     {
         Box box= personalboard.getStrongBox();
-        int[] inputOfLengthResources = IntStream.concat(Arrays.stream(input),IntStream.generate(()->0)).limit(Resource.nRes+3).toArray();
+        int[] inputOfLengthResources = IntStream.concat(Arrays.stream(check),IntStream.generate(()->0)).limit(Resource.nRes+3).toArray();
 
         WarehouseLeadersDepots depots= personalboard.getWarehouseLeadersDepots();
         int[] array=IntStream.range(0,Resource.nRes).map(pos -> inputOfLengthResources[pos]-box.getNumberOf(Resource.fromInt(pos))).map(res -> Math.max(res, 0)).toArray();
         if(!depots.enoughResourcesForProductions(array))
                 return false;
         return Arrays.stream(inputOfLengthResources).limit(Resource.nRes).reduce(0, Integer::sum)+inputOfLengthResources[6]<=personalboard.numOfResources();
+    }
+
+    public boolean isAvailable(PersonalBoard personalboard)
+    {
+        return isAvailable(personalboard, this.input);
     }
 
 
