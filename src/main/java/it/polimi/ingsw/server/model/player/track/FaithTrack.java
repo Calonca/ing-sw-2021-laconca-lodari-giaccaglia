@@ -102,6 +102,14 @@ public class FaithTrack {
         return(track.get(piece.getValue()).isPopeSpace());
     }
 
+    public boolean isPlayerInPopeSpace(){
+        return isPieceInPopeSpace(playerPiece);
+    }
+
+    public boolean isLorenzoInPopeSpace(){
+        return isPieceInPopeSpace(lorenzoPiece);
+    }
+
     private MutablePair<Piece, Integer> getPiece(MutablePair<Piece, Integer> piece){
         MutablePair<Piece, Integer> PieceCopy = new MutablePair<>();
         PieceCopy.setLeft(piece.getLeft());
