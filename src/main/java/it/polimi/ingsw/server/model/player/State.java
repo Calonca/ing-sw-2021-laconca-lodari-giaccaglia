@@ -208,7 +208,12 @@ public enum State {
      * When a Leader Turn ends, this state decides if it's a leader action before or after middle phase,
      * returning the correct next state as the game rules.
      */
-    LEADER_END,
+    LEADER_END {
+        @Override
+        public String serialize(GameModel gameModel) {
+            return null;
+        }
+    },
 
     /**
      * Default player state during others' turn.
