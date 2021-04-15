@@ -12,8 +12,8 @@ public class ChoosingSpace extends CardMarketStrategy
         //ON EVENT CHOOSECARDPOSITIONEVENT
         //RICEVO MESSAGGIO INTERO 2
         ProductionCardCell chosencell=gamemodel.getCurrentPlayer().getPersonalBoard().getCardCells().get(2);
-        if (chosencell.isSpotAvailable(gamemodel.getCardShop().getPurchasedCard()))
-            chosencell.addToTop(gamemodel.getCardShop().getPurchasedCard());
+        if(chosencell.isSpotAvailable(gamemodel.getPurchasedCard()))
+            chosencell.addToTop(gamemodel.getPurchasedCard());
         else
             return State.CHOOSING_POSITION_FOR_DEVCARD;
 
