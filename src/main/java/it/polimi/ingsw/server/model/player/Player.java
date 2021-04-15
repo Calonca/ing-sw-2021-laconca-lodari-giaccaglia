@@ -5,11 +5,13 @@ import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.server.model.cards.*;
 import it.polimi.ingsw.server.model.player.leaders.DevelopmentDiscountLeader;
 import it.polimi.ingsw.server.model.player.board.*;
+import it.polimi.ingsw.server.model.player.leaders.Leader;
 import it.polimi.ingsw.server.model.player.track.FaithTrack;
 import javafx.util.Pair;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
+import java.util.List;
 
 
 /**
@@ -29,7 +31,8 @@ public class Player {
      */
     private final PersonalBoard personalBoard;
 
-    //public List<Leader> leaders;
+
+    private List<Leader> leaders;
 
     /**
      * {@link Player} current {@link State} during game phases. When not playing, the default state is {@link State#IDLE IDLE}
@@ -83,6 +86,10 @@ public class Player {
     public int[] getDiscounts()
     {
         return discounts;
+    }
+
+    public List<Leader> getLeaders() {
+        return leaders;
     }
 
     public boolean[] getMarketBonus() {
