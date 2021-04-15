@@ -101,7 +101,6 @@ public class Player {
         discounts[discount.getKey().getResourceNumber()]+=discount.getValue();
     }
 
-
     /**
      * Method to store inside player's {@link Player#marketBonus} array a new {@link Resource} for
      * {@link it.polimi.ingsw.server.model.market.Marble#WHITE WHITE MARBLE} conversion when choosing a row/column from
@@ -193,4 +192,13 @@ public class Player {
     public int getLorenzoPosition(){
         return faithTrack.getLorenzoPosition();
     }
+
+    public boolean isInPopeSpace(){
+        return faithTrack.isPlayerInPopeSpace();
+    }
+
+    public boolean isLorenzoInPopeSpace(){
+        return faithTrack.isLorenzoInPopeSpace();
+    }
+
 }

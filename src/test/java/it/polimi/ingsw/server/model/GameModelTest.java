@@ -41,6 +41,12 @@ public class GameModelTest {
 
     testDisconnection(testPlayer);
 
+    }
+
+    @Test
+    public void mutliPlayerGameTest() {
+
+        setUpNewMultiPlayerGameModel();
 
 
     }
@@ -61,6 +67,19 @@ public class GameModelTest {
         gameModelTest.setGameStatus(true);
 
         assertEquals(0, gameModelTest.getPlayerPosition(testPlayer));
+    }
+
+    private void setUpNewMultiPlayerGameModel() {
+
+        List<String> players = new ArrayList<>();
+        players.add("testPlayer1");
+        players.add("testPlayer2");
+        players.add("testPlayer3");
+        players.add("testPlayer4");
+
+        boolean isSinglePlayer = false;
+        gameModelTest = new GameModel(players, false);
+
     }
 
     private void testPurchaseCard(DevelopmentCardColor color){

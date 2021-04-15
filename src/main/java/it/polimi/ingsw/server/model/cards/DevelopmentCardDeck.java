@@ -15,13 +15,18 @@ public class DevelopmentCardDeck {
     private int deckSize;
 
     // basic constructor
+
     public DevelopmentCardDeck(int level, DevelopmentCardColor color, List<DevelopmentCard> deck, int deckCapacity, int deckSize) {
+
         this.level = level;
         this.color = color;
         this.deck = deck;
         this.deckCapacity = deckCapacity;
         this.deckSize = deckSize;
+
     }
+
+
 
 
     public int getDeckSize() {

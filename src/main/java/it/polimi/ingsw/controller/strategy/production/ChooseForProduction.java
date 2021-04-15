@@ -9,6 +9,6 @@ public class ChooseForProduction extends ProductionStrategy
     public State execute(GameModel gamemodel)
     {
         //ON EVENT SELECTPRODUCTIONATPOSITION
-        return State.CHOOSING_DEVELOPMENT_CARD;
+        return State.CHOOSING_RESOURCE_FOR_PRODUCTION;
     }
 }

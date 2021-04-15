@@ -401,5 +401,13 @@ public class GameModel {
         return player.getLorenzoPosition();
     }
 
+    public boolean isPlayerPieceInPopeSpace(Player player){
+        return player.isInPopeSpace();
+    }
+
+    public boolean isLorenzoInPopeSpace(Player player){
+        return player.isLorenzoInPopeSpace();
+    }
+
 
 }
