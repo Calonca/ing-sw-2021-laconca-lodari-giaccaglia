@@ -169,7 +169,7 @@ public enum State {
         public String serialize(GameModel gameModel) {
             return null;
         }
-    },,
+    },
     /**
      * Performed after correctly choosing the resources
      */
@@ -178,7 +178,7 @@ public enum State {
         public String serialize(GameModel gameModel) {
             return null;
         }
-    },,
+    },
 
     /**
      * Final turn phase where player can either perform a <em>"Leader action"</em> or finish his turn,
