@@ -6,5 +6,9 @@ import it.polimi.ingsw.server.model.player.State;
 
 public abstract class PayResources extends CardMarketStrategy
 {
-    public abstract State execute(GameModel gamemodel);
+    public State execute(GameModel gamemodel)
+    {
+        //ON EVENT CARDSHOPEVENT
+        return State.CHOOSING_POSITION_FOR_DEVCARD;
+    }
 }

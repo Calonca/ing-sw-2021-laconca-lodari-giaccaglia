@@ -13,13 +13,19 @@ import java.util.List;
 public class ProductionCardCell {
     private DevelopmentCard cardOnTop;
     private int maxsize=3;
+
+
     public List<DevelopmentCard> stackedCards;
 
     public ProductionCardCell()
     {
-        this.stackedCards=new ArrayList<DevelopmentCard>();
+        this.stackedCards=new ArrayList<>();
     }
 
+
+    public int getStackedCardsSize() {
+        return stackedCards.size();
+    }
 
     public int getMaxsize() {
         return maxsize;

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.player.leaders;
 
+import com.sun.glass.ui.EventLoop;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
@@ -13,6 +14,13 @@ import java.util.List;
 
 public abstract class Leader
 {
+
+
+    public boolean isPast() {
+        return past;
+    }
+
+    protected boolean past;
     protected LeaderState state;
     protected int victoryPoints;
     protected List<Pair<Resource, Integer>> requirementsResources;
@@ -22,7 +30,7 @@ public abstract class Leader
 
     public LeaderState getState(){
         return state;
-    };
+    }
 
     /**
      * Basic Leader activation method
@@ -39,7 +47,7 @@ public abstract class Leader
     public void discard(GameModel gamemodel){
         state = LeaderState.DISCARDED;
         gamemodel.getCurrentPlayer().moveOnePosition();
-    };
+    }
 
     /**
      * Every requirement is checked before activating a leader
@@ -62,6 +70,17 @@ public abstract class Leader
 
         }
         return true;
-    };
+    }
+
+    public void setPast(boolean past) {
+        this.past = past;
+    }
+
+    public boolean anyLeaderPlayable(GameModel gamemodel){
+        for (Leader leader : gamemodel.getCurrentPlayer().getLeaders())
+            if (leader.getState()==LeaderState.INACTIVE)
+                return true;
+        return false;
+    }
 
 }

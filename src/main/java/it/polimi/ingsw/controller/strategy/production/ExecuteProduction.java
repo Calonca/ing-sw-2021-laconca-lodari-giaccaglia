@@ -9,6 +9,6 @@ public class ExecuteProduction extends ProductionStrategy
     public State execute(GameModel gamemodel)
     {
         //ON EVENT EXECUTEPRODUCTIONEVENT
-        return State.CHOOSING_CARD_FOR_PRODUCTION;
+        return State.FINAL_PHASE;
     }
 }

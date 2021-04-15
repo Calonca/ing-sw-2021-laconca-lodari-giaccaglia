@@ -74,12 +74,15 @@ public class DevelopmentCard
 
     public boolean isAvailable(PersonalBoard personalBoard)
     {
+        boolean t=false;
+        for(int i=0; i<personalBoard.getCardCells().size(); i++)
+            if(personalBoard.getCardCells().get(i).getStackedCardsSize()+1==this.level)
+                t=true;
+
         int[] toar = new int[4];
         for (Pair<Resource, Integer> resourceIntegerPair : costList)
             toar[resourceIntegerPair.getKey().getResourceNumber()] += resourceIntegerPair.getKey().getResourceNumber();
-        production.isAvailable(personalBoard,toar);
-        return production.isAvailable(personalBoard,toar);
-
+        return t&&production.isAvailable(personalBoard,toar);
     }
 
 }
