@@ -9,7 +9,7 @@ import javafx.util.Pair;
 import java.util.List;
 
 /**
- * This leader needs a different activation function, as it needs to add its production to the player's board
+ * Concrete class for Production Leader. Upon activation, a Production will be added to the player's board
  */
 public class ProductionLeader extends Leader
 {

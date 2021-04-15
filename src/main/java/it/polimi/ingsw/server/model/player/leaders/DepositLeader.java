@@ -9,7 +9,7 @@ import javafx.util.Pair;
 import java.util.List;
 
 /**
- * Concrete class for Deposit Leader DUMMY
+ * Concrete class for Deposit Leader. Upon activation, a Leader Depot will be added to the player's board
  */
 public class DepositLeader extends Leader
 {

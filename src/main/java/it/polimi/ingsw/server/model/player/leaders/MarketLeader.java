@@ -8,7 +8,7 @@ import javafx.util.Pair;
 import java.util.List;
 
 /**
- * This Leader class adds the resource choice to the player's resource market
+ * Concrete class for Market Leader. Upon activation, a Market bonus will be added to the player's board
  */
 
 public class MarketLeader extends Leader

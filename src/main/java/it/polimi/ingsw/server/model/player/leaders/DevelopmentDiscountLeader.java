@@ -8,9 +8,8 @@ import javafx.util.Pair;
 import java.util.List;
 
 /**
- * This Leader class' activate method adds the discount to the player's card market
+ * Concrete class for Discount Leader. Upon activation, a Discount will be added to the player's board
  */
-
 public class DevelopmentDiscountLeader extends Leader
 {
 
