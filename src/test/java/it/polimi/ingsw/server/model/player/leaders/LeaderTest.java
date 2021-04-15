@@ -149,6 +149,60 @@ public class LeaderTest
     }
 
 
+    @Test
+    public void setPast() {
+        Pair<Resource, Integer> discountTest = new Pair<>(Resource.GOLD, 3);
+        LeaderDepot depotTest= new LeaderDepot(2,Resource.GOLD);
+        Resource bonus=Resource.GOLD;
+        Production productiontest = Production.basicProduction();
 
 
+        Pair<Resource, Integer> costTest = new Pair<>(Resource.GOLD, 3);
+        Pair<DevelopmentCardColor, Integer> cardcostTest = new Pair<DevelopmentCardColor,Integer>(DevelopmentCardColor.BLUE, 1);
+        DevelopmentCard testcard= new DevelopmentCard(1,DevelopmentCardColor.BLUE,new Production(new int[]{0,0,0,0,0,0,2},new int[]{0,0,0,0,0,1,1}));
+
+        List<Pair<Resource, Integer>> requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        List<Pair<DevelopmentCardColor, Integer>> requirementsCardsTest = new ArrayList<Pair<DevelopmentCardColor, Integer>>();
+
+        requirementsTest.add(costTest);
+        requirementsCardsTest.add(cardcostTest);
+
+        List<String> nicknames = new ArrayList<>();
+        nicknames.add("testPlayer");
+        boolean isSinglePlayer = true;
+        GameModel gamemodel = new GameModel(nicknames, isSinglePlayer);
+
+
+        Leader test=new MarketLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, bonus);
+        test.setPast(true);
+        assertTrue(test.isPast());
+    }
+
+    @Test
+    public void anyLeaderPlayable() {
+        Pair<Resource, Integer> discountTest = new Pair<>(Resource.GOLD, 3);
+        LeaderDepot depotTest= new LeaderDepot(2,Resource.GOLD);
+        Resource bonus=Resource.GOLD;
+        Production productiontest = Production.basicProduction();
+
+
+        Pair<Resource, Integer> costTest = new Pair<>(Resource.GOLD, 3);
+        Pair<DevelopmentCardColor, Integer> cardcostTest = new Pair<DevelopmentCardColor,Integer>(DevelopmentCardColor.BLUE, 1);
+        DevelopmentCard testcard= new DevelopmentCard(1,DevelopmentCardColor.BLUE,new Production(new int[]{0,0,0,0,0,0,2},new int[]{0,0,0,0,0,1,1}));
+
+        List<Pair<Resource, Integer>> requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        List<Pair<DevelopmentCardColor, Integer>> requirementsCardsTest = new ArrayList<Pair<DevelopmentCardColor, Integer>>();
+
+        requirementsTest.add(costTest);
+        requirementsCardsTest.add(cardcostTest);
+
+        List<String> nicknames = new ArrayList<>();
+        nicknames.add("testPlayer");
+        boolean isSinglePlayer = true;
+        GameModel gamemodel = new GameModel(nicknames, isSinglePlayer);
+
+
+        Leader test=new MarketLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, bonus);;
+        assertFalse(test.anyLeaderPlayable(gamemodel));
+    }
 }

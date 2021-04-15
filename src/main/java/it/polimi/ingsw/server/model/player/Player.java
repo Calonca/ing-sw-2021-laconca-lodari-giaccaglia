@@ -6,11 +6,14 @@ import it.polimi.ingsw.server.model.cards.*;
 import it.polimi.ingsw.server.model.player.leaders.DevelopmentDiscountLeader;
 import it.polimi.ingsw.server.model.player.board.*;
 import it.polimi.ingsw.server.model.player.leaders.Leader;
+import it.polimi.ingsw.server.model.player.leaders.LeaderState;
 import it.polimi.ingsw.server.model.player.track.FaithTrack;
 import javafx.util.Pair;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -62,7 +65,7 @@ public class Player {
      * Class constructor
      */
     public Player(String nickName) {
-     //   leaders = Arrays.asList(new Pair<Leader, LeaderState>[2]);
+        leaders = new ArrayList<>();
         personalBoard= new PersonalBoard();
         currentlyOnline = true;
         currentState = State.IDLE;
