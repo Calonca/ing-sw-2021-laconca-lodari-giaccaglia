@@ -16,9 +16,6 @@ public abstract class Leader
 {
 
 
-    public boolean isPast() {
-        return past;
-    }
 
     protected boolean past;
     protected LeaderState state;
@@ -26,6 +23,11 @@ public abstract class Leader
     protected List<Pair<Resource, Integer>> requirementsResources;
     protected List<Pair<DevelopmentCardColor, Integer>> requirementsCards;
     protected int requirementsCardsLevel=1;
+
+
+    public boolean isPast() {
+        return past;
+    }
 
 
     public LeaderState getState(){

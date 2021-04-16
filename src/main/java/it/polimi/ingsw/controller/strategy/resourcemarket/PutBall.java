@@ -33,7 +33,7 @@ public class PutBall extends ResourceMarketStrategy
             gamemodel.getCurrentPlayer().moveOnePosition();
 
 
-        // che è meglio? gamemodel.getBoxResourcesFromMarketBoard().removeResources(new int[]{0,0,0,0,faithnum,0,0});
+        // gamemodel.getBoxResourcesFromMarketBoard().removeResources(new int[]{0,0,0,0,faithnum,0,0});
         gamemodel.getBoxResourcesFromMarketBoard().selectN(faithnum,Resource.FAITH);
         gamemodel.getBoxResourcesFromMarketBoard().removeSelected();
 
