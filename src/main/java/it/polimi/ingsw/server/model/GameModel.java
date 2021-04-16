@@ -102,11 +102,20 @@ public class GameModel {
                 .boxed()
                 .collect(Collectors.toMap(Function.identity(), i -> new Player(nicknames.get(i))));
 
-       // players = nicknames.stream().map(Player::new).collect(Collectors.toList());
+        // players = nicknames.stream().map(Player::new).collect(Collectors.toList());
         onlinePlayers = IntStream.range(0, nicknames.size())
                 .boxed()
                 .collect(Collectors.toMap(Function.identity(), i -> players.get(i)));
 
+        players.values().forEach((p)->
+                {
+                    try {
+                        p.setStatesTransitionTable(StatesTransitionTable.fromIsSinglePlayer(isSinglePlayer));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+        );
     }
 
     /**

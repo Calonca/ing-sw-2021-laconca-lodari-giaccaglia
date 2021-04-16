@@ -5,8 +5,7 @@ package it.polimi.ingsw.server.model.player.board;
  */
 
 public class ResourceNotEmptyException extends Exception{
-    ResourceNotEmptyException(){
-    }
+    ResourceNotEmptyException(){super();}
 
     ResourceNotEmptyException(String message){
         super(message);

@@ -82,7 +82,7 @@ public class DevelopmentCard
         int[] toar = new int[4];
         for (Pair<Resource, Integer> resourceIntegerPair : costList)
             toar[resourceIntegerPair.getKey().getResourceNumber()] += resourceIntegerPair.getKey().getResourceNumber();
-        return t&&production.isAvailable(personalBoard,toar);
+        return t&&personalBoard.isAvailable(toar);
     }
 
 }

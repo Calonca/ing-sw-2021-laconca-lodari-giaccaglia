@@ -157,7 +157,7 @@ public class PersonalBoard {
      * @return an array which values are true for available productions
      */
     public Boolean[] getAvailableProductions(){
-        return productions.stream().flatMap(Optional::stream).map((p)->p.isAvailable(this)).toArray(Boolean[]::new);
+        return productions.stream().flatMap(Optional::stream).map((p)->isAvailable(p.getInputs())).toArray(Boolean[]::new);
     }
 
     /**
@@ -366,4 +366,24 @@ public class PersonalBoard {
         );
         storageUnitFromPos(startPos).removeResource(startPos);
     }
+
+
+    /**
+     * This method will check the normal resources first through box,
+     * then through warehouse and then if the choiches are possible.
+     * @param personalboard != NULL
+     * @return True if
+     */
+    public boolean isAvailable(int[] toCheck)
+    {
+        Box box= getStrongBox();
+        //Goes up to toChoose
+        int[] inputOfLengthResources = IntStream.concat(Arrays.stream(toCheck),IntStream.generate(()->0)).limit(Resource.nRes+3).toArray();
+        //For physical resources
+        int[] toFindInWarehouse =IntStream.range(0,Resource.nRes).map(pos -> inputOfLengthResources[pos]-box.getNumberOf(Resource.fromInt(pos))).map(res -> Math.max(res, 0)).toArray();
+        if(!getWarehouseLeadersDepots().enoughResourcesForProductions(toFindInWarehouse))
+            return false;
+        return Arrays.stream(inputOfLengthResources).limit(Resource.nRes).reduce(0, Integer::sum)+inputOfLengthResources[6]<=numOfResources();
+    }
+
 }

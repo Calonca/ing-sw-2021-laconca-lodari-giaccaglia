@@ -60,6 +60,7 @@ public class Player {
     private int[] discounts;
 
     private boolean[] marketBonus;
+    private StatesTransitionTable statesTransitionTable;
 
     /**
      * Class constructor
@@ -97,6 +98,14 @@ public class Player {
 
     public boolean[] getMarketBonus() {
         return marketBonus;
+    }
+
+    public void setStatesTransitionTable(StatesTransitionTable statesTransitionTable){
+        this.statesTransitionTable = statesTransitionTable;
+    }
+
+    public StatesTransitionTable getStatesTransitionTable() {
+        return statesTransitionTable;
     }
 
     /**
@@ -211,4 +220,8 @@ public class Player {
         return faithTrack.isLorenzoInPopeSpace();
     }
 
+
+    public State getCurrentState() {
+        return currentState;
+    }
 }
