@@ -1066,21 +1066,20 @@ public class GsonUtil {
         series2.add(new DevelopmentDiscountLeader(  LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,costTest));
 
 
+        RuntimeTypeAdapterFactory<Leader> shapeAdapterFactory = RuntimeTypeAdapterFactory.of(Leader.class);
 
 
-
-        RuntimeTypeAdapterFactory<Leader> shapeAdapterFactory = RuntimeTypeAdapterFactory.of(Leader.class)
-            .registerSubtype(DepositLeader.class, "Deposit")
-            .registerSubtype(MarketLeader.class, "Market")
-            .registerSubtype(ProductionLeader.class, "Production")
-            .registerSubtype(DevelopmentDiscountLeader.class, "Development");
+        shapeAdapterFactory.registerSubtype(DepositLeader.class);
+        shapeAdapterFactory.registerSubtype(MarketLeader.class);
+        shapeAdapterFactory.registerSubtype(ProductionLeader.class);
+        shapeAdapterFactory.registerSubtype(DevelopmentDiscountLeader.class);
 
 
-        Gson gson = new GsonBuilder()
+        Gson gson1 = new GsonBuilder()
                 .registerTypeAdapterFactory(shapeAdapterFactory)
                 .create();
 
-
-        System.out.println(gson.toJson(series2));
+        String serialized = gson1.toJson(series2.toArray(Leader[]::new),Leader[].class);
+        Leader[] leaders = gson1.fromJson(serialized,Leader[].class);
     }
 }
