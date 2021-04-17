@@ -20,8 +20,8 @@ public class ChooseMarketBonus extends ResourceMarketStrategy
         //gamemodel.getBoxResourcesFromMarketBoard().removeSelected();
         //gamemodel.getBoxResourcesFromMarketBoard().addResource(new Pair<>(1, Resource.SHIELD));
 
-        if(gamemodel.getCurrentPlayer().getMarketBonus()[msg.getResourceNumber()])
-            gamemodel.convertWhiteMarbleInPickedLine(msg);
+        //if(gamemodel.getCurrentPlayer().getMarketBonus()[msg.getResourceNumber()])
+        gamemodel.convertWhiteMarbleInPickedLine(msg);
 
         //if(gamemodel.getBoxResourcesFromMarketBoard().getNumberOf(Resource.TOCHOOSE)>0)
         if(gamemodel.areThereWhiteMarblesInPickedLine())
