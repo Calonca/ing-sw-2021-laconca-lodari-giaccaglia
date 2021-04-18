@@ -5,7 +5,7 @@ import it.polimi.ingsw.server.model.cards.production.ProductionCardCell;
 import it.polimi.ingsw.server.model.player.State;
 
 /**
- * This method allows the player to place the selected card in an available space. Upon calling this is
+ * This implementation allows the user to place the selected card in an available space. Upon calling this is
  * precalculated that at least one correct option exists
  */
 public class ChoosingSpace extends CardMarketStrategy

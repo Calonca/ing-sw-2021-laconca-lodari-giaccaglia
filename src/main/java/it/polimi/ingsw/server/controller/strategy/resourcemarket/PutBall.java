@@ -6,9 +6,9 @@ import it.polimi.ingsw.server.model.market.MarketLine;
 import it.polimi.ingsw.server.model.player.State;
 
 /**
- * This method allows the player to choose a line, sliding in the remaining marble. If the player has
+ * This implementation allows the user to choose a line, sliding in the remaining marble. If the player has
  * an active discount, the state progresses accordingly. At first, FAITH gets filtered out and added to
- * the player's resources. If there are any white marbles and active Market Leaders, the player will choose
+ * the user's resources. If there are any white marbles and active Market Leaders, the user will choose
  * which resources to convert, if not they will choose the warehouse position.
  */
 public class PutBall extends ResourceMarketStrategy

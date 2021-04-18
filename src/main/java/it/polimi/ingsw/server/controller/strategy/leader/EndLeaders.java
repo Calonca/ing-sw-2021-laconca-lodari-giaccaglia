@@ -4,7 +4,7 @@ import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.player.State;
 
 /**
- *  This method uses a flag variable Past, to decide wether or not MIDDLE PHASE has already been played.
+ *  This implementation uses a flag variable Past, to decide wether or not MIDDLE PHASE has already been played.
  */
 public class EndLeaders extends LeaderStrategy
 {
