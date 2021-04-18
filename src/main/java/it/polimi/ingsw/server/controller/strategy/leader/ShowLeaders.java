@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.strategy.leader;
 
+import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.player.State;
 
@@ -7,7 +8,7 @@ import it.polimi.ingsw.server.model.player.State;
  * This implementation simply sets the state for the view. If the user has no available leaders, it will
  * simply proceed, as if nothing happened.
  */
-public class ShowLeaders extends LeaderStrategy
+public class ShowLeaders extends GameStrategy
 {
     public State execute(GameModel gamemodel)
     {

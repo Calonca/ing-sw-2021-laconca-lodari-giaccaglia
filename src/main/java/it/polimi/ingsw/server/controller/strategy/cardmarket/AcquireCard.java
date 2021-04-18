@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.strategy.cardmarket;
 
+import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
 import it.polimi.ingsw.server.model.player.State;
@@ -9,7 +10,7 @@ import it.polimi.ingsw.server.model.player.State;
  * If the color is not out of stock, the method proceeds to acquire the card, and if it should not have
  * been possible, it will get back to the previous state
  */
-public class AcquireCard extends CardMarketStrategy
+public class AcquireCard extends GameStrategy
 {
     public State execute(GameModel gamemodel)
     {

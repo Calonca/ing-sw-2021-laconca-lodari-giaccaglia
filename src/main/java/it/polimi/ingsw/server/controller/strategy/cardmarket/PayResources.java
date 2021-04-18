@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.strategy.cardmarket;
 
+import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.player.State;
@@ -8,7 +9,7 @@ import it.polimi.ingsw.server.model.player.State;
  * This implementation allows the user to choose one resource at a time. As soon as the requirements are met,
  * the resources are taken from their Depots and Strongbox, transitioning to the next game phase.
  */
-public class PayResources extends CardMarketStrategy
+public class PayResources extends GameStrategy
 {
     public State execute(GameModel gamemodel)
     {

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.strategy.production;
 
+import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.player.State;
 
@@ -7,7 +8,7 @@ import it.polimi.ingsw.server.model.player.State;
  * This implementation allows the user to toggle selections on the available productions. When a choice is needed, the
  * used needs to perform it to completion before being able to toggle another production.
  */
-public class ToggleForProduction extends ProductionStrategy
+public class ToggleForProduction extends GameStrategy
 {
     public State execute(GameModel gamemodel)
     {

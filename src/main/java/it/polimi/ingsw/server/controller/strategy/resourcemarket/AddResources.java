@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.strategy.resourcemarket;
 
+import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.player.State;
@@ -8,7 +9,7 @@ import it.polimi.ingsw.server.model.player.State;
  * space. Before being able to proceed, the user needs to place all of the resources from the market either in the
  * DiscardBox or in one of their depot lines. For each resource in the DiscardBox all the other players get a faith point
  */
-public class AddResources extends ResourceMarketStrategy
+public class AddResources extends GameStrategy
 {
     public State execute(GameModel gamemodel)
     {

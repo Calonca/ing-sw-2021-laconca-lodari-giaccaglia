@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.strategy.leader;
 
+import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.player.State;
 import it.polimi.ingsw.server.model.player.leaders.LeaderState;
@@ -7,7 +8,7 @@ import it.polimi.ingsw.server.model.player.leaders.LeaderState;
 /**
  *  If the chosen Leader is playable, its effect is activated. If not, nothing happens.
  */
-public class ActivateLeader extends LeaderStrategy
+public class ActivateLeader extends GameStrategy
 {
     public State execute(GameModel gamemodel)
     {

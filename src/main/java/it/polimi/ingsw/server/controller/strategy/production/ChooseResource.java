@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.strategy.production;
 
+import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.player.State;
@@ -8,7 +9,7 @@ import it.polimi.ingsw.server.model.player.State;
  * chosen first, and it has already been calculated that there will be enough basic resources to complete the choice.
  * The user can reset mid-choice, allowing them to perform it from the start again.
  */
-public class ChooseResource extends ProductionStrategy
+public class ChooseResource extends GameStrategy
 {
     public State execute(GameModel gamemodel)
     {

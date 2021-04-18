@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.strategy.resourcemarket;
 
+import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.market.MarketLine;
@@ -11,7 +12,7 @@ import it.polimi.ingsw.server.model.player.State;
  * the user's resources. If there are any white marbles and active Market Leaders, the user will choose
  * which resources to convert, if not they will choose the warehouse position.
  */
-public class PutBall extends ResourceMarketStrategy
+public class PutBall extends GameStrategy
 {
 
     public State execute(GameModel gamemodel)
