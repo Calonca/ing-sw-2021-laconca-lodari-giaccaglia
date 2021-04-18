@@ -11,7 +11,7 @@ public class DiscardLeader extends LeaderStrategy
 {
     public State execute(GameModel gamemodel)
     {
-        //ON EVENT PLAYLEADEREVENT
+        //ON EVENT DISCARDLEADEREVENT
         //MESSAGE IS INT 2
         if(gamemodel.getCurrentPlayer().getLeaders().get(2).getState()== LeaderState.INACTIVE)
             gamemodel.getCurrentPlayer().getLeaders().get(2).discard(gamemodel);

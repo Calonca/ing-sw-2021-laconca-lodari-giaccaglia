@@ -8,7 +8,7 @@ import it.polimi.ingsw.server.model.player.State;
  * space. Before being able to proceed, the user needs to place all of the resources from the market either in the
  * DiscardBox or in one of their depot lines. For each resource in the DiscardBox all the other players get a faith point
  */
-public abstract class AddResources extends ResourceMarketStrategy
+public class AddResources extends ResourceMarketStrategy
 {
     public State execute(GameModel gamemodel)
     {
@@ -22,14 +22,14 @@ public abstract class AddResources extends ResourceMarketStrategy
             return State.CHOOSING_POSITION_FOR_RESOURCES;
         }
         else
-            for (int i=0; i<Resource.values().length; i++)
-                if(gamemodel.getBoxResourcesFromMarketBoard().getNumberOf(Resource.fromInt(i))!=0)
+            for(Resource resource : Resource.values())
+                if(gamemodel.getBoxResourcesFromMarketBoard().getNumberOf(resource)!=0)
                     return State.CHOOSING_POSITION_FOR_RESOURCES;
                 else
                 {
                     int k=0;
-                    for (int j=0; j<Resource.values().length; j++)
-                        k+=gamemodel.getCurrentPlayer().getPersonalBoard().getDiscardBox().getNumberOf(Resource.fromInt(j));
+                    for(Resource resource2 : Resource.values())
+                        k+=gamemodel.getCurrentPlayer().getPersonalBoard().getDiscardBox().getNumberOf(resource2);
                     for (int j=0; j<k;j++)
                         gamemodel.addFaithPointToOtherPlayers();
                     return State.FINAL_PHASE;
