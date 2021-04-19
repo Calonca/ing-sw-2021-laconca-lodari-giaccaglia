@@ -60,7 +60,7 @@ public class WarehouseLeadersDepots implements StorageUnit {
     /**
      * Return the resource at the given global position and whether is selected
      * @param position the global position of the resource to get
-     * @return A resource and whether is selected for production
+     * @return A resource and whether is selected
      */
     private Pair<Resource,Boolean> getResourceAndSelectedAt(int position){
         return depotThatHasPos(position).getAtGPos(position);
@@ -78,17 +78,17 @@ public class WarehouseLeadersDepots implements StorageUnit {
 
 
     /**
-     * Returns if the resource at the given global position is selected for production
+     * Returns if the resource at the given global position is selected for the next action
      * @param resGlobalPos the global position of the resource to check whether selected
-     * @return if the resource at the given global position is selected for production
+     * @return if the resource at the given global position is selected
      */
     boolean getSelected(int resGlobalPos){
         return depotThatHasPos(resGlobalPos).getSelected(resGlobalPos);
     }
 
     /**
-     * Flags the {@link Resource resource} at the given global position in the {@link StorageUnit} as selected for production
-     *
+     * Flags the {@link Resource resource} at the given global position in the {@link StorageUnit} as selected for the next action.
+     * For example a production or buying a card from the CardShop.
      * @param globalPos the global position of the {@link Resource resource} that needs to be selected for production
      */
     @Override
@@ -97,7 +97,8 @@ public class WarehouseLeadersDepots implements StorageUnit {
     }
 
     /**
-     * Flags the {@link Resource resource} at the given global position in the {@link StorageUnit} as deselected for production
+     * Flags the {@link Resource resource} at the given global position in the {@link StorageUnit} as deselected for the next action.
+     * For example a production or buying a card from the CardShop.
      *
      * @param globalPos the global position of the {@link Resource resource} that needs to be deselected for production
      */
@@ -239,9 +240,10 @@ public class WarehouseLeadersDepots implements StorageUnit {
     }
 
     /**
-     * Removes all resources that will be used for a production from all the depots
+     * Removes the selected {@link Resource resources} from the {@link StorageUnit}
      */
-    void  removeSelected(){
+    @Override
+    public void  removeSelected(){
         removeResources(IntStream.range(0,depotAtPosition.size()).filter((pos)->depotThatHasPos(pos).getSelected(pos)).toArray());
     }
 
@@ -263,7 +265,7 @@ public class WarehouseLeadersDepots implements StorageUnit {
         return depots.stream().mapToInt((dep)->dep.getNumberOf(type)).reduce(0, Integer::sum);
     }
 
-    /** Returns how many {@link Resource resources} flagged for production there are in the {@link StorageUnit}
+    /** Returns how many {@link Resource resources} flagged for the next action there are in the {@link StorageUnit}
      * @return Number of selected {@link Resource resource}
      */
     @Override

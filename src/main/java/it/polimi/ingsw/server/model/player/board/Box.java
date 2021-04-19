@@ -17,7 +17,7 @@ public class Box implements StorageUnit {
     private int[] nResAtPos;
     /**
      * Keeps track of how many resources of type i are selected, where i is the index
-     * selected means that the player wants to use thar resource for a production
+     * selected means that the player wants to use the resource with that ordering in the resource enum for the next action
      */
     private int[] nSel;
     /**
@@ -49,8 +49,9 @@ public class Box implements StorageUnit {
     }
 
     /**
-     * Returns a deposit for four Resources
-     * @return  a deposit for four Resources
+     * Returns a deposit for Resources.
+     * Only the first four will be indexed
+     * @return  a deposit for Resources
      */
     public static Box discardBox(){
         return new Box(5,-4);
@@ -105,7 +106,7 @@ public class Box implements StorageUnit {
     }
 
 
-    /** Returns how many {@link Resource resources} flagged for production there are in the {@link StorageUnit}
+    /** Returns how many {@link Resource resources} flagged for the next action there are in the {@link StorageUnit}
      * @return Number of selected {@link Resource resource}
      */
     @Override
@@ -122,7 +123,7 @@ public class Box implements StorageUnit {
     }
 
     /**
-     * Marks n resources as selected for a production
+     * Marks n resources as selected for an action
      * @param nToSel number of resources to select
      * @param R2Sel type of the resource to select
      */
@@ -131,7 +132,7 @@ public class Box implements StorageUnit {
     }
 
     /**
-     * Removes n resources from the ones selected for a production
+     * Removes n resources from the ones selected for an action
      * @param nToDesel number of resources to deselect
      * @param R2Desel type of the resource to deselect
      */
@@ -140,8 +141,8 @@ public class Box implements StorageUnit {
     }
 
     /**
-     * Flags the {@link Resource resource} at the given global position in the {@link StorageUnit} as selected for production
-     *
+     * Flags the {@link Resource resource} at the given global position in the {@link StorageUnit} as selected for the next action.
+     * For example a production or buying a card from the CardShop.
      * @param globalPos the global position of the {@link Resource resource} that needs to be selected for production
      */
     @Override
@@ -150,7 +151,8 @@ public class Box implements StorageUnit {
     }
 
     /**
-     * Flags the {@link Resource resource} at the given global position in the {@link StorageUnit} as deselected for production
+     * Flags the {@link Resource resource} at the given global position in the {@link StorageUnit} as deselected for the next action.
+     * For example a production or buying a card from the CardShop.
      *
      * @param globalPos the global position of the {@link Resource resource} that needs to be deselected for production
      */
@@ -170,8 +172,9 @@ public class Box implements StorageUnit {
     }
 
     /**
-     * Called when performing productions, removes the resources that the productions take as input
+     * Removes the selected {@link Resource resources} from the {@link StorageUnit}
      */
+    @Override
     public void removeSelected(){
         nResAtPos = IntStream.range(0, length).map((i)->nResAtPos[i]-nSel[i]).toArray();
         nSel = IntStream.generate(()->0).limit(nSel.length).toArray();

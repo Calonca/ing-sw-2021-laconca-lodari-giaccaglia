@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 public abstract class Depot{
 
     /**
-     * A pair of Resource and boolean that indicates if the resource is selected for production, meaning that it will be used in a selected production
+     * A pair of Resource and boolean that indicates if the resource is selected for the next action, meaning that it will be used in the next action
      */
     private final List<Pair<Resource,Boolean>> res_sel;
     /**
@@ -147,26 +147,26 @@ public abstract class Depot{
     }
 
     /**
-     * Returns if the resource at the given global position is selected for production
+     * Returns if the resource at the given global position is selected for the next action
      * @param resGlobalPos the global position of the resource to check whether selected
-     * @return if the resource at the given global position is selected for production
+     * @return if the resource at the given global position is selected
      */
     boolean getSelected(int resGlobalPos){
         return res_sel.get(globalToLocalPos(resGlobalPos)).getValue();
     }
 
     /**
-     * Flags a resource at the given global position as selected or not selected for production
+     * Flags a resource at the given global position as selected or not selected for the next action
      * @param value true if the resource needs to be selected, false elsewhere
-     * @param resGlobalPos the global position of the resource that needs to be flagged for production
+     * @param resGlobalPos the global position of the resource that needs to be flagged
      */
     void setSelected(boolean value,int resGlobalPos){
         res_sel.set(globalToLocalPos(resGlobalPos),new Pair<>(getAtGPos(resGlobalPos).getKey(),value));
     }
 
     /**
-     * Toggles the resource at the given global position as flagged for production
-     * @param resGlobalPos the global position of the resource that needs to be flagged for production
+     * Toggles the resource at the given global position as flagged for the next action
+     * @param resGlobalPos the global position of the resource that needs to be flagged
      */
     void toggleSelected(int resGlobalPos){
         setSelected(!getSelected(resGlobalPos),resGlobalPos);

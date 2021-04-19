@@ -94,8 +94,7 @@ public class PersonalBoard {
      * The output faith or bad faith gets saved
      */
     public void produce(){
-        warehouseLeadersDepots.removeSelected();
-        strongBox.removeSelected();
+        removeSelected();
         int[] resources = IntStream.range(0,prodsSelected.size()).filter((pos)->prodsSelected.get(pos).isPresent())
                 .filter((pos)->prodsSelected.get(pos).get())
                 .mapToObj((pos)->productions.get(pos).get().getOutputs())
@@ -105,6 +104,14 @@ public class PersonalBoard {
         strongBox.addResources(Arrays.stream(resources).limit(Resource.nRes).toArray());
         resetChoices();
         resetSelectedProductions();
+    }
+
+    /**
+     * Removes the selected {@link Resource resources} from the {@link PersonalBoard}
+     */
+    public void removeSelected(){
+        warehouseLeadersDepots.removeSelected();
+        strongBox.removeSelected();
     }
 
     /**
@@ -369,10 +376,10 @@ public class PersonalBoard {
 
 
     /**
-     * This method will check the normal resources first through box,
-     * then through warehouse and then if the choiches are possible.
-     * @param personalboard != NULL
-     * @return True if
+     * This method will check if there are enough resources in the {@link PersonalBoard}
+     * It will check the StrongBox first and then the warehouse and then if the choices are possible.
+     * @param toCheck in the cell with index i there is the number of resource with order i in the resource ordering to check for availability
+     * @return True if there are enough resources for selected productions
      */
     public boolean isAvailable(int[] toCheck)
     {
