@@ -305,7 +305,7 @@ public class PersonalBoard {
      * Removes resources from the {@link #discardBox} and records how many faith points to add to other players
      * since each resource discarded corresponds to one faith point that the other players will get
      */
-    void discardResources(){
+    public void discardResources(){
         badFaithToAdd += Resource.getStream(Resource.nRes).map(discardBox::getNumberOf).reduce(0,Integer::sum);
         faithPointsToAdd += discardBox.getNumberOf(Resource.FAITH);
         discardBox = Box.discardBox();
