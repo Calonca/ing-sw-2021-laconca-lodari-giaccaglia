@@ -450,4 +450,25 @@ public class PersonalBoard {
         return true;
     }
 
+
+
+    /**
+     * Returns all the available global positions in the {@link PersonalBoard} where the given resource can be moved
+     * @return an IntStream of global positions
+     */
+    public IntStream availableMovingPositionsForResource(Resource res){
+        return IntStream.concat(
+                IntStream.of(discardBox.globalPositionOfRes(res),strongBox.globalPositionOfRes(res)),
+                warehouseLeadersDepots.availableMovingPositionsForResource(res));
+    }
+
+    /**
+     * Returns all the available positions in all the {@link PersonalBoard} where the resource at the given position can be moved
+     * @param position the global position of the resource of which available moving positions will be returned
+     * @return an IntStream of global positions
+     */
+    private IntStream availableMovingPositionsForResourceAt(int position){
+        return availableMovingPositionsForResource(storageUnitFromPos(position).getResourceAt(position)).filter((i)->i!=position);
+    }
+
 }

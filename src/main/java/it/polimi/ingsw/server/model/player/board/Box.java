@@ -105,6 +105,13 @@ public class Box implements StorageUnit {
         return Resource.fromInt(globalPos-globalPosition);
     }
 
+    /**
+     * Returns the global position of a {@link Resource resource} in the depot
+     * @param res a "physical" resource
+     * @return a global position
+     */
+    public int globalPositionOfRes(Resource res){return globalPosition+res.getResourceNumber();}
+
 
     /** Returns how many {@link Resource resources} flagged for the next action there are in the {@link StorageUnit}
      * @return Number of selected {@link Resource resource}

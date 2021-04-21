@@ -147,13 +147,20 @@ public class WarehouseLeadersDepots implements StorageUnit {
     }
 
     /**
-     * Returns an array of all the available positions in all the depots where the resource at the given position can be moved
+     * Returns all the available positions in all the depots where the resource at the given position can be moved
      * @param position the global position of the resource of which available moving positions will be returned
-     * @return  an array of all the available global positions in all the depots where the resource at the given global position can be moved
+     * @return an IntStream of global positions
      */
-    int[] availableMovingPositionsForResourceAt(int position){
+    private IntStream availableMovingPositionsForResourceAt(int position){
+        return availableMovingPositionsForResource(getResourceAt(position));
+    }
+
+    /**
+     * Returns all the available positions in the depots where the given resource can be moved
+     */
+    public IntStream availableMovingPositionsForResource(Resource resource){
         return depots.stream()
-                .flatMapToInt((depot)->depot.availableSpotsFor(getResourceAt(position))).toArray();
+                .flatMapToInt((depot)->depot.availableSpotsFor(resource));
     }
 
     /**
@@ -162,7 +169,7 @@ public class WarehouseLeadersDepots implements StorageUnit {
      */
     Map<Integer,int[]> availableMovingPositionsForAllResources(){
         return IntStream.range(0, depotAtPosition.size())
-                .mapToObj((pos)->new Pair<>(pos,availableMovingPositionsForResourceAt(pos)))
+                .mapToObj((pos)->new Pair<>(pos,availableMovingPositionsForResourceAt(pos).toArray()))
                 .collect(Collectors.toMap(
                         Pair::getKey,
                         Pair::getValue
