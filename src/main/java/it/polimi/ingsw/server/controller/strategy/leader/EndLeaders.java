@@ -12,7 +12,7 @@ public class EndLeaders extends GameStrategy
     public State execute(GameModel gamemodel)
     {
         //ON EVENT ACTIVATELEADEREVENT OR DISCARDLEADEREVENT
-        if(gamemodel.getCurrentPlayer().getLeaders().get(0).isPast())
+        if(gamemodel.getCurrentPlayer().getMacroState()==State.FINAL_PHASE)
             return State.IDLE;
         else
             return State.MIDDLE_PHASE;

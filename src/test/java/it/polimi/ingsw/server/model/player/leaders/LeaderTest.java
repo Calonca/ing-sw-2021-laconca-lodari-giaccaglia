@@ -174,8 +174,7 @@ public class LeaderTest
 
 
         Leader test=new MarketLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, bonus);
-        test.setPast(true);
-        assertTrue(test.isPast());
+
     }
 
     @Test

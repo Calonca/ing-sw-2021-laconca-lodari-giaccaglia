@@ -11,7 +11,7 @@ public class Middle extends GameStrategy {
     {
         //MESSAGE IS MARKET, SHOP, PRODUCTION (0,1,2)
         int msg=0;
-        gamemodel.getCurrentPlayer().getLeaders().get(0).setPast(true);
+        gamemodel.getCurrentPlayer().setMacroState(State.MIDDLE_PHASE);
         if(msg==0)
             return State.SHOWING_MARKET_RESOURCES;
         else if(msg==1)

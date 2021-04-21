@@ -17,17 +17,12 @@ public abstract class Leader
 
 
 
-    protected boolean past;
     protected LeaderState state;
     protected int victoryPoints;
     protected List<Pair<Resource, Integer>> requirementsResources;
     protected List<Pair<DevelopmentCardColor, Integer>> requirementsCards;
     protected int requirementsCardsLevel=1;
 
-
-    public boolean isPast() {
-        return past;
-    }
 
 
     public LeaderState getState(){
@@ -74,15 +69,9 @@ public abstract class Leader
         return true;
     }
 
-    public void setPast(boolean past) {
-        this.past = past;
-    }
 
     public boolean anyLeaderPlayable(GameModel gamemodel){
-        for (Leader leader : gamemodel.getCurrentPlayer().getLeaders())
-            if (leader.getState()==LeaderState.INACTIVE)
-                return true;
-        return false;
+        return gamemodel.getCurrentPlayer().anyLeaderPlayable();
     }
 
 }

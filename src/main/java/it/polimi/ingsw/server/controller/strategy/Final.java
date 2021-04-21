@@ -11,6 +11,7 @@ public class Final extends GameStrategy {
     {
         //MESSAGE IS SKIPLEADER OR CHOOSELEADER (0 or 1)
         int msg=0;
+        gamemodel.getCurrentPlayer().setMacroState(State.INITIAL_PHASE);
         if(msg==0)
             return State.IDLE;
         else
