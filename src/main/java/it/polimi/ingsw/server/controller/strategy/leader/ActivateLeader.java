@@ -14,7 +14,7 @@ public class ActivateLeader extends GameStrategy
     {
         //ON EVENT PLAYLEADEREVENT
         //MESSAGE IS INT 2
-        if(gamemodel.getCurrentPlayer().getPersonalBoard().isLeaderAvailable(gamemodel.getCurrentPlayer().getLeaders().get(2))&&
+        if(gamemodel.getCurrentPlayer().getPersonalBoard().isLeaderRequirementsSatisfied(gamemodel.getCurrentPlayer().getLeaders().get(2))&&
             gamemodel.getCurrentPlayer().getLeaders().get(2).getState()== LeaderState.INACTIVE)
                 gamemodel.getCurrentPlayer().getLeaders().get(2).activate(gamemodel);
         return State.SHOWING_LEADERS_INITIAL;

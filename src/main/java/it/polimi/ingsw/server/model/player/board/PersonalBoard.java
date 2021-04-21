@@ -400,7 +400,7 @@ public class PersonalBoard {
      * @param developmentCard is not NULL
      * @return is true if there is at least a space available
      */
-    public boolean isLevelSatisfied(DevelopmentCard developmentCard)
+    public boolean isDevCardLevelSatisfied(DevelopmentCard developmentCard)
     {
         for(int i=0; i<getCardCells().size(); i++)
             if(getCardCells().get(i).getStackedCardsSize()+1==developmentCard.getLevel())
@@ -415,7 +415,7 @@ public class PersonalBoard {
      */
      public boolean isDevelopmentCardAvailable(DevelopmentCard developmentCard)
      {
-        return isLevelSatisfied(developmentCard)&&isAvailable(developmentCard.getCostAsArray());
+        return isDevCardLevelSatisfied(developmentCard)&&isAvailable(developmentCard.getCostAsArray());
      }
 
     /**
@@ -424,14 +424,14 @@ public class PersonalBoard {
      * @param leader is not NULL
      * @return is true if requirements are met
      */
-    public boolean isLeaderAvailable(Leader leader){
+    public boolean isLeaderRequirementsSatisfied(Leader leader){
         int temp=0;
         int[] toar = new int[4];
         for (Pair<Resource, Integer> resourceIntegerPair : leader.getRequirementsResources())
             toar[resourceIntegerPair.getKey().getResourceNumber()] += resourceIntegerPair.getValue();
 
 
-        return isAvailable(toar)&&isCardRequirementsSatisfied(leader);
+        return isAvailable(toar)&&isLeaderColorRequirementsSatisfied(leader);
     }
 
     /**
@@ -439,7 +439,7 @@ public class PersonalBoard {
      * @param leader is not NULL
      * @return is true if requirements are met
      */
-    public boolean isCardRequirementsSatisfied(Leader leader)
+    public boolean isLeaderColorRequirementsSatisfied(Leader leader)
     {
         int temp=0;
         for (Pair<DevelopmentCardColor, Integer> requirementsCard : leader.getRequirementsCards()) {
