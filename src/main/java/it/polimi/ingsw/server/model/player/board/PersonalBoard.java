@@ -393,4 +393,16 @@ public class PersonalBoard {
         return Arrays.stream(inputOfLengthResources).limit(Resource.nRes).reduce(0, Integer::sum)+inputOfLengthResources[6]<=numOfResources();
     }
 
+    public boolean isDevelopmentCardAvailable(DevelopmentCard developmentCard)
+    {
+        boolean t=false;
+        for(int i=0; i<getCardCells().size(); i++)
+            if(getCardCells().get(i).getStackedCardsSize()+1==developmentCard.getLevel())
+                t=true;
+
+        int[] toar = new int[4];
+        for (Pair<Resource, Integer> resourceIntegerPair : developmentCard.getCostList())
+            toar[resourceIntegerPair.getKey().getResourceNumber()] += resourceIntegerPair.getKey().getResourceNumber();
+        return t&&isAvailable(toar);
+    }
 }

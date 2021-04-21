@@ -24,7 +24,7 @@ public class AcquireCard extends GameStrategy
         int color=chosencard/3; //1      BLUe
         if(!gamemodel.isCardColorOutOfStock(DevelopmentCardColor.fromInt(color)))
             gamemodel.purchaseCardFromCardShop(DevelopmentCardColor.fromInt(color),level);
-                if(!gamemodel.getPurchasedCard().isAvailable(gamemodel.getCurrentPlayer().getPersonalBoard()))
+                if(!gamemodel.getCurrentPlayer().getPersonalBoard().isDevelopmentCardAvailable(gamemodel.getPurchasedCard()))
                     return State.SHOWING_CARD_SHOP;
 
         return State.CHOOSING_RESOURCES_FOR_DEVCARD;

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.model.player.leaders;
 
-import com.sun.glass.ui.EventLoop;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;

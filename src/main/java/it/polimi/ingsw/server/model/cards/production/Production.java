@@ -1,12 +1,9 @@
 package it.polimi.ingsw.server.model.cards.production;
 
 import it.polimi.ingsw.server.model.Resource;
-import it.polimi.ingsw.server.model.player.board.Box;
-import it.polimi.ingsw.server.model.player.board.PersonalBoard;
-import it.polimi.ingsw.server.model.player.board.WarehouseLeadersDepots;
+
 
 import java.util.Arrays;
-import java.util.stream.IntStream;
 
 /**
  * Class to apply the production cards logic

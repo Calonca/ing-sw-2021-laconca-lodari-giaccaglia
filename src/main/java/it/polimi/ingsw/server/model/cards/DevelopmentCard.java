@@ -1,9 +1,7 @@
 package it.polimi.ingsw.server.model.cards;
 
-import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.cards.production.Production;
 import it.polimi.ingsw.server.model.Resource;
-import it.polimi.ingsw.server.model.player.board.PersonalBoard;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
@@ -70,19 +68,6 @@ public class DevelopmentCard
 
     public List<Pair<Resource,Integer>> getCostList(){
         return costList;
-    }
-
-    public boolean isAvailable(PersonalBoard personalBoard)
-    {
-        boolean t=false;
-        for(int i=0; i<personalBoard.getCardCells().size(); i++)
-            if(personalBoard.getCardCells().get(i).getStackedCardsSize()+1==this.level)
-                t=true;
-
-        int[] toar = new int[4];
-        for (Pair<Resource, Integer> resourceIntegerPair : costList)
-            toar[resourceIntegerPair.getKey().getResourceNumber()] += resourceIntegerPair.getKey().getResourceNumber();
-        return t&&personalBoard.isAvailable(toar);
     }
 
 }
