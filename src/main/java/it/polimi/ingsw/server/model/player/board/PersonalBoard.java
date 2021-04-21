@@ -424,7 +424,6 @@ public class PersonalBoard {
      * @return is true if requirements are met
      */
     public boolean isLeaderRequirementsSatisfied(Leader leader){
-        int temp=0;
         int[] toar = new int[4];
         for (Pair<Resource, Integer> resourceIntegerPair : leader.getRequirementsResources())
             toar[resourceIntegerPair.getKey().getResourceNumber()] += resourceIntegerPair.getValue();
