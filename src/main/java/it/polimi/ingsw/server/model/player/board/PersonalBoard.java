@@ -2,8 +2,10 @@ package it.polimi.ingsw.server.model.player.board;
 
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
+import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
 import it.polimi.ingsw.server.model.cards.production.Production;
 import it.polimi.ingsw.server.model.cards.production.ProductionCardCell;
+import it.polimi.ingsw.server.model.player.leaders.Leader;
 import it.polimi.ingsw.server.model.player.leaders.ProductionLeader;
 import it.polimi.ingsw.server.model.player.track.FaithTrack;
 import javafx.util.Pair;
@@ -393,16 +395,32 @@ public class PersonalBoard {
         return Arrays.stream(inputOfLengthResources).limit(Resource.nRes).reduce(0, Integer::sum)+inputOfLengthResources[6]<=numOfResources();
     }
 
-    public boolean isDevelopmentCardAvailable(DevelopmentCard developmentCard)
+    public boolean isLevelSatisfied(DevelopmentCard developmentCard)
     {
-        boolean t=false;
         for(int i=0; i<getCardCells().size(); i++)
             if(getCardCells().get(i).getStackedCardsSize()+1==developmentCard.getLevel())
-                t=true;
-
+                return true;
+        return false;
+    }
+    public boolean isDevelopmentCardAvailable(DevelopmentCard developmentCard)
+    {
+        return isLevelSatisfied(developmentCard)&&isAvailable(developmentCard.getCostAsArray());
+    }
+    public boolean isLeaderAvailable(Leader leader){
+        int temp=0;
         int[] toar = new int[4];
-        for (Pair<Resource, Integer> resourceIntegerPair : developmentCard.getCostList())
-            toar[resourceIntegerPair.getKey().getResourceNumber()] += resourceIntegerPair.getKey().getResourceNumber();
-        return t&&isAvailable(toar);
+        for (Pair<Resource, Integer> resourceIntegerPair : leader.getRequirementsResources())
+            toar[resourceIntegerPair.getKey().getResourceNumber()] += resourceIntegerPair.getValue();
+
+        for (Pair<DevelopmentCardColor, Integer> requirementsCard : leader.getRequirementsCards()) {
+            for (int j = 0; j < getCardCells().size(); j++)
+                temp +=getCardCells().get(j).howManyOfColor(requirementsCard.getKey(),leader.getRequirementsCardsLevel());
+            if (temp < requirementsCard.getValue())
+                return false;
+            temp=0;
+
+        }
+        return isAvailable(toar);
+        //return t&&isAvailable(leader.getCostAsArray());
     }
 }

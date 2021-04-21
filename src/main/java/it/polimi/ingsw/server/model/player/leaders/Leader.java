@@ -18,7 +18,7 @@ public abstract class Leader
 
     protected LeaderState state;
     protected int victoryPoints;
-    protected List<Pair<Resource, Integer>> requirementsResources;
+protected List<Pair<Resource, Integer>> requirementsResources;
     protected List<Pair<DevelopmentCardColor, Integer>> requirementsCards;
     protected int requirementsCardsLevel=1;
 
@@ -66,6 +66,27 @@ public abstract class Leader
 
         }
         return true;
+    }
+
+
+    public List<Pair<DevelopmentCardColor, Integer>> getRequirementsCards() {
+        return requirementsCards;
+    }
+
+    public int getRequirementsCardsLevel() {
+        return requirementsCardsLevel;
+    }
+
+    public int[] getCostAsArray() {
+        int[] toar = new int[4];
+        for (Pair<Resource, Integer> resourceIntegerPair : this.getRequirementsResources())
+            toar[resourceIntegerPair.getKey().getResourceNumber()] += resourceIntegerPair.getKey().getResourceNumber();
+        return toar;
+    }
+
+
+    public List<Pair<Resource, Integer>> getRequirementsResources() {
+        return requirementsResources;
     }
 
 

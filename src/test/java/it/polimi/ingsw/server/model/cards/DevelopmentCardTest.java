@@ -31,8 +31,10 @@ public class DevelopmentCardTest {
     {
         //testo solo la condizione dei livelli, le risorse sono testate in production
         PersonalBoard personalboardtest=new PersonalBoard();
-
         Pair<Resource, Integer> costTest = new Pair<>(Resource.GOLD, 3);
+        Pair<Integer, Resource> costTest2 = new Pair<>(3, Resource.GOLD);
+
+        personalboardtest.getStrongBox().addResources(new int[]{3,0,0,0});
         List<Pair<Resource, Integer>> requirementsTest = new ArrayList<Pair<Resource, Integer>>();
         requirementsTest.add(costTest);
         DevelopmentCard dev= new DevelopmentCard(1,DevelopmentCardColor.GREEN, Production.basicProduction(),3,requirementsTest);
