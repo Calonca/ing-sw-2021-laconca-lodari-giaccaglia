@@ -28,11 +28,7 @@ public class AddResources extends GameStrategy
                     return State.CHOOSING_POSITION_FOR_RESOURCES;
                 else
                 {
-                    int k=0;
-                    for(Resource resource2 : Resource.values())
-                        k+=gamemodel.getCurrentPlayer().getPersonalBoard().getDiscardBox().getNumberOf(resource2);
-                    for (int j=0; j<k;j++)
-                        gamemodel.addFaithPointToOtherPlayers();
+                    gamemodel.getCurrentPlayer().getPersonalBoard().discardResources();
                     return State.FINAL_PHASE;
                 }
 

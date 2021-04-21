@@ -25,11 +25,11 @@ public class PayResources extends GameStrategy
         // need total of resource selected and remove all selected for warehouse leader depots
         if(msg==0)
         for(int i=0; i<gamemodel.getPurchasedCard().getCostList().size();i++)
-            if(gamemodel.getPurchasedCard().getCostList().get(i).getValue()>
+            if(gamemodel.getPurchasedCard().getCostList().get(i).getValue()==
                     gamemodel.getCurrentPlayer().getPersonalBoard().getWarehouseLeadersDepots().getTotalSelected()+
                             gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().getNSelected(gamemodel.getPurchasedCard().getCostList().get(i).getKey()))
             {
-              // gamemodel.getCurrentPlayer().getPersonalBoard().getWarehouseLeadersDepots().removeselected;
+               gamemodel.getCurrentPlayer().getPersonalBoard().getWarehouseLeadersDepots().removeSelected();
                gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().removeSelected();
                return State.CHOOSING_POSITION_FOR_DEVCARD;
             }
