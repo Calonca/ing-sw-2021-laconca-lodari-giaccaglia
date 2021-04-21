@@ -395,6 +395,11 @@ public class PersonalBoard {
         return Arrays.stream(inputOfLengthResources).limit(Resource.nRes).reduce(0, Integer::sum)+inputOfLengthResources[6]<=numOfResources();
     }
 
+    /**
+     * This method will check if there are enough spaces in the {@link ProductionCardCell}
+     * @param developmentCard is not NULL
+     * @return is true if there is at least a space available
+     */
     public boolean isLevelSatisfied(DevelopmentCard developmentCard)
     {
         for(int i=0; i<getCardCells().size(); i++)
@@ -402,25 +407,49 @@ public class PersonalBoard {
                 return true;
         return false;
     }
-    public boolean isDevelopmentCardAvailable(DevelopmentCard developmentCard)
-    {
+
+    /**
+     * This method combines two methods to complete the requirements for developmentcards
+     * @param developmentCard is not NULL
+     * @return is true if both conditions are true
+     */
+     public boolean isDevelopmentCardAvailable(DevelopmentCard developmentCard)
+     {
         return isLevelSatisfied(developmentCard)&&isAvailable(developmentCard.getCostAsArray());
-    }
+     }
+
+    /**
+     * This method will check if there are enough resources and cards to play a leader.
+     * Leaders cost is converted to an array to re-use the method for the productions.
+     * @param leader is not NULL
+     * @return is true if requirements are met
+     */
     public boolean isLeaderAvailable(Leader leader){
         int temp=0;
         int[] toar = new int[4];
         for (Pair<Resource, Integer> resourceIntegerPair : leader.getRequirementsResources())
             toar[resourceIntegerPair.getKey().getResourceNumber()] += resourceIntegerPair.getValue();
 
+
+        return isAvailable(toar)&&isCardRequirementsSatisfied(leader);
+    }
+
+    /**
+     * This method will check if there are enough cards to play a leader
+     * @param leader is not NULL
+     * @return is true if requirements are met
+     */
+    public boolean isCardRequirementsSatisfied(Leader leader)
+    {
+        int temp=0;
         for (Pair<DevelopmentCardColor, Integer> requirementsCard : leader.getRequirementsCards()) {
             for (int j = 0; j < getCardCells().size(); j++)
                 temp +=getCardCells().get(j).howManyOfColor(requirementsCard.getKey(),leader.getRequirementsCardsLevel());
             if (temp < requirementsCard.getValue())
                 return false;
             temp=0;
-
         }
-        return isAvailable(toar);
-        //return t&&isAvailable(leader.getCostAsArray());
+        return true;
     }
+
 }
