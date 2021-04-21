@@ -166,7 +166,7 @@ public class PersonalBoard {
      * @return an array which values are true for available productions
      */
     public Boolean[] getAvailableProductions(){
-        return productions.stream().flatMap(Optional::stream).map((p)->isAvailable(p.getInputs())).toArray(Boolean[]::new);
+        return productions.stream().flatMap(Optional::stream).map((p)-> hasResources(p.getInputs())).toArray(Boolean[]::new);
     }
 
     /**
@@ -378,12 +378,11 @@ public class PersonalBoard {
 
 
     /**
-     * This method will check if there are enough resources in the {@link PersonalBoard}
-     * It will check the StrongBox first and then the warehouse and then if the choices are possible.
+     * This method will check if the given resources are present in the {@link PersonalBoard}.
      * @param toCheck in the cell with index i there is the number of resource with order i in the resource ordering to check for availability
      * @return True if there are enough resources for selected productions
      */
-    public boolean isAvailable(int[] toCheck)
+    public boolean hasResources(int[] toCheck)
     {
         Box box= getStrongBox();
         //Goes up to toChoose
@@ -415,7 +414,7 @@ public class PersonalBoard {
      */
      public boolean isDevelopmentCardAvailable(DevelopmentCard developmentCard)
      {
-        return isDevCardLevelSatisfied(developmentCard)&&isAvailable(developmentCard.getCostAsArray());
+        return isDevCardLevelSatisfied(developmentCard)&& hasResources(developmentCard.getCostAsArray());
      }
 
     /**
@@ -431,7 +430,7 @@ public class PersonalBoard {
             toar[resourceIntegerPair.getKey().getResourceNumber()] += resourceIntegerPair.getValue();
 
 
-        return isAvailable(toar)&&isLeaderColorRequirementsSatisfied(leader);
+        return hasResources(toar)&&isLeaderColorRequirementsSatisfied(leader);
     }
 
     /**
