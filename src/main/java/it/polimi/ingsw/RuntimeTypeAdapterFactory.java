@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package it.polimi.ingsw.server.model;
+package it.polimi.ingsw;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;
