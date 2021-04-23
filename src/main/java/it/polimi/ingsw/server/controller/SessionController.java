@@ -2,7 +2,6 @@ package it.polimi.ingsw.server.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import it.polimi.ingsw.server.model.player.track.FaithTrack;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
@@ -36,8 +35,10 @@ public class SessionController {
            return matches.get(matches.size()-1);
     }
 
-    public void addNewMatch(int maxPlayers){
-        matches.add(new Match(maxPlayers));
+    public Match addNewMatch(int maxPlayers){
+        Match match = new Match(maxPlayers);
+        matches.add(match);
+        return match;
     }
 
     public void reloadServer() {
