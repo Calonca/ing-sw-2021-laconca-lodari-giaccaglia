@@ -2,7 +2,7 @@ package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
-import it.polimi.ingsw.server.messages.servertoclient.events.Event;
+import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.player.State;
 
@@ -45,12 +45,12 @@ public class Match {
                         game.setOnlinePlayer(p)
                         );
     }
-    public void validateEvent(Event event) throws EventValidationFailedException {
-        if (!event.validate(game))
+    public void validateEvent(Validable event) throws EventValidationFailedException {
+        if (true)
             throw new EventValidationFailedException();
     }
 
-    public State transitionToNextState(Event event) {
+    public State transitionToNextState(Validable event) {
         GameStrategy gameStrategy = game.getCurrentPlayer().getStatesTransitionTable().getStrategy(game.getCurrentPlayer().getCurrentState(), event);
         return gameStrategy.execute(game);
     }
