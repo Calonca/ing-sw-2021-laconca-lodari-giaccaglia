@@ -18,6 +18,15 @@ public class SessionController {
     
     private List<Match> matches = new ArrayList<>();
     private List<String> playersInLobby = new ArrayList<>();
+    private static SessionController single_instance = null;
+
+    public static SessionController getInstance()
+    {
+        if (single_instance == null)
+            single_instance = new SessionController();
+
+        return single_instance;
+    }
 
     public void addPlayerToLobby(String nickname){
         playersInLobby.add(nickname);
