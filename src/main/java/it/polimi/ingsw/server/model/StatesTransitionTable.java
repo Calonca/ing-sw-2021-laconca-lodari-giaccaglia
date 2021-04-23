@@ -1,21 +1,18 @@
 package it.polimi.ingsw.server.model;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
-import it.polimi.ingsw.server.messages.servertoclient.events.Event;
+import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.player.State;
 
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
 
 public class StatesTransitionTable {
-    private Map<State,Map<Event, GameStrategy>> table;
+    private Map<State, Map<Validable, GameStrategy>> table;
 
     public static StatesTransitionTable singlePlayer() throws IOException {
         Gson gson = new Gson();
@@ -48,7 +45,7 @@ public class StatesTransitionTable {
 
     }
 
-    public GameStrategy getStrategy(State state, Event event){
+    public GameStrategy getStrategy(State state, Validable event){
         return table.get(state).get(event);
     }
 
