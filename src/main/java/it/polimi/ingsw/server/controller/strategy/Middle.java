@@ -1,5 +1,8 @@
 package it.polimi.ingsw.server.controller.strategy;
 
+import it.polimi.ingsw.server.controller.strategy.cardmarket.ShowCards;
+import it.polimi.ingsw.server.controller.strategy.production.ShowProductionCards;
+import it.polimi.ingsw.server.controller.strategy.resourcemarket.ShowResourceMarket;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.player.State;
 /**
@@ -11,12 +14,11 @@ public class Middle implements GameStrategy {
     {
         //MESSAGE IS MARKET, SHOP, PRODUCTION (0,1,2)
         int msg=0;
-        //gamemodel.getCurrentPlayer().setMacroState(State.MIDDLE_PHASE);
         if(msg==0)
-            return State.SHOWING_MARKET_RESOURCES;
+            return new ShowResourceMarket().execute(gamemodel);
         else if(msg==1)
-            return State.SHOWING_CARD_SHOP;
+            return new ShowCards().execute(gamemodel);
         else
-            return State.CHOOSING_CARD_FOR_PRODUCTION;
+            return new ShowProductionCards().execute(gamemodel);
     }
 }
