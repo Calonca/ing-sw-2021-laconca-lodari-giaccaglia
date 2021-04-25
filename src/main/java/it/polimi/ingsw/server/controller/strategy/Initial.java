@@ -8,13 +8,13 @@ import it.polimi.ingsw.server.model.player.State;
  * Past is refreshed. It will be set to true once the MIDDLE PHASE will be passed.  If they decide to
  *  * play a leader, but its not possible, that part will be skipped.
  */
-public class Initial extends GameStrategy {
+public class Initial implements GameStrategy {
     public State execute(GameModel gamemodel)
     {
         //MESSAGE IS SKIPLEADER OR CHOOSELEADER (0 or 1)
         int msg=0;
         gamemodel.getCurrentPlayer().setMacroState(State.INITIAL_PHASE);
-        if(msg==0)
+        if(gamemodel.getCurrentPlayer().anyLeaderPlayable())
             return State.MIDDLE_PHASE;
         else
             return State.SHOWING_LEADERS_INITIAL;

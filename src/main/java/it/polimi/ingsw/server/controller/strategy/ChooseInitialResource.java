@@ -6,7 +6,7 @@ import it.polimi.ingsw.server.model.player.State;
 /**
  * On game start, each player will choose a quantity of resources based on their turn order
  */
-public class ChooseInitialResource extends GameStrategy {
+public class ChooseInitialResource implements GameStrategy {
     public State execute(GameModel gamemodel)
     {
         //MSG IS LIST OF INT? RESOURCES?

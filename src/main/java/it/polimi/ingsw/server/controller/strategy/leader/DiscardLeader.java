@@ -8,14 +8,16 @@ import it.polimi.ingsw.server.model.player.leaders.LeaderState;
 /**
  *  If the chosen Leader is playable, it is discarded. If not, nothing happens.
  */
-public class DiscardLeader extends GameStrategy
-{
+public class DiscardLeader implements GameStrategy {
     public State execute(GameModel gamemodel)
     {
         //ON EVENT DISCARDLEADEREVENT
         //MESSAGE IS INT 2
-        if(gamemodel.getCurrentPlayer().getLeaders().get(2).getState()== LeaderState.INACTIVE)
-            gamemodel.getCurrentPlayer().getLeaders().get(2).discard(gamemodel);
+       // if(gamemodel.getCurrentPlayer().getLeaders().get(2).getState()== LeaderState.INACTIVE)
+
+        gamemodel.getCurrentPlayer().getLeaders().get(2).discard(gamemodel);
+      //  if (gamemodel.getCurrentPlayer().anyLeaderPlayable())
         return State.SHOWING_LEADERS_INITIAL;
+      //  else return State.LEADER_END;
     }
 }

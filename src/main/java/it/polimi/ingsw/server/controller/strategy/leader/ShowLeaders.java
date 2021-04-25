@@ -8,8 +8,7 @@ import it.polimi.ingsw.server.model.player.State;
  * This implementation simply sets the state for the view. If the user has no available leaders, it will
  * simply proceed, as if nothing happened.
  */
-public class ShowLeaders extends GameStrategy
-{
+public class ShowLeaders implements GameStrategy {
     public State execute(GameModel gamemodel)
     {
         //ON EVENT CHOOSELEADEREVENT

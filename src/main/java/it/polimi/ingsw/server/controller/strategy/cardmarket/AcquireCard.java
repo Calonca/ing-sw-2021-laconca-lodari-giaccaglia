@@ -10,8 +10,7 @@ import it.polimi.ingsw.server.model.player.State;
  * If the color is not out of stock, the method proceeds to acquire the card, and if it should not have
  * been possible, it will get back to the previous state
  */
-public class AcquireCard extends GameStrategy
-{
+public class AcquireCard implements GameStrategy {
     public State execute(GameModel gamemodel)
     {
         //ON EVENT CHOOSECARDEVENT

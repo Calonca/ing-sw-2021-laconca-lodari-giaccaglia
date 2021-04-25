@@ -8,15 +8,14 @@ import it.polimi.ingsw.server.model.player.leaders.LeaderState;
 /**
  *  If the chosen Leader is playable, its effect is activated. If not, nothing happens.
  */
-public class ActivateLeader extends GameStrategy
-{
+public class ActivateLeader implements GameStrategy {
     public State execute(GameModel gamemodel)
     {
         //ON EVENT PLAYLEADEREVENT
         //MESSAGE IS INT 2
-        if(gamemodel.getCurrentPlayer().getPersonalBoard().isLeaderRequirementsSatisfied(gamemodel.getCurrentPlayer().getLeaders().get(2))&&
-            gamemodel.getCurrentPlayer().getLeaders().get(2).getState()== LeaderState.INACTIVE)
-                gamemodel.getCurrentPlayer().getLeaders().get(2).activate(gamemodel);
+    //    if(gamemodel.getCurrentPlayer().getPersonalBoard().isLeaderRequirementsSatisfied(gamemodel.getCurrentPlayer().getLeaders().get(2))&&
+    //        gamemodel.getCurrentPlayer().getLeaders().get(2).getState()== LeaderState.INACTIVE)
+        gamemodel.getCurrentPlayer().getLeaders().get(2).activate(gamemodel);
         return State.SHOWING_LEADERS_INITIAL;
 
     }

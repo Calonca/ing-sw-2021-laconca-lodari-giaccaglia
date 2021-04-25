@@ -9,8 +9,7 @@ import it.polimi.ingsw.server.model.player.State;
  * chosen first, and it has already been calculated that there will be enough basic resources to complete the choice.
  * The user can reset mid-choice, allowing them to perform it from the start again.
  */
-public class ChooseResource extends GameStrategy
-{
+public class ChooseResource implements GameStrategy {
     public State execute(GameModel gamemodel)
     {
         //ON EVENT CHOOSERESOURCEFORCHOICEEVENT

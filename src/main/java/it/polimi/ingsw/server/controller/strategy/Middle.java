@@ -6,7 +6,7 @@ import it.polimi.ingsw.server.model.player.State;
  * Before the initial choice, Past is set to true, so the Leader logic will acquire that information.
  */
 
-public class Middle extends GameStrategy {
+public class Middle implements GameStrategy {
     public State execute(GameModel gamemodel)
     {
         //MESSAGE IS MARKET, SHOP, PRODUCTION (0,1,2)

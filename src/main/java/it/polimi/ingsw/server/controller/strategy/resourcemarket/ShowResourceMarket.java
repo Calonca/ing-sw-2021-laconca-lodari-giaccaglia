@@ -7,8 +7,7 @@ import it.polimi.ingsw.server.model.player.State;
 /**
  * This implementation only sets the state for the view
  */
-public class ShowResourceMarket extends GameStrategy
-{
+public class ShowResourceMarket implements GameStrategy {
     public State execute(GameModel gamemodel)
     {
         //ON EVENT CHOOSEMARKETBOARD

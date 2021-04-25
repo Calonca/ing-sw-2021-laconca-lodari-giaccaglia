@@ -10,8 +10,7 @@ import it.polimi.ingsw.server.model.player.State;
  * in the Market Bonus effect, it will apply and convert one white marble. The return state will be
  * the one to choose the bonus, as long as there are white marbles remaining
  */
-public class ChooseMarketBonus extends GameStrategy
-{
+public class ChooseMarketBonus implements GameStrategy {
     public State execute(GameModel gamemodel)
     {
         //ON EVENT CHOOSEWHITEMARBLECONVERSIONEVENT

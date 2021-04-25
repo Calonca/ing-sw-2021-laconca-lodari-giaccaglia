@@ -12,8 +12,7 @@ import it.polimi.ingsw.server.model.player.State;
  * the user's resources. If there are any white marbles and active Market Leaders, the user will choose
  * which resources to convert, if not they will choose the warehouse position.
  */
-public class PutBall extends GameStrategy
-{
+public class PutBall implements GameStrategy {
 
     public State execute(GameModel gamemodel)
     {
