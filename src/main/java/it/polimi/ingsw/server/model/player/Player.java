@@ -233,6 +233,31 @@ public class Player {
         return currentState;
     }
 
+    public boolean moreThanOneMarketBonus()
+    {
+        int trueCount = 0;
+        for (boolean bonus : marketBonus) {
+            if (bonus) {
+                trueCount++;
+            }
+            if (trueCount >= 1) {
+                return false;
+            }
+        }
+        return trueCount<2;
+    }
+
+    public int getSingleMarketBonus()
+    {
+        int trueCount = 0;
+        for (boolean bonus : marketBonus) {
+
+            if (bonus) {
+                return trueCount;
+            }
+        }
+        return 0;
+    }
    /* public State getMacroState() {
         return macroState;
     }

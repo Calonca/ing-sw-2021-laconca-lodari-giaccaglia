@@ -16,7 +16,6 @@ public class PutBall implements GameStrategy {
 
     public State execute(GameModel gamemodel)
     {
-        int i;
         //ON EVENT CHOOSEROWEVENT
         //MESSAGE IS MarketLine.FIRST_COLUMN
 
@@ -33,10 +32,12 @@ public class PutBall implements GameStrategy {
 
         //if (gamemodel.getBoxResourcesFromMarketBoard().getNumberOf(Resource.TOCHOOSE)>0)
         if (gamemodel.areThereWhiteMarblesInPickedLine())
-            for(i=0; i<gamemodel.getCurrentPlayer().getMarketBonus().length; i++)
-                if (gamemodel.getCurrentPlayer().getMarketBonus()[i])
-                    return State.CHOOSING_WHITEMARBLE_CONVERSION;
-
+           if(gamemodel.getCurrentPlayer().moreThanOneMarketBonus())
+               for(int i=0;i<gamemodel.getNumberOfWhiteMarblesInPickedLine();i++)
+               {
+                   gamemodel.convertWhiteMarbleInPickedLine(Resource.fromInt(gamemodel.getCurrentPlayer().getSingleMarketBonus()));
+               }
+           else return State.CHOOSING_WHITEMARBLE_CONVERSION;
         return State.CHOOSING_POSITION_FOR_RESOURCES;
     }
 }
