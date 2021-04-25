@@ -16,7 +16,12 @@ public class ActivateLeader implements GameStrategy {
     //    if(gamemodel.getCurrentPlayer().getPersonalBoard().isLeaderRequirementsSatisfied(gamemodel.getCurrentPlayer().getLeaders().get(2))&&
     //        gamemodel.getCurrentPlayer().getLeaders().get(2).getState()== LeaderState.INACTIVE)
         gamemodel.getCurrentPlayer().getLeaders().get(2).activate(gamemodel);
-        return State.SHOWING_LEADERS_INITIAL;
+
+        if (gamemodel.getCurrentPlayer().anyLeaderPlayable())
+            return gamemodel.getCurrentPlayer().getCurrentState();
+        else if (gamemodel.getCurrentPlayer().getCurrentState()==State.SHOWING_LEADERS_INITIAL)
+            return State.MIDDLE_PHASE;
+        else return State.IDLE;
 
     }
 }

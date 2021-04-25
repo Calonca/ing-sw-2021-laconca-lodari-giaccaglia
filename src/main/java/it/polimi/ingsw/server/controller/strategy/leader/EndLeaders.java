@@ -11,9 +11,9 @@ public class EndLeaders implements GameStrategy {
     public State execute(GameModel gamemodel)
     {
         //ON EVENT ACTIVATELEADEREVENT OR DISCARDLEADEREVENT
-        if(gamemodel.getCurrentPlayer().getMacroState()==State.FINAL_PHASE)
+        //if(gamemodel.getCurrentPlayer().getMacroState()==State.FINAL_PHASE)
             return State.IDLE;
-        else
-            return State.MIDDLE_PHASE;
+      //  else
+        //    return State.MIDDLE_PHASE;
     }
 }

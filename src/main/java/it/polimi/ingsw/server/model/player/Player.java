@@ -43,10 +43,6 @@ public class Player {
     private State currentState;
 
 
-    /**
-     * Serves as a reference to know whether the user has already gone through middle phase yet
-     */
-    private State macroState;
 
     /**
      * Boolean value used by {@link GameModel} to determine currently unavailable players, to handle game logic
@@ -76,7 +72,6 @@ public class Player {
         personalBoard= new PersonalBoard();
         currentlyOnline = true;
         currentState = State.IDLE;
-        macroState = State.IDLE;
         discounts=new int[4];
         marketBonus=new boolean[4];
         this.nickName = nickName;
@@ -238,11 +233,11 @@ public class Player {
         return currentState;
     }
 
-    public State getMacroState() {
+   /* public State getMacroState() {
         return macroState;
     }
 
     public void setMacroState(State macroState) {
         this.macroState = macroState;
-    }
+    }*/
 }

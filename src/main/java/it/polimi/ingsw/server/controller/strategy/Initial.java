@@ -13,7 +13,7 @@ public class Initial implements GameStrategy {
     {
         //MESSAGE IS SKIPLEADER OR CHOOSELEADER (0 or 1)
         int msg=0;
-        gamemodel.getCurrentPlayer().setMacroState(State.INITIAL_PHASE);
+        //gamemodel.getCurrentPlayer().setMacroState(State.INITIAL_PHASE);
         if(gamemodel.getCurrentPlayer().anyLeaderPlayable())
             return State.MIDDLE_PHASE;
         else
