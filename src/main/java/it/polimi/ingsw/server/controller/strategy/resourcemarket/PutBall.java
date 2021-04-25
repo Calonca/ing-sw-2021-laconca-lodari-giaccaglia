@@ -23,16 +23,12 @@ public class PutBall implements GameStrategy {
         gamemodel.chooseLineFromMarketBoard(MarketLine.FIRST_COLUMN);
         gamemodel.updateMatrixAfterTakingResources();
 
-        int faithnum=gamemodel.getBoxResourcesFromMarketBoard().getNumberOf(Resource.FAITH);
-
-
-        for(i=0; i<faithnum; i++)
-            gamemodel.getCurrentPlayer().moveOnePosition();
+        gamemodel.getCurrentPlayer().getPersonalBoard().setMarketBox(gamemodel.getBoxResourcesFromMarketBoard());
 
 
         // gamemodel.getBoxResourcesFromMarketBoard().removeResources(new int[]{0,0,0,0,faithnum,0,0});
-        gamemodel.getBoxResourcesFromMarketBoard().selectN(faithnum,Resource.FAITH);
-        gamemodel.getBoxResourcesFromMarketBoard().removeSelected();
+        //gamemodel.getBoxResourcesFromMarketBoard().selectN(faithnum,Resource.FAITH);
+        //gamemodel.getBoxResourcesFromMarketBoard().removeSelected();
 
 
         //if (gamemodel.getBoxResourcesFromMarketBoard().getNumberOf(Resource.TOCHOOSE)>0)

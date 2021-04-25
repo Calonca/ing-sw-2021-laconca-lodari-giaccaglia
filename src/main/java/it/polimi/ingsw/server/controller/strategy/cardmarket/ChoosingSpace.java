@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.strategy.cardmarket;
 
+import it.polimi.ingsw.server.controller.strategy.Final;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.cards.production.ProductionCardCell;
@@ -20,7 +21,7 @@ public class ChoosingSpace implements GameStrategy {
         else
             return State.CHOOSING_POSITION_FOR_DEVCARD;
 
-        return State.FINAL_PHASE;
+        return new Final().execute(gamemodel);
     }
 }
  //   /**

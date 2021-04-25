@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.strategy.production;
 
+import it.polimi.ingsw.server.controller.strategy.Final;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.player.State;
@@ -17,7 +18,7 @@ public class ToggleForProduction implements GameStrategy {
         if (msg==0)
         {
             gamemodel.getCurrentPlayer().getPersonalBoard().produce();
-            return State.FINAL_PHASE;
+            return new Final().execute(gamemodel);
 
         }
         if(gamemodel.getCurrentPlayer().getPersonalBoard().getAvailableProductions()[msg])

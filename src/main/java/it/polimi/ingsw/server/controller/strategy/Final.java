@@ -15,6 +15,6 @@ public class Final implements GameStrategy {
         if(msg==0)
             return State.IDLE;
         else
-            return State.SHOWING_LEADERS_INITIAL;
+            return State.SHOWING_LEADERS_FINAL;
     }
 }

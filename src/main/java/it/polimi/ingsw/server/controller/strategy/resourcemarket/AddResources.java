@@ -16,21 +16,8 @@ public class AddResources implements GameStrategy {
         //MESSAGE IS TWO INT, STARTING POSITION AND ENDING POSITION. 0,0 IS FOR TERMINATION
         int msg1=3;
         int msg2=4;
-        if(msg1!=0)
-        {
-            gamemodel.getCurrentPlayer().getPersonalBoard().move(msg1,msg2);
-            return State.CHOOSING_POSITION_FOR_RESOURCES;
-        }
-        else
-            for(Resource resource : Resource.values())
-                if(gamemodel.getCurrentPlayer().getPersonalBoard().getDiscardBox().getNumberOf(resource)!=0)
-                    return State.CHOOSING_POSITION_FOR_RESOURCES;
-                else
-                {
-                    gamemodel.getCurrentPlayer().getPersonalBoard().discardResources();
-                    return State.FINAL_PHASE;
-                }
 
+        gamemodel.getCurrentPlayer().getPersonalBoard().move(msg1,msg2);
+        return State.CHOOSING_POSITION_FOR_RESOURCES;
 
-        return State.CHOOSING_CARD_FOR_PRODUCTION;
     }}
