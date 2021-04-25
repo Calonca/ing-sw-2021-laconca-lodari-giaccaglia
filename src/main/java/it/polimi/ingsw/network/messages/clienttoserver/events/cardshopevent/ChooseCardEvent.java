@@ -1,0 +1,40 @@
+package it.polimi.ingsw.network.messages.clienttoserver.events.cardshopevent;
+
+import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
+import it.polimi.ingsw.server.model.GameModel;
+import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
+
+/**
+ * Client side {@link Event} created when {@link GameModel#currentPlayer} wants to purchase a {@link it.polimi.ingsw.server.model.cards.DevelopmentCard DevelopmentCard}
+ * during {@link it.polimi.ingsw.server.model.player.State#CHOOSING_DEVELOPMENT_CARD CHOOSING_DEVELOPMENT_CARD} by performing a
+ * game turn action processed to accomplish server-side client validation.
+ */
+public class ChooseCardEvent extends CardShopEvent {
+
+    /**
+     * Int value matching a {@link DevelopmentCardColor} corresponding integer value.
+     */
+    protected int cardColorNumber;
+
+    /**
+     *  Level of chosen card from {@link it.polimi.ingsw.server.model.cards.CardShop CardShop}
+     */
+    protected int cardLevel;
+
+    /**
+     * Default constructor for handling {@link it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent.ChooseCardEvent #SERVERChooseCardEvent} server side equivalent inherited Event handler
+     */
+    public ChooseCardEvent() {}
+
+    /**
+     * Client side {@link Event} constructor invoked when {@link it.polimi.ingsw.server.model.player.State#CHOOSING_DEVELOPMENT_CARD CHOOSING_DEVELOPMENT_CARD}
+     * phase action is performed.
+     * @param cardColor int matching a {@link DevelopmentCardColor} corresponding integer value.
+     * @param cardLevel level of chosen card from {@link it.polimi.ingsw.server.model.cards.CardShop CardShop}
+     */
+    public ChooseCardEvent(int cardColor, int cardLevel){
+        this.cardColorNumber = cardColor;
+        this.cardLevel = cardLevel;
+    }
+
+}

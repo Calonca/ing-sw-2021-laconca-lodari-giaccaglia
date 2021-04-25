@@ -414,7 +414,7 @@ public class PersonalBoard {
      */
      public boolean isDevelopmentCardAvailable(DevelopmentCard developmentCard)
      {
-        return isDevCardLevelSatisfied(developmentCard)&& hasResources(developmentCard.getCostAsArray());
+        return isDevCardLevelSatisfied(developmentCard) && hasResources(developmentCard.getCostAsArray());
      }
 
     /**
@@ -467,7 +467,7 @@ public class PersonalBoard {
      * @param position the global position of the resource of which available moving positions will be returned
      * @return an IntStream of global positions
      */
-    private IntStream availableMovingPositionsForResourceAt(int position){
+    public IntStream availableMovingPositionsForResourceAt(int position){
         return availableMovingPositionsForResource(storageUnitFromPos(position).getResourceAt(position)).filter((i)->i!=position);
     }
 

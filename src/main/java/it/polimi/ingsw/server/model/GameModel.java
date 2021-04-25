@@ -132,6 +132,10 @@ public class GameModel {
         this.isStarted = isStarted;
     }
 
+    public boolean isGameStarted(){
+        return isStarted;
+    }
+
     /**
      * Gets the player currently playing.
      * @return the current player.
@@ -141,6 +145,13 @@ public class GameModel {
     }
 
 
+    public boolean isDevCardInShopAvailable(int cardColorNumber, int cardLevel) {
+        return cardShop.isLevelOfColourOutOfStock(DevelopmentCardColor.fromInt(cardColorNumber), cardLevel);
+    }
+
+    public int getMaxDevCardLevelInCardShop(){
+        return cardShop.getMaxCardLevel();
+    }
     /**
      * @return the cardshop
      */
@@ -417,6 +428,5 @@ public class GameModel {
     public boolean isLorenzoInPopeSpace(Player player){
         return player.isLorenzoInPopeSpace();
     }
-
 
 }

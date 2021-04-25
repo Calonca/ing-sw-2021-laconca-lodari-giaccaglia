@@ -33,8 +33,7 @@ public class jsonUtility {
 
     }
     //helper method to build CardShop json initialization from an array of 48 devcards
-    public static void main(String[] args) throws IOException {
-
+    public static void devCardsDeckDeserialization() throws IOException{
         int cardsInDeck = 4;
         List<DevelopmentCard> cards = jsonUtility.cardsFromJsonHandler();
         List<DevelopmentCard> blueCards = cards.stream().filter(card -> card.getCardType() == DevelopmentCardColor.BLUE).collect(Collectors.toList());
@@ -109,11 +108,18 @@ public class jsonUtility {
         listOfDecks.put(DevelopmentCardColor.YELLOW, yellowDecks);
         listOfDecks.put(DevelopmentCardColor.GREEN, greenDecks);
 
+      /*
         CardShop shop = new CardShop(listOfDecks);
         Writer writer = new FileWriter("src/main/resources/config/CardShopConfig.json");
         Gson gson = new GsonBuilder().create();
         gson.toJson(shop, writer);
         writer.flush(); //flush data to file   <---
         writer.close(); //close write          <---
+       */
+
     }
+
+    public static void leaderCardsDeserialization() throws IOException{
+    }
+
 }

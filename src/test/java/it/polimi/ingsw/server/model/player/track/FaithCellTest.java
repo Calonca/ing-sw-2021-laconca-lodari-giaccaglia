@@ -20,13 +20,14 @@ public class FaithCellTest {
 
     @Before
     public void setUp() throws Exception {
+
         Gson gson = new Gson();
         String json = Files.readString(Path.of("src/main/resources/config/FaithTrackConfig.json"), StandardCharsets.US_ASCII);
         JsonObject jsonFaithTrackClass = gson.fromJson(json, JsonObject.class);
         JsonElement jsonFaithTrackList = jsonFaithTrackClass.get("track");
-        Type myListType = new TypeToken<List<FaithCell>>() {
-        }.getType();
+        Type myListType = new TypeToken<List<FaithCell>>() {}.getType();
         myList = gson.fromJson(jsonFaithTrackList, myListType);
+
     }
 
 

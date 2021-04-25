@@ -14,8 +14,6 @@ import java.util.List;
 public abstract class Leader
 {
 
-
-
     protected LeaderState state;
     protected int victoryPoints;
 protected List<Pair<Resource, Integer>> requirementsResources;
@@ -88,7 +86,6 @@ protected List<Pair<Resource, Integer>> requirementsResources;
     public List<Pair<Resource, Integer>> getRequirementsResources() {
         return requirementsResources;
     }
-
 
     public boolean anyLeaderPlayable(GameModel gamemodel){
         return gamemodel.getCurrentPlayer().anyLeaderPlayable();

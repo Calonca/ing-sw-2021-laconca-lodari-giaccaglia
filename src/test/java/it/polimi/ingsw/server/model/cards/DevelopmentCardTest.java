@@ -17,7 +17,7 @@ public class DevelopmentCardTest {
     public void getCostList()
     {
         Pair<Resource, Integer> costTest = new Pair<>(Resource.GOLD, 3);
-        List<Pair<Resource, Integer>> requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        List<Pair<Resource, Integer>> requirementsTest = new ArrayList<>();
         requirementsTest.add(costTest);
 
 
@@ -35,7 +35,7 @@ public class DevelopmentCardTest {
         Pair<Integer, Resource> costTest2 = new Pair<>(3, Resource.GOLD);
 
         personalboardtest.getStrongBox().addResources(new int[]{3,0,0,0});
-        List<Pair<Resource, Integer>> requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        List<Pair<Resource, Integer>> requirementsTest = new ArrayList<>();
         requirementsTest.add(costTest);
         DevelopmentCard dev= new DevelopmentCard(1,DevelopmentCardColor.GREEN, Production.basicProduction(),3,requirementsTest);
         assertTrue(personalboardtest.isDevelopmentCardAvailable(dev));

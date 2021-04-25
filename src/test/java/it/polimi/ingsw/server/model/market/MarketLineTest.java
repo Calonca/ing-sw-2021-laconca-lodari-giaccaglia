@@ -12,7 +12,10 @@ public class MarketLineTest {
         MarketLine[] lines = MarketLine.values();
 
         for(MarketLine line : lines){
-            assertEquals(line.getLineNumber(), line.ordinal());
+            if(!line.equals(MarketLine.INVALID_LINE))
+                assertEquals(line.getLineNumber(), line.ordinal());
+            else
+                assertEquals(line.getLineNumber(), -1);
         }
     }
 
@@ -24,5 +27,6 @@ public class MarketLineTest {
         assertNotNull(MarketLine.valueOf("FIRST_COLUMN"));
         assertNotNull(MarketLine.valueOf("SECOND_COLUMN"));
         assertNotNull(MarketLine.valueOf("THIRD_COLUMN"));
+
     }
 }

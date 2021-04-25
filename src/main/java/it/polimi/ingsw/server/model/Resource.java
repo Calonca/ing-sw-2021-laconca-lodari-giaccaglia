@@ -26,10 +26,13 @@ public enum Resource
      * Indicated the number of "physical" resources
      */
     public static final int nRes = 4;
+
+
     /**
      * Array containing "physical" resources, used to get resource from it's number in the ordering.
      */
-    private static final Resource[] vals = {GOLD,SERVANT,SHIELD,STONE,FAITH,BADFAITH,TOCHOOSE,EMPTY};
+    private static final Resource[] vals = Resource.values();
+
 
     Resource(final int resourceNumber)
     {

@@ -108,7 +108,7 @@ public abstract class Depot{
      * @param resource the resource of which you want to know the available positions
      * @return an IntStream of the positions this depot where you can move the given resource
      */
-    IntStream availableSpotsFor(Resource resource){
+    public IntStream availableSpotsFor(Resource resource){
         if (!resource.equals(Resource.EMPTY) && (type.equals(resource)||type.equals(Resource.EMPTY)))
             return IntStream.range(0, getSize()).
                     filter((pos)->

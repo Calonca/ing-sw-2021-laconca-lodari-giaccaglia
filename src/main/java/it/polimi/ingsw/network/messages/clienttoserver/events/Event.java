@@ -1,4 +1,7 @@
 package it.polimi.ingsw.network.messages.clienttoserver.events;
 
-public interface Event {
+import it.polimi.ingsw.server.model.GameModel;
+
+public abstract class Event {
+
 }

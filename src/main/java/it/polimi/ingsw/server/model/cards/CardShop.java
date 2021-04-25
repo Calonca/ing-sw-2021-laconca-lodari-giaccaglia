@@ -40,8 +40,7 @@ public class CardShop {
         return gson.fromJson(CardShopClassConfig, CardShop.class);
     }
 
-
-
+    
     /**
      * <p>Represents the actual structure of the grid, implemented by using a {@link Map} where values, {@link List Lists} of
      * <em>Decks</em> with same color cards, are accessed through {@link DevelopmentCardColor} as the key.<br>
@@ -76,6 +75,11 @@ public class CardShop {
         }
     }
 
+
+    public int getMaxCardLevel(){
+        return maxLevel;
+    }
+
     /**
      * Method for purchasing a {@link DevelopmentCard}. Firstly the card is chosen,
      * then the payment process takes place.
@@ -85,13 +89,15 @@ public class CardShop {
      * Has to be lower than the {@link CardShop#maxLevel} of this CardShop.
      */
     public void purchaseCard(DevelopmentCardColor color, int level){
-        purchasedCard =devDecks.get(color).get(level).getCard();
+        purchasedCard = devDecks.get(color).get(level).getCard();
     }
 
     public boolean isLevelOfColourOutOfStock(DevelopmentCardColor color, int level){
-        return devDecks.get(color).get(level).isDeckEmpty();
+        if(level <= maxLevel)
+            return devDecks.get(color).get(level).isDeckEmpty();
+        else
+            return false;
     }
-
 
     /**
      * Method to retrieve previously selected card through {@link CardShop#discardCard},

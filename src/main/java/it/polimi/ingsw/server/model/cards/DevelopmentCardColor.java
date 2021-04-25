@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.model.cards;
 
+import it.polimi.ingsw.server.model.Resource;
+
 /**
  * Development Cards colors. New colors can be added anytime
  */
@@ -8,11 +10,23 @@ public enum DevelopmentCardColor {
     GREEN,
     BLUE,
     PURPLE,
-    YELLOW;
+    YELLOW,
+    INVALID;
 
-    private static final DevelopmentCardColor[] vals = {GREEN,BLUE,PURPLE,YELLOW};
+    /**
+     * Array containing "physical" {@link DevelopmentCardColor DevelopmentCardColors}, used to get {@link DevelopmentCardColor}
+     * from it's number in the ordering.
+     */
+    private static final DevelopmentCardColor[] vals = DevelopmentCardColor.values();
 
+
+    /**
+     * Return the {@link DevelopmentCardColor} corresponding to given value in the {@link DevelopmentCardColor} ordering,
+     * returns {@link DevelopmentCardColor#INVALID} if the given value is outside the array
+     * @param rNum int representing the {@link DevelopmentCardColor} ordering
+     * @return a {@link DevelopmentCardColor}
+     */
     public static DevelopmentCardColor fromInt(int rNum){
-        return vals[rNum];
+        return rNum>vals.length||rNum<0? INVALID: vals[rNum];
     }
 }
