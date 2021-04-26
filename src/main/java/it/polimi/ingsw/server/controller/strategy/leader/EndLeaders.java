@@ -15,6 +15,6 @@ public class EndLeaders implements GameStrategy {
         if (gamemodel.getCurrentPlayer().anyLeaderPlayable())
             return gamemodel.getCurrentPlayer().getCurrentState();
         else if (gamemodel.getCurrentPlayer().getCurrentState()==State.SHOWING_LEADERS_INITIAL)
-            return new Middle().execute(gamemodel);
+            return State.MIDDLE_PHASE;
         else return State.IDLE;
     }}
