@@ -214,12 +214,24 @@ public class Player {
         return faithTrack.getLorenzoPosition();
     }
 
+
+    /**
+     * @return true if the <em>PlayerPiece</em> is currently in a <em>Pope Space</em> along {@link FaithTrack}.
+     */
     public boolean isInPopeSpace(){
         return faithTrack.isPlayerInPopeSpace();
     }
 
+    /**
+     * <em>Solo Mode</em> method to check if <em>LorenzoPiece</em> is in <em>PopeSpace</em>
+     * @return true if the <em>LorenzoPiece</em> is currently in a <em>Pope Space</em> along {@link FaithTrack}.
+     */
     public boolean isLorenzoInPopeSpace(){
         return faithTrack.isLorenzoInPopeSpace();
+    }
+
+    public void turnPopeFavourTileInFaithTrack(int popeSpacePosition){
+        faithTrack.turnPopeFavourTile(popeSpacePosition);
     }
 
     public boolean anyLeaderPlayable(){
@@ -258,6 +270,10 @@ public class Player {
         }
         return 0;
     }
+
+
+
+
    /* public State getMacroState() {
         return macroState;
     }

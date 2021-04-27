@@ -23,16 +23,14 @@ public class MoveResourceEvent extends it.polimi.ingsw.network.messages.clientto
      * {@link it.polimi.ingsw.server.model.market.MarketBoard MarketBoard} and placed in
      * {@link it.polimi.ingsw.server.model.player.board.WarehouseDepot WarehouseDepot}
      *
-     * @param startPos int value position of the {@link it.polimi.ingsw.server.model.Resource Resource} to move.
      * @param endPos  int value of the destination position for the {@link it.polimi.ingsw.server.model.Resource Resource} to move.
      *
      * @return true if starting position is among ones in the picked {@link it.polimi.ingsw.server.model.Resource Resources} and
      * ending position is among available ones inside {@link it.polimi.ingsw.server.model.player.board.WarehouseDepot WarehouseDepot}
      *
      */
-    private boolean validateNewResourceToAdd(int startPos, int endPos){
-        //TODO RESOURCES
-        return true;
+    private boolean validateNewResourceToAdd(int endPos){
+        return endPos >=0;
     }
 
     /**
@@ -46,8 +44,8 @@ public class MoveResourceEvent extends it.polimi.ingsw.network.messages.clientto
      * ending position is among available ones inside {@link it.polimi.ingsw.server.model.player.board.WarehouseDepot WarehouseDepot}
      */
     private boolean validateResourceToMove(int startPos, int endPos){
-        return currentPlayerPersonalBoard.availableMovingPositionsForResourceAt(startPos)
-                .anyMatch(position -> position==endPos);
+        return endPos >= 0 && currentPlayerPersonalBoard.availableMovingPositionsForResourceAt(startPos)
+                .anyMatch(position -> position == endPos);
     }
 
 
@@ -55,7 +53,7 @@ public class MoveResourceEvent extends it.polimi.ingsw.network.messages.clientto
      * @return true if given initial and final positions are valid ones, otherwise false.
      */
     private boolean validatePositions(){
-        return (startPos>=-5 && startPos<=-1) ? validateNewResourceToAdd(startPos, endPos) :
+        return (startPos>=-4 && startPos<=-1) ? validateNewResourceToAdd(endPos) :
                 validateResourceToMove(startPos, endPos);
     }
 
