@@ -233,6 +233,10 @@ public class Player {
         return currentState;
     }
 
+    /**
+     * Used to verify if the player is required to make a choice
+     * @return true if there is only one active Market Bonus
+     */
     public boolean moreThanOneMarketBonus()
     {
         int trueCount = 0;
@@ -244,9 +248,14 @@ public class Player {
                 return false;
             }
         }
-        return trueCount<2;
+        return trueCount>1;
     }
 
+    /**
+     * This method can be called only after getting the information that the user only has
+     * one active Market Bonus
+     * @return the corresponding resource position
+     */
     public int getSingleMarketBonus()
     {
         int trueCount = 0;

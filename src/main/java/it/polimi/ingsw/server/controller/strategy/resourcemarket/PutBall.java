@@ -32,7 +32,7 @@ public class PutBall implements GameStrategy {
 
         //if (gamemodel.getBoxResourcesFromMarketBoard().getNumberOf(Resource.TOCHOOSE)>0)
         if (gamemodel.areThereWhiteMarblesInPickedLine())
-           if(gamemodel.getCurrentPlayer().moreThanOneMarketBonus())
+           if(!gamemodel.getCurrentPlayer().moreThanOneMarketBonus())
                for(int i=0;i<gamemodel.getNumberOfWhiteMarblesInPickedLine();i++)
                {
                    gamemodel.convertWhiteMarbleInPickedLine(Resource.fromInt(gamemodel.getCurrentPlayer().getSingleMarketBonus()));
