@@ -19,7 +19,6 @@ public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.m
     }
 
     private boolean checkProductionResources(){
-        //TODO CHIEDERE QUANDO VIENE SELEZIONATA LA PRODUZIONE!
         return false;
     }
 

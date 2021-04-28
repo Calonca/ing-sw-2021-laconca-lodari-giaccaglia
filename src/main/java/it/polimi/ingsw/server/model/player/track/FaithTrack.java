@@ -102,10 +102,17 @@ public class FaithTrack {
         return(track.get(piece.getValue()).isPopeSpace());
     }
 
+    /**
+     * @return  true if the PlayerPiece is currently in a Pope Space along FaithTrack.
+     */
     public boolean isPlayerInPopeSpace(){
         return isPieceInPopeSpace(playerPiece);
     }
 
+    /**
+     * <em>Solo Mode</em> method to check if <em>LorenzoPiece</em> is in <em>PopeSpace</em>
+     * @return true if the <em>LorenzoPiece</em> is currently in a <em>Pope Space</em> along {@link FaithTrack}.
+     */
     public boolean isLorenzoInPopeSpace(){
         return isPieceInPopeSpace(lorenzoPiece);
     }

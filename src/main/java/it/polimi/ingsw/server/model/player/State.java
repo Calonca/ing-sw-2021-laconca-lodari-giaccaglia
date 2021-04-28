@@ -11,18 +11,18 @@ import it.polimi.ingsw.server.model.player.board.*;
 /**
  *  <p>Enum class for player turn phases represented as FSM States. Game turn is divided in three macro phases.<br>
  *  Execution of {@link #INITIAL_PHASE} and {@link #FINAL_PHASE} are up to player decision,
- *  meanwhile {@link #MIDDLE_PHASE} <em>"normal action"</em> is mandatory to perform</p>
+ *  meanwhile {@link #MIDDLE_PHASE} <em>"normal action"</em> is mandatory to perform. {@link #SETUP_PHASE} is the
+ *  beginning match phase, where each player receives initial resources, faith points and leader cards.</p>
  *  <ol>
+ *
+ *  <li>{@link #SETUP_PHASE}</li> <br>
  *
  *  <li>{@link #INITIAL_PHASE}
  *      <ul>
- *          <li>
  *          <li>{@link #SHOWING_LEADERS_INITIAL}  <em>"Leader action"</em>
- *          <li>
  *      </ul>
  *  <li>{@link #MIDDLE_PHASE} <em>"Normal actions"</em>
  *      <ul>
- *          <li>
  *          <li><em>Activate the Production :</em>
  *          <li>{@link #CHOOSING_CARD_FOR_PRODUCTION}
  *          <li>{@link #CHOOSING_RESOURCE_FOR_PRODUCTION}
@@ -36,20 +36,28 @@ import it.polimi.ingsw.server.model.player.board.*;
  *          <li>{@link #SHOWING_CARD_SHOP}
  *          <li>{@link #CHOOSING_DEVELOPMENT_CARD}
  *          <li>{@link #CHOOSING_RESOURCES_FOR_DEVCARD}
- *          <li>
  *      </ul>
  *  <li>{@link #FINAL_PHASE}
  *      <ul>
- *          <li>
  *          <li> {@link #SHOWING_LEADERS_FINAL} <em>"Leader action"</em>
  *          <li>{@link #IDLE}
  *          <li>{@link #WINNING_STATE}
  *          <li>{@link #LOSING_STATE}
- *          <li>
  *      </ul>
  * </ol>
  */
 public enum State {
+
+    /**
+     * Initial game phase where each player receives two {@link Leader LeaderCards}, faithPoints and {@link Resource Resources}
+     * according to players' numbering.
+     */
+    SETUP_PHASE{
+        @Override
+        public String serialize(GameModel gameModel) {
+            return null;
+        }
+    },
 
     /**
      * Initial turn phase where player can either perform a <em>"Leader action"</em> or skip to {@link State#MIDDLE_PHASE}

@@ -13,7 +13,6 @@ import java.util.stream.*;
 
 public class GameModel {
 
-
     /**
      * Player currently facing playing a game turn.
      */
@@ -109,11 +108,11 @@ public class GameModel {
 
         players.values().forEach((p)->
                 {
-                    try {
+                 /*  try {
                         p.setStatesTransitionTable(StatesTransitionTable.fromIsSinglePlayer(isSinglePlayer));
                     } catch (IOException e) {
                         e.printStackTrace();
-                    }
+                    } */
                 }
         );
     }
@@ -217,7 +216,7 @@ public class GameModel {
                 Function.identity(), index -> players.get(index)));
     }
 
-    /* //TODO CHECK IF IS A USELESS METHOD
+    /* //TODO CHECK IF IS A USELESS METHOD, SINCE GAMEPHASE IS THE PLAYER PHASE.
    /**
     * Returns the {@link State state} of the game of the current player.<br>
     * The {@link State state} of the game of each player can be different.
@@ -272,16 +271,51 @@ public class GameModel {
     }
 
     /**
-     * Makes the players different from the current player advance of one position in the faith track.
+     * Makes the players different from the current player advance of one position in the faith track, then checks if
+     * any of them is in a Pope Space.
+     *
+     * @return true if any player is in Pope Space, otherwise false.
      */
-    public void addFaithPointToOtherPlayers() {
-        if(!isSinglePlayer)
-        onlinePlayers.values().stream()
-                .filter(player -> !(player == currentPlayer))
-                .forEach(Player::moveOnePosition);
+    public boolean addFaithPointToOtherPlayers() {
+        if(!isSinglePlayer) {
+            return players.values().stream()
+                    .filter(player -> !(player == currentPlayer))
+                    .map(player -> {
+                        player.moveOnePosition();
+                        return player.isInPopeSpace();
+                    }).anyMatch(player -> true);
+        }
         else
             addFaithPointToLorenzo();
+            return singlePlayer.isLorenzoInPopeSpace();
+        }
+
+    /**
+      * @return List of integers corresponding to the players triggering a VaticanReport. In case of <em>Solo mode</em>
+     * list contains only one integer, corresponding to the singlePlayer, whose LorenzoPiece has triggered a VaticanReport
+     */
+    public List<Integer> vaticanReportTriggers(){
+        return players.values()
+                .stream()
+                .filter(Player::isInPopeSpace)
+                .mapToInt(player -> players.keySet()
+                        .stream()
+                        .filter(key -> players.get(key)
+                                .equals(player)).findFirst()
+                        .orElse(-1)).boxed()
+                .collect(Collectors.toList());
     }
+
+    /**
+     * Method to execute a Vatican Report, when one or more players reaches a PopeSpace, both for <em>MultiPlayer</em>
+     * and <em>Solo mode</em> game.
+     */
+     public void executeVaticanReport(){
+            int popeSpacePosition = players.values().stream().filter(Player::isInPopeSpace).mapToInt(Player::getPlayerPosition).max().getAsInt();
+            players.values().stream().forEach(player -> player.turnPopeFavourTileInFaithTrack(popeSpacePosition));
+     }   
+
+
 
     /**
      * In the single players game the player plays against Lorenzo il Magnifico.
@@ -419,14 +453,6 @@ public class GameModel {
      */
     public int getLorenzoPosition(Player player){
         return player.getLorenzoPosition();
-    }
-
-    public boolean isPlayerPieceInPopeSpace(Player player){
-        return player.isInPopeSpace();
-    }
-
-    public boolean isLorenzoInPopeSpace(Player player){
-        return player.isLorenzoInPopeSpace();
     }
 
 }

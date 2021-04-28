@@ -118,7 +118,7 @@ public class CardShop {
      * @return true if a list of {@link DevelopmentCardDeck DevelopmentCardDecks} has only empty Decks, otherwise false.
      */
     public boolean isSomeColourOutOfStock(){
-        return Arrays.stream(DevelopmentCardColor.values())
+        return Arrays.stream(DevelopmentCardColor.values()).filter(color -> !color.equals(DevelopmentCardColor.INVALID))
                 .map(color -> devDecks.get(color))
                 .anyMatch(deckList -> deckList.values().stream()
                         .allMatch(DevelopmentCardDeck::isDeckEmpty));

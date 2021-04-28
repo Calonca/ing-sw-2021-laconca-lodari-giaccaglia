@@ -22,7 +22,6 @@ public class GameModelTest {
     @Before
     public void setUp() throws Exception {
 
-
     }
 
     @Test
@@ -31,11 +30,12 @@ public class GameModelTest {
     // test pick cards from cardshop, resources check not tested
     for(DevelopmentCardColor color : DevelopmentCardColor.values()) {
 
-        setUpNewSingleGamerGameModel();
-        testPurchaseCard(color);
+        if(!color.equals(DevelopmentCardColor.INVALID)) {
+            setUpNewSingleGamerGameModel();
+            testPurchaseCard(color);
+        }
 
     }
-
 
     setUpNewSingleGamerGameModel();
 
@@ -123,8 +123,6 @@ public class GameModelTest {
         assertEquals(player,gameModelTest.getNextPlayer());
         assertEquals(player, gameModelTest.getOnlinePlayers().get(0));
         assertTrue(gameModelTest.isPlayerCurrentlyOnline(0));
-
-
 
     }
 

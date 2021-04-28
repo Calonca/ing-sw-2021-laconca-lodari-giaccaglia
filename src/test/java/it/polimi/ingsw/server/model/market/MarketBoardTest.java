@@ -42,8 +42,10 @@ public class MarketBoardTest {
         resources.add(Resource.SERVANT);
         resources.add(Resource.SHIELD);
 
-        for (MarketLine line : lines)
-            pickLineTest(line, resources);
+        for (MarketLine line : lines) {
+            if (!line.equals(MarketLine.INVALID_LINE))
+                 pickLineTest(line, resources);
+        }
     }
 
     private void pickLineTest(MarketLine line, List<Resource> mappedResource) {
@@ -65,8 +67,10 @@ public class MarketBoardTest {
     @Test
     public void areThereWhiteMarblesTest() {
 
-        for(MarketLine  line : MarketLine.values())
-            testWhiteMarble(line);
+        for(MarketLine  line : MarketLine.values()) {
+            if (!line.equals(MarketLine.INVALID_LINE))
+                testWhiteMarble(line);
+        }
 
     }
 
@@ -80,11 +84,12 @@ public class MarketBoardTest {
     }
 
     @Test
-    public void getNumberOfWhiteMarblesInPickedLineTest(){
+    public void getNumberOfWhiteMarblesInPickedLineTest() {
 
-        for(MarketLine  line : MarketLine.values())
-            testNumberOfWhiteMarbles(line);
-
+        for (MarketLine line : MarketLine.values()) {
+            if (!line.equals(MarketLine.INVALID_LINE))
+                testNumberOfWhiteMarbles(line);
+        }
     }
 
     private void testNumberOfWhiteMarbles(MarketLine testLine){
@@ -109,8 +114,10 @@ public class MarketBoardTest {
         resources.add(Resource.SHIELD);
 
         for (MarketLine line : MarketLine.values()) {
-            for(Resource resource : resources)
-                mappedResourcesTest(line, resource, resources);
+            if (!line.equals(MarketLine.INVALID_LINE)) {
+                for (Resource resource : resources)
+                    mappedResourcesTest(line, resource, resources);
+            }
         }
 
     }

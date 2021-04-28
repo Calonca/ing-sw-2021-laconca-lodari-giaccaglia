@@ -33,4 +33,5 @@ public class CreatedMatchStatus extends it.polimi.ingsw.network.messages.servert
             }
         });
     }
+
 }
