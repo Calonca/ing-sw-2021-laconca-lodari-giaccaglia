@@ -15,8 +15,8 @@ public class JoinMatchRequest extends it.polimi.ingsw.network.messages.clienttos
     @Override
     public void processMessage(ClientHandler clientHandler) throws IOException {
         if(SessionController.getInstance().addPlayerToMatchAndStartWhenReady(matchId,nickName,clientHandler))
-            clientHandler.sendAnswerMessage(new JoinStatus(this,true,null));
+            clientHandler.sendAnswerMessage(new JoinStatus(this,matchId,null));
         else
-            clientHandler.sendAnswerMessage(new JoinStatus(this,false, JoinStatus.motive.OTHER));
+            clientHandler.sendAnswerMessage(new JoinStatus(this,null, JoinStatus.motive.OTHER));
     }
 }

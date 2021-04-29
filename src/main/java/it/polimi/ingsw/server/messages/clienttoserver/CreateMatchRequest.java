@@ -24,7 +24,7 @@ public class CreateMatchRequest extends it.polimi.ingsw.network.messages.clientt
              (match)->{
                     try {
                         clientHandler.sendAnswerMessage(new MatchesData(SessionController.getInstance().matchesData()));
-                        clientHandler.sendAnswerMessage(new CreatedMatchStatus(this,false, CreatedMatchStatus.motive.OTHER));
+                        clientHandler.sendAnswerMessage(new CreatedMatchStatus(this,null, CreatedMatchStatus.motive.OTHER));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }},
@@ -33,7 +33,7 @@ public class CreateMatchRequest extends it.polimi.ingsw.network.messages.clientt
                          Match match = SessionController.getInstance().addNewMatch(maxPlayers);
                          clientHandler.setMatch(match);
                          SessionController.getInstance().addPlayerToMatchAndStartWhenReady(match.getMatchId(),nickName,clientHandler);
-                         clientHandler.sendAnswerMessage(new CreatedMatchStatus(this,true,null));
+                         clientHandler.sendAnswerMessage(new CreatedMatchStatus(this,match.getMatchId(),null));
                      } catch (IOException e) {
                          e.printStackTrace();
                      }
