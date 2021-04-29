@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 import java.util.UUID;
 
-public class MainMenuView extends View implements CLIView {
+public class MainMenuView extends it.polimi.ingsw.client.view.abstractview.MainMenuView implements CLIView {
 
 
     /**
@@ -55,6 +55,8 @@ public class MainMenuView extends View implements CLIView {
             {
                 System.out.println(Color.colorString("Please insert a number",Color.ANSI_GREEN));
                 choice = Integer.parseInt(scanner.nextLine());
+                getCLIBuilder().selectOptionAtGlobalPosition(choice);
+                getCLIBuilder().display();
                 System.out.println(Color.colorString("Please insert Enter to confirm or any key to cancel",Color.ANSI_GREEN));
                 s=scanner.nextLine();
             }

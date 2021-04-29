@@ -4,7 +4,7 @@ import it.polimi.ingsw.client.view.abstractview.View;
 
 import java.beans.PropertyChangeEvent;
 
-public class WaitForServerConnection extends View implements CLIView {
+public class WaitForServerConnection extends it.polimi.ingsw.client.view.abstractview.WaitForServerConnection implements CLIView {
 
 
     /** Characters used for the spinner animation */
