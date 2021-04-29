@@ -20,7 +20,7 @@ public class CLIBuilderTest {
     }
 
     @Test
-    public void generalTest(){
+    public void selectionTest(){
         AtomicInteger test = new AtomicInteger();
         Option o1 = new Option("Op1","sub",()-> test.set(1));
         Option o2 = new Option("Op2","2",()->test.set(2));
