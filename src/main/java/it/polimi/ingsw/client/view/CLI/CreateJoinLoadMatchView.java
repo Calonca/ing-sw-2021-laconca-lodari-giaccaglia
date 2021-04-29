@@ -47,21 +47,20 @@ public class CreateJoinLoadMatchView extends it.polimi.ingsw.client.view.abstrac
         do  {
                 try
                 {
-                    System.out.println(choice);
-                    System.out.println("Select choice");
+                    System.out.println(Color.colorString("Please insert a match number",Color.ANSI_GREEN));
                     choice = Integer.parseInt(scanner.nextLine());
                     getCliBuilder().display();
 
                     if(getCommonData().matchesData.isPresent()&&choice>getCommonData().matchesData.get().length)
-                            System.out.println("Please insert an existing match number");
+                        System.out.println(Color.colorString("Please insert an existing match number",Color.ANSI_RED));
                     else
                     {
-                            System.out.println("Press send to confirm or you will be asked to select another choice");
-                            s=scanner.nextLine();
+                        System.out.println(Color.colorString("Please insert Enter to confirm or any key to cancel",Color.ANSI_GREEN));
+                        s=scanner.nextLine();
                     }
                 }
                 catch (NumberFormatException e){
-                    System.out.println("Insert a NUMBER!");
+                    System.out.println(Color.colorString("Insert a NUMBER!",Color.ANSI_RED));
                 }
         }while(!s.isEmpty());
         getCliBuilder().selectOptionAtGlobalPosition(choice);
