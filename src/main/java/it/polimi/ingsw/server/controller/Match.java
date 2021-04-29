@@ -10,7 +10,7 @@ import java.util.*;
 import java.util.stream.Stream;
 
 public class Match {
-    private UUID gameID;
+    private UUID matchId;
     private boolean hasStarted=false;
     private List<String> onlineUsers = new ArrayList<>();
     private List<String> offlineUsers = new ArrayList<>();
@@ -21,7 +21,7 @@ public class Match {
 
 
     public Match(int maxPlayers){
-        gameID = UUID.randomUUID();
+        matchId = UUID.randomUUID();
         this.maxPlayers = maxPlayers;
         createdTime = new Date(System.currentTimeMillis());
     }
@@ -35,13 +35,14 @@ public class Match {
         clientHandlers.add(clientHandler);
     }
 
+
     public void startGame() {
         hasStarted=true;
         this.game = new GameModel(onlineUsers,onlineUsers.size()==1);
     }
 
-    public UUID getGameID() {
-        return gameID;
+    public UUID getMatchId() {
+        return matchId;
     }
 
     public String[] getOnlinePlayers(){
@@ -73,7 +74,7 @@ public class Match {
     }
 
     public String getSaveName(){
-        return onlineUsers.stream().reduce("", String::concat).concat("|").concat(gameID.toString());
+        return onlineUsers.stream().reduce("", String::concat).concat("|").concat(matchId.toString());
     }
 
 }

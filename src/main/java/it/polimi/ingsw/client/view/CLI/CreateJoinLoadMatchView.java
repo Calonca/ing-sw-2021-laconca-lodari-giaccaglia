@@ -2,13 +2,14 @@ package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.view.CLI.CLIelem.Option;
 import it.polimi.ingsw.client.view.abstractview.View;
+import it.polimi.ingsw.server.messages.clienttoserver.JoinMatchRequest;
 import javafx.util.Pair;
 
 import java.util.Arrays;
 import java.util.Scanner;
 import java.util.UUID;
 
-public class CreateJoinLoadMatchView extends View implements CLIView {
+public class CreateJoinLoadMatchView extends it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchView implements CLIView {
 
 
     /**
@@ -21,6 +22,8 @@ public class CreateJoinLoadMatchView extends View implements CLIView {
     @Override
     public void run() {
         Scanner scanner = new Scanner(System.in);
+
+        //Todo this sleep exists to wait for the match data message, replace with listener
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -30,38 +33,43 @@ public class CreateJoinLoadMatchView extends View implements CLIView {
         getCommonData().matchesData.ifPresent(
                 (o)-> Arrays.stream(o).forEach(this::addOption)
         );
+
         //Adds new match options to the CLIBuilder
         Runnable r = ()->getClient().transitionToView(new CreateMatchView());
         getCliBuilder().addOption(CLIPos.CENTER,new Option("New Match","",r));
 
         getCliBuilder().display();
 
+        String s="a";
         //Loop for choices
         //Todo move some of the selection code to CLIBuilder to reduce code duplication
-        while (true) {
-            int choice;
-            try {
-                System.out.println("Select choice");
-                choice = Integer.parseInt(scanner.nextLine());
-                getCliBuilder().selectOptionAtGlobalPosition(choice);
-                getCliBuilder().display();
-                try {
-                    System.out.println("Press send to confirm or select another choice");
+        int choice=0;
+        do  {
+                try
+                {
+                    System.out.println(Color.colorString("Please insert a match number",Color.ANSI_GREEN));
                     choice = Integer.parseInt(scanner.nextLine());
-                    getCliBuilder().selectOptionAtGlobalPosition(choice);
                     getCliBuilder().display();
-                } catch (NumberFormatException e){
-                    break;
+
+                    if(getCommonData().matchesData.isPresent()&&choice>getCommonData().matchesData.get().length)
+                        System.out.println(Color.colorString("Please insert an existing match number",Color.ANSI_RED));
+                    else
+                    {
+                        System.out.println(Color.colorString("Please insert Enter to confirm or any key to cancel",Color.ANSI_GREEN));
+                        s=scanner.nextLine();
+                    }
                 }
-            } catch (NumberFormatException ignored){
-            }
-        }
+                catch (NumberFormatException e){
+                    System.out.println(Color.colorString("Insert a NUMBER!",Color.ANSI_RED));
+                }
+        }while(!s.isEmpty());
+        getCliBuilder().selectOptionAtGlobalPosition(choice);
         getCliBuilder().performLastChoice();
 
     }
 
     private void addOption(Pair<UUID, String[]> uuidPair) {
-        Runnable r = () -> System.out.println("Instead of this will send join match "+uuidPair.getKey());
+        Runnable r = () -> getClient().transitionToView(new JoinMatchView(uuidPair.getKey()));
         getCliBuilder().addOption(
                 CLIPos.CENTER,
                 new Option(

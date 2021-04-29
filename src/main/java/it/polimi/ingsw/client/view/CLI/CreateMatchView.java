@@ -5,7 +5,7 @@ import it.polimi.ingsw.network.messages.clienttoserver.CreateMatchRequest;
 
 import java.util.Scanner;
 
-public class CreateMatchView extends View implements CLIView {
+public class CreateMatchView extends it.polimi.ingsw.client.view.abstractview.CreateMatchView implements CLIView {
 
 
     /**
