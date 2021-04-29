@@ -47,14 +47,15 @@ public abstract class ServerToClientMessage extends NetworkMessage
     public String serialized()
     {
 
-        RuntimeTypeAdapterFactory<ServerToClientMessage> clientMessagesAdapter = RuntimeTypeAdapterFactory.of(ServerToClientMessage.class);
+        RuntimeTypeAdapterFactory<ServerToClientMessage> serverToJson = RuntimeTypeAdapterFactory.of(ServerToClientMessage.class);
 
         //Register here all the message types
-        clientMessagesAdapter.registerSubtype(CreatedMatchStatus.class);
-        clientMessagesAdapter.registerSubtype(MatchesData.class);
+        serverToJson.registerSubtype(CreatedMatchStatus.class);
+        serverToJson.registerSubtype(JoinStatus.class);
+        serverToJson.registerSubtype(MatchesData.class);
 
         Gson gson1 = new GsonBuilder()
-                .registerTypeAdapterFactory(clientMessagesAdapter)
+                .registerTypeAdapterFactory(serverToJson)
                 .create();
 
         return  gson1.toJson(this,ServerToClientMessage.class);
