@@ -22,36 +22,36 @@ public class CreateJoinLoadMatchView extends it.polimi.ingsw.client.view.abstrac
     @Override
     public void run() {
         Scanner scanner = new Scanner(System.in);
-        //Loop for choices
-        //Todo move some of the selection code to CLIBuilder to reduce code duplication
-        while (!shouldStopInteraction()) {
-            getCLIBuilder().resetCLIelems();
-            //Adds matches and saved matches to the CLIBuilder
-            getClient().getCommonData().getMatchesData().ifPresent(
-                (o)-> Arrays.stream(o).forEach(this::addOption)
-        );
-
-        //Adds new match options to the CLIBuilder
-        Runnable r = ()->getClient().transitionToView(new CreateMatchView());
-        getCLIBuilder().addOption(CLIPos.CENTER,new Option("New Match","",r));
-
-            getCLIBuilder().display();
 
         String s="a";
-        //Loop for choices
         //Todo move some of the selection code to CLIBuilder to reduce code duplication
         int choice=0;
         do  {
+            getCLIBuilder().resetCLIelems();
+
+            //Adds matches and saved matches to the CLIBuilder
+            getClient().getCommonData().getMatchesData().ifPresent(
+                    (o)-> Arrays.stream(o).forEach(this::addOption));
+
+
+            //Adds new match options to the CLIBuilder
+            Runnable r = ()->getClient().transitionToView(new CreateMatchView());
+            getCLIBuilder().addOption(CLIPos.CENTER,new Option("New Match","",r));
+
+            getCLIBuilder().display();
                 try
                 {
                     System.out.println(Color.colorString("Please insert a match number",Color.ANSI_GREEN));
                     choice = Integer.parseInt(scanner.nextLine());
-                    getCliBuilder().display();
+                    if (shouldStopInteraction()) return;
+                    getCLIBuilder().display();
 
-                    if(getCommonData().matchesData.isPresent()&&choice>getCommonData().matchesData.get().length)
+                    if(getCommonData().getMatchesData().isPresent()&&choice>getCommonData().getMatchesData().get().length)
                         System.out.println(Color.colorString("Please insert an existing match number",Color.ANSI_RED));
                     else
                     {
+                        getCLIBuilder().selectOptionAtGlobalPosition(choice);
+                        getCLIBuilder().display();
                         System.out.println(Color.colorString("Please insert Enter to confirm or any key to cancel",Color.ANSI_GREEN));
                         s=scanner.nextLine();
                     }
@@ -59,11 +59,9 @@ public class CreateJoinLoadMatchView extends it.polimi.ingsw.client.view.abstrac
                 catch (NumberFormatException e){
                     System.out.println(Color.colorString("Insert a NUMBER!",Color.ANSI_RED));
                 }
-        }while(!s.isEmpty()&&shouldStopInteraction());
+        }while(!s.isEmpty()&&!shouldStopInteraction());
         if (shouldStopInteraction()) return;
-        getCliBuilder().selectOptionAtGlobalPosition(choice);
-        getCliBuilder().performLastChoice();
-
+        getCLIBuilder().performLastChoice();
     }
 
     private void addOption(Pair<UUID, String[]> uuidPair) {
