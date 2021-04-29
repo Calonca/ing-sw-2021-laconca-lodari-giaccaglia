@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 
 /**
- * Todo make it so that it takes a runnable and a title as input and runs the runnable when a method is called
+ * Todo make it so that it takes a runnable and a title in the constructor and runs the runnable when a method is called
  */
 public class GenericWait extends View implements CLIView {
     /**
