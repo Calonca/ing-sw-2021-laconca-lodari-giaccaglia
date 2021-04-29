@@ -100,7 +100,7 @@ public class Client implements Runnable
         }
         while (!stop) {
             if (currentView == null) {
-                currentView = new GenericWait();
+                currentView = new GenericWait(() -> {},"Waiting");
             }
             currentView.setOwner(this);
             commonData.addPropertyChangeListener(currentView);

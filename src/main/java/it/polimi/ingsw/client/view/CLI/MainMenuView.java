@@ -32,10 +32,10 @@ public class MainMenuView extends View implements CLIView {
         r = ()->getClient().transitionToView(new CreateMatchView());
         getCLIBuilder().addOption(CLIPos.CENTER,new Option("Create a match","One or more players",r));
 
-        r = ()->getClient().transitionToView(new GenericWait());
+        r = ()->getClient().transitionToView(new GenericWait(() -> {},"Waiting"));
         getCLIBuilder().addOption(CLIPos.CENTER,new Option("Edit Cards","Costs and effects",r));
 
-        r = ()->getClient().transitionToView(new GenericWait());
+        r = ()->getClient().transitionToView(new GenericWait(() -> {},"Waiting"));
         getCLIBuilder().addOption(CLIPos.CENTER,new Option("Exit",":*",r));
 
         try {

@@ -10,6 +10,22 @@ import java.util.HashMap;
  * Todo make it so that it takes a runnable and a title in the constructor and runs the runnable when a method is called
  */
 public class GenericWait extends View implements CLIView {
+
+    Runnable r;
+    String name;
+
+    public GenericWait(Runnable r, String s) {
+        this.r = r;
+        this.name=s;
+    }
+
+    public GenericWait(String s) {
+        this.r = ()->{};
+        this.name=s;
+    }
+
+
+
     /**
      * Indicates whether some other object is "equal to" this one.
      * <p>
@@ -132,5 +148,10 @@ public class GenericWait extends View implements CLIView {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
 
+    }
+
+
+    public void perform() {
+        r.run();
     }
 }
