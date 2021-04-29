@@ -40,6 +40,11 @@ public class CLIBuilder {
             o.setSelected(true);
     }
 
+    public void clearOptions()
+    {
+        optionListAtPos=Stream.generate(()->new ArrayList<Option>()).limit(CLIPos.values().length).toArray(List[]::new);
+    }
+
     public void selectOptionAtGlobalPosition(int globalPosition){
         List<Pair<Integer,Option>> a = IntStream.range(0,optionListAtPos.length).boxed()
                 .flatMap(i->
@@ -68,13 +73,13 @@ public class CLIBuilder {
     void display(){
         scroll();
 
-        String spaces = "                ";
+        String spaces = "                                                    ";
         String finalSpaces = spaces;
         optionsAtPos(CLIPos.TOP)
                 .map(s -> finalSpaces +s.replace("\n","\n"+finalSpaces))
                 .forEach(System.out::println);
 
-        spaces = "                ";
+        spaces ="                                                    ";
         String finalSpaces1 = spaces;
         optionsAtPos(CLIPos.CENTER)
                 .map(s -> finalSpaces1 +s.replace("\n","\n"+finalSpaces1))
@@ -83,7 +88,7 @@ public class CLIBuilder {
         optionsAtPos(CLIPos.BOTTOM_LEFT)
                 .forEach(System.out::println);
 
-        spaces = "                          ";
+        spaces = "                                                    ";
         String finalSpaces2 = spaces;
         optionsAtPos(CLIPos.BOTTOM_RIGHT)
                 .map(s -> finalSpaces2 +s.replace("\n","\n"+finalSpaces2))

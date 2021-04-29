@@ -29,7 +29,6 @@ public class CreateMatchView extends it.polimi.ingsw.client.view.abstractview.Cr
             nickname = scanner.nextLine();
         }while (numberOfPlayers<0||numberOfPlayers>4);
 
-
         getClient().getServerHandler().sendCommandMessage(new CreateMatchRequest(numberOfPlayers,nickname));
     }
 
