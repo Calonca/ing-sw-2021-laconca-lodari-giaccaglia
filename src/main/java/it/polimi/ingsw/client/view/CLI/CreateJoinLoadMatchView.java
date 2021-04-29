@@ -27,9 +27,9 @@ public class CreateJoinLoadMatchView extends it.polimi.ingsw.client.view.abstrac
         while (!shouldStopInteraction()) {
             getCLIBuilder().resetCLIelems();
             //Adds matches and saved matches to the CLIBuilder
-        //    getClient().getCommonData().getMatchesData().ifPresent(
-           //     (o)-> Arrays.stream(o).forEach(addOp)
-        //);
+            getClient().getCommonData().getMatchesData().ifPresent(
+                (o)-> Arrays.stream(o).forEach(this::addOption)
+        );
 
         //Adds new match options to the CLIBuilder
         Runnable r = ()->getClient().transitionToView(new CreateMatchView());
@@ -66,7 +66,7 @@ public class CreateJoinLoadMatchView extends it.polimi.ingsw.client.view.abstrac
 
     }
 
- /*   private void addOption(Pair<UUID, String[]> uuidPair) {
+    private void addOption(Pair<UUID, String[]> uuidPair) {
         Runnable r = () -> getClient().transitionToView(new JoinMatchView(uuidPair.getKey()));
         getCLIBuilder().addOption(
                 CLIPos.CENTER,
@@ -83,8 +83,13 @@ public class CreateJoinLoadMatchView extends it.polimi.ingsw.client.view.abstrac
      * @param evt A PropertyChangeEvent object describing the event source
      *            and the property that has changed.
      */
-     public void propertychange(){
-     }
+    }
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+
+    }
+}
 /*
 
+}
 }
