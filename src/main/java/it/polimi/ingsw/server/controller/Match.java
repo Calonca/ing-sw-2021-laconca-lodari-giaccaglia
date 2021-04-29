@@ -1,12 +1,14 @@
 package it.polimi.ingsw.server.controller;
 
+import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.server.model.player.State;
+import it.polimi.ingsw.network.messages.servertoclient.State;
 
 import java.util.*;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class Match {
@@ -39,6 +41,13 @@ public class Match {
     public void startGame() {
         hasStarted=true;
         this.game = new GameModel(onlineUsers,onlineUsers.size()==1);
+        game.getCurrentPlayer().setCurrentState(State.SETUP_PHASE);
+    }
+
+    public ClientHandler currentPlayerClientHandler(){
+        String nickname = game.getCurrentPlayer().getNickName();
+        int toReturn = IntStream.range(0,onlineUsers.size()).filter(i->onlineUsers.get(i).equals(nickname)).findFirst().orElse(0);
+        return clientHandlers.get(toReturn);
     }
 
     public UUID getMatchId() {
@@ -58,7 +67,7 @@ public class Match {
         return clientHandlers.stream();
     }
 
-    public GameModel getModel(){
+    public GameModel getGame(){
         return game;
     }
     

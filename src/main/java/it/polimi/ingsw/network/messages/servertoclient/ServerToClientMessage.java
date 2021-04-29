@@ -53,6 +53,7 @@ public abstract class ServerToClientMessage extends NetworkMessage
         serverToJson.registerSubtype(CreatedMatchStatus.class);
         serverToJson.registerSubtype(JoinStatus.class);
         serverToJson.registerSubtype(MatchesData.class);
+        serverToJson.registerSubtype(StateMessage.class);
 
         Gson gson1 = new GsonBuilder()
                 .registerTypeAdapterFactory(serverToJson)

@@ -3,6 +3,8 @@ package it.polimi.ingsw.server.controller;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.network.messages.servertoclient.MatchesData;
+import it.polimi.ingsw.network.messages.servertoclient.State;
+import it.polimi.ingsw.network.messages.servertoclient.StateMessage;
 import it.polimi.ingsw.server.ClientHandler;
 import javafx.util.Pair;
 import org.apache.commons.lang3.StringUtils;
@@ -54,10 +56,16 @@ public class SessionController {
         Match match = matches.get(matchID);
         if (match.canAddPlayer()){
             match.addPlayer(nickname,clientHandler);
-            if (!match.canAddPlayer()){
-                Runnable r = match::startGame;
-                r.run();
+            if (!match.canAddPlayer()) {
+                match.startGame();
+                try {
+                    match.currentPlayerClientHandler().sendAnswerMessage(
+                            new StateMessage(0, State.SETUP_PHASE,State.SETUP_PHASE.serialize(match.getGame())));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+            else
             notifyMatchChanges();
             return true;
         }
