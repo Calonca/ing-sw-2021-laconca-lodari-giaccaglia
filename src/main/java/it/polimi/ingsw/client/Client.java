@@ -27,15 +27,6 @@ public class Client implements Runnable
 
 
 
-
-    public static Client testClient(){
-        Client client = new Client();
-        /* Run the state machine handling the views */
-        client.nextView = new GenericWait();
-        //client.runViewStateMachine();
-        return client;
-    }
-
     public static void main(String[] args)
     {
         /* Instantiate a new Client. The main thread will become the
