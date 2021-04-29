@@ -3,6 +3,7 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.view.CLI.ConnectToServerView;
 import it.polimi.ingsw.client.view.CLI.CreateJoinLoadMatchView;
 import it.polimi.ingsw.client.messages.servertoclient.ClientMessage;
+import it.polimi.ingsw.client.view.CLI.GenericWait;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
 
 import java.io.IOException;
@@ -71,7 +72,8 @@ public class ServerHandler implements Runnable
      */
     private void handleClientConnection() throws IOException
     {
-        getClient().transitionToView(new CreateJoinLoadMatchView());
+        //Todo add motive for generic wait as constructor that takes string
+        getClient().transitionToView(new GenericWait());
         try {
             boolean stop = false;
             while (!stop) {

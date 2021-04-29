@@ -59,6 +59,12 @@ public abstract class View implements Runnable
      */
     abstract public void run();
 
+    /**
+     * Update observed values
+     */
+    public void update(){
+        stopInteraction();
+        getClient().transitionToView(getClient().getCurrentView());}
 
     /**
      * Checks if stopInteraction() has been called at least once.

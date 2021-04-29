@@ -1,8 +1,6 @@
 package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.view.CLI.CLIelem.Option;
-import it.polimi.ingsw.client.view.abstractview.View;
-import it.polimi.ingsw.server.messages.clienttoserver.JoinMatchRequest;
 import javafx.util.Pair;
 
 import java.util.Arrays;
@@ -23,12 +21,6 @@ public class CreateJoinLoadMatchView extends it.polimi.ingsw.client.view.abstrac
     public void run() {
         Scanner scanner = new Scanner(System.in);
 
-        //Todo this sleep exists to wait for the match data message, replace with listener
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         //Adds matches and saved matches to the CLIBuilder
         getCommonData().matchesData.ifPresent(
                 (o)-> Arrays.stream(o).forEach(this::addOption)
@@ -42,15 +34,18 @@ public class CreateJoinLoadMatchView extends it.polimi.ingsw.client.view.abstrac
         //Loop for choices
         //Todo move some of the selection code to CLIBuilder to reduce code duplication
         while (true) {
+            if (shouldStopInteraction()) return;
             int choice;
             try {
                 System.out.println("Select choice");
                 choice = Integer.parseInt(scanner.nextLine());
+                if (shouldStopInteraction()) return;
                 getCliBuilder().selectOptionAtGlobalPosition(choice);
                 getCliBuilder().display();
                 try {
                     System.out.println("Press send to confirm or select another choice");
                     choice = Integer.parseInt(scanner.nextLine());
+                    if (shouldStopInteraction()) return;
                     getCliBuilder().selectOptionAtGlobalPosition(choice);
                     getCliBuilder().display();
                 } catch (NumberFormatException e){
@@ -59,8 +54,17 @@ public class CreateJoinLoadMatchView extends it.polimi.ingsw.client.view.abstrac
             } catch (NumberFormatException ignored){
             }
         }
+        if (shouldStopInteraction()) return;
         getCliBuilder().performLastChoice();
 
+    }
+
+    /**
+     * Update observed values
+     */
+    @Override
+    public void update() {
+        super.update();
     }
 
     private void addOption(Pair<UUID, String[]> uuidPair) {
