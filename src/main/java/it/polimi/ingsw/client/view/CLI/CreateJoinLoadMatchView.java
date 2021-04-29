@@ -27,9 +27,9 @@ public class CreateJoinLoadMatchView extends it.polimi.ingsw.client.view.abstrac
         while (!shouldStopInteraction()) {
             getCLIBuilder().resetCLIelems();
             //Adds matches and saved matches to the CLIBuilder
-            getClient().getCommonData().getMatchesData().ifPresent(
-                (o)-> Arrays.stream(o).forEach(this::addOption)
-        );
+        //    getClient().getCommonData().getMatchesData().ifPresent(
+           //     (o)-> Arrays.stream(o).forEach(addOp)
+        //);
 
         //Adds new match options to the CLIBuilder
         Runnable r = ()->getClient().transitionToView(new CreateMatchView());
@@ -46,9 +46,9 @@ public class CreateJoinLoadMatchView extends it.polimi.ingsw.client.view.abstrac
                 {
                     System.out.println(Color.colorString("Please insert a match number",Color.ANSI_GREEN));
                     choice = Integer.parseInt(scanner.nextLine());
-                    getCliBuilder().display();
+                    getCLIBuilder().display();
 
-                    if(getCommonData().matchesData.isPresent()&&choice>getCommonData().matchesData.get().length)
+                    if(getCommonData().getMatchesData().isPresent()&&choice>getCommonData().getMatchesData().get().length)
                         System.out.println(Color.colorString("Please insert an existing match number",Color.ANSI_RED));
                     else
                     {
@@ -61,12 +61,12 @@ public class CreateJoinLoadMatchView extends it.polimi.ingsw.client.view.abstrac
                 }
         }while(!s.isEmpty()&&shouldStopInteraction());
         if (shouldStopInteraction()) return;
-        getCliBuilder().selectOptionAtGlobalPosition(choice);
-        getCliBuilder().performLastChoice();
+        getCLIBuilder().selectOptionAtGlobalPosition(choice);
+        getCLIBuilder().performLastChoice();
 
     }
 
-    private void addOption(Pair<UUID, String[]> uuidPair) {
+ /*   private void addOption(Pair<UUID, String[]> uuidPair) {
         Runnable r = () -> getClient().transitionToView(new JoinMatchView(uuidPair.getKey()));
         getCLIBuilder().addOption(
                 CLIPos.CENTER,
@@ -83,12 +83,8 @@ public class CreateJoinLoadMatchView extends it.polimi.ingsw.client.view.abstrac
      * @param evt A PropertyChangeEvent object describing the event source
      *            and the property that has changed.
      */
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals("matchesData")) {
-            getClient().transitionToView(new CreateJoinLoadMatchView());
-        }
-    }
-
+     public void propertychange(){
+     }
+/*
 
 }
