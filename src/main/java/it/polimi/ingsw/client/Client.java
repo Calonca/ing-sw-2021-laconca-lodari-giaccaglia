@@ -155,4 +155,7 @@ public class Client implements Runnable
         }
     }
 
+    public View getCurrentView() {
+        return currentView;
+    }
 }
