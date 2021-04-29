@@ -1,16 +1,21 @@
 package it.polimi.ingsw.client.view.CLI;
 
-import it.polimi.ingsw.client.view.abstractview.View;
+import com.google.gson.Gson;
+import javafx.util.Pair;
 
 import java.beans.PropertyChangeEvent;
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.UUID;
 
-public class WaitForServerConnection extends View implements CLIView {
-
-
-    /** Characters used for the spinner animation */
+public class WaitForMatchToStart extends it.polimi.ingsw.client.view.abstractview.WaitForMatchToStart implements CLIView {
     private static final String SPINNER = "\\|/-\\|/-";
     /** Ascii backspace character */
     private static final String BACKSPACE = "\010";
+
+    public WaitForMatchToStart(UUID matchId) {
+        super(matchId);
+    }
 
     /**
      * The main method of the view. Handles user interaction. User interaction
@@ -21,6 +26,12 @@ public class WaitForServerConnection extends View implements CLIView {
      */
     @Override
     public void run() {
+        CLIBuilder.scroll();
+        getCommonData().getMatchesData().ifPresent((matches)->
+                Arrays.stream(matches).filter((p)->p.getKey().equals(matchId))
+                        .forEach((s)-> System.out.println(new Gson().toJson(s)))
+        );
+
         synchronized (this) {
             try {
                 this.wait(100);
@@ -28,7 +39,7 @@ public class WaitForServerConnection extends View implements CLIView {
 
             int spinnerIdx = 0;
             while (!shouldStopInteraction()) {
-                String lastWaitMessage = SPINNER.charAt(spinnerIdx) + " Connecting to server ...";
+                String lastWaitMessage = SPINNER.charAt(spinnerIdx) + " WaitingForStart ...";
                 System.out.print(lastWaitMessage);
                 spinnerIdx = (spinnerIdx + 1) % SPINNER.length();
 
@@ -51,6 +62,9 @@ public class WaitForServerConnection extends View implements CLIView {
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
+        if (evt.getPropertyName().equals("matchesData"))
+            getClient().transitionToView(new WaitForMatchToStart(matchId));
     }
+
+
 }

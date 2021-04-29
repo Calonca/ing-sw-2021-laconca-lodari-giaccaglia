@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.view.abstractview.View;
 
+import java.beans.PropertyChangeEvent;
 import java.util.Scanner;
 
 public class ConnectToServerView extends it.polimi.ingsw.client.view.abstractview.ConnectToServerView implements CLIView {
@@ -29,5 +30,16 @@ public class ConnectToServerView extends it.polimi.ingsw.client.view.abstractvie
         getClient().setServerConnection(ip,port);
         getClient().transitionToView(new WaitForServerConnection());
         getClient().run();
+    }
+
+    /**
+     * This method gets called when a bound property is changed.
+     *
+     * @param evt A PropertyChangeEvent object describing the event source
+     *            and the property that has changed.
+     */
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+
     }
 }

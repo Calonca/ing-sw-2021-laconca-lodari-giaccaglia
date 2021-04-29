@@ -7,7 +7,7 @@ import it.polimi.ingsw.server.messages.clienttoserver.JoinMatchRequest;
 import java.util.Scanner;
 import java.util.UUID;
 
-public class JoinMatchView extends View implements CLIView {
+public abstract class JoinMatchView extends View implements CLIView {
 
     protected UUID matchId;
 

@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.network.messages.clienttoserver.JoinMatchRequest;
 
+import java.beans.PropertyChangeEvent;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -28,5 +29,17 @@ public class JoinMatchView extends it.polimi.ingsw.client.view.abstractview.Join
         System.out.println("Your nickname: ");
         nickname = scanner.nextLine();
         getClient().getServerHandler().sendCommandMessage(new JoinMatchRequest(matchId,nickname));
+        getClient().transitionToView(new WaitForMatchToStart(matchId));
+    }
+
+    /**
+     * This method gets called when a bound property is changed.
+     *
+     * @param evt A PropertyChangeEvent object describing the event source
+     *            and the property that has changed.
+     */
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+
     }
 }

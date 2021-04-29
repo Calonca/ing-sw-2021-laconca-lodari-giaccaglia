@@ -26,11 +26,11 @@ public class Match {
         createdTime = new Date(System.currentTimeMillis());
     }
 
-    public boolean canAddPlayer(){
+    boolean canAddPlayer(){
         return onlineUsers.size()<maxPlayers;
     }
 
-    public void addPlayer(String nickname, ClientHandler clientHandler){
+    void addPlayer(String nickname, ClientHandler clientHandler){
         onlineUsers.add(nickname);
         clientHandlers.add(clientHandler);
     }
@@ -52,6 +52,11 @@ public class Match {
     }
 
     public boolean hasStarted(){return hasStarted;}
+    public boolean hasNotStarted(){return !hasStarted;}
+
+    public Stream<ClientHandler> clientsStream(){
+        return clientHandlers.stream();
+    }
 
     public GameModel getModel(){
         return game;

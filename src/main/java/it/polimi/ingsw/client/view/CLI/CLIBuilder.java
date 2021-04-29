@@ -30,6 +30,9 @@ public class CLIBuilder {
         optionListAtPos = Stream.generate(()->new ArrayList<Option>()).limit(CLIPos.values().length).toArray(List[]::new);
     }
 
+    public void resetCLIelems(){
+        optionListAtPos = Stream.generate(()->new ArrayList<Option>()).limit(CLIPos.values().length).toArray(List[]::new);
+    }
 
     void addOption(CLIPos position,Option o){
         optionListAtPos[position.ordinal()].add(o);
