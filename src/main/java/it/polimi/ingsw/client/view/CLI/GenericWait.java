@@ -2,8 +2,13 @@ package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.view.abstractview.View;
 
+import java.beans.PropertyChangeEvent;
 import java.util.HashMap;
 
+
+/**
+ * Todo make it so that it takes a runnable and a title as input and runs the runnable when a method is called
+ */
 public class GenericWait extends View implements CLIView {
     /**
      * Indicates whether some other object is "equal to" this one.
@@ -116,5 +121,16 @@ public class GenericWait extends View implements CLIView {
                     System.out.print(BACKSPACE);
             }
         }
+    }
+
+    /**
+     * This method gets called when a bound property is changed.
+     *
+     * @param evt A PropertyChangeEvent object describing the event source
+     *            and the property that has changed.
+     */
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+
     }
 }

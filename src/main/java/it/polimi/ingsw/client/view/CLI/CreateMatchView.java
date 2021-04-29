@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view.CLI;
 import it.polimi.ingsw.client.view.abstractview.View;
 import it.polimi.ingsw.network.messages.clienttoserver.CreateMatchRequest;
 
+import java.beans.PropertyChangeEvent;
 import java.util.Scanner;
 
 public class CreateMatchView extends it.polimi.ingsw.client.view.abstractview.CreateMatchView implements CLIView {
@@ -30,5 +31,16 @@ public class CreateMatchView extends it.polimi.ingsw.client.view.abstractview.Cr
 
 
         getClient().getServerHandler().sendCommandMessage(new CreateMatchRequest(numberOfPlayers,nickname));
+    }
+
+    /**
+     * This method gets called when a bound property is changed.
+     *
+     * @param evt A PropertyChangeEvent object describing the event source
+     *            and the property that has changed.
+     */
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+
     }
 }

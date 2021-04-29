@@ -94,6 +94,7 @@ public class Client implements Runnable
 
         synchronized (this) {
             stop = shallTerminate;
+            commonData.removePropertyChangeListener(currentView);
             currentView = nextView;
             nextView = null;
         }
@@ -102,6 +103,7 @@ public class Client implements Runnable
                 currentView = new GenericWait();
             }
             currentView.setOwner(this);
+            commonData.addPropertyChangeListener(currentView);
             currentView.setCommonData(commonData);
             currentView.setCliBuilder(cliBuilder);
             currentView.run();

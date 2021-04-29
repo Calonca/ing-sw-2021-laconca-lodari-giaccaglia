@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.view.abstractview;
 
-public abstract class CreateJoinLoadMatchView extends View{
+public abstract class CreateJoinLoadMatchView extends View {
 
 
     /**

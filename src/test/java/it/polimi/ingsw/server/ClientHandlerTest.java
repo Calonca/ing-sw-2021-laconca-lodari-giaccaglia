@@ -68,7 +68,7 @@ public class ClientHandlerTest {
                 mapWithoutIDFrom(matchData));
         String command = input1.readObject().toString();
         assertEquals(
-                mapWithoutIDFrom(new CreatedMatchStatus(request,true,null).serialized()),//
+                mapWithoutIDFrom(new CreatedMatchStatus(request,data.getKey(),null).serialized()),//
                 mapWithoutIDFrom(command));
         //Todo test false validation
     }

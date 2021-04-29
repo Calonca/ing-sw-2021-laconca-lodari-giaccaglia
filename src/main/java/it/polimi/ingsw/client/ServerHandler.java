@@ -73,7 +73,8 @@ public class ServerHandler implements Runnable
     private void handleClientConnection() throws IOException
     {
         //Todo add motive for generic wait as constructor that takes string
-        getClient().transitionToView(new GenericWait());
+        //getClient().transitionToView(new GenericWait());
+        getClient().transitionToView(new CreateJoinLoadMatchView());
         try {
             boolean stop = false;
             while (!stop) {
