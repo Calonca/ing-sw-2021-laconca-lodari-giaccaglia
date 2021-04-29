@@ -7,6 +7,7 @@ import it.polimi.ingsw.client.view.CLI.CLIBuilder;
 
 /**
  * Abstract representation of a command view.
+ * Todo make all the view in abstract view abstract classed
  */
 public abstract class View implements Runnable
 {

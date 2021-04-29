@@ -4,7 +4,7 @@ import it.polimi.ingsw.client.view.abstractview.View;
 
 import java.util.Scanner;
 
-public class ConnectToServerView extends View implements CLIView {
+public class ConnectToServerView extends it.polimi.ingsw.client.view.abstractview.ConnectToServerView implements CLIView {
 
 
     /**
