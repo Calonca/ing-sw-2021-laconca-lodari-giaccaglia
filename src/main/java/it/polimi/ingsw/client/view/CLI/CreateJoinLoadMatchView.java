@@ -2,13 +2,14 @@ package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.view.CLI.CLIelem.Option;
 import it.polimi.ingsw.client.view.abstractview.View;
+import it.polimi.ingsw.server.messages.clienttoserver.JoinMatchRequest;
 import javafx.util.Pair;
 
 import java.util.Arrays;
 import java.util.Scanner;
 import java.util.UUID;
 
-public class CreateJoinLoadMatchView extends View implements CLIView {
+public class CreateJoinLoadMatchView extends it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchView implements CLIView {
 
 
     /**
@@ -21,6 +22,8 @@ public class CreateJoinLoadMatchView extends View implements CLIView {
     @Override
     public void run() {
         Scanner scanner = new Scanner(System.in);
+
+        //Todo this sleep exists to wait for the match data message, replace with listener
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -61,7 +64,7 @@ public class CreateJoinLoadMatchView extends View implements CLIView {
     }
 
     private void addOption(Pair<UUID, String[]> uuidPair) {
-        Runnable r = () -> System.out.println("Instead of this will send join match "+uuidPair.getKey());
+        Runnable r = () -> getClient().transitionToView(new JoinMatchView(uuidPair.getKey()));
         getCliBuilder().addOption(
                 CLIPos.CENTER,
                 new Option(

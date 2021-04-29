@@ -14,14 +14,15 @@ import java.io.IOException;
 public interface ClientMessage {
 
     static ClientMessage deserialize(String jsonString) {
-        RuntimeTypeAdapterFactory<ClientMessage> clientMessagesAdapter = RuntimeTypeAdapterFactory.of(ClientMessage.class);
+        RuntimeTypeAdapterFactory<ClientMessage> jsonToClientAdapter = RuntimeTypeAdapterFactory.of(ClientMessage.class);
 
         //Register here all the message types
-        clientMessagesAdapter.registerSubtype(CreatedMatchStatus.class);
-        clientMessagesAdapter.registerSubtype(MatchesData.class);
+        jsonToClientAdapter.registerSubtype(CreatedMatchStatus.class);
+        jsonToClientAdapter.registerSubtype(JoinStatus.class);
+        jsonToClientAdapter.registerSubtype(MatchesData.class);
 
         Gson gson1 = new GsonBuilder()
-                .registerTypeAdapterFactory(clientMessagesAdapter)
+                .registerTypeAdapterFactory(jsonToClientAdapter)
                 .create();
 
         return gson1.fromJson(jsonString, ClientMessage.class);

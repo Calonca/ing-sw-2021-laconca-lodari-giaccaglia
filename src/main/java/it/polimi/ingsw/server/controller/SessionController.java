@@ -2,7 +2,7 @@ package it.polimi.ingsw.server.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
+import it.polimi.ingsw.server.ClientHandler;
 import javafx.util.Pair;
 import org.apache.commons.lang3.StringUtils;
 
@@ -10,16 +10,14 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
-import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class SessionController {
     
-    private List<Match> matches = new ArrayList<>();
+    private Map<UUID,Match> matches = new HashMap<>();
     private List<String> playersInLobby = new ArrayList<>();
     private static SessionController single_instance = null;
 
@@ -41,19 +39,27 @@ public class SessionController {
 
     public Match addNewMatch(int maxPlayers){
         Match match = new Match(maxPlayers);
-        matches.add(match);
+        matches.put(match.getMatchId(),match);
         return match;
     }
 
-    public Pair<UUID,String[] >[] matchesData(){
-        List<Pair<UUID, String[]>> list = new ArrayList<>();
-        for (Match match : matches) {
-            if (!match.hasStarted()) {
-                Pair<UUID, String[]> uuidPair = new Pair<>(match.getGameID(), match.getOnlinePlayers());
-                list.add(uuidPair);
-            }
-        }
-        return list.toArray(new Pair[0]);
+    /**
+     * Adds player to match
+     * @param matchID
+     * @param nickname
+     * @return false if match is full
+     */
+    public boolean addPlayerToMatch(UUID matchID, String nickname, ClientHandler clientHandler){
+        if (matches.get(matchID).canAddPlayer()){
+            matches.get(matchID).addPlayer(nickname,clientHandler);
+            return true;}
+        else return false;
+    }
+
+    public Pair<UUID,String[]>[] matchesData(){
+        return matches.entrySet().stream()
+                .map(entry->new Pair<>(entry.getKey(), entry.getValue().getOnlinePlayers()))
+                .toArray(Pair[]::new);
     }
 
     public void reloadServer() {
@@ -61,8 +67,9 @@ public class SessionController {
         Gson gson = new Gson();
         Arrays.stream(folder.listFiles()).filter(File::isFile).forEach((file)->{
             try {
-                String match = Files.readString(Path.of(folder.toString() + file.getName() + ".json"), StandardCharsets.US_ASCII);
-                matches.add(gson.fromJson(match, Match.class));
+                String matchString = Files.readString(Path.of(folder.toString() + file.getName() + ".json"), StandardCharsets.US_ASCII);
+                Match match = gson.fromJson(matchString, Match.class);
+                matches.put(match.getMatchId(),match);
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -15,13 +15,14 @@ public interface ServerMessage {
     void processMessage(ClientHandler clientHandler) throws IOException;
 
     static ServerMessage deserialize(String jsonString){
-        RuntimeTypeAdapterFactory<ServerMessage> shapeAdapterFactory = RuntimeTypeAdapterFactory.of(ServerMessage.class);
+        RuntimeTypeAdapterFactory<ServerMessage> jsonToServerAdapter = RuntimeTypeAdapterFactory.of(ServerMessage.class);
 
 
-        shapeAdapterFactory.registerSubtype(CreateMatchRequest.class);
+        jsonToServerAdapter.registerSubtype(CreateMatchRequest.class);
+        jsonToServerAdapter.registerSubtype(JoinMatchRequest.class);
 
         Gson gson1 = new GsonBuilder()
-                .registerTypeAdapterFactory(shapeAdapterFactory)
+                .registerTypeAdapterFactory(jsonToServerAdapter)
                 .create();
 
         return gson1.fromJson(jsonString, ServerMessage.class);
