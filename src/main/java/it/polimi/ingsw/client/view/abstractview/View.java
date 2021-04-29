@@ -1,16 +1,27 @@
-package it.polimi.ingsw.client.abstractview;
+package it.polimi.ingsw.client.view.abstractview;
 
 
 import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.client.CommonData;
+import it.polimi.ingsw.client.view.CLI.CLIBuilder;
 
 /**
- * Abstract representation of a command line interface view.
+ * Abstract representation of a command view.
  */
 public abstract class View implements Runnable
 {
     private Client owner;
+    private CommonData commonData;
     private boolean stopInteraction;
+    private CLIBuilder cliBuilder;
 
+    public CLIBuilder getCliBuilder() {
+        return cliBuilder;
+    }
+
+    public void setCliBuilder(CLIBuilder cliBuilder) {
+        this.cliBuilder = cliBuilder;
+    }
 
     /**
      * Set the parent object of the view.
@@ -21,6 +32,13 @@ public abstract class View implements Runnable
         this.owner = owner;
     }
 
+    public CommonData getCommonData() {
+        return commonData;
+    }
+
+    public void setCommonData(CommonData commonData) {
+        this.commonData = commonData;
+    }
 
     /**
      * The parent object of the view.

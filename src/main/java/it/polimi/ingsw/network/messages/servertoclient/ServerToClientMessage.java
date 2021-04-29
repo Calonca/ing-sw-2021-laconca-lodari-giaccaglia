@@ -26,6 +26,14 @@ public abstract class ServerToClientMessage extends NetworkMessage
         this.parentIdentifier = command.getIdentifier();
     }
 
+    /**
+     * Initializes a ServerToClientMessage that doesn't answer any messages.
+     */
+    public ServerToClientMessage()
+    {
+        this.parentIdentifier = null;
+    }
+
 
     /**
      * Returns the identifier of the message being answered.
@@ -39,13 +47,14 @@ public abstract class ServerToClientMessage extends NetworkMessage
     public String serialized()
     {
 
-        RuntimeTypeAdapterFactory<ServerToClientMessage> shapeAdapterFactory = RuntimeTypeAdapterFactory.of(ServerToClientMessage.class);
+        RuntimeTypeAdapterFactory<ServerToClientMessage> clientMessagesAdapter = RuntimeTypeAdapterFactory.of(ServerToClientMessage.class);
 
-
-        shapeAdapterFactory.registerSubtype(CreatedMatchStatus.class);
+        //Register here all the message types
+        clientMessagesAdapter.registerSubtype(CreatedMatchStatus.class);
+        clientMessagesAdapter.registerSubtype(MatchesData.class);
 
         Gson gson1 = new GsonBuilder()
-                .registerTypeAdapterFactory(shapeAdapterFactory)
+                .registerTypeAdapterFactory(clientMessagesAdapter)
                 .create();
 
         return  gson1.toJson(this,ServerToClientMessage.class);

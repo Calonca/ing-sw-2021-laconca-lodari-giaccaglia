@@ -7,10 +7,13 @@ import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.player.State;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 public class Match {
     private UUID gameID;
-    private List<String> registeredUsers = new ArrayList<>();
+    private boolean hasStarted=false;
+    private List<String> onlineUsers = new ArrayList<>();
+    private List<String> offlineUsers = new ArrayList<>();
     private transient List<ClientHandler> clientHandlers = new ArrayList<>();
     private GameModel game;
     private int maxPlayers;
@@ -20,20 +23,34 @@ public class Match {
     public Match(int maxPlayers){
         gameID = UUID.randomUUID();
         this.maxPlayers = maxPlayers;
+        createdTime = new Date(System.currentTimeMillis());
     }
 
     public boolean canAddPlayer(){
-        return registeredUsers.size()<maxPlayers;
+        return onlineUsers.size()<maxPlayers;
     }
 
     public void addPlayer(String nickname, ClientHandler clientHandler){
-        registeredUsers.add(nickname);
+        onlineUsers.add(nickname);
         clientHandlers.add(clientHandler);
     }
 
     public void startGame() {
-        this.game = new GameModel(registeredUsers,registeredUsers.size()==1);
+        hasStarted=true;
+        this.game = new GameModel(onlineUsers,onlineUsers.size()==1);
     }
+
+    public UUID getGameID() {
+        return gameID;
+    }
+
+    public String[] getOnlinePlayers(){
+        return Stream.concat(
+                onlineUsers.stream(),
+                Stream.generate(()-> null)).limit(maxPlayers).toArray(String[]::new);
+    }
+
+    public boolean hasStarted(){return hasStarted;}
 
     public GameModel getModel(){
         return game;
@@ -56,7 +73,7 @@ public class Match {
     }
 
     public String getSaveName(){
-        return registeredUsers.stream().reduce("", String::concat).concat("|").concat(gameID.toString());
+        return onlineUsers.stream().reduce("", String::concat).concat("|").concat(gameID.toString());
     }
 
 }

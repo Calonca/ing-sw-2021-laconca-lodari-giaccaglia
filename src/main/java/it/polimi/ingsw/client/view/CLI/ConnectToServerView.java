@@ -1,6 +1,6 @@
-package it.polimi.ingsw.client.abstractview.CLI;
+package it.polimi.ingsw.client.view.CLI;
 
-import it.polimi.ingsw.client.abstractview.View;
+import it.polimi.ingsw.client.view.abstractview.View;
 
 import java.util.Scanner;
 
@@ -20,7 +20,7 @@ public class ConnectToServerView extends View implements CLIView {
         int port;
 
         Scanner scanner = new Scanner(System.in);
-        CLIView.cleanConsole();
+        CLIBuilder.scroll();
         System.out.println("Write the server number");
         ip = scanner.nextLine();
         System.out.println("Write the server port");

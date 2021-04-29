@@ -12,6 +12,7 @@ import it.polimi.ingsw.RuntimeTypeAdapterFactory;
  */
 public abstract class ClientToServerMessage extends NetworkMessage
 {
+
     public String serialized()
     {
 

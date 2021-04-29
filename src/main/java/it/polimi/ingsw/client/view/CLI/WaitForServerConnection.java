@@ -1,8 +1,6 @@
-package it.polimi.ingsw.client.abstractview.CLI;
+package it.polimi.ingsw.client.view.CLI;
 
-import it.polimi.ingsw.client.abstractview.View;
-
-import java.util.Scanner;
+import it.polimi.ingsw.client.view.abstractview.View;
 
 public class WaitForServerConnection extends View implements CLIView {
 

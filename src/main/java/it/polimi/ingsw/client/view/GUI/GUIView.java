@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.abstractview.GUI;
+package it.polimi.ingsw.client.view.GUI;
 
 /**
  * Common methods for all GUI classes

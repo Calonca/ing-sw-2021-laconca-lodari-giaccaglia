@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server;
 
 
+import it.polimi.ingsw.network.messages.servertoclient.MatchesData;
 import it.polimi.ingsw.network.messages.servertoclient.ServerToClientMessage;
 import it.polimi.ingsw.server.controller.Match;
 import it.polimi.ingsw.server.controller.SessionController;
@@ -51,6 +52,12 @@ public class ClientHandler implements Runnable
         }
 
         System.out.println("Connected to " + client.getInetAddress());
+        try {
+            sendAnswerMessage(new MatchesData(SessionController.getInstance().matchesData()));
+        } catch (IOException e) {
+            System.out.println("could not send matches data to " + client.getInetAddress());
+            return;
+        }
 
         try {
             handleClientConnection();
