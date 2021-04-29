@@ -1,15 +1,17 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.client.abstractview.CLI.ConnectToServerView;
-import it.polimi.ingsw.client.abstractview.CLI.GenericWait;
-import it.polimi.ingsw.client.abstractview.View;
+import it.polimi.ingsw.client.view.CLI.CLIBuilder;
+import it.polimi.ingsw.client.view.CLI.ConnectToServerView;
+import it.polimi.ingsw.client.view.CLI.GenericWait;
+import it.polimi.ingsw.client.view.CLI.WaitForServerConnection;
+import it.polimi.ingsw.client.view.abstractview.View;
 
 import java.io.IOException;
 import java.net.Socket;
 
 
 /**
- * Client for the Mastermind game.
+ * Client for the game.
  */
 public class Client implements Runnable
 {
@@ -19,6 +21,12 @@ public class Client implements Runnable
     private View currentView;
     private String ip;
     private int port;
+    private PlayerCache[] playersCache;
+    private CommonData commonData = new CommonData();
+    private CLIBuilder cliBuilder = new CLIBuilder();
+
+
+
 
     public static Client testClient(){
         Client client = new Client();
@@ -34,8 +42,16 @@ public class Client implements Runnable
          * thread where user interaction is handled. */
         Client client = new Client();
         /* Run the state machine handling the views */
-        client.nextView = new ConnectToServerView();
-        client.runViewStateMachine();
+        if (args.length==2)
+        {
+            client.setServerConnection(args[0],Integer.parseInt(args[1]));
+            client.nextView = new WaitForServerConnection();
+            client.run();
+            client.runViewStateMachine();
+        }else {
+            client.nextView = new ConnectToServerView();
+            client.runViewStateMachine();
+        }
     }
 
     public void setServerConnection(String ip,int port){
@@ -95,6 +111,8 @@ public class Client implements Runnable
                 currentView = new GenericWait();
             }
             currentView.setOwner(this);
+            currentView.setCommonData(commonData);
+            currentView.setCliBuilder(cliBuilder);
             currentView.run();
 
             synchronized (this) {
@@ -121,6 +139,10 @@ public class Client implements Runnable
     }
 
 
+    public CommonData getCommonData() {
+        return commonData;
+    }
+
     /**
      * Terminates the application as soon as possible.
      */
@@ -132,4 +154,5 @@ public class Client implements Runnable
             currentView.stopInteraction();
         }
     }
+
 }

@@ -1,11 +1,11 @@
-package it.polimi.ingsw.client.abstractview.CLI;
+package it.polimi.ingsw.client.view.CLI;
 
-import it.polimi.ingsw.client.abstractview.View;
+import it.polimi.ingsw.client.view.abstractview.View;
 import it.polimi.ingsw.network.messages.clienttoserver.CreateMatchRequest;
 
 import java.util.Scanner;
 
-public class CreateJoinLoadMatchView extends View implements CLIView {
+public class CreateMatchView extends View implements CLIView {
 
 
     /**
@@ -21,7 +21,7 @@ public class CreateJoinLoadMatchView extends View implements CLIView {
         int numberOfPlayers;
         String nickname;
         do {
-            CLIView.cleanConsole();
+            CLIBuilder.scroll();
             System.out.println("Creating match\nNumber of people: ");
             numberOfPlayers = Integer.parseInt(scanner.nextLine());
             System.out.println("Your nickname: ");

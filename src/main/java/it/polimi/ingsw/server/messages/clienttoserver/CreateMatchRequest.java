@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.messages.clienttoserver;
 
 import it.polimi.ingsw.network.messages.servertoclient.CreatedMatchStatus;
+import it.polimi.ingsw.network.messages.servertoclient.MatchesData;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.controller.Match;
 import it.polimi.ingsw.server.controller.SessionController;
@@ -22,7 +23,8 @@ public class CreateMatchRequest extends it.polimi.ingsw.network.messages.clientt
         clientHandler.getMatch().ifPresentOrElse(
              (match)->{
                     try {
-                        clientHandler.sendAnswerMessage(new CreatedMatchStatus(this,false));
+                        clientHandler.sendAnswerMessage(new MatchesData(SessionController.getInstance().matchesData()));
+                        clientHandler.sendAnswerMessage(new CreatedMatchStatus(this,false, CreatedMatchStatus.motive.OTHER));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }},
@@ -31,7 +33,8 @@ public class CreateMatchRequest extends it.polimi.ingsw.network.messages.clientt
                          Match match = SessionController.getInstance().addNewMatch(maxPlayers);
                          match.addPlayer(nickName,clientHandler);
                          clientHandler.setMatch(match);
-                         clientHandler.sendAnswerMessage(new CreatedMatchStatus(this,true));
+                         clientHandler.sendAnswerMessage(new MatchesData(SessionController.getInstance().matchesData()));
+                         clientHandler.sendAnswerMessage(new CreatedMatchStatus(this,true,null));
                      } catch (IOException e) {
                          e.printStackTrace();
                      }

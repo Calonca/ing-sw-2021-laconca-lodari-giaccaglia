@@ -1,6 +1,6 @@
-package it.polimi.ingsw.client.abstractview.CLI;
+package it.polimi.ingsw.client.view.CLI;
 
-import it.polimi.ingsw.client.abstractview.View;
+import it.polimi.ingsw.client.view.abstractview.View;
 
 public class GenericWait extends View implements CLIView {
 

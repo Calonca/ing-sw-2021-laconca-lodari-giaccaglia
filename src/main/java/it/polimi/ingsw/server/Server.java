@@ -14,9 +14,8 @@ public class Server
 {
     /**
      * The socket port where the server listens to client connections.
-     * @implNote In a real project, this must not be a constant!
      */
-    private final static int SOCKET_PORT = 7890;
+    public final static int SOCKET_PORT = 6789;
 
 
     public static void main(String[] args)

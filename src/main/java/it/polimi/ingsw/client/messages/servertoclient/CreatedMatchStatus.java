@@ -1,15 +1,16 @@
 package it.polimi.ingsw.client.messages.servertoclient;
 
 import it.polimi.ingsw.client.ServerHandler;
-import it.polimi.ingsw.client.abstractview.View;
+import it.polimi.ingsw.client.view.CLI.CLIBuilder;
+import it.polimi.ingsw.client.view.abstractview.View;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
 
 import java.io.IOException;
 
 public class CreatedMatchStatus extends it.polimi.ingsw.network.messages.servertoclient.CreatedMatchStatus implements ClientMessage {
 
-    public CreatedMatchStatus(ClientToServerMessage parent, boolean created) {
-        super(parent, created);
+    public CreatedMatchStatus(ClientToServerMessage parent, boolean created,motive m) {
+        super(parent, created,m);
     }
 
 
@@ -22,6 +23,7 @@ public class CreatedMatchStatus extends it.polimi.ingsw.network.messages.servert
             serverHandler.getClient().transitionToView(new View() {
                 @Override
                 public void run() {
+                    CLIBuilder.scroll();
                     System.out.println("Created");
                 }
             });

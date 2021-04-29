@@ -16,13 +16,13 @@ public class StatesTransitionTable {
 
     public static StatesTransitionTable singlePlayer() throws IOException {
         Gson gson = new Gson();
-        String SinglePlayerStatesTransitionTable = Files.readString(Path.of("src/main/resources/SinglePlayerStatesTransitionTable/.json"), StandardCharsets.US_ASCII);
+        String SinglePlayerStatesTransitionTable = Files.readString(Path.of("src/main/resources/config/SinglePlayerStatesTransitionTable/.json"), StandardCharsets.US_ASCII);
         return gson.fromJson(SinglePlayerStatesTransitionTable, StatesTransitionTable.class);
     }
 
     public static StatesTransitionTable multiPlayer() throws IOException {
         Gson gson = new Gson();
-        String MultiPlayerStatesTransitionTable = Files.readString(Path.of("src/main/resources/MultiPlayerStatesTransitionTable/.json"), StandardCharsets.US_ASCII);
+        String MultiPlayerStatesTransitionTable = Files.readString(Path.of("src/main/resources/config/MultiPlayerStatesTransitionTable/.json"), StandardCharsets.US_ASCII);
         return gson.fromJson(MultiPlayerStatesTransitionTable, StatesTransitionTable.class);
     }
 
