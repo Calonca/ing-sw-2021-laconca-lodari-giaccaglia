@@ -26,7 +26,7 @@ public class CommonData {
         return matchesData;
     }
 
-    private PropertyChangeSupport support;
+    private final PropertyChangeSupport support;
     public CommonData(){
         support = new PropertyChangeSupport(this);
     }

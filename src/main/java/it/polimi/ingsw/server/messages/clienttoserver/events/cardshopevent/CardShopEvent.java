@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent;
 
+import it.polimi.ingsw.network.messages.servertoclient.State;
 import it.polimi.ingsw.server.messages.clienttoserver.events.MiddlePhaseEvent;
-import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.cards.CardShop;
 import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
@@ -9,7 +9,7 @@ import it.polimi.ingsw.server.model.cards.DevelopmentCardDeck;
 
 /**
  * Client side {@link it.polimi.ingsw.network.messages.clienttoserver.events.Event} created when {@link GameModel#currentPlayer currentPlayer} wants to view the {@link CardShop}
- * during {@link it.polimi.ingsw.server.model.player.State#MIDDLE_PHASE MIDDLE_PHASE} by performing a
+ * during {@link State#MIDDLE_PHASE MIDDLE_PHASE} by performing a
  * game turn action processed to accomplish server-side client validation.
  */
 public class CardShopEvent extends MiddlePhaseEvent {

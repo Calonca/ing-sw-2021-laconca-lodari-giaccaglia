@@ -2,8 +2,7 @@ package it.polimi.ingsw.server.controller.strategy.resourcemarket;
 
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.server.model.Resource;
-import it.polimi.ingsw.server.model.player.State;
+import it.polimi.ingsw.network.messages.servertoclient.State;
 /**
  * This implementation allows the user to move one at a time the resources from one of the depot lines to an empty
  * space. Before being able to proceed, the user needs to place all of the resources from the market either in the

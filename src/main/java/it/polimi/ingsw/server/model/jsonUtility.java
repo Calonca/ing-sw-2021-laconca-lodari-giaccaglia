@@ -19,6 +19,12 @@ import java.util.stream.IntStream;
 
 public class jsonUtility {
 
+    private static Gson sGson = new Gson();
+
+    public static String serializeVarArgs(Object ...o){
+        return sGson.toJson(Arrays.stream(o).collect(Collectors.toList()));
+    }
+
     //helper method to load a 48 devcards array from json
     public static List<DevelopmentCard> cardsFromJsonHandler(){
         Gson gson = new Gson();

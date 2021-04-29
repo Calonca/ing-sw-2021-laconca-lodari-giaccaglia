@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.network.messages.servertoclient.State;
 import it.polimi.ingsw.server.model.solo.SoloActionToken;
 
 /**
@@ -25,7 +26,7 @@ public class CardShop {
 
 
     /**
-     * Temporary variable to store purchased {@link DevelopmentCard} during {@link it.polimi.ingsw.server.model.player.State}
+     * Temporary variable to store purchased {@link DevelopmentCard} during {@link State}
      */
     private DevelopmentCard purchasedCard;
 

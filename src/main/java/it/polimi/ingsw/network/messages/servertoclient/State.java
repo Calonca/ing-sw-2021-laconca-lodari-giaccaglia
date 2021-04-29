@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.model.player;
+package it.polimi.ingsw.network.messages.servertoclient;
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.server.model.cards.*;
 import it.polimi.ingsw.server.model.player.leaders.Leader;
@@ -6,6 +6,7 @@ import it.polimi.ingsw.server.model.market.Marble;
 import it.polimi.ingsw.server.model.market.MarketBoard;
 import it.polimi.ingsw.server.model.market.MarketLine;
 import it.polimi.ingsw.server.model.player.board.*;
+import javafx.util.Pair;
 
 
 /**
@@ -55,7 +56,10 @@ public enum State {
     SETUP_PHASE{
         @Override
         public String serialize(GameModel gameModel) {
-            return null;
+            return jsonUtility.serializeVarArgs(
+                    gameModel.getCurrentPlayer().getLeaders(),
+                    new Pair<>("numOfChoseRes",3)//Todo Change for each player
+                    );
         }
     },
 
@@ -260,5 +264,6 @@ public enum State {
      * @return a String in json format
      */
     public abstract String serialize(GameModel gameModel);
+
 
 }

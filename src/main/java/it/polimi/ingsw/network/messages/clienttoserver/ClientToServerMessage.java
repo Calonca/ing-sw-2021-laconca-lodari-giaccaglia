@@ -22,6 +22,7 @@ public abstract class ClientToServerMessage extends NetworkMessage
         clientToJsonAdapter.registerSubtype(CreateMatchRequest.class);
         clientToJsonAdapter.registerSubtype(JoinMatchRequest.class);
 
+
         Gson gson1 = new GsonBuilder()
                 .registerTypeAdapterFactory(clientToJsonAdapter)
                 .create();

@@ -1,11 +1,10 @@
 package it.polimi.ingsw.server.messages.clienttoserver.events;
 
+import it.polimi.ingsw.network.messages.servertoclient.State;
 import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.server.model.cards.DevelopmentCard;
-import it.polimi.ingsw.server.model.player.board.PersonalBoard;
 
 /**
- * Client side {@link it.polimi.ingsw.network.messages.clienttoserver.events.Event Event} created when a {@link it.polimi.ingsw.server.model.player.State#MIDDLE_PHASE MIDDLE_PHASE}
+ * Client side {@link it.polimi.ingsw.network.messages.clienttoserver.events.Event Event} created when a {@link State#MIDDLE_PHASE MIDDLE_PHASE}
  * game turn action is performed and has to be processed to accomplish server-side client validation.
  */
 public class MiddlePhaseEvent extends it.polimi.ingsw.network.messages.clienttoserver.events.MiddlePhaseEvent implements Validable {

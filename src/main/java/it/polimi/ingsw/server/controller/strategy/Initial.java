@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.controller.strategy;
 
 import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.server.model.player.State;
+import it.polimi.ingsw.network.messages.servertoclient.State;
 
 /**
  * On turn start, if there is the possibility to play a Leader, the user will be able to decide wether to play

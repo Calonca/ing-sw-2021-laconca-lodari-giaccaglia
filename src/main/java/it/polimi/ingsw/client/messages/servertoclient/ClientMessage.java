@@ -20,6 +20,7 @@ public interface ClientMessage {
         jsonToClientAdapter.registerSubtype(CreatedMatchStatus.class);
         jsonToClientAdapter.registerSubtype(JoinStatus.class);
         jsonToClientAdapter.registerSubtype(MatchesData.class);
+        jsonToClientAdapter.registerSubtype(StateMessage.class);
 
         Gson gson1 = new GsonBuilder()
                 .registerTypeAdapterFactory(jsonToClientAdapter)

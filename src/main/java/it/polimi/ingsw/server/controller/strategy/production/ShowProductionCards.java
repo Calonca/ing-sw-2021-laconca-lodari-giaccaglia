@@ -2,7 +2,7 @@ package it.polimi.ingsw.server.controller.strategy.production;
 
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.server.model.player.State;
+import it.polimi.ingsw.network.messages.servertoclient.State;
 /**
  * This implementation only sets the state for the view
  */

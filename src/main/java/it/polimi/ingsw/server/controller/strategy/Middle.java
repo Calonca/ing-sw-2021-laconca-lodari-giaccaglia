@@ -4,7 +4,7 @@ import it.polimi.ingsw.server.controller.strategy.cardmarket.ShowCards;
 import it.polimi.ingsw.server.controller.strategy.production.ShowProductionCards;
 import it.polimi.ingsw.server.controller.strategy.resourcemarket.ShowResourceMarket;
 import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.server.model.player.State;
+import it.polimi.ingsw.network.messages.servertoclient.State;
 /**
  * Before the initial choice, Past is set to true, so the Leader logic will acquire that information.
  */

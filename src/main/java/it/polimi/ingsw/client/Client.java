@@ -5,9 +5,11 @@ import it.polimi.ingsw.client.view.CLI.ConnectToServerView;
 import it.polimi.ingsw.client.view.CLI.GenericWait;
 import it.polimi.ingsw.client.view.CLI.WaitForServerConnection;
 import it.polimi.ingsw.client.view.abstractview.View;
+import it.polimi.ingsw.network.messages.servertoclient.State;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.stream.Stream;
 
 
 /**
@@ -32,6 +34,7 @@ public class Client implements Runnable
         /* Instantiate a new Client. The main thread will become the
          * thread where user interaction is handled. */
         Client client = new Client();
+        client.playersCache = Stream.generate(()->new PlayerCache()).limit(4).toArray(PlayerCache[]::new);
         /* Run the state machine handling the views */
         if (args.length==2)
         {
@@ -150,5 +153,9 @@ public class Client implements Runnable
 
     public View getCurrentView() {
         return currentView;
+    }
+
+    public void setState(int player, State state, String serializedObject){
+        playersCache[player].update(state,serializedObject);
     }
 }

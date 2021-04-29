@@ -1,13 +1,7 @@
 package it.polimi.ingsw.server.controller.strategy.production;
 
 import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.server.model.Resource;
-import it.polimi.ingsw.server.model.cards.DevelopmentCard;
-import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
-import it.polimi.ingsw.server.model.cards.production.Production;
-import it.polimi.ingsw.server.model.player.State;
-import it.polimi.ingsw.server.model.player.board.LeaderDepot;
-import javafx.util.Pair;
+import it.polimi.ingsw.network.messages.servertoclient.State;
 import org.junit.Test;
 
 import java.util.ArrayList;

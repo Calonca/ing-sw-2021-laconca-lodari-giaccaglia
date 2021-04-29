@@ -3,7 +3,7 @@ package it.polimi.ingsw.server.controller.strategy.resourcemarket;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
-import it.polimi.ingsw.server.model.player.State;
+import it.polimi.ingsw.network.messages.servertoclient.State;
 
 /**
  * This method allows the player's choice to be validated. They will pick a resource, and if available

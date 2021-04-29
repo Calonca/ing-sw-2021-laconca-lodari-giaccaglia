@@ -3,7 +3,7 @@ package it.polimi.ingsw.server.model;
 import com.google.gson.Gson;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
-import it.polimi.ingsw.server.model.player.State;
+import it.polimi.ingsw.network.messages.servertoclient.State;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

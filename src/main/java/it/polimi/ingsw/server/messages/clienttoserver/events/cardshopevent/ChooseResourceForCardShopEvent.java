@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent;
 
+import it.polimi.ingsw.network.messages.servertoclient.State;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
 
@@ -7,7 +8,7 @@ import it.polimi.ingsw.server.model.GameModel;
 /**
  * Client side {@link it.polimi.ingsw.network.messages.clienttoserver.events.Event Event} created when {@link GameModel#currentPlayer currentPlayer} has to pick {@link it.polimi.ingsw.server.model.Resource Resources}
  * from his {@link it.polimi.ingsw.server.model.player.board.PersonalBoard PersonalBoard} deposits during
- * {@link it.polimi.ingsw.server.model.player.State#CHOOSING_RESOURCES_FOR_DEVCARD CHOOSING_RESOURCES_FOR_DEVCARD} phase by performing a
+ * {@link State#CHOOSING_RESOURCES_FOR_DEVCARD CHOOSING_RESOURCES_FOR_DEVCARD} phase by performing a
  * game turn action processed to accomplish server-side client validation.
  */
 public class ChooseResourceForCardShopEvent extends it.polimi.ingsw.network.messages.clienttoserver.events.cardshopevent.ChooseResourceForCardShopEvent implements Validable {

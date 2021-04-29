@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.controller.strategy;
 
 import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.server.model.player.State;
+import it.polimi.ingsw.network.messages.servertoclient.State;
 
 /**
  * On game start, each player will choose a quantity of resources based on their turn order

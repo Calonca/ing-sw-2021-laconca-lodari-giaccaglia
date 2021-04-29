@@ -4,11 +4,11 @@ import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.market.Marble;
-import it.polimi.ingsw.server.model.player.State;
+import it.polimi.ingsw.network.messages.servertoclient.State;
 
 /**
  * Client side {@link it.polimi.ingsw.network.messages.clienttoserver.events.Event} created when player has to choose a resource for {@link it.polimi.ingsw.server.model.market.Marble#WHITE WHITEMARBLE} conversion
- * when {@link it.polimi.ingsw.server.model.player.State#CHOOSING_WHITEMARBLE_CONVERSION CHOOSING_WHITEMARBLE_CONVERSION} game turn action is performed and
+ * when {@link State#CHOOSING_WHITEMARBLE_CONVERSION CHOOSING_WHITEMARBLE_CONVERSION} game turn action is performed and
  * has to be processed to accomplish server-side client validation.
  */
 public class ChooseWhiteMarbleConversionEvent extends it.polimi.ingsw.network.messages.clienttoserver.events.marketboardevent.ChooseWhiteMarbleConversionEvent implements Validable {

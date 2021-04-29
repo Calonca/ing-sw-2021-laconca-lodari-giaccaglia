@@ -1,4 +1,5 @@
 package it.polimi.ingsw.server.model;
+import it.polimi.ingsw.network.messages.servertoclient.State;
 import it.polimi.ingsw.server.model.cards.*;
 import it.polimi.ingsw.server.model.market.*;
 import it.polimi.ingsw.server.model.player.*;
@@ -115,6 +116,7 @@ public class GameModel {
                     } */
                 }
         );
+        setCurrentPlayer(players.get(0));
     }
 
     /**

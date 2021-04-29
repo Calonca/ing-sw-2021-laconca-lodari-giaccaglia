@@ -1,11 +1,12 @@
 package it.polimi.ingsw.network.messages.clienttoserver.events.marketboardevent;
 
 import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
+import it.polimi.ingsw.network.messages.servertoclient.State;
 import it.polimi.ingsw.server.model.Resource;
 
 /**
  * Client side {@link Event} created when player has to choose a resource for {@link it.polimi.ingsw.server.model.market.Marble#WHITE WHITEMARBLE} conversion
- * when {@link it.polimi.ingsw.server.model.player.State#CHOOSING_WHITEMARBLE_CONVERSION CHOOSING_WHITEMARBLE_CONVERSION} game turn action is performed and
+ * when {@link State#CHOOSING_WHITEMARBLE_CONVERSION CHOOSING_WHITEMARBLE_CONVERSION} game turn action is performed and
  * has to be processed to accomplish server-side client validation.
  */
 public class ChooseWhiteMarbleConversionEvent extends MarketBoardEvent {
@@ -22,7 +23,7 @@ public class ChooseWhiteMarbleConversionEvent extends MarketBoardEvent {
     public ChooseWhiteMarbleConversionEvent(){}
 
     /**
-     * Client side {@link Event} constructor invoked when {@link it.polimi.ingsw.server.model.player.State#CHOOSING_WHITEMARBLE_CONVERSION CHOOSING_WHITEMARBLE_CONVERSION}
+     * Client side {@link Event} constructor invoked when {@link State#CHOOSING_WHITEMARBLE_CONVERSION CHOOSING_WHITEMARBLE_CONVERSION}
      * phase action is performed.
      * @param resourceNumber int representing current player chosen {@link Resource Resource} in the int encoding,
      * for {@link it.polimi.ingsw.server.model.market.Marble#WHITE WHITEMARBLE} conversion.

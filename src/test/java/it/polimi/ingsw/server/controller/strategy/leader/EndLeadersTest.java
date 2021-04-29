@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.controller.strategy.leader;
 
 import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.server.model.player.State;
+import it.polimi.ingsw.network.messages.servertoclient.State;
 import org.junit.Test;
 
 import java.util.ArrayList;
