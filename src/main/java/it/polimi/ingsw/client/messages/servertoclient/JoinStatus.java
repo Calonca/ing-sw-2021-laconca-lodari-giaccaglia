@@ -1,15 +1,17 @@
 package it.polimi.ingsw.client.messages.servertoclient;
 
 import it.polimi.ingsw.client.ServerHandler;
-import it.polimi.ingsw.client.view.CLI.CLIBuilder;
-import it.polimi.ingsw.client.view.abstractview.View;
+import it.polimi.ingsw.client.view.CLI.CreateJoinLoadMatchView;
+import it.polimi.ingsw.client.view.CLI.WaitForMatchToStart;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
 
 import java.io.IOException;
+import java.util.UUID;
 
 public class JoinStatus extends it.polimi.ingsw.network.messages.servertoclient.JoinStatus implements ClientMessage {
-    public JoinStatus(ClientToServerMessage parent, boolean joined, motive m) {
-        super(parent, joined, m);
+
+    public JoinStatus(ClientToServerMessage parent, UUID joinedMatchUUID, motive m) {
+        super(parent, joinedMatchUUID, m);
     }
 
     /**
@@ -19,20 +21,9 @@ public class JoinStatus extends it.polimi.ingsw.network.messages.servertoclient.
      */
     @Override
     public void processMessage(ServerHandler serverHandler) throws IOException {
-        if (joined)
-            serverHandler.getClient().transitionToView(new View() {
-                @Override
-                public void run() {
-                    CLIBuilder.scroll();
-                    System.out.println("joined");
-                }
-            });
+        if (joinedMatchUUID!=null)
+            serverHandler.getClient().transitionToView(new WaitForMatchToStart(joinedMatchUUID));
         else
-            serverHandler.getClient().transitionToView(new View() {
-                @Override
-                public void run() {
-                    System.out.println("Not joined");
-                }
-            });
+            serverHandler.getClient().transitionToView(new CreateJoinLoadMatchView());
     }
 }

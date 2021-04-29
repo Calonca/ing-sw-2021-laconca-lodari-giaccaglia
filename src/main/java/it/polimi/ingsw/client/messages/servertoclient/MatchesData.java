@@ -1,6 +1,8 @@
 package it.polimi.ingsw.client.messages.servertoclient;
 
 import it.polimi.ingsw.client.ServerHandler;
+import it.polimi.ingsw.client.view.CLI.CreateJoinLoadMatchView;
+import it.polimi.ingsw.client.view.CLI.GenericWait;
 import javafx.util.Pair;
 
 import java.io.IOException;
@@ -21,7 +23,6 @@ public class MatchesData extends it.polimi.ingsw.network.messages.servertoclient
      */
     @Override
     public void processMessage(ServerHandler serverHandler) throws IOException {
-        serverHandler.getClient().getCommonData().matchesData = Optional.ofNullable(matchesData);
-        //Todo notify listeners
+        serverHandler.getClient().getCommonData().setMatchesData(Optional.ofNullable(matchesData));
     }
 }

@@ -24,17 +24,16 @@ public class CreateMatchRequest extends it.polimi.ingsw.network.messages.clientt
              (match)->{
                     try {
                         clientHandler.sendAnswerMessage(new MatchesData(SessionController.getInstance().matchesData()));
-                        clientHandler.sendAnswerMessage(new CreatedMatchStatus(this,false, CreatedMatchStatus.motive.OTHER));
+                        clientHandler.sendAnswerMessage(new CreatedMatchStatus(this,null, CreatedMatchStatus.motive.OTHER));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }},
              ()->{
                      try {
                          Match match = SessionController.getInstance().addNewMatch(maxPlayers);
-                         match.addPlayer(nickName,clientHandler);
                          clientHandler.setMatch(match);
-                         clientHandler.sendAnswerMessage(new MatchesData(SessionController.getInstance().matchesData()));
-                         clientHandler.sendAnswerMessage(new CreatedMatchStatus(this,true,null));
+                         SessionController.getInstance().addPlayerToMatchAndStartWhenReady(match.getMatchId(),nickName,clientHandler);
+                         clientHandler.sendAnswerMessage(new CreatedMatchStatus(this,match.getMatchId(),null));
                      } catch (IOException e) {
                          e.printStackTrace();
                      }

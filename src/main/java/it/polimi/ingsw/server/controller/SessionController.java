@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import it.polimi.ingsw.network.messages.servertoclient.MatchesData;
 import it.polimi.ingsw.server.ClientHandler;
 import javafx.util.Pair;
 import org.apache.commons.lang3.StringUtils;
@@ -44,16 +45,35 @@ public class SessionController {
     }
 
     /**
-     * Adds player to match
+     * Adds player to match and start
      * @param matchID
      * @param nickname
      * @return false if match is full
      */
-    public boolean addPlayerToMatch(UUID matchID, String nickname, ClientHandler clientHandler){
-        if (matches.get(matchID).canAddPlayer()){
-            matches.get(matchID).addPlayer(nickname,clientHandler);
-            return true;}
+    public boolean addPlayerToMatchAndStartWhenReady(UUID matchID, String nickname, ClientHandler clientHandler){
+        Match match = matches.get(matchID);
+        if (match.canAddPlayer()){
+            match.addPlayer(nickname,clientHandler);
+            if (!match.canAddPlayer()){
+                Runnable r = match::startGame;
+                r.run();
+            }
+            notifyMatchChanges();
+            return true;
+        }
         else return false;
+    }
+
+    public void notifyMatchChanges(){
+        matches.values().stream().filter(Match::hasNotStarted).flatMap(Match::clientsStream).forEach(
+                clientHandler -> {
+                    try {
+                        clientHandler.sendAnswerMessage(new MatchesData(matchesData()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+        );
     }
 
     public Pair<UUID,String[]>[] matchesData(){

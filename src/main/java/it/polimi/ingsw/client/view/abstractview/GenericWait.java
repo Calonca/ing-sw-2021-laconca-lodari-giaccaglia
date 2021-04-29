@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.abstractview;
 
-public class GenericWait extends View{
+public abstract class GenericWait extends View{
+
 
     /**
      * The main method of the view. Handles user interaction. User interaction

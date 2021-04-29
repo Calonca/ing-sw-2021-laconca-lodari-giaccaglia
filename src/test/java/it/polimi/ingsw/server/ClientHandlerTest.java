@@ -68,9 +68,16 @@ public class ClientHandlerTest {
                 mapWithoutIDFrom(matchData));
         String command = input1.readObject().toString();
         assertEquals(
-                mapWithoutIDFrom(new CreatedMatchStatus(request,true,null).serialized()),//
+                mapWithoutIDFrom(new CreatedMatchStatus(request,data.getKey(),null).serialized()),//
                 mapWithoutIDFrom(command));
         //Todo test false validation
+    }
+
+    @Test
+    public void testEvents() throws IOException, ClassNotFoundException {
+        String matchData = input1.readObject().toString();
+        ClientToServerMessage request = new CreateMatchRequest(2,"Name1");
+
     }
 
     public void setInput(String s){
