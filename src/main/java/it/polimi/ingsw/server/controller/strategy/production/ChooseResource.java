@@ -12,7 +12,7 @@ import it.polimi.ingsw.server.model.player.State;
 public class ChooseResource implements GameStrategy {
     public State execute(GameModel gamemodel)
     {
-        //ON EVENT CHOOSERESOURCEFORCHOICEEVENT
+        //ON EVENT CHOOSERESOURCEEVENT
         //msg is int from 0 to 3, if its 4 is reset choiche
         int msg=2;
 

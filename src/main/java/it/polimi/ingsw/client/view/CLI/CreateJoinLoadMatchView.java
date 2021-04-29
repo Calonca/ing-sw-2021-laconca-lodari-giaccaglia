@@ -37,7 +37,7 @@ public class CreateJoinLoadMatchView extends it.polimi.ingsw.client.view.abstrac
 
             getCLIBuilder().display();
 
-        String s="a";
+        String s="k";
         //Loop for choices
         //Todo move some of the selection code to CLIBuilder to reduce code duplication
         int choice=0;
