@@ -28,8 +28,7 @@ public class WaitForMatchToStart extends it.polimi.ingsw.client.view.abstractvie
     public void run() {
         CLIBuilder.scroll();
         getCommonData().getMatchesData().ifPresent((matches)->
-                Arrays.stream(matches).filter((p)->p.getKey().equals(matchId))
-                        .forEach((s)-> System.out.println(new Gson().toJson(s)))
+                System.out.println(new Gson().toJson(matches.get(matchId)))
         );
 
         synchronized (this) {

@@ -158,4 +158,8 @@ public class Client implements Runnable
     public void setState(int player, State state, String serializedObject){
         playersCache[player].update(state,serializedObject);
     }
+
+    public void initializePlayerCache(int numOfPlayers){
+
+    }
 }

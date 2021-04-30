@@ -1,14 +1,14 @@
 package it.polimi.ingsw.network.messages.servertoclient;
 
-import javafx.util.Pair;
-
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class MatchesData extends ServerToClientMessage {
-    protected Pair<UUID,String[]>[] matchesData;
+    protected Map<UUID,String[]> matchesData;
 
 
-    public MatchesData(Pair<UUID,String[] >[] matchesData) {
+    public MatchesData(Map<UUID,String[]> matchesData) {
         super();
         this.matchesData = matchesData;
     }

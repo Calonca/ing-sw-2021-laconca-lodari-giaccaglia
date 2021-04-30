@@ -6,7 +6,6 @@ import it.polimi.ingsw.network.messages.servertoclient.MatchesData;
 import it.polimi.ingsw.server.model.State;
 import it.polimi.ingsw.network.messages.servertoclient.StateMessage;
 import it.polimi.ingsw.server.ClientHandler;
-import javafx.util.Pair;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
@@ -17,10 +16,11 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class SessionController {
     
-    private Map<UUID,Match> matches = new HashMap<>();
+    private HashMap<UUID,Match> matches = new HashMap<>();
     private List<String> playersInLobby = new ArrayList<>();
     private static SessionController single_instance = null;
 
@@ -84,10 +84,12 @@ public class SessionController {
         );
     }
 
-    public Pair<UUID,String[]>[] matchesData(){
+    public Map<UUID, String[]> matchesData(){
         return matches.entrySet().stream()
-                .map(entry->new Pair<>(entry.getKey(), entry.getValue().getOnlinePlayers()))
-                .toArray(Pair[]::new);
+                .collect(Collectors.toMap(
+                        entry->entry.getKey(),
+                        entry->entry.getValue().getOnlinePlayers()
+                ));
     }
 
     public void reloadServer() {

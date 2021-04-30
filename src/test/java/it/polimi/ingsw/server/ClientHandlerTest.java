@@ -16,9 +16,7 @@ import org.junit.Test;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -54,21 +52,22 @@ public class ClientHandlerTest {
     public void createMatch() throws IOException, ClassNotFoundException {
         String matchData = input1.readObject().toString();
         assertEquals(
-                mapWithoutIDFrom(new MatchesData(new Pair[]{}).serialized()),
+                mapWithoutIDFrom(new MatchesData(new HashMap<>()).serialized()),
                 mapWithoutIDFrom(matchData));
 
         ClientToServerMessage request = new CreateMatchRequest(2,"Name1");
         output1.writeObject(request.serialized());
         matchData = input1.readObject().toString();
-        Map<String, Object> inputMap = mapWithoutIDFrom(matchData);
-        UUID uuid = UUID.fromString((String) ((LinkedTreeMap) ((ArrayList) inputMap.get("matchesData")).get(0)).get("key"));
-        Pair<UUID,String[]> data = new Pair<>(uuid,new String[]{"Name1",null});
+        LinkedTreeMap<String,Object> inputMap = (LinkedTreeMap)mapWithoutIDFrom(matchData).get("matchesData");
+        UUID uuid = UUID.fromString(inputMap.keySet().toArray(String[]::new)[0]);
+        HashMap<UUID,String[]> data=new HashMap<>();
+        data.put(uuid,new String[]{"Name1",null});
         assertEquals(
-                mapWithoutIDFrom(new MatchesData(new Pair[]{data}).serialized()),
+                mapWithoutIDFrom(new MatchesData(data).serialized()),
                 mapWithoutIDFrom(matchData));
         String command = input1.readObject().toString();
         assertEquals(
-                mapWithoutIDFrom(new CreatedMatchStatus(request,data.getKey(),null).serialized()),//
+                mapWithoutIDFrom(new CreatedMatchStatus(request,uuid,null).serialized()),//
                 mapWithoutIDFrom(command));
         //Todo test false validation
     }

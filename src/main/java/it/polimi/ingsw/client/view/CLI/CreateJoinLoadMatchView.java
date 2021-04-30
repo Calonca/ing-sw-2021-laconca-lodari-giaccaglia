@@ -6,6 +6,7 @@ import javafx.util.Pair;
 
 import java.beans.PropertyChangeEvent;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -31,7 +32,7 @@ public class CreateJoinLoadMatchView extends it.polimi.ingsw.client.view.abstrac
 
             //Adds matches and saved matches to the CLIBuilder
             getClient().getCommonData().getMatchesData().ifPresent(
-                    (o)-> Arrays.stream(o).forEach(this::addOption));
+                    (o)-> o.entrySet().forEach(this::addOption));
 
 
             //Adds new match options to the CLIBuilder
@@ -46,7 +47,8 @@ public class CreateJoinLoadMatchView extends it.polimi.ingsw.client.view.abstrac
                     if (shouldStopInteraction()) return;
                     getCLIBuilder().display();
 
-                    if(getCommonData().getMatchesData().isPresent()&&choice>getCommonData().getMatchesData().get().length)
+                    int finalChoice = choice;
+                    if(getCommonData().getMatchesData().map(m-> finalChoice>m.size()).orElse(false))
                         System.out.println(Color.colorString("Please insert an existing match number",Color.ANSI_RED));
                     else
                     {
@@ -64,7 +66,7 @@ public class CreateJoinLoadMatchView extends it.polimi.ingsw.client.view.abstrac
         getCLIBuilder().performLastChoice();
     }
 
-    private void addOption(Pair<UUID, String[]> uuidPair) {
+    private void addOption(Map.Entry<UUID, String[]> uuidPair) {
         Runnable r = () -> getClient().transitionToView(new JoinMatchView(uuidPair.getKey()));
         getCLIBuilder().addOption(
                 CLIPos.CENTER,

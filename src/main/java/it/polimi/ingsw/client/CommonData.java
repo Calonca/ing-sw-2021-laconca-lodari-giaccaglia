@@ -1,12 +1,8 @@
 package it.polimi.ingsw.client;
 
-import javafx.util.Pair;
-
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.Optional;
-import java.util.Properties;
-import java.util.UUID;
+import java.util.*;
 
 
 /**
@@ -20,9 +16,9 @@ import java.util.UUID;
  * }<br>
  */
 public class CommonData {
-    private Optional<Pair<UUID,String[]>[]> matchesData = Optional.empty();
+    private Optional<Map<UUID,String[]>> matchesData = Optional.empty();
 
-    public Optional<Pair<UUID, String[]>[]> getMatchesData() {
+    public Optional<Map<UUID,String[]>> getMatchesData() {
         return matchesData;
     }
 
@@ -39,7 +35,7 @@ public class CommonData {
         support.removePropertyChangeListener(pcl);
     }
 
-    public void setMatchesData(Optional<Pair<UUID,String[]>[]> newValue) {
+    public void setMatchesData(Optional<Map<UUID,String[]>> newValue) {
         support.firePropertyChange("matchesData",this.matchesData,newValue);
         this.matchesData = newValue;
     }
