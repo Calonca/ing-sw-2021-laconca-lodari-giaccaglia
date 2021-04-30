@@ -28,8 +28,11 @@ public class jsonUtility {
 
     private static Gson sGson = new Gson();
 
-    public static String serializeVarArgs(Object ...o){
-        return sGson.toJson(Arrays.stream(o).collect(Collectors.toList()));
+    public static Map<String, Object> serializeVarArgs(Object ...o){
+        Map<String, Object> a = new HashMap<>();
+        a.put("playersCount",2);
+        return a;
+        //return sGson.toJson(Arrays.stream(o).collect(Collectors.toList()));
     }
 
     //helper method to load a 48 devcards array from json

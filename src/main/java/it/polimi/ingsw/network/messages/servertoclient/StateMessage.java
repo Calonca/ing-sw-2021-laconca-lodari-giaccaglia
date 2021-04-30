@@ -3,9 +3,11 @@ package it.polimi.ingsw.network.messages.servertoclient;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
 import it.polimi.ingsw.server.model.State;
 
+import java.util.Map;
+
 public class StateMessage extends ServerToClientMessage {
-    protected State state;
-    protected String serializedObject;//Todo Use treemap instead
+    protected String state;
+    protected Map<String,Object> serializedObject;//Todo Use treemap instead
     protected int player;
 
     /**
@@ -13,7 +15,7 @@ public class StateMessage extends ServerToClientMessage {
      *
      * @param command The CommandMsg being answered.
      */
-    public StateMessage(ClientToServerMessage command, int player, State state, String serializedObject) {
+    public StateMessage(ClientToServerMessage command, int player, String state, Map<String,Object> serializedObject) {
         super(command);
         this.state = state;
         this.serializedObject = serializedObject;
@@ -23,10 +25,12 @@ public class StateMessage extends ServerToClientMessage {
     /**
      * Initializes a ServerToClientMessage that doesn't answer any messages.
      */
-    public StateMessage(int player, State state, String serializedObject) {
+    public StateMessage(int player, String state, Map<String,Object> serializedObject) {
         super();
         this.state = state;
         this.serializedObject = serializedObject;
         this.player = player;
     }
+
+
 }

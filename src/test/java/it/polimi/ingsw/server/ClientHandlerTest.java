@@ -72,7 +72,7 @@ public class ClientHandlerTest {
         //Todo test false validation
     }
 
-    @Test
+
     public void testEvents() throws IOException, ClassNotFoundException {
         String matchData = input1.readObject().toString();
         ClientToServerMessage request = new CreateMatchRequest(2,"Name1");
@@ -89,4 +89,5 @@ public class ClientHandlerTest {
         map.remove("identifier");
         return map;
     }
+
 }

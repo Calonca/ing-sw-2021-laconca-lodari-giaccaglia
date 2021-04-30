@@ -9,6 +9,11 @@ import it.polimi.ingsw.server.model.State;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
@@ -23,7 +28,7 @@ public class Client implements Runnable
     private View currentView;
     private String ip;
     private int port;
-    private PlayerCache[] playersCache;
+    private List<PlayerCache> playersCache=new ArrayList<>();
     private CommonData commonData = new CommonData();
     private CLIBuilder cliBuilder = new CLIBuilder();
 
@@ -34,7 +39,6 @@ public class Client implements Runnable
         /* Instantiate a new Client. The main thread will become the
          * thread where user interaction is handled. */
         Client client = new Client();
-        client.playersCache = Stream.generate(()->new PlayerCache()).limit(4).toArray(PlayerCache[]::new);
         /* Run the state machine handling the views */
         if (args.length==2)
         {
@@ -98,6 +102,7 @@ public class Client implements Runnable
         synchronized (this) {
             stop = shallTerminate;
             commonData.removePropertyChangeListener(currentView);
+            playersCache.forEach(c->c.removePropertyChangeListener(currentView));
             currentView = nextView;
             nextView = null;
         }
@@ -107,6 +112,7 @@ public class Client implements Runnable
             }
             currentView.setOwner(this);
             commonData.addPropertyChangeListener(currentView);
+            playersCache.forEach(c->c.addPropertyChangeListener(currentView));
             currentView.setCommonData(commonData);
             currentView.setCliBuilder(cliBuilder);
             currentView.run();
@@ -155,11 +161,15 @@ public class Client implements Runnable
         return currentView;
     }
 
-    public void setState(int player, State state, String serializedObject){
-        playersCache[player].update(state,serializedObject);
+    public void setState(int player, String state, Map<String, Object> serializedObject){
+        if (playersCache.size()==0)
+            initializePlayerCache(player,serializedObject);
+        playersCache.get(player).update(state,serializedObject);
+        Optional<Boolean> a = playersCache.get(0).getFromStateAndKey("Setup","o1");
     }
 
-    public void initializePlayerCache(int numOfPlayers){
-
+    public void initializePlayerCache(int player,Map<String, Object> serializedObject){
+        int numberOfPlayers = 4; //Todo take from serializedObject
+        playersCache = Stream.generate(()->new PlayerCache(player,numberOfPlayers)).limit(numberOfPlayers).collect(Collectors.toList());
     }
 }

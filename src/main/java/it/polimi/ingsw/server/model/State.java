@@ -7,6 +7,9 @@ import it.polimi.ingsw.server.model.market.MarketLine;
 import it.polimi.ingsw.server.model.player.board.*;
 import javafx.util.Pair;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 /**
  *  <p>Enum class for player turn phases represented as FSM States. Game turn is divided in three macro phases.<br>
@@ -54,7 +57,7 @@ public enum State {
      */
     SETUP_PHASE{
         @Override
-        public String serialize(GameModel gameModel) {
+        public  Map<String, Object>  serialize(GameModel gameModel) {
             return jsonUtility.serializeVarArgs(
                     gameModel.getPlayerIndex(gameModel.getCurrentPlayer()));
         }
@@ -66,7 +69,7 @@ public enum State {
      */
     INITIAL_PHASE{
         @Override
-        public String serialize(GameModel gameModel) {
+        public Map<String, Object> serialize(GameModel gameModel) {
             return null;
         }
     },
@@ -77,7 +80,7 @@ public enum State {
      */
     SHOWING_LEADERS_INITIAL {
         @Override
-        public String serialize(GameModel gameModel) {
+        public  Map<String, Object>  serialize(GameModel gameModel) {
             return null;
         }
     },
@@ -88,7 +91,7 @@ public enum State {
      */
     MIDDLE_PHASE {
         @Override
-        public String serialize(GameModel gameModel) {
+        public  Map<String, Object>  serialize(GameModel gameModel) {
             return null;
         }
     },
@@ -99,7 +102,7 @@ public enum State {
      */
     CHOOSING_CARD_FOR_PRODUCTION {
         @Override
-        public String serialize(GameModel gameModel) {
+        public  Map<String, Object>  serialize(GameModel gameModel) {
             return null;
         }
     },
@@ -110,7 +113,7 @@ public enum State {
      */
     CHOOSING_RESOURCE_FOR_PRODUCTION {
         @Override
-        public String serialize(GameModel gameModel) {
+        public  Map<String, Object>  serialize(GameModel gameModel) {
             return null;
         }
     },
@@ -121,7 +124,7 @@ public enum State {
      */
     SHOWING_MARKET_RESOURCES {
         @Override
-        public String serialize(GameModel gameModel) {
+        public  Map<String, Object>  serialize(GameModel gameModel) {
             return null;
         }
     },
@@ -132,7 +135,7 @@ public enum State {
      */
     CHOOSING_WHITEMARBLE_CONVERSION {
         @Override
-        public String serialize(GameModel gameModel) {
+        public  Map<String, Object>  serialize(GameModel gameModel) {
             return null;
         }
     },
@@ -143,7 +146,7 @@ public enum State {
      */
     CHOOSING_POSITION_FOR_RESOURCES {
         @Override
-        public String serialize(GameModel gameModel) {
+        public  Map<String, Object>  serialize(GameModel gameModel) {
             return null;
         }
     },
@@ -153,7 +156,7 @@ public enum State {
      */
     SHOWING_CARD_SHOP {
         @Override
-        public String serialize(GameModel gameModel) {
+        public  Map<String, Object>  serialize(GameModel gameModel) {
             return null;
         }
     },
@@ -164,7 +167,7 @@ public enum State {
      */
     CHOOSING_DEVELOPMENT_CARD {
         @Override
-        public String serialize(GameModel gameModel) {
+        public  Map<String, Object>  serialize(GameModel gameModel) {
             return null;
         }
     },
@@ -175,7 +178,7 @@ public enum State {
      */
     CHOOSING_RESOURCES_FOR_DEVCARD{
         @Override
-        public String serialize(GameModel gameModel) {
+        public  Map<String, Object>  serialize(GameModel gameModel) {
             return null;
         }
     },
@@ -184,7 +187,7 @@ public enum State {
      */
     CHOOSING_POSITION_FOR_DEVCARD {
         @Override
-        public String serialize(GameModel gameModel) {
+        public  Map<String, Object>  serialize(GameModel gameModel) {
             return null;
         }
     },
@@ -197,7 +200,7 @@ public enum State {
      */
     FINAL_PHASE {
         @Override
-        public String serialize(GameModel gameModel) {
+        public  Map<String, Object>  serialize(GameModel gameModel) {
             return null;
         }
     },
@@ -208,7 +211,7 @@ public enum State {
      */
     SHOWING_LEADERS_FINAL {
         @Override
-        public String serialize(GameModel gameModel) {
+        public  Map<String, Object>  serialize(GameModel gameModel) {
             return null;
         }
     },
@@ -219,7 +222,7 @@ public enum State {
      */
     LEADER_END {
         @Override
-        public String serialize(GameModel gameModel) {
+        public  Map<String, Object>  serialize(GameModel gameModel) {
             return null;
         }
     },
@@ -229,7 +232,7 @@ public enum State {
      */
     IDLE {
         @Override
-        public String serialize(GameModel gameModel) {
+        public  Map<String, Object>  serialize(GameModel gameModel) {
             return null;
         }
     },
@@ -239,7 +242,7 @@ public enum State {
      */
     WINNING_STATE {
         @Override
-        public String serialize(GameModel gameModel) {
+        public  Map<String, Object>  serialize(GameModel gameModel) {
             return null;
         }
     },
@@ -249,7 +252,7 @@ public enum State {
      */
     LOSING_STATE {
         @Override
-        public String serialize(GameModel gameModel) {
+        public  Map<String, Object>  serialize(GameModel gameModel) {
             return null;
         }
     };
@@ -258,9 +261,9 @@ public enum State {
     /**
      * Serializes objects useful for the view corresponding to that state in json
      * @param gameModel the {@link GameModel gamemodel} of the curent game
-     * @return a String in json format
+     * @return a  Map<String, Object>  in json format
      */
-    public abstract String serialize(GameModel gameModel);
+    public abstract  Map< String, Object>  serialize(GameModel gameModel);
 
 
 }
