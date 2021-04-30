@@ -75,8 +75,8 @@ public class ServerHandler implements Runnable
     {
         getClient().transitionToView(new MainMenuView());
         //Todo see GenericWait javadoc
-        //getClient().transitionToView(new GenericWait());
-        getClient().transitionToView(new CreateJoinLoadMatchView());
+        //getClient().transitionToView(new GenericWait("Matches",()->new CreateJoinLoadMatchView()));
+        //getClient().transitionToView(new CreateJoinLoadMatchView());
         try {
             boolean stop = false;
             while (!stop) {
