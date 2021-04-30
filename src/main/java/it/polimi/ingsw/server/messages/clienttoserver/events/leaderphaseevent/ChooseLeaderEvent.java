@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.messages.clienttoserver.events.leaderphaseevent;
 
-import it.polimi.ingsw.network.messages.servertoclient.State;
+import it.polimi.ingsw.server.model.State;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
 

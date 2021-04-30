@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model.player;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.network.messages.servertoclient.State;
+import it.polimi.ingsw.server.model.State;
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.server.model.cards.*;
 import it.polimi.ingsw.server.model.player.leaders.DevelopmentDiscountLeader;

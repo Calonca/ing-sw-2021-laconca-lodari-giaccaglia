@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.messages.clienttoserver.events.setupphaseevent;
 import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
-import it.polimi.ingsw.network.messages.servertoclient.State;
+import it.polimi.ingsw.server.model.State;
 import javafx.util.Pair;
 
 import java.util.ArrayList;

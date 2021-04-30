@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.controller.strategy;
 
 import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.network.messages.servertoclient.State;
+import it.polimi.ingsw.server.model.State;
 
 public abstract interface GameStrategy
 {

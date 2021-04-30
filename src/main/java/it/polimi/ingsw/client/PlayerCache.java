@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.network.messages.servertoclient.State;
+import it.polimi.ingsw.server.model.State;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;

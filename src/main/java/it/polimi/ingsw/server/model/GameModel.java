@@ -1,7 +1,4 @@
 package it.polimi.ingsw.server.model;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import it.polimi.ingsw.network.messages.servertoclient.State;
 import it.polimi.ingsw.server.model.cards.*;
 import it.polimi.ingsw.server.model.market.*;
 import it.polimi.ingsw.server.model.player.*;
@@ -11,10 +8,6 @@ import it.polimi.ingsw.server.model.player.track.*;
 import it.polimi.ingsw.server.model.solo.*;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.*;

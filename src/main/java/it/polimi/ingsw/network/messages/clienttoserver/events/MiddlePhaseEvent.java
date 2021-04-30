@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.messages.clienttoserver.events;
 
-import it.polimi.ingsw.network.messages.servertoclient.State;
+import it.polimi.ingsw.server.model.State;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.player.board.PersonalBoard;

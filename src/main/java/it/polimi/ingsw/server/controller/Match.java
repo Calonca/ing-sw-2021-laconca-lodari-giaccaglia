@@ -1,11 +1,10 @@
 package it.polimi.ingsw.server.controller;
 
-import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.network.messages.servertoclient.State;
+import it.polimi.ingsw.server.model.State;
 
 import java.util.*;
 import java.util.stream.IntStream;
