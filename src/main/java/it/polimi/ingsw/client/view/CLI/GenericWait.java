@@ -11,20 +11,14 @@ import java.util.HashMap;
  */
 public class GenericWait extends it.polimi.ingsw.client.view.abstractview.GenericWait implements CLIView {
 
-    Runnable r;
-    String name;
 
     public GenericWait(Runnable r, String s) {
-        this.r = r;
-        this.name=s;
+        super(r, s);
     }
 
     public GenericWait(String s) {
-        this.r = ()->{};
-        this.name=s;
+        super(s);
     }
-
-
 
     /**
      * Indicates whether some other object is "equal to" this one.
@@ -151,7 +145,5 @@ public class GenericWait extends it.polimi.ingsw.client.view.abstractview.Generi
     }
 
 
-    public void perform() {
-        r.run();
-    }
+
 }
