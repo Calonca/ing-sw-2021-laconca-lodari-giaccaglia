@@ -56,9 +56,7 @@ public enum State {
         @Override
         public String serialize(GameModel gameModel) {
             return jsonUtility.serializeVarArgs(
-                    gameModel.getCurrentPlayer().getLeaders(),
-                    new Pair<>("numOfChoseRes",3)//Todo Change for each player
-                    );
+                    gameModel.getPlayerIndex(gameModel.getCurrentPlayer()));
         }
     },
 

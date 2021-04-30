@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.server.model.State;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.player.board.*;
+import it.polimi.ingsw.server.model.jsonUtility;
 import javafx.util.Pair;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -70,10 +71,7 @@ public class MarketBoard {
     private MarketLine line;
 
     public static MarketBoard initializeMarketBoard(String configFilePath) throws IOException {
-        Gson gson = new Gson();
-        MarketBoard marketBoard;
-        String MarketBoardClassConfig = Files.readString(Path.of(configFilePath), StandardCharsets.US_ASCII);
-        marketBoard = gson.fromJson(MarketBoardClassConfig, MarketBoard.class);
+        MarketBoard marketBoard = jsonUtility.deserialize(configFilePath, MarketBoard.class);
         List<Marble> marbles  = Arrays
                 .stream(marketBoard.marbleMatrix)
                 .flatMap(Arrays::stream).collect(Collectors.toList());

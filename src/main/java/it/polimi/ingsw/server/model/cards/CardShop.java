@@ -10,6 +10,7 @@ import java.util.Map;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.server.model.State;
+import it.polimi.ingsw.server.model.jsonUtility;
 import it.polimi.ingsw.server.model.solo.SoloActionToken;
 
 /**
@@ -36,9 +37,8 @@ public class CardShop {
     }
 
     public static CardShop initializeCardShop(String configFilePath) throws IOException {
-        Gson gson = new Gson();
-        String CardShopClassConfig = Files.readString(Path.of(configFilePath), StandardCharsets.US_ASCII);
-        return gson.fromJson(CardShopClassConfig, CardShop.class);
+
+        return jsonUtility.deserialize(configFilePath, CardShop.class);
     }
 
     

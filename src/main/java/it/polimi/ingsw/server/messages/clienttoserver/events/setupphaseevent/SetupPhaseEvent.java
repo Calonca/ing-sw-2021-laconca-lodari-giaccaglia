@@ -37,12 +37,16 @@ public class SetupPhaseEvent extends it.polimi.ingsw.network.messages.clienttose
     }
 
     /**
-     * @return true if chosen <em>leaderCards</em> are available among ones in {@link GameModel}, otherwise false.
+     * @return true if chosen and discarded <em>leaderCards</em> are available among ones in {@link GameModel}, otherwise false.
      */
     private boolean validateLeaders() {
         boolean validationOk = false;
-        for (Integer leaderNumber : leaders) {
+        for (Integer leaderNumber : chosenLeaders) {
             validationOk = gamemodel.isLeaderAvailable(leaderNumber);
+        }
+
+        for (Integer leaderNumber : discardedLeaders) {
+             validationOk = gamemodel.isLeaderAvailable(leaderNumber);
         }
         return validationOk;
     }
@@ -56,7 +60,7 @@ public class SetupPhaseEvent extends it.polimi.ingsw.network.messages.clienttose
         int playerNumber = gamemodel.getPlayerIndex(gamemodel.getCurrentPlayer());
         int resourcesFromPlayerNumber = (11 % playerNumber);
         int resourcesAmount = resources.length;
-        return (playerNumber == 3) ? resourcesFromPlayerNumber - 1 == resourcesAmount :
+        return (playerNumber == 3 || playerNumber == 4) ? resourcesFromPlayerNumber - 1 == resourcesAmount :
                 resourcesFromPlayerNumber == resourcesAmount;
     }
 

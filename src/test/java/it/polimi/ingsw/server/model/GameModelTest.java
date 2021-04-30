@@ -78,7 +78,7 @@ public class GameModelTest {
 
         boolean isSinglePlayer = false;
         gameModelTest = new GameModel(players, false);
-
+        int ciao = 5;
     }
 
     private void testPurchaseCard(DevelopmentCardColor color){

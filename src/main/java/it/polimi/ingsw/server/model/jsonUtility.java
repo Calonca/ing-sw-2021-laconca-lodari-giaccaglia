@@ -1220,5 +1220,13 @@ public class jsonUtility {
         writer.close(); //close write          <---
         Leader[] leaders = gson1.fromJson(serialized,Leader[].class);
     }
+
+    public static <T> T deserialize(String jsonPath, Class<T> containerClass) throws IOException {
+
+        String jsonString = Files.readString(Path.of(jsonPath), StandardCharsets.US_ASCII);
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson = builder.create();
+        return gson.fromJson(jsonString, containerClass);
+    }
 }
 

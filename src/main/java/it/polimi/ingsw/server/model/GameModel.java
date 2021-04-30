@@ -71,11 +71,16 @@ public class GameModel {
     /**
      * List containing Leader cards to distribute in {@link State#SETUP_PHASE}.
      */
-    private List<Leader> leaders;
+    private Map<Integer, Leader> leaders;
 
+    /**
+     *
+     * @param configFilePath Path of the json file containing
+     * @throws IOException
+     */
     private void initializeLeadersList(String configFilePath) throws IOException {
-        leaders = jsonUtility.leaderCardsDeserialization(configFilePath);
-        Collections.shuffle(leaders);
+        List<Leader> leadersList = jsonUtility.leaderCardsDeserialization(configFilePath);
+        leaders = IntStream.range(0, leadersList.size()).boxed().collect(Collectors.toMap(Function.identity(), leadersList::get));
     }
 
     /**
@@ -203,7 +208,7 @@ public class GameModel {
      * @return true if the <em>leaderCard</em> is available among ones in this gameModel, otherwise false.
      */
     public boolean isLeaderAvailable(int leaderNumber){
-        return IntStream.range(0, leaders.size()).anyMatch(availableNumbers -> availableNumbers==leaderNumber);
+        return leaders.keySet().stream().anyMatch(availableNumbers -> availableNumbers==leaderNumber);
     }
     public void setOfflinePlayer(Player player){
         player.setCurrentStatus(false);
