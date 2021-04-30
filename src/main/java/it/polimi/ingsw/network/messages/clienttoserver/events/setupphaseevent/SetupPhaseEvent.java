@@ -13,9 +13,11 @@ import java.util.List;
 public class SetupPhaseEvent extends Event {
 
     protected Pair<Integer, Integer> [] resources; //key = position, value = resource number
-    protected List<Integer> leaders = new ArrayList<>();
+    protected List<Integer> chosenLeaders = new ArrayList<>();
+    protected List<Integer> discardedLeaders = new ArrayList<>();
     protected int initialResources;
-    protected int initialLeaders;
+    protected int initialChosenLeaders;
+    protected int initialDiscardedLeaders;
     protected int actualSize = 0;
     protected int playerNumber;
 
@@ -24,12 +26,14 @@ public class SetupPhaseEvent extends Event {
      * action is performed.
      *
      * @param initialResources int value representing initial amount of resources player can choose, according to his <em>playerNumber</em>
-     * @param initialLeaders int value representing initial number of <em>leaderCards</em> each player can have.
+     * @param initialChosenLeaders int value representing initial number of <em>leaderCards</em> each player can have.
+     * @param initialDiscardedLeaders int value representing amount of <em>leaderCards</em> each player has to diascard after setup phase.
      * @param playerNumber int value ranging from 1 to 4 representing the number of the player performing setup phase.
      */
-    public SetupPhaseEvent(int initialResources, int initialLeaders, int playerNumber){
+    public SetupPhaseEvent(int initialResources, int initialChosenLeaders, int initialDiscardedLeaders, int playerNumber){
         this.initialResources = initialResources;
-        this.initialLeaders = initialLeaders;
+        this.initialChosenLeaders = initialChosenLeaders;
+        this.initialDiscardedLeaders = initialDiscardedLeaders;
         this.playerNumber = playerNumber;
         resources = new Pair[initialResources];
     }
@@ -54,9 +58,17 @@ public class SetupPhaseEvent extends Event {
      * Method to select initial player <em>leaderCards</em> during setup phase.
      * @param leaderNumber int value representing <em>leaderCard</em> number.
      */
-    public void addLeader(int leaderNumber){
-        leaders.add(leaderNumber);
+    public void addChosenLeader(int leaderNumber){
+        chosenLeaders.add(leaderNumber);
         }
+
+    /**
+     * Method to select <em>leaderCards</em> to discard during setup phase.
+     * @param leaderNumber int value representing <em>leaderCard</em> number.
+     */
+    public void addDiscardedLeaders(int leaderNumber){
+        discardedLeaders.add(leaderNumber);
+    }
 
 }
 
