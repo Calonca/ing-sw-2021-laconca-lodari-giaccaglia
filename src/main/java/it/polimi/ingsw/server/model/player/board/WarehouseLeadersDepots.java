@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import static it.polimi.ingsw.server.model.jsonUtility.serialize;
+
 /**
  * Contains both warehouse and leader depots,
  * uses global position to address each cell in both leader and warehouse depots as a single entity
@@ -182,8 +184,7 @@ public class WarehouseLeadersDepots implements StorageUnit {
      * {"0":[],"1":[],"2":[0,1,3,4,5],"3":[],"4":[],"5":[],"6":[0,3,4,5,7],"7":[]}
      */
     String allAvbPosToJson(){
-        Gson gson = new GsonBuilder().create();
-        return gson.toJson(availableMovingPositionsForAllResources());
+        return serialize(availableMovingPositionsForAllResources());
     }
 
     /**
@@ -207,8 +208,7 @@ public class WarehouseLeadersDepots implements StorageUnit {
             return new Pair<>(entry.getKey(),test);
         }).collect(Collectors.toMap(Pair::getKey,Pair::getValue));
 
-        Gson gson = new GsonBuilder().create();
-        return gson.toJson(b);
+        return serialize(b);
     }
 
     /**

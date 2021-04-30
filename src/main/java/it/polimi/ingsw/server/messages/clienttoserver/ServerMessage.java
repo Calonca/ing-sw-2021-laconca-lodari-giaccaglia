@@ -7,6 +7,8 @@ import it.polimi.ingsw.RuntimeTypeAdapterFactory;
 
 import java.io.IOException;
 
+import static it.polimi.ingsw.server.model.jsonUtility.deserializeFromString;
+
 /**
  * All the messages from the client to the server implement this interface.
  * It contains methods that can only be used in the server.
@@ -25,6 +27,6 @@ public interface ServerMessage {
                 .registerTypeAdapterFactory(jsonToServerAdapter)
                 .create();
 
-        return gson1.fromJson(jsonString, ServerMessage.class);
+        return deserializeFromString(jsonString, ServerMessage.class,gson1);
     }
 }

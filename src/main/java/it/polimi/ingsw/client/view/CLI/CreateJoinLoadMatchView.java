@@ -1,8 +1,6 @@
 package it.polimi.ingsw.client.view.CLI;
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Option;
-import javafx.util.Pair;
 
 import java.beans.PropertyChangeEvent;
 import java.util.Arrays;

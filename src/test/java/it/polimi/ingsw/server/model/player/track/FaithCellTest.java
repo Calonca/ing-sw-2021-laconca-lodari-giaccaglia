@@ -1,17 +1,14 @@
 package it.polimi.ingsw.server.model.player.track;
 
-import com.google.gson.Gson;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 
+import static it.polimi.ingsw.server.model.jsonUtility.deserialize;
 import static org.junit.Assert.*;
 
 public class FaithCellTest {
@@ -21,12 +18,10 @@ public class FaithCellTest {
     @Before
     public void setUp() throws Exception {
 
-        Gson gson = new Gson();
-        String json = Files.readString(Path.of("src/main/resources/config/FaithTrackConfig.json"), StandardCharsets.US_ASCII);
-        JsonObject jsonFaithTrackClass = gson.fromJson(json, JsonObject.class);
+        JsonObject jsonFaithTrackClass = deserialize("src/main/resources/config/FaithTrackConfig.json",JsonObject.class);
         JsonElement jsonFaithTrackList = jsonFaithTrackClass.get("track");
         Type myListType = new TypeToken<List<FaithCell>>() {}.getType();
-        myList = gson.fromJson(jsonFaithTrackList, myListType);
+        myList = deserialize(jsonFaithTrackList, myListType);
 
     }
 

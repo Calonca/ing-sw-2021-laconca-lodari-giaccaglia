@@ -1,14 +1,10 @@
 package it.polimi.ingsw.server.model.cards;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.server.model.State;
 import it.polimi.ingsw.server.model.jsonUtility;
 import it.polimi.ingsw.server.model.solo.SoloActionToken;

@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.UUID;
 
+import static it.polimi.ingsw.server.model.jsonUtility.serialize;
+
 public class WaitForMatchToStart extends it.polimi.ingsw.client.view.abstractview.WaitForMatchToStart implements CLIView {
     private static final String SPINNER = "\\|/-\\|/-";
     /** Ascii backspace character */
@@ -28,7 +30,7 @@ public class WaitForMatchToStart extends it.polimi.ingsw.client.view.abstractvie
     public void run() {
         CLIBuilder.scroll();
         getCommonData().getMatchesData().ifPresent((matches)->
-                System.out.println(new Gson().toJson(matches.get(matchId)))
+                System.out.println(serialize(matches.get(matchId)))
         );
 
         synchronized (this) {

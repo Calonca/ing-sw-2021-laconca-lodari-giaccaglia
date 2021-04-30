@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.model.player;
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.server.model.State;
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.server.model.cards.*;
@@ -10,11 +9,10 @@ import it.polimi.ingsw.server.model.player.leaders.Leader;
 import it.polimi.ingsw.server.model.player.leaders.LeaderState;
 import it.polimi.ingsw.server.model.player.track.FaithTrack;
 import javafx.util.Pair;
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import static it.polimi.ingsw.server.model.jsonUtility.deserialize;
 
 
 /**
@@ -132,17 +130,8 @@ public class Player {
         marketBonus[resource.getResourceNumber()]=true;
     }
 
-    private void initializeFaithTrack() {
-        File file = new File("src/main/resources/config/FaithTrackConfig.json");
-
-        String FaithTrackClassConfig = null;
-        try {
-            FaithTrackClassConfig = Files.readString(Path.of(file.getAbsolutePath()), StandardCharsets.US_ASCII);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Gson gson = new Gson();
-        faithTrack = gson.fromJson(FaithTrackClassConfig, FaithTrack.class);
+    private void initializeFaithTrack(){
+        faithTrack = deserialize("src/main/resources/config/FaithTrackConfig.json", FaithTrack.class);
     }
 
     /**

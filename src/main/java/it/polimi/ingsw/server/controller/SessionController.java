@@ -18,6 +18,8 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static it.polimi.ingsw.server.model.jsonUtility.deserialize;
+
 public class SessionController {
     
     private HashMap<UUID,Match> matches = new HashMap<>();
@@ -94,16 +96,9 @@ public class SessionController {
 
     public void reloadServer() {
         File folder = new File("src/main/resources/savedMatches/");
-        Gson gson = new Gson();
         Arrays.stream(folder.listFiles()).filter(File::isFile).forEach((file)->{
-            try {
-                String matchString = Files.readString(Path.of(folder.toString() + file.getName() + ".json"), StandardCharsets.US_ASCII);
-                Match match = gson.fromJson(matchString, Match.class);
+                Match match = deserialize(folder.toString() + file.getName() + ".json", Match.class);
                 matches.put(match.getMatchId(),match);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
         });
     }
 
@@ -126,19 +121,10 @@ public class SessionController {
 
     public Optional<Match> loadMatch(UUID gameId) {
         File folder = new File("src/main/resources/savedMatches/");
-        Gson gson = new Gson();
         return Arrays.stream(folder.listFiles()).filter(File::isFile)
                 .filter(file -> file.getName().contains(gameId.toString()))
                 .findFirst()
-                .map((file -> {
-                    String match = null;
-                    try {
-                        match = Files.readString(Path.of(folder.toString() + file.getName() + ".json"), StandardCharsets.US_ASCII);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    return gson.fromJson(match, Match.class);
-        }));
+                .map((file -> deserialize(folder.toString() + file.getName() + ".json", Match.class)));
     }
 
     public void deleteGame(UUID gameId){

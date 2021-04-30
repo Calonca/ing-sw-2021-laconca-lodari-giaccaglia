@@ -8,6 +8,8 @@ import it.polimi.ingsw.RuntimeTypeAdapterFactory;
 
 import java.util.UUID;
 
+import static it.polimi.ingsw.server.model.jsonUtility.serialize;
+
 /**
  * A message representing an answer to a command.
  * Can be send even without a command
@@ -59,7 +61,7 @@ public abstract class ServerToClientMessage extends NetworkMessage
                 .registerTypeAdapterFactory(serverToJson)
                 .create();
 
-        return  gson1.toJson(this,ServerToClientMessage.class);
+        return serialize(this,ServerToClientMessage.class, gson1);
 
     }
 

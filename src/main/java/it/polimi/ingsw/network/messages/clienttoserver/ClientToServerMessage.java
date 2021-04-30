@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.network.messages.NetworkMessage;
 import it.polimi.ingsw.RuntimeTypeAdapterFactory;
+import it.polimi.ingsw.server.model.jsonUtility;
 
 /**
  * A message sent to the server.
@@ -27,7 +28,7 @@ public abstract class ClientToServerMessage extends NetworkMessage
                 .registerTypeAdapterFactory(clientToJsonAdapter)
                 .create();
 
-        return  gson1.toJson(this,ClientToServerMessage.class);
+        return jsonUtility.serialize(this,ClientToServerMessage.class, gson1);
 
     }
 

@@ -1,35 +1,25 @@
 package it.polimi.ingsw.server.model;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
+import com.google.gson.*;
 import it.polimi.ingsw.RuntimeTypeAdapterFactory;
-import it.polimi.ingsw.server.model.cards.CardShop;
-import it.polimi.ingsw.server.model.cards.DevelopmentCard;
-import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
-import it.polimi.ingsw.server.model.cards.DevelopmentCardDeck;
+import it.polimi.ingsw.server.model.cards.*;
 import it.polimi.ingsw.server.model.cards.production.Production;
 import it.polimi.ingsw.server.model.player.board.LeaderDepot;
 import it.polimi.ingsw.server.model.player.leaders.*;
 import javafx.util.Pair;
-
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
+import java.io.*;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.file.*;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.stream.*;
 
 public class jsonUtility {
 
-    private static Gson sGson = new Gson();
+    private static Gson gson = new Gson();
 
     public static String serializeVarArgs(Object ...o){
-        return sGson.toJson(Arrays.stream(o).collect(Collectors.toList()));
+        return serialize(Arrays.stream(o).collect(Collectors.toList()));
     }
 
     //helper method to load a 48 devcards array from json
@@ -133,7 +123,7 @@ public class jsonUtility {
     }
 
     //helper method to initialize gameModel list of 16 leaders
-    public static List<Leader> leaderCardsDeserialization(String jsonString) throws IOException{
+    public static List<Leader> leaderCardsDeserialization(String jsonString){
 
         RuntimeTypeAdapterFactory<Leader> jsonToLeaderListAdapter = RuntimeTypeAdapterFactory.of(Leader.class);
 
@@ -147,13 +137,11 @@ public class jsonUtility {
                 .registerTypeAdapterFactory(jsonToLeaderListAdapter)
                 .create();
 
-      //  Type listOfLeaders = new TypeToken<ArrayList<Leader>>() {}.getType();
-        String leadersJsonConfig = Files.readString(Path.of(jsonString), StandardCharsets.US_ASCII);
-        Leader[] leaders = gson.fromJson(leadersJsonConfig, Leader[].class);
+        Leader[] leaders = deserialize(jsonString, Leader[].class, gson);
         return (Arrays.asList(leaders));
     }
 
-    public void leaderCardsArrayserialization() throws IOException {
+    public static void leaderCardsArrayserialization() {
         Resource bonus;
         Production addProd;
         Pair<Resource, Integer> costTest;
@@ -1213,20 +1201,69 @@ public class jsonUtility {
                 .registerTypeAdapterFactory(shapeAdapterFactory)
                 .create();
 
-        String serialized = gson1.toJson(series2.toArray(Leader[]::new), Leader[].class);
+        serialize("src/main/resources/config/LeadersConfig.json", series2.toArray(Leader[]::new), Leader[].class, gson1);
+     /*   String serialized = gson1.toJson(series2.toArray(Leader[]::new), Leader[].class);
         Writer writer = new FileWriter("src/main/resources/config/LeadersConfig.json");
         writer.write(serialized);
         writer.flush(); //flush data to file   <---
-        writer.close(); //close write          <---
-        Leader[] leaders = gson1.fromJson(serialized,Leader[].class);
+        writer.close(); //close write          <---  */
+
+
+     //   Leader[] leaders = deserialize("src/main/resources/config/LeadersConfig.json" , Leader[].class);
     }
 
-    public static <T> T deserialize(String jsonPath, Class<T> containerClass) throws IOException {
 
-        String jsonString = Files.readString(Path.of(jsonPath), StandardCharsets.US_ASCII);
+    public static <T> T deserialize(String jsonPath, Class<T> destinationClass){
+        return deserialize(jsonPath,destinationClass,gson);
+    }
+
+    public static <T> T deserialize(JsonElement jsonElement, Type destinationType) {
+        return gson.fromJson(jsonElement, destinationType);
+    }
+
+    public static <T> T deserialize(String jsonPath, Class<T> destinationClass, Gson customGson) {
+        String jsonString = null;
+        try {
+            jsonString = Files.readString(Path.of(jsonPath), StandardCharsets.US_ASCII);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return deserializeFromString(jsonString, destinationClass, customGson);
+    }
+
+    public static <T> T deserializeFromString(String jsonString, Class<T> destinationClass, Gson customGson){
+        return customGson.fromJson(jsonString, destinationClass);
+    }
+
+    public static <T> String serialize(T Object){
+        return gson.toJson(Object);
+    }
+
+    public static <T> String serialize(T Object, Class<T> classToSerialize, Gson customGson){
+        return customGson.toJson(Object, classToSerialize);
+    }
+
+    public static <T> void serialize(String jsonPath, T Object , Class<T> classToSerialize){
         GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();
-        return gson.fromJson(jsonString, containerClass);
+        gson = builder.create();
+        serialize(jsonPath, Object, classToSerialize, gson);
+    }
+
+    public static <T> void serialize(String jsonPath, T Object , Class<T> classToSerialize, Gson customGson) {
+        String jsonString = serialize(Object, classToSerialize, customGson);
+        try {
+            Writer writer = new FileWriter(jsonPath);
+            writer.write(jsonString);
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void main(String[] args){
+        leaderCardsArrayserialization();
     }
 }
 

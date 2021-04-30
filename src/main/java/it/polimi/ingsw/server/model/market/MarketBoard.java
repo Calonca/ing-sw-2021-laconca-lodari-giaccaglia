@@ -1,14 +1,11 @@
 package it.polimi.ingsw.server.model.market;
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.server.model.State;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.player.board.*;
 import it.polimi.ingsw.server.model.jsonUtility;
 import javafx.util.Pair;
 import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.*;
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.*;

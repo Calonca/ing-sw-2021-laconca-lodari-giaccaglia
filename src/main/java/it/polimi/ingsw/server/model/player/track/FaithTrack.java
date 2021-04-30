@@ -1,5 +1,4 @@
 package it.polimi.ingsw.server.model.player.track;
-import com.google.gson.Gson;
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.server.model.player.*;
 import it.polimi.ingsw.server.model.player.leaders.Leader;
@@ -8,10 +7,9 @@ import org.apache.commons.lang3.tuple.MutablePair;
 
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.*;
+
+import static it.polimi.ingsw.server.model.jsonUtility.deserialize;
 
 /**
  * Represents the {@link Player} <em>FaithTrack</em>
@@ -40,9 +38,7 @@ public class FaithTrack {
     private final MutablePair<Piece, Integer> lorenzoPiece = new MutablePair<>(Piece.LORENZO, 0);
 
     public FaithTrack faithTrackConstructor() throws IOException {
-        Gson gson = new Gson();
-        String FaithTrackClassConfig = Files.readString(Path.of("src/main/resources/config/FaithTrackConfig.json"), StandardCharsets.US_ASCII);
-        return gson.fromJson(FaithTrackClassConfig, FaithTrack.class);
+        return deserialize("src/main/resources/config/FaithTrackConfig.json", FaithTrack.class);
     }
 
     /**
