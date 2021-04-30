@@ -3,7 +3,7 @@ package it.polimi.ingsw.server.controller.strategy.resourcemarket;
 import it.polimi.ingsw.server.controller.strategy.Final;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.network.messages.servertoclient.State;
+import it.polimi.ingsw.server.model.State;
 
 /**
  * This implementation calculates the movements on the Faith Track based on the resources left in the

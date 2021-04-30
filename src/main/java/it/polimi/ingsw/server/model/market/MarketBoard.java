@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model.market;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.network.messages.servertoclient.State;
+import it.polimi.ingsw.server.model.State;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.player.board.*;
 import javafx.util.Pair;

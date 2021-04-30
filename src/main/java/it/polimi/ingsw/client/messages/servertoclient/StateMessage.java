@@ -3,7 +3,7 @@ package it.polimi.ingsw.client.messages.servertoclient;
 import it.polimi.ingsw.client.ServerHandler;
 import it.polimi.ingsw.client.view.CLI.InitialPhaseView;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
-import it.polimi.ingsw.network.messages.servertoclient.State;
+import it.polimi.ingsw.server.model.State;
 
 import java.io.IOException;
 

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.network.messages.servertoclient.State;
+import it.polimi.ingsw.server.model.State;
 import it.polimi.ingsw.server.model.solo.SoloActionToken;
 
 /**

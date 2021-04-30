@@ -5,7 +5,7 @@ import it.polimi.ingsw.client.view.CLI.ConnectToServerView;
 import it.polimi.ingsw.client.view.CLI.GenericWait;
 import it.polimi.ingsw.client.view.CLI.WaitForServerConnection;
 import it.polimi.ingsw.client.view.abstractview.View;
-import it.polimi.ingsw.network.messages.servertoclient.State;
+import it.polimi.ingsw.server.model.State;
 
 import java.io.IOException;
 import java.net.Socket;

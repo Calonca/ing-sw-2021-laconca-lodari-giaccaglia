@@ -3,7 +3,7 @@ package it.polimi.ingsw.server.controller;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.network.messages.servertoclient.MatchesData;
-import it.polimi.ingsw.network.messages.servertoclient.State;
+import it.polimi.ingsw.server.model.State;
 import it.polimi.ingsw.network.messages.servertoclient.StateMessage;
 import it.polimi.ingsw.server.ClientHandler;
 import javafx.util.Pair;

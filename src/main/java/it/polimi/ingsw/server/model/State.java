@@ -1,5 +1,4 @@
-package it.polimi.ingsw.network.messages.servertoclient;
-import it.polimi.ingsw.server.model.*;
+package it.polimi.ingsw.server.model;
 import it.polimi.ingsw.server.model.cards.*;
 import it.polimi.ingsw.server.model.player.leaders.Leader;
 import it.polimi.ingsw.server.model.market.Marble;

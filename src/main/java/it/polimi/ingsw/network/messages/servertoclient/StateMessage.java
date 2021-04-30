@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.messages.servertoclient;
 
 import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
+import it.polimi.ingsw.server.model.State;
 
 public class StateMessage extends ServerToClientMessage {
     protected State state;
