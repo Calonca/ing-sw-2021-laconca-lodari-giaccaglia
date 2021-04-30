@@ -30,7 +30,7 @@ public class DevelopmentCardTest {
     public void isAvailable()
     {
         //testo solo la condizione dei livelli, le risorse sono testate in production
-        PersonalBoard personalboardtest=new PersonalBoard();
+        PersonalBoard personalboardtest = new PersonalBoard();
         Pair<Resource, Integer> costTest = new Pair<>(Resource.GOLD, 3);
         Pair<Integer, Resource> costTest2 = new Pair<>(3, Resource.GOLD);
 
