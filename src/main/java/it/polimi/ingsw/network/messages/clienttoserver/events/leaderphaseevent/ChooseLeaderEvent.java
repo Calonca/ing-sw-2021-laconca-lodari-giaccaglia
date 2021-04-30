@@ -36,6 +36,4 @@ public class ChooseLeaderEvent extends InitialOrFinalPhaseEvent {
      */
     public ChooseLeaderEvent(){}
 
-
-
 }

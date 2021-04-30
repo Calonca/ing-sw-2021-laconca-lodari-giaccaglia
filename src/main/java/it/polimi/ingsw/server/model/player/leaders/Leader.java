@@ -16,7 +16,7 @@ public abstract class Leader
 
     protected LeaderState state;
     protected int victoryPoints;
-protected List<Pair<Resource, Integer>> requirementsResources;
+    protected List<Pair<Resource, Integer>> requirementsResources;
     protected List<Pair<DevelopmentCardColor, Integer>> requirementsCards;
     protected int requirementsCardsLevel=1;
 

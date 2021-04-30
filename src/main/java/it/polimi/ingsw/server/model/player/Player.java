@@ -134,7 +134,6 @@ public class Player {
         marketBonus[resource.getResourceNumber()]=true;
     }
 
-
     private void initializeFaithTrack() {
         File file = new File("src/main/resources/config/FaithTrackConfig.json");
 
@@ -279,9 +278,6 @@ public class Player {
         }
         return 0;
     }
-
-
-
 
    /* public State getMacroState() {
         return macroState;

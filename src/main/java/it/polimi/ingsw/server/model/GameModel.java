@@ -4,8 +4,10 @@ import it.polimi.ingsw.server.model.cards.*;
 import it.polimi.ingsw.server.model.market.*;
 import it.polimi.ingsw.server.model.player.*;
 import it.polimi.ingsw.server.model.player.board.*;
+import it.polimi.ingsw.server.model.player.leaders.Leader;
 import it.polimi.ingsw.server.model.player.track.*;
 import it.polimi.ingsw.server.model.solo.*;
+import it.polimi.ingsw.network.messages.servertoclient.State;
 
 import java.io.IOException;
 import java.util.*;
@@ -63,10 +65,15 @@ public class GameModel {
 
     /**
      * This game data structure to represent a {@link DevelopmentCard DevelopmentCards} grid structured according to
-     * official game rules
+     * official game rules.
      */
     private CardShop cardShop;
 
+
+    /**
+     * List containing Leader cards to distribute in {@link State#SETUP_PHASE}.
+     */
+    private Map<Integer, Leader> leaders;
 
     /**
      * Constructor for a game of Maestri del Rinascimento.
@@ -176,6 +183,24 @@ public class GameModel {
                 .findAny().orElse(null);
     }
 
+    /**
+     * Method to get a <em>playerNumber</em> associated with a Player.
+     * @param player Player to determine the <em>playerNumber</em>
+     * @return <em>playerNumber</em> associated with the Player if present, otherwise -1;
+     */
+    public int getPlayerIndex(Player player){
+        return (player!=null && players.containsValue (player)) ?
+                getPlayerIndex(player, players)
+                : -1;
+    }
+
+    /**
+     * @param leaderNumber int value corresponding to a <em>leaderCard</em>
+     * @return true if the <em>leaderCard</em> is available among ones in this gameModel, otherwise false.
+     */
+    public boolean isLeaderAvailable(int leaderNumber){
+        return leaders.keySet().stream().anyMatch(availableNumbers -> availableNumbers==leaderNumber);
+    }
     public void setOfflinePlayer(Player player){
         player.setCurrentStatus(false);
         updateOnlinePlayers();
@@ -184,16 +209,15 @@ public class GameModel {
 
     public void setOnlinePlayer(Player player){
 
-        int playerIndex = getPlayerIndex(player, players);
+        int playerIndex = getPlayerIndex(player);
         setPlayerStatus(playerIndex, true);
 
     }
 
     private int getPlayerIndex(Player player, Map<Integer, Player> playersMap){
-
         return playersMap.keySet().stream()
                 .filter(index -> playersMap.get(index).equals(player))
-                .findFirst().orElse(0);
+                .findFirst().orElse(-1);
     }
 
     /**
@@ -218,15 +242,14 @@ public class GameModel {
                 Function.identity(), index -> players.get(index)));
     }
 
-    /* //TODO CHECK IF IS A USELESS METHOD, SINCE GAMEPHASE IS THE PLAYER PHASE.
    /**
     * Returns the {@link State state} of the game of the current player.<br>
     * The {@link State state} of the game of each player can be different.
     * @return the {@link State state} of the game for the current player.
-
+    */
     public State getGamePhase(){
-        return gamePhase;
-    } */
+        return currentPlayer.getCurrentState();
+    }
 
     /**
      * Returns the {@link Player player} that will play in the next turn.
@@ -313,11 +336,16 @@ public class GameModel {
      * and <em>Solo mode</em> game.
      */
      public void executeVaticanReport(){
-            int popeSpacePosition = players.values().stream().filter(Player::isInPopeSpace).mapToInt(Player::getPlayerPosition).max().getAsInt();
-            players.values().stream().forEach(player -> player.turnPopeFavourTileInFaithTrack(popeSpacePosition));
+            int popeSpacePosition = players
+                    .values()
+                    .stream()
+                    .filter(Player::isInPopeSpace)
+                    .mapToInt(Player::getPlayerPosition)
+                    .max()
+                    .orElse(-1);
+
+            players.values().forEach(player -> player.turnPopeFavourTileInFaithTrack(popeSpacePosition));
      }   
-
-
 
     /**
      * In the single players game the player plays against Lorenzo il Magnifico.

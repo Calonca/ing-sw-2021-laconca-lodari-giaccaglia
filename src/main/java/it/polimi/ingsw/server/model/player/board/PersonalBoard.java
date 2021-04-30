@@ -376,7 +376,6 @@ public class PersonalBoard {
         storageUnitFromPos(startPos).removeResource(startPos);
     }
 
-
     /**
      * This method will check if the given resources are present in the {@link PersonalBoard}.
      * @param toCheck in the cell with index i there is the number of resource with order i in the resource ordering to check for availability
@@ -449,8 +448,6 @@ public class PersonalBoard {
         }
         return true;
     }
-
-
 
     /**
      * Returns all the available global positions in the {@link PersonalBoard} where the given resource can be moved
