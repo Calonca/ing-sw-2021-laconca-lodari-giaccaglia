@@ -1,4 +1,6 @@
 package it.polimi.ingsw.server.model;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.network.messages.servertoclient.State;
 import it.polimi.ingsw.server.model.cards.*;
 import it.polimi.ingsw.server.model.market.*;
@@ -7,9 +9,12 @@ import it.polimi.ingsw.server.model.player.board.*;
 import it.polimi.ingsw.server.model.player.leaders.Leader;
 import it.polimi.ingsw.server.model.player.track.*;
 import it.polimi.ingsw.server.model.solo.*;
-import it.polimi.ingsw.network.messages.servertoclient.State;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.*;
@@ -73,7 +78,12 @@ public class GameModel {
     /**
      * List containing Leader cards to distribute in {@link State#SETUP_PHASE}.
      */
-    private Map<Integer, Leader> leaders;
+    private List<Leader> leaders;
+
+    private void initializeLeadersList(String configFilePath) throws IOException {
+        leaders = jsonUtility.leaderCardsDeserialization(configFilePath);
+        Collections.shuffle(leaders);
+    }
 
     /**
      * Constructor for a game of Maestri del Rinascimento.
@@ -99,6 +109,7 @@ public class GameModel {
         try {
             resourcesMarket = MarketBoard.initializeMarketBoard("src/main/resources/config/MarketBoardConfig.json");
             cardShop = CardShop.initializeCardShop("src/main/resources/config/CardShopConfig.json");
+            initializeLeadersList("src/main/resources/config/LeadersConfig.json");
 
         } catch (IOException e) {
             System.out.println("Error while class initialization with json config file");
@@ -199,7 +210,7 @@ public class GameModel {
      * @return true if the <em>leaderCard</em> is available among ones in this gameModel, otherwise false.
      */
     public boolean isLeaderAvailable(int leaderNumber){
-        return leaders.keySet().stream().anyMatch(availableNumbers -> availableNumbers==leaderNumber);
+        return IntStream.range(0, leaders.size()).anyMatch(availableNumbers -> availableNumbers==leaderNumber);
     }
     public void setOfflinePlayer(Player player){
         player.setCurrentStatus(false);

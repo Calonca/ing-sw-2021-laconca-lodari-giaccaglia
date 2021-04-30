@@ -44,7 +44,7 @@ public class GameModelTest {
     }
 
     @Test
-    public void mutliPlayerGameTest() {
+    public void multiPlayerGameTest() {
 
         setUpNewMultiPlayerGameModel();
 

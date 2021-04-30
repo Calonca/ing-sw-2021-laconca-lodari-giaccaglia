@@ -78,11 +78,9 @@ public class Player {
         initializeFaithTrack();
     }
 
-
     public PersonalBoard getPersonalBoard() {
         return personalBoard;
     }
-
 
     /**
      * Method to get currentlu active {@link DevelopmentCard} required resources discounts, stored inside player's

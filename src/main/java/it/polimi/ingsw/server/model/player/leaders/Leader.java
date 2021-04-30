@@ -22,6 +22,10 @@ public abstract class Leader
 
 
 
+    public Leader(){
+
+    }
+
     public LeaderState getState(){
         return state;
     }
