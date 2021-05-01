@@ -10,6 +10,7 @@ import javafx.util.Pair;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Client side {@link Event} created during {@link State#SETUP_PHASE SETUP_PHASE} when player initialization is
@@ -65,7 +66,7 @@ public class SetupPhaseEvent extends it.polimi.ingsw.network.messages.clienttose
     }
 
     private boolean validateResources() {
-        return validateResourceNumber() && validateResourcesAmount() && validateResourcePositions();
+        return validateResourceNumber() && validateResourcesAmount() && validatePositionsUniqueness() && validateResourcePositions();
     }
 
     /**
@@ -79,18 +80,54 @@ public class SetupPhaseEvent extends it.polimi.ingsw.network.messages.clienttose
     }
 
     /**
+     * @return true if chosen resource positions int values are all unique, otherwise false.
+     */
+    private boolean validatePositionsUniqueness() {
+        List<Integer> resourcePositions = Arrays.stream(resources).map(Pair::getKey).collect(Collectors.toList());
+        return resourcePositions.stream().distinct()
+                .count() == resourcePositions.size();
+    }
+    /**
      * @return true if chosen resources positions are available among ones in the <em>Warehouse</em>, otherwise false.
      */
     private boolean validateResourcePositions() {
-        List<Pair<Integer, Integer>>resourcesList = Arrays.stream(resources).collect(Collectors.toList());
-
-        return resourcesList
+        List<List<Integer>> availablePositionsAsList = IntStream.range(0,3)
+                .boxed().map(i ->  new int[i+1])
+                .collect(Collectors.toList())
                 .stream()
-                .allMatch(resource ->
-                        gamemodel
-                                .getCurrentPlayer()
-                                .getPersonalBoard()
-                                .availableMovingPositionsForResource(Resource.fromInt(resource.getValue()))
-                                .anyMatch(position ->position == resource.getValue()));
+                .map(array -> IntStream.range(0, array.length)
+                        .boxed()
+                        .mapToInt(i -> -1)
+                        .toArray())
+                .collect(Collectors.toList())
+                .stream()
+                .map(i -> Arrays.stream(i)
+                        .boxed()
+                        .collect(Collectors.toList()))
+                .collect(Collectors.toList());
+
+
+            return  Arrays.stream(resources).noneMatch(resource -> {
+                boolean value = true;
+                if (resource.getKey() < 1) {
+                    availablePositionsAsList.get(resource.getKey()).set(resource.getKey(), resource.getValue());
+                    value = false;
+                } else if (resource.getKey() < 3) {
+                    {
+                        if (availablePositionsAsList.get(1).stream().noneMatch(i -> (i != -1 && !i.equals(resource.getValue())))) {
+                            availablePositionsAsList.get(1).set(resource.getKey() - 1, resource.getValue());
+                            value = false;
+                        } else
+                            value = true;
+                    }
+                } else if (resource.getKey() < 6) {
+                    if (availablePositionsAsList.get(2).stream().noneMatch(i -> (i != -1 && !i.equals(resource.getValue())))) {
+                        availablePositionsAsList.get(2).set(resource.getKey() - 3, resource.getValue());
+                        value = false;
+                    } else
+                        value = true;
+                }
+                return value;
+            });
     }
 }
