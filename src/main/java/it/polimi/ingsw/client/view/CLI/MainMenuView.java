@@ -32,10 +32,10 @@ public class MainMenuView extends it.polimi.ingsw.client.view.abstractview.MainM
         r = ()->getClient().transitionToView(new CreateMatchView());
         getCLIBuilder().addOption(CLIPos.CENTER,new Option("Create a match","One or more players",r));
 
-        r = ()->getClient().transitionToView(new GenericWait(() -> {},"Waiting"));
+        r = ()->getClient().transitionToView(new GenericWait("Waiting for exit"));
         getCLIBuilder().addOption(CLIPos.CENTER,new Option("Edit Cards","Costs and effects",r));
 
-        r = ()->getClient().transitionToView(new GenericWait(() -> {},"Waiting"));
+        r = ()->getClient().transitionToView(new GenericWait("Waiting for exit"));
         getCLIBuilder().addOption(CLIPos.CENTER,new Option("Exit",":*",r));
 
         try {

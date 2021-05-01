@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.CLI;
 
+import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.view.abstractview.View;
 
 import java.beans.PropertyChangeEvent;
@@ -28,7 +29,9 @@ public class ConnectToServerView extends it.polimi.ingsw.client.view.abstractvie
         port = Integer.parseInt(scanner.nextLine());
 
         getClient().setServerConnection(ip,port);
-        getClient().transitionToView(new WaitForServerConnection());
+        getClient().transitionToView(new GenericWait("Server connection", CommonData.matchesDataString,
+                ()->getClient().transitionToView(new MainMenuView())
+                ));
         getClient().run();
     }
 

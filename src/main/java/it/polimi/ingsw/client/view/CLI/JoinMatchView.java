@@ -29,7 +29,7 @@ public class JoinMatchView extends it.polimi.ingsw.client.view.abstractview.Join
         System.out.println("Your nickname: ");
         nickname = scanner.nextLine();
         getClient().getServerHandler().sendCommandMessage(new JoinMatchRequest(matchId,nickname));
-        getClient().transitionToView(new WaitForMatchToStart(matchId));
+        getClient().transitionToView(GenericWait.matchToStart(getClient()));
     }
 
     /**

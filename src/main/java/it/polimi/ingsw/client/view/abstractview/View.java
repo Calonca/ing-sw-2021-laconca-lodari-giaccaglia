@@ -52,7 +52,6 @@ public abstract class View implements Runnable, PropertyChangeListener
         return owner;
     }
 
-
     /**
      * The main method of the view. Handles user interaction. User interaction
      * is considered ended when this method exits.

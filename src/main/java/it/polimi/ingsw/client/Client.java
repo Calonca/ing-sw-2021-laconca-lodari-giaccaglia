@@ -2,19 +2,15 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.view.CLI.CLIBuilder;
 import it.polimi.ingsw.client.view.CLI.ConnectToServerView;
+import it.polimi.ingsw.client.view.CLI.CreateJoinLoadMatchView;
 import it.polimi.ingsw.client.view.CLI.GenericWait;
-import it.polimi.ingsw.client.view.CLI.WaitForServerConnection;
 import it.polimi.ingsw.client.view.abstractview.View;
-import it.polimi.ingsw.server.model.State;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.stream.IntStream;
 
 
 /**
@@ -43,7 +39,10 @@ public class Client implements Runnable
         if (args.length==2)
         {
             client.setServerConnection(args[0],Integer.parseInt(args[1]));
-            client.nextView = new WaitForServerConnection();
+            client.nextView = new GenericWait(
+                    "MatchesData",
+                    CommonData.matchesDataString,
+                    ()-> client.transitionToView(new CreateJoinLoadMatchView()));
             client.run();
             client.runViewStateMachine();
         }else {
@@ -108,7 +107,7 @@ public class Client implements Runnable
         }
         while (!stop) {
             if (currentView == null) {
-                currentView = new GenericWait(() -> {},"Waiting");
+                currentView = new GenericWait("something","",()->{});
             }
             currentView.setOwner(this);
             commonData.addPropertyChangeListener(currentView);
@@ -130,6 +129,7 @@ public class Client implements Runnable
     }
 
 
+    //Todo make is to that it switches to cli or GUI view
     /**
      * Transitions the view thread to a given view.
      * @param newView The view to transition to.
@@ -161,15 +161,31 @@ public class Client implements Runnable
         return currentView;
     }
 
-    public void setState(int player, String state, Map<String, Object> serializedObject){
-        if (playersCache.size()==0)
-            initializePlayerCache(player,serializedObject);
-        playersCache.get(player).update(state,serializedObject);
-        Optional<Boolean> a = playersCache.get(0).getFromStateAndKey("Setup","o1");
+    /**
+     * Returns the player cache for the current player
+     */
+    public Optional<PlayerCache> currentPlayerCache(){
+        return commonData.getCurrentPlayerIndex().map(i->playersCache.get(i));
     }
 
-    public void initializePlayerCache(int player,Map<String, Object> serializedObject){
-        int numberOfPlayers = 4; //Todo take from serializedObject
-        playersCache = Stream.generate(()->new PlayerCache(player,numberOfPlayers)).limit(numberOfPlayers).collect(Collectors.toList());
+    public <T> Optional<T> getFromStateAndKey(String state, String key){
+        return (Optional<T>) currentPlayerCache().map(cache->cache.<T>getFromStateAndKey(state, key));
+    }
+
+    public void setState(int thisPlayerIndex, String state, Map<String, Object> serializedObject){
+        int numberOfPlayers = 4;//Todo Replace with true data
+        UUID matchId = commonData.getMatchesData()
+                .map((o)->o.keySet().stream().toArray(UUID[]::new)[0])
+                .orElse(UUID.randomUUID());//Todo Replace with true data
+        if (playersCache.size()==0){
+            commonData.setStartData(matchId,thisPlayerIndex);
+            initializePlayerCache(numberOfPlayers);
+        }
+        playersCache.get(thisPlayerIndex).update(state,serializedObject);
+    }
+
+    public void initializePlayerCache(int numberOfPlayers){
+        playersCache = IntStream.range(0,numberOfPlayers)
+                .mapToObj((i)->new PlayerCache(i,numberOfPlayers,this)).collect(Collectors.toList());
     }
 }

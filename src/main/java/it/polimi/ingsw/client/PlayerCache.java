@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.server.model.State;
-import javafx.util.Pair;
+import it.polimi.ingsw.client.view.CLI.InitialPhaseView;
+import it.polimi.ingsw.client.view.CLI.SetupPhaseView;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -9,23 +9,30 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Contains the data related to each game state and the transition function from state to state
+ */
 public class PlayerCache {
 
-    static final String setup = "Setup";
+    public static final String SETUP_PHASE = "SETUP_PHASE";
+    public static final String INITIAL_PHASE = "INITIAL_PHASE";
 
-    Map<String, Pair<String,Runnable>[]> stateToStateCode;
-
-    Map<String, Map<String, Object>> stateData;
+    private Map<String, Map<String,Runnable>> stateToStateTransition;
+    private Map<String, Map<String, Object>> stateData;
 
     private final PropertyChangeSupport support;
-    public PlayerCache(int player,int totalPlayers){
+    private final Client client;
+
+    public PlayerCache(int player,int totalPlayers, Client client){
+        this.client = client;
         support = new PropertyChangeSupport(this);
         stateData = new HashMap<>();
-        stateData.put(setup,new HashMap<>());
-        stateData.get(setup).put("o1",false);
-        stateToStateCode = new HashMap<>();
-        //Todo initialize table
+        stateData.put(SETUP_PHASE,new HashMap<>());
 
+        stateToStateTransition = new HashMap<>();
+        stateToStateTransition.put(SETUP_PHASE,new HashMap<>());
+        stateToStateTransition.get(SETUP_PHASE).put(INITIAL_PHASE, ()->client.transitionToView(new InitialPhaseView()));
+        //Todo initialize table
     }
 
     public void addPropertyChangeListener(PropertyChangeListener pcl) {
@@ -48,7 +55,7 @@ public class PlayerCache {
     }
 
     public void update(String state, Map<String, Object> serializedObject) {
-        //support.firePropertyChange(state.toString(), this.oldValue,newValue);
-        //this.oldValue = newValue;
+        support.firePropertyChange(state, stateData.get(state), serializedObject);
+        stateData.put(state,serializedObject);
     }
 }

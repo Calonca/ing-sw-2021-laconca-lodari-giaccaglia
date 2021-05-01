@@ -1,9 +1,7 @@
 package it.polimi.ingsw.client.messages.servertoclient;
 
 import it.polimi.ingsw.client.ServerHandler;
-import it.polimi.ingsw.client.view.CLI.InitialPhaseView;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
-import it.polimi.ingsw.server.model.State;
 
 import java.io.IOException;
 import java.util.Map;
@@ -42,7 +40,5 @@ public class StateMessage extends it.polimi.ingsw.network.messages.servertoclien
     @Override
     public void processMessage(ServerHandler serverHandler) throws IOException {
         serverHandler.getClient().setState(player,state,serializedObject);
-        //Todo the following line in PlayerCache
-        serverHandler.getClient().transitionToView(new InitialPhaseView(serializedObject.toString()));
     }
 }

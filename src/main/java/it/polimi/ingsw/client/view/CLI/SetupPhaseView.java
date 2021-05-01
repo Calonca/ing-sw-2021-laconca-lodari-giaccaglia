@@ -1,8 +1,11 @@
 package it.polimi.ingsw.client.view.CLI;
 
+import it.polimi.ingsw.client.PlayerCache;
+
 import java.beans.PropertyChangeEvent;
 
-public class InitialPhaseView extends it.polimi.ingsw.client.view.abstractview.InitialPhaseView implements CLIView {
+public class SetupPhaseView extends it.polimi.ingsw.client.view.abstractview.SetupPhaseView implements CLIView {
+
     /**
      * The main method of the view. Handles user interaction. User interaction
      * is considered ended when this method exits.
@@ -12,7 +15,7 @@ public class InitialPhaseView extends it.polimi.ingsw.client.view.abstractview.I
      */
     @Override
     public void run() {
-        System.out.println("Initial phase");
+        System.out.println(getClient().getFromStateAndKey(PlayerCache.SETUP_PHASE,"leaders").orElse("no leaders"));
     }
 
     /**
