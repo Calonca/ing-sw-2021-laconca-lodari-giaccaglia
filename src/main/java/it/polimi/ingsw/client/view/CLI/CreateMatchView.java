@@ -10,8 +10,7 @@ public class CreateMatchView extends it.polimi.ingsw.client.view.abstractview.Cr
 
 
     /**
-     * The main method of the view. Handles user interaction. User interaction
-     * is considered ended when this method exits.
+     * The user will be asked to insert a valid number and a nickname. There are no checks for nicknames yet
      *
      * @implNote This method shall exit as soon as possible after stopInteraction()
      * is called (from another thread).
@@ -19,15 +18,39 @@ public class CreateMatchView extends it.polimi.ingsw.client.view.abstractview.Cr
     @Override
     public void run() {
         Scanner scanner = new Scanner(System.in);
-        int numberOfPlayers;
+        int numberOfPlayers=0;
         String nickname;
-        do {
-            CLIBuilder.scroll();
-            System.out.println("Creating match\nNumber of people: ");
-            numberOfPlayers = Integer.parseInt(scanner.nextLine());
-            System.out.println("Your nickname: ");
-            nickname = scanner.nextLine();
-        }while (numberOfPlayers<0||numberOfPlayers>4);
+        CLIBuilder.scroll();
+
+        boolean acquisition=false;
+        do
+        {
+            try
+            {
+                System.out.println("Creating a match between 0 and 4 players\nPlease insert the number of players: ");
+                numberOfPlayers = Integer.parseInt(scanner.nextLine());
+                if (numberOfPlayers<5&&numberOfPlayers>0)
+                    acquisition=true;
+                else
+                    System.out.println(Color.colorString("Insert a number between 0 and 4!",Color.ANSI_RED));
+                CLIBuilder.scroll();
+
+            }
+            catch (NumberFormatException e)
+            {
+                System.out.println(Color.colorString("Insert a NUMBER!",Color.ANSI_RED));
+                CLIBuilder.scroll();
+
+            }
+        }while (!acquisition);
+
+
+
+
+        System.out.println("Please insert your nickname: ");
+        nickname = scanner.nextLine();
+
+
 
         getClient().getServerHandler().sendCommandMessage(new CreateMatchRequest(numberOfPlayers,nickname));
     }
