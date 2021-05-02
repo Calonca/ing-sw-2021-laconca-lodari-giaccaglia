@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.strategy;
 
+import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.State;
 
@@ -7,7 +8,7 @@ import it.polimi.ingsw.server.model.State;
  * On game start, each player will choose a quantity of resources based on their turn order
  */
 public class ChooseInitialResource implements GameStrategy {
-    public State execute(GameModel gamemodel)
+    public State execute(GameModel gamemodel, Validable event)
     {
         //MSG IS LIST OF INT? RESOURCES?
         int[] msg=new int[]  {1,3};

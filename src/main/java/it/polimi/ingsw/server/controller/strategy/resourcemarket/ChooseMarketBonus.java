@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.controller.strategy.resourcemarket;
 
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
+import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.State;
@@ -11,7 +12,7 @@ import it.polimi.ingsw.server.model.State;
  * the one to choose the bonus, as long as there are white marbles remaining
  */
 public class ChooseMarketBonus implements GameStrategy {
-    public State execute(GameModel gamemodel)
+    public State execute(GameModel gamemodel, Validable event)
     {
         //ON EVENT CHOOSEWHITEMARBLECONVERSIONEVENT
         //MESSAGE IS Resource.SHIELD

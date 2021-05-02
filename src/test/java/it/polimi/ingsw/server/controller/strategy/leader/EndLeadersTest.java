@@ -18,8 +18,8 @@ public class EndLeadersTest {
         boolean isSinglePlayer = true;
         GameModel gamemodel = new GameModel(nicknames, isSinglePlayer);
         gamemodel.getCurrentPlayer().setCurrentState(State.SHOWING_LEADERS_INITIAL);
-        assertEquals(State.MIDDLE_PHASE,new EndLeaders().execute(gamemodel) );
+        assertEquals(State.MIDDLE_PHASE,new EndLeaders().execute(gamemodel, ) );
         gamemodel.getCurrentPlayer().setCurrentState(State.SHOWING_LEADERS_FINAL);
-        assertEquals(State.IDLE,new EndLeaders().execute(gamemodel) );
+        assertEquals(State.IDLE,new EndLeaders().execute(gamemodel, ) );
     }
 }

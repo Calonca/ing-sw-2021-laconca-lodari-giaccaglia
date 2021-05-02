@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.controller.strategy.cardmarket;
 
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
+import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
 import it.polimi.ingsw.server.model.State;
@@ -11,7 +12,7 @@ import it.polimi.ingsw.server.model.State;
  * been possible, it will get back to the previous state
  */
 public class AcquireCard implements GameStrategy {
-    public State execute(GameModel gamemodel)
+    public State execute(GameModel gamemodel, Validable event)
     {
         //ON EVENT CHOOSECARDEVENT
         //MESSAGE IS 4

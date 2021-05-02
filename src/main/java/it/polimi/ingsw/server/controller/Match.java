@@ -83,7 +83,7 @@ public class Match {
 
     public State transitionToNextState(Validable event) {
         GameStrategy gameStrategy = game.getCurrentPlayer().getStatesTransitionTable().getStrategy(game.getCurrentPlayer().getCurrentState(), event);
-        return gameStrategy.execute(game);
+        return gameStrategy.execute(game, );
     }
 
     public String getSaveName(){

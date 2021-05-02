@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.strategy;
 
+import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.State;
 
@@ -8,7 +9,7 @@ import it.polimi.ingsw.server.model.State;
  * or a normal action
  */
 public class Initial implements GameStrategy {
-    public State execute(GameModel gamemodel)
+    public State execute(GameModel gamemodel, Validable event)
     {
         if(!gamemodel.getCurrentPlayer().anyLeaderPlayable())
             return State.MIDDLE_PHASE;

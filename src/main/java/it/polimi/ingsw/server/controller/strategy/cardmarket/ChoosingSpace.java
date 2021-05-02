@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.controller.strategy.cardmarket;
 
 import it.polimi.ingsw.server.controller.strategy.Final;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
+import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.cards.production.ProductionCardCell;
 import it.polimi.ingsw.server.model.State;
@@ -11,7 +12,7 @@ import it.polimi.ingsw.server.model.State;
  * precalculated that at least one correct option exists
  */
 public class ChoosingSpace implements GameStrategy {
-    public State execute(GameModel gamemodel)
+    public State execute(GameModel gamemodel, Validable event)
     {
         //ON EVENT CHOOSECARDPOSITIONEVENT
         //MESSAGE IS 2
@@ -21,7 +22,7 @@ public class ChoosingSpace implements GameStrategy {
         else
             return State.CHOOSING_POSITION_FOR_DEVCARD;
 
-        return new Final().execute(gamemodel);
+        return new Final().execute(gamemodel, );
     }
 }
  //   /**

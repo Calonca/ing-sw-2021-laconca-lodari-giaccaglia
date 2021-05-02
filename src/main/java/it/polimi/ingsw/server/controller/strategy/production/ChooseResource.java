@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.controller.strategy.production;
 
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
+import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.State;
@@ -10,7 +11,7 @@ import it.polimi.ingsw.server.model.State;
  * The user can reset mid-choice, allowing them to perform it from the start again.
  */
 public class ChooseResource implements GameStrategy {
-    public State execute(GameModel gamemodel)
+    public State execute(GameModel gamemodel, Validable event)
     {
         //ON EVENT CHOOSERESOURCEEVENT
         //msg is int from 0 to 3, if its 4 is reset choiche

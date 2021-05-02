@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.controller.strategy.production;
 
 import it.polimi.ingsw.server.controller.strategy.Final;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
+import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.State;
 
@@ -10,7 +11,7 @@ import it.polimi.ingsw.server.model.State;
  * used needs to perform it to completion before being able to toggle another production.
  */
 public class ToggleForProduction implements GameStrategy {
-    public State execute(GameModel gamemodel)
+    public State execute(GameModel gamemodel, Validable event)
     {
         //ON EVENT SELECTPRODUCTIONATPOSITION
         //MESSAGE IS INTEGER OF AVAILABLE POSITION, ZERO IS STOP?
@@ -18,7 +19,7 @@ public class ToggleForProduction implements GameStrategy {
         if (msg==0)
         {
             gamemodel.getCurrentPlayer().getPersonalBoard().produce();
-            return new Final().execute(gamemodel);
+            return new Final().execute(gamemodel, );
 
         }
         if(gamemodel.getCurrentPlayer().getPersonalBoard().getAvailableProductions()[msg])
