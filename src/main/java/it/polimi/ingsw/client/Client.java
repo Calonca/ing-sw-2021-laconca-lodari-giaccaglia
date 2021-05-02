@@ -1,10 +1,11 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.client.view.CLI.CLIBuilder;
-import it.polimi.ingsw.client.view.CLI.ConnectToServerView;
-import it.polimi.ingsw.client.view.CLI.CreateJoinLoadMatchView;
-import it.polimi.ingsw.client.view.CLI.GenericWait;
-import it.polimi.ingsw.client.view.abstractview.View;
+import it.polimi.ingsw.client.view.CLI.CLIView;
+import it.polimi.ingsw.client.view.CLI.ConnectToServer;
+import it.polimi.ingsw.client.view.CLI.CreateJoinLoadMatch;
+import it.polimi.ingsw.client.view.CLI.CLIelem.Spinner;
+import it.polimi.ingsw.client.view.CLI.MainMenu;
+import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -20,33 +21,33 @@ public class Client implements Runnable
 {
     private ServerHandler serverHandler;
     private boolean shallTerminate;
-    private View nextView;
-    private View currentView;
+    private ViewBuilder nextViewBuilder;
+    private ViewBuilder currentViewBuilder;
     private String ip;
     private int port;
     private List<PlayerCache> playersCache=new ArrayList<>();
     private CommonData commonData = new CommonData();
-    private CLIBuilder cliBuilder = new CLIBuilder();
+    private CLIView cliView = new CLIView();
 
 
-
+    /**
+     * Initializes a client that asks the user for ip and port or if given arguments from the given arguments
+     * @param args the first argument is the ip and the second the port.
+     */
     public static void main(String[] args)
     {
-        /* Instantiate a new Client. The main thread will become the
-         * thread where user interaction is handled. */
         Client client = new Client();
-        /* Run the state machine handling the views */
         if (args.length==2)
         {
             client.setServerConnection(args[0],Integer.parseInt(args[1]));
-            client.nextView = new GenericWait(
-                    "MatchesData",
-                    CommonData.matchesDataString,
-                    ()-> client.transitionToView(new CreateJoinLoadMatchView()));
+            Spinner spinner = new Spinner("server connection");
+            spinner.setPerformer(()->client.transitionToView(new CreateJoinLoadMatch()));
+            spinner.performWhenReceiving(CommonData.matchesDataString);
+
             client.run();
             client.runViewStateMachine();
         }else {
-            client.nextView = new ConnectToServerView();
+            client.nextViewBuilder = new ConnectToServer();
             client.runViewStateMachine();
         }
     }
@@ -67,7 +68,7 @@ public class Client implements Runnable
             server = new Socket(ip, port);
         } catch (IOException e) {
             System.out.println("server unreachable");
-            transitionToView(new ConnectToServerView());
+            transitionToView(new ConnectToServer());
             return;
         }
         serverHandler = new ServerHandler(server, this);
@@ -100,31 +101,29 @@ public class Client implements Runnable
 
         synchronized (this) {
             stop = shallTerminate;
-            commonData.removePropertyChangeListener(currentView);
-            playersCache.forEach(c->c.removePropertyChangeListener(currentView));
-            currentView = nextView;
-            nextView = null;
+            currentViewBuilder = nextViewBuilder;
+            nextViewBuilder = null;
         }
         while (!stop) {
-            if (currentView == null) {
-                currentView = new GenericWait("something","",()->{});
+            if (currentViewBuilder == null) {
+                currentViewBuilder = new ViewBuilder() {
+                    @Override
+                    public void run() {
+                        getCLIView().setSpinner(new Spinner("new view"));
+                    }
+                };
             }
-            currentView.setOwner(this);
-            commonData.addPropertyChangeListener(currentView);
-            playersCache.forEach(c->c.addPropertyChangeListener(currentView));
-            currentView.setCommonData(commonData);
-            currentView.setCliBuilder(cliBuilder);
-            currentView.run();
+            currentViewBuilder.setOwner(this);
+            currentViewBuilder.setCommonData(commonData);
+            currentViewBuilder.setCliBuilder(cliView);
+            currentViewBuilder.run();
 
             synchronized (this) {
                 stop = shallTerminate;
-                currentView = nextView;
-                nextView = null;
+                currentViewBuilder = nextViewBuilder;
+                nextViewBuilder = null;
             }
         }
-        /* We are going to stop the application, so ask the server thread
-         * to stop as well. Note that we are invoking the stop() method on
-         * ServerHandler, not on Thread */
         serverHandler.stop();
     }
 
@@ -132,12 +131,13 @@ public class Client implements Runnable
     //Todo make is to that it switches to cli or GUI view
     /**
      * Transitions the view thread to a given view.
-     * @param newView The view to transition to.
+     * @param newViewBuilder The view to transition to.
      */
-    public synchronized void transitionToView(View newView)
+    public synchronized void transitionToView(ViewBuilder newViewBuilder)
     {
-        this.nextView = newView;
-        currentView.stopInteraction();
+        this.nextViewBuilder = newViewBuilder;
+        currentViewBuilder.stopInteraction();
+        //if (shallTerminate) runViewStateMachine();
     }
 
 
@@ -153,12 +153,12 @@ public class Client implements Runnable
         if (!shallTerminate) {
             /* Signal to the view handler loop that it should exit. */
             shallTerminate = true;
-            currentView.stopInteraction();
+            currentViewBuilder.stopInteraction();
         }
     }
 
-    public View getCurrentView() {
-        return currentView;
+    public ViewBuilder getCurrentView() {
+        return currentViewBuilder;
     }
 
     /**

@@ -1,10 +1,8 @@
 package it.polimi.ingsw.client.messages.servertoclient;
 
-import it.polimi.ingsw.client.PlayerCache;
 import it.polimi.ingsw.client.ServerHandler;
-import it.polimi.ingsw.client.view.CLI.CreateJoinLoadMatchView;
-import it.polimi.ingsw.client.view.CLI.GenericWait;
-import it.polimi.ingsw.client.view.CLI.SetupPhaseView;
+import it.polimi.ingsw.client.view.CLI.CreateJoinLoadMatch;
+import it.polimi.ingsw.client.view.CLI.CLIelem.Spinner;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
 
 import java.io.IOException;
@@ -22,10 +20,8 @@ public class CreatedMatchStatus extends it.polimi.ingsw.network.messages.servert
      */
     @Override
     public void processMessage(ServerHandler serverHandler) throws IOException {
-        if (matchId!=null)
-            serverHandler.getClient().transitionToView(GenericWait.matchToStart(serverHandler.getClient()));
-        else
-            serverHandler.getClient().transitionToView(new CreateJoinLoadMatchView());
+        if (matchId==null)
+            serverHandler.getClient().transitionToView(new CreateJoinLoadMatch());
     }
 
 }

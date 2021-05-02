@@ -42,6 +42,11 @@ public class CommonData {
         return matchesData;
     }
 
+    public Optional<String[]> thisMatchPlayers() {
+        if (matchId==null) return Optional.empty();
+        else return matchesData.map(data->data.getOrDefault(matchId,null));
+    }
+
     private final PropertyChangeSupport support;
     public CommonData(){
         support = new PropertyChangeSupport(this);

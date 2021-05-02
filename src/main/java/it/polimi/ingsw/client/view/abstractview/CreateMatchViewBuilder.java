@@ -1,8 +1,6 @@
 package it.polimi.ingsw.client.view.abstractview;
 
-import java.beans.PropertyChangeEvent;
-
-public abstract class ConnectToServerView extends View{
+public abstract class CreateMatchViewBuilder extends ViewBuilder {
 
 
     /**

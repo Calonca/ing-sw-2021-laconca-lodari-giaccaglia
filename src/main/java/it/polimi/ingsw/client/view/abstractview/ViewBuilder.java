@@ -1,29 +1,26 @@
 package it.polimi.ingsw.client.view.abstractview;
 
-
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.CommonData;
-import it.polimi.ingsw.client.view.CLI.CLIBuilder;
+import it.polimi.ingsw.client.view.CLI.CLIView;
 
-import java.beans.PropertyChangeListener;
 
 /**
  * Abstract representation of a command view.
- * Todo make all the view in abstract view abstract classed
  */
-public abstract class View implements Runnable, PropertyChangeListener
+public abstract class ViewBuilder implements Runnable
 {
     private Client owner;
     private CommonData commonData;
     private boolean stopInteraction;
-    private CLIBuilder cliBuilder;
+    private CLIView cliView;
 
-    public CLIBuilder getCLIBuilder() {
-        return cliBuilder;
+    public CLIView getCLIView() {
+        return cliView;
     }
 
-    public void setCliBuilder(CLIBuilder cliBuilder) {
-        this.cliBuilder = cliBuilder;
+    public void setCliBuilder(CLIView cliView) {
+        this.cliView = cliView;
     }
 
     /**

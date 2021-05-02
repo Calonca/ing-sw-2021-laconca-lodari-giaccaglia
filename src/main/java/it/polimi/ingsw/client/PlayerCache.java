@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.client.view.CLI.InitialPhaseView;
-import it.polimi.ingsw.client.view.CLI.SetupPhaseView;
+import it.polimi.ingsw.client.view.CLI.InitialPhase;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -31,7 +30,7 @@ public class PlayerCache {
 
         stateToStateTransition = new HashMap<>();
         stateToStateTransition.put(SETUP_PHASE,new HashMap<>());
-        stateToStateTransition.get(SETUP_PHASE).put(INITIAL_PHASE, ()->client.transitionToView(new InitialPhaseView()));
+        stateToStateTransition.get(SETUP_PHASE).put(INITIAL_PHASE, ()->client.transitionToView(new InitialPhase()));
         //Todo initialize table
     }
 
