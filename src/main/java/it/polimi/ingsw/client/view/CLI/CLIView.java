@@ -42,7 +42,7 @@ public class CLIView {
     public static void clearOptions(CLIView cliView)
     {
         cliView.title = null;
-        cliView.spinner.stop();
+        if (cliView.spinner!=null) cliView.spinner.stop();
         cliView.spinner=null;
         cliView.optionListAtPos = Stream.generate(OptionList::new).limit(CLIPos.values().length).toArray(OptionList[]::new);
     }
@@ -110,13 +110,13 @@ public class CLIView {
         String spaces = "                                                    ";
         String finalSpaces = spaces;
         getOptionsAt(CLIPos.TOP).toStringStream()
-                .map(s -> finalSpaces +s)
+                .map(s -> finalSpaces +s.replace("\n","\n"+finalSpaces))
                 .forEach(this::print);
 
         spaces ="                                                    ";
         String finalSpaces1 = spaces;
         getOptionsAt(CLIPos.CENTER).toStringStream()
-                .map(s -> finalSpaces1 +s)
+                .map(s -> finalSpaces1 +s.replace("\n","\n"+finalSpaces1))
                 .forEach(this::print);
 
         getOptionsAt(CLIPos.BOTTOM_LEFT).toStringStream()
@@ -125,7 +125,7 @@ public class CLIView {
         spaces = "                                                    ";
         String finalSpaces2 = spaces;
         getOptionsAt(CLIPos.BOTTOM_RIGHT).toStringStream()
-                .map(s -> finalSpaces2 +s)
+                .map(s -> finalSpaces2 +s.replace("\n","\n"+finalSpaces2))
                 .forEach(this::print);
 
     }

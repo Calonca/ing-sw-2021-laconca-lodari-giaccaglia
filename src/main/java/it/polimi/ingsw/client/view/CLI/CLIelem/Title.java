@@ -14,4 +14,9 @@ public class Title extends CLIelem{
             cliView.updateTitle();
         }
     }
+
+    @Override
+    public String toString() {
+        return title;
+    }
 }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.CLI.CLIelem;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.client.view.CLI.CLIView;
 
 import java.beans.PropertyChangeEvent;
@@ -67,7 +68,7 @@ public abstract class CLIelem implements PropertyChangeListener {
 
     @Override
     public String toString(){
-        return "";
+        return new Gson().toJson(this);
     }
 
     public void setCLIView(CLIView cliView){

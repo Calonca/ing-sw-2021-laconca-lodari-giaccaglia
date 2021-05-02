@@ -28,6 +28,7 @@ public class Client implements Runnable
     private List<PlayerCache> playersCache=new ArrayList<>();
     private CommonData commonData = new CommonData();
     private CLIView cliView = new CLIView();
+    private Thread viewBuilderThread;
 
 
     /**
@@ -37,12 +38,10 @@ public class Client implements Runnable
     public static void main(String[] args)
     {
         Client client = new Client();
+        client.viewBuilderThread = client.makeViewThread();
         if (args.length==2)
         {
             client.setServerConnection(args[0],Integer.parseInt(args[1]));
-            Spinner spinner = new Spinner("server connection");
-            spinner.setPerformer(()->client.transitionToView(new CreateJoinLoadMatch()));
-            spinner.performWhenReceiving(CommonData.matchesDataString);
 
             client.run();
             client.runViewStateMachine();
@@ -87,44 +86,36 @@ public class Client implements Runnable
     }
 
 
-    /**
-     * Calls the run() method on the current view until the application
-     * must be stopped.
-     * When no view should be displayed, and the application is not yet
-     * terminating, the IdleView is displayed.
-     * @apiNote The current view can be changed at any moment by using
-     * transitionToView().
-     */
     public void runViewStateMachine()
     {
-        boolean stop;
+        makeViewThread().start();
+    }
 
-        synchronized (this) {
-            stop = shallTerminate;
-            currentViewBuilder = nextViewBuilder;
-            nextViewBuilder = null;
-        }
-        while (!stop) {
-            if (currentViewBuilder == null) {
-                currentViewBuilder = new ViewBuilder() {
-                    @Override
-                    public void run() {
-                        getCLIView().setSpinner(new Spinner("new view"));
-                    }
-                };
-            }
-            currentViewBuilder.setOwner(this);
-            currentViewBuilder.setCommonData(commonData);
-            currentViewBuilder.setCliBuilder(cliView);
-            currentViewBuilder.run();
+    private Thread makeViewThread(){
+        return new Thread(()-> {
+            boolean stop;
 
             synchronized (this) {
                 stop = shallTerminate;
                 currentViewBuilder = nextViewBuilder;
                 nextViewBuilder = null;
             }
-        }
-        serverHandler.stop();
+            while (!stop) {
+                if (currentViewBuilder == null) {
+                    return;
+                }
+                currentViewBuilder.setOwner(this);
+                currentViewBuilder.setCommonData(commonData);
+                currentViewBuilder.setCliBuilder(cliView);
+                currentViewBuilder.run();
+
+                synchronized (this) {
+                    stop = shallTerminate;
+                    currentViewBuilder = nextViewBuilder;
+                    nextViewBuilder = null;
+                }
+            }
+        } );
     }
 
 
@@ -136,8 +127,9 @@ public class Client implements Runnable
     public synchronized void transitionToView(ViewBuilder newViewBuilder)
     {
         this.nextViewBuilder = newViewBuilder;
+        if (currentViewBuilder!=null)
         currentViewBuilder.stopInteraction();
-        //if (shallTerminate) runViewStateMachine();
+        if (!makeViewThread().isAlive()) runViewStateMachine();
     }
 
 

@@ -56,7 +56,7 @@ public class OptionList extends CLIelem{
 
     public Stream<String> toStringStream() {
         return IntStream.range(0,options.size())
-                .mapToObj(i->i+options.get(i).toString()+"\n");
+                .mapToObj(i->i+": "+options.get(i).toString());
     }
 
 }

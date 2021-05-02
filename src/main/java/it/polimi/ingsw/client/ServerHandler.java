@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.client.view.CLI.CLIelem.Spinner;
 import it.polimi.ingsw.client.view.CLI.ConnectToServer;
 import it.polimi.ingsw.client.view.CLI.CreateJoinLoadMatch;
 import it.polimi.ingsw.client.messages.servertoclient.ClientMessage;
@@ -72,10 +73,9 @@ public class ServerHandler implements Runnable
      */
     private void handleClientConnection() throws IOException
     {
-        getClient().transitionToView(new MainMenu());
-        //Todo see GenericWait javadoc
-        //getClient().transitionToView(new GenericWait());
+
         getClient().transitionToView(new CreateJoinLoadMatch());
+
         try {
             boolean stop = false;
             while (!stop) {
