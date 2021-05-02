@@ -9,7 +9,7 @@ import it.polimi.ingsw.server.model.State;
 /**
  *  This implementation uses a flag variable Past, to decide wether or not MIDDLE PHASE has already been played.
  */
-public class EndLeaders implements GameStrategy {
+public class EndingLeaderPhase implements GameStrategy {
     public State execute(GameModel gamemodel, Validable event) throws EventValidationFailedException
     {
         //ON EVENT ACTIVATELEADEREVENT OR DISCARDLEADEREVENT

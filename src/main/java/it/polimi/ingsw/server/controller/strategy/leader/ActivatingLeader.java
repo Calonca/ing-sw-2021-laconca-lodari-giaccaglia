@@ -9,7 +9,7 @@ import it.polimi.ingsw.server.model.State;
 /**
  *  If the chosen Leader is playable, its effect is activated. If not, nothing happens.
  */
-public class ActivateLeader implements GameStrategy {
+public class ActivatingLeader implements GameStrategy {
     public State execute(GameModel gamemodel, Validable event) throws EventValidationFailedException
     {
         //ON EVENT PLAYLEADEREVENT
@@ -18,7 +18,7 @@ public class ActivateLeader implements GameStrategy {
     //        gamemodel.getCurrentPlayer().getLeaders().get(2).getState()== LeaderState.INACTIVE)
         gamemodel.getCurrentPlayer().getLeaders().get(2).activate(gamemodel);
 
-        return new EndLeaders().execute(gamemodel, event);
+        return new EndingLeaderPhase().execute(gamemodel, event);
 
 
     }

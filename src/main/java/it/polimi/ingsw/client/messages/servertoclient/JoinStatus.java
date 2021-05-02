@@ -21,9 +21,6 @@ public class JoinStatus extends it.polimi.ingsw.network.messages.servertoclient.
      */
     @Override
     public void processMessage(ServerHandler serverHandler) throws IOException {
-        if (joinedMatchUUID!=null)
             serverHandler.getClient().transitionToView(new WaitForMatchToStart(joinedMatchUUID));
-        else
-            serverHandler.getClient().transitionToView(new CreateJoinLoadMatchView());
-    }
+        }
 }

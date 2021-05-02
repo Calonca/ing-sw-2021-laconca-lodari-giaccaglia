@@ -10,7 +10,7 @@ import it.polimi.ingsw.server.model.State;
  * This implementation allows the user to choose one resource at a time. As soon as the requirements are met,
  * the resources are taken from their Depots and Strongbox, transitioning to the next game phase.
  */
-public class PayResources implements GameStrategy {
+public class PayingResourcesForDevelopmentCard implements GameStrategy {
     public State execute(GameModel gamemodel, Validable event) throws EventValidationFailedException
     {
         //ON EVENT CHOOSERESOURCEEVENT

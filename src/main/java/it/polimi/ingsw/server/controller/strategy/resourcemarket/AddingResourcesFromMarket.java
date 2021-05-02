@@ -10,7 +10,7 @@ import it.polimi.ingsw.server.model.State;
  * space. Before being able to proceed, the user needs to place all of the resources from the market either in the
  * DiscardBox or in one of their depot lines. For each resource in the DiscardBox all the other players get a faith point
  */
-public class AddResources implements GameStrategy {
+public class AddingResourcesFromMarket implements GameStrategy {
     public State execute(GameModel gamemodel, Validable event) throws EventValidationFailedException
     {
         //ON EVENT MOVERESOURCEEVENT

@@ -9,7 +9,7 @@ import it.polimi.ingsw.server.model.State;
 /**
  *  If the chosen Leader is playable, it is discarded. If not, nothing happens.
  */
-public class DiscardLeader implements GameStrategy {
+public class DiscardingLeader implements GameStrategy {
     public State execute(GameModel gamemodel, Validable event) throws EventValidationFailedException
     {
         //ON EVENT DISCARDLEADEREVENT
@@ -18,6 +18,6 @@ public class DiscardLeader implements GameStrategy {
 
         gamemodel.getCurrentPlayer().getLeaders().get(2).discard(gamemodel);
 
-        return new EndLeaders().execute(gamemodel, event);
+        return new EndingLeaderPhase().execute(gamemodel, event);
     }
 }

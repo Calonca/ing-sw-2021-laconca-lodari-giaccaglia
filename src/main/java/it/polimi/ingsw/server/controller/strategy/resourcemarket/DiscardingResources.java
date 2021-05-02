@@ -11,7 +11,7 @@ import it.polimi.ingsw.server.model.State;
  * This implementation calculates the movements on the Faith Track based on the resources left in the
  * discardbox.
  */
-public class DiscardResources implements GameStrategy {
+public class DiscardingResources implements GameStrategy {
     public State execute(GameModel gamemodel, Validable event) throws EventValidationFailedException
     {
         //ON EVENT DISCARDRESOURCEEVENT

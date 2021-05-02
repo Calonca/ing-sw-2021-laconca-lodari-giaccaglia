@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.controller.strategy.production;
+package it.polimi.ingsw.server.controller.strategy.leader;
 
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
@@ -10,18 +10,24 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class ShowProductionCardsTest {
+public class EndingLeaderPhaseTest {
 
     @Test
     public void execute() {
-        Validable validable = gameModel -> true;
-
+        Validable v = gameModel -> true;
         List<String> nicknames = new ArrayList<>();
         nicknames.add("testPlayer");
         boolean isSinglePlayer = true;
         GameModel gamemodel = new GameModel(nicknames, isSinglePlayer);
+        gamemodel.getCurrentPlayer().setCurrentState(State.SHOWING_LEADERS_INITIAL);
         try {
-            assertEquals(new ShowProductionCards().execute(gamemodel, validable), State.CHOOSING_CARD_FOR_PRODUCTION);
+            assertEquals(State.MIDDLE_PHASE,new EndingLeaderPhase().execute(gamemodel, v) );
+        } catch (it.polimi.ingsw.server.controller.EventValidationFailedException e) {
+            e.printStackTrace();
+        }
+        gamemodel.getCurrentPlayer().setCurrentState(State.SHOWING_LEADERS_FINAL);
+        try {
+            assertEquals(State.IDLE,new EndingLeaderPhase().execute(gamemodel, v) );
         } catch (it.polimi.ingsw.server.controller.EventValidationFailedException e) {
             e.printStackTrace();
         }

@@ -11,7 +11,7 @@ import it.polimi.ingsw.server.model.State;
  * This implementation allows the user to toggle selections on the available productions. When a choice is needed, the
  * used needs to perform it to completion before being able to toggle another production.
  */
-public class ToggleForProduction implements GameStrategy {
+public class TogglingForProduction implements GameStrategy {
     public State execute(GameModel gamemodel, Validable event) throws EventValidationFailedException
     {
         //ON EVENT SELECTPRODUCTIONATPOSITION

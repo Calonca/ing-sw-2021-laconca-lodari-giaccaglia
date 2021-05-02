@@ -23,10 +23,7 @@ public class CreatedMatchStatus extends it.polimi.ingsw.network.messages.servert
      */
     @Override
     public void processMessage(ServerHandler serverHandler) throws IOException {
-        if (matchId!=null)
             serverHandler.getClient().transitionToView(new WaitForMatchToStart(matchId));
-        else
-            serverHandler.getClient().transitionToView(new CreateJoinLoadMatchView());
     }
 
 }

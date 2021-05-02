@@ -64,6 +64,7 @@ public class ClientHandlerTest {
         ClientToServerMessage request = new CreateMatchRequest(2,"Name1");
         output1.writeObject(request.serialized());
         matchData = input1.readObject().toString();
+
         LinkedTreeMap<String,Object> inputMap = (LinkedTreeMap)mapWithoutIDFrom(matchData).get("matchesData");
         UUID uuid = UUID.fromString(inputMap.keySet().toArray(String[]::new)[0]);
         HashMap<UUID,String[]> data=new HashMap<>();

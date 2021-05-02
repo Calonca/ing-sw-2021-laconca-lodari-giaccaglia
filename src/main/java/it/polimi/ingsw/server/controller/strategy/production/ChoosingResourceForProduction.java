@@ -11,7 +11,7 @@ import it.polimi.ingsw.server.model.State;
  * chosen first, and it has already been calculated that there will be enough basic resources to complete the choice.
  * The user can reset mid-choice, allowing them to perform it from the start again.
  */
-public class ChooseResource implements GameStrategy {
+public class ChoosingResourceForProduction implements GameStrategy {
     public State execute(GameModel gamemodel, Validable event) throws EventValidationFailedException
     {
         //ON EVENT CHOOSERESOURCEEVENT

@@ -12,7 +12,7 @@ import it.polimi.ingsw.server.model.State;
  * This implementation allows the user to place the selected card in an available space. Upon calling this is
  * precalculated that at least one correct option exists
  */
-public class ChoosingSpace implements GameStrategy {
+public class ChoosingSpaceForDevelopmentCard implements GameStrategy {
     public State execute(GameModel gamemodel, Validable event) throws EventValidationFailedException
     {
         //ON EVENT CHOOSECARDPOSITIONEVENT

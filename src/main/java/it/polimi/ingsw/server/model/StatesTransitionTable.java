@@ -4,13 +4,28 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.RuntimeTypeAdapterFactory;
 import it.polimi.ingsw.server.controller.strategy.*;
-import it.polimi.ingsw.server.controller.strategy.leader.ActivateLeader;
-import it.polimi.ingsw.server.controller.strategy.leader.DiscardLeader;
-import it.polimi.ingsw.server.controller.strategy.leader.EndLeaders;
+import it.polimi.ingsw.server.controller.strategy.cardmarket.AcquiringDevelopmentCard;
+import it.polimi.ingsw.server.controller.strategy.cardmarket.ChoosingSpaceForDevelopmentCard;
+import it.polimi.ingsw.server.controller.strategy.cardmarket.PayingResourcesForDevelopmentCard;
+import it.polimi.ingsw.server.controller.strategy.cardmarket.ShowingDevelopmentCardsMarket;
+import it.polimi.ingsw.server.controller.strategy.leader.ActivatingLeader;
+import it.polimi.ingsw.server.controller.strategy.leader.DiscardingLeader;
+import it.polimi.ingsw.server.controller.strategy.leader.EndingLeaderPhase;
+import it.polimi.ingsw.server.controller.strategy.production.ChoosingResourceForProduction;
+import it.polimi.ingsw.server.controller.strategy.production.ShowingProductionCards;
+import it.polimi.ingsw.server.controller.strategy.production.TogglingForProduction;
+import it.polimi.ingsw.server.controller.strategy.resourcemarket.*;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
+import it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent.CardShopEvent;
+import it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent.ChooseCardEvent;
+import it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent.ChooseCardPositionEvent;
+import it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent.ChooseResourceForCardShopEvent;
 import it.polimi.ingsw.server.messages.clienttoserver.events.leaderphaseevent.DiscardLeaderEvent;
 import it.polimi.ingsw.server.messages.clienttoserver.events.leaderphaseevent.PlayLeaderEvent;
 import it.polimi.ingsw.server.messages.clienttoserver.events.leaderphaseevent.SkipLeaderEvent;
+import it.polimi.ingsw.server.messages.clienttoserver.events.productionevent.ChooseProductionAtPositionEvent;
+import it.polimi.ingsw.server.messages.clienttoserver.events.productionevent.ChooseResourcesForProductionEvent;
+import it.polimi.ingsw.server.messages.clienttoserver.events.productionevent.ProductionEvent;
 import it.polimi.ingsw.server.messages.clienttoserver.events.setupphaseevent.SetupPhaseEvent;
 
 import java.util.HashMap;
@@ -77,9 +92,9 @@ public class StatesTransitionTable {
         statesTransitionTable.table.put(State.SETUP_PHASE,eventsAndStrategy);
 
         eventsAndStrategy = new HashMap<>();
-        eventsAndStrategy.put(name(SkipLeaderEvent.class),new EndLeaders());
-        eventsAndStrategy.put(name(PlayLeaderEvent.class),new ActivateLeader());
-        eventsAndStrategy.put(name(DiscardLeaderEvent.class),new DiscardLeader());
+        eventsAndStrategy.put(name(SkipLeaderEvent.class),new EndingLeaderPhase());
+        eventsAndStrategy.put(name(PlayLeaderEvent.class),new ActivatingLeader());
+        eventsAndStrategy.put(name(DiscardLeaderEvent.class),new DiscardingLeader());
         statesTransitionTable.table.put(State.SHOWING_LEADERS_INITIAL,eventsAndStrategy);
         //Todo add other states
 
@@ -98,9 +113,21 @@ public class StatesTransitionTable {
         statesTransitionTable.table.put(State.SETUP_PHASE,eventsAndStrategy);
 
         eventsAndStrategy = new HashMap<>();
-        eventsAndStrategy.put(name(SkipLeaderEvent.class),new EndLeaders());
-        eventsAndStrategy.put(name(PlayLeaderEvent.class),new ActivateLeader());
-        eventsAndStrategy.put(name(DiscardLeaderEvent.class),new DiscardLeader());
+        eventsAndStrategy.put(name(ChooseCardEvent.class),new AcquiringDevelopmentCard());
+        eventsAndStrategy.put(name(ChooseCardPositionEvent.class),new ChoosingSpaceForDevelopmentCard());
+        eventsAndStrategy.put(name(ChooseResourceForCardShopEvent.class),new PayingResourcesForDevelopmentCard());
+        eventsAndStrategy.put(name(CardShopEvent.class),new ShowingDevelopmentCardsMarket());
+
+        //manca strategy per selezionare?
+        eventsAndStrategy.put(name(PlayLeaderEvent.class),new ActivatingLeader());
+        eventsAndStrategy.put(name(DiscardLeaderEvent.class),new DiscardingLeader());
+        eventsAndStrategy.put(name(SkipLeaderEvent.class),new EndingLeaderPhase());
+
+        eventsAndStrategy.put(name(ChooseResourcesForProductionEvent.class),new ChoosingResourceForProduction());
+        eventsAndStrategy.put(name(ProductionEvent.class),new ShowingProductionCards());
+        eventsAndStrategy.put(name(ChooseProductionAtPositionEvent.class),new TogglingForProduction());
+
+
         statesTransitionTable.table.put(State.SHOWING_LEADERS_INITIAL,eventsAndStrategy);
         //Todo add other states
 
@@ -116,10 +143,20 @@ public class StatesTransitionTable {
         strategyAdapter.registerSubtype(Initial.class);
         strategyAdapter.registerSubtype(Middle.class);
         strategyAdapter.registerSubtype(Final.class);
-        strategyAdapter.registerSubtype(EndLeaders.class);
-        strategyAdapter.registerSubtype(DiscardLeader.class);
-        strategyAdapter.registerSubtype(ActivateLeader.class);
-        strategyAdapter.registerSubtype(ChooseInitialResource.class);
+        strategyAdapter.registerSubtype(ActivatingLeader.class);
+        strategyAdapter.registerSubtype(DiscardingLeader.class);
+        strategyAdapter.registerSubtype(EndingLeaderPhase.class);
+        strategyAdapter.registerSubtype(AcquiringDevelopmentCard.class);
+        strategyAdapter.registerSubtype(ChoosingSpaceForDevelopmentCard.class);
+        strategyAdapter.registerSubtype(PayingResourcesForDevelopmentCard.class);
+        strategyAdapter.registerSubtype(ShowingDevelopmentCardsMarket.class);
+        strategyAdapter.registerSubtype(ChoosingResourceForProduction.class);
+        strategyAdapter.registerSubtype(ShowingProductionCards.class);
+        strategyAdapter.registerSubtype(AddingResourcesFromMarket.class);
+        strategyAdapter.registerSubtype(ChoosingMarketBonus.class);
+        strategyAdapter.registerSubtype(DiscardingResources.class);
+        strategyAdapter.registerSubtype(PuttingBallOnLine.class);
+        strategyAdapter.registerSubtype(ShowingResourceMarket.class);
         //Todo add all strategies
 
         return new GsonBuilder()

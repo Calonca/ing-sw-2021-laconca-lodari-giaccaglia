@@ -39,4 +39,9 @@ public class CommonData {
         support.firePropertyChange("matchesData",this.matchesData,newValue);
         this.matchesData = newValue;
     }
+
+    public void setMatcheStart(Optional<Map<UUID,String[]>> newValue) {
+        support.firePropertyChange("matchStart",this.matchesData,newValue);
+        this.matchesData = newValue;
+    }
 }

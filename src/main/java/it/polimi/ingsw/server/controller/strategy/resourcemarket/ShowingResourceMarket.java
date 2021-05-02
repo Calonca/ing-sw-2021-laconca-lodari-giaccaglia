@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.controller.strategy.cardmarket;
+package it.polimi.ingsw.server.controller.strategy.resourcemarket;
 
 import it.polimi.ingsw.server.controller.EventValidationFailedException;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
@@ -7,12 +7,12 @@ import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.State;
 
 /**
- * This implementation simply sets the state for the view
+ * This implementation only sets the state for the view
  */
-public class ShowCards implements GameStrategy {
+public class ShowingResourceMarket implements GameStrategy {
     public State execute(GameModel gamemodel, Validable event) throws EventValidationFailedException
     {
-        //ON EVENT CARDSHOPEVENT
-        return State.SHOWING_CARD_SHOP;
+        //ON EVENT CHOOSEMARKETBOARD
+        return State.SHOWING_MARKET_RESOURCES;
     }
 }

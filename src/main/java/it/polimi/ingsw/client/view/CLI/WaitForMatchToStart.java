@@ -63,7 +63,7 @@ public class WaitForMatchToStart extends it.polimi.ingsw.client.view.abstractvie
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals("matchesData"))
+        if (evt.getPropertyName().equals("matchStarted"))
             getClient().transitionToView(new WaitForMatchToStart(matchId));
     }
 
