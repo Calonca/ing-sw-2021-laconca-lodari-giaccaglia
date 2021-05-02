@@ -77,13 +77,13 @@ public class Match {
                         );
     }
     public void validateEvent(Validable event) throws EventValidationFailedException {
-        if (true)
+        if (event.validate(game))
             throw new EventValidationFailedException();
     }
 
     public State transitionToNextState(Validable event) {
         GameStrategy gameStrategy = game.getCurrentPlayer().getStatesTransitionTable().getStrategy(game.getCurrentPlayer().getCurrentState(), event);
-        return gameStrategy.execute(game, );
+        return gameStrategy.execute(game,event);
     }
 
     public String getSaveName(){
