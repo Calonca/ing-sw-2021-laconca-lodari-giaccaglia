@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.CLI.CLIelem;
 
+import it.polimi.ingsw.client.view.CLI.CLIView;
 import it.polimi.ingsw.client.view.CLI.Color;
 
 import java.util.ArrayList;
@@ -17,7 +18,6 @@ public class OptionList extends CLIelem{
     }
 
     public void addOption(Option o){
-        o.setCLIView(cliView);
         options.add(o);
         if (options.size()==1)
             o.setSelected(true);
@@ -51,7 +51,7 @@ public class OptionList extends CLIelem{
             }
         }while(true);
         selectOptionAtPosition(choice);
-        cliView.displayWithScroll();
+        //cliView.displayWithScroll();
     }
 
     public Stream<String> toStringStream() {
@@ -59,4 +59,9 @@ public class OptionList extends CLIelem{
                 .mapToObj(i->i+": "+options.get(i).toString());
     }
 
+    @Override
+    public void setCLIView(CLIView cliView) {
+        super.setCLIView(cliView);
+        options.forEach(o->o.setCLIView(cliView));
+    }
 }

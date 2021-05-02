@@ -74,7 +74,7 @@ public class ServerHandler implements Runnable
     private void handleClientConnection() throws IOException
     {
 
-        getClient().transitionToView(new CreateJoinLoadMatch());
+        getClient().transitionToView(new MainMenu());
 
         try {
             boolean stop = false;

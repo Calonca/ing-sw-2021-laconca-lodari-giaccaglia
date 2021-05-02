@@ -26,13 +26,17 @@ public class CreateMatch extends CreateMatchViewBuilder implements CLIBuilder {
         int numberOfPlayers;
         String nickname;
         do {
-            CLIView.scroll();
+            getCLIView().putDivider();
             String in = getCLIView().getIN("Number of people: ");
             numberOfPlayers = Integer.parseInt(in);
             nickname = getCLIView().getIN("Your nickname: ");
         }while (numberOfPlayers<0||numberOfPlayers>4);
 
         getClient().getServerHandler().sendCommandMessage(new CreateMatchRequest(numberOfPlayers,nickname));
+
+        getCLIView().setSpinner(Spinner.matchToStart(getClient()));
+        getCLIView().displayWithDivider();
+
     }
 
 }

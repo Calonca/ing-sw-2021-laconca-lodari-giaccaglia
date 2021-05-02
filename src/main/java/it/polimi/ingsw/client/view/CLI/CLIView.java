@@ -68,7 +68,6 @@ public class CLIView {
             spinner.stop();
         this.spinner = spinner;
         spinner.setCLIView(this);
-        spinner.run();
     }
 
     private void print(String s){
@@ -95,7 +94,7 @@ public class CLIView {
     }
 
     public void displayWithDivider(){
-        print("------------------------------------------------------------");
+        putDivider();
         display();
     }
 
@@ -127,6 +126,8 @@ public class CLIView {
         getOptionsAt(CLIPos.BOTTOM_RIGHT).toStringStream()
                 .map(s -> finalSpaces2 +s.replace("\n","\n"+finalSpaces2))
                 .forEach(this::print);
+        if (spinner!=null)
+            spinner.run();
 
     }
 
@@ -160,8 +161,11 @@ public class CLIView {
     }
 
 
+    public void putDivider(){
+        print("------------------------------------------------------------");
+    }
 
-    public static void scroll(){
+    public void scroll(){
         for (int i = 0; i < 40; i++) {
             System.out.println();}
     }
