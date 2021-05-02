@@ -23,10 +23,13 @@ import it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent.Choos
 import it.polimi.ingsw.server.messages.clienttoserver.events.leaderphaseevent.DiscardLeaderEvent;
 import it.polimi.ingsw.server.messages.clienttoserver.events.leaderphaseevent.PlayLeaderEvent;
 import it.polimi.ingsw.server.messages.clienttoserver.events.leaderphaseevent.SkipLeaderEvent;
+import it.polimi.ingsw.server.messages.clienttoserver.events.marketboardevent.*;
 import it.polimi.ingsw.server.messages.clienttoserver.events.productionevent.ChooseProductionAtPositionEvent;
 import it.polimi.ingsw.server.messages.clienttoserver.events.productionevent.ChooseResourcesForProductionEvent;
+import it.polimi.ingsw.server.messages.clienttoserver.events.productionevent.FinalProductionPhase;
 import it.polimi.ingsw.server.messages.clienttoserver.events.productionevent.ProductionEvent;
 import it.polimi.ingsw.server.messages.clienttoserver.events.setupphaseevent.SetupPhaseEvent;
+import it.polimi.ingsw.server.model.cards.production.Production;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -108,27 +111,85 @@ public class StatesTransitionTable {
         StatesTransitionTable statesTransitionTable = new StatesTransitionTable();
         statesTransitionTable.table = new HashMap<>();
 
+
+
         HashMap<String, GameStrategy> eventsAndStrategy = new HashMap<>();
         eventsAndStrategy.put(name(SetupPhaseEvent.class),new ChooseInitialResource());
         statesTransitionTable.table.put(State.SETUP_PHASE,eventsAndStrategy);
 
+        //The next four lines of code may be controversial
+        eventsAndStrategy = new HashMap<>();
+        eventsAndStrategy.put(name(PlayLeaderEvent.class),new ShowingDevelopmentCardsMarket());
+        eventsAndStrategy.put(name(SkipLeaderEvent.class),new ShowingDevelopmentCardsMarket());
+        statesTransitionTable.table.put(State.INITIAL_PHASE,eventsAndStrategy);
+
+        //Middle Phase
+        eventsAndStrategy = new HashMap<>();
+        eventsAndStrategy.put(name(CardShopEvent.class),new ShowingDevelopmentCardsMarket());
+        eventsAndStrategy.put(name(ProductionEvent.class),new ShowingProductionCards());
+        eventsAndStrategy.put(name(MarketBoardEvent.class),new ShowingResourceMarket());
+        statesTransitionTable.table.put(State.MIDDLE_PHASE,eventsAndStrategy);
+
+        //CARDSHOP
         eventsAndStrategy = new HashMap<>();
         eventsAndStrategy.put(name(ChooseCardEvent.class),new AcquiringDevelopmentCard());
+        statesTransitionTable.table.put(State.SHOWING_CARD_SHOP,eventsAndStrategy);
+
+
+        eventsAndStrategy = new HashMap<>();
         eventsAndStrategy.put(name(ChooseCardPositionEvent.class),new ChoosingSpaceForDevelopmentCard());
+        statesTransitionTable.table.put(State.CHOOSING_POSITION_FOR_DEVCARD,eventsAndStrategy);
+
+        eventsAndStrategy = new HashMap<>();
         eventsAndStrategy.put(name(ChooseResourceForCardShopEvent.class),new PayingResourcesForDevelopmentCard());
-        eventsAndStrategy.put(name(CardShopEvent.class),new ShowingDevelopmentCardsMarket());
+        statesTransitionTable.table.put(State.CHOOSING_RESOURCES_FOR_DEVCARD,eventsAndStrategy);
+
+        //PRODUCTION
+
+        eventsAndStrategy = new HashMap<>();
+        eventsAndStrategy.put(name(ChooseProductionAtPositionEvent.class),new TogglingForProduction());
+        eventsAndStrategy.put(name(FinalProductionPhase.class),new TogglingForProduction());
+        statesTransitionTable.table.put(State.CHOOSING_CARD_FOR_PRODUCTION,eventsAndStrategy);
+
+        eventsAndStrategy = new HashMap<>();
+        eventsAndStrategy.put(name(ChooseResourcesForProductionEvent.class),new ChoosingResourceForProduction());
+        statesTransitionTable.table.put(State.CHOOSING_RESOURCE_FOR_PRODUCTION,eventsAndStrategy);
+
 
         //manca strategy per selezionare?
+        eventsAndStrategy = new HashMap<>();
         eventsAndStrategy.put(name(PlayLeaderEvent.class),new ActivatingLeader());
         eventsAndStrategy.put(name(DiscardLeaderEvent.class),new DiscardingLeader());
         eventsAndStrategy.put(name(SkipLeaderEvent.class),new EndingLeaderPhase());
-
-        eventsAndStrategy.put(name(ChooseResourcesForProductionEvent.class),new ChoosingResourceForProduction());
-        eventsAndStrategy.put(name(ProductionEvent.class),new ShowingProductionCards());
-        eventsAndStrategy.put(name(ChooseProductionAtPositionEvent.class),new TogglingForProduction());
-
-
         statesTransitionTable.table.put(State.SHOWING_LEADERS_INITIAL,eventsAndStrategy);
+
+        eventsAndStrategy = new HashMap<>();
+        eventsAndStrategy.put(name(PlayLeaderEvent.class),new ActivatingLeader());
+        eventsAndStrategy.put(name(DiscardLeaderEvent.class),new DiscardingLeader());
+        eventsAndStrategy.put(name(SkipLeaderEvent.class),new EndingLeaderPhase());
+        statesTransitionTable.table.put(State.SHOWING_LEADERS_FINAL,eventsAndStrategy);
+
+        ///MARKET
+
+        eventsAndStrategy = new HashMap<>();
+        eventsAndStrategy.put(name(ChooseLineEvent.class),new PuttingBallOnLine());
+        statesTransitionTable.table.put(State.SHOWING_MARKET_RESOURCES,eventsAndStrategy);
+
+
+        eventsAndStrategy = new HashMap<>();
+        eventsAndStrategy.put(name(ChooseWhiteMarbleConversionEvent.class),new ChoosingMarketBonus());
+        statesTransitionTable.table.put(State.CHOOSING_WHITEMARBLE_CONVERSION,eventsAndStrategy);
+
+        eventsAndStrategy = new HashMap<>();
+        eventsAndStrategy.put(name(MoveResourceEvent.class),new AddingResourcesFromMarket());
+        eventsAndStrategy.put(name(DiscardResourcesEvent.class),new DiscardingResources());
+        statesTransitionTable.table.put(State.CHOOSING_POSITION_FOR_RESOURCES,eventsAndStrategy);
+
+
+
+
+
+
         //Todo add other states
 
         jsonUtility.serialize(jsonUtility.configPathString+multiPLayerTableFile,
