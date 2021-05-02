@@ -1,0 +1,1 @@
+{"table":{"SHOWING_LEADERS_INITIAL":{"SkipLeaderEvent":{"type":"EndLeaders"},"DiscardLeaderEvent":{"type":"DiscardLeader"},"PlayLeaderEvent":{"type":"ActivateLeader"}},"SETUP_PHASE":{"SetupPhaseEvent":{"type":"ChooseInitialResource"}}}}
