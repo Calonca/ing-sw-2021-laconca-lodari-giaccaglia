@@ -27,7 +27,7 @@ public class Client implements Runnable
     private int port;
     private List<PlayerCache> playersCache=new ArrayList<>();
     private CommonData commonData = new CommonData();
-    private CLIView cliView = new CLIView();
+    private CLIView cliView;
     private Thread viewBuilderThread;
 
 
@@ -38,6 +38,7 @@ public class Client implements Runnable
     public static void main(String[] args)
     {
         Client client = new Client();
+        client.cliView = new CLIView(client);
         client.viewBuilderThread = client.makeViewThread();
         if (args.length==2)
         {
@@ -88,7 +89,8 @@ public class Client implements Runnable
 
     public void runViewStateMachine()
     {
-        makeViewThread().start();
+        viewBuilderThread=makeViewThread();
+        viewBuilderThread.start();
     }
 
     private Thread makeViewThread(){
@@ -129,7 +131,8 @@ public class Client implements Runnable
         this.nextViewBuilder = newViewBuilder;
         if (currentViewBuilder!=null)
         currentViewBuilder.stopInteraction();
-        if (!makeViewThread().isAlive()) runViewStateMachine();
+        if (!viewBuilderThread.isAlive())
+            runViewStateMachine();
     }
 
 

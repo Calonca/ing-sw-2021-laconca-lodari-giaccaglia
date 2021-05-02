@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.view.CLI.CLIelem;
 
+import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.view.CLI.CLIView;
-import it.polimi.ingsw.client.view.CLI.Color;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,8 +60,10 @@ public class OptionList extends CLIelem{
     }
 
     @Override
-    public void setCLIView(CLIView cliView) {
-        super.setCLIView(cliView);
-        options.forEach(o->o.setCLIView(cliView));
+    public void setCLIView(CLIView cliView, Client client) {
+        super.setCLIView(cliView, client);
+        options.forEach(o->o.setCLIView(cliView,client));
     }
+
+
 }

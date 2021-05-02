@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.CLI.CLIelem;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.view.CLI.CLIView;
 
 import java.beans.PropertyChangeEvent;
@@ -71,7 +72,13 @@ public abstract class CLIelem implements PropertyChangeListener {
         return new Gson().toJson(this);
     }
 
-    public void setCLIView(CLIView cliView){
+    public void setCLIView(CLIView cliView, Client client){
         this.cliView = cliView;
-    };
+        addToPublishers(client);
+    }
+
+    public void addToPublishers(Client client){
+        client.getCommonData().addPropertyChangeListener(this);
+        client.currentPlayerCache().ifPresent(playerCache -> playerCache.addPropertyChangeListener(this));
+    }
 }

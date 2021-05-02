@@ -1,6 +1,8 @@
 package it.polimi.ingsw.client.messages.servertoclient;
 
+import it.polimi.ingsw.client.PlayerCache;
 import it.polimi.ingsw.client.ServerHandler;
+import it.polimi.ingsw.client.view.CLI.SetupPhase;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
 
 import java.io.IOException;
@@ -39,6 +41,8 @@ public class StateMessage extends it.polimi.ingsw.network.messages.servertoclien
      */
     @Override
     public void processMessage(ServerHandler serverHandler) throws IOException {
-        serverHandler.getClient().setState(player,state,serializedObject);
+        //serverHandler.getClient().setState(player,state,serializedObject);
+        if (state.equals(PlayerCache.SETUP_PHASE))
+            serverHandler.getClient().transitionToView(new SetupPhase());
     }
 }

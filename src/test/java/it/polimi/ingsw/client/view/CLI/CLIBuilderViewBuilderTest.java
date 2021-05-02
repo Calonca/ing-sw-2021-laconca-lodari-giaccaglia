@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.CLI;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Option;
 import it.polimi.ingsw.client.view.CLI.CLIelem.OptionList;
 import org.junit.Before;
@@ -17,7 +18,7 @@ public class CLIBuilderViewBuilderTest {
 
     @Before
     public void setUp() {
-        cliView =new CLIView();
+        cliView =new CLIView(new Client());
     }
 
 

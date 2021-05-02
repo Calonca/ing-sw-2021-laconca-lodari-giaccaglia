@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.CLI;
 
+import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Option;
 import it.polimi.ingsw.client.view.CLI.CLIelem.OptionList;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Spinner;
@@ -20,14 +21,16 @@ import java.util.stream.Stream;
  * Todo add selection with arrows
  */
 public class CLIView {
+    private final Client client;
     private Title title;
     private Spinner spinner;
     private OptionList[] optionListAtPos;
     private Optional<Option> lastChoice=Optional.empty();
 
 
-    public CLIView() {
+    public CLIView(Client client) {
         optionListAtPos = Stream.generate(OptionList::new).limit(CLIPos.values().length).toArray(OptionList[]::new);
+        this.client = client;
     }
 
     public void resetCLIelems(){
@@ -35,7 +38,7 @@ public class CLIView {
     }
 
     void setOptionList(CLIPos pos,OptionList optionList){
-        optionList.setCLIView(this);
+        optionList.setCLIView(this, client);
         optionListAtPos[pos.ordinal()]=optionList;
     }
 
@@ -67,7 +70,7 @@ public class CLIView {
         if (this.spinner!=null)
             spinner.stop();
         this.spinner = spinner;
-        spinner.setCLIView(this);
+        spinner.setCLIView(this, client);
     }
 
     private void print(String s){
