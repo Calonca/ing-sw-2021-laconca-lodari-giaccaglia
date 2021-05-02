@@ -117,11 +117,6 @@ public class StatesTransitionTable {
         eventsAndStrategy.put(name(SetupPhaseEvent.class),new ChooseInitialResource());
         statesTransitionTable.table.put(State.SETUP_PHASE,eventsAndStrategy);
 
-        //The next four lines of code may be controversial
-        eventsAndStrategy = new HashMap<>();
-        eventsAndStrategy.put(name(PlayLeaderEvent.class),new ShowingDevelopmentCardsMarket());
-        eventsAndStrategy.put(name(SkipLeaderEvent.class),new ShowingDevelopmentCardsMarket());
-        statesTransitionTable.table.put(State.INITIAL_PHASE,eventsAndStrategy);
 
         //Middle Phase
         eventsAndStrategy = new HashMap<>();
