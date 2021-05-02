@@ -34,7 +34,7 @@ public class DiscardResources implements GameStrategy {
             //gamemodel.haswon;
         }
 
-        return new Final().execute(gamemodel, );
+        return new Final().execute(gamemodel, event);
 
     }
 

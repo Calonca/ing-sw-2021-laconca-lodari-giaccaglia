@@ -17,10 +17,10 @@ public class Middle implements GameStrategy {
         //MESSAGE IS MARKET, SHOP, PRODUCTION (0,1,2)
         int msg=0;
         if(msg==0)
-            return new ShowResourceMarket().execute(gamemodel, );
+            return new ShowResourceMarket().execute(gamemodel, event);
         else if(msg==1)
-            return new ShowCards().execute(gamemodel, );
+            return new ShowCards().execute(gamemodel, event);
         else
-            return new ShowProductionCards().execute(gamemodel, );
+            return new ShowProductionCards().execute(gamemodel, event);
     }
 }

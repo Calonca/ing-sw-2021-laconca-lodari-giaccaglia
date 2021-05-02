@@ -23,7 +23,7 @@ public class ChoosingSpace implements GameStrategy {
         else
             return State.CHOOSING_POSITION_FOR_DEVCARD;
 
-        return new Final().execute(gamemodel, );
+        return new Final().execute(gamemodel, event);
     }
 }
  //   /**

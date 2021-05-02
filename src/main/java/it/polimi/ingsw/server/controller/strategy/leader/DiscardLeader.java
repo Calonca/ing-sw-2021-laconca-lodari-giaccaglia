@@ -18,6 +18,6 @@ public class DiscardLeader implements GameStrategy {
 
         gamemodel.getCurrentPlayer().getLeaders().get(2).discard(gamemodel);
 
-        return new EndLeaders().execute(gamemodel, );
+        return new EndLeaders().execute(gamemodel, event);
     }
 }

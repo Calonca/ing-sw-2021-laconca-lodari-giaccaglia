@@ -20,7 +20,7 @@ public class ToggleForProduction implements GameStrategy {
         if (msg==0)
         {
             gamemodel.getCurrentPlayer().getPersonalBoard().produce();
-            return new Final().execute(gamemodel, );
+            return new Final().execute(gamemodel, event);
 
         }
         if(gamemodel.getCurrentPlayer().getPersonalBoard().getAvailableProductions()[msg])
