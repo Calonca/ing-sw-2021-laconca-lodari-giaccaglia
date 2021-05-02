@@ -17,6 +17,7 @@ import java.util.stream.*;
 public class jsonUtility {
 
     private static Gson gson = new Gson();
+    public static final String configPathString = "src/main/resources/config/";
 
     public static String serializeVarArgs(Object ...o){
         return serialize(Arrays.stream(o).collect(Collectors.toList()));
@@ -27,7 +28,7 @@ public class jsonUtility {
         Gson gson = new Gson();
         String Cards = null;
         try {
-            Cards = Files.readString(Path.of("src/main/resources/config/DevelopmentCardConfig.json"), StandardCharsets.US_ASCII);
+            Cards = Files.readString(Path.of(configPathString+"DevelopmentCardConfig.json"), StandardCharsets.US_ASCII);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -1201,7 +1202,7 @@ public class jsonUtility {
                 .registerTypeAdapterFactory(shapeAdapterFactory)
                 .create();
 
-        serialize("src/main/resources/config/LeadersConfig.json", series2.toArray(Leader[]::new), Leader[].class, gson1);
+        serialize(configPathString+"LeadersConfig.json", series2.toArray(Leader[]::new), Leader[].class, gson1);
      /*   String serialized = gson1.toJson(series2.toArray(Leader[]::new), Leader[].class);
         Writer writer = new FileWriter("src/main/resources/config/LeadersConfig.json");
         writer.write(serialized);
