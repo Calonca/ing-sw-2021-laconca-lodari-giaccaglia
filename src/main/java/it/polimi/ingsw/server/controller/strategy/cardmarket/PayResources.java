@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.strategy.cardmarket;
 
+import it.polimi.ingsw.server.controller.EventValidationFailedException;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
@@ -10,7 +11,7 @@ import it.polimi.ingsw.server.model.State;
  * the resources are taken from their Depots and Strongbox, transitioning to the next game phase.
  */
 public class PayResources implements GameStrategy {
-    public State execute(GameModel gamemodel, Validable event)
+    public State execute(GameModel gamemodel, Validable event) throws EventValidationFailedException
     {
         //ON EVENT CHOOSERESOURCEEVENT
         //MESSAGE IS POSITION AND 0 OR 1 FOR DEPOT OR STRONGBOX. IF POSITION IS 0 CHECKS FOR VALIDATION

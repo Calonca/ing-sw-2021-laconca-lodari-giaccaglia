@@ -81,7 +81,7 @@ public class Match {
             throw new EventValidationFailedException();
     }
 
-    public State transitionToNextState(Validable event) {
+    public State transitionToNextState(Validable event) throws EventValidationFailedException {
         GameStrategy gameStrategy = game.getCurrentPlayer().getStatesTransitionTable().getStrategy(game.getCurrentPlayer().getCurrentState(), event);
         return gameStrategy.execute(game,event);
     }

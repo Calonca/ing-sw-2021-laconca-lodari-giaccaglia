@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.strategy.resourcemarket;
 
+import it.polimi.ingsw.server.controller.EventValidationFailedException;
 import it.polimi.ingsw.server.controller.strategy.Final;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
@@ -11,7 +12,7 @@ import it.polimi.ingsw.server.model.State;
  * discardbox.
  */
 public class DiscardResources implements GameStrategy {
-    public State execute(GameModel gamemodel, Validable event)
+    public State execute(GameModel gamemodel, Validable event) throws EventValidationFailedException
     {
         //ON EVENT DISCARDRESOURCEEVENT
 

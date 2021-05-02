@@ -18,8 +18,16 @@ public class EndLeadersTest {
         boolean isSinglePlayer = true;
         GameModel gamemodel = new GameModel(nicknames, isSinglePlayer);
         gamemodel.getCurrentPlayer().setCurrentState(State.SHOWING_LEADERS_INITIAL);
-        assertEquals(State.MIDDLE_PHASE,new EndLeaders().execute(gamemodel, ) );
+        try {
+            assertEquals(State.MIDDLE_PHASE,new EndLeaders().execute(gamemodel, ) );
+        } catch (it.polimi.ingsw.server.controller.EventValidationFailedException e) {
+            e.printStackTrace();
+        }
         gamemodel.getCurrentPlayer().setCurrentState(State.SHOWING_LEADERS_FINAL);
-        assertEquals(State.IDLE,new EndLeaders().execute(gamemodel, ) );
+        try {
+            assertEquals(State.IDLE,new EndLeaders().execute(gamemodel, ) );
+        } catch (it.polimi.ingsw.server.controller.EventValidationFailedException e) {
+            e.printStackTrace();
+        }
     }
 }

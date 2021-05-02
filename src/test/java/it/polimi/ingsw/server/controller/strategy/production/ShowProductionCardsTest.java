@@ -18,6 +18,10 @@ public class ShowProductionCardsTest {
         nicknames.add("testPlayer");
         boolean isSinglePlayer = true;
         GameModel gamemodel = new GameModel(nicknames, isSinglePlayer);
-        assertEquals(new ShowProductionCards().execute(gamemodel, ), State.CHOOSING_CARD_FOR_PRODUCTION);
+        try {
+            assertEquals(new ShowProductionCards().execute(gamemodel, ), State.CHOOSING_CARD_FOR_PRODUCTION);
+        } catch (it.polimi.ingsw.server.controller.EventValidationFailedException e) {
+            e.printStackTrace();
+        }
     }
 }
