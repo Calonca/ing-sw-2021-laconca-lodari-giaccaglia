@@ -10,6 +10,7 @@ import it.polimi.ingsw.network.messages.clienttoserver.CreateMatchRequest;
 import it.polimi.ingsw.network.messages.servertoclient.CreatedMatchStatus;
 import it.polimi.ingsw.network.messages.servertoclient.MatchesData;
 import javafx.util.Pair;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -48,6 +49,11 @@ public class ClientHandlerTest {
         //input2 = new ObjectInputStream(server2.getInputStream());
     }
 
+    @After
+    public void after() throws IOException {
+        server1.close();
+    }
+
     @Test
     public void createMatch() throws IOException, ClassNotFoundException {
         String matchData = input1.readObject().toString();
@@ -72,7 +78,7 @@ public class ClientHandlerTest {
         //Todo test false validation
     }
 
-    @Test
+
     public void testEvents() throws IOException, ClassNotFoundException {
         String matchData = input1.readObject().toString();
         ClientToServerMessage request = new CreateMatchRequest(2,"Name1");
