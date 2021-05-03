@@ -213,7 +213,8 @@ public class StatesTransitionTable {
         strategyAdapter.registerSubtype(DiscardingResources.class);
         strategyAdapter.registerSubtype(PuttingBallOnLine.class);
         strategyAdapter.registerSubtype(ShowingResourceMarket.class);
-        //Todo add all strategies
+        strategyAdapter.registerSubtype(TogglingForProduction.class);
+        strategyAdapter.registerSubtype(ChooseInitialResource.class);
 
         return new GsonBuilder()
                 .registerTypeAdapterFactory(strategyAdapter)
