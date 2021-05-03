@@ -12,6 +12,12 @@ import it.polimi.ingsw.server.model.market.MarketLine;
 public class ChooseLineEvent extends MarketBoardEvent {
 
     /**
+     * Default constructor for handling {@link   it.polimi.ingsw.server.messages.clienttoserver.events.marketboardevent.ChooseWhiteMarbleConversionEvent #SERVERChooseWhiteMarbleConversionEvent} server side equivalent inherited Event handler
+     */
+    public ChooseLineEvent(){}
+
+
+    /**
      * Client side {@link Event} constructor invoked when {@link State#SHOWING_MARKET_RESOURCES SHOWING_MARKET_RESOURCES}
      * phase action is performed.
      * @param rowNumber int value matching an encoded {@link MarketLine}

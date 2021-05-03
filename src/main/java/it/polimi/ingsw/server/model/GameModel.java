@@ -201,7 +201,7 @@ public class GameModel {
      * @return <em>playerNumber</em> associated with the Player if present, otherwise -1;
      */
     public int getPlayerIndex(Player player){
-        return (player!=null && players.containsValue (player)) ?
+        return (player!=null && players.containsValue(player)) ?
                 getPlayerIndex(player, players)
                 : -1;
     }

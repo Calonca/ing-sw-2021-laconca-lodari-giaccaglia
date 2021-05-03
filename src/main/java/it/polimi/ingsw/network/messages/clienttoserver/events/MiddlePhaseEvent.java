@@ -16,7 +16,6 @@ public class MiddlePhaseEvent extends Event {
      */
     protected GameModel gameModel;
     protected PersonalBoard currentPlayerPersonalBoard;
-    protected DevelopmentCard chosenCard;
 
     /**
      * Server-side initializer to setup common attributes among {@link State#MIDDLE_PHASE MIDDLE_PHASE}
@@ -25,7 +24,6 @@ public class MiddlePhaseEvent extends Event {
      */
     protected void initializeMiddlePhaseEventValidation(GameModel gameModel){
         this.gameModel = gameModel;
-        this.chosenCard = gameModel.getPurchasedCard();
         this.currentPlayerPersonalBoard = gameModel.getCurrentPlayer().getPersonalBoard();
     }
 

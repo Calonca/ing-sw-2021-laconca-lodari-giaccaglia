@@ -46,7 +46,7 @@ public enum Resource
      * @return a {@link Resource}
      */
     public static Resource fromInt(int rNum){
-        return rNum>vals.length||rNum<0? EMPTY: vals[rNum];
+        return rNum>vals.length||rNum<0 ? EMPTY: vals[rNum];
     }
     /**
      * Returns a {@link Stream} of {@link Resource Resources} of the given size,

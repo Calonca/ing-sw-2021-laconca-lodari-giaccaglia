@@ -19,10 +19,6 @@ public class MarketBoardEvent extends MiddlePhaseEvent {
      */
     protected int chosenRow;
 
-    /**
-     * {@link GameModel} of the event's current game on which event validation has to be performed.
-     */
-    protected GameModel model;
 
     //no constructor apart from basic one needed
 
