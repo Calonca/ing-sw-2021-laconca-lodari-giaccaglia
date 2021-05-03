@@ -13,8 +13,8 @@ import java.util.List;
 public class SetupPhaseEvent extends Event {
 
     protected Pair<Integer, Integer> [] resources; //key = position, value = resource number
-    protected List<Integer> chosenLeaders = new ArrayList<>();
-    protected List<Integer> discardedLeaders = new ArrayList<>();
+    protected List<Integer> chosenLeaders;
+    protected List<Integer> discardedLeaders;
     protected int initialResources;
     protected int initialChosenLeaders;
     protected int initialDiscardedLeaders;
@@ -34,6 +34,8 @@ public class SetupPhaseEvent extends Event {
         this.initialResources = initialResources;
         this.initialChosenLeaders = initialChosenLeaders;
         this.initialDiscardedLeaders = initialDiscardedLeaders;
+        this.chosenLeaders = new ArrayList<>(initialChosenLeaders);
+        this.discardedLeaders = new ArrayList<>(initialDiscardedLeaders);
         this.playerNumber = playerNumber;
         resources = new Pair[initialResources];
     }
@@ -66,7 +68,7 @@ public class SetupPhaseEvent extends Event {
      * Method to select <em>leaderCards</em> to discard during setup phase.
      * @param leaderNumber int value representing <em>leaderCard</em> number.
      */
-    public void addDiscardedLeaders(int leaderNumber){
+    public void addDiscardedLeader(int leaderNumber){
         discardedLeaders.add(leaderNumber);
     }
 

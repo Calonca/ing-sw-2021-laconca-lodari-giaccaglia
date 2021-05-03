@@ -115,9 +115,9 @@ public class MarketBoard {
                 marbleMatrix[lineNumber]
                 : getColumn(lineNumber);
 
-       calculateFaithPointsFromMarbles(pickedMarbles);
+       calculateFaithPointsFromMarbles();
 
-       removeFaithPointMarble(pickedMarbles);
+     //  removeFaithPointMarble();
 
        Map<Marble, Long> resourceOccurrences = getResourcesOccurrences(pickedMarbles);
 
@@ -129,7 +129,7 @@ public class MarketBoard {
 
     }
 
-    private void calculateFaithPointsFromMarbles(Marble[] marbles){
+    private void calculateFaithPointsFromMarbles(){
 
         faithPointsFromMarbles = Arrays.stream(pickedMarbles)
                 .filter(marble -> marble.equals(Marble.RED))
@@ -137,12 +137,12 @@ public class MarketBoard {
 
     }
 
-    private void removeFaithPointMarble(Marble[] marbles){
+  /*  private void removeFaithPointMarble(){
 
         pickedMarbles = Arrays.stream(pickedMarbles)
                 .filter(marble -> !marble.equals(Marble.RED)).toArray(Marble[]::new);
 
-    }
+    } */
 
     private void mapMarblesToResources(Map<Marble, Long> resourceOccurrences){
 
@@ -178,6 +178,8 @@ public class MarketBoard {
         mappedResources.addResources(resourcesQuantites);
 
     }
+
+
 
     private Map<Marble, Long> getResourcesOccurrences(Marble [] pickedMarbles){
         return Arrays.stream(pickedMarbles)

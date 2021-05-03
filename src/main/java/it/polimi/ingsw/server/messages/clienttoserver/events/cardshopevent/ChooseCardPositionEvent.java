@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent;
 import it.polimi.ingsw.server.model.State;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
+import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 
 /**
  * Client side Event created when {@link GameModel#currentPlayer currentPlayer} has to place a {@link it.polimi.ingsw.server.model.cards.DevelopmentCard DevelopmentCard}
@@ -11,10 +12,11 @@ import it.polimi.ingsw.server.model.GameModel;
  * game turn action processed to accomplish server-side client validation.
  */
 public class ChooseCardPositionEvent extends it.polimi.ingsw.network.messages.clienttoserver.events.cardshopevent.ChooseCardPositionEvent implements Validable{
-
+    protected DevelopmentCard chosenCard;
     @Override
     public boolean validate(GameModel gameModel) {
         initializeMiddlePhaseEventValidation(gameModel);
+        this.chosenCard = gameModel.getPurchasedCard();
         return isGameStarted(gameModel) && checkCardPosition() && checkSpotAvailability();
     }
 

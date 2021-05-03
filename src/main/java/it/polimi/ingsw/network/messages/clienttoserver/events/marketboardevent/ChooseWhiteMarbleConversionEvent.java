@@ -18,7 +18,7 @@ public class ChooseWhiteMarbleConversionEvent extends MarketBoardEvent {
     protected int resourceNumber;
 
     /**
-     * Default constructor for handling {@link it.polimi.ingsw.server.messages.clienttoserver.events.marketboardevent.ChooseWhiteMarbleConversionEvent ChooseWhiteMarbleConversionEvent} #SERVERPlayerLeaderEvent server side equivalent inherited Event handler
+     * Default constructor for handling {@link it.polimi.ingsw.server.messages.clienttoserver.events.marketboardevent.ChooseWhiteMarbleConversionEvent #SERVERChooseWhiteMarbleConversionEvent} server side equivalent inherited Event handler
      */
     public ChooseWhiteMarbleConversionEvent(){}
 

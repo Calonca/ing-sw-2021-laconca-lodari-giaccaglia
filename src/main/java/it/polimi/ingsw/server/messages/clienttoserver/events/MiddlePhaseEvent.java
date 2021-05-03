@@ -9,6 +9,7 @@ import it.polimi.ingsw.server.model.GameModel;
  */
 public class MiddlePhaseEvent extends it.polimi.ingsw.network.messages.clienttoserver.events.MiddlePhaseEvent implements Validable {
 
+
     /**
      * @param gameModel {@link GameModel} of the event's current game on which event validation has to be performed.
      * @return true if current match associated with this {@link GameModel} has started, otherwise false.

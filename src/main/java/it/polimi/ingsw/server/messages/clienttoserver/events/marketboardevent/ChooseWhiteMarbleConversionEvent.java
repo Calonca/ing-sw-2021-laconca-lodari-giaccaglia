@@ -20,11 +20,11 @@ public class ChooseWhiteMarbleConversionEvent extends it.polimi.ingsw.network.me
     }
 
     /**
-     * @return true if previously selected {@link it.polimi.ingsw.server.model.market.MarketLine} contains any {@link Marble#WHITE WHITEMARBLE},
+     * @return true if previously selected {@link it.polimi.ingsw.server.model.market.MarketLine MarketLine} contains any {@link Marble#WHITE WHITEMARBLE},
      * otherwise false.
      */
     private boolean verifyWhiteMarbleInPickedLine(){
-        return model.areThereWhiteMarblesInPickedLine() && model.getNumberOfWhiteMarblesInPickedLine()>0;
+        return gameModel.areThereWhiteMarblesInPickedLine() && gameModel.getNumberOfWhiteMarblesInPickedLine()>0;
     }
 
     /**
