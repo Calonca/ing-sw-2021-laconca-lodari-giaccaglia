@@ -19,6 +19,7 @@ public class CreatedMatchStatus extends it.polimi.ingsw.network.messages.servert
         if (matchId==null)
             serverHandler.getClient().changeViewBuilder(new CreateJoinLoadMatch(), null);
         //Todo make a view do the transition
+        else serverHandler.getClient().getCommonData().setStartData(matchId,0);
     }
 
 }

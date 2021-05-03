@@ -1,21 +1,20 @@
 package it.polimi.ingsw.server;
 
 import com.google.gson.Gson;
-import com.google.gson.internal.LinkedTreeMap;
-import com.google.gson.reflect.TypeToken;
-import it.polimi.ingsw.client.Client;
-import it.polimi.ingsw.client.messages.servertoclient.ClientMessage;
+import com.google.gson.JsonObject;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.CreateMatchRequest;
+import it.polimi.ingsw.network.messages.clienttoserver.JoinMatchRequest;
 import it.polimi.ingsw.network.messages.servertoclient.CreatedMatchStatus;
+import it.polimi.ingsw.network.messages.servertoclient.JoinStatus;
 import it.polimi.ingsw.network.messages.servertoclient.MatchesData;
-import javafx.util.Pair;
+import it.polimi.ingsw.network.messages.servertoclient.ServerToClientMessage;
+import it.polimi.ingsw.network.messages.servertoclient.state.SETUP_PHASE;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.*;
-import java.lang.reflect.Type;
 import java.net.Socket;
 import java.util.*;
 
@@ -39,14 +38,14 @@ public class ClientHandlerTest {
         }
         output1 = new ObjectOutputStream(server1.getOutputStream());
         input1 = new ObjectInputStream(server1.getInputStream());
-        //try {
-        //    server2 = new Socket("127.0.0.1",Server.SOCKET_PORT);
-        //} catch (IOException e) {
-        //    System.out.println("server unreachable");
-        //    return;
-        //}
-        //output2 = new ObjectOutputStream(server2.getOutputStream());
-        //input2 = new ObjectInputStream(server2.getInputStream());
+        try {
+            server2 = new Socket("127.0.0.1",Server.SOCKET_PORT);
+        } catch (IOException e) {
+            System.out.println("server unreachable");
+            return;
+        }
+        output2 = new ObjectOutputStream(server2.getOutputStream());
+        input2 = new ObjectInputStream(server2.getInputStream());
     }
 
     @After
@@ -54,29 +53,86 @@ public class ClientHandlerTest {
         server1.close();
     }
 
-    @Test
     public void createMatch() throws IOException, ClassNotFoundException {
-        String matchData = input1.readObject().toString();
-        assertEquals(
-                mapWithoutIDFrom(new MatchesData(new HashMap<>()).serialized()),
-                mapWithoutIDFrom(matchData));
 
+        //1 Received matches data
+        Map<UUID,String[]> matchesData1 = new HashMap<>();
+        assertEquals(
+                toJsonObject(new MatchesData(matchesData1)),
+                toJsonObject(input1.readObject().toString()));
+
+        //2 Received matches data
+        Map<UUID,String[]> matchesData2 = new HashMap<>();
+        assertEquals(
+                toJsonObject(new MatchesData(matchesData2)),
+                toJsonObject(input2.readObject().toString()));
+
+        //1 Send create request
         ClientToServerMessage request = new CreateMatchRequest(2,"Name1");
         output1.writeObject(request.serialized());
-        matchData = input1.readObject().toString();
+        //1 Received matches data
+        assertEquals(MatchesData.class.getSimpleName(),
+                toJsonObject(input1.readObject().toString()).get("type").getAsString());
+        //2 Received matches data
+        assertEquals(MatchesData.class.getSimpleName(),
+                toJsonObject(input2.readObject().toString()).get("type").getAsString());
+        //1 Receive create match status
+        JsonObject jsonObject = toJsonObject(input1.readObject().toString());
+        UUID matchId = UUID.fromString(jsonObject.get("matchId").getAsString());
+        JsonObject expected = toJsonObject(new CreatedMatchStatus(request,matchId,null));
+        assertEquals(expected,
+                jsonObject);
 
-        LinkedTreeMap<String,Object> inputMap = (LinkedTreeMap)mapWithoutIDFrom(matchData).get("matchesData");
-        UUID uuid = UUID.fromString(inputMap.keySet().toArray(String[]::new)[0]);
-        HashMap<UUID,String[]> data=new HashMap<>();
-        data.put(uuid,new String[]{"Name1",null});
-        assertEquals(
-                mapWithoutIDFrom(new MatchesData(data).serialized()),
-                mapWithoutIDFrom(matchData));
-        String command = input1.readObject().toString();
-        assertEquals(
-                mapWithoutIDFrom(new CreatedMatchStatus(request,uuid,null).serialized()),//
-                mapWithoutIDFrom(command));
+        //2 Send join request
+        request = new JoinMatchRequest(matchId,"Name2");
+        output2.writeObject(request.serialized());
+        jsonObject = toJsonObject(input2.readObject().toString());
+        //1 Received matches data
+        assertEquals(MatchesData.class.getSimpleName(),
+                toJsonObject(input1.readObject().toString()).get("type").getAsString());
+        //2 Received matches data
+        assertEquals(MatchesData.class.getSimpleName(),
+                toJsonObject(input2.readObject().toString()).get("type").getAsString());
+        //2 Receive create match status
+        expected = toJsonObject(new JoinStatus(request,matchId,null, 0));
+        assertEquals(expected,
+                toJsonObject(input2.readObject().toString()));
+
         //Todo test false validation
+    }
+
+
+    @Test
+    public void singlePlayerCreation() throws IOException, ClassNotFoundException {
+
+        //1 Received matches data
+        Map<UUID,String[]> matchesData1 = new HashMap<>();
+        assertEquals(
+                toJsonObject(new MatchesData(matchesData1)),
+                toJsonObject(input1.readObject().toString()));
+
+        //2 Received matches data
+        Map<UUID,String[]> matchesData2 = new HashMap<>();
+        assertEquals(
+                toJsonObject(new MatchesData(matchesData2)),
+                toJsonObject(input2.readObject().toString()));
+
+        //1 Send create request
+        ClientToServerMessage request = new CreateMatchRequest(1,"Name1");
+        output1.writeObject(request.serialized());
+        //1 Received matches data
+        assertEquals(MatchesData.class.getSimpleName(),
+                toJsonObject(input1.readObject().toString()).get("type").getAsString());
+        //1 Received state message
+        assertEquals(SETUP_PHASE.class.getSimpleName(),
+                toJsonObject(input1.readObject().toString()).get("stateMessage").getAsJsonObject().get("type").getAsString());
+        //1 Receive create match status
+        JsonObject jsonObject = toJsonObject(input1.readObject().toString());
+        UUID matchId = UUID.fromString(jsonObject.get("matchId").getAsString());
+        JsonObject expected = toJsonObject(new CreatedMatchStatus(request,matchId,null));
+        assertEquals(expected,
+                jsonObject);
+
     }
 
 
@@ -90,11 +146,16 @@ public class ClientHandlerTest {
         System.setIn( new ByteArrayInputStream(s.getBytes()));
     }
 
-    public Map<String, Object> mapWithoutIDFrom(String s){
-        Type mapType = new TypeToken<Map<String, Object>>(){}.getType();
-        Map<String, Object> map = new Gson().fromJson(s, mapType);
-        map.remove("identifier");
-        return map;
+    public JsonObject toJsonObject(String s){
+        JsonObject jsonObject = new Gson().fromJson(s,JsonObject.class);
+        jsonObject.remove("identifier");
+        return jsonObject;
+    }
+
+    public JsonObject toJsonObject(ServerToClientMessage s){
+        JsonObject jsonObject = new Gson().fromJson(s.serialized(),JsonObject.class);
+        jsonObject.remove("identifier");
+        return jsonObject;
     }
 
 }

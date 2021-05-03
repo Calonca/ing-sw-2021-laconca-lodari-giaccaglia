@@ -9,8 +9,9 @@ import java.util.UUID;
 
 public class JoinStatus extends it.polimi.ingsw.network.messages.servertoclient.JoinStatus implements ClientMessage {
 
-    public JoinStatus(ClientToServerMessage parent, UUID joinedMatchUUID, motive m) {
-        super(parent, joinedMatchUUID, m);
+
+    public JoinStatus(ClientToServerMessage parent, UUID joinedMatchUUID, motive m, int playerIndex) {
+        super(parent, joinedMatchUUID, m, playerIndex);
     }
 
     @Override
@@ -18,5 +19,6 @@ public class JoinStatus extends it.polimi.ingsw.network.messages.servertoclient.
         if (joinedMatchUUID==null)
             serverHandler.getClient().changeViewBuilder(new CreateJoinLoadMatch(),null );
         //Todo make a view do the transition.
+        else serverHandler.getClient().getCommonData().setStartData(joinedMatchUUID,playerIndex);
     }
 }

@@ -9,6 +9,7 @@ import it.polimi.ingsw.client.view.CLI.CLIelem.Title;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -47,13 +48,15 @@ public class CLI {
         optionListAtPos[pos.ordinal()]=optionList;
     }
 
-    public static void clearOptions(CLI cli)
+    private static void clearOptions(CLI cli)
     {
-        //Todo remove listeners
+        if (cli.title!=null)
+            cli.title.removeFromPublishers(cli.client);
         cli.title = null;
         cli.spinner.ifPresentOrElse(
-                Spinner::stop,
+                s->s.stop(cli.client),
                 ()-> cli.spinner=Optional.empty());
+        Arrays.stream(cli.optionListAtPos).forEach(o->o.removeFromPublishers(cli.client));
         cli.optionListAtPos = Stream.generate(OptionList::new).limit(CLIPos.values().length).toArray(OptionList[]::new);
     }
 
@@ -76,7 +79,7 @@ public class CLI {
     }
 
     public void setSpinner(Spinner spinner){
-        this.spinner.ifPresent(Spinner::stop);
+        this.spinner.ifPresent(s->s.stop(client));
         this.spinner = Optional.of(spinner);
         spinner.setCLIView(this, client);
     }

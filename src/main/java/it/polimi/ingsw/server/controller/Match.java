@@ -62,6 +62,14 @@ public class Match {
     public boolean hasStarted(){return hasStarted;}
     public boolean hasNotStarted(){return !hasStarted;}
 
+    public boolean sameID(UUID uuid) {return uuid.equals(matchId);}
+
+    /**
+     * Displays matches that the client can join or the current match
+     * @param current the current match.
+     */
+    public boolean shouldDisplay(Match current){return canAddPlayer()||sameID(current.matchId);}
+
     public Stream<ClientHandler> clientsStream(){
         return clientHandlers.stream();
     }
@@ -90,4 +98,7 @@ public class Match {
         return onlineUsers.stream().reduce("", String::concat).concat("|").concat(matchId.toString());
     }
 
+    public int getLastPos() {
+        return onlineUsers.size();
+    }
 }

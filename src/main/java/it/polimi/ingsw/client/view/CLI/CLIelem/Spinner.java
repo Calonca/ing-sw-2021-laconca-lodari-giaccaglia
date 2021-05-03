@@ -14,7 +14,6 @@ public class Spinner extends CLIelem implements Runnable {
     protected final String waitingFor;
     private String meanwhileShow;
     private boolean stopASAP;
-    private boolean paused;
 
     public Spinner(String waitingFor) {
         this.waitingFor = waitingFor;
@@ -28,11 +27,11 @@ public class Spinner extends CLIelem implements Runnable {
     public static Spinner matchToStart(Client client, ViewBuilder viewBuilder){
         Spinner spinner = new Spinner(
                 "Match to start",
-                client.getCommonData().thisMatchPlayers().map(Arrays::toString).toString());
+                client.getCommonData().playersOfMatch().map(Arrays::toString).toString());
         spinner.setPerformer(()-> client.changeViewBuilder(new SetupPhase(), viewBuilder));
         spinner.setUpdater(()->{
             if (spinner.getEvt().getPropertyName().equals(CommonData.matchesDataString)) {
-                spinner.meanwhileShow = client.getCommonData().thisMatchPlayers().map(Arrays::toString).toString();
+                spinner.meanwhileShow = spinner.getEvt().getNewValue().toString();
             } else if (spinner.getEvt().getPropertyName().equals(SETUP_PHASE.class.getSimpleName()))
                 spinner.perform();
         });
@@ -40,12 +39,12 @@ public class Spinner extends CLIelem implements Runnable {
             spinner.stopASAP = true;
             client.changeViewBuilder(new SetupPhase(),viewBuilder);
         });
-        spinner.paused=false;
         return spinner;
     }
 
-    public void stop(){
+    public void stop(Client client){
         stopASAP = true;
+        removeFromPublishers(client);
     }
 
     public void pause(){
@@ -59,7 +58,6 @@ public class Spinner extends CLIelem implements Runnable {
     public Spinner(String waitingFor,String meanwhileShow) {
         this.waitingFor = waitingFor;
         this.meanwhileShow = meanwhileShow;
-        this.paused=false;
     }
 
     /** Characters used for the spinner animation */

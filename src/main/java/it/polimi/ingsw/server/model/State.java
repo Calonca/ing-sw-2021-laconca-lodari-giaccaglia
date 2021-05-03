@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.model;
 import it.polimi.ingsw.network.messages.servertoclient.state.SETUP_PHASE;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateMessage;
 import it.polimi.ingsw.server.model.cards.*;
+import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.player.leaders.Leader;
 import it.polimi.ingsw.server.model.market.Marble;
 import it.polimi.ingsw.server.model.market.MarketBoard;
@@ -57,7 +58,9 @@ public enum State {
     SETUP_PHASE{
         @Override
         public StateMessage toStateMessage(GameModel gameModel) {
-            return new SETUP_PHASE(gameModel.getOnlinePlayers().size(),new Object[]{"l1","leader 2"},3, gameModel.getMatchID());
+            return new SETUP_PHASE(gameModel.getOnlinePlayers().size(),new Object[]{"l1","leader 2"},3, gameModel.getMatchID(),
+                    gameModel.getOnlinePlayers().values().stream().map(Player::getNickName).toArray(String[]::new)
+                    );
         }
     },
 

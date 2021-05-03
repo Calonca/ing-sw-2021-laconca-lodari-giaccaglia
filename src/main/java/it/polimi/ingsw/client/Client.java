@@ -149,7 +149,9 @@ public class Client implements Runnable
      * Returns the player cache for the current player
      */
     public Optional<PlayerCache> currentPlayerCache(){
-        return commonData.getCurrentPlayerIndex().map(i->playersCache.get(i));
+        if (playersCache.size()==0)
+            return Optional.empty();
+        else return Optional.of(playersCache.get(commonData.getCurrentPlayerIndex()));
     }
 
     public <T extends StateMessage> Optional<T> getState(String state){
@@ -167,7 +169,7 @@ public class Client implements Runnable
             SETUP_PHASE setup_phase = (SETUP_PHASE) serializedObject;
             commonData.setStartData(setup_phase.getMatchID(),thisPlayerIndex);
             commonData.setCurrentPlayer(0);
-            initializePlayerCache(commonData.thisMatchPlayers().get().length);
+            initializePlayerCache(setup_phase.getNickNames().length);
         }
         playersCache.get(thisPlayerIndex).update(state,serializedObject);
     }

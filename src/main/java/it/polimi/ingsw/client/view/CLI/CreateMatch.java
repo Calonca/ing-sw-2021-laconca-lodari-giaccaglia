@@ -4,10 +4,6 @@ import it.polimi.ingsw.client.view.CLI.CLIelem.Spinner;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Title;
 import it.polimi.ingsw.client.view.abstractview.CreateMatchViewBuilder;
 import it.polimi.ingsw.network.messages.clienttoserver.CreateMatchRequest;
-import it.polimi.ingsw.network.messages.clienttoserver.JoinMatchRequest;
-
-import java.beans.PropertyChangeEvent;
-import java.util.Scanner;
 
 public class CreateMatch extends CreateMatchViewBuilder implements CLIBuilder {
 
@@ -30,11 +26,11 @@ public class CreateMatch extends CreateMatchViewBuilder implements CLIBuilder {
             String in = getCLIView().getIN("Number of people: ");
             numberOfPlayers = Integer.parseInt(in);
             nickname = getCLIView().getIN("Your nickname: ");
-        }while (numberOfPlayers<0||numberOfPlayers>4);
+        }while (numberOfPlayers<1||numberOfPlayers>4);
 
-        getClient().getServerHandler().sendCommandMessage(new CreateMatchRequest(numberOfPlayers,nickname));
-
+        getCLIView().resetCLI();
         getCLIView().setSpinner(Spinner.matchToStart(getClient(),this));
+        getClient().getServerHandler().sendCommandMessage(new CreateMatchRequest(numberOfPlayers,nickname));
         getCLIView().displayWithDivider();
 
     }

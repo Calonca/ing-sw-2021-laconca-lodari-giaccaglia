@@ -22,7 +22,7 @@ public class CommonData {
 
     private Optional<Map<UUID,String[]>> matchesData = Optional.empty();
     private Integer thisPlayerIndex;
-    private Integer currentPlayerIndex;
+    private int currentPlayerIndex;
     private UUID matchId;
 
 
@@ -30,8 +30,8 @@ public class CommonData {
         return Optional.ofNullable(thisPlayerIndex);
     }
 
-    public Optional<Integer> getCurrentPlayerIndex() {
-        return Optional.ofNullable(currentPlayerIndex);
+    public int getCurrentPlayerIndex() {
+        return currentPlayerIndex;
     }
 
     public Optional<UUID> getMatchId() {
@@ -42,9 +42,9 @@ public class CommonData {
         return matchesData;
     }
 
-    public Optional<String[]> thisMatchPlayers() {
+    public Optional<String[]> playersOfMatch() {
         if (matchId==null) return Optional.empty();
-        else return matchesData.map(data->data.getOrDefault(matchId,null));
+        else return matchesData.map(data->data.getOrDefault(this.matchId,null));
     }
 
     private final PropertyChangeSupport support;
@@ -67,9 +67,9 @@ public class CommonData {
     }
 
     public void setCurrentPlayer(int currentPlayerIndex) {
-        int intValue = this.currentPlayerIndex != null ? currentPlayerIndex : 0;
+        int oldPlayerIndex = this.currentPlayerIndex;
         this.currentPlayerIndex = currentPlayerIndex;
-        support.firePropertyChange(currentPlayerString,intValue,currentPlayerIndex);
+        support.firePropertyChange(currentPlayerString,oldPlayerIndex,currentPlayerIndex);
     }
 
     public void setStartData(UUID matchId,int thisPlayerIndex) {

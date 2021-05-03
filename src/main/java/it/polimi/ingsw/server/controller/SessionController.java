@@ -47,14 +47,13 @@ public class SessionController {
 
     /**
      * Adds player to match and start
-     * @param matchID
-     * @param nickname
-     * @return false if match is full
+     * @return -1 if match is full or other problems
      */
-    public boolean addPlayerToMatchAndStartWhenReady(UUID matchID, String nickname, ClientHandler clientHandler){
+    public int addPlayerToMatchAndStartWhenReady(UUID matchID, String nickname, ClientHandler clientHandler){
         Match match = matches.get(matchID);
         if (match.canAddPlayer()){
             match.addPlayer(nickname,clientHandler);
+            notifyOthers(clientHandler);
             if (!match.canAddPlayer()) {
                 match.startGame();
                 try {
@@ -65,18 +64,18 @@ public class SessionController {
                     e.printStackTrace();
                 }
             }
-            else
-            notifyMatchChanges();
-            return true;
+            return match.getLastPos();
         }
-        else return false;
+        else return -1;
     }
 
-    public void notifyMatchChanges(){
-        matches.values().stream().filter(Match::hasNotStarted).flatMap(Match::clientsStream).forEach(
+
+    public void notifyOthers(ClientHandler cl){
+        matches.values().stream().filter(Match::hasNotStarted).flatMap(Match::clientsStream)
+                .forEach(
                 clientHandler -> {
                     try {
-                        clientHandler.sendAnswerMessage(new MatchesData(matchesData()));
+                        clientHandler.sendAnswerMessage(new MatchesData(matchesData(clientHandler)));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -84,10 +83,15 @@ public class SessionController {
         );
     }
 
-    public Map<UUID, String[]> matchesData(){
+    public Map<UUID, String[]> matchesData(ClientHandler clientHandler){
         return matches.entrySet().stream()
+                .filter(m->
+                        (clientHandler.getMatch().isPresent()&&clientHandler.getMatch().get().getMatchId().equals(m.getKey()))
+                        ||
+                        (m.getValue().canAddPlayer())
+                )
                 .collect(Collectors.toMap(
-                        entry->entry.getKey(),
+                        Map.Entry::getKey,
                         entry->entry.getValue().getOnlinePlayers()
                 ));
     }
