@@ -61,8 +61,9 @@ public class SessionController {
             if (!match.canAddPlayer()) {
                 match.startGame();
                 try {
+
                     match.currentPlayerClientHandler().sendAnswerMessage(
-                            new StateMessage(0, State.SETUP_PHASE,State.SETUP_PHASE.serialize(match.getGame())));
+                            new StateMessage(0, State.SETUP_PHASE.toString(),State.SETUP_PHASE.serialize(match.getGame())));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

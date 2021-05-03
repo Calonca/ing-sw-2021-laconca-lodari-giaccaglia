@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.view.abstractview;
 
-public abstract class CreateMatchView extends View{
+public abstract class ConnectToServerViewBuilder extends ViewBuilder {
 
 
     /**

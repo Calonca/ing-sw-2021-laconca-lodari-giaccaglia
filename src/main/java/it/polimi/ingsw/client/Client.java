@@ -1,15 +1,15 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.client.view.CLI.CLIBuilder;
-import it.polimi.ingsw.client.view.CLI.ConnectToServerView;
-import it.polimi.ingsw.client.view.CLI.GenericWait;
-import it.polimi.ingsw.client.view.CLI.WaitForServerConnection;
-import it.polimi.ingsw.client.view.abstractview.View;
-import it.polimi.ingsw.server.model.State;
+import it.polimi.ingsw.client.view.CLI.CLI;
+import it.polimi.ingsw.client.view.CLI.CLIelem.Spinner;
+import it.polimi.ingsw.client.view.CLI.ConnectToServer;
+import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 
 /**
@@ -18,32 +18,31 @@ import java.util.stream.Stream;
 public class Client implements Runnable
 {
     private ServerHandler serverHandler;
-    private boolean shallTerminate;
-    private View nextView;
-    private View currentView;
+    private ViewBuilder nextViewBuilder;
+    private ViewBuilder currentViewBuilder;
     private String ip;
     private int port;
-    private PlayerCache[] playersCache;
+    private List<PlayerCache> playersCache=new ArrayList<>();
     private CommonData commonData = new CommonData();
-    private CLIBuilder cliBuilder = new CLIBuilder();
+    private CLI cli;
 
 
-
+    /**
+     * Initializes a client that asks the user for ip and port or if given arguments from the given arguments
+     * @param args the first argument is the ip and the second the port.
+     */
     public static void main(String[] args)
     {
-        /* Instantiate a new Client. The main thread will become the
-         * thread where user interaction is handled. */
         Client client = new Client();
-        client.playersCache = Stream.generate(()->new PlayerCache()).limit(4).toArray(PlayerCache[]::new);
-        /* Run the state machine handling the views */
+        client.cli = new CLI(client);
         if (args.length==2)
         {
             client.setServerConnection(args[0],Integer.parseInt(args[1]));
-            client.nextView = new WaitForServerConnection();
+
             client.run();
             client.runViewStateMachine();
         }else {
-            client.nextView = new ConnectToServerView();
+            client.nextViewBuilder = new ConnectToServer();
             client.runViewStateMachine();
         }
     }
@@ -64,7 +63,7 @@ public class Client implements Runnable
             server = new Socket(ip, port);
         } catch (IOException e) {
             System.out.println("server unreachable");
-            transitionToView(new ConnectToServerView());
+            transitionToView(new ConnectToServer());
             return;
         }
         serverHandler = new ServerHandler(server, this);
@@ -83,55 +82,48 @@ public class Client implements Runnable
     }
 
 
-    /**
-     * Calls the run() method on the current view until the application
-     * must be stopped.
-     * When no view should be displayed, and the application is not yet
-     * terminating, the IdleView is displayed.
-     * @apiNote The current view can be changed at any moment by using
-     * transitionToView().
-     */
     public void runViewStateMachine()
     {
         boolean stop;
 
         synchronized (this) {
-            stop = shallTerminate;
-            commonData.removePropertyChangeListener(currentView);
-            currentView = nextView;
-            nextView = null;
+            stop = cli.stopASAP.get();
+            currentViewBuilder = nextViewBuilder;
+            nextViewBuilder = null;
         }
         while (!stop) {
-            if (currentView == null) {
-                currentView = new GenericWait(() -> {},"Waiting");
+            if (currentViewBuilder == null) {
+                currentViewBuilder = new ViewBuilder() {
+                    @Override
+                    public void run() {
+                        cli.setSpinner(new Spinner("Waiting"));
+                    }
+                };
             }
-            currentView.setOwner(this);
-            commonData.addPropertyChangeListener(currentView);
-            currentView.setCommonData(commonData);
-            currentView.setCliBuilder(cliBuilder);
-            currentView.run();
+            currentViewBuilder.setClient(this);
+            currentViewBuilder.setCommonData(commonData);
+            currentViewBuilder.setCLIView(cli);
+            currentViewBuilder.run();
 
             synchronized (this) {
-                stop = shallTerminate;
-                currentView = nextView;
-                nextView = null;
+                stop = cli.stopASAP.get();
+                currentViewBuilder = nextViewBuilder;
+                nextViewBuilder = null;
             }
         }
-        /* We are going to stop the application, so ask the server thread
-         * to stop as well. Note that we are invoking the stop() method on
-         * ServerHandler, not on Thread */
         serverHandler.stop();
     }
 
 
+
     /**
      * Transitions the view thread to a given view.
-     * @param newView The view to transition to.
+     * @param newViewBuilder The view to transition to.
      */
-    public synchronized void transitionToView(View newView)
+    public synchronized void transitionToView(ViewBuilder newViewBuilder)
     {
-        this.nextView = newView;
-        currentView.stopInteraction();
+        this.nextViewBuilder = newViewBuilder;
+        cli.resetCLI();
     }
 
 
@@ -144,22 +136,40 @@ public class Client implements Runnable
      */
     public synchronized void terminate()
     {
-        if (!shallTerminate) {
-            /* Signal to the view handler loop that it should exit. */
-            shallTerminate = true;
-            currentView.stopInteraction();
+        if (cli.stopASAP.get()) {
+            cli.resetCLI();
         }
     }
 
-    public View getCurrentView() {
-        return currentView;
+    public ViewBuilder getCurrentViewBuilder() {
+        return currentViewBuilder;
     }
 
-    public void setState(int player, State state, String serializedObject){
-        playersCache[player].update(state,serializedObject);
+    /**
+     * Returns the player cache for the current player
+     */
+    public Optional<PlayerCache> currentPlayerCache(){
+        return commonData.getCurrentPlayerIndex().map(i->playersCache.get(i));
     }
 
-    public void initializePlayerCache(int numOfPlayers){
+    public <T> Optional<T> getFromStateAndKey(String state, String key){
+        return (Optional<T>) currentPlayerCache().map(cache->cache.<T>getFromStateAndKey(state, key));
+    }
 
+    public void setState(int thisPlayerIndex, String state, Map<String, Object> serializedObject){
+        int numberOfPlayers = 4;//Todo Replace with true data
+        UUID matchId = commonData.getMatchesData()
+                .map((o)->o.keySet().stream().toArray(UUID[]::new)[0])
+                .orElse(UUID.randomUUID());//Todo Replace with true data
+        if (playersCache.size()==0){
+            commonData.setStartData(matchId,thisPlayerIndex);
+            initializePlayerCache(numberOfPlayers);
+        }
+        playersCache.get(thisPlayerIndex).update(state,serializedObject);
+    }
+
+    public void initializePlayerCache(int numberOfPlayers){
+        playersCache = IntStream.range(0,numberOfPlayers)
+                .mapToObj((i)->new PlayerCache(i,numberOfPlayers,this)).collect(Collectors.toList());
     }
 }

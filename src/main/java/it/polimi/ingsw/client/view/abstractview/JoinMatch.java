@@ -1,18 +1,15 @@
 package it.polimi.ingsw.client.view.abstractview;
 
-public abstract class GenericWait extends View{
+import it.polimi.ingsw.client.view.CLI.CLIBuilder;
 
-    protected Runnable r;
-    protected String name;
+import java.util.UUID;
 
-    public GenericWait(Runnable r, String s) {
-        this.r = r;
-        this.name=s;
-    }
+public abstract class JoinMatch extends ViewBuilder implements CLIBuilder {
 
-    public GenericWait(String s) {
-        this.r = ()->{};
-        this.name=s;
+    protected UUID matchId;
+
+    public JoinMatch(UUID matchId) {
+        this.matchId = matchId;
     }
 
     /**
@@ -25,9 +22,5 @@ public abstract class GenericWait extends View{
     @Override
     public void run() {
 
-    }
-
-    public void perform() {
-        r.run();
     }
 }

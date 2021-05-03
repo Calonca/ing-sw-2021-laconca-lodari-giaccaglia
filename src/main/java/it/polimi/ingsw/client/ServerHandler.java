@@ -1,8 +1,10 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.client.view.CLI.ConnectToServerView;
+import it.polimi.ingsw.client.view.CLI.CLIelem.Spinner;
+import it.polimi.ingsw.client.view.CLI.ConnectToServer;
+import it.polimi.ingsw.client.view.CLI.CreateJoinLoadMatch;
 import it.polimi.ingsw.client.messages.servertoclient.ClientMessage;
-import it.polimi.ingsw.client.view.CLI.MainMenuView;
+import it.polimi.ingsw.client.view.CLI.MainMenu;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
 
 import java.io.IOException;
@@ -17,11 +19,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class ServerHandler implements Runnable
 {
-    private Socket server;
+    private final Socket server;
     private ObjectOutputStream output;
     private ObjectInputStream input;
-    private Client owner;
-    private AtomicBoolean shouldStop = new AtomicBoolean(false);
+    private final Client owner;
+    private final AtomicBoolean shouldStop = new AtomicBoolean(false);
 
 
     /**
@@ -47,7 +49,7 @@ public class ServerHandler implements Runnable
             input = new ObjectInputStream(server.getInputStream());
         } catch (IOException e) {
             System.out.println("could not open connection to " + server.getInetAddress());
-            owner.transitionToView(new ConnectToServerView());
+            owner.transitionToView(new ConnectToServer());
             return;
         }
 
@@ -59,7 +61,7 @@ public class ServerHandler implements Runnable
 
         try {
             server.close();
-        } catch (IOException e) { }
+        } catch (IOException ignored) { }
         owner.terminate();
     }
 
@@ -71,10 +73,9 @@ public class ServerHandler implements Runnable
      */
     private void handleClientConnection() throws IOException
     {
-        getClient().transitionToView(new MainMenuView());
-        //Todo see GenericWait javadoc
-        //getClient().transitionToView(new GenericWait("Matches",()->new CreateJoinLoadMatchView()));
-        //getClient().transitionToView(new CreateJoinLoadMatchView());
+
+        getClient().transitionToView(new CreateJoinLoadMatch());
+
         try {
             boolean stop = false;
             while (!stop) {
@@ -133,6 +134,6 @@ public class ServerHandler implements Runnable
         shouldStop.set(true);
         try {
             server.shutdownInput();
-        } catch (IOException e) { }
+        } catch (IOException ignored) { }
     }
 }
