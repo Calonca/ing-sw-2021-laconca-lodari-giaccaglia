@@ -2,7 +2,7 @@ package it.polimi.ingsw.client.view.CLI.CLIelem;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.client.Client;
-import it.polimi.ingsw.client.view.CLI.CLIView;
+import it.polimi.ingsw.client.view.CLI.CLI;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -15,7 +15,7 @@ public abstract class CLIelem implements PropertyChangeListener {
      * The updater updates the properties for the toString to work
      */
     private Runnable updater,performer;
-    protected CLIView cliView;
+    protected CLI cli;
     private PropertyChangeEvent evt;
 
     public Runnable getUpdater() {
@@ -49,7 +49,7 @@ public abstract class CLIelem implements PropertyChangeListener {
     }
 
     public void perform(){
-        if (performer!=null && cliView !=null)
+        if (performer!=null && cli !=null)
             performer.run();
     }
 
@@ -72,8 +72,8 @@ public abstract class CLIelem implements PropertyChangeListener {
         return new Gson().toJson(this);
     }
 
-    public void setCLIView(CLIView cliView, Client client){
-        this.cliView = cliView;
+    public void setCLIView(CLI cli, Client client){
+        this.cli = cli;
         addToPublishers(client);
     }
 
@@ -81,4 +81,10 @@ public abstract class CLIelem implements PropertyChangeListener {
         client.getCommonData().addPropertyChangeListener(this);
         client.currentPlayerCache().ifPresent(playerCache -> playerCache.addPropertyChangeListener(this));
     }
+
+    public void removeFromPublishers(Client client){
+        client.getCommonData().removePropertyChangeListener(this);
+        client.currentPlayerCache().ifPresent(playerCache -> playerCache.removePropertyChangeListener(this));
+    }
+
 }

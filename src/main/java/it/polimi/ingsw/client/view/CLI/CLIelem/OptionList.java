@@ -1,11 +1,12 @@
 package it.polimi.ingsw.client.view.CLI.CLIelem;
 
 import it.polimi.ingsw.client.Client;
-import it.polimi.ingsw.client.view.CLI.CLIView;
+import it.polimi.ingsw.client.view.CLI.CLI;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -14,7 +15,14 @@ public class OptionList extends CLIelem{
 
     public OptionList(){
         options = new ArrayList<>();
-        setUpdater(()-> cliView.update());
+        setUpdater(()-> {});
+    }
+
+    public OptionList(Stream<Option> optionStream){
+        options = optionStream.collect(Collectors.toList());
+        if (options.size()>=1)
+            options.get(0).setSelected(true);
+        setUpdater(()-> {});
     }
 
     public void addOption(Option o){
@@ -23,11 +31,23 @@ public class OptionList extends CLIelem{
             o.setSelected(true);
     }
 
+    public void updateOptions(Stream<Option> optionStream,Client client){
+        if (options!=null)
+            options.forEach(o->o.removeFromPublishers(client));
+        options = optionStream.collect(Collectors.toList());
+        if (options.size()>=1)
+            options.get(0).setSelected(true);
+        if (cli!=null)
+        {
+            setCLIView(cli,client);
+        }
+    }
+
     private void selectOptionAtPosition(int numberInList)
     {
         options.forEach(option -> option.setSelected(false));
         options.get(numberInList).setSelected(true);
-        cliView.setLastChoice(Optional.of(options.get(numberInList)));
+        cli.setLastChoice(Optional.of(options.get(numberInList)));
     }
     public void selectOption()
     {
@@ -35,19 +55,19 @@ public class OptionList extends CLIelem{
         do  {
             try
             {
-                String in = cliView.getIN("Please insert a number");
+                String in = cli.getIN("Please insert a number");
                 choice = Integer.parseInt(in);
                 if (choice<0||choice>=options.size())
                 {
                     if (choice<0)
-                        cliView.printError("DON'T insert a NEGATIVE number!");
-                    else cliView.printError("Insert a SMALLER number!");
+                        cli.printError("DON'T insert a NEGATIVE number!");
+                    else cli.printError("Insert a SMALLER number!");
                 }else {
                     break;
                 }
             }
             catch (NumberFormatException e){
-                cliView.printError("Insert a NUMBER!");
+                cli.printError("Insert a NUMBER!");
             }
         }while(true);
         selectOptionAtPosition(choice);
@@ -60,9 +80,9 @@ public class OptionList extends CLIelem{
     }
 
     @Override
-    public void setCLIView(CLIView cliView, Client client) {
-        super.setCLIView(cliView, client);
-        options.forEach(o->o.setCLIView(cliView,client));
+    public void setCLIView(CLI cli, Client client) {
+        super.setCLIView(cli, client);
+        options.forEach(o->o.setCLIView(cli,client));
     }
 
 

@@ -6,9 +6,8 @@ import it.polimi.ingsw.client.view.CLI.CLIelem.OptionList;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Title;
 import it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchViewBuilder;
 
-import java.beans.PropertyChangeEvent;
-import java.security.cert.PKIXRevocationChecker;
 import java.util.*;
+import java.util.stream.Stream;
 
 public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implements CLIBuilder {
 
@@ -22,10 +21,21 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
      */
     @Override
     public void run() {
-        getCLIView().resetCLIelems();
+        getCLIView().resetCLI();
         getCLIView().setTitle(new Title("Menu:"));
+        //Initial options
+        Stream<Option> optionsToAdd = getNewOptionList(getClient().getCommonData().getMatchesData());
 
-        OptionList optionList = updatedOptionList();
+        OptionList optionList = new OptionList(optionsToAdd);
+
+        optionList.performWhenReceiving(CommonData.matchesDataString);
+        Runnable performer = ()->{
+            Optional<Map<UUID,String[]>> list = (Optional<Map<UUID, String[]>>) optionList.getEvt().getNewValue();
+            optionList.updateOptions(getNewOptionList(list),getClient());
+            getCLIView().setOptionList(CLIPos.CENTER,optionList);
+            getCLIView().update();
+        };
+        optionList.setPerformer(performer);
 
         getCLIView().setOptionList(CLIPos.CENTER,optionList);
         getCLIView().displayWithScroll();
@@ -34,32 +44,21 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         getCLIView().performLastChoice();
     }
 
-    private void addOption(Map.Entry<UUID, String[]> uuidPair, OptionList optionList) {
+    private Option getOption(Map.Entry<UUID, String[]> uuidPair) {
         Runnable r = () -> getClient().transitionToView(new JoinMatch(uuidPair.getKey()));
-        optionList.addOption(
-                Option.from(
-                        uuidPair.getKey().toString(),
-                        Arrays.toString(uuidPair.getValue()),
-                        r)
-        );
+        return Option.from(
+                    uuidPair.getKey().toString(),
+                    Arrays.toString(uuidPair.getValue()),
+                    r);
+
     }
 
-    private OptionList updatedOptionList(){
-        OptionList optionList = new OptionList();
-
-        //Adds matches and saved matches to the CLIBuilder
-        getClient().getCommonData().getMatchesData().ifPresent(
-                (o)-> o.entrySet().forEach((op)->addOption(op,optionList)));
+    private Stream<Option> getNewOptionList(Optional<Map<UUID, String[]>> matchesData){
+        Stream<Option> optionsToAdd = matchesData.map(
+                (o)-> o.entrySet().stream().map(this::getOption)).orElse(Stream.empty());
 
         Option newMatch = Option.from("New Match",()->getClient().transitionToView(new CreateMatch()));
-        optionList.addOption(newMatch);
-
-        optionList.performWhenReceiving(CommonData.matchesDataString);
-        Runnable performer = ()->{
-            getCLIView().setOptionList(CLIPos.CENTER,updatedOptionList());
-        };
-        optionList.setPerformer(performer);
-        return optionList;
+        return  Stream.concat(optionsToAdd,Stream.of(newMatch));
     }
 
 

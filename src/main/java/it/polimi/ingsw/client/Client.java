@@ -1,10 +1,8 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.client.view.CLI.CLIView;
-import it.polimi.ingsw.client.view.CLI.ConnectToServer;
-import it.polimi.ingsw.client.view.CLI.CreateJoinLoadMatch;
+import it.polimi.ingsw.client.view.CLI.CLI;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Spinner;
-import it.polimi.ingsw.client.view.CLI.MainMenu;
+import it.polimi.ingsw.client.view.CLI.ConnectToServer;
 import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 
 import java.io.IOException;
@@ -20,15 +18,13 @@ import java.util.stream.IntStream;
 public class Client implements Runnable
 {
     private ServerHandler serverHandler;
-    private boolean shallTerminate;
     private ViewBuilder nextViewBuilder;
     private ViewBuilder currentViewBuilder;
     private String ip;
     private int port;
     private List<PlayerCache> playersCache=new ArrayList<>();
     private CommonData commonData = new CommonData();
-    private CLIView cliView;
-    private Thread viewBuilderThread;
+    private CLI cli;
 
 
     /**
@@ -38,8 +34,7 @@ public class Client implements Runnable
     public static void main(String[] args)
     {
         Client client = new Client();
-        client.cliView = new CLIView(client);
-        client.viewBuilderThread = client.makeViewThread();
+        client.cli = new CLI(client);
         if (args.length==2)
         {
             client.setServerConnection(args[0],Integer.parseInt(args[1]));
@@ -89,39 +84,38 @@ public class Client implements Runnable
 
     public void runViewStateMachine()
     {
-        viewBuilderThread=makeViewThread();
-        viewBuilderThread.start();
-    }
+        boolean stop;
 
-    private Thread makeViewThread(){
-        return new Thread(()-> {
-            boolean stop;
+        synchronized (this) {
+            stop = cli.stopASAP.get();
+            currentViewBuilder = nextViewBuilder;
+            nextViewBuilder = null;
+        }
+        while (!stop) {
+            if (currentViewBuilder == null) {
+                currentViewBuilder = new ViewBuilder() {
+                    @Override
+                    public void run() {
+                        cli.setSpinner(new Spinner("Waiting"));
+                    }
+                };
+            }
+            currentViewBuilder.setClient(this);
+            currentViewBuilder.setCommonData(commonData);
+            currentViewBuilder.setCLIView(cli);
+            currentViewBuilder.run();
 
             synchronized (this) {
-                stop = shallTerminate;
+                stop = cli.stopASAP.get();
                 currentViewBuilder = nextViewBuilder;
                 nextViewBuilder = null;
             }
-            while (!stop) {
-                if (currentViewBuilder == null) {
-                    return;
-                }
-                currentViewBuilder.setOwner(this);
-                currentViewBuilder.setCommonData(commonData);
-                currentViewBuilder.setCliBuilder(cliView);
-                currentViewBuilder.run();
-
-                synchronized (this) {
-                    stop = shallTerminate;
-                    currentViewBuilder = nextViewBuilder;
-                    nextViewBuilder = null;
-                }
-            }
-        } );
+        }
+        serverHandler.stop();
     }
 
 
-    //Todo make is to that it switches to cli or GUI view
+
     /**
      * Transitions the view thread to a given view.
      * @param newViewBuilder The view to transition to.
@@ -129,10 +123,7 @@ public class Client implements Runnable
     public synchronized void transitionToView(ViewBuilder newViewBuilder)
     {
         this.nextViewBuilder = newViewBuilder;
-        if (currentViewBuilder!=null)
-        currentViewBuilder.stopInteraction();
-        if (!viewBuilderThread.isAlive())
-            runViewStateMachine();
+        cli.resetCLI();
     }
 
 
@@ -145,14 +136,12 @@ public class Client implements Runnable
      */
     public synchronized void terminate()
     {
-        if (!shallTerminate) {
-            /* Signal to the view handler loop that it should exit. */
-            shallTerminate = true;
-            currentViewBuilder.stopInteraction();
+        if (cli.stopASAP.get()) {
+            cli.resetCLI();
         }
     }
 
-    public ViewBuilder getCurrentView() {
+    public ViewBuilder getCurrentViewBuilder() {
         return currentViewBuilder;
     }
 

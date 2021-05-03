@@ -19,11 +19,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class ServerHandler implements Runnable
 {
-    private Socket server;
+    private final Socket server;
     private ObjectOutputStream output;
     private ObjectInputStream input;
-    private Client owner;
-    private AtomicBoolean shouldStop = new AtomicBoolean(false);
+    private final Client owner;
+    private final AtomicBoolean shouldStop = new AtomicBoolean(false);
 
 
     /**
@@ -61,7 +61,7 @@ public class ServerHandler implements Runnable
 
         try {
             server.close();
-        } catch (IOException e) { }
+        } catch (IOException ignored) { }
         owner.terminate();
     }
 
@@ -74,7 +74,7 @@ public class ServerHandler implements Runnable
     private void handleClientConnection() throws IOException
     {
 
-        getClient().transitionToView(new MainMenu());
+        getClient().transitionToView(new CreateJoinLoadMatch());
 
         try {
             boolean stop = false;
@@ -134,6 +134,6 @@ public class ServerHandler implements Runnable
         shouldStop.set(true);
         try {
             server.shutdownInput();
-        } catch (IOException e) { }
+        } catch (IOException ignored) { }
     }
 }

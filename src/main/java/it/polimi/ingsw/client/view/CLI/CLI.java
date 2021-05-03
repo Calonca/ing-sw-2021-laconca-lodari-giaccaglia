@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Optional;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 /**
@@ -20,20 +22,23 @@ import java.util.stream.Stream;
  * Todo add elements like text instead of options
  * Todo add selection with arrows
  */
-public class CLIView {
+public class CLI {
     private final Client client;
     private Title title;
-    private Spinner spinner;
+    private Optional<Spinner> spinner;
     private OptionList[] optionListAtPos;
     private Optional<Option> lastChoice=Optional.empty();
+    public final AtomicBoolean stopASAP;
 
 
-    public CLIView(Client client) {
+    public CLI(Client client) {
         optionListAtPos = Stream.generate(OptionList::new).limit(CLIPos.values().length).toArray(OptionList[]::new);
         this.client = client;
+        stopASAP = new AtomicBoolean(false);
+        spinner = Optional.empty();
     }
 
-    public void resetCLIelems(){
+    public void resetCLI(){
         clearOptions(this);
     }
 
@@ -42,12 +47,14 @@ public class CLIView {
         optionListAtPos[pos.ordinal()]=optionList;
     }
 
-    public static void clearOptions(CLIView cliView)
+    public static void clearOptions(CLI cli)
     {
-        cliView.title = null;
-        if (cliView.spinner!=null) cliView.spinner.stop();
-        cliView.spinner=null;
-        cliView.optionListAtPos = Stream.generate(OptionList::new).limit(CLIPos.values().length).toArray(OptionList[]::new);
+        //Todo remove listeners
+        cli.title = null;
+        cli.spinner.ifPresentOrElse(
+                Spinner::stop,
+                ()-> cli.spinner=Optional.empty());
+        cli.optionListAtPos = Stream.generate(OptionList::new).limit(CLIPos.values().length).toArray(OptionList[]::new);
     }
 
     public OptionList getOptionsAt(CLIPos cliPos){
@@ -59,7 +66,9 @@ public class CLIView {
     }
 
     public void update(){
+        spinner.ifPresent(Spinner::pause);
         displayWithDivider();
+        spinner.ifPresent(Spinner::resume);
     }
 
     public void setTitle(Title title){
@@ -67,10 +76,17 @@ public class CLIView {
     }
 
     public void setSpinner(Spinner spinner){
-        if (this.spinner!=null)
-            spinner.stop();
-        this.spinner = spinner;
+        this.spinner.ifPresent(Spinner::stop);
+        this.spinner = Optional.of(spinner);
         spinner.setCLIView(this, client);
+    }
+
+    public boolean canSpin(){
+        return spinner.isPresent();
+    }
+
+    public void startSpinning(){
+        spinner.ifPresent(Spinner::run);
     }
 
     private void print(String s){
@@ -129,9 +145,7 @@ public class CLIView {
         getOptionsAt(CLIPos.BOTTOM_RIGHT).toStringStream()
                 .map(s -> finalSpaces2 +s.replace("\n","\n"+finalSpaces2))
                 .forEach(this::print);
-        if (spinner!=null)
-            spinner.run();
-
+        startSpinning();
     }
 
     @Override

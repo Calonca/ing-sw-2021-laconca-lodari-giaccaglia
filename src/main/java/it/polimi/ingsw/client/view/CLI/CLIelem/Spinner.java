@@ -7,12 +7,14 @@ import it.polimi.ingsw.client.PlayerCache;
 import it.polimi.ingsw.client.view.CLI.SetupPhase;
 
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Spinner extends CLIelem implements Runnable {
 
     protected final String waitingFor;
     private String meanwhileShow;
     private boolean stopASAP;
+    private boolean paused;
 
     public Spinner(String waitingFor) {
         this.waitingFor = waitingFor;
@@ -38,6 +40,7 @@ public class Spinner extends CLIelem implements Runnable {
             spinner.stopASAP = true;
             client.transitionToView(new SetupPhase());
         });
+        spinner.paused=false;
         return spinner;
     }
 
@@ -45,9 +48,18 @@ public class Spinner extends CLIelem implements Runnable {
         stopASAP = true;
     }
 
+    public void pause(){
+        stopASAP=true;
+    }
+
+    public void resume(){
+        run();
+    }
+
     public Spinner(String waitingFor,String meanwhileShow) {
         this.waitingFor = waitingFor;
         this.meanwhileShow = meanwhileShow;
+        this.paused=false;
     }
 
     /** Characters used for the spinner animation */

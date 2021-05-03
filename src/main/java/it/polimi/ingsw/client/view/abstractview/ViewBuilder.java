@@ -2,34 +2,33 @@ package it.polimi.ingsw.client.view.abstractview;
 
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.CommonData;
-import it.polimi.ingsw.client.view.CLI.CLIView;
+import it.polimi.ingsw.client.view.CLI.CLI;
 
 
 /**
- * Abstract representation of a command view.
+ * Builds the view
  */
 public abstract class ViewBuilder implements Runnable
 {
-    private Client owner;
+    private Client client;
     private CommonData commonData;
-    private boolean stopInteraction;
-    private CLIView cliView;
+    private CLI cli;
 
-    public CLIView getCLIView() {
-        return cliView;
+    public CLI getCLIView() {
+        return cli;
     }
 
-    public void setCliBuilder(CLIView cliView) {
-        this.cliView = cliView;
+    public void setCLIView(CLI cli) {
+        this.cli = cli;
     }
 
     /**
      * Set the parent object of the view.
-     * @param owner The parent object
+     * @param client The parent object
      */
-    public void setOwner(Client owner)
+    public void setClient(Client client)
     {
-        this.owner = owner;
+        this.client = client;
     }
 
     public CommonData getCommonData() {
@@ -41,40 +40,15 @@ public abstract class ViewBuilder implements Runnable
     }
 
     /**
-     * The parent object of the view.
-     * @return The parent object.
+     * Returns The Client.
      */
     public Client getClient()
     {
-        return owner;
+        return client;
     }
 
     /**
-     * The main method of the view. Handles user interaction. User interaction
-     * is considered ended when this method exits.
-     * @implNote This method shall exit as soon as possible after stopInteraction()
-     * is called (from another thread).
+     * Adds view elements to the CLIView
      */
     abstract public void run();
-
-
-    /**
-     * Checks if stopInteraction() has been called at least once.
-     * @return If the interaction shall be stopped.
-     */
-    synchronized protected boolean shouldStopInteraction()
-    {
-        return stopInteraction;
-    }
-
-
-    /**
-     * Sets a flag that informs the run() method to terminate as soon
-     * as possible.
-     */
-    public synchronized void stopInteraction()
-    {
-        stopInteraction = true;
-        notifyAll();
-    }
 }
