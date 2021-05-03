@@ -27,7 +27,7 @@ public class MarketBoardTest {
         List<String> players = new ArrayList<>();
         players.add("testPlayer");
         boolean isSinglePlayer = true;
-        gameModelTest = new GameModel(players, isSinglePlayer);
+        gameModelTest = new GameModel(players, isSinglePlayer,null);
         areThereWhiteMarbles = false;
     }
 

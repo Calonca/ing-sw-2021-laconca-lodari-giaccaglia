@@ -3,11 +3,11 @@ package it.polimi.ingsw.client.view.CLI.CLIelem;
 
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.CommonData;
-import it.polimi.ingsw.client.PlayerCache;
 import it.polimi.ingsw.client.view.CLI.SetupPhase;
+import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
+import it.polimi.ingsw.network.messages.servertoclient.state.SETUP_PHASE;
 
 import java.util.Arrays;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Spinner extends CLIelem implements Runnable {
 
@@ -25,20 +25,20 @@ public class Spinner extends CLIelem implements Runnable {
      * Updates its meanwhileShow from matchesData.
      * Goes to {@link SetupPhase} when the state goes to SetupPhase
      */
-    public static Spinner matchToStart(Client client){
+    public static Spinner matchToStart(Client client, ViewBuilder viewBuilder){
         Spinner spinner = new Spinner(
                 "Match to start",
                 client.getCommonData().thisMatchPlayers().map(Arrays::toString).toString());
-        spinner.setPerformer(()-> client.transitionToView(new SetupPhase()));
+        spinner.setPerformer(()-> client.changeViewBuilder(new SetupPhase(), viewBuilder));
         spinner.setUpdater(()->{
             if (spinner.getEvt().getPropertyName().equals(CommonData.matchesDataString)) {
                 spinner.meanwhileShow = client.getCommonData().thisMatchPlayers().map(Arrays::toString).toString();
-            } else if (spinner.getEvt().getPropertyName().equals(PlayerCache.SETUP_PHASE))
+            } else if (spinner.getEvt().getPropertyName().equals(SETUP_PHASE.class.getSimpleName()))
                 spinner.perform();
         });
         spinner.setPerformer(()-> {
             spinner.stopASAP = true;
-            client.transitionToView(new SetupPhase());
+            client.changeViewBuilder(new SetupPhase(),viewBuilder);
         });
         spinner.paused=false;
         return spinner;

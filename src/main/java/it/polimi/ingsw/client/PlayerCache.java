@@ -1,6 +1,8 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.view.CLI.InitialPhase;
+import it.polimi.ingsw.network.messages.servertoclient.state.StateMessage;
+import it.polimi.ingsw.server.model.State;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -13,11 +15,7 @@ import java.util.Optional;
  */
 public class PlayerCache {
 
-    public static final String SETUP_PHASE = "SETUP_PHASE";
-    public static final String INITIAL_PHASE = "INITIAL_PHASE";
-
-    private Map<String, Map<String,Runnable>> stateToStateTransition;
-    private Map<String, Map<String, Object>> stateData;
+    private Map<String, StateMessage> stateData;
 
     private final PropertyChangeSupport support;
     private final Client client;
@@ -26,11 +24,6 @@ public class PlayerCache {
         this.client = client;
         support = new PropertyChangeSupport(this);
         stateData = new HashMap<>();
-        stateData.put(SETUP_PHASE,new HashMap<>());
-
-        stateToStateTransition = new HashMap<>();
-        stateToStateTransition.put(SETUP_PHASE,new HashMap<>());
-        stateToStateTransition.get(SETUP_PHASE).put(INITIAL_PHASE, ()->client.transitionToView(new InitialPhase()));
         //Todo initialize table
     }
 
@@ -42,19 +35,19 @@ public class PlayerCache {
         support.removePropertyChangeListener(pcl);
     }
 
-    public <T> Optional<T> getFromStateAndKey(String state, String key){
-        Optional<Object> notCasted= Optional.ofNullable(stateData.getOrDefault(state,null))
-                .map(map->map.getOrDefault(key,null));
+
+    public <T extends StateMessage> Optional<T> getDataFromState(String state){
+        Optional<StateMessage> notCasted= Optional.ofNullable(stateData.getOrDefault(state,null));
         try {
             return (Optional<T>) notCasted;
         } catch (Exception e){
             return Optional.empty();
         }
-
     }
 
-    public void update(String state, Map<String, Object> serializedObject) {
-        support.firePropertyChange(state, stateData.get(state), serializedObject);
-        stateData.put(state,serializedObject);
+    public void update(String state, StateMessage stateMessage) {
+        StateMessage oldState = stateData.get(state);
+        stateData.put(state,stateMessage);
+        support.firePropertyChange(state, oldState, stateMessage);
     }
 }

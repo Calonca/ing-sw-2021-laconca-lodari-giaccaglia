@@ -1,4 +1,5 @@
 package it.polimi.ingsw.server.model;
+import it.polimi.ingsw.server.controller.Match;
 import it.polimi.ingsw.server.model.cards.*;
 import it.polimi.ingsw.server.model.market.*;
 import it.polimi.ingsw.server.model.player.*;
@@ -18,6 +19,8 @@ public class GameModel {
      * Player currently facing playing a game turn.
      */
     private Player currentPlayer;
+
+    private final Match match;
 
     /**
      * List of current game registered players after lobby creation.
@@ -88,8 +91,8 @@ public class GameModel {
      * @param nicknames a List of unique names of players.
      * @param isSinglePlayer Indicates if it is a single player game or not.
      */
-    public GameModel(List<String> nicknames, boolean isSinglePlayer){
-
+    public GameModel(List<String> nicknames, boolean isSinglePlayer,Match match){
+        this.match = match;
         this.isSinglePlayer = isSinglePlayer;
         commonInit(nicknames);
 
@@ -494,4 +497,7 @@ public class GameModel {
         return player.getLorenzoPosition();
     }
 
+    public UUID getMatchID() {
+        return match.getMatchId();
+    }
 }

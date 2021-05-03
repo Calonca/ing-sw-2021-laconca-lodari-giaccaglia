@@ -14,11 +14,7 @@ public class MatchesData extends it.polimi.ingsw.network.messages.servertoclient
         super(matchesData);
     }
 
-    /**
-     * Method invoked in the client to process the message.
-     *
-     * @param serverHandler
-     */
+
     @Override
     public void processMessage(ServerHandler serverHandler) throws IOException {
         serverHandler.getClient().getCommonData().setMatchesData(Optional.ofNullable(matchesData));

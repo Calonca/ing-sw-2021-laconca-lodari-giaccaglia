@@ -45,7 +45,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
     }
 
     private Option getOption(Map.Entry<UUID, String[]> uuidPair) {
-        Runnable r = () -> getClient().transitionToView(new JoinMatch(uuidPair.getKey()));
+        Runnable r = () -> getClient().changeViewBuilder(new JoinMatch(uuidPair.getKey()), this);
         return Option.from(
                     uuidPair.getKey().toString(),
                     Arrays.toString(uuidPair.getValue()),
@@ -57,7 +57,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         Stream<Option> optionsToAdd = matchesData.map(
                 (o)-> o.entrySet().stream().map(this::getOption)).orElse(Stream.empty());
 
-        Option newMatch = Option.from("New Match",()->getClient().transitionToView(new CreateMatch()));
+        Option newMatch = Option.from("New Match",()->getClient().changeViewBuilder(new CreateMatch(), this));
         return  Stream.concat(optionsToAdd,Stream.of(newMatch));
     }
 

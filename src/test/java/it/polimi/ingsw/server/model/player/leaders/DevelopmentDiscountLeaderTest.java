@@ -35,7 +35,7 @@ public class DevelopmentDiscountLeaderTest
         List<String> nicknames = new ArrayList<>();
         nicknames.add("testPlayer");
         boolean isSinglePlayer = true;
-        GameModel gamemodel = new GameModel(nicknames, isSinglePlayer);
+        GameModel gamemodel = new GameModel(nicknames, isSinglePlayer,null);
 
         assertNotNull(discountTest);
         DevelopmentDiscountLeader leadertest = new DevelopmentDiscountLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, discountTest);

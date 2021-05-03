@@ -1,10 +1,8 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.client.view.CLI.CLIelem.Spinner;
 import it.polimi.ingsw.client.view.CLI.ConnectToServer;
 import it.polimi.ingsw.client.view.CLI.CreateJoinLoadMatch;
 import it.polimi.ingsw.client.messages.servertoclient.ClientMessage;
-import it.polimi.ingsw.client.view.CLI.MainMenu;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
 
 import java.io.IOException;
@@ -49,7 +47,7 @@ public class ServerHandler implements Runnable
             input = new ObjectInputStream(server.getInputStream());
         } catch (IOException e) {
             System.out.println("could not open connection to " + server.getInetAddress());
-            owner.transitionToView(new ConnectToServer());
+            owner.changeViewBuilder(new ConnectToServer(), null);
             return;
         }
 
@@ -74,7 +72,7 @@ public class ServerHandler implements Runnable
     private void handleClientConnection() throws IOException
     {
 
-        getClient().transitionToView(new CreateJoinLoadMatch());
+        getClient().changeViewBuilder(new CreateJoinLoadMatch(), null);
 
         try {
             boolean stop = false;

@@ -4,9 +4,6 @@ import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Spinner;
 import it.polimi.ingsw.client.view.abstractview.ConnectToServerViewBuilder;
 
-import java.beans.PropertyChangeEvent;
-import java.util.Scanner;
-
 public class ConnectToServer extends ConnectToServerViewBuilder implements CLIBuilder {
 
 
@@ -29,7 +26,7 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements CLIBu
 
         getClient().setServerConnection(ip,port);
         Spinner spinner = new Spinner("server connection");
-        spinner.setPerformer(()->getClient().transitionToView(new MainMenu()));
+        spinner.setPerformer(()->getClient().changeViewBuilder(new MainMenu(), this));
         spinner.performWhenReceiving(CommonData.matchesDataString);
 
         getCLIView().setSpinner(spinner);

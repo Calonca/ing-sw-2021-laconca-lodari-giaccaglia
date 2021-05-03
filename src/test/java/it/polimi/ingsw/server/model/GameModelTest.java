@@ -55,7 +55,7 @@ public class GameModelTest {
         List<String> players = new ArrayList<>();
         players.add("testPlayer");
         boolean isSinglePlayer = true;
-        gameModelTest = new GameModel(players, isSinglePlayer);
+        gameModelTest = new GameModel(players, isSinglePlayer,null);
         testPlayer = gameModelTest.getPlayer(players.get(0));
 
         assertEquals(testPlayer, gameModelTest.getSinglePlayer());
@@ -77,7 +77,7 @@ public class GameModelTest {
         players.add("testPlayer4");
 
         boolean isSinglePlayer = false;
-        gameModelTest = new GameModel(players, false);
+        gameModelTest = new GameModel(players, false,null);
     }
 
     private void testPurchaseCard(DevelopmentCardColor color){

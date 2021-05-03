@@ -61,20 +61,25 @@ public class CommonData {
     }
 
     public void setMatchesData(Optional<Map<UUID,String[]>> newValue) {
-        support.firePropertyChange(matchesDataString,this.matchesData,newValue);
+        Optional<Map<UUID,String[]>> oldValue = matchesData;
         this.matchesData = newValue;
+        support.firePropertyChange(matchesDataString,oldValue,newValue);
     }
 
     public void setCurrentPlayer(int currentPlayerIndex) {
         int intValue = this.currentPlayerIndex != null ? currentPlayerIndex : 0;
-        support.firePropertyChange(currentPlayerString,intValue,currentPlayerIndex);
         this.currentPlayerIndex = currentPlayerIndex;
+        support.firePropertyChange(currentPlayerString,intValue,currentPlayerIndex);
     }
 
     public void setStartData(UUID matchId,int thisPlayerIndex) {
-        support.firePropertyChange(thisMatchData,this.matchId,matchId);
+        UUID oldMatchId = matchId;
+        int oldPlayerIndex = thisPlayerIndex;
+
         this.matchId = matchId;
         this.thisPlayerIndex = thisPlayerIndex;
+
+        support.firePropertyChange(thisMatchData,oldMatchId,matchId);
     }
 
 }

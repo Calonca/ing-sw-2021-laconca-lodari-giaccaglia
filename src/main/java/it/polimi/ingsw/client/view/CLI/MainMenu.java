@@ -5,8 +5,6 @@ import it.polimi.ingsw.client.view.CLI.CLIelem.Option;
 import it.polimi.ingsw.client.view.CLI.CLIelem.OptionList;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Title;
 
-import java.beans.PropertyChangeEvent;
-
 public class MainMenu extends it.polimi.ingsw.client.view.abstractview.MainMenu implements CLIBuilder {
 
 
@@ -24,10 +22,10 @@ public class MainMenu extends it.polimi.ingsw.client.view.abstractview.MainMenu 
         OptionList optionList = new OptionList();
         Runnable r;
 
-        r = ()->getClient().transitionToView(new CreateJoinLoadMatch());
+        r = ()->getClient().changeViewBuilder(new CreateJoinLoadMatch(), this);
         optionList.addOption(Option.from("Browse matches","Join or create",r));
 
-        r = ()->getClient().transitionToView(new CreateMatch());
+        r = ()->getClient().changeViewBuilder(new CreateMatch(), this);
         optionList.addOption(Option.from("Create a match","One or more players",r));
 
         r = ()->getCLIView().setSpinner(new Spinner("Waiting for exit"));

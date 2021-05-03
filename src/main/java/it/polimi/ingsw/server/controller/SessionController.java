@@ -3,18 +3,15 @@ package it.polimi.ingsw.server.controller;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.network.messages.servertoclient.MatchesData;
-import it.polimi.ingsw.server.model.State;
-import it.polimi.ingsw.network.messages.servertoclient.StateMessage;
+import it.polimi.ingsw.network.messages.servertoclient.state.StateMessageContainer;
 import it.polimi.ingsw.server.ClientHandler;
+import it.polimi.ingsw.server.model.State;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -61,9 +58,9 @@ public class SessionController {
             if (!match.canAddPlayer()) {
                 match.startGame();
                 try {
-
                     match.currentPlayerClientHandler().sendAnswerMessage(
-                            new StateMessage(0, State.SETUP_PHASE.toString(),State.SETUP_PHASE.serialize(match.getGame())));
+                            new StateMessageContainer(State.SETUP_PHASE.toStateMessage(match.getGame()))
+                            );
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

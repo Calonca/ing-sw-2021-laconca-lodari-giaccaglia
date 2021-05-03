@@ -4,6 +4,8 @@ import it.polimi.ingsw.client.view.CLI.CLI;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Spinner;
 import it.polimi.ingsw.client.view.CLI.ConnectToServer;
 import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
+import it.polimi.ingsw.network.messages.servertoclient.state.SETUP_PHASE;
+import it.polimi.ingsw.network.messages.servertoclient.state.StateMessage;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -63,7 +65,7 @@ public class Client implements Runnable
             server = new Socket(ip, port);
         } catch (IOException e) {
             System.out.println("server unreachable");
-            transitionToView(new ConnectToServer());
+            changeViewBuilder(new ConnectToServer(), null);
             return;
         }
         serverHandler = new ServerHandler(server, this);
@@ -117,10 +119,12 @@ public class Client implements Runnable
 
 
     /**
-     * Transitions the view thread to a given view.
-     * @param newViewBuilder The view to transition to.
+     * Changes the ViewBuilder.
+     * Should only be called from another ViewBuilder.
+     * @param newViewBuilder The ViewBuilder to transition to.
+     * @param fromView the ViewBuilder from where you are making the transition.
      */
-    public synchronized void transitionToView(ViewBuilder newViewBuilder)
+    public synchronized void changeViewBuilder(ViewBuilder newViewBuilder, ViewBuilder fromView)
     {
         this.nextViewBuilder = newViewBuilder;
         cli.resetCLI();
@@ -141,10 +145,6 @@ public class Client implements Runnable
         }
     }
 
-    public ViewBuilder getCurrentViewBuilder() {
-        return currentViewBuilder;
-    }
-
     /**
      * Returns the player cache for the current player
      */
@@ -152,18 +152,22 @@ public class Client implements Runnable
         return commonData.getCurrentPlayerIndex().map(i->playersCache.get(i));
     }
 
-    public <T> Optional<T> getFromStateAndKey(String state, String key){
-        return (Optional<T>) currentPlayerCache().map(cache->cache.<T>getFromStateAndKey(state, key));
+    public <T extends StateMessage> Optional<T> getState(String state){
+        Optional<StateMessage> o = currentPlayerCache().flatMap(cache->cache.getDataFromState(state));
+        try {
+            return (Optional<T>) o;
+        } catch (Exception ignored){
+            return Optional.empty();
+        }
+
     }
 
-    public void setState(int thisPlayerIndex, String state, Map<String, Object> serializedObject){
-        int numberOfPlayers = 4;//Todo Replace with true data
-        UUID matchId = commonData.getMatchesData()
-                .map((o)->o.keySet().stream().toArray(UUID[]::new)[0])
-                .orElse(UUID.randomUUID());//Todo Replace with true data
+    public void setState(int thisPlayerIndex, String state, StateMessage serializedObject){
         if (playersCache.size()==0){
-            commonData.setStartData(matchId,thisPlayerIndex);
-            initializePlayerCache(numberOfPlayers);
+            SETUP_PHASE setup_phase = (SETUP_PHASE) serializedObject;
+            commonData.setStartData(setup_phase.getMatchID(),thisPlayerIndex);
+            commonData.setCurrentPlayer(0);
+            initializePlayerCache(commonData.thisMatchPlayers().get().length);
         }
         playersCache.get(thisPlayerIndex).update(state,serializedObject);
     }

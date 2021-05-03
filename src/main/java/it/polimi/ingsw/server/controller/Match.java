@@ -39,7 +39,7 @@ public class Match {
 
     public void startGame() {
         hasStarted=true;
-        this.game = new GameModel(onlineUsers,onlineUsers.size()==1);
+        this.game = new GameModel(onlineUsers,onlineUsers.size()==1,this);
         game.getCurrentPlayer().setCurrentState(State.SETUP_PHASE);
     }
 
