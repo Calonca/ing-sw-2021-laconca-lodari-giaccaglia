@@ -26,9 +26,6 @@ public class DevelopmentCardDeck {
 
     }
 
-
-
-
     public int getDeckSize() {
         return deckSize;
     }
@@ -40,6 +37,11 @@ public class DevelopmentCardDeck {
     public DevelopmentCard getCard(){
         deckSize--;
         return deck.remove(deckSize);
+    }
+
+    public DevelopmentCard getCardCopy(){
+        int position = deckSize;
+        return new DevelopmentCard(deck.get(position-1));
     }
 
 

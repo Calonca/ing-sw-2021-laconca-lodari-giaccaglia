@@ -16,7 +16,7 @@ public class ChooseResourceForCardShopEvent extends it.polimi.ingsw.network.mess
     @Override
     public boolean validate(GameModel gameModel) {
         initializeMiddlePhaseEventValidation(gameModel);
-        return isGameStarted(gameModel) && checkResourceRequirements() && validateDevCardRequirements();
+        return isGameStarted(gameModel) && checkResourceRequirements() && validateDevCardRequirements(gameModel.getPurchasedCard());
     }
 
     /**

@@ -1,5 +1,6 @@
-package it.polimi.ingsw.network.messages.clienttoserver;
+package it.polimi.ingsw.server.messages.clienttoserver.events;
 
+import it.polimi.ingsw.network.messages.clienttoserver.CreateMatchRequest;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

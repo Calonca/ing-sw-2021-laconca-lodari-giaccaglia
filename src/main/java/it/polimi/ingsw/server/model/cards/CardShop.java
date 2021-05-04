@@ -89,6 +89,10 @@ public class CardShop {
         purchasedCard = devDecks.get(color).get(level).getCard();
     }
 
+    public DevelopmentCard getCardCopy(DevelopmentCardColor color, int level){
+        return devDecks.get(color).get(level).getCardCopy();
+    }
+
     public boolean isLevelOfColourOutOfStock(DevelopmentCardColor color, int level){
         if(level <= maxLevel)
             return devDecks.get(color).get(level).isDeckEmpty();

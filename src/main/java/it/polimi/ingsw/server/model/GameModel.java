@@ -166,7 +166,7 @@ public class GameModel {
 
 
     public boolean isDevCardInShopAvailable(int cardColorNumber, int cardLevel) {
-        return cardShop.isLevelOfColourOutOfStock(DevelopmentCardColor.fromInt(cardColorNumber), cardLevel);
+        return !cardShop.isLevelOfColourOutOfStock(DevelopmentCardColor.fromInt(cardColorNumber), cardLevel);
     }
 
     public int getMaxDevCardLevelInCardShop(){
