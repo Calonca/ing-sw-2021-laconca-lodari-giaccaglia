@@ -12,15 +12,6 @@ import it.polimi.ingsw.server.model.State;
  */
 public class ChooseLineEvent extends it.polimi.ingsw.network.messages.clienttoserver.events.marketboardevent.ChooseLineEvent implements Validable {
 
-    /**
-     * Client side {@link it.polimi.ingsw.network.messages.clienttoserver.events.Event} constructor invoked when {@link State#SHOWING_MARKET_RESOURCES SHOWING_MARKET_RESOURCES}
-     * phase action is performed.
-     *
-     * @param rowNumber int value matching an encoded {@link MarketLine}
-     */
-    public ChooseLineEvent(int rowNumber) {
-        super(rowNumber);
-    }
 
     @Override
     public boolean validate(GameModel model) {

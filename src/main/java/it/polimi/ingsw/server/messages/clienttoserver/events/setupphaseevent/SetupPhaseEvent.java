@@ -46,10 +46,12 @@ public class SetupPhaseEvent extends it.polimi.ingsw.network.messages.clienttose
             boolean validationOk = false;
             for (Integer leaderNumber : chosenLeaders) {
                 validationOk = gamemodel.isLeaderAvailable(leaderNumber);
+                if(!validationOk) return false;
             }
 
             for (Integer leaderNumber : discardedLeaders) {
                 validationOk = gamemodel.isLeaderAvailable(leaderNumber);
+                if(!validationOk) return false;
             }
             return validationOk;
         }

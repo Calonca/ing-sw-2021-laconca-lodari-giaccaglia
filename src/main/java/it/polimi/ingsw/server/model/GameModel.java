@@ -213,6 +213,10 @@ public class GameModel {
     public boolean isLeaderAvailable(int leaderNumber){
         return leaders.keySet().stream().anyMatch(availableNumbers -> availableNumbers==leaderNumber);
     }
+
+    public Leader getLeader(int leaderNumber){
+        return leaders.remove(leaderNumber);
+    }
     public void setOfflinePlayer(Player player){
         player.setCurrentStatus(false);
         updateOnlinePlayers();
