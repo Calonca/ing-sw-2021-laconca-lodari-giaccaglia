@@ -32,7 +32,6 @@ public class CreateMatch extends CreateMatchViewBuilder implements CLIBuilder {
             RunnableWithString rs2 = new RunnableWithString();
             int finalNumberOfPlayers = numberOfPlayers;
             rs2.afterInputCall(()->{
-
                 String nickName = rs2.getString();
                 getCLIView().resetCLI();
                 getCLIView().setSpinner(Spinner.matchToStart(getClient(),this));

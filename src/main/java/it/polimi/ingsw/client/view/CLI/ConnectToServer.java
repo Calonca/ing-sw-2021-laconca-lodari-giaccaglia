@@ -1,8 +1,10 @@
 package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.CommonData;
+import it.polimi.ingsw.client.view.CLI.CLIelem.RunnableWithString;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Spinner;
 import it.polimi.ingsw.client.view.abstractview.ConnectToServerViewBuilder;
+import it.polimi.ingsw.network.messages.clienttoserver.JoinMatchRequest;
 
 public class ConnectToServer extends ConnectToServerViewBuilder implements CLIBuilder {
 
@@ -16,21 +18,28 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements CLIBu
      */
     @Override
     public void run() {
-        String ip;
-        int port;
 
         getCLIView().scroll();
-        ip = getCLIView().getInAndCallRunnable("Write the server number");
-        String portString = getCLIView().getInAndCallRunnable("Write the server port");
-        port = Integer.parseInt(portString);
+        RunnableWithString rs = new RunnableWithString();
+        rs.afterInputCall(()->{
+            String portString = rs.getString();
+            RunnableWithString rs2 = new RunnableWithString();
+            rs2.afterInputCall(()->{
+                int port = Integer.parseInt(rs2.getString());
 
-        getClient().setServerConnection(ip,port);
-        Spinner spinner = new Spinner("server connection");
-        spinner.setPerformer(()->getClient().changeViewBuilder(new MainMenu(), this));
-        spinner.performWhenReceiving(CommonData.matchesDataString);
+                getClient().setServerConnection(portString,port);
+                Spinner spinner = new Spinner("server connection");
+                spinner.setPerformer(()->getClient().changeViewBuilder(new MainMenu(), this));
+                spinner.performWhenReceiving(CommonData.matchesDataString);
 
-        getCLIView().setSpinner(spinner);
-        getClient().run();
+                getCLIView().setSpinner(spinner);
+                getClient().run();
+            });
+            getCLIView().getInAndCallRunnable("Your nickname: ",rs2);
+
+        });
+        getCLIView().getInAndCallRunnable("Write the server number",rs);
+
     }
 
 }

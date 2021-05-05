@@ -17,7 +17,6 @@ import java.util.stream.Stream;
  * Builds the CLI
  * Usage: add the elements to the cli by calling addOption()
  * You can then select an option and execute the code contained in that option
- * Todo add elements like text instead of options
  * Todo add selection with arrows
  */
 public class CLI {
@@ -99,8 +98,9 @@ public class CLI {
 
     public void getInAndCallRunnable(String message, RunnableWithString rs){
         print(Color.colorString(message,Color.ANSI_GREEN));
-        rs.setString(message);
-
+        String s = getInAndCallRunnable();
+        rs.setString(s);
+        rs.runCode();
     }
 
     private String getInAndCallRunnable(){
