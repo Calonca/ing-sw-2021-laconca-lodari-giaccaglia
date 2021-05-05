@@ -72,8 +72,6 @@ public class ServerHandler implements Runnable
     private void handleClientConnection() throws IOException
     {
 
-        getClient().changeViewBuilder(new CreateJoinLoadMatch(), null);
-
         try {
             boolean stop = false;
             while (!stop) {
@@ -82,6 +80,8 @@ public class ServerHandler implements Runnable
                     String next = input.readObject().toString();
                     ClientMessage command = ClientMessage.deserialize(next);
                     command.processMessage(this);
+
+
                 } catch (IOException e) {
                     /* Check if we were interrupted because another thread has asked us to stop */
                     if (shouldStop.get()) {

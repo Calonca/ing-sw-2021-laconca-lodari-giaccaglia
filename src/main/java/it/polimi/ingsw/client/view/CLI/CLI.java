@@ -1,10 +1,7 @@
 package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.Client;
-import it.polimi.ingsw.client.view.CLI.CLIelem.Option;
-import it.polimi.ingsw.client.view.CLI.CLIelem.OptionList;
-import it.polimi.ingsw.client.view.CLI.CLIelem.Spinner;
-import it.polimi.ingsw.client.view.CLI.CLIelem.Title;
+import it.polimi.ingsw.client.view.CLI.CLIelem.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -13,14 +10,12 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 /**
  * Builds the CLI
  * Usage: add the elements to the cli by calling addOption()
  * You can then select an option and execute the code contained in that option
- * Todo add elements like text instead of options
  * Todo add selection with arrows
  */
 public class CLI {
@@ -30,6 +25,9 @@ public class CLI {
     private OptionList[] optionListAtPos;
     private Optional<Option> lastChoice=Optional.empty();
     public final AtomicBoolean stopASAP;
+    private boolean isTakingInput = false;
+    private Thread inputThread;
+    private String inputMessage;
 
 
     public CLI(Client client) {
@@ -44,7 +42,7 @@ public class CLI {
     }
 
     void setOptionList(CLIPos pos,OptionList optionList){
-        optionList.setCLIView(this, client);
+        optionList.setCLIAndAddToPublishers(this, client);
         optionListAtPos[pos.ordinal()]=optionList;
     }
 
@@ -53,9 +51,8 @@ public class CLI {
         if (cli.title!=null)
             cli.title.removeFromPublishers(cli.client);
         cli.title = null;
-        cli.spinner.ifPresentOrElse(
-                s->s.stop(cli.client),
-                ()-> cli.spinner=Optional.empty());
+        cli.spinner.ifPresent(s->s.removeFromPublishers(cli.client));
+        cli.spinner = Optional.empty();
         Arrays.stream(cli.optionListAtPos).forEach(o->o.removeFromPublishers(cli.client));
         cli.optionListAtPos = Stream.generate(OptionList::new).limit(CLIPos.values().length).toArray(OptionList[]::new);
     }
@@ -69,30 +66,23 @@ public class CLI {
     }
 
     public void update(){
-        spinner.ifPresent(Spinner::pause);
         displayWithDivider();
-        spinner.ifPresent(Spinner::resume);
     }
 
     public void setTitle(Title title){
+        if (this.title!=null)
+            title.removeFromPublishers(client);
         this.title = title;
+        this.title.setCLIAndAddToPublishers(this,client);
     }
 
     public void setSpinner(Spinner spinner){
-        this.spinner.ifPresent(s->s.stop(client));
+        this.spinner.ifPresent(s->s.removeFromPublishers(client));
         this.spinner = Optional.of(spinner);
-        spinner.setCLIView(this, client);
+        spinner.setCLIAndAddToPublishers(this, client);
     }
 
-    public boolean canSpin(){
-        return spinner.isPresent();
-    }
-
-    public void startSpinning(){
-        spinner.ifPresent(Spinner::run);
-    }
-
-    public void print(String s){
+    private void print(String s){
         System.out.println(s);
     }
 
@@ -100,12 +90,22 @@ public class CLI {
         System.out.println(Color.colorString(error,Color.ANSI_RED));
     }
 
-    public String getIN(String message){
-        print(Color.colorString(message,Color.ANSI_GREEN));
-        return getIN();
+    public void getInputAndLaunchRunnable(String message, RunnableWithString rs){
+        inputThread = null;
+        Runnable r = ()-> {
+            print(Color.colorString(message,Color.ANSI_GREEN));
+            putEndDiv();
+            isTakingInput = true;
+            String s = getInAndCallRunnable();
+            isTakingInput = false;
+            rs.setString(s);
+            rs.runCode();
+        };
+        inputMessage = message;
+        inputThread = new Thread(r);
     }
 
-    private String getIN(){
+    private String getInAndCallRunnable(){
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
     }
@@ -148,7 +148,16 @@ public class CLI {
         getOptionsAt(CLIPos.BOTTOM_RIGHT).toStringStream()
                 .map(s -> finalSpaces2 +s.replace("\n","\n"+finalSpaces2))
                 .forEach(this::print);
-        startSpinning();
+        
+        spinner.ifPresent(spinner1 -> print(spinner1.toString()));
+
+        if (isTakingInput){
+            print(Color.colorString(inputMessage,Color.ANSI_GREEN));
+            putEndDiv();}
+        else if (inputThread!=null) {
+            inputThread.start();
+            inputThread=null;
+        } else putEndDiv();
     }
 
     @Override
@@ -182,7 +191,11 @@ public class CLI {
 
 
     public void putDivider(){
-        print("------------------------------------------------------------");
+        print("||-----------------------------------------------------------");
+    }
+
+    public void putEndDiv(){
+        print("-----------------------------------------------------------||");
     }
 
     public void scroll(){
@@ -194,7 +207,4 @@ public class CLI {
         this.lastChoice = integerOptionPair;
     }
 
-    public void updateTitle() {
-        update();
-    }
 }
