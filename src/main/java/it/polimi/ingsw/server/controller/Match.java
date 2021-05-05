@@ -99,6 +99,6 @@ public class Match {
     }
 
     public int getLastPos() {
-        return onlineUsers.size();
+        return onlineUsers.size()-1;
     }
 }
