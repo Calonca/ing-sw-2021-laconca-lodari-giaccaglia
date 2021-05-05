@@ -25,9 +25,12 @@ public class CLI {
     private OptionList[] optionListAtPos;
     private Optional<Option> lastChoice=Optional.empty();
     public final AtomicBoolean stopASAP;
-    private boolean isTakingInput = false;
     private Thread inputThread;
     private String inputMessage;
+    private String lastInput;
+    private int lastInt;
+    private boolean isTakingInput;
+    private Runnable afterInput;
 
 
     public CLI(Client client) {
@@ -38,16 +41,24 @@ public class CLI {
     }
 
     public void resetCLI(){
-        clearOptions(this);
+        try {
+            clearOptions(this);
+        } catch (ChangingViewBuilderBeforeTakingInput e){
+            e.printStackTrace();
+        }
     }
 
     void setOptionList(CLIPos pos,OptionList optionList){
         optionList.setCLIAndAddToPublishers(this, client);
         optionListAtPos[pos.ordinal()]=optionList;
+        optionList.selectOption();
     }
 
-    private static void clearOptions(CLI cli)
-    {
+    private static void clearOptions(CLI cli) throws ChangingViewBuilderBeforeTakingInput {
+        if (cli.isTakingInput)
+        {
+            throw new ChangingViewBuilderBeforeTakingInput();
+        }
         if (cli.title!=null)
             cli.title.removeFromPublishers(cli.client);
         cli.title = null;
@@ -90,23 +101,75 @@ public class CLI {
         System.out.println(Color.colorString(error,Color.ANSI_RED));
     }
 
-    public void getInputAndLaunchRunnable(String message, RunnableWithString rs){
-        inputThread = null;
+    public String getLastInput() {
+        return lastInput;
+    }
+
+    public synchronized void runOnInput(String message, Runnable r1){
         Runnable r = ()-> {
             print(Color.colorString(message,Color.ANSI_GREEN));
             putEndDiv();
-            isTakingInput = true;
-            String s = getInAndCallRunnable();
-            isTakingInput = false;
-            rs.setString(s);
-            rs.runCode();
+            lastInput = getInString();
+            callRunnableAfterGettingInput();
         };
+        commonRunOnInput(message,r,r1);
+    }
+
+    private synchronized void commonRunOnInput(String message, Runnable r, Runnable afterInput){
+        if (inputThread!= null && inputThread.isAlive() && isTakingInput) {
+            inputThread.interrupt();
+            isTakingInput = false;
+        }
+        this.afterInput = afterInput;
         inputMessage = message;
         inputThread = new Thread(r);
     }
 
-    private String getInAndCallRunnable(){
+    private synchronized void callRunnableAfterGettingInput(){
+        afterInput.run();
+        inputThread = null;
+    }
+
+    public synchronized void runOnIntInput(String message,String errorMessage,int min,int max, Runnable r1){
+        Runnable r = ()-> {
+            int choice;
+            do  {
+                print(Color.colorString(message,Color.ANSI_GREEN));
+                putEndDiv();
+                String in = getInString();
+                try
+                {
+                    choice = Integer.parseInt(in);
+                    if (choice<min||choice>max)
+                    {
+                        printError(errorMessage);
+                        if (choice<min)
+                            printError("Insert a GREATER number!");
+                        else printError("Insert a SMALLER number!");
+                    }else {
+                        break;
+                    }
+                }
+                catch (NumberFormatException e){
+                    printError(errorMessage);
+                    printError("Insert a NUMBER!");
+                }
+            }while(true);
+            lastInt = choice;
+            lastInput = Integer.toString(choice);
+            callRunnableAfterGettingInput();
+        };
+        commonRunOnInput(message,r,r1);
+    }
+
+    public int getLastInt() {
+        return lastInt;
+    }
+
+    private String getInString(){
+        isTakingInput = true;
         Scanner scanner = new Scanner(System.in);
+        isTakingInput = false;
         return scanner.nextLine();
     }
 
@@ -123,7 +186,7 @@ public class CLI {
     /**
      * Used to refresh the screen
      */
-    private void display(){
+    private synchronized void display(){
 
         if (title!=null){
             print(title.toString()+"\n");}
@@ -151,12 +214,15 @@ public class CLI {
         
         spinner.ifPresent(spinner1 -> print(spinner1.toString()));
 
-        if (isTakingInput){
+        //Todo: Sometimes the choices are not updated
+        //Can be solved via a check after taking the input
+        printError("Todo: Sometimes the choices are not updated, sometimes you hase to select new match 2 times");
+        if (isTakingInput){//Should never get here
             print(Color.colorString(inputMessage,Color.ANSI_GREEN));
-            putEndDiv();}
-        else if (inputThread!=null) {
+            putEndDiv();
+        }
+        else if (inputThread!=null && !inputThread.isAlive()) {
             inputThread.start();
-            inputThread=null;
         } else putEndDiv();
     }
 
