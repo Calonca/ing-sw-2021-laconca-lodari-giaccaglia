@@ -25,6 +25,9 @@ public class CLI {
     private OptionList[] optionListAtPos;
     private Optional<Option> lastChoice=Optional.empty();
     public final AtomicBoolean stopASAP;
+    private boolean isTakingInput = false;
+    private Thread inputThread;
+    private String inputMessage;
 
 
     public CLI(Client client) {
@@ -87,15 +90,19 @@ public class CLI {
         System.out.println(Color.colorString(error,Color.ANSI_RED));
     }
 
-    public void getInAndCallRunnable(String message, RunnableWithString rs){
+    public void getInputAndLaunchRunnable(String message, RunnableWithString rs){
+        inputThread = null;
         Runnable r = ()-> {
             print(Color.colorString(message,Color.ANSI_GREEN));
+            putEndDiv();
+            isTakingInput = true;
             String s = getInAndCallRunnable();
+            isTakingInput = false;
             rs.setString(s);
             rs.runCode();
         };
-        Thread inputThread = new Thread(r);
-        inputThread.start();
+        inputMessage = message;
+        inputThread = new Thread(r);
     }
 
     private String getInAndCallRunnable(){
@@ -143,6 +150,14 @@ public class CLI {
                 .forEach(this::print);
         
         spinner.ifPresent(spinner1 -> print(spinner1.toString()));
+
+        if (isTakingInput){
+            print(Color.colorString(inputMessage,Color.ANSI_GREEN));
+            putEndDiv();}
+        else if (inputThread!=null) {
+            inputThread.start();
+            inputThread=null;
+        } else putEndDiv();
     }
 
     @Override
@@ -176,7 +191,11 @@ public class CLI {
 
 
     public void putDivider(){
-        print("------------------------------------------------------------");
+        print("||-----------------------------------------------------------");
+    }
+
+    public void putEndDiv(){
+        print("-----------------------------------------------------------||");
     }
 
     public void scroll(){

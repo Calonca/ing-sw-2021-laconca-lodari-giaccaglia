@@ -4,7 +4,6 @@ import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.view.CLI.CLIelem.RunnableWithString;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Spinner;
 import it.polimi.ingsw.client.view.abstractview.ConnectToServerViewBuilder;
-import it.polimi.ingsw.network.messages.clienttoserver.JoinMatchRequest;
 
 public class ConnectToServer extends ConnectToServerViewBuilder implements CLIBuilder {
 
@@ -35,10 +34,10 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements CLIBu
                 getCLIView().setSpinner(spinner);
                 getClient().run();
             });
-            getCLIView().getInAndCallRunnable("Your nickname: ",rs2);
+            getCLIView().getInputAndLaunchRunnable("Your nickname: ",rs2);
 
         });
-        getCLIView().getInAndCallRunnable("Write the server number",rs);
+        getCLIView().getInputAndLaunchRunnable("Write the server number",rs);
 
     }
 

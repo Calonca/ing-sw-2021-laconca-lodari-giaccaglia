@@ -18,7 +18,6 @@ public class Spinner extends CLIelem {
 
     protected final String waitingFor;
     private String meanwhileShow;
-    private boolean stopASAP;
 
     public Spinner(String waitingFor) {
         this.waitingFor = waitingFor;
@@ -42,7 +41,6 @@ public class Spinner extends CLIelem {
                 spinner.perform();
         });
         spinner.setPerformer(()-> {
-            spinner.stopASAP = true;
             client.changeViewBuilder(new SetupPhase(),viewBuilder);
         });
         return spinner;
