@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.CommonData;
-import it.polimi.ingsw.client.view.CLI.CLIelem.RunnableWithString;
+import it.polimi.ingsw.client.view.CLI.CLIelem.RunnableWithInputString;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Spinner;
 import it.polimi.ingsw.client.view.abstractview.ConnectToServerViewBuilder;
 
@@ -19,12 +19,10 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements CLIBu
     public void run() {
 
         getCLIView().scroll();
-        RunnableWithString rs = new RunnableWithString();
-        rs.afterInputCall(()->{
-            String portString = rs.getString();
-            RunnableWithString rs2 = new RunnableWithString();
-            rs2.afterInputCall(()->{
-                int port = Integer.parseInt(rs2.getString());
+        Runnable r1 = ()->{
+            String portString = getCLIView().getLastInput();
+            Runnable r2 = ()->{
+                int port = Integer.parseInt(getCLIView().getLastInput());
 
                 getClient().setServerConnection(portString,port);
                 Spinner spinner = new Spinner("server connection");
@@ -33,11 +31,11 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements CLIBu
 
                 getCLIView().setSpinner(spinner);
                 getClient().run();
-            });
-            getCLIView().getInputAndLaunchRunnable("Your nickname: ",rs2);
+            };
+            getCLIView().runOnInput("Your nickname: ",r2);
 
-        });
-        getCLIView().getInputAndLaunchRunnable("Write the server number",rs);
+        };
+        getCLIView().runOnInput("Write the server number",r1);
 
     }
 
