@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client.view.CLI;
 
-import it.polimi.ingsw.client.view.CLI.CLIelem.RunnableWithString;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Spinner;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Title;
 import it.polimi.ingsw.network.messages.clienttoserver.JoinMatchRequest;
@@ -23,19 +22,17 @@ public class JoinMatch extends it.polimi.ingsw.client.view.abstractview.JoinMatc
      */
     @Override
     public void run() {
-        getCLIView().resetCLI();
         getCLIView().setTitle(new Title("Joining match"));
-        getCLIView().displayWithDivider();
 
-        RunnableWithString rs = new RunnableWithString();
-        rs.afterInputCall(()->{
-            getClient().getServerHandler().sendCommandMessage(new JoinMatchRequest(matchId,rs.getString()));
+
+        Runnable r = ()->{
+            getClient().getServerHandler().sendCommandMessage(new JoinMatchRequest(matchId,getCLIView().getLastInput()));
             getCLIView().resetCLI();
             getCLIView().setSpinner(Spinner.matchToStart(getClient(),this));
             getCLIView().displayWithDivider();
-        });
-        getCLIView().getInputAndLaunchRunnable("Your nickname: ",rs);
-
+        };
+        getCLIView().runOnInput("Your nickname: ",r);
+        getCLIView().displayWithDivider();
 
 
     }
