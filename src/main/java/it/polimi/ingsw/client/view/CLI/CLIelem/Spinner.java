@@ -70,39 +70,41 @@ public class Spinner extends CLIelem implements Runnable {
      */
     @Override
     public void run() {
-        synchronized (this) {
-            String currentTitle = meanwhileShow;
-            if (currentTitle!=null)
-                System.out.println(meanwhileShow);
-            try {
-                this.wait(100);
-            } catch (InterruptedException ignored) {}
-
-            int spinnerIdx = 0;
-            while (!stopASAP) {
-                String lastWaitMessage = SPINNER.charAt(spinnerIdx) + " Waiting for "+ waitingFor +" ...";
-                System.out.print(lastWaitMessage);
-                spinnerIdx = (spinnerIdx + 1) % SPINNER.length();
-
-                try {
-                    this.wait(500);
-                } catch (InterruptedException ignored) {}
-
-                //Updates title
-                if (currentTitle!=null && !currentTitle.equals(meanwhileShow)) {
-                    currentTitle = meanwhileShow;
-                    for (int i = 0; i < currentTitle.length(); i++)
-                        System.out.print(BACKSPACE);
-                }
-                /* Erase the last wait message */
-                for (int i=0; i<lastWaitMessage.length(); i++)
-                    System.out.print(BACKSPACE);
-            }
-            //Deletes title
-            if (meanwhileShow!=null)
-                for (int i = 0; i < currentTitle.length(); i++)
-                    System.out.print(BACKSPACE);
-        }
+        cli.print(meanwhileShow);
+        cli.print(waitingFor);
+        //synchronized (this) {
+        //    String currentTitle = meanwhileShow;
+        //    if (currentTitle!=null)
+        //        System.out.println(meanwhileShow);
+        //    try {
+        //        this.wait(100);
+        //    } catch (InterruptedException ignored) {}
+        //
+        //    int spinnerIdx = 0;
+        //    while (!stopASAP) {
+        //        String lastWaitMessage = SPINNER.charAt(spinnerIdx) + " Waiting for "+ waitingFor +" ...";
+        //        System.out.print(lastWaitMessage);
+        //        spinnerIdx = (spinnerIdx + 1) % SPINNER.length();
+        //
+        //        try {
+        //            this.wait(500);
+        //        } catch (InterruptedException ignored) {}
+        //
+        //        //Updates title
+        //        if (currentTitle!=null && !currentTitle.equals(meanwhileShow)) {
+        //            currentTitle = meanwhileShow;
+        //            for (int i = 0; i < currentTitle.length(); i++)
+        //                System.out.print(BACKSPACE);
+        //        }
+        //        /* Erase the last wait message */
+        //        for (int i=0; i<lastWaitMessage.length(); i++)
+        //            System.out.print(BACKSPACE);
+        //    }
+        //    //Deletes title
+        //    if (meanwhileShow!=null)
+        //        for (int i = 0; i < currentTitle.length(); i++)
+        //            System.out.print(BACKSPACE);
+        //}
     }
 
 

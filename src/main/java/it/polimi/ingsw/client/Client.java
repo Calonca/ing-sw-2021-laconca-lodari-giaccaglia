@@ -42,10 +42,10 @@ public class Client implements Runnable
             client.setServerConnection(args[0],Integer.parseInt(args[1]));
 
             client.run();
-            client.runViewStateMachine();
+            //client.runViewStateMachine();
         }else {
             client.nextViewBuilder = new ConnectToServer();
-            client.runViewStateMachine();
+            //client.runViewStateMachine();
         }
     }
 
@@ -126,8 +126,12 @@ public class Client implements Runnable
      */
     public synchronized void changeViewBuilder(ViewBuilder newViewBuilder, ViewBuilder fromView)
     {
-        this.nextViewBuilder = newViewBuilder;
         cli.resetCLI();
+        currentViewBuilder = newViewBuilder;
+        currentViewBuilder.setClient(this);
+        currentViewBuilder.setCommonData(commonData);
+        currentViewBuilder.setCLIView(cli);
+        newViewBuilder.run();
     }
 
 
