@@ -20,7 +20,7 @@ import static it.polimi.ingsw.server.model.jsonUtility.deserialize;
 public class SessionController {
     
     private HashMap<UUID,Match> matches = new HashMap<>();
-    private List<String> playersInLobby = new ArrayList<>();
+    private List<ClientHandler> playersInLobby = new ArrayList<>();
     private static SessionController single_instance = null;
 
     public static SessionController getInstance()
@@ -31,8 +31,8 @@ public class SessionController {
         return single_instance;
     }
 
-    public void addPlayerToLobby(String nickname){
-        playersInLobby.add(nickname);
+    public void addPlayerToLobby(ClientHandler clientHandler){
+        playersInLobby.add(clientHandler);
     }
 
     public Match getLastMatch(){
@@ -53,9 +53,9 @@ public class SessionController {
         Match match = matches.get(matchID);
         if (match.canAddPlayer()){
             match.addPlayer(nickname,clientHandler);
-            notifyOthers(clientHandler);
             if (!match.canAddPlayer()) {
                 match.startGame();
+                playersInLobby.remove(clientHandler);
                 try {
                     match.currentPlayerClientHandler().sendAnswerMessage(
                             new StateMessageContainer(State.SETUP_PHASE.toStateMessage(match.getGame()))
@@ -64,6 +64,7 @@ public class SessionController {
                     e.printStackTrace();
                 }
             }
+            notifyOthers(clientHandler);
             return match.getLastPos();
         }
         else return -1;
@@ -71,8 +72,7 @@ public class SessionController {
 
 
     public void notifyOthers(ClientHandler cl){
-        matches.values().stream().filter(Match::hasNotStarted).flatMap(Match::clientsStream)
-                .forEach(
+        playersInLobby.forEach(
                 clientHandler -> {
                     try {
                         clientHandler.sendAnswerMessage(new MatchesData(matchesData(clientHandler)));
