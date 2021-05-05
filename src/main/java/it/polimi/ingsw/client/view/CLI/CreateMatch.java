@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.CLI;
 
+import it.polimi.ingsw.client.view.CLI.CLIelem.RunnableWithString;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Spinner;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Title;
 import it.polimi.ingsw.client.view.abstractview.CreateMatchViewBuilder;
@@ -19,19 +20,28 @@ public class CreateMatch extends CreateMatchViewBuilder implements CLIBuilder {
     public void run() {
         getCLIView().setTitle(new Title("Creating match"));
         getCLIView().displayWithDivider();
-        int numberOfPlayers;
-        String nickname;
-        do {
-            getCLIView().putDivider();
-            String in = getCLIView().getIN("Number of people: ");
-            numberOfPlayers = Integer.parseInt(in);
-            nickname = getCLIView().getIN("Your nickname: ");
-        }while (numberOfPlayers<1||numberOfPlayers>4);
 
-        getCLIView().resetCLI();
-        getCLIView().setSpinner(Spinner.matchToStart(getClient(),this));
-        getClient().getServerHandler().sendCommandMessage(new CreateMatchRequest(numberOfPlayers,nickname));
-        getCLIView().displayWithDivider();
+        RunnableWithString rs = new RunnableWithString();
+        rs.setR(()->{
+            int numberOfPlayers;
+            do {
+                String in = rs.getString();
+                numberOfPlayers = Integer.parseInt(in);
+            }while (numberOfPlayers <1|| numberOfPlayers >4);
+
+            RunnableWithString rs2 = new RunnableWithString();
+            int finalNumberOfPlayers = numberOfPlayers;
+            rs2.setR(()->{
+
+                String nickName = rs2.getString();
+                getCLIView().resetCLI();
+                getCLIView().setSpinner(Spinner.matchToStart(getClient(),this));
+                getClient().getServerHandler().sendCommandMessage(new CreateMatchRequest(finalNumberOfPlayers,nickName));
+                getCLIView().displayWithDivider();
+            });
+            getCLIView().getIN("Your nickname: ",rs2);
+        });
+        getCLIView().getIN("Number of people: ",rs);
 
     }
 

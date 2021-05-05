@@ -1,10 +1,7 @@
 package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.Client;
-import it.polimi.ingsw.client.view.CLI.CLIelem.Option;
-import it.polimi.ingsw.client.view.CLI.CLIelem.OptionList;
-import it.polimi.ingsw.client.view.CLI.CLIelem.Spinner;
-import it.polimi.ingsw.client.view.CLI.CLIelem.Title;
+import it.polimi.ingsw.client.view.CLI.CLIelem.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -100,9 +97,10 @@ public class CLI {
         System.out.println(Color.colorString(error,Color.ANSI_RED));
     }
 
-    public String getIN(String message){
+    public void getIN(String message, RunnableWithString rs){
         print(Color.colorString(message,Color.ANSI_GREEN));
-        return getIN();
+        rs.setString(message);
+
     }
 
     private String getIN(){
