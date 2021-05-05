@@ -22,7 +22,7 @@ public class CreateMatch extends CreateMatchViewBuilder implements CLIBuilder {
         getCLIView().displayWithDivider();
 
         RunnableWithString rs = new RunnableWithString();
-        rs.setR(()->{
+        rs.afterInputCall(()->{
             int numberOfPlayers;
             do {
                 String in = rs.getString();
@@ -31,7 +31,7 @@ public class CreateMatch extends CreateMatchViewBuilder implements CLIBuilder {
 
             RunnableWithString rs2 = new RunnableWithString();
             int finalNumberOfPlayers = numberOfPlayers;
-            rs2.setR(()->{
+            rs2.afterInputCall(()->{
 
                 String nickName = rs2.getString();
                 getCLIView().resetCLI();
@@ -39,9 +39,9 @@ public class CreateMatch extends CreateMatchViewBuilder implements CLIBuilder {
                 getClient().getServerHandler().sendCommandMessage(new CreateMatchRequest(finalNumberOfPlayers,nickName));
                 getCLIView().displayWithDivider();
             });
-            getCLIView().getIN("Your nickname: ",rs2);
+            getCLIView().getInAndCallRunnable("Your nickname: ",rs2);
         });
-        getCLIView().getIN("Number of people: ",rs);
+        getCLIView().getInAndCallRunnable("Number of people: ",rs);
 
     }
 

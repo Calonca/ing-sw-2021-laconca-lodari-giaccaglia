@@ -19,7 +19,7 @@ public class RunnableWithString{
         this.string = string;
     }
 
-    public void setR(Runnable r) {
+    public void afterInputCall(Runnable r) {
         this.r = r;
     }
 

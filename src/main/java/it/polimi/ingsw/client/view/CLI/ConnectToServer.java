@@ -20,8 +20,8 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements CLIBu
         int port;
 
         getCLIView().scroll();
-        ip = getCLIView().getIN("Write the server number");
-        String portString = getCLIView().getIN("Write the server port");
+        ip = getCLIView().getInAndCallRunnable("Write the server number");
+        String portString = getCLIView().getInAndCallRunnable("Write the server port");
         port = Integer.parseInt(portString);
 
         getClient().setServerConnection(ip,port);

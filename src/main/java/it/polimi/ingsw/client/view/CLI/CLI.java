@@ -97,13 +97,13 @@ public class CLI {
         System.out.println(Color.colorString(error,Color.ANSI_RED));
     }
 
-    public void getIN(String message, RunnableWithString rs){
+    public void getInAndCallRunnable(String message, RunnableWithString rs){
         print(Color.colorString(message,Color.ANSI_GREEN));
         rs.setString(message);
 
     }
 
-    private String getIN(){
+    private String getInAndCallRunnable(){
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
     }

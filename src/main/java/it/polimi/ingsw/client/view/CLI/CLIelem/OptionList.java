@@ -55,7 +55,7 @@ public class OptionList extends CLIelem{
         do  {
             try
             {
-                String in = cli.getIN("Please insert a number");
+                String in = cli.getInAndCallRunnable("Please insert a number");
                 choice = Integer.parseInt(in);
                 if (choice<0||choice>=options.size())
                 {
