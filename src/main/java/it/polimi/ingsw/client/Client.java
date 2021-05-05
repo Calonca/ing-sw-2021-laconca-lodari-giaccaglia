@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.view.CLI.CLI;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Spinner;
 import it.polimi.ingsw.client.view.CLI.ConnectToServer;
 import it.polimi.ingsw.client.view.CLI.CreateJoinLoadMatch;
+import it.polimi.ingsw.client.view.CLI.TestViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 import it.polimi.ingsw.network.messages.servertoclient.state.SETUP_PHASE;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateMessage;
@@ -42,7 +43,7 @@ public class Client implements Runnable
             client.setServerConnection(args[0],Integer.parseInt(args[1]));
 
             client.run();
-            //client.changeViewBuilder(new CreateJoinLoadMatch(),null);
+            client.changeViewBuilder(new TestViewBuilder(),null);
         }else {
             //client.runViewStateMachine();
         }

@@ -72,12 +72,12 @@ public abstract class CLIelem implements PropertyChangeListener {
         return new Gson().toJson(this);
     }
 
-    public void setCLIView(CLI cli, Client client){
+    public void setCLIAndAddToPublishers(CLI cli, Client client){
         this.cli = cli;
         addToPublishers(client);
     }
 
-    public void addToPublishers(Client client){
+    private void addToPublishers(Client client){
         client.getCommonData().addPropertyChangeListener(this);
         client.currentPlayerCache().ifPresent(playerCache -> playerCache.addPropertyChangeListener(this));
     }

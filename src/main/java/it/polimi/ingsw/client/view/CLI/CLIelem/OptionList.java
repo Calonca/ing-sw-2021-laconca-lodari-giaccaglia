@@ -39,7 +39,7 @@ public class OptionList extends CLIelem{
             options.get(0).setSelected(true);
         if (cli!=null)
         {
-            setCLIView(cli,client);
+            setCLIAndAddToPublishers(cli,client);
         }
     }
 
@@ -80,9 +80,9 @@ public class OptionList extends CLIelem{
     }
 
     @Override
-    public void setCLIView(CLI cli, Client client) {
-        super.setCLIView(cli, client);
-        options.forEach(o->o.setCLIView(cli,client));
+    public void setCLIAndAddToPublishers(CLI cli, Client client) {
+        super.setCLIAndAddToPublishers(cli, client);
+        options.forEach(o->o.setCLIAndAddToPublishers(cli,client));
     }
 
 

@@ -19,6 +19,5 @@ public class MatchesData extends it.polimi.ingsw.network.messages.servertoclient
     @Override
     public void processMessage(ServerHandler serverHandler) throws IOException {
         serverHandler.getClient().getCommonData().setMatchesData(Optional.ofNullable(matchesData));
-        serverHandler.getClient().changeViewBuilder(new CreateJoinLoadMatch(),null);
     }
 }
