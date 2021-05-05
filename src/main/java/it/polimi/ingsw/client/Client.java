@@ -3,6 +3,7 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.view.CLI.CLI;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Spinner;
 import it.polimi.ingsw.client.view.CLI.ConnectToServer;
+import it.polimi.ingsw.client.view.CLI.CreateJoinLoadMatch;
 import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 import it.polimi.ingsw.network.messages.servertoclient.state.SETUP_PHASE;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateMessage;
@@ -20,7 +21,6 @@ import java.util.stream.IntStream;
 public class Client implements Runnable
 {
     private ServerHandler serverHandler;
-    private ViewBuilder nextViewBuilder;
     private ViewBuilder currentViewBuilder;
     private String ip;
     private int port;
@@ -42,9 +42,8 @@ public class Client implements Runnable
             client.setServerConnection(args[0],Integer.parseInt(args[1]));
 
             client.run();
-            //client.runViewStateMachine();
+            //client.changeViewBuilder(new CreateJoinLoadMatch(),null);
         }else {
-            client.nextViewBuilder = new ConnectToServer();
             //client.runViewStateMachine();
         }
     }
@@ -86,34 +85,34 @@ public class Client implements Runnable
 
     public void runViewStateMachine()
     {
-        boolean stop;
-
-        synchronized (this) {
-            stop = cli.stopASAP.get();
-            currentViewBuilder = nextViewBuilder;
-            nextViewBuilder = null;
-        }
-        while (!stop) {
-            if (currentViewBuilder == null) {
-                currentViewBuilder = new ViewBuilder() {
-                    @Override
-                    public void run() {
-                        cli.setSpinner(new Spinner("Waiting"));
-                    }
-                };
-            }
-            currentViewBuilder.setClient(this);
-            currentViewBuilder.setCommonData(commonData);
-            currentViewBuilder.setCLIView(cli);
-            currentViewBuilder.run();
-
-            synchronized (this) {
-                stop = cli.stopASAP.get();
-                currentViewBuilder = nextViewBuilder;
-                nextViewBuilder = null;
-            }
-        }
-        serverHandler.stop();
+        //boolean stop;
+         //
+        //synchronized (this) {
+        //    stop = cli.stopASAP.get();
+        //    currentViewBuilder = nextViewBuilder;
+        //    nextViewBuilder = null;
+        //}
+        //while (!stop) {
+        //    if (currentViewBuilder == null) {
+        //        currentViewBuilder = new ViewBuilder() {
+        //            @Override
+        //            public void run() {
+        //                cli.setSpinner(new Spinner("Waiting"));
+        //            }
+        //        };
+        //    }
+        //    currentViewBuilder.setClient(this);
+        //    currentViewBuilder.setCommonData(commonData);
+        //    currentViewBuilder.setCLIView(cli);
+        //    currentViewBuilder.run();
+        //
+        //    synchronized (this) {
+        //        stop = cli.stopASAP.get();
+        //        currentViewBuilder = nextViewBuilder;
+        //        nextViewBuilder = null;
+        //    }
+        //}
+        //serverHandler.stop();
     }
 
 
