@@ -34,6 +34,8 @@ public class Spinner extends CLIelem {
                 client.getCommonData().playersOfMatch().map(Arrays::toString).toString());
         spinner.setPerformer(()-> client.changeViewBuilder(new SetupPhase(), viewBuilder));
         spinner.setUpdater(()->{
+            //Todo this does not get the state message because this is not an observer of playercache.
+            System.out.println(spinner.getEvt().getPropertyName());
             if (spinner.getEvt().getPropertyName().equals(CommonData.matchesDataString)) {
                 spinner.meanwhileShow = (new Gson().toJson ((Optional<Map<UUID,String[]>>) spinner.getEvt().getNewValue()));
                 spinner.cli.update();
