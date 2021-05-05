@@ -58,7 +58,7 @@ public enum State {
     SETUP_PHASE{
         @Override
         public StateMessage toStateMessage(GameModel gameModel) {
-            return new SETUP_PHASE(gameModel.getOnlinePlayers().size(),new Object[]{"l1","leader 2"},3, gameModel.getMatchID(),
+            return new SETUP_PHASE(gameModel.getPlayerIndex(gameModel.getCurrentPlayer()),new Object[]{"l1","leader 2"},3, gameModel.getMatchID(),
                     gameModel.getOnlinePlayers().values().stream().map(Player::getNickName).toArray(String[]::new)
                     );
         }
