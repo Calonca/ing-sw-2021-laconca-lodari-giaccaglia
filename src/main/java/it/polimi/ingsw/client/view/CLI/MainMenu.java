@@ -37,7 +37,6 @@ public class MainMenu extends it.polimi.ingsw.client.view.abstractview.MainMenu 
         getCLIView().setOptionList(CLIPos.CENTER,optionList);
         getCLIView().displayWithScroll();
 
-        optionList.selectOption();
         getCLIView().displayWithDivider();
         getCLIView().performLastChoice();
 
