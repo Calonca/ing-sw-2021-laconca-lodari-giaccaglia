@@ -10,8 +10,8 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.ingsw.server.model.jsonUtility.deserializeFromString;
-import static it.polimi.ingsw.server.model.jsonUtility.serialize;
+import static it.polimi.ingsw.network.jsonUtility.deserializeFromString;
+import static it.polimi.ingsw.network.jsonUtility.serialize;
 import static org.junit.Assert.*;
 
 public class CardShopEventTest {

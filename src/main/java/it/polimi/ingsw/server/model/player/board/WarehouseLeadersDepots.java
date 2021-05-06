@@ -1,7 +1,5 @@
 package it.polimi.ingsw.server.model.player.board;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.server.model.Resource;
 import javafx.util.Pair;
 
@@ -10,7 +8,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static it.polimi.ingsw.server.model.jsonUtility.serialize;
+import static it.polimi.ingsw.network.jsonUtility.serialize;
 
 /**
  * Contains both warehouse and leader depots,

@@ -1,43 +1,65 @@
-package it.polimi.ingsw.server.model;
+package it.polimi.ingsw.network;
 
 import com.google.gson.*;
 import it.polimi.ingsw.RuntimeTypeAdapterFactory;
+import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
+import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.cards.*;
 import it.polimi.ingsw.server.model.cards.production.Production;
+import it.polimi.ingsw.server.model.market.MarketBoard;
 import it.polimi.ingsw.server.model.player.board.LeaderDepot;
 import it.polimi.ingsw.server.model.player.leaders.*;
+import it.polimi.ingsw.server.model.player.track.FaithTrack;
 import javafx.util.Pair;
+
+import java.awt.*;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.*;
+import java.util.List;
+import java.util.function.Function;
 import java.util.stream.*;
 
 public class jsonUtility {
 
-    private static Gson gson = new Gson();
+    private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
     public static final String configPathString = "src/main/resources/config/";
+    public static final String frontDevCardPathString = "src/main/resources/cards/devCards/Masters of Renaissance_Cards_FRONT_";
 
-    public static String serializeVarArgs(Object ...o){
+    public static String serializeVarArgs(Object... o) {
         return serialize(Arrays.stream(o).collect(Collectors.toList()));
     }
 
     //helper method to load a 48 devcards array from json
-    public static List<DevelopmentCard> cardsFromJsonHandler(){
-        Gson gson = new Gson();
-        String Cards = null;
-        try {
-            Cards = Files.readString(Path.of(configPathString+"DevelopmentCardConfig.json"), StandardCharsets.US_ASCII);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        DevelopmentCard[] cardsArray = gson.fromJson(Cards, DevelopmentCard[].class);
+    public static List<DevelopmentCard> cardsFromJsonHandler() {
+        DevelopmentCard[] cardsArray =deserialize(configPathString + "DevelopmentCardConfig.json", DevelopmentCard[].class);
         return (Arrays.asList(cardsArray));
+    }
+
+    public static Map<UUID, DevelopmentCard> cardsFromJsonHandlerMap() {
+        return cardsFromJsonHandler().stream().collect(Collectors.toMap(x -> UUID.randomUUID(), Function.identity()));
 
     }
-    //helper method to build CardShop json initialization from an array of 48 devcards
-    public static void devCardsDeckDeserialization() {
+
+    public static Map<UUID , DevelopmentCardAsset> devCardsAssets() {
+        Map<UUID, DevelopmentCard> cardsFromJsonHandlerMap = cardsFromJsonHandlerMap();
+
+        return cardsFromJsonHandlerMap.keySet().stream().map(id -> {
+            DevelopmentCard card = cardsFromJsonHandlerMap.get(id);
+            String front = frontDevCardPathString + card.getCardType().toString() + "_" + card.getLevel() + ".png";
+            return new DevelopmentCardAsset(card, front, front, id);
+        }).collect(Collectors.toMap(DevelopmentCardAsset::getCardId, Function.identity()));
+}
+
+    public static void devCardsAssetsSerialization(){
+        Gson customGson = new GsonBuilder().registerTypeHierarchyAdapter(Path.class, new PathConverter()).setPrettyPrinting().create();
+        serialize(configPathString + "DevCardsAssetsConfig.json", devCardsAssets(), Map.class, customGson);
+    }
+
+    //helper method to build 12 devDecks from an array of 48 devcards
+    public static  Map<DevelopmentCardColor, Map<Integer, DevelopmentCardDeck>> devCardsDeckDeserialization() {
         int cardsInDeck = 4;
         List<DevelopmentCard> cards = jsonUtility.cardsFromJsonHandler();
         List<DevelopmentCard> blueCards = cards.stream().filter(card -> card.getCardType() == DevelopmentCardColor.BLUE).collect(Collectors.toList());
@@ -112,19 +134,25 @@ public class jsonUtility {
         listOfDecks.put(DevelopmentCardColor.YELLOW, yellowDecks);
         listOfDecks.put(DevelopmentCardColor.GREEN, greenDecks);
 
-      /*
-        CardShop shop = new CardShop(listOfDecks);
-        Writer writer = new FileWriter("src/main/resources/config/CardShopConfig.json");
-        Gson gson = new GsonBuilder().create();
-        gson.toJson(shop, writer);
-        writer.flush(); //flush data to file   <---
-        writer.close(); //close write          <---
-       */
+        return listOfDecks;
+    }
 
+    //helper method to serialize cardshop configuration
+    public static void cardShopSerialization(){
+        CardShop shop = new CardShop(devCardsDeckDeserialization());
+        serialize(configPathString + "CardShopConfig.json", shop, CardShop.class);
+    }
+
+    public static MarketBoard marketBoardDeserialization(){
+        return jsonUtility.deserialize(configPathString + "MarketBoardConfig.json", MarketBoard.class);
+    }
+
+    public static CardShop cardShopDeserialization(){
+        return jsonUtility.deserialize(configPathString + "CardShopConfig.json", CardShop.class);
     }
 
     //helper method to initialize gameModel list of 16 leaders
-    public static List<Leader> leaderCardsDeserialization(String jsonString){
+    public static List<Leader> leaderCardsDeserialization(){
 
         RuntimeTypeAdapterFactory<Leader> jsonToLeaderListAdapter = RuntimeTypeAdapterFactory.of(Leader.class);
 
@@ -138,7 +166,7 @@ public class jsonUtility {
                 .registerTypeAdapterFactory(jsonToLeaderListAdapter)
                 .create();
 
-        Leader[] leaders = deserialize(jsonString, Leader[].class, gson);
+        Leader[] leaders = deserialize(configPathString + "LeadersConfig.json", Leader[].class, gson);
         return (Arrays.asList(leaders));
     }
 
@@ -893,9 +921,10 @@ public class jsonUtility {
         level=1;
         color=DevelopmentCardColor.GREEN ;
 
-        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+       /* series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
         Gson gsonprint= new Gson();
         System.out.println(gsonprint.toJson(series));
+        */
 
 
         Leader leader;
@@ -1004,9 +1033,9 @@ public class jsonUtility {
         costTestCards = new Pair<>(DevelopmentCardColor.GREEN, 2);
         costTestCards2 = new Pair<>(DevelopmentCardColor.PURPLE, 1);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<>();
 
-        requirementsTestCards = new ArrayList<Pair<DevelopmentCardColor, Integer>>();
+        requirementsTestCards = new ArrayList<>();
         requirementsTestCards.add(costTestCards);
         requirementsTestCards.add(costTestCards2);
 
@@ -1133,8 +1162,8 @@ public class jsonUtility {
         costTestCards2 = new Pair<>(DevelopmentCardColor.BLUE, 1);
 
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
-        requirementsTestCards = new ArrayList<Pair<DevelopmentCardColor, Integer>>();
+        requirementsTest = new ArrayList<>();
+        requirementsTestCards = new ArrayList<>();
 
         requirementsTestCards.add(costTestCards);
         requirementsTestCards.add(costTestCards2);
@@ -1154,8 +1183,8 @@ public class jsonUtility {
         costTestCards2 = new Pair<>(DevelopmentCardColor.BLUE, 1);
 
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
-        requirementsTestCards = new ArrayList<Pair<DevelopmentCardColor, Integer>>();
+        requirementsTest = new ArrayList<>();
+        requirementsTestCards = new ArrayList<>();
 
         requirementsTestCards.add(costTestCards);
         requirementsTestCards.add(costTestCards2);
@@ -1175,8 +1204,8 @@ public class jsonUtility {
         costTestCards2 = new Pair<>(DevelopmentCardColor.BLUE, 1);
 
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
-        requirementsTestCards = new ArrayList<Pair<DevelopmentCardColor, Integer>>();
+        requirementsTest = new ArrayList<>();
+        requirementsTestCards = new ArrayList<>();
 
         requirementsTestCards.add(costTestCards);
         requirementsTestCards.add(costTestCards2);
@@ -1199,7 +1228,7 @@ public class jsonUtility {
 
 
         Gson gson1 = new GsonBuilder()
-                .registerTypeAdapterFactory(shapeAdapterFactory)
+                .registerTypeAdapterFactory(shapeAdapterFactory).setPrettyPrinting()
                 .create();
 
         serialize(configPathString+"LeadersConfig.json", series2.toArray(Leader[]::new), Leader[].class, gson1);
@@ -1212,6 +1241,11 @@ public class jsonUtility {
 
      //   Leader[] leaders = deserialize("src/main/resources/config/LeadersConfig.json" , Leader[].class);
     }
+
+    public static FaithTrack faithTrackDeserialization(){
+        return deserialize(configPathString+ "FaithTrackConfig.json", FaithTrack.class);
+    }
+
 
 
     public static <T> T deserialize(String jsonPath, Class<T> destinationClass){
@@ -1246,7 +1280,6 @@ public class jsonUtility {
 
     public static <T> void serialize(String jsonPath, T Object , Class<T> classToSerialize){
         GsonBuilder builder = new GsonBuilder();
-        gson = builder.create();
         serialize(jsonPath, Object, classToSerialize, gson);
     }
 
@@ -1260,11 +1293,40 @@ public class jsonUtility {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
-    public static void main(String[] args){
-        leaderCardsArrayserialization();
+    public static String toPrettyFormat(String jsonString)
+    {
+        JsonParser parser = new JsonParser();
+        JsonObject json = parser.parse(jsonString).getAsJsonObject();
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+        return gson.toJson(json);
     }
+
+    private static class PathConverter implements JsonDeserializer<Path>, JsonSerializer<Path> {
+        @Override
+        public Path deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+            return Paths.get(jsonElement.getAsString());
+        }
+
+        @Override
+        public JsonElement serialize(Path path, Type type, JsonSerializationContext jsonSerializationContext) {
+            return new JsonPrimitive(path.toString());
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
+      cardShopSerialization();
+      devCardsAssetsSerialization();
+      leaderCardsArrayserialization();
+      MarketBoard test = marketBoardDeserialization();
+      serialize(configPathString + "MarketBoardConfig.json", test, MarketBoard.class);
+      faithTrackDeserialization();
+      int ciao=5;
+    }
+
+
 }
 

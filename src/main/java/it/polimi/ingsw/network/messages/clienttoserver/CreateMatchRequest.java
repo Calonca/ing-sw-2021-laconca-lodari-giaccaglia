@@ -8,5 +8,4 @@ public class CreateMatchRequest extends ClientToServerMessage {
         this.maxPlayers = maxPlayers;
         this.nickName   = nickName  ;
     }
-
 }

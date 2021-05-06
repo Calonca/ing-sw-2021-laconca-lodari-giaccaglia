@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.player.board;
 
+import it.polimi.ingsw.network.jsonUtility;
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
@@ -63,10 +64,10 @@ public class PersonalBoardTest {
         assertArrayEquals(new int[]{0,0,0,0},Resource.getStream(4).mapToInt(emptyBoard::getNumberOf).toArray());
         assertEquals(0,emptyBoard.numOfResources());
         assertEquals(
-                "{0:[{key:EMPTY,value:false}]," +
+                jsonUtility.toPrettyFormat("{0:[{key:EMPTY,value:false}]," +
                 "1:[{key:EMPTY,value:false},{key:EMPTY,value:false}]," +
-                "2:[{key:EMPTY,value:false},{key:EMPTY,value:false},{key:EMPTY,value:false}]}",
-                emptyBoard.getWarehouseLeadersDepots().structuredTableJson().replace("\"","") );
+                "2:[{key:EMPTY,value:false},{key:EMPTY,value:false},{key:EMPTY,value:false}]}"),
+                emptyBoard.getWarehouseLeadersDepots().structuredTableJson());
 
 
         //Test board
@@ -84,11 +85,11 @@ public class PersonalBoardTest {
         assertArrayEquals(new int[]{3,2,1,3},Resource.getStream(4).mapToInt((a)->board.getDiscardBox().getNumberOf(a)).toArray());
         assertArrayEquals(new int[]{6,16,3,0},Resource.getStream(4).mapToInt(board::getNumberOf).toArray());
         assertEquals(25,board.numOfResources());
-        assertEquals(
+        assertEquals(jsonUtility.toPrettyFormat(
                 "{0:[{key:SERVANT,value:false}]," +
                         "1:[{key:EMPTY,value:false},{key:GOLD,value:false}]," +
-                        "2:[{key:EMPTY,value:false},{key:EMPTY,value:false},{key:SHIELD,value:false}]}",
-                board.getWarehouseLeadersDepots().structuredTableJson().replace("\"","") );
+                        "2:[{key:EMPTY,value:false},{key:EMPTY,value:false},{key:SHIELD,value:false}]}"),
+                board.getWarehouseLeadersDepots().structuredTableJson() );
     }
 
     @Test
@@ -105,10 +106,10 @@ public class PersonalBoardTest {
         board.getWarehouseLeadersDepots().selectResourceAt(0);
         assertArrayEquals(new int[]{5,7,0,0},Resource.getStream(4).mapToInt((a)->board.getStrongBox().getNSelected(a)).toArray());
         assertEquals(
-                "{0:[{key:SERVANT,value:true}]," +
+                jsonUtility.toPrettyFormat("{0:[{key:SERVANT,value:true}]," +
                         "1:[{key:EMPTY,value:false},{key:GOLD,value:false}]," +
-                        "2:[{key:EMPTY,value:false},{key:EMPTY,value:false},{key:SHIELD,value:false}]}",
-                board.getWarehouseLeadersDepots().structuredTableJson().replace("\"","") );
+                        "2:[{key:EMPTY,value:false},{key:EMPTY,value:false},{key:SHIELD,value:false}]}"),
+                board.getWarehouseLeadersDepots().structuredTableJson());
         assertEquals(0, board.remainingToSelectForProduction());
         assertEquals(Optional.empty(),board.firstProductionSelectedWithChoice());
         //Select second production
@@ -120,11 +121,11 @@ public class PersonalBoardTest {
         board.performChoiceOnOutput(Resource.STONE);
         assertEquals(Optional.empty(),board.firstProductionSelectedWithChoice());
         assertArrayEquals(new int[]{5,7,0,0},Resource.getStream(4).mapToInt((a)->board.getStrongBox().getNSelected(a)).toArray());
-        assertEquals(
+        assertEquals(jsonUtility.toPrettyFormat(
                 "{0:[{key:SERVANT,value:true}]," +
                         "1:[{key:EMPTY,value:false},{key:GOLD,value:true}]," +
-                        "2:[{key:EMPTY,value:false},{key:EMPTY,value:false},{key:SHIELD,value:false}]}",
-                board.getWarehouseLeadersDepots().structuredTableJson().replace("\"","") );
+                        "2:[{key:EMPTY,value:false},{key:EMPTY,value:false},{key:SHIELD,value:false}]}"),
+                board.getWarehouseLeadersDepots().structuredTableJson() );
         //Production
         board.produce();
         assertArrayEquals(new Boolean[]{false,false,false,false,false}, board.getSelectedProduction());
@@ -139,11 +140,11 @@ public class PersonalBoardTest {
         assertArrayEquals(new int[]{2,8,4,2},Resource.getStream(4).mapToInt(board::getNumberOf).toArray());
         assertEquals(16,board.numOfResources());
         assertArrayEquals(new int[]{0,0,0,0},Resource.getStream(4).mapToInt((a)->board.getStrongBox().getNSelected(a)).toArray());
-        assertEquals(
+        assertEquals(jsonUtility.toPrettyFormat(
                 "{0:[{key:EMPTY,value:false}]," +
                         "1:[{key:EMPTY,value:false},{key:EMPTY,value:false}]," +
-                        "2:[{key:EMPTY,value:false},{key:EMPTY,value:false},{key:SHIELD,value:false}]}",
-                board.getWarehouseLeadersDepots().structuredTableJson().replace("\"","") );
+                        "2:[{key:EMPTY,value:false},{key:EMPTY,value:false},{key:SHIELD,value:false}]}"),
+                board.getWarehouseLeadersDepots().structuredTableJson());
     }
 
     @Test
@@ -205,11 +206,11 @@ public class PersonalBoardTest {
         assertArrayEquals(new int[]{6,16,3,0},Resource.getStream(4).mapToInt(board::getNumberOf).toArray());
         assertEquals(25,board.numOfResources());
         assertArrayEquals(new int[]{0,1,0,0},Resource.getStream(4).mapToInt((a)->board.getStrongBox().getNSelected(a)).toArray());
-        assertEquals(
+        assertEquals(jsonUtility.toPrettyFormat(
                 "{0:[{key:SERVANT,value:false}]," +
                         "1:[{key:EMPTY,value:false},{key:GOLD,value:false}]," +
-                        "2:[{key:EMPTY,value:false},{key:EMPTY,value:false},{key:SHIELD,value:false}]}",
-                board.getWarehouseLeadersDepots().structuredTableJson().replace("\"","") );
+                        "2:[{key:EMPTY,value:false},{key:EMPTY,value:false},{key:SHIELD,value:false}]}"),
+                board.getWarehouseLeadersDepots().structuredTableJson());
         //Perform choice on input
         board.performChoiceOnInput(2);
         assertArrayEquals(new Boolean[]{true,false,false,false}, board.getSelectedProduction());
@@ -225,11 +226,11 @@ public class PersonalBoardTest {
         assertArrayEquals(new int[]{6,16,3,0},Resource.getStream(4).mapToInt(board::getNumberOf).toArray());
         assertEquals(25,board.numOfResources());
         assertArrayEquals(new int[]{0,1,0,0},Resource.getStream(4).mapToInt((a)->board.getStrongBox().getNSelected(a)).toArray());
-        assertEquals(
+        assertEquals(jsonUtility.toPrettyFormat(
                 "{0:[{key:SERVANT,value:false}]," +
                         "1:[{key:EMPTY,value:false},{key:GOLD,value:true}]," +
-                        "2:[{key:EMPTY,value:false},{key:EMPTY,value:false},{key:SHIELD,value:false}]}",
-                board.getWarehouseLeadersDepots().structuredTableJson().replace("\"","") );
+                        "2:[{key:EMPTY,value:false},{key:EMPTY,value:false},{key:SHIELD,value:false}]}"),
+                board.getWarehouseLeadersDepots().structuredTableJson());
         //Perform choice on output
         board.performChoiceOnOutput(Resource.STONE);
         assertArrayEquals(new Boolean[]{true,false,false,false}, board.getSelectedProduction());
@@ -247,11 +248,11 @@ public class PersonalBoardTest {
         assertArrayEquals(new int[]{6,16,3,0},Resource.getStream(4).mapToInt(board::getNumberOf).toArray());
         assertEquals(25,board.numOfResources());
         assertArrayEquals(new int[]{0,1,0,0},Resource.getStream(4).mapToInt((a)->board.getStrongBox().getNSelected(a)).toArray());
-        assertEquals(
+        assertEquals(jsonUtility.toPrettyFormat(
                 "{0:[{key:SERVANT,value:false}]," +
                         "1:[{key:EMPTY,value:false},{key:GOLD,value:true}]," +
-                        "2:[{key:EMPTY,value:false},{key:EMPTY,value:false},{key:SHIELD,value:false}]}",
-                board.getWarehouseLeadersDepots().structuredTableJson().replace("\"","") );
+                        "2:[{key:EMPTY,value:false},{key:EMPTY,value:false},{key:SHIELD,value:false}]}"),
+                board.getWarehouseLeadersDepots().structuredTableJson());
         //Perform choice on output
         board.performChoiceOnOutput(Resource.GOLD);
         assertArrayEquals(new Boolean[]{true,true,false,false}, board.getSelectedProduction());
@@ -267,11 +268,11 @@ public class PersonalBoardTest {
         assertArrayEquals(new int[]{6,16,3,0},Resource.getStream(4).mapToInt(board::getNumberOf).toArray());
         assertEquals(25,board.numOfResources());
         assertArrayEquals(new int[]{0,1,0,0},Resource.getStream(4).mapToInt((a)->board.getStrongBox().getNSelected(a)).toArray());
-        assertEquals(
+        assertEquals(jsonUtility.toPrettyFormat(
                 "{0:[{key:SERVANT,value:false}]," +
                         "1:[{key:EMPTY,value:false},{key:GOLD,value:true}]," +
-                        "2:[{key:EMPTY,value:false},{key:EMPTY,value:false},{key:SHIELD,value:false}]}",
-                board.getWarehouseLeadersDepots().structuredTableJson().replace("\"","") );
+                        "2:[{key:EMPTY,value:false},{key:EMPTY,value:false},{key:SHIELD,value:false}]}"),
+                board.getWarehouseLeadersDepots().structuredTableJson());
     }
 
     @Test
@@ -425,31 +426,31 @@ public class PersonalBoardTest {
         board.move(-4,1);
         assertArrayEquals(new int[]{7,16,3,0},Resource.getStream(4).mapToInt(board::getNumberOf).toArray());
         assertArrayEquals(new int[]{2,2,1,3},Resource.getStream(4).mapToInt((a)->board.getDiscardBox().getNumberOf(a)).toArray());
-        assertEquals(
+        assertEquals(jsonUtility.toPrettyFormat(
                 "{0:[{key:SERVANT,value:false}]," +
                         "1:[{key:GOLD,value:false},{key:GOLD,value:false}]," +
-                        "2:[{key:EMPTY,value:false},{key:EMPTY,value:false},{key:SHIELD,value:false}]}",
-                board.getWarehouseLeadersDepots().structuredTableJson().replace("\"","") );
+                        "2:[{key:EMPTY,value:false},{key:EMPTY,value:false},{key:SHIELD,value:false}]}"),
+                board.getWarehouseLeadersDepots().structuredTableJson());
 
         //From warehouse to box
         board.move(0,-3);
         assertArrayEquals(new int[]{7,15,3,0},Resource.getStream(4).mapToInt(board::getNumberOf).toArray());
         assertArrayEquals(new int[]{2,3,1,3},Resource.getStream(4).mapToInt((a)->board.getDiscardBox().getNumberOf(a)).toArray());
-        assertEquals(
+        assertEquals(jsonUtility.toPrettyFormat(
                 "{0:[{key:EMPTY,value:false}]," +
                         "1:[{key:GOLD,value:false},{key:GOLD,value:false}]," +
-                        "2:[{key:EMPTY,value:false},{key:EMPTY,value:false},{key:SHIELD,value:false}]}",
-                board.getWarehouseLeadersDepots().structuredTableJson().replace("\"","") );
+                        "2:[{key:EMPTY,value:false},{key:EMPTY,value:false},{key:SHIELD,value:false}]}"),
+                board.getWarehouseLeadersDepots().structuredTableJson());
 
         //Between Warehouse
         board.move(5,0);
         assertArrayEquals(new int[]{7,15,3,0},Resource.getStream(4).mapToInt(board::getNumberOf).toArray());
         assertArrayEquals(new int[]{2,3,1,3},Resource.getStream(4).mapToInt((a)->board.getDiscardBox().getNumberOf(a)).toArray());
-        assertEquals(
+        assertEquals(jsonUtility.toPrettyFormat(
                 "{0:[{key:SHIELD,value:false}]," +
                         "1:[{key:GOLD,value:false},{key:GOLD,value:false}]," +
-                        "2:[{key:EMPTY,value:false},{key:EMPTY,value:false},{key:EMPTY,value:false}]}",
-                board.getWarehouseLeadersDepots().structuredTableJson().replace("\"","") );
+                        "2:[{key:EMPTY,value:false},{key:EMPTY,value:false},{key:EMPTY,value:false}]}"),
+                board.getWarehouseLeadersDepots().structuredTableJson());
 
     }
 

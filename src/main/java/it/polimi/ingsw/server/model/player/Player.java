@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.player;
 
+import it.polimi.ingsw.network.jsonUtility;
 import it.polimi.ingsw.server.model.State;
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.server.model.cards.*;
@@ -12,7 +13,6 @@ import javafx.util.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.ingsw.server.model.jsonUtility.deserialize;
 
 
 /**
@@ -131,7 +131,7 @@ public class Player {
     }
 
     private void initializeFaithTrack(){
-        faithTrack = deserialize("src/main/resources/config/FaithTrackConfig.json", FaithTrack.class);
+        faithTrack = jsonUtility.faithTrackDeserialization();
     }
 
     /**

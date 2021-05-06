@@ -1,4 +1,5 @@
 package it.polimi.ingsw.server.model;
+import it.polimi.ingsw.network.jsonUtility;
 import it.polimi.ingsw.server.controller.Match;
 import it.polimi.ingsw.server.model.cards.*;
 import it.polimi.ingsw.server.model.market.*;
@@ -78,11 +79,10 @@ public class GameModel {
 
     /**
      *
-     * @param configFilePath Path of the json file containing
      * @throws IOException
      */
-    private void initializeLeadersList(String configFilePath) throws IOException {
-        List<Leader> leadersList = jsonUtility.leaderCardsDeserialization(configFilePath);
+    private void initializeLeadersList() throws IOException {
+        List<Leader> leadersList = jsonUtility.leaderCardsDeserialization();
         leaders = IntStream.range(0, leadersList.size()).boxed().collect(Collectors.toMap(Function.identity(), leadersList::get));
     }
 
@@ -108,12 +108,12 @@ public class GameModel {
     private void commonInit(List<String> nicknames){
 
         try {
-            resourcesMarket = MarketBoard.initializeMarketBoard("src/main/resources/config/MarketBoardConfig.json");
-            cardShop = CardShop.initializeCardShop("src/main/resources/config/CardShopConfig.json");
-            initializeLeadersList("src/main/resources/config/LeadersConfig.json");
+            resourcesMarket = MarketBoard.initializeMarketBoard();
+            cardShop = CardShop.initializeCardShop();
+            initializeLeadersList();
 
         } catch (IOException e) {
-            System.out.println("Error while class initialization with json config file");
+            System.out.println("Error while class initialization from config file");
             e.printStackTrace();
         }
 

@@ -11,7 +11,7 @@ import it.polimi.ingsw.network.messages.servertoclient.state.StateMessageContain
 
 import java.util.UUID;
 
-import static it.polimi.ingsw.server.model.jsonUtility.serialize;
+import static it.polimi.ingsw.network.jsonUtility.serialize;
 
 /**
  * A network message from the server to the client visible to both.
@@ -75,7 +75,7 @@ public abstract class ServerToClientMessage extends NetworkMessage
                 .registerTypeAdapterFactory(stateMessageAdapter())
                 .create();
 
-        return serialize(this,ServerToClientMessage.class, gson1);
+        return serialize(this, ServerToClientMessage.class, gson1);
 
     }
 

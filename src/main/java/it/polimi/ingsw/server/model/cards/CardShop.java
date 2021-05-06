@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import it.polimi.ingsw.server.model.State;
-import it.polimi.ingsw.server.model.jsonUtility;
+import it.polimi.ingsw.network.jsonUtility;
 import it.polimi.ingsw.server.model.solo.SoloActionToken;
 
 /**
@@ -32,9 +32,9 @@ public class CardShop {
         this.devDecks = devDecks;
     }
 
-    public static CardShop initializeCardShop(String configFilePath) throws IOException {
+    public static CardShop initializeCardShop() throws IOException {
 
-        return jsonUtility.deserialize(configFilePath, CardShop.class);
+        return jsonUtility.cardShopDeserialization();
     }
 
     
