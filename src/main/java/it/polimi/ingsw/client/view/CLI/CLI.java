@@ -48,10 +48,17 @@ public class CLI {
         }
     }
 
-    void setOptionList(CLIPos pos,OptionList optionList){
-        optionList.setCLIAndAddToPublishers(this, client);
+    public void setOptionList(CLIPos pos,OptionList optionList){
+        optionList.setCLIAndUpdateSubscriptions(this, client);
         optionListAtPos[pos.ordinal()]=optionList;
         optionList.selectOption();
+    }
+
+    public void updateListeners(){
+        if (title!=null)
+            title.setCLIAndUpdateSubscriptions(this,client);
+        spinner.ifPresent(s->s.setCLIAndUpdateSubscriptions(this,client));
+        Arrays.stream(optionListAtPos).forEach(o->o.setCLIAndUpdateSubscriptions(this,client));
     }
 
     private static void clearOptions(CLI cli) throws ChangingViewBuilderBeforeTakingInput {
@@ -84,13 +91,13 @@ public class CLI {
         if (this.title!=null)
             title.removeFromPublishers(client);
         this.title = title;
-        this.title.setCLIAndAddToPublishers(this,client);
+        this.title.setCLIAndUpdateSubscriptions(this,client);
     }
 
     public void setSpinner(Spinner spinner){
         this.spinner.ifPresent(s->s.removeFromPublishers(client));
         this.spinner = Optional.of(spinner);
-        spinner.setCLIAndAddToPublishers(this, client);
+        spinner.setCLIAndUpdateSubscriptions(this, client);
     }
 
     private void print(String s){

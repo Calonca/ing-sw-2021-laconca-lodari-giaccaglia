@@ -39,7 +39,7 @@ public class OptionList extends CLIelem{
             options.get(0).setSelected(true);
         if (cli!=null)
         {
-            setCLIAndAddToPublishers(cli,client);
+            setCLIAndUpdateSubscriptions(cli,client);
         }
     }
 
@@ -65,9 +65,9 @@ public class OptionList extends CLIelem{
     }
 
     @Override
-    public void setCLIAndAddToPublishers(CLI cli, Client client) {
-        super.setCLIAndAddToPublishers(cli, client);
-        options.forEach(o->o.setCLIAndAddToPublishers(cli,client));
+    public void setCLIAndUpdateSubscriptions(CLI cli, Client client) {
+        super.setCLIAndUpdateSubscriptions(cli, client);
+        options.forEach(o->o.setCLIAndUpdateSubscriptions(cli,client));
     }
 
 
