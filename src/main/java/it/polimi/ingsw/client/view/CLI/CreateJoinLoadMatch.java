@@ -13,13 +13,6 @@ import java.util.stream.Stream;
 public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implements CLIBuilder {
 
 
-    /**
-     * The main method of the view. Handles user interaction. User interaction
-     * is considered ended when this method exits.
-     *
-     * @implNote This method shall exit as soon as possible after stopInteraction()
-     * is called (from another thread).
-     */
     @Override
     public void run() {
         Spinner spinner = new Spinner("matches data");
@@ -38,7 +31,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
                         Optional<Map<UUID,String[]>> list = (Optional<Map<UUID, String[]>>) optionList.getEvt().getNewValue();
                         optionList.updateOptions(getNewOptionList(list),getClient());
                         getCLIView().setOptionList(CLIPos.CENTER,optionList);
-                        getCLIView().update();
+                        getCLIView().refreshCLI();
                     };
                     optionList.setPerformer(performer);
 

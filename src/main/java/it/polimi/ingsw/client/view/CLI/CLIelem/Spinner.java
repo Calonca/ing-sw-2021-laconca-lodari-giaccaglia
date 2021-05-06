@@ -4,7 +4,6 @@ package it.polimi.ingsw.client.view.CLI.CLIelem;
 import com.google.gson.Gson;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.CommonData;
-import it.polimi.ingsw.client.view.CLI.CLI;
 import it.polimi.ingsw.client.view.CLI.SetupPhase;
 import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 import it.polimi.ingsw.network.messages.servertoclient.state.SETUP_PHASE;
@@ -36,7 +35,7 @@ public class Spinner extends CLIelem {
         spinner.setUpdater(()->{
             if (spinner.getEvt().getPropertyName().equals(CommonData.matchesDataString)) {
                 spinner.meanwhileShow = (new Gson().toJson ((Optional<Map<UUID,String[]>>) spinner.getEvt().getNewValue()));
-                spinner.cli.update();
+                spinner.cli.refreshCLI();
             } else if (spinner.getEvt().getPropertyName().equals(SETUP_PHASE.class.getSimpleName()))
                 spinner.perform();
         });

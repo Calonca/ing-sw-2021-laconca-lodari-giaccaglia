@@ -11,7 +11,7 @@ public class Title extends CLIelem{
     public void setTitle(String title) {
         if (!this.title.equals(title)){
             this.title = title;
-            cli.update();
+            cli.refreshCLI();
         }
     }
 

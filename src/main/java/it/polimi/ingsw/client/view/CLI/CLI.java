@@ -12,10 +12,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Stream;
 
 /**
- * Builds the CLI
- * Usage: add the elements to the cli by calling addOption()
- * You can then select an option and execute the code contained in that option
- * Todo add selection with arrows
+ * Builds the CLI.<br>
+ * Usage: Add {@link it.polimi.ingsw.client.view.CLI.CLIelem.CLIelem elements}
+ * like optionList, body, title, spinner, and then call {@link #displayWithDivider()} or {@link #displayWithScroll()}.
+ * Call {@link #refreshCLI()} to update.
  */
 public class CLI {
     private final Client client;
@@ -41,8 +41,11 @@ public class CLI {
         body = Optional.empty();
     }
 
-    public void setLastChoice(Optional<Option> integerOptionPair ) {
-        this.lastChoice = integerOptionPair;
+    public void setTitle(Title title){
+        if (this.title!=null)
+            title.removeFromPublishers(client);
+        this.title = title;
+        this.title.setCLIAndUpdateSubscriptions(this,client);
     }
 
     public void setOptionList(CLIPos pos,OptionList optionList){
@@ -51,15 +54,8 @@ public class CLI {
         optionList.selectOption();
     }
 
-    public OptionList getOptionsAt(CLIPos cliPos){
-        return optionListAtPos[cliPos.ordinal()];
-    }
-
-    public void setTitle(Title title){
-        if (this.title!=null)
-            title.removeFromPublishers(client);
-        this.title = title;
-        this.title.setCLIAndUpdateSubscriptions(this,client);
+    public void setLastChoice(Optional<Option> integerOptionPair ) {
+        this.lastChoice = integerOptionPair;
     }
 
     public void setBody(Body body){
@@ -90,13 +86,6 @@ public class CLI {
         }
     }
 
-    public void updateListeners(){
-        if (title!=null)
-            title.setCLIAndUpdateSubscriptions(this,client);
-        spinner.ifPresent(s->s.setCLIAndUpdateSubscriptions(this,client));
-        Arrays.stream(optionListAtPos).forEach(o->o.setCLIAndUpdateSubscriptions(this,client));
-    }
-
     private static void clearOptions(CLI cli) throws ChangingViewBuilderBeforeTakingInput {
         if (cli.isTakingInput)
         {
@@ -115,12 +104,19 @@ public class CLI {
         cli.spinner = Optional.empty();
     }
 
-    public void performLastChoice(){
-        lastChoice.ifPresent(Option::perform);
+    public void refreshCLI(){
+        displayWithDivider();
     }
 
-    public void update(){
-        displayWithDivider();
+    public void updateListeners(){
+        if (title!=null)
+            title.setCLIAndUpdateSubscriptions(this,client);
+        spinner.ifPresent(s->s.setCLIAndUpdateSubscriptions(this,client));
+        Arrays.stream(optionListAtPos).forEach(o->o.setCLIAndUpdateSubscriptions(this,client));
+    }
+
+    public void performLastChoice(){
+        lastChoice.ifPresent(Option::perform);
     }
 
     private synchronized void commonRunOnInput(String message, Runnable r, Runnable afterInput){
@@ -187,11 +183,15 @@ public class CLI {
         return scanner.nextLine();
     }
 
+    private OptionList getOptionsAt(CLIPos cliPos){
+        return optionListAtPos[cliPos.ordinal()];
+    }
+
     private void print(String s){
         System.out.println(s);
     }
 
-    public void printError(String error){
+    private void printError(String error){
         System.out.println(Color.colorString(error,Color.ANSI_RED));
     }
 
@@ -250,17 +250,6 @@ public class CLI {
         } else putEndDiv();
     }
 
-    //@Override
-    //public String toString() {
-    //    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    //    PrintStream ps = new PrintStream(baos);
-    //    System.setOut(ps);
-    //    display();
-    //    System.out.flush();
-    //    System.setOut(System.out);
-    //    return baos.toString();
-    //}
-
     static void cleanConsole() {
         final String os = System.getProperty("os.name");
         if (os.contains("Windows")) {
@@ -278,7 +267,6 @@ public class CLI {
             }
         }
     }
-
 
     public void putDivider(){
         print("||-----------------------------------------------------------");

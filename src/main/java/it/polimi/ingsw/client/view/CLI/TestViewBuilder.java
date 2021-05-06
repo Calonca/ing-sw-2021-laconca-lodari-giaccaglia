@@ -9,16 +9,14 @@ public class TestViewBuilder extends it.polimi.ingsw.client.view.abstractview.Te
     @Override
     public void run() {
         getCLIView().resetCLI();
-        Runnable r = (()->
-                {
-                    String input = getCLIView().getLastInput();
-                    getCLIView().setTitle(new Title("Printed after input "+input));
-                    getCLIView().displayWithDivider();
-                    //getClient().changeViewBuilder(new CreateJoinLoadMatch(),this);
 
-                }
-                );
-        getCLIView().runOnInput("Write something",r);
+        getCLIView().runOnInput("Write something",()->
+        {
+            String input = getCLIView().getLastInput();
+            getCLIView().setTitle(new Title("Printed after input "+input));
+            getCLIView().displayWithDivider();
+            //getClient().changeViewBuilder(new CreateJoinLoadMatch(),this);
+        });
 
 
         Spinner spinner = new Spinner("matches data");

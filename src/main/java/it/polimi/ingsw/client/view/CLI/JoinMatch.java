@@ -13,25 +13,17 @@ public class JoinMatch extends it.polimi.ingsw.client.view.abstractview.JoinMatc
         super(matchId);
     }
 
-    /**
-     * The main method of the view. Handles user interaction. User interaction
-     * is considered ended when this method exits.
-     *
-     * @implNote This method shall exit as soon as possible after stopInteraction()
-     * is called (from another thread).
-     */
     @Override
     public void run() {
         getCLIView().setTitle(new Title("Joining match"));
 
-
-        Runnable r = ()->{
+        getCLIView().runOnInput("Your nickname: ",()->
+        {
             getClient().getServerHandler().sendCommandMessage(new JoinMatchRequest(matchId,getCLIView().getLastInput()));
             getCLIView().resetCLI();
             getCLIView().setSpinner(Spinner.matchToStart(getClient(),this));
             getCLIView().displayWithDivider();
-        };
-        getCLIView().runOnInput("Your nickname: ",r);
+        });
         getCLIView().displayWithDivider();
 
 
