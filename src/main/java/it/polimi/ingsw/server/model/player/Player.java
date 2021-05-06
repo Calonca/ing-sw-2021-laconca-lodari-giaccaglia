@@ -242,9 +242,6 @@ public class Player {
             if (bonus) {
                 trueCount++;
             }
-            if (trueCount >= 1) {
-                return false;
-            }
         }
         return trueCount>1;
     }
