@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.CommonData;
-import it.polimi.ingsw.client.view.CLI.CLIelem.RunnableWithInputString;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Spinner;
 import it.polimi.ingsw.client.view.abstractview.ConnectToServerViewBuilder;
 
