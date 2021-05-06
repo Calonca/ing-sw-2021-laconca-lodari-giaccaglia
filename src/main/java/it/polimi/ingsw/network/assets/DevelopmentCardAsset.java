@@ -16,8 +16,7 @@ public class DevelopmentCardAsset {
 
     public DevelopmentCardAsset(DevelopmentCard developmentCard, String front, String back, UUID cardId){
         this.developmentCard = developmentCard;
-
-        this.cardPaths = new Pair<>(Paths.get(front), Paths.get(front));
+        this.cardPaths = new Pair<>(Paths.get(front), Paths.get(back));
         this.cardId = cardId;
     }
 

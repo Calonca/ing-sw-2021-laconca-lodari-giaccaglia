@@ -26,8 +26,8 @@ public class jsonUtility {
 
     private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
     public static final String configPathString = "src/main/resources/config/";
-    public static final String frontDevCardPathString = "src/main/resources/cards/devCards/Masters of Renaissance_Cards_FRONT_";
-
+    public static final String frontDevCardPathString = "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_";
+    public static final String backDevCardPathString = "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_";
     public static String serializeVarArgs(Object... o) {
         return serialize(Arrays.stream(o).collect(Collectors.toList()));
     }
@@ -48,8 +48,10 @@ public class jsonUtility {
 
         return cardsFromJsonHandlerMap.keySet().stream().map(id -> {
             DevelopmentCard card = cardsFromJsonHandlerMap.get(id);
-            String front = frontDevCardPathString + card.getCardType().toString() + "_" + card.getLevel() + ".png";
-            return new DevelopmentCardAsset(card, front, front, id);
+            String cardPathSuffix = card.getCardType().toString() + "_" + card.getLevel() + ".png";
+            String front = frontDevCardPathString + cardPathSuffix;
+            String back = backDevCardPathString + cardPathSuffix;
+            return new DevelopmentCardAsset(card, front, back, id);
         }).collect(Collectors.toMap(DevelopmentCardAsset::getCardId, Function.identity()));
 }
 
@@ -1324,7 +1326,6 @@ public class jsonUtility {
       MarketBoard test = marketBoardDeserialization();
       serialize(configPathString + "MarketBoardConfig.json", test, MarketBoard.class);
       faithTrackDeserialization();
-      int ciao=5;
     }
 
 
