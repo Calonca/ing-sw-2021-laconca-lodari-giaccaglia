@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.messages.servertoclient;
 
 import it.polimi.ingsw.client.ServerHandler;
+import it.polimi.ingsw.client.view.CLI.CreateJoinLoadMatch;
 
 import java.io.IOException;
 import java.util.Map;

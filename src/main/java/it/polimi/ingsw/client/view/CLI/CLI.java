@@ -1,35 +1,36 @@
 package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.Client;
-import it.polimi.ingsw.client.view.CLI.CLIelem.Option;
-import it.polimi.ingsw.client.view.CLI.CLIelem.OptionList;
-import it.polimi.ingsw.client.view.CLI.CLIelem.Spinner;
-import it.polimi.ingsw.client.view.CLI.CLIelem.Title;
+import it.polimi.ingsw.client.view.CLI.CLIelem.*;
+import it.polimi.ingsw.client.view.CLI.CLIelem.body.Body;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 /**
- * Builds the CLI
- * Usage: add the elements to the cli by calling addOption()
- * You can then select an option and execute the code contained in that option
- * Todo add elements like text instead of options
- * Todo add selection with arrows
+ * Builds the CLI.<br>
+ * Usage: Add {@link it.polimi.ingsw.client.view.CLI.CLIelem.CLIelem elements}
+ * like optionList, body, title, spinner, and then call {@link #displayWithDivider()} or {@link #displayWithScroll()}.
+ * Call {@link #refreshCLI()} to update.
  */
 public class CLI {
     private final Client client;
     private Title title;
     private Optional<Spinner> spinner;
+    private Optional<CLIelem> body;
     private OptionList[] optionListAtPos;
     private Optional<Option> lastChoice=Optional.empty();
     public final AtomicBoolean stopASAP;
+    private Thread inputThread;
+    private String inputMessage;
+    private String lastInput;
+    private int lastInt;
+    private boolean isTakingInput;
+    private Runnable afterInput;
 
 
     public CLI(Client client) {
@@ -37,77 +38,161 @@ public class CLI {
         this.client = client;
         stopASAP = new AtomicBoolean(false);
         spinner = Optional.empty();
+        body = Optional.empty();
+    }
+
+    public void setTitle(Title title){
+        if (this.title!=null)
+            title.removeFromPublishers(client);
+        this.title = title;
+        this.title.setCLIAndUpdateSubscriptions(this,client);
+    }
+
+    public void setOptionList(CLIPos pos,OptionList optionList){
+        optionList.setCLIAndUpdateSubscriptions(this, client);
+        optionListAtPos[pos.ordinal()]=optionList;
+        optionList.selectOption();
+    }
+
+    public void setLastChoice(Optional<Option> integerOptionPair ) {
+        this.lastChoice = integerOptionPair;
+    }
+
+    public void setBody(Body body){
+        this.body.ifPresent(b->b.removeFromPublishers(client));
+        this.body = Optional.ofNullable(body);
+        this.body.ifPresent(b->b.setCLIAndUpdateSubscriptions(this,client));
+    }
+
+    public void setSpinner(Spinner spinner){
+        this.spinner.ifPresent(s->s.removeFromPublishers(client));
+        this.spinner = Optional.of(spinner);
+        spinner.setCLIAndUpdateSubscriptions(this, client);
+    }
+
+    public int getLastInt() {
+        return lastInt;
+    }
+
+    public String getLastInput() {
+        return lastInput;
     }
 
     public void resetCLI(){
-        clearOptions(this);
+        try {
+            clearOptions(this);
+        } catch (ChangingViewBuilderBeforeTakingInput e){
+            e.printStackTrace();
+        }
     }
 
-    void setOptionList(CLIPos pos,OptionList optionList){
-        optionList.setCLIView(this, client);
-        optionListAtPos[pos.ordinal()]=optionList;
-    }
-
-    private static void clearOptions(CLI cli)
-    {
+    private static void clearOptions(CLI cli) throws ChangingViewBuilderBeforeTakingInput {
+        if (cli.isTakingInput)
+        {
+            throw new ChangingViewBuilderBeforeTakingInput();
+        }
         if (cli.title!=null)
             cli.title.removeFromPublishers(cli.client);
         cli.title = null;
-        cli.spinner.ifPresentOrElse(
-                s->s.stop(cli.client),
-                ()-> cli.spinner=Optional.empty());
+
+        cli.body.ifPresent(b->b.removeFromPublishers(cli.client));
+        cli.body = Optional.empty();
+
         Arrays.stream(cli.optionListAtPos).forEach(o->o.removeFromPublishers(cli.client));
         cli.optionListAtPos = Stream.generate(OptionList::new).limit(CLIPos.values().length).toArray(OptionList[]::new);
+        cli.spinner.ifPresent(s->s.removeFromPublishers(cli.client));
+        cli.spinner = Optional.empty();
     }
 
-    public OptionList getOptionsAt(CLIPos cliPos){
-        return optionListAtPos[cliPos.ordinal()];
+    public void refreshCLI(){
+        displayWithDivider();
+    }
+
+    public void updateListeners(){
+        if (title!=null)
+            title.setCLIAndUpdateSubscriptions(this,client);
+        spinner.ifPresent(s->s.setCLIAndUpdateSubscriptions(this,client));
+        Arrays.stream(optionListAtPos).forEach(o->o.setCLIAndUpdateSubscriptions(this,client));
     }
 
     public void performLastChoice(){
         lastChoice.ifPresent(Option::perform);
     }
 
-    public void update(){
-        spinner.ifPresent(Spinner::pause);
-        displayWithDivider();
-        spinner.ifPresent(Spinner::resume);
+    private synchronized void commonRunOnInput(String message, Runnable r, Runnable afterInput){
+        if (inputThread!= null && inputThread.isAlive() && isTakingInput) {
+            inputThread.interrupt();
+            isTakingInput = false;
+        }
+        this.afterInput = afterInput;
+        inputMessage = message;
+        inputThread = new Thread(r);
     }
 
-    public void setTitle(Title title){
-        this.title = title;
+    private synchronized void callRunnableAfterGettingInput(){
+        afterInput.run();
+        inputThread = null;
     }
 
-    public void setSpinner(Spinner spinner){
-        this.spinner.ifPresent(s->s.stop(client));
-        this.spinner = Optional.of(spinner);
-        spinner.setCLIView(this, client);
+    public synchronized void runOnInput(String message, Runnable r1){
+        Runnable r = ()-> {
+            print(Color.colorString(message,Color.ANSI_GREEN));
+            putEndDiv();
+            lastInput = getInString();
+            callRunnableAfterGettingInput();
+        };
+        commonRunOnInput(message,r,r1);
     }
 
-    public boolean canSpin(){
-        return spinner.isPresent();
+    public synchronized void runOnIntInput(String message,String errorMessage,int min,int max, Runnable r1){
+        Runnable r = ()-> {
+            int choice;
+            do  {
+                print(Color.colorString(message,Color.ANSI_GREEN));
+                putEndDiv();
+                String in = getInString();
+                try
+                {
+                    choice = Integer.parseInt(in);
+                    if (choice<min||choice>max)
+                    {
+                        printError(errorMessage);
+                        if (choice<min)
+                            printError("Insert a GREATER number!");
+                        else printError("Insert a SMALLER number!");
+                    }else {
+                        break;
+                    }
+                }
+                catch (NumberFormatException e){
+                    printError(errorMessage);
+                    printError("Insert a NUMBER!");
+                }
+            }while(true);
+            lastInt = choice;
+            lastInput = Integer.toString(choice);
+            callRunnableAfterGettingInput();
+        };
+        commonRunOnInput(message,r,r1);
     }
 
-    public void startSpinning(){
-        spinner.ifPresent(Spinner::run);
+    private String getInString(){
+        isTakingInput = true;
+        Scanner scanner = new Scanner(System.in);
+        isTakingInput = false;
+        return scanner.nextLine();
+    }
+
+    private OptionList getOptionsAt(CLIPos cliPos){
+        return optionListAtPos[cliPos.ordinal()];
     }
 
     private void print(String s){
         System.out.println(s);
     }
 
-    public void printError(String error){
+    private void printError(String error){
         System.out.println(Color.colorString(error,Color.ANSI_RED));
-    }
-
-    public String getIN(String message){
-        print(Color.colorString(message,Color.ANSI_GREEN));
-        return getIN();
-    }
-
-    private String getIN(){
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextLine();
     }
 
     public void displayWithScroll(){
@@ -123,7 +208,7 @@ public class CLI {
     /**
      * Used to refresh the screen
      */
-    private void display(){
+    private synchronized void display(){
 
         if (title!=null){
             print(title.toString()+"\n");}
@@ -140,6 +225,8 @@ public class CLI {
                 .map(s -> finalSpaces1 +s.replace("\n","\n"+finalSpaces1))
                 .forEach(this::print);
 
+        body.ifPresent(b->print(b.toString()));
+
         getOptionsAt(CLIPos.BOTTOM_LEFT).toStringStream()
                 .forEach(this::print);
 
@@ -148,18 +235,19 @@ public class CLI {
         getOptionsAt(CLIPos.BOTTOM_RIGHT).toStringStream()
                 .map(s -> finalSpaces2 +s.replace("\n","\n"+finalSpaces2))
                 .forEach(this::print);
-        startSpinning();
-    }
 
-    @Override
-    public String toString() {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(baos);
-        System.setOut(ps);
-        display();
-        System.out.flush();
-        System.setOut(System.out);
-        return baos.toString();
+        spinner.ifPresent(spinner1 -> print(spinner1.toString()));
+
+        //Todo: Sometimes the choices are not updated
+        //Can be solved via a check after taking the input
+        printError("Todo: Sometimes the choices are not updated, sometimes you hase to select new match 2 times");
+        if (isTakingInput){//Should never get here
+            print(Color.colorString(inputMessage,Color.ANSI_GREEN));
+            putEndDiv();
+        }
+        else if (inputThread!=null && !inputThread.isAlive()) {
+            inputThread.start();
+        } else putEndDiv();
     }
 
     static void cleanConsole() {
@@ -180,9 +268,12 @@ public class CLI {
         }
     }
 
-
     public void putDivider(){
-        print("------------------------------------------------------------");
+        print("||-----------------------------------------------------------");
+    }
+
+    public void putEndDiv(){
+        print("-----------------------------------------------------------||");
     }
 
     public void scroll(){
@@ -190,11 +281,4 @@ public class CLI {
             System.out.println();}
     }
 
-    public void setLastChoice(Optional<Option> integerOptionPair ) {
-        this.lastChoice = integerOptionPair;
-    }
-
-    public void updateTitle() {
-        update();
-    }
 }

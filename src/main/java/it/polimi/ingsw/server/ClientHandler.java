@@ -53,6 +53,7 @@ public class ClientHandler implements Runnable
 
         System.out.println("Connected to " + client.getInetAddress());
         try {
+            SessionController.getInstance().addPlayerToLobby(this);
             sendAnswerMessage(new MatchesData(SessionController.getInstance().matchesData(this)));
         } catch (IOException e) {
             System.out.println("could not send matches data to " + client.getInetAddress());

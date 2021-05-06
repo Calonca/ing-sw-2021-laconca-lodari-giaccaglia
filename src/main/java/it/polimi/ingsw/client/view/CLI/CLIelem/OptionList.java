@@ -39,7 +39,7 @@ public class OptionList extends CLIelem{
             options.get(0).setSelected(true);
         if (cli!=null)
         {
-            setCLIView(cli,client);
+            setCLIAndUpdateSubscriptions(cli,client);
         }
     }
 
@@ -51,27 +51,12 @@ public class OptionList extends CLIelem{
     }
     public void selectOption()
     {
-        int choice;
-        do  {
-            try
-            {
-                String in = cli.getIN("Please insert a number");
-                choice = Integer.parseInt(in);
-                if (choice<0||choice>=options.size())
-                {
-                    if (choice<0)
-                        cli.printError("DON'T insert a NEGATIVE number!");
-                    else cli.printError("Insert a SMALLER number!");
-                }else {
-                    break;
-                }
-            }
-            catch (NumberFormatException e){
-                cli.printError("Insert a NUMBER!");
-            }
-        }while(true);
-        selectOptionAtPosition(choice);
-        //cliView.displayWithScroll();
+        Runnable r = ()->{
+            int choice = cli.getLastInt();
+            selectOptionAtPosition(choice);
+            cli.performLastChoice();
+        };
+        cli.runOnIntInput("Select a choice:","Select a valid choice",0,options.size()-1,r);
     }
 
     public Stream<String> toStringStream() {
@@ -80,9 +65,9 @@ public class OptionList extends CLIelem{
     }
 
     @Override
-    public void setCLIView(CLI cli, Client client) {
-        super.setCLIView(cli, client);
-        options.forEach(o->o.setCLIView(cli,client));
+    public void setCLIAndUpdateSubscriptions(CLI cli, Client client) {
+        super.setCLIAndUpdateSubscriptions(cli, client);
+        options.forEach(o->o.setCLIAndUpdateSubscriptions(cli,client));
     }
 
 

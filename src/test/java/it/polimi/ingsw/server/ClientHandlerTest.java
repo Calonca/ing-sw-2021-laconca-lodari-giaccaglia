@@ -51,8 +51,15 @@ public class ClientHandlerTest {
     @After
     public void after() throws IOException {
         server1.close();
+        output1.close();
+        input1.close();
+        server2.close();
+        output2.close();
+        input2.close();
     }
 
+
+    @Test
     public void createMatch() throws IOException, ClassNotFoundException {
 
         //1 Received matches data
@@ -86,19 +93,18 @@ public class ClientHandlerTest {
         //2 Send join request
         request = new JoinMatchRequest(matchId,"Name2");
         output2.writeObject(request.serialized());
-        jsonObject = toJsonObject(input2.readObject().toString());
+        //1 Received state message
+        assertEquals(SETUP_PHASE.class.getSimpleName(),
+                toJsonObject(input1.readObject().toString()).get("stateMessage").getAsJsonObject().get("type").getAsString());
         //1 Received matches data
         assertEquals(MatchesData.class.getSimpleName(),
                 toJsonObject(input1.readObject().toString()).get("type").getAsString());
-        //2 Received matches data
-        assertEquals(MatchesData.class.getSimpleName(),
-                toJsonObject(input2.readObject().toString()).get("type").getAsString());
-        //2 Receive create match status
-        expected = toJsonObject(new JoinStatus(request,matchId,null, 0));
+        //2 Receive join status
+        jsonObject = toJsonObject(input2.readObject().toString());
+        expected = toJsonObject(new JoinStatus(request,matchId,null,1));
         assertEquals(expected,
-                toJsonObject(input2.readObject().toString()));
+                jsonObject);
 
-        //Todo test false validation
     }
 
 
@@ -120,19 +126,18 @@ public class ClientHandlerTest {
         //1 Send create request
         ClientToServerMessage request = new CreateMatchRequest(1,"Name1");
         output1.writeObject(request.serialized());
-        //1 Received matches data
-        assertEquals(MatchesData.class.getSimpleName(),
-                toJsonObject(input1.readObject().toString()).get("type").getAsString());
         //1 Received state message
         assertEquals(SETUP_PHASE.class.getSimpleName(),
                 toJsonObject(input1.readObject().toString()).get("stateMessage").getAsJsonObject().get("type").getAsString());
+        //2 Received matches data
+        assertEquals(MatchesData.class.getSimpleName(),
+                toJsonObject(input2.readObject().toString()).get("type").getAsString());
         //1 Receive create match status
         JsonObject jsonObject = toJsonObject(input1.readObject().toString());
         UUID matchId = UUID.fromString(jsonObject.get("matchId").getAsString());
         JsonObject expected = toJsonObject(new CreatedMatchStatus(request,matchId,null));
         assertEquals(expected,
                 jsonObject);
-
     }
 
 

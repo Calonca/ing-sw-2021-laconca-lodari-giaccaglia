@@ -8,29 +8,22 @@ import it.polimi.ingsw.network.messages.clienttoserver.CreateMatchRequest;
 public class CreateMatch extends CreateMatchViewBuilder implements CLIBuilder {
 
 
-    /**
-     * The main method of the view. Handles user interaction. User interaction
-     * is considered ended when this method exits.
-     *
-     * @implNote This method shall exit as soon as possible after stopInteraction()
-     * is called (from another thread).
-     */
     @Override
     public void run() {
         getCLIView().setTitle(new Title("Creating match"));
-        getCLIView().displayWithDivider();
-        int numberOfPlayers;
-        String nickname;
-        do {
-            getCLIView().putDivider();
-            String in = getCLIView().getIN("Number of people: ");
-            numberOfPlayers = Integer.parseInt(in);
-            nickname = getCLIView().getIN("Your nickname: ");
-        }while (numberOfPlayers<1||numberOfPlayers>4);
 
-        getCLIView().resetCLI();
-        getCLIView().setSpinner(Spinner.matchToStart(getClient(),this));
-        getClient().getServerHandler().sendCommandMessage(new CreateMatchRequest(numberOfPlayers,nickname));
+        getCLIView().runOnIntInput("Number of people (1 to 4): ","Number of people not valid",1,4,()->
+        {
+            int numberOfPlayers = getCLIView().getLastInt();
+            getCLIView().runOnInput("Your nickname: ",()-> {
+                String nickName = getCLIView().getLastInput();
+                getCLIView().resetCLI();
+                getCLIView().setSpinner(Spinner.matchToStart(getClient(),this));
+                getClient().getServerHandler().sendCommandMessage(new CreateMatchRequest(numberOfPlayers,nickName));
+                getCLIView().displayWithDivider();
+            });
+            getCLIView().displayWithDivider();
+        });
         getCLIView().displayWithDivider();
 
     }

@@ -6,7 +6,7 @@ import it.polimi.ingsw.client.view.CLI.CLI;
 
 
 /**
- * Builds the view
+ * Adds view elements to the view and contains references to useful classes
  */
 public abstract class ViewBuilder implements Runnable
 {
