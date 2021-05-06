@@ -34,22 +34,28 @@ public class SetupPhaseEvent extends it.polimi.ingsw.network.messages.clienttose
      * false.
      */
     private boolean validatePlayerNumber() {
-        return playerNumber == gamemodel.getPlayerIndex(gamemodel.getCurrentPlayer());
+        return playerNumber -1 == gamemodel.getPlayerIndex(gamemodel.getCurrentPlayer());
     }
 
     /**
      * @return true if chosen and discarded <em>leaderCards</em> are available among ones in {@link GameModel}, otherwise false.
      */
     private boolean validateLeaders() {
-        boolean validationOk = false;
-        for (Integer leaderNumber : chosenLeaders) {
-            validationOk = gamemodel.isLeaderAvailable(leaderNumber);
-        }
+        if(chosenLeaders.size() == initialChosenLeaders && initialChosenLeaders  == 2 && discardedLeaders.size() == initialDiscardedLeaders && initialDiscardedLeaders == 2)
+        {
+            boolean validationOk = false;
+            for (Integer leaderNumber : chosenLeaders) {
+                validationOk = gamemodel.isLeaderAvailable(leaderNumber);
+                if(!validationOk) return false;
+            }
 
-        for (Integer leaderNumber : discardedLeaders) {
-             validationOk = gamemodel.isLeaderAvailable(leaderNumber);
+            for (Integer leaderNumber : discardedLeaders) {
+                validationOk = gamemodel.isLeaderAvailable(leaderNumber);
+                if(!validationOk) return false;
+            }
+            return validationOk;
         }
-        return validationOk;
+        else return false;
     }
 
     /**
@@ -57,8 +63,7 @@ public class SetupPhaseEvent extends it.polimi.ingsw.network.messages.clienttose
      * {@link SetupPhaseEvent#playerNumber}, otherwise false.
      */
     private boolean validateResourcesAmount() {
-
-        int playerNumber = gamemodel.getPlayerIndex(gamemodel.getCurrentPlayer());
+        int playerNumber = gamemodel.getPlayerIndex(gamemodel.getCurrentPlayer()) + 1;
         int resourcesFromPlayerNumber = (11 % playerNumber);
         int resourcesAmount = resources.length;
         return (playerNumber == 3 || playerNumber == 4) ? resourcesFromPlayerNumber - 1 == resourcesAmount :

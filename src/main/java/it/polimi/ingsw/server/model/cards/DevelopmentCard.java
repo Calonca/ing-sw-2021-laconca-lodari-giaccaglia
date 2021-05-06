@@ -73,8 +73,9 @@ public class DevelopmentCard
 
     public int[] getCostAsArray() {
         int[] toar = new int[4];
-        for (Pair<Resource, Integer> resourceIntegerPair : this.getCostList())
+        for (Pair<Resource, Integer> resourceIntegerPair : costList)
             toar[resourceIntegerPair.getKey().getResourceNumber()] += resourceIntegerPair.getValue();
+
         return toar;
     }
 

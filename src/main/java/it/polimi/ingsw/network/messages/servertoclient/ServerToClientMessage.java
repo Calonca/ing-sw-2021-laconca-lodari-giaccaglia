@@ -5,23 +5,31 @@ import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.network.messages.NetworkMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
 import it.polimi.ingsw.RuntimeTypeAdapterFactory;
+import it.polimi.ingsw.network.messages.servertoclient.state.SETUP_PHASE;
+import it.polimi.ingsw.network.messages.servertoclient.state.StateMessage;
+import it.polimi.ingsw.network.messages.servertoclient.state.StateMessageContainer;
 
 import java.util.UUID;
 
-import static it.polimi.ingsw.server.model.jsonUtility.serialize;
+import static it.polimi.ingsw.network.jsonUtility.serialize;
 
 /**
- * A message representing an answer to a command.
- * Can be send even without a command
- * Contains common methods between client and server
+ * A network message from the server to the client visible to both.
+
+ * Can be send even without being an answer to a command.<br>
+ * Each subclass message has it's divided into two.
+ * One class in the network package that contains common methods, constructors and attributes between client and server.<br>
+ * A subclass of the class in the network package defined in the client that implements an interface with methods only working in the client.
+ * All the subclasses defined in the network package are registered in serialized().
+ * The class in the network and the class in the client packages have the same name to ease the serialization.
  */
 public abstract class ServerToClientMessage extends NetworkMessage
 {
     UUID parentIdentifier;
 
     /**
-     * Initializes the answer message.
-     * @param command The CommandMsg being answered.
+     * Initializes a message answering a command.
+     * @param command The command being answered.
      */
     public ServerToClientMessage(ClientToServerMessage command)
     {
@@ -29,7 +37,7 @@ public abstract class ServerToClientMessage extends NetworkMessage
     }
 
     /**
-     * Initializes a ServerToClientMessage that doesn't answer any messages.
+     * Initializes a ServerToClientMessage that doesn't answer to any commands.
      */
     public ServerToClientMessage()
     {
@@ -38,7 +46,7 @@ public abstract class ServerToClientMessage extends NetworkMessage
 
 
     /**
-     * Returns the identifier of the message being answered.
+     * Returns the identifier of the message being answered if it has one, otherwise returns null.
      * @return The UUID of the answered message.
      */
     public UUID getParentIdentifier()
@@ -46,23 +54,37 @@ public abstract class ServerToClientMessage extends NetworkMessage
         return parentIdentifier;
     }
 
+    /**
+     * Method used for serialization.
+     * @return a json string representing the message and it's type.
+     */
     public String serialized()
     {
 
-        RuntimeTypeAdapterFactory<ServerToClientMessage> serverToJson = RuntimeTypeAdapterFactory.of(ServerToClientMessage.class);
+        RuntimeTypeAdapterFactory<ServerToClientMessage> s2cAdapter = RuntimeTypeAdapterFactory.of(ServerToClientMessage.class);
 
         //Register here all the message types
-        serverToJson.registerSubtype(CreatedMatchStatus.class);
-        serverToJson.registerSubtype(JoinStatus.class);
-        serverToJson.registerSubtype(MatchesData.class);
-        serverToJson.registerSubtype(StateMessage.class);
+        s2cAdapter.registerSubtype(CreatedMatchStatus.class);
+        s2cAdapter.registerSubtype(JoinStatus.class);
+        s2cAdapter.registerSubtype(MatchesData.class);
+        s2cAdapter.registerSubtype(StateMessageContainer.class);
+
 
         Gson gson1 = new GsonBuilder()
-                .registerTypeAdapterFactory(serverToJson)
+                .registerTypeAdapterFactory(s2cAdapter)
+                .registerTypeAdapterFactory(stateMessageAdapter())
                 .create();
 
-        return serialize(this,ServerToClientMessage.class, gson1);
+        return serialize(this, ServerToClientMessage.class, gson1);
 
+    }
+
+    public static RuntimeTypeAdapterFactory<StateMessage> stateMessageAdapter(){
+        RuntimeTypeAdapterFactory<StateMessage> stateMessageAdapter = RuntimeTypeAdapterFactory.of(StateMessage.class);
+
+        //Register here all the states message types
+        stateMessageAdapter.registerSubtype(SETUP_PHASE.class);
+        return stateMessageAdapter;
     }
 
 }

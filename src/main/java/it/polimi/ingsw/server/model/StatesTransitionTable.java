@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.model;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.RuntimeTypeAdapterFactory;
+import it.polimi.ingsw.network.jsonUtility;
 import it.polimi.ingsw.server.controller.strategy.*;
 import it.polimi.ingsw.server.controller.strategy.cardmarket.AcquiringDevelopmentCard;
 import it.polimi.ingsw.server.controller.strategy.cardmarket.ChoosingSpaceForDevelopmentCard;
@@ -29,7 +30,6 @@ import it.polimi.ingsw.server.messages.clienttoserver.events.productionevent.Cho
 import it.polimi.ingsw.server.messages.clienttoserver.events.productionevent.FinalProductionPhase;
 import it.polimi.ingsw.server.messages.clienttoserver.events.productionevent.ProductionEvent;
 import it.polimi.ingsw.server.messages.clienttoserver.events.setupphaseevent.SetupPhaseEvent;
-import it.polimi.ingsw.server.model.cards.production.Production;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -213,10 +213,11 @@ public class StatesTransitionTable {
         strategyAdapter.registerSubtype(DiscardingResources.class);
         strategyAdapter.registerSubtype(PuttingBallOnLine.class);
         strategyAdapter.registerSubtype(ShowingResourceMarket.class);
-        //Todo add all strategies
+        strategyAdapter.registerSubtype(TogglingForProduction.class);
+        strategyAdapter.registerSubtype(ChooseInitialResource.class);
 
         return new GsonBuilder()
-                .registerTypeAdapterFactory(strategyAdapter)
+                .registerTypeAdapterFactory(strategyAdapter).setPrettyPrinting()
                 .create();
     }
 

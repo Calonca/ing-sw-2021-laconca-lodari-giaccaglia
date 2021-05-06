@@ -1,4 +1,6 @@
 package it.polimi.ingsw.server.model;
+import it.polimi.ingsw.network.jsonUtility;
+import it.polimi.ingsw.server.controller.Match;
 import it.polimi.ingsw.server.model.cards.*;
 import it.polimi.ingsw.server.model.market.*;
 import it.polimi.ingsw.server.model.player.*;
@@ -18,6 +20,8 @@ public class GameModel {
      * Player currently facing playing a game turn.
      */
     private Player currentPlayer;
+
+    private final Match match;
 
     /**
      * List of current game registered players after lobby creation.
@@ -75,11 +79,10 @@ public class GameModel {
 
     /**
      *
-     * @param configFilePath Path of the json file containing
      * @throws IOException
      */
-    private void initializeLeadersList(String configFilePath) throws IOException {
-        List<Leader> leadersList = jsonUtility.leaderCardsDeserialization(configFilePath);
+    private void initializeLeadersList() throws IOException {
+        List<Leader> leadersList = jsonUtility.leaderCardsDeserialization();
         leaders = IntStream.range(0, leadersList.size()).boxed().collect(Collectors.toMap(Function.identity(), leadersList::get));
     }
 
@@ -88,8 +91,8 @@ public class GameModel {
      * @param nicknames a List of unique names of players.
      * @param isSinglePlayer Indicates if it is a single player game or not.
      */
-    public GameModel(List<String> nicknames, boolean isSinglePlayer){
-
+    public GameModel(List<String> nicknames, boolean isSinglePlayer,Match match){
+        this.match = match;
         this.isSinglePlayer = isSinglePlayer;
         commonInit(nicknames);
 
@@ -105,12 +108,12 @@ public class GameModel {
     private void commonInit(List<String> nicknames){
 
         try {
-            resourcesMarket = MarketBoard.initializeMarketBoard("src/main/resources/config/MarketBoardConfig.json");
-            cardShop = CardShop.initializeCardShop("src/main/resources/config/CardShopConfig.json");
-            initializeLeadersList("src/main/resources/config/LeadersConfig.json");
+            resourcesMarket = MarketBoard.initializeMarketBoard();
+            cardShop = CardShop.initializeCardShop();
+            initializeLeadersList();
 
         } catch (IOException e) {
-            System.out.println("Error while class initialization with json config file");
+            System.out.println("Error while class initialization from config file");
             e.printStackTrace();
         }
 
@@ -163,7 +166,7 @@ public class GameModel {
 
 
     public boolean isDevCardInShopAvailable(int cardColorNumber, int cardLevel) {
-        return cardShop.isLevelOfColourOutOfStock(DevelopmentCardColor.fromInt(cardColorNumber), cardLevel);
+        return !cardShop.isLevelOfColourOutOfStock(DevelopmentCardColor.fromInt(cardColorNumber), cardLevel);
     }
 
     public int getMaxDevCardLevelInCardShop(){
@@ -198,7 +201,7 @@ public class GameModel {
      * @return <em>playerNumber</em> associated with the Player if present, otherwise -1;
      */
     public int getPlayerIndex(Player player){
-        return (player!=null && players.containsValue (player)) ?
+        return (player!=null && players.containsValue(player)) ?
                 getPlayerIndex(player, players)
                 : -1;
     }
@@ -209,6 +212,10 @@ public class GameModel {
      */
     public boolean isLeaderAvailable(int leaderNumber){
         return leaders.keySet().stream().anyMatch(availableNumbers -> availableNumbers==leaderNumber);
+    }
+
+    public Leader getLeader(int leaderNumber){
+        return leaders.remove(leaderNumber);
     }
     public void setOfflinePlayer(Player player){
         player.setCurrentStatus(false);
@@ -494,4 +501,7 @@ public class GameModel {
         return player.getLorenzoPosition();
     }
 
+    public UUID getMatchID() {
+        return match.getMatchId();
+    }
 }

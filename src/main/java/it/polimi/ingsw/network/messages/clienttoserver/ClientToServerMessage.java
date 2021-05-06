@@ -4,11 +4,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.network.messages.NetworkMessage;
 import it.polimi.ingsw.RuntimeTypeAdapterFactory;
-import it.polimi.ingsw.server.model.jsonUtility;
+import it.polimi.ingsw.network.jsonUtility;
 
 /**
  * A message sent to the server.
- * Cam have response or not.
+ * Can have response or not.
  * Contains common methods between server and client
  */
 public abstract class ClientToServerMessage extends NetworkMessage

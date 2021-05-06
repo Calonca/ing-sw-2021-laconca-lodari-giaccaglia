@@ -395,7 +395,7 @@ public class PersonalBoard {
 
     /**
      * This method will check if there are enough spaces in the {@link ProductionCardCell}
-     * @param developmentCard is not NULL
+     * @param developmentCard level as an int value
      * @return is true if there is at least a space available
      */
     public boolean isDevCardLevelSatisfied(DevelopmentCard developmentCard)

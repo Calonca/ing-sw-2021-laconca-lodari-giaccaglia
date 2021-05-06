@@ -23,7 +23,7 @@ public class CreateMatchRequest extends it.polimi.ingsw.network.messages.clientt
         clientHandler.getMatch().ifPresentOrElse(
              (match)->{
                     try {
-                        clientHandler.sendAnswerMessage(new MatchesData(SessionController.getInstance().matchesData()));
+                        clientHandler.sendAnswerMessage(new MatchesData(SessionController.getInstance().matchesData(clientHandler)));
                         clientHandler.sendAnswerMessage(new CreatedMatchStatus(this,null, CreatedMatchStatus.motive.OTHER));
                     } catch (IOException e) {
                         e.printStackTrace();

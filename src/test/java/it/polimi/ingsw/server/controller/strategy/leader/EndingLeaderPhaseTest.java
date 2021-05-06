@@ -18,7 +18,7 @@ public class EndingLeaderPhaseTest {
         List<String> nicknames = new ArrayList<>();
         nicknames.add("testPlayer");
         boolean isSinglePlayer = true;
-        GameModel gamemodel = new GameModel(nicknames, isSinglePlayer);
+        GameModel gamemodel = new GameModel(nicknames, isSinglePlayer,null);
         gamemodel.getCurrentPlayer().setCurrentState(State.SHOWING_LEADERS_INITIAL);
         try {
             assertEquals(State.MIDDLE_PHASE,new EndingLeaderPhase().execute(gamemodel, v) );

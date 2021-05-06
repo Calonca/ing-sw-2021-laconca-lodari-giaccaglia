@@ -1,11 +1,14 @@
 package it.polimi.ingsw.server.model;
+import it.polimi.ingsw.network.messages.servertoclient.state.SETUP_PHASE;
+import it.polimi.ingsw.network.messages.servertoclient.state.StateMessage;
 import it.polimi.ingsw.server.model.cards.*;
+import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.player.leaders.Leader;
 import it.polimi.ingsw.server.model.market.Marble;
 import it.polimi.ingsw.server.model.market.MarketBoard;
 import it.polimi.ingsw.server.model.market.MarketLine;
 import it.polimi.ingsw.server.model.player.board.*;
-import javafx.util.Pair;
+
 
 
 /**
@@ -54,9 +57,10 @@ public enum State {
      */
     SETUP_PHASE{
         @Override
-        public String serialize(GameModel gameModel) {
-            return jsonUtility.serializeVarArgs(
-                    gameModel.getPlayerIndex(gameModel.getCurrentPlayer()));
+        public StateMessage toStateMessage(GameModel gameModel) {
+            return new SETUP_PHASE(gameModel.getOnlinePlayers().size(),new Object[]{"l1","leader 2"},3, gameModel.getMatchID(),
+                    gameModel.getOnlinePlayers().values().stream().map(Player::getNickName).toArray(String[]::new)
+                    );
         }
     },
 
@@ -66,7 +70,7 @@ public enum State {
      */
     INITIAL_PHASE{
         @Override
-        public String serialize(GameModel gameModel) {
+        public StateMessage toStateMessage(GameModel gameModel) {
             return null;
         }
     },
@@ -77,7 +81,7 @@ public enum State {
      */
     SHOWING_LEADERS_INITIAL {
         @Override
-        public String serialize(GameModel gameModel) {
+        public StateMessage toStateMessage(GameModel gameModel) {
             return null;
         }
     },
@@ -88,7 +92,7 @@ public enum State {
      */
     MIDDLE_PHASE {
         @Override
-        public String serialize(GameModel gameModel) {
+        public StateMessage toStateMessage(GameModel gameModel) {
             return null;
         }
     },
@@ -99,7 +103,7 @@ public enum State {
      */
     CHOOSING_CARD_FOR_PRODUCTION {
         @Override
-        public String serialize(GameModel gameModel) {
+        public StateMessage toStateMessage(GameModel gameModel) {
             return null;
         }
     },
@@ -110,7 +114,7 @@ public enum State {
      */
     CHOOSING_RESOURCE_FOR_PRODUCTION {
         @Override
-        public String serialize(GameModel gameModel) {
+        public StateMessage toStateMessage(GameModel gameModel) {
             return null;
         }
     },
@@ -121,7 +125,7 @@ public enum State {
      */
     SHOWING_MARKET_RESOURCES {
         @Override
-        public String serialize(GameModel gameModel) {
+        public StateMessage toStateMessage(GameModel gameModel) {
             return null;
         }
     },
@@ -132,7 +136,7 @@ public enum State {
      */
     CHOOSING_WHITEMARBLE_CONVERSION {
         @Override
-        public String serialize(GameModel gameModel) {
+        public StateMessage toStateMessage(GameModel gameModel) {
             return null;
         }
     },
@@ -143,7 +147,7 @@ public enum State {
      */
     CHOOSING_POSITION_FOR_RESOURCES {
         @Override
-        public String serialize(GameModel gameModel) {
+        public StateMessage toStateMessage(GameModel gameModel) {
             return null;
         }
     },
@@ -153,7 +157,7 @@ public enum State {
      */
     SHOWING_CARD_SHOP {
         @Override
-        public String serialize(GameModel gameModel) {
+        public StateMessage toStateMessage(GameModel gameModel) {
             return null;
         }
     },
@@ -164,7 +168,7 @@ public enum State {
      */
     CHOOSING_DEVELOPMENT_CARD {
         @Override
-        public String serialize(GameModel gameModel) {
+        public StateMessage toStateMessage(GameModel gameModel) {
             return null;
         }
     },
@@ -175,7 +179,7 @@ public enum State {
      */
     CHOOSING_RESOURCES_FOR_DEVCARD{
         @Override
-        public String serialize(GameModel gameModel) {
+        public StateMessage toStateMessage(GameModel gameModel) {
             return null;
         }
     },
@@ -184,7 +188,7 @@ public enum State {
      */
     CHOOSING_POSITION_FOR_DEVCARD {
         @Override
-        public String serialize(GameModel gameModel) {
+        public StateMessage toStateMessage(GameModel gameModel) {
             return null;
         }
     },
@@ -197,7 +201,7 @@ public enum State {
      */
     FINAL_PHASE {
         @Override
-        public String serialize(GameModel gameModel) {
+        public StateMessage toStateMessage(GameModel gameModel) {
             return null;
         }
     },
@@ -208,7 +212,7 @@ public enum State {
      */
     SHOWING_LEADERS_FINAL {
         @Override
-        public String serialize(GameModel gameModel) {
+        public StateMessage toStateMessage(GameModel gameModel) {
             return null;
         }
     },
@@ -219,7 +223,7 @@ public enum State {
      */
     LEADER_END {
         @Override
-        public String serialize(GameModel gameModel) {
+        public StateMessage toStateMessage(GameModel gameModel) {
             return null;
         }
     },
@@ -229,7 +233,7 @@ public enum State {
      */
     IDLE {
         @Override
-        public String serialize(GameModel gameModel) {
+        public StateMessage toStateMessage(GameModel gameModel) {
             return null;
         }
     },
@@ -239,7 +243,7 @@ public enum State {
      */
     WINNING_STATE {
         @Override
-        public String serialize(GameModel gameModel) {
+        public StateMessage toStateMessage(GameModel gameModel) {
             return null;
         }
     },
@@ -249,7 +253,7 @@ public enum State {
      */
     LOSING_STATE {
         @Override
-        public String serialize(GameModel gameModel) {
+        public StateMessage toStateMessage(GameModel gameModel) {
             return null;
         }
     };
@@ -260,7 +264,7 @@ public enum State {
      * @param gameModel the {@link GameModel gamemodel} of the curent game
      * @return a String in json format
      */
-    public abstract String serialize(GameModel gameModel);
+    public abstract StateMessage toStateMessage(GameModel gameModel);
 
 
 }

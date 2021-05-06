@@ -3,22 +3,19 @@ package it.polimi.ingsw.server.controller;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.network.messages.servertoclient.MatchesData;
-import it.polimi.ingsw.server.model.State;
-import it.polimi.ingsw.network.messages.servertoclient.StateMessage;
+import it.polimi.ingsw.network.messages.servertoclient.state.StateMessageContainer;
 import it.polimi.ingsw.server.ClientHandler;
+import it.polimi.ingsw.server.model.State;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static it.polimi.ingsw.server.model.jsonUtility.deserialize;
+import static it.polimi.ingsw.network.jsonUtility.deserialize;
 
 public class SessionController {
     
@@ -50,35 +47,35 @@ public class SessionController {
 
     /**
      * Adds player to match and start
-     * @param matchID
-     * @param nickname
-     * @return false if match is full
+     * @return -1 if match is full or other problems
      */
-    public boolean addPlayerToMatchAndStartWhenReady(UUID matchID, String nickname, ClientHandler clientHandler){
+    public int addPlayerToMatchAndStartWhenReady(UUID matchID, String nickname, ClientHandler clientHandler){
         Match match = matches.get(matchID);
         if (match.canAddPlayer()){
             match.addPlayer(nickname,clientHandler);
+            notifyOthers(clientHandler);
             if (!match.canAddPlayer()) {
                 match.startGame();
                 try {
                     match.currentPlayerClientHandler().sendAnswerMessage(
-                            new StateMessage(0, State.SETUP_PHASE,State.SETUP_PHASE.serialize(match.getGame())));
+                            new StateMessageContainer(State.SETUP_PHASE.toStateMessage(match.getGame()))
+                            );
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-            else
-            notifyMatchChanges();
-            return true;
+            return match.getLastPos();
         }
-        else return false;
+        else return -1;
     }
 
-    public void notifyMatchChanges(){
-        matches.values().stream().filter(Match::hasNotStarted).flatMap(Match::clientsStream).forEach(
+
+    public void notifyOthers(ClientHandler cl){
+        matches.values().stream().filter(Match::hasNotStarted).flatMap(Match::clientsStream)
+                .forEach(
                 clientHandler -> {
                     try {
-                        clientHandler.sendAnswerMessage(new MatchesData(matchesData()));
+                        clientHandler.sendAnswerMessage(new MatchesData(matchesData(clientHandler)));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -86,10 +83,15 @@ public class SessionController {
         );
     }
 
-    public Map<UUID, String[]> matchesData(){
+    public Map<UUID, String[]> matchesData(ClientHandler clientHandler){
         return matches.entrySet().stream()
+                .filter(m->
+                        (clientHandler.getMatch().isPresent()&&clientHandler.getMatch().get().getMatchId().equals(m.getKey()))
+                        ||
+                        (m.getValue().canAddPlayer())
+                )
                 .collect(Collectors.toMap(
-                        entry->entry.getKey(),
+                        Map.Entry::getKey,
                         entry->entry.getValue().getOnlinePlayers()
                 ));
     }

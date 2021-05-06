@@ -2,19 +2,31 @@ package it.polimi.ingsw.client.view.CLI.CLIelem;
 
 import it.polimi.ingsw.client.view.CLI.Color;
 
+import java.util.Optional;
+
 /**
  * A selectable option in a CLIView that will execute the given code when perform is called
  */
 public class Option extends CLIelem{
     private boolean selected;
-    private String name;
-    private String subtitle;
-    private Runnable r;
+    private final String name;
+    private final String subtitle;
 
-    public Option(String name,String subtitle,Runnable r){
+    public static Option from(String name,String subtitle,Runnable performer){
+        Option option = new Option(name,subtitle);
+        option.setPerformer(performer);
+        return option;
+    }
+
+    public static Option from(String name, Runnable performer){
+        Option option = new Option(name,"");
+        option.setPerformer(performer);
+        return option;
+    }
+
+    public Option(String name,String subtitle){
         this.name = name;
         this.selected = false;
-        this.r = r;
         this.subtitle = subtitle;
     }
 
@@ -26,9 +38,6 @@ public class Option extends CLIelem{
         this.selected = selected;
     }
 
-    public void perform() {
-        r.run();
-    }
 
     @Override
     public String toString() {
@@ -44,4 +53,5 @@ public class Option extends CLIelem{
             return Color.colorString(toPrint,Color.ANSI_BLUE);
         else return toPrint;
     }
+
 }

@@ -20,7 +20,7 @@ public class ShowingDevelopmentCardsMarketTest {
         List<String> nicknames = new ArrayList<>();
         nicknames.add("testPlayer");
         boolean isSinglePlayer = true;
-        GameModel gamemodel = new GameModel(nicknames, isSinglePlayer);
+        GameModel gamemodel = new GameModel(nicknames, isSinglePlayer,null);
         try {
             assertEquals(State.SHOWING_CARD_SHOP,new ShowingDevelopmentCardsMarket().execute(gamemodel,v));
         } catch (it.polimi.ingsw.server.controller.EventValidationFailedException e) {

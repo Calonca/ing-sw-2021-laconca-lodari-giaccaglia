@@ -34,7 +34,7 @@ public class MarketLeaderTest {
         List<String> nicknames = new ArrayList<>();
         nicknames.add("testPlayer");
         boolean isSinglePlayer = true;
-        GameModel gamemodel = new GameModel(nicknames, isSinglePlayer);
+        GameModel gamemodel = new GameModel(nicknames, isSinglePlayer,null);
         Player player = gamemodel.getCurrentPlayer();
 
         MarketLeader leadertest = new MarketLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, bonus);

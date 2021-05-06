@@ -41,7 +41,7 @@ public class LeaderTest
         List<String> nicknames = new ArrayList<>();
         nicknames.add("testPlayer");
         boolean isSinglePlayer = true;
-        GameModel gamemodel = new GameModel(nicknames, isSinglePlayer);
+        GameModel gamemodel = new GameModel(nicknames, isSinglePlayer,null);
 
         Leader leadertestDD;
         Leader leadertestD;
@@ -170,7 +170,7 @@ public class LeaderTest
         List<String> nicknames = new ArrayList<>();
         nicknames.add("testPlayer");
         boolean isSinglePlayer = true;
-        GameModel gamemodel = new GameModel(nicknames, isSinglePlayer);
+        GameModel gamemodel = new GameModel(nicknames, isSinglePlayer,null);
 
 
         Leader test=new MarketLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, bonus);
@@ -198,7 +198,7 @@ public class LeaderTest
         List<String> nicknames = new ArrayList<>();
         nicknames.add("testPlayer");
         boolean isSinglePlayer = true;
-        GameModel gamemodel = new GameModel(nicknames, isSinglePlayer);
+        GameModel gamemodel = new GameModel(nicknames, isSinglePlayer,null);
 
 
         Leader test=new MarketLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, bonus);;

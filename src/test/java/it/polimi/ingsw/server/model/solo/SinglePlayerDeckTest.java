@@ -89,7 +89,7 @@ public class SinglePlayerDeckTest {
         List<String> players = new ArrayList<>();
         players.add("testPlayer");
         boolean isSinglePlayer = true;
-        GameModel gameModelTest = new GameModel(players, isSinglePlayer);
+        GameModel gameModelTest = new GameModel(players, isSinglePlayer,null);
         SoloActionToken tokenTest = gameModelTest.showSoloActionToken();
         gameModelTest.activateSoloActionToken();
 

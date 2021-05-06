@@ -5,6 +5,7 @@ import it.polimi.ingsw.network.messages.clienttoserver.events.MiddlePhaseEvent;
 import it.polimi.ingsw.server.model.State;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.cards.CardShop;
+import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 
 /**
  * Client side {@link Event} created when {@link GameModel#currentPlayer currentPlayer} wants to view the {@link CardShop}
@@ -21,7 +22,7 @@ public class CardShopEvent extends MiddlePhaseEvent {
      * availability.
      * @return true if resources and level requirements are satisfied, otherwise false
      */
-    protected boolean validateDevCardRequirements(){
-        return currentPlayerPersonalBoard.isDevelopmentCardAvailable(gameModel.getPurchasedCard());
+    protected boolean validateDevCardRequirements(DevelopmentCard card){
+        return currentPlayerPersonalBoard.isDevelopmentCardAvailable(card);
     }
 }

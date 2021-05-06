@@ -9,7 +9,7 @@ import org.apache.commons.lang3.tuple.MutablePair;
 import java.io.IOException;
 import java.util.*;
 
-import static it.polimi.ingsw.server.model.jsonUtility.deserialize;
+import static it.polimi.ingsw.network.jsonUtility.deserialize;
 
 /**
  * Represents the {@link Player} <em>FaithTrack</em>
@@ -37,7 +37,7 @@ public class FaithTrack {
     private final MutablePair<Piece, Integer> playerPiece = new MutablePair<>(Piece.PLAYER, 0);
     private final MutablePair<Piece, Integer> lorenzoPiece = new MutablePair<>(Piece.LORENZO, 0);
 
-    public FaithTrack faithTrackConstructor() throws IOException {
+    public FaithTrack faithTrackConstructor(){
         return deserialize("src/main/resources/config/FaithTrackConfig.json", FaithTrack.class);
     }
 

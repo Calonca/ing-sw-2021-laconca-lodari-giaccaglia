@@ -1,1 +1,26 @@
-{"marbleMatrix":[["YELLOW","BLUE","WHITE","GRAY"],["WHITE","YELLOW","PURPLE","WHITE"],["BLUE","PURPLE","RED","GRAY"]],"rows":3,"columns":4,"externalMarble":"WHITE"}
+{
+  "marbleMatrix": [
+    [
+      "YELLOW",
+      "BLUE",
+      "WHITE",
+      "GRAY"
+    ],
+    [
+      "WHITE",
+      "YELLOW",
+      "PURPLE",
+      "WHITE"
+    ],
+    [
+      "BLUE",
+      "PURPLE",
+      "RED",
+      "GRAY"
+    ]
+  ],
+  "whiteMarblesQuantity": 0,
+  "faithPointsFromMarbles": 0,
+  "rows": 3,
+  "columns": 4
+}
