@@ -259,6 +259,7 @@ public class Player {
             if (bonus) {
                 return trueCount;
             }
+            trueCount++;
         }
         return 0;
     }
