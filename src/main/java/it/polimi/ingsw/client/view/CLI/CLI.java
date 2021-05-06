@@ -2,10 +2,9 @@ package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.view.CLI.CLIelem.*;
+import it.polimi.ingsw.client.view.CLI.CLIelem.body.Body;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.Scanner;
@@ -22,6 +21,7 @@ public class CLI {
     private final Client client;
     private Title title;
     private Optional<Spinner> spinner;
+    private Optional<CLIelem> body;
     private OptionList[] optionListAtPos;
     private Optional<Option> lastChoice=Optional.empty();
     public final AtomicBoolean stopASAP;
@@ -38,6 +38,48 @@ public class CLI {
         this.client = client;
         stopASAP = new AtomicBoolean(false);
         spinner = Optional.empty();
+        body = Optional.empty();
+    }
+
+    public void setLastChoice(Optional<Option> integerOptionPair ) {
+        this.lastChoice = integerOptionPair;
+    }
+
+    public void setOptionList(CLIPos pos,OptionList optionList){
+        optionList.setCLIAndUpdateSubscriptions(this, client);
+        optionListAtPos[pos.ordinal()]=optionList;
+        optionList.selectOption();
+    }
+
+    public OptionList getOptionsAt(CLIPos cliPos){
+        return optionListAtPos[cliPos.ordinal()];
+    }
+
+    public void setTitle(Title title){
+        if (this.title!=null)
+            title.removeFromPublishers(client);
+        this.title = title;
+        this.title.setCLIAndUpdateSubscriptions(this,client);
+    }
+
+    public void setBody(Body body){
+        this.body.ifPresent(b->b.removeFromPublishers(client));
+        this.body = Optional.ofNullable(body);
+        this.body.ifPresent(b->b.setCLIAndUpdateSubscriptions(this,client));
+    }
+
+    public void setSpinner(Spinner spinner){
+        this.spinner.ifPresent(s->s.removeFromPublishers(client));
+        this.spinner = Optional.of(spinner);
+        spinner.setCLIAndUpdateSubscriptions(this, client);
+    }
+
+    public int getLastInt() {
+        return lastInt;
+    }
+
+    public String getLastInput() {
+        return lastInput;
     }
 
     public void resetCLI(){
@@ -46,12 +88,6 @@ public class CLI {
         } catch (ChangingViewBuilderBeforeTakingInput e){
             e.printStackTrace();
         }
-    }
-
-    public void setOptionList(CLIPos pos,OptionList optionList){
-        optionList.setCLIAndUpdateSubscriptions(this, client);
-        optionListAtPos[pos.ordinal()]=optionList;
-        optionList.selectOption();
     }
 
     public void updateListeners(){
@@ -69,14 +105,14 @@ public class CLI {
         if (cli.title!=null)
             cli.title.removeFromPublishers(cli.client);
         cli.title = null;
-        cli.spinner.ifPresent(s->s.removeFromPublishers(cli.client));
-        cli.spinner = Optional.empty();
+
+        cli.body.ifPresent(b->b.removeFromPublishers(cli.client));
+        cli.body = Optional.empty();
+
         Arrays.stream(cli.optionListAtPos).forEach(o->o.removeFromPublishers(cli.client));
         cli.optionListAtPos = Stream.generate(OptionList::new).limit(CLIPos.values().length).toArray(OptionList[]::new);
-    }
-
-    public OptionList getOptionsAt(CLIPos cliPos){
-        return optionListAtPos[cliPos.ordinal()];
+        cli.spinner.ifPresent(s->s.removeFromPublishers(cli.client));
+        cli.spinner = Optional.empty();
     }
 
     public void performLastChoice(){
@@ -85,41 +121,6 @@ public class CLI {
 
     public void update(){
         displayWithDivider();
-    }
-
-    public void setTitle(Title title){
-        if (this.title!=null)
-            title.removeFromPublishers(client);
-        this.title = title;
-        this.title.setCLIAndUpdateSubscriptions(this,client);
-    }
-
-    public void setSpinner(Spinner spinner){
-        this.spinner.ifPresent(s->s.removeFromPublishers(client));
-        this.spinner = Optional.of(spinner);
-        spinner.setCLIAndUpdateSubscriptions(this, client);
-    }
-
-    private void print(String s){
-        System.out.println(s);
-    }
-
-    public void printError(String error){
-        System.out.println(Color.colorString(error,Color.ANSI_RED));
-    }
-
-    public String getLastInput() {
-        return lastInput;
-    }
-
-    public synchronized void runOnInput(String message, Runnable r1){
-        Runnable r = ()-> {
-            print(Color.colorString(message,Color.ANSI_GREEN));
-            putEndDiv();
-            lastInput = getInString();
-            callRunnableAfterGettingInput();
-        };
-        commonRunOnInput(message,r,r1);
     }
 
     private synchronized void commonRunOnInput(String message, Runnable r, Runnable afterInput){
@@ -135,6 +136,16 @@ public class CLI {
     private synchronized void callRunnableAfterGettingInput(){
         afterInput.run();
         inputThread = null;
+    }
+
+    public synchronized void runOnInput(String message, Runnable r1){
+        Runnable r = ()-> {
+            print(Color.colorString(message,Color.ANSI_GREEN));
+            putEndDiv();
+            lastInput = getInString();
+            callRunnableAfterGettingInput();
+        };
+        commonRunOnInput(message,r,r1);
     }
 
     public synchronized void runOnIntInput(String message,String errorMessage,int min,int max, Runnable r1){
@@ -169,15 +180,19 @@ public class CLI {
         commonRunOnInput(message,r,r1);
     }
 
-    public int getLastInt() {
-        return lastInt;
-    }
-
     private String getInString(){
         isTakingInput = true;
         Scanner scanner = new Scanner(System.in);
         isTakingInput = false;
         return scanner.nextLine();
+    }
+
+    private void print(String s){
+        System.out.println(s);
+    }
+
+    public void printError(String error){
+        System.out.println(Color.colorString(error,Color.ANSI_RED));
     }
 
     public void displayWithScroll(){
@@ -210,6 +225,8 @@ public class CLI {
                 .map(s -> finalSpaces1 +s.replace("\n","\n"+finalSpaces1))
                 .forEach(this::print);
 
+        body.ifPresent(b->print(b.toString()));
+
         getOptionsAt(CLIPos.BOTTOM_LEFT).toStringStream()
                 .forEach(this::print);
 
@@ -218,7 +235,7 @@ public class CLI {
         getOptionsAt(CLIPos.BOTTOM_RIGHT).toStringStream()
                 .map(s -> finalSpaces2 +s.replace("\n","\n"+finalSpaces2))
                 .forEach(this::print);
-        
+
         spinner.ifPresent(spinner1 -> print(spinner1.toString()));
 
         //Todo: Sometimes the choices are not updated
@@ -233,16 +250,16 @@ public class CLI {
         } else putEndDiv();
     }
 
-    @Override
-    public String toString() {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(baos);
-        System.setOut(ps);
-        display();
-        System.out.flush();
-        System.setOut(System.out);
-        return baos.toString();
-    }
+    //@Override
+    //public String toString() {
+    //    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    //    PrintStream ps = new PrintStream(baos);
+    //    System.setOut(ps);
+    //    display();
+    //    System.out.flush();
+    //    System.setOut(System.out);
+    //    return baos.toString();
+    //}
 
     static void cleanConsole() {
         final String os = System.getProperty("os.name");
@@ -274,10 +291,6 @@ public class CLI {
     public void scroll(){
         for (int i = 0; i < 40; i++) {
             System.out.println();}
-    }
-
-    public void setLastChoice(Optional<Option> integerOptionPair ) {
-        this.lastChoice = integerOptionPair;
     }
 
 }
