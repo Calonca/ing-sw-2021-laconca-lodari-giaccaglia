@@ -8,6 +8,8 @@ import java.util.Optional;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static it.polimi.ingsw.client.view.CLI.Color.BACKSPACE;
+
 /**
  * Builds the CLI.<br>
  * Usage: Add {@link it.polimi.ingsw.client.view.CLI.CLIelem.CLIelem elements}
@@ -28,6 +30,8 @@ public class CLI {
     private int lastInt;
     private boolean isTakingInput;
     private Runnable afterInput;
+
+    private int writtenChars;
 
 
 
@@ -57,6 +61,7 @@ public class CLI {
         body = Optional.empty();
         bottom = Optional.empty();
         spinner = Optional.empty();
+        writtenChars = 0;
     }
 
     public void setTitle(Title title){
@@ -123,6 +128,7 @@ public class CLI {
     }
 
     public void refreshCLI(){
+        deleteText();
         displayWithDivider();
     }
 
@@ -206,11 +212,12 @@ public class CLI {
 
 
     private void print(String s){
+        writtenChars += s.length();
         System.out.println(s);
     }
 
     private void printError(String error){
-        System.out.println(Color.colorString(error,Color.ANSI_RED));
+        print(Color.colorString(error,Color.ANSI_RED));
     }
 
     public void displayWithScroll(){
@@ -219,6 +226,7 @@ public class CLI {
     }
 
     public void displayWithDivider(){
+        deleteText();
         putDivider();
         display();
     }
@@ -277,7 +285,22 @@ public class CLI {
 
     public void scroll(){
         for (int i = 0; i < 40; i++) {
-            System.out.println();}
+            print("");
+        }
+    }
+    private static final String BACKSPACE = "\010";
+    public void deleteText(){
+        return;
+        //cleanConsole();
+        //System.out.print("\033[H\033[2J");
+        //System.out.flush();
+        //System.out.print("Line 1");
+        //System.out.print("\n");
+        //System.out.print("Line 2");
+        //
+        //for (int i = 0; i < 100; i++)
+        //            System.out.print(BACKSPACE);
+        //writtenChars=0;
     }
 
 }
