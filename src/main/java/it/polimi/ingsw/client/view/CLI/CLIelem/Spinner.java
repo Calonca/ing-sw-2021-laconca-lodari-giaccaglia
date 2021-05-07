@@ -2,16 +2,14 @@ package it.polimi.ingsw.client.view.CLI.CLIelem;
 
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.view.CLI.SetupPhase;
 import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 import it.polimi.ingsw.network.messages.servertoclient.state.SETUP_PHASE;
 
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public class Spinner extends CLIelem {
 
@@ -31,10 +29,13 @@ public class Spinner extends CLIelem {
         Spinner spinner = new Spinner(
                 "Match to start",
                 client.getCommonData().playersOfMatch().map(Arrays::toString).toString());
-        spinner.setPerformer(()-> client.changeViewBuilder(new SetupPhase(), viewBuilder));
         spinner.setUpdater(()->{
+            //Todo show joined match instead of all matches
             if (spinner.getEvt().getPropertyName().equals(CommonData.matchesDataString)) {
-                spinner.meanwhileShow = (new Gson().toJson ((Optional<Map<UUID,String[]>>) spinner.getEvt().getNewValue()));
+                Optional<Map<UUID,String[]>> data = (Optional<Map<UUID,String[]>>) spinner.getEvt().getNewValue();
+                spinner.meanwhileShow = (new GsonBuilder()
+                        .setPrettyPrinting()
+                        .create().toJson(data.orElse(new HashMap<>())));
                 spinner.cli.refreshCLI();
             } else if (spinner.getEvt().getPropertyName().equals(SETUP_PHASE.class.getSimpleName()))
                 spinner.perform();
