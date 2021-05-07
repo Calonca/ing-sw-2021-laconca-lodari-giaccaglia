@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.view.CLI.CLIelem.Option;
 import it.polimi.ingsw.client.view.CLI.CLIelem.OptionList;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Spinner;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Title;
+import it.polimi.ingsw.client.view.CLI.CLIelem.body.VerticalListBody;
 import it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchViewBuilder;
 
 import java.util.*;
@@ -24,18 +25,18 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
                     //Initial options
                     Stream<Option> optionsToAdd = getNewOptionList(getClient().getCommonData().getMatchesData());
 
-                    OptionList optionList = new OptionList(optionsToAdd);
+                    VerticalListBody optionList = new VerticalListBody(optionsToAdd);
 
                     optionList.performWhenReceiving(CommonData.matchesDataString);
                     Runnable performer = ()->{
                         Optional<Map<UUID,String[]>> list = (Optional<Map<UUID, String[]>>) optionList.getEvt().getNewValue();
                         optionList.updateOptions(getNewOptionList(list),getClient());
-                        getCLIView().setOptionList(CLIPos.CENTER,optionList);
+                        getCLIView().setBody(optionList);
                         getCLIView().refreshCLI();
                     };
                     optionList.setPerformer(performer);
 
-                    getCLIView().setOptionList(CLIPos.CENTER,optionList);
+                    getCLIView().setBody(optionList);
                     getCLIView().displayWithDivider();
                     getCLIView().performLastChoice();
 

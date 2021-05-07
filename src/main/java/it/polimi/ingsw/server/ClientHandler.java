@@ -23,7 +23,6 @@ public class ClientHandler implements Runnable
     private ObjectOutputStream output;
     private ObjectInputStream input;
     private Optional<Match> match=Optional.empty();
-    private final static SessionController controller = new SessionController();
 
 
     /**

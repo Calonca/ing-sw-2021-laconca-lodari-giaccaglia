@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.view.CLI.CLIelem.Spinner;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Option;
 import it.polimi.ingsw.client.view.CLI.CLIelem.OptionList;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Title;
+import it.polimi.ingsw.client.view.CLI.CLIelem.body.VerticalListBody;
 
 public class MainMenu extends it.polimi.ingsw.client.view.abstractview.MainMenu implements CLIBuilder {
 
@@ -12,22 +13,22 @@ public class MainMenu extends it.polimi.ingsw.client.view.abstractview.MainMenu 
     public void run() {
         getCLIView().setTitle(new Title("Main main title"));
 
-        OptionList optionList = new OptionList();
+        VerticalListBody verticalListBody = new VerticalListBody();
         Runnable r;
 
         r = ()->getClient().changeViewBuilder(new CreateJoinLoadMatch(), this);
-        optionList.addOption(Option.from("Browse matches","Join or create",r));
+        verticalListBody.addOption(Option.from("Browse matches","Join or create",r));
 
         r = ()->getClient().changeViewBuilder(new CreateMatch(), this);
-        optionList.addOption(Option.from("Create a match","One or more players",r));
+        verticalListBody.addOption(Option.from("Create a match","One or more players",r));
 
         r = ()->getCLIView().setSpinner(new Spinner("Waiting for exit"));
-        optionList.addOption(Option.from("Edit Cards","Costs and effects",r));
+        verticalListBody.addOption(Option.from("Edit Cards","Costs and effects",r));
 
         r = ()->getCLIView().setSpinner(new Spinner("Waiting for exit"));
-        optionList.addOption(Option.from("Exit",":*",r));
+        verticalListBody.addOption(Option.from("Exit",":*",r));
 
-        getCLIView().setOptionList(CLIPos.CENTER,optionList);
+        getCLIView().setBody(verticalListBody);
         getCLIView().displayWithScroll();
 
         getCLIView().displayWithDivider();

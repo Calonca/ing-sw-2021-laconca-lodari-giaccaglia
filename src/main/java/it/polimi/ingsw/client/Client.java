@@ -2,10 +2,10 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.view.CLI.CLI;
 import it.polimi.ingsw.client.view.CLI.ConnectToServer;
-import it.polimi.ingsw.client.view.CLI.CreateJoinLoadMatch;
 import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 import it.polimi.ingsw.network.messages.servertoclient.state.SETUP_PHASE;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateMessage;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -26,24 +26,24 @@ public class Client implements Runnable
     private List<PlayerCache> playersCache=new ArrayList<>();
     private final CommonData commonData = new CommonData();
     private CLI cli;
+    private Stage stage;
+    private boolean isCLI;
+
+    public Client() {
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
 
 
-    /**
-     * Initializes a client that asks the user for ip and port or if given arguments from the given arguments
-     * @param args the first argument is the ip and the second the port.
-     */
-    public static void main(String[] args)
-    {
-        Client client = new Client();
-        client.cli = new CLI(client);
-        if (args.length==2)
-        {
-            client.setServerConnection(args[0],Integer.parseInt(args[1]));
-            client.run();
-            client.changeViewBuilder(new CreateJoinLoadMatch(),null);
-        } else {
-            client.changeViewBuilder(new ConnectToServer(), null);
-        }
+    public void setCLI(){
+        isCLI = true;
+        cli = new CLI(this);
+    }
+
+    public void setGUI(){
+        isCLI = false;
     }
 
     public void setServerConnection(String ip,int port){
@@ -90,11 +90,14 @@ public class Client implements Runnable
      */
     public synchronized void changeViewBuilder(ViewBuilder newViewBuilder, ViewBuilder fromView)
     {
-        cli.resetCLI();
+        if (isCLI)
+            cli.resetCLI();
+
         currentViewBuilder = newViewBuilder;
         currentViewBuilder.setClient(this);
         currentViewBuilder.setCommonData(commonData);
-        currentViewBuilder.setCLIView(cli);
+        if (isCLI)
+            currentViewBuilder.setCLIView(cli);
         newViewBuilder.run();
     }
 

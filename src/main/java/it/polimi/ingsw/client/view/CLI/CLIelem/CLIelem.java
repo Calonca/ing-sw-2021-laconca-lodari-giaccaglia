@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view.CLI.CLIelem;
 import com.google.gson.Gson;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.view.CLI.CLI;
+import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -37,6 +38,13 @@ public abstract class CLIelem implements PropertyChangeListener {
         this.updater = ()->{
             if (evt.getPropertyName().equals(key))
                 perform();
+        };
+    }
+
+    public void switchToStateWhenReceiving(String key, ViewBuilder view, Client client) {
+        this.updater = ()->{
+            if (evt.getPropertyName().equals(key))
+                client.changeViewBuilder(view,null);
         };
     }
 

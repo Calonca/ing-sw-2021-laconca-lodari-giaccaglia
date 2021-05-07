@@ -8,26 +8,21 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements CLIBu
 
     @Override
     public void run() {
-
-        getCLIView().scroll();
-        Runnable r1 = ()->{
+        getCLIView().runOnInput("Write the server ip",()->{
             String portString = getCLIView().getLastInput();
-            Runnable r2 = ()->{
-                int port = Integer.parseInt(getCLIView().getLastInput());
+            getCLIView().runOnIntInput("Port number: ","Insert a port",0,65535,()->{
 
-                getClient().setServerConnection(portString,port);
+                getClient().setServerConnection(portString, getCLIView().getLastInt());
                 Spinner spinner = new Spinner("server connection");
-                spinner.setPerformer(()->getClient().changeViewBuilder(new MainMenu(), this));
+                spinner.setPerformer(()->getClient().changeViewBuilder(new CreateJoinLoadMatch(), this));
                 spinner.performWhenReceiving(CommonData.matchesDataString);
 
                 getCLIView().setSpinner(spinner);
                 getClient().run();
-            };
-            getCLIView().runOnInput("Your nickname: ",r2);
-
-        };
-        getCLIView().runOnInput("Write the server number",r1);
-
+            });
+            getCLIView().displayWithDivider();
+        });
+        getCLIView().displayWithDivider();
     }
 
 }

@@ -2,14 +2,11 @@ package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.view.CLI.CLIelem.*;
-import it.polimi.ingsw.client.view.CLI.CLIelem.body.Body;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.stream.Stream;
 
 /**
  * Builds the CLI.<br>
@@ -19,10 +16,10 @@ import java.util.stream.Stream;
  */
 public class CLI {
     private final Client client;
-    private Title title;
-    private Optional<Spinner> spinner;
+    private Optional<Title> title;
     private Optional<CLIelem> body;
-    private OptionList[] optionListAtPos;
+    private Optional<CLIelem> bottom;
+    private Optional<Spinner> spinner;
     private Optional<Option> lastChoice=Optional.empty();
     public final AtomicBoolean stopASAP;
     private Thread inputThread;
@@ -33,32 +30,53 @@ public class CLI {
     private Runnable afterInput;
 
 
+
+    /**
+     * Initializes a client that asks the user for ip and port or if given arguments from the given arguments
+     * @param args the first argument is the ip and the second the port.
+     */
+    public static void main(String[] args)
+    {
+        Client client = new Client();
+        if (args.length==2)
+        {
+            client.setCLI();
+            client.setServerConnection(args[0],Integer.parseInt(args[1]));
+            client.run();
+            client.changeViewBuilder(new CreateJoinLoadMatch(),null);
+        } else {
+            client.setCLI();
+            client.changeViewBuilder(new ConnectToServer(), null);
+        }
+    }
+
     public CLI(Client client) {
-        optionListAtPos = Stream.generate(OptionList::new).limit(CLIPos.values().length).toArray(OptionList[]::new);
-        this.client = client;
         stopASAP = new AtomicBoolean(false);
-        spinner = Optional.empty();
+        this.client = client;
+        title = Optional.empty();
         body = Optional.empty();
+        bottom = Optional.empty();
+        spinner = Optional.empty();
     }
 
     public void setTitle(Title title){
-        if (this.title!=null)
-            title.removeFromPublishers(client);
-        this.title = title;
-        this.title.setCLIAndUpdateSubscriptions(this,client);
+        this.title.ifPresent(t->t.removeFromPublishers(client));
+        title.setCLIAndUpdateSubscriptions(this,client);
+        this.title = Optional.of(title);
     }
 
-    public void setOptionList(CLIPos pos,OptionList optionList){
-        optionList.setCLIAndUpdateSubscriptions(this, client);
-        optionListAtPos[pos.ordinal()]=optionList;
-        optionList.selectOption();
+    public void setBottom(CLIelem bottom) {
+        this.bottom.ifPresent(b->b.removeFromPublishers(client));
+        bottom.setCLIAndUpdateSubscriptions(this,client);
+        this.bottom = Optional.of(bottom);
     }
+
 
     public void setLastChoice(Optional<Option> integerOptionPair ) {
         this.lastChoice = integerOptionPair;
     }
 
-    public void setBody(Body body){
+    public void setBody(CLIelem body){
         this.body.ifPresent(b->b.removeFromPublishers(client));
         this.body = Optional.ofNullable(body);
         this.body.ifPresent(b->b.setCLIAndUpdateSubscriptions(this,client));
@@ -91,15 +109,15 @@ public class CLI {
         {
             throw new ChangingViewBuilderBeforeTakingInput();
         }
-        if (cli.title!=null)
-            cli.title.removeFromPublishers(cli.client);
-        cli.title = null;
+        cli.title.ifPresent(t->t.removeFromPublishers(cli.client));
+        cli.title = Optional.empty();
 
         cli.body.ifPresent(b->b.removeFromPublishers(cli.client));
         cli.body = Optional.empty();
 
-        Arrays.stream(cli.optionListAtPos).forEach(o->o.removeFromPublishers(cli.client));
-        cli.optionListAtPos = Stream.generate(OptionList::new).limit(CLIPos.values().length).toArray(OptionList[]::new);
+        cli.bottom.ifPresent(b->b.removeFromPublishers(cli.client));
+        cli.bottom = Optional.empty();
+        
         cli.spinner.ifPresent(s->s.removeFromPublishers(cli.client));
         cli.spinner = Optional.empty();
     }
@@ -109,10 +127,13 @@ public class CLI {
     }
 
     public void updateListeners(){
-        if (title!=null)
-            title.setCLIAndUpdateSubscriptions(this,client);
+        title.ifPresent(t->t.setCLIAndUpdateSubscriptions(this,client));
+
+        body.ifPresent(b->b.setCLIAndUpdateSubscriptions(this,client));
+
+        bottom.ifPresent(b->b.setCLIAndUpdateSubscriptions(this,client));
+
         spinner.ifPresent(s->s.setCLIAndUpdateSubscriptions(this,client));
-        Arrays.stream(optionListAtPos).forEach(o->o.setCLIAndUpdateSubscriptions(this,client));
     }
 
     public void performLastChoice(){
@@ -144,7 +165,7 @@ public class CLI {
         commonRunOnInput(message,r,r1);
     }
 
-    public synchronized void runOnIntInput(String message,String errorMessage,int min,int max, Runnable r1){
+    public synchronized void runOnIntInput(String message, String errorMessage, int min, int max, Runnable r1){
         Runnable r = ()-> {
             int choice;
             do  {
@@ -183,9 +204,6 @@ public class CLI {
         return scanner.nextLine();
     }
 
-    private OptionList getOptionsAt(CLIPos cliPos){
-        return optionListAtPos[cliPos.ordinal()];
-    }
 
     private void print(String s){
         System.out.println(s);
@@ -210,38 +228,19 @@ public class CLI {
      */
     private synchronized void display(){
 
-        if (title!=null){
-            print(title.toString()+"\n");}
+        title.ifPresent(t->print(t.toString()+"\n"));
 
-        String spaces = "                                                    ";
-        String finalSpaces = spaces;
-        getOptionsAt(CLIPos.TOP).toStringStream()
-                .map(s -> finalSpaces +s.replace("\n","\n"+finalSpaces))
-                .forEach(this::print);
+        body.ifPresent(b->print(b.toString()+"\n"));
 
-        spaces ="                                                    ";
-        String finalSpaces1 = spaces;
-        getOptionsAt(CLIPos.CENTER).toStringStream()
-                .map(s -> finalSpaces1 +s.replace("\n","\n"+finalSpaces1))
-                .forEach(this::print);
-
-        body.ifPresent(b->print(b.toString()));
-
-        getOptionsAt(CLIPos.BOTTOM_LEFT).toStringStream()
-                .forEach(this::print);
-
-        spaces = "                                                    ";
-        String finalSpaces2 = spaces;
-        getOptionsAt(CLIPos.BOTTOM_RIGHT).toStringStream()
-                .map(s -> finalSpaces2 +s.replace("\n","\n"+finalSpaces2))
-                .forEach(this::print);
+        bottom.ifPresent(b->print(b.toString()));
 
         spinner.ifPresent(spinner1 -> print(spinner1.toString()));
 
         //Todo: Sometimes the choices are not updated
         //Can be solved via a check after taking the input
-        printError("Todo: Sometimes the choices are not updated, sometimes you hase to select new match 2 times");
-        if (isTakingInput){//Should never get here
+        //printError("Todo: Sometimes the choices are not updated, sometimes you hase to select new match 2 times");
+        if (isTakingInput){
+            //Should never get here
             print(Color.colorString(inputMessage,Color.ANSI_GREEN));
             putEndDiv();
         }

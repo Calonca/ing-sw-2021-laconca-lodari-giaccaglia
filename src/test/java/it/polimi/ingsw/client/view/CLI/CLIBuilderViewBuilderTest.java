@@ -3,7 +3,7 @@ package it.polimi.ingsw.client.view.CLI;
 import com.google.gson.Gson;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Option;
-import it.polimi.ingsw.client.view.CLI.CLIelem.OptionList;
+import it.polimi.ingsw.client.view.CLI.CLIelem.body.VerticalListBody;
 import org.junit.Before;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -26,17 +26,18 @@ public class CLIBuilderViewBuilderTest {
         Option o1 = Option.from("Op1","sub",()-> test.set(1));
         Option o2 = Option.from("Op2","2",()->test.set(2));
         Option o3 = Option.from("Op3","3",()->test.set(3));
-        OptionList optionList1 = new OptionList(),optionList2 = new OptionList();
+        VerticalListBody optionList1 = new VerticalListBody();
+        VerticalListBody optionList2 = new VerticalListBody();
 
         o1.getPerformer().run();
         assertEquals(1,test.get());
 
         optionList1.addOption(o1);
-        cli.setOptionList(CLIPos.TOP,optionList1);
+        cli.setBody(optionList1);
 
         optionList1.addOption(o2);
         optionList1.addOption(o3);
-        cli.setOptionList(CLIPos.CENTER,optionList2);
+        cli.setBody(optionList2);
 
         cli.performLastChoice();
         assertEquals(1,test.get());

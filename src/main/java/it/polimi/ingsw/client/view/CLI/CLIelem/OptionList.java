@@ -2,6 +2,8 @@ package it.polimi.ingsw.client.view.CLI.CLIelem;
 
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.view.CLI.CLI;
+import it.polimi.ingsw.client.view.CLI.CLIelem.CLIelem;
+import it.polimi.ingsw.client.view.CLI.CLIelem.Option;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +12,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class OptionList extends CLIelem{
+public class OptionList extends CLIelem {
     private List<Option> options;
 
     public OptionList(){
@@ -68,6 +70,7 @@ public class OptionList extends CLIelem{
     public void setCLIAndUpdateSubscriptions(CLI cli, Client client) {
         super.setCLIAndUpdateSubscriptions(cli, client);
         options.forEach(o->o.setCLIAndUpdateSubscriptions(cli,client));
+        selectOption();
     }
 
 
