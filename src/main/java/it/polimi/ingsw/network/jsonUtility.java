@@ -24,7 +24,7 @@ import java.util.stream.*;
 
 public class jsonUtility {
 
-    private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     public static final String configPathString = "src/main/resources/config/";
     public static final String frontDevCardPathString = "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_";
     public static final String backDevCardPathString = "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_";
