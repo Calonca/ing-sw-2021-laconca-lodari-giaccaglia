@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client.view.GUI;
 
 import it.polimi.ingsw.client.Client;
-import it.polimi.ingsw.client.view.CLI.ConnectToServer;
 import it.polimi.ingsw.client.view.CLI.CreateJoinLoadMatch;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -16,6 +15,7 @@ public class GUI extends Application {
         Client client = new Client();
         client.setGUI();
         client.setStage(stage);
+        stage.show();
         client.changeViewBuilder(new ConnectToServer(), null);
     }
 }

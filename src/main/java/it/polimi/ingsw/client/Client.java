@@ -36,6 +36,9 @@ public class Client implements Runnable
         this.stage = stage;
     }
 
+    public Stage getStage() {
+        return stage;
+    }
 
     public void setCLI(){
         isCLI = true;
