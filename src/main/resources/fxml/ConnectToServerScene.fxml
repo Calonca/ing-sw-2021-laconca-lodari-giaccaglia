@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -9,4 +10,7 @@
       <TextField fx:id="addressText" layoutX="229.0" layoutY="175.0" promptText="IP ADDRESS" />
       <TextField fx:id="portText" layoutX="229.0" layoutY="201.0" promptText="PORT" />
    </AnchorPane>
+   <cursor>
+      <Cursor fx:constant="TEXT" />
+   </cursor>
 </StackPane>

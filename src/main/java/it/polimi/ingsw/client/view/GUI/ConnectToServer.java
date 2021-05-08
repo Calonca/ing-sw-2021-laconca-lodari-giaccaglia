@@ -21,11 +21,14 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ConnectToServer extends ConnectToServerViewBuilder implements GUIView {
-
-    public StackPane connectionPane;
-    public Button connectionButton;
-    public TextField addressText;
-    public TextField portText;
+    @FXML
+    private StackPane connectionPane;
+    @FXML
+    private Button connectionButton;
+    @FXML
+    private TextField addressText;
+    @FXML
+    private TextField portText;
 
     @Override
     public void run() {
@@ -59,10 +62,6 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        connectionButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
-                Client.getInstance().changeViewBuilder(new CreateJoinLoadMatch(), null);
-            }
-        });
+        connectionButton.setOnAction(e -> Client.getInstance().changeViewBuilder(new CreateJoinLoadMatch(), null));
     }
 }

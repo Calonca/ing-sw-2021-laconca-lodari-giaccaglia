@@ -11,7 +11,7 @@ public class ClientTest {
 
     @Test
     public void setStage() {
-        Client client = new Client();
+        Client client = Client.getInstance();
         client.setGUI();
         GUIStarter.main(null);
 

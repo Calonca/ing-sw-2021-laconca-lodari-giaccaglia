@@ -1,6 +1,8 @@
 package it.polimi.ingsw.client.view.GUI;
 
+import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchViewBuilder;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -12,12 +14,18 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * The user will be asked to insert a nickname and the number of players
+ */
 public class CreateMatch extends CreateJoinLoadMatchViewBuilder implements GUIView {
-
-    public StackPane connectionPane;
-    public Button connectionButton;
-    public TextField addressText;
-    public TextField portText;
+    @FXML
+    private StackPane connectionPane;
+    @FXML
+    private Button connectionButton;
+    @FXML
+    private TextField addressText;
+    @FXML
+    private TextField portText;
 
     @Override
     public void run() {
@@ -37,15 +45,12 @@ public class CreateMatch extends CreateJoinLoadMatchViewBuilder implements GUIVi
     }
 
     //Add buttons here that call client.changeViewBuilder(new *****, this);
-    public void handleButton()
-    {
-        ////TODO ADD OBSERVER FOR CONNECTION
-        getClient().changeViewBuilder(new it.polimi.ingsw.client.view.GUI.CreateJoinLoadMatch(), null);
-    }
+
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        connectionButton.setOnAction(e -> Client.getInstance().changeViewBuilder(new CreateMatch(), null));
 
     }
 }

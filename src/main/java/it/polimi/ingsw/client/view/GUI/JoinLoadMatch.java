@@ -1,16 +1,24 @@
 package it.polimi.ingsw.client.view.GUI;
 
+import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchViewBuilder;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TableView;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * The user will be asked to join a match of their choosing.
+ */
 public class JoinLoadMatch extends CreateJoinLoadMatchViewBuilder implements GUIView {
 
+    @FXML
+    private TableView guiMatchesData;
 
     @Override
     public void run() {

@@ -1,7 +1,9 @@
 package it.polimi.ingsw.client.view.GUI;
 
+import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchViewBuilder;
 import it.polimi.ingsw.server.controller.SessionController;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -12,12 +14,17 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * The user will be asked if they want to join a match of their choosing or create one.
+ */
 public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implements GUIView {
 
-
-    public Button joinLoadButton;
-    public Button createButton;
-    public StackPane cjlPane;
+    @FXML
+    private Button joinLoadButton;
+    @FXML
+    private Button createButton;
+    @FXML
+    private StackPane cjlPane;
 
     @Override
     public void run() {
@@ -37,20 +44,11 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
     }
 
     //Add buttons here that call client.changeViewBuilder(new *****, this);
-    public void handleButton1()
-    {
-        ////TODO ADD OBSERVER FOR CONNECTION
-        getClient().changeViewBuilder(new CreateMatch(), null);
-    }
 
-    public void handleButton2()
-    {
-        ////TODO ADD OBSERVER FOR CONNECTION
-        getClient().changeViewBuilder(new JoinLoadMatch(), null);
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        joinLoadButton.setOnAction(e -> Client.getInstance().changeViewBuilder(new JoinLoadMatch(), null));
+        createButton.setOnAction(e -> Client.getInstance().changeViewBuilder(new CreateMatch(), null));
     }
 }
