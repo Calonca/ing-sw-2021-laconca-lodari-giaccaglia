@@ -1,7 +1,8 @@
 package it.polimi.ingsw.client.view.GUI;
 
-import it.polimi.ingsw.client.Client;
-import it.polimi.ingsw.client.view.abstractview.ConnectToServerViewBuilder;
+import it.polimi.ingsw.client.view.GUI.GUIView;
+import it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchViewBuilder;
+import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -11,7 +12,7 @@ import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
 
-public class ConnectToServer extends ConnectToServerViewBuilder implements GUIView {
+public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implements GUIView {
 
     public StackPane connectionPane;
     public Button connectionButton;
@@ -21,7 +22,7 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
     @Override
     public void run() {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/fxml/ConnectToServerScene.fxml"));
+        loader.setLocation(getClass().getResource("/fxml/Scene2.fxml"));
         Parent root = null;
         try {
             root = loader.load();
@@ -36,7 +37,6 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
     }
 
     //Add buttons here that call client.changeViewBuilder(new *****, this);
-
     public void handleButton()
     {
         ////TODO ADD OBSERVER FOR CONNECTION
