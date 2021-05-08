@@ -2,7 +2,11 @@ package it.polimi.ingsw.client.view.GUI;
 
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.view.abstractview.ConnectToServerViewBuilder;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -10,13 +14,23 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class ConnectToServer extends ConnectToServerViewBuilder implements GUIView {
-
+public class ConnectToServer extends ConnectToServerViewBuilder implements Initializable {
+    @FXML
     public StackPane connectionPane;
+    @FXML
+
     public Button connectionButton;
+    @FXML
+
     public TextField addressText;
+    @FXML
+
     public TextField portText;
+
+    Client tempfix;
 
     @Override
     public void run() {
@@ -28,18 +42,16 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         Scene scene = new Scene(root);
-
         getClient().getStage().setScene(scene);
+
         getClient().getStage().show();
     }
 
     //Add buttons here that call client.changeViewBuilder(new *****, this);
 
-    public void handleButton()
-    {
-        ////TODO ADD OBSERVER FOR CONNECTION
-        getClient().changeViewBuilder(new CreateJoinLoadMatch(), null);
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        connectionButton.setOnAction(event -> getClient().changeViewBuilder(new CreateJoinLoadMatch(),null));
     }
 }

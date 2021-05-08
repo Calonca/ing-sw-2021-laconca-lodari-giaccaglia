@@ -37,12 +37,12 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
     public void handleButton1()
     {
         ////TODO ADD OBSERVER FOR CONNECTION
-        getClient().changeViewBuilder(new CreateJoinLoadMatch(), null);
+        getClient().changeViewBuilder(new CreateMatch(), null);
     }
 
     public void handleButton2()
     {
         ////TODO ADD OBSERVER FOR CONNECTION
-        getClient().changeViewBuilder(new CreateJoinLoadMatch(), null);
+        getClient().changeViewBuilder(new JoinLoadMatch(), null);
     }
 }
