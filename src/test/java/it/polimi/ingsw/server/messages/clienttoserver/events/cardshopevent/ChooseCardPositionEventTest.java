@@ -4,15 +4,15 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.network.messages.clienttoserver.events.cardshopevent.ChooseCardPositionEvent;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
-import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
+import it.polimi.ingsw.network.assets.devcards.DevelopmentCardColor;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.ingsw.network.jsonUtility.deserializeFromString;
-import static it.polimi.ingsw.network.jsonUtility.serialize;
+import static it.polimi.ingsw.server.model.utils.JsonUtility.deserializeFromString;
+import static it.polimi.ingsw.server.model.utils.JsonUtility.serialize;
 import static org.junit.Assert.*;
 
 public class ChooseCardPositionEventTest {

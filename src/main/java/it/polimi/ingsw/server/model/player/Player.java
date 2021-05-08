@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model.player;
 
-import it.polimi.ingsw.network.jsonUtility;
+import it.polimi.ingsw.server.model.utils.Deserializator;
 import it.polimi.ingsw.server.model.State;
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.server.model.cards.*;
@@ -131,7 +131,7 @@ public class Player {
     }
 
     private void initializeFaithTrack(){
-        faithTrack = jsonUtility.faithTrackDeserialization();
+        faithTrack = Deserializator.faithTrackDeserialization();
     }
 
     /**

@@ -4,7 +4,7 @@ import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.cards.production.Production;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
-import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
+import it.polimi.ingsw.network.assets.devcards.DevelopmentCardColor;
 import it.polimi.ingsw.server.model.player.board.LeaderDepot;
 import javafx.util.Pair;
 import org.junit.Test;
@@ -20,7 +20,7 @@ public class LeaderTest
 {
 
     @Test
-    public void areRequirementsSatisfied() throws IOException
+    public void areRequirementsSatisfied()
     {
         Pair<Resource, Integer> discountTest = new Pair<>(Resource.GOLD, 3);
         LeaderDepot depotTest= new LeaderDepot(2,Resource.GOLD);

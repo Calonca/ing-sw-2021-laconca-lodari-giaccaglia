@@ -11,7 +11,7 @@ import it.polimi.ingsw.network.messages.servertoclient.state.StateMessageContain
 
 import java.util.UUID;
 
-import static it.polimi.ingsw.network.jsonUtility.serialize;
+import static it.polimi.ingsw.server.model.utils.JsonUtility.serialize;
 
 /**
  * A network message from the server to the client visible to both.

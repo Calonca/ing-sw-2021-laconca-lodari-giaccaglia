@@ -9,6 +9,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class CreateMatch extends CreateJoinLoadMatchViewBuilder implements GUIView {
 
@@ -42,4 +44,8 @@ public class CreateMatch extends CreateJoinLoadMatchViewBuilder implements GUIVi
     }
 
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    }
 }

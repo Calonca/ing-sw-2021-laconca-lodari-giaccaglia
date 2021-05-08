@@ -2,9 +2,7 @@ package it.polimi.ingsw.server.model.player.leaders;
 
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
-import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
-import it.polimi.ingsw.server.model.player.leaders.MarketLeader;
-import it.polimi.ingsw.server.model.player.leaders.LeaderState;
+import it.polimi.ingsw.network.assets.devcards.DevelopmentCardColor;
 import it.polimi.ingsw.server.model.player.Player;
 import javafx.util.Pair;
 import org.junit.Test;
@@ -17,16 +15,16 @@ import static org.junit.Assert.*;
 
 public class MarketLeaderTest {
     @Test
-    public void ActivateAndDiscard() throws IOException
+    public void ActivateAndDiscard()
     {
         //ROUTINE
         Resource bonus=Resource.GOLD;
         Pair<Resource, Integer> costTest = new Pair<>(Resource.SERVANT, 3);
-        Pair<DevelopmentCardColor, Integer> cardcostTest = new Pair<DevelopmentCardColor,Integer>(DevelopmentCardColor.BLUE, 3);
+        Pair<DevelopmentCardColor, Integer> cardcostTest = new Pair<>(DevelopmentCardColor.BLUE, 3);
 
 
-        List<Pair<Resource, Integer>> requirementsTest = new ArrayList<Pair<Resource, Integer>>();
-        List<Pair<DevelopmentCardColor, Integer>> requirementsCardsTest = new ArrayList<Pair<DevelopmentCardColor, Integer>>();
+        List<Pair<Resource, Integer>> requirementsTest = new ArrayList<>();
+        List<Pair<DevelopmentCardColor, Integer>> requirementsCardsTest = new ArrayList<>();
 
         requirementsTest.add(costTest);
         requirementsCardsTest.add(cardcostTest);

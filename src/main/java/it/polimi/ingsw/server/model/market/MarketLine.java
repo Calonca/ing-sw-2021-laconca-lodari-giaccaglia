@@ -1,8 +1,5 @@
 package it.polimi.ingsw.server.model.market;
 
-import it.polimi.ingsw.server.model.Resource;
-import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
-
 /**
  * Enum class for MarketBoard rows and columns selection
  */

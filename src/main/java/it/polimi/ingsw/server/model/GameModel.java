@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model;
-import it.polimi.ingsw.network.jsonUtility;
+import it.polimi.ingsw.network.assets.devcards.DevelopmentCardColor;
+import it.polimi.ingsw.server.model.utils.Deserializator;
 import it.polimi.ingsw.server.controller.Match;
 import it.polimi.ingsw.server.model.cards.*;
 import it.polimi.ingsw.server.model.market.*;
@@ -82,7 +83,7 @@ public class GameModel {
      * @throws IOException
      */
     private void initializeLeadersList() throws IOException {
-        List<Leader> leadersList = jsonUtility.leaderCardsDeserialization();
+        List<Leader> leadersList = Deserializator.leaderCardsDeserialization();
         leaders = IntStream.range(0, leadersList.size()).boxed().collect(Collectors.toMap(Function.identity(), leadersList::get));
     }
 

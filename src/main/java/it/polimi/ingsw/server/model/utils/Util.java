@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.model;
+package it.polimi.ingsw.server.model.utils;
 import it.polimi.ingsw.server.model.market.Marble;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -6,20 +6,6 @@ import java.util.stream.IntStream;
 
 public class Util
 {
-    // Implementing Fisher–Yates shuffle giving an array of marbles
-    public static void shuffleArray(Marble[]marbles)
-    {
-        Random rnd = ThreadLocalRandom.current();
-        for (int i = marbles.length - 1; i > 0; i--)
-        {
-            int index = rnd.nextInt(i + 1);
-            // Simple swap
-            Marble marble = marbles[index];
-            marbles[index] = marbles[i];
-            marbles[i] = marble;
-        }
-    }
-
     /**
      * Returns the sum of two arrays a and b, an array of the given length<br>
      * If the dimensions differ it will sum with zero.<br>

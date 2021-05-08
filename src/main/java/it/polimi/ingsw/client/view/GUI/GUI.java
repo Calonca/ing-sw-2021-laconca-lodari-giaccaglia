@@ -12,7 +12,7 @@ public class GUI extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Client client = new Client();
+        Client client = Client.getInstance();
         client.setGUI();
         client.setStage(stage);
         stage.show();

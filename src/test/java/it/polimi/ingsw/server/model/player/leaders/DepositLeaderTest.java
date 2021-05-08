@@ -2,10 +2,7 @@ package it.polimi.ingsw.server.model.player.leaders;
 
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
-import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
-import it.polimi.ingsw.server.model.player.leaders.DepositLeader;
-import it.polimi.ingsw.server.model.player.leaders.Leader;
-import it.polimi.ingsw.server.model.player.leaders.LeaderState;
+import it.polimi.ingsw.network.assets.devcards.DevelopmentCardColor;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.player.board.LeaderDepot;
 import javafx.util.Pair;
@@ -20,7 +17,7 @@ import static org.junit.Assert.*;
 public class DepositLeaderTest
 {
     @Test
-    public void ActivateAndDiscard() throws IOException
+    public void ActivateAndDiscard()
     {
         //ROUTINE
         LeaderDepot depotTest= new LeaderDepot(2, Resource.GOLD);

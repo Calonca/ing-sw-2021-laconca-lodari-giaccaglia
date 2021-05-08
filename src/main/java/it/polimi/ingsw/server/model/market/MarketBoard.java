@@ -3,7 +3,7 @@ package it.polimi.ingsw.server.model.market;
 import it.polimi.ingsw.server.model.State;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.player.board.*;
-import it.polimi.ingsw.network.jsonUtility;
+import it.polimi.ingsw.server.model.utils.Deserializator;
 import javafx.util.Pair;
 import java.io.*;
 import java.util.*;
@@ -68,7 +68,7 @@ public class MarketBoard {
     private MarketLine line;
 
     public static MarketBoard initializeMarketBoard() throws IOException {
-        MarketBoard marketBoard = jsonUtility.marketBoardDeserialization();
+        MarketBoard marketBoard = Deserializator.marketBoardDeserialization();
         List<Marble> marbles  = Arrays
                 .stream(marketBoard.marbleMatrix)
                 .flatMap(Arrays::stream).collect(Collectors.toList());

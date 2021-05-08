@@ -2,6 +2,9 @@ package it.polimi.ingsw.client.view.GUI;
 
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.view.abstractview.ConnectToServerViewBuilder;
+import it.polimi.ingsw.server.controller.SessionController;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -17,20 +20,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ConnectToServer extends ConnectToServerViewBuilder implements Initializable {
-    @FXML
+public class ConnectToServer extends ConnectToServerViewBuilder implements GUIView {
+
     public StackPane connectionPane;
-    @FXML
-
     public Button connectionButton;
-    @FXML
-
     public TextField addressText;
-    @FXML
-
     public TextField portText;
-
-    Client tempfix;
 
     @Override
     public void run() {
@@ -39,10 +34,15 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements Initi
         Parent root = null;
         try {
             root = loader.load();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
+
         Scene scene = new Scene(root);
+
         getClient().getStage().setScene(scene);
 
         getClient().getStage().show();
@@ -50,8 +50,19 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements Initi
 
     //Add buttons here that call client.changeViewBuilder(new *****, this);
 
+    public void handleButton()
+    {
+        ////TODO ADD OBSERVER FOR CONNECTION
+
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        connectionButton.setOnAction(event -> getClient().changeViewBuilder(new CreateJoinLoadMatch(),null));
+
+        connectionButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                Client.getInstance().changeViewBuilder(new CreateJoinLoadMatch(), null);
+            }
+        });
     }
 }

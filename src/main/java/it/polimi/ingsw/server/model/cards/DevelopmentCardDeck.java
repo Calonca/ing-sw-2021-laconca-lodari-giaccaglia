@@ -1,4 +1,6 @@
 package it.polimi.ingsw.server.model.cards;
+import it.polimi.ingsw.network.assets.devcards.DevelopmentCardColor;
+
 import java.util.List;
 
 /**

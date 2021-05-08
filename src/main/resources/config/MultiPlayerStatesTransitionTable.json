@@ -5,27 +5,12 @@
         "type": "ChoosingSpaceForDevelopmentCard"
       }
     },
-    "SHOWING_MARKET_RESOURCES": {
-      "ChooseLineEvent": {
-        "type": "PuttingBallOnLine"
-      }
-    },
     "CHOOSING_RESOURCES_FOR_DEVCARD": {
       "ChooseResourceForCardShopEvent": {
         "type": "PayingResourcesForDevelopmentCard"
       }
     },
-    "CHOOSING_WHITEMARBLE_CONVERSION": {
-      "ChooseWhiteMarbleConversionEvent": {
-        "type": "ChoosingMarketBonus"
-      }
-    },
-    "SHOWING_CARD_SHOP": {
-      "ChooseCardEvent": {
-        "type": "AcquiringDevelopmentCard"
-      }
-    },
-    "SHOWING_LEADERS_FINAL": {
+    "SHOWING_LEADERS_INITIAL": {
       "SkipLeaderEvent": {
         "type": "EndingLeaderPhase"
       },
@@ -44,9 +29,14 @@
         "type": "TogglingForProduction"
       }
     },
-    "CHOOSING_RESOURCE_FOR_PRODUCTION": {
-      "ChooseResourcesForProductionEvent": {
-        "type": "ChoosingResourceForProduction"
+    "SHOWING_CARD_SHOP": {
+      "ChooseCardEvent": {
+        "type": "AcquiringDevelopmentCard"
+      }
+    },
+    "CHOOSING_WHITEMARBLE_CONVERSION": {
+      "ChooseWhiteMarbleConversionEvent": {
+        "type": "ChoosingMarketBonus"
       }
     },
     "CHOOSING_POSITION_FOR_RESOURCES": {
@@ -57,20 +47,14 @@
         "type": "DiscardingResources"
       }
     },
-    "SHOWING_LEADERS_INITIAL": {
-      "SkipLeaderEvent": {
-        "type": "EndingLeaderPhase"
-      },
-      "DiscardLeaderEvent": {
-        "type": "DiscardingLeader"
-      },
-      "PlayLeaderEvent": {
-        "type": "ActivatingLeader"
+    "SHOWING_MARKET_RESOURCES": {
+      "ChooseLineEvent": {
+        "type": "PuttingBallOnLine"
       }
     },
-    "SETUP_PHASE": {
-      "SetupPhaseEvent": {
-        "type": "ChooseInitialResource"
+    "CHOOSING_RESOURCE_FOR_PRODUCTION": {
+      "ChooseResourcesForProductionEvent": {
+        "type": "ChoosingResourceForProduction"
       }
     },
     "MIDDLE_PHASE": {
@@ -82,6 +66,22 @@
       },
       "ProductionEvent": {
         "type": "ShowingProductionCards"
+      }
+    },
+    "SETUP_PHASE": {
+      "SetupPhaseEvent": {
+        "type": "ChooseInitialResource"
+      }
+    },
+    "SHOWING_LEADERS_FINAL": {
+      "SkipLeaderEvent": {
+        "type": "EndingLeaderPhase"
+      },
+      "DiscardLeaderEvent": {
+        "type": "DiscardingLeader"
+      },
+      "PlayLeaderEvent": {
+        "type": "ActivatingLeader"
       }
     }
   }

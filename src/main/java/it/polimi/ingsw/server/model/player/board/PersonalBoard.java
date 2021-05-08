@@ -2,12 +2,13 @@ package it.polimi.ingsw.server.model.player.board;
 
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
-import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
+import it.polimi.ingsw.network.assets.devcards.DevelopmentCardColor;
 import it.polimi.ingsw.server.model.cards.production.Production;
 import it.polimi.ingsw.server.model.cards.production.ProductionCardCell;
 import it.polimi.ingsw.server.model.player.leaders.Leader;
 import it.polimi.ingsw.server.model.player.leaders.ProductionLeader;
 import it.polimi.ingsw.server.model.player.track.FaithTrack;
+import it.polimi.ingsw.server.model.utils.Util;
 import javafx.util.Pair;
 
 import java.util.*;
@@ -354,9 +355,7 @@ public class PersonalBoard {
      * @param res a "Physical" {@link Resource}
      */
     public void performChoiceOnOutput(Resource res){
-        firstProductionSelectedWithChoice().filter(Production::choiceCanBeMadeOnOutput).ifPresent((production)-> {
-            production.performChoiceOnOutput(res);
-        });
+        firstProductionSelectedWithChoice().filter(Production::choiceCanBeMadeOnOutput).ifPresent((production)-> production.performChoiceOnOutput(res));
     }
 
     /**

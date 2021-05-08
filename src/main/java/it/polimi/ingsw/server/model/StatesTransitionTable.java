@@ -3,7 +3,7 @@ package it.polimi.ingsw.server.model;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.RuntimeTypeAdapterFactory;
-import it.polimi.ingsw.network.jsonUtility;
+import it.polimi.ingsw.server.model.utils.JsonUtility;
 import it.polimi.ingsw.server.controller.strategy.*;
 import it.polimi.ingsw.server.controller.strategy.cardmarket.AcquiringDevelopmentCard;
 import it.polimi.ingsw.server.controller.strategy.cardmarket.ChoosingSpaceForDevelopmentCard;
@@ -51,16 +51,16 @@ public class StatesTransitionTable {
     }
 
     public static StatesTransitionTable singlePlayer() {
-        return jsonUtility.deserialize(
-                jsonUtility.configPathString+ singlePLayerTableFile,
+        return JsonUtility.deserialize(
+                JsonUtility.configPathString+ singlePLayerTableFile,
                 StatesTransitionTable.class,
                 jsonWithAdapter()
         );
     }
 
     public static StatesTransitionTable multiPlayer() {
-        return jsonUtility.deserialize(
-                jsonUtility.configPathString+ multiPLayerTableFile,
+        return JsonUtility.deserialize(
+                JsonUtility.configPathString+ multiPLayerTableFile,
                 StatesTransitionTable.class,
                 jsonWithAdapter()
         );
@@ -101,7 +101,7 @@ public class StatesTransitionTable {
         statesTransitionTable.table.put(State.SHOWING_LEADERS_INITIAL,eventsAndStrategy);
         //Todo add other states
 
-        jsonUtility.serialize(jsonUtility.configPathString+singlePLayerTableFile,
+        JsonUtility.serialize(JsonUtility.configPathString+singlePLayerTableFile,
                 statesTransitionTable,
                 StatesTransitionTable.class,
                 jsonWithAdapter());
@@ -187,7 +187,7 @@ public class StatesTransitionTable {
 
         //Todo add other states
 
-        jsonUtility.serialize(jsonUtility.configPathString+multiPLayerTableFile,
+        JsonUtility.serialize(JsonUtility.configPathString+multiPLayerTableFile,
                 statesTransitionTable,
                 StatesTransitionTable.class,
                 jsonWithAdapter());
