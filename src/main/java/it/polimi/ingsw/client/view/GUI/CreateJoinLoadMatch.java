@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.GUI;
 
 import it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchViewBuilder;
+import it.polimi.ingsw.server.controller.SessionController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -8,6 +9,8 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implements GUIView {
 
@@ -44,5 +47,10 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
     {
         ////TODO ADD OBSERVER FOR CONNECTION
         getClient().changeViewBuilder(new CreateJoinLoadMatch(), null);
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
     }
 }

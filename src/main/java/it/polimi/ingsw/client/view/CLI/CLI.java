@@ -41,7 +41,7 @@ public class CLI {
      */
     public static void main(String[] args)
     {
-        Client client = new Client();
+        Client client = Client.getInstance();
         if (args.length==2)
         {
             client.setCLI();

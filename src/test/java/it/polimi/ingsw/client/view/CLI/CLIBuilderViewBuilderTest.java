@@ -17,7 +17,7 @@ public class CLIBuilderViewBuilderTest {
 
     @Before
     public void setUp() {
-        cli =new CLI(new Client());
+        cli =new CLI(Client.getInstance());
     }
 
 

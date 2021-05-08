@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.view.CLI.ConnectToServer;
 import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 import it.polimi.ingsw.network.messages.servertoclient.state.SETUP_PHASE;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateMessage;
+import it.polimi.ingsw.server.controller.SessionController;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -29,8 +30,17 @@ public class Client implements Runnable
     private Stage stage;
     private boolean isCLI;
 
-    public Client() {
+    private static Client single_instance = null;
+
+    public static Client getInstance()
+    {
+        if (single_instance == null)
+            single_instance = new Client();
+
+        return single_instance;
     }
+
+    private Client(){}
 
     public void setStage(Stage stage) {
         this.stage = stage;
