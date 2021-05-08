@@ -5,21 +5,22 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
 
-public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implements GUIView {
+public class CreateMatch extends CreateJoinLoadMatchViewBuilder implements GUIView {
 
-
-    public Button joinLoadButton;
-    public Button createButton;
-    public StackPane cjlPane;
+    public StackPane connectionPane;
+    public Button connectionButton;
+    public TextField addressText;
+    public TextField portText;
 
     @Override
     public void run() {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/fxml/CreateJoinLoadMatchScene.fxml"));
+        loader.setLocation(getClass().getResource("/fxml/CreateMatchScene.fxml"));
         Parent root = null;
         try {
             root = loader.load();
@@ -34,15 +35,11 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
     }
 
     //Add buttons here that call client.changeViewBuilder(new *****, this);
-    public void handleButton1()
+    public void handleButton()
     {
         ////TODO ADD OBSERVER FOR CONNECTION
-        getClient().changeViewBuilder(new CreateJoinLoadMatch(), null);
+        getClient().changeViewBuilder(new it.polimi.ingsw.client.view.GUI.CreateJoinLoadMatch(), null);
     }
 
-    public void handleButton2()
-    {
-        ////TODO ADD OBSERVER FOR CONNECTION
-        getClient().changeViewBuilder(new CreateJoinLoadMatch(), null);
-    }
+
 }
