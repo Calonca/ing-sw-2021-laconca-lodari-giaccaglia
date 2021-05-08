@@ -4,7 +4,7 @@ import it.polimi.ingsw.server.model.State;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
-import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
+import it.polimi.ingsw.network.assets.devcards.DevelopmentCardColor;
 
 
 /**
@@ -25,7 +25,7 @@ public class ChooseCardEvent extends it.polimi.ingsw.network.messages.clienttose
     }
 
     /**
-     * @return true if {@link ChooseCardEvent#cardColorNumber} belongs to {@link it.polimi.ingsw.server.model.cards.DevelopmentCardColor}
+     * @return true if {@link ChooseCardEvent#cardColorNumber} belongs to {@link DevelopmentCardColor}
      * int range values, otherwise false.
      */
     private boolean validateColor(){

@@ -1,8 +1,7 @@
 package it.polimi.ingsw.server.model.cards.production;
 
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
-import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
-import it.polimi.ingsw.server.model.cards.production.ProductionCardCell;
+import it.polimi.ingsw.network.assets.devcards.DevelopmentCardColor;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

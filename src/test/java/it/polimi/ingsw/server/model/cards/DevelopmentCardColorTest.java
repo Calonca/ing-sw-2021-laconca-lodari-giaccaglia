@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.cards;
 
+import it.polimi.ingsw.network.assets.devcards.DevelopmentCardColor;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

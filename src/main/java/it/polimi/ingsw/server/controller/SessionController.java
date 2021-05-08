@@ -15,7 +15,7 @@ import java.io.Writer;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static it.polimi.ingsw.network.jsonUtility.deserialize;
+import static it.polimi.ingsw.server.model.utils.JsonUtility.deserialize;
 
 public class SessionController {
     

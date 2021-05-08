@@ -8,7 +8,7 @@ import it.polimi.ingsw.network.messages.servertoclient.ServerToClientMessage;
 
 import java.io.IOException;
 
-import static it.polimi.ingsw.network.jsonUtility.deserializeFromString;
+import static it.polimi.ingsw.server.model.utils.JsonUtility.deserializeFromString;
 
 /**
  * All the messages from the server to the client implement this interface.<br>

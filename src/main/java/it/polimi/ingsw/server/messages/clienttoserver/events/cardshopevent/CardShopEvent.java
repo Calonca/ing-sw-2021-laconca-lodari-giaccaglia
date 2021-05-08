@@ -4,7 +4,7 @@ import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.State;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.cards.CardShop;
-import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
+import it.polimi.ingsw.network.assets.devcards.DevelopmentCardColor;
 import it.polimi.ingsw.server.model.cards.DevelopmentCardDeck;
 
 /**

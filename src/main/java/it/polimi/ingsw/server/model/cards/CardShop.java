@@ -5,8 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import it.polimi.ingsw.network.assets.devcards.DevelopmentCardColor;
 import it.polimi.ingsw.server.model.State;
-import it.polimi.ingsw.network.jsonUtility;
+import it.polimi.ingsw.server.model.utils.Deserializator;
 import it.polimi.ingsw.server.model.solo.SoloActionToken;
 
 /**
@@ -34,7 +35,7 @@ public class CardShop {
 
     public static CardShop initializeCardShop() throws IOException {
 
-        return jsonUtility.cardShopDeserialization();
+        return Deserializator.cardShopDeserialization();
     }
 
     

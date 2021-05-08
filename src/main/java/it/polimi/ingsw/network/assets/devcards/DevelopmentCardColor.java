@@ -1,6 +1,4 @@
-package it.polimi.ingsw.server.model.cards;
-
-import it.polimi.ingsw.server.model.Resource;
+package it.polimi.ingsw.network.assets.devcards;
 
 /**
  * Development Cards colors. New colors can be added anytime

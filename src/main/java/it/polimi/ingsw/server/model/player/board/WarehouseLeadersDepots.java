@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static it.polimi.ingsw.network.jsonUtility.serialize;
+import static it.polimi.ingsw.server.model.utils.JsonUtility.serialize;
 
 /**
  * Contains both warehouse and leader depots,

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model.player.board;
 
-import it.polimi.ingsw.network.jsonUtility;
+import it.polimi.ingsw.server.model.utils.JsonUtility;
 import it.polimi.ingsw.server.model.Resource;
 import javafx.util.Pair;
 import org.junit.Before;
@@ -31,9 +31,9 @@ public class WarehouseLeadersDepotsTest {
     public void setUpCorrectly() {
         assertEquals(8,house.getNextGlobalPosition());
         assertEquals(4,house.getOccupiedSpotsNum());
-        assertEquals(jsonUtility.toPrettyFormat("{0:[1],1:[],2:[1],3:[],4:[],5:[3,4,6],6:[],7:[3,4,6]}"),
+        assertEquals(JsonUtility.toPrettyFormat("{0:[1],1:[],2:[1],3:[],4:[],5:[3,4,6],6:[],7:[3,4,6]}"),
                 house.allAvbPosToJson());
-        assertEquals(jsonUtility.toPrettyFormat("" +
+        assertEquals(JsonUtility.toPrettyFormat("" +
                         "{0:[{key:STONE,value:false}]," +
                         "1:[{key:EMPTY,value:false},{key:STONE,value:false}]," +
                         "2:[{key:EMPTY,value:false},{key:EMPTY,value:false},{key:GOLD,value:false}]," +
@@ -55,9 +55,9 @@ public class WarehouseLeadersDepotsTest {
 
         assertEquals(8,house.getNextGlobalPosition());
         assertEquals(6,house.getOccupiedSpotsNum());
-        assertEquals(jsonUtility.toPrettyFormat("{0:[],1:[],2:[],3:[],4:[],5:[3,4],6:[3,4],7:[3,4]}"),
+        assertEquals(JsonUtility.toPrettyFormat("{0:[],1:[],2:[],3:[],4:[],5:[3,4],6:[3,4],7:[3,4]}"),
                 house.allAvbPosToJson());
-        assertEquals(jsonUtility.toPrettyFormat("" +
+        assertEquals(JsonUtility.toPrettyFormat("" +
                         "{0:[{key:STONE,value:false}]," +
                         "1:[{key:STONE,value:true},{key:STONE,value:false}]," +
                         "2:[{key:EMPTY,value:false},{key:EMPTY,value:false},{key:GOLD,value:false}]," +
@@ -70,9 +70,9 @@ public class WarehouseLeadersDepotsTest {
 
         assertEquals(8,house.getNextGlobalPosition());
         assertEquals(4,house.getOccupiedSpotsNum());
-        assertEquals(jsonUtility.toPrettyFormat("{0:[1,3,4,5],1:[],2:[1,3,4,5],3:[],4:[],5:[],6:[3,4,5],7:[3,4,5]}"),
+        assertEquals(JsonUtility.toPrettyFormat("{0:[1,3,4,5],1:[],2:[1,3,4,5],3:[],4:[],5:[],6:[3,4,5],7:[3,4,5]}"),
                 house.allAvbPosToJson());
-        assertEquals(jsonUtility.toPrettyFormat("" +
+        assertEquals(JsonUtility.toPrettyFormat("" +
                         "{0:[{key:STONE,value:false}]," +
                         "1:[{key:EMPTY,value:false},{key:STONE,value:false}]," +
                         "2:[{key:EMPTY,value:false},{key:EMPTY,value:false},{key:EMPTY,value:false}]," +
@@ -85,9 +85,9 @@ public class WarehouseLeadersDepotsTest {
         house.addDepot(new LeaderDepot(house.getNextGlobalPosition(),Resource.GOLD));
         assertEquals(10,house.getNextGlobalPosition());
         assertEquals(4,house.getOccupiedSpotsNum());
-        assertEquals(jsonUtility.toPrettyFormat("{0:[1],1:[],2:[1],3:[],4:[],5:[3,4,6,8,9],6:[],7:[3,4,6,8,9],8:[],9:[]}"),
+        assertEquals(JsonUtility.toPrettyFormat("{0:[1],1:[],2:[1],3:[],4:[],5:[3,4,6,8,9],6:[],7:[3,4,6,8,9],8:[],9:[]}"),
                 house.allAvbPosToJson());
-        assertEquals(jsonUtility.toPrettyFormat("" +
+        assertEquals(JsonUtility.toPrettyFormat("" +
                         "{0:[{key:STONE,value:false}]," +
                         "1:[{key:EMPTY,value:false},{key:STONE,value:false}]," +
                         "2:[{key:EMPTY,value:false},{key:EMPTY,value:false},{key:GOLD,value:false}]," +
@@ -120,9 +120,9 @@ public class WarehouseLeadersDepotsTest {
         house.selectResourceAt(2);
         assertEquals(8,house.getNextGlobalPosition());
         assertEquals(4,house.getOccupiedSpotsNum());
-        assertEquals(jsonUtility.toPrettyFormat("{0:[1],1:[],2:[1],3:[],4:[],5:[3,4,6],6:[],7:[3,4,6]}"),
+        assertEquals(JsonUtility.toPrettyFormat("{0:[1],1:[],2:[1],3:[],4:[],5:[3,4,6],6:[],7:[3,4,6]}"),
                 house.allAvbPosToJson());
-        assertEquals(jsonUtility.toPrettyFormat("" +
+        assertEquals(JsonUtility.toPrettyFormat("" +
                         "{0:[{key:STONE,value:false}]," +
                         "1:[{key:EMPTY,value:false},{key:STONE,value:true}]," +
                         "2:[{key:EMPTY,value:false},{key:EMPTY,value:false},{key:GOLD,value:false}]," +
@@ -134,9 +134,9 @@ public class WarehouseLeadersDepotsTest {
         house.removeSelected();
         assertEquals(8,house.getNextGlobalPosition());
         assertEquals(2,house.getOccupiedSpotsNum());
-        assertEquals(jsonUtility.toPrettyFormat("{0:[1,2],1:[],2:[],3:[],4:[],5:[1,2,3,4,6,7],6:[],7:[]}"),
+        assertEquals(JsonUtility.toPrettyFormat("{0:[1,2],1:[],2:[],3:[],4:[],5:[1,2,3,4,6,7],6:[],7:[]}"),
                 house.allAvbPosToJson());
-        assertEquals(jsonUtility.toPrettyFormat("" +
+        assertEquals(JsonUtility.toPrettyFormat("" +
                         "{0:[{key:STONE,value:false}]," +
                         "1:[{key:EMPTY,value:false},{key:EMPTY,value:false}]," +
                         "2:[{key:EMPTY,value:false},{key:EMPTY,value:false},{key:GOLD,value:false}]," +

@@ -7,7 +7,7 @@ import it.polimi.ingsw.RuntimeTypeAdapterFactory;
 
 import java.io.IOException;
 
-import static it.polimi.ingsw.network.jsonUtility.deserializeFromString;
+import static it.polimi.ingsw.server.model.utils.JsonUtility.deserializeFromString;
 
 /**
  * All the messages from the client to the server implement this interface.

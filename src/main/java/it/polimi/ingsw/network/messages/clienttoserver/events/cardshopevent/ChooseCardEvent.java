@@ -3,7 +3,7 @@ package it.polimi.ingsw.network.messages.clienttoserver.events.cardshopevent;
 import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
 import it.polimi.ingsw.server.model.State;
 import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
+import it.polimi.ingsw.network.assets.devcards.DevelopmentCardColor;
 
 /**
  * Client side {@link Event} created when {@link GameModel#currentPlayer} wants to purchase a {@link it.polimi.ingsw.server.model.cards.DevelopmentCard DevelopmentCard}

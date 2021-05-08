@@ -1,242 +1,5 @@
 {
-  "c040d5ac-f4a3-4a50-9e5e-1cab958c65a7": {
-    "cardId": "c040d5ac-f4a3-4a50-9e5e-1cab958c65a7",
-    "developmentCard": {
-      "cardType": "BLUE",
-      "production": {
-        "input": [
-          0,
-          0,
-          1,
-          1,
-          0,
-          0,
-          0
-        ],
-        "restoreinput": [
-          0,
-          0,
-          1,
-          1,
-          0,
-          0,
-          0
-        ],
-        "output": [
-          0,
-          2,
-          0,
-          0,
-          1,
-          0,
-          0
-        ],
-        "restoreoutput": [
-          0,
-          2,
-          0,
-          0,
-          1,
-          0,
-          0
-        ]
-      },
-      "costList": [
-        {
-          "key": "GOLD",
-          "value": 2
-        },
-        {
-          "key": "SERVANT",
-          "value": 2
-        }
-      ],
-      "victoryPoints": 4,
-      "level": 1
-    },
-    "cardPaths": {
-      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_1.png",
-      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_BLUE_1.png"
-    }
-  },
-  "42c731ea-9e99-4407-a8b6-f794418b251f": {
-    "cardId": "42c731ea-9e99-4407-a8b6-f794418b251f",
-    "developmentCard": {
-      "cardType": "YELLOW",
-      "production": {
-        "input": [
-          0,
-          0,
-          1,
-          0,
-          0,
-          0,
-          0
-        ],
-        "restoreinput": [
-          0,
-          0,
-          1,
-          0,
-          0,
-          0,
-          0
-        ],
-        "output": [
-          0,
-          0,
-          0,
-          0,
-          2,
-          0,
-          0
-        ],
-        "restoreoutput": [
-          0,
-          0,
-          0,
-          0,
-          2,
-          0,
-          0
-        ]
-      },
-      "costList": [
-        {
-          "key": "STONE",
-          "value": 4
-        }
-      ],
-      "victoryPoints": 5,
-      "level": 2
-    },
-    "cardPaths": {
-      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_2.png",
-      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_YELLOW_2.png"
-    }
-  },
-  "deb50b3f-e7c0-4ebc-969b-dc6228cd2647": {
-    "cardId": "deb50b3f-e7c0-4ebc-969b-dc6228cd2647",
-    "developmentCard": {
-      "cardType": "PURPLE",
-      "production": {
-        "input": [
-          0,
-          0,
-          1,
-          1,
-          0,
-          0,
-          0
-        ],
-        "restoreinput": [
-          0,
-          0,
-          1,
-          1,
-          0,
-          0,
-          0
-        ],
-        "output": [
-          2,
-          2,
-          0,
-          0,
-          1,
-          0,
-          0
-        ],
-        "restoreoutput": [
-          2,
-          2,
-          0,
-          0,
-          1,
-          0,
-          0
-        ]
-      },
-      "costList": [
-        {
-          "key": "SERVANT",
-          "value": 5
-        },
-        {
-          "key": "GOLD",
-          "value": 2
-        }
-      ],
-      "victoryPoints": 10,
-      "level": 3
-    },
-    "cardPaths": {
-      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_3.png",
-      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_PURPLE_3.png"
-    }
-  },
-  "bff02bfb-56da-4265-859b-6885893bc697": {
-    "cardId": "bff02bfb-56da-4265-859b-6885893bc697",
-    "developmentCard": {
-      "cardType": "BLUE",
-      "production": {
-        "input": [
-          1,
-          0,
-          1,
-          0,
-          0,
-          0,
-          0
-        ],
-        "restoreinput": [
-          1,
-          0,
-          1,
-          0,
-          0,
-          0,
-          0
-        ],
-        "output": [
-          0,
-          2,
-          0,
-          2,
-          1,
-          0,
-          0
-        ],
-        "restoreoutput": [
-          0,
-          2,
-          0,
-          2,
-          1,
-          0,
-          0
-        ]
-      },
-      "costList": [
-        {
-          "key": "GOLD",
-          "value": 5
-        },
-        {
-          "key": "STONE",
-          "value": 2
-        }
-      ],
-      "victoryPoints": 10,
-      "level": 3
-    },
-    "cardPaths": {
-      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_3.png",
-      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_BLUE_3.png"
-    }
-  },
-  "2bea0c3b-3f4e-472b-b029-e6ef005d4be9": {
-    "cardId": "2bea0c3b-3f4e-472b-b029-e6ef005d4be9",
+  "3cda71ae-4f63-4946-bc49-4a24ab546eea": {
     "developmentCard": {
       "cardType": "YELLOW",
       "production": {
@@ -294,13 +57,653 @@
       "victoryPoints": 2,
       "level": 1
     },
+    "cardId": "3cda71ae-4f63-4946-bc49-4a24ab546eea",
     "cardPaths": {
       "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_1.png",
       "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_YELLOW_1.png"
     }
   },
-  "56f96182-fdb8-4fa0-8b29-4d25d6d539f2": {
-    "cardId": "56f96182-fdb8-4fa0-8b29-4d25d6d539f2",
+  "31e14ed2-a6d6-4822-8ac0-95aece220008": {
+    "developmentCard": {
+      "cardType": "YELLOW",
+      "production": {
+        "input": [
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0
+        ],
+        "restoreinput": [
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0
+        ],
+        "output": [
+          0,
+          3,
+          0,
+          0,
+          2,
+          0,
+          0
+        ],
+        "restoreoutput": [
+          0,
+          3,
+          0,
+          0,
+          2,
+          0,
+          0
+        ]
+      },
+      "costList": [
+        {
+          "key": "STONE",
+          "value": 6
+        }
+      ],
+      "victoryPoints": 9,
+      "level": 3
+    },
+    "cardId": "31e14ed2-a6d6-4822-8ac0-95aece220008",
+    "cardPaths": {
+      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_3.png",
+      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_YELLOW_3.png"
+    }
+  },
+  "bd8eb5a7-92a7-48d2-8758-82a8ba1e0471": {
+    "developmentCard": {
+      "cardType": "BLUE",
+      "production": {
+        "input": [
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "restoreinput": [
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "output": [
+          0,
+          0,
+          1,
+          0,
+          3,
+          0,
+          0
+        ],
+        "restoreoutput": [
+          0,
+          0,
+          1,
+          0,
+          3,
+          0,
+          0
+        ]
+      },
+      "costList": [
+        {
+          "key": "GOLD",
+          "value": 7
+        }
+      ],
+      "victoryPoints": 11,
+      "level": 3
+    },
+    "cardId": "bd8eb5a7-92a7-48d2-8758-82a8ba1e0471",
+    "cardPaths": {
+      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_3.png",
+      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_BLUE_3.png"
+    }
+  },
+  "c6265a6c-bc52-4205-8c66-f05cbf241506": {
+    "developmentCard": {
+      "cardType": "YELLOW",
+      "production": {
+        "input": [
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "restoreinput": [
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "output": [
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        "restoreoutput": [
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "costList": [
+        {
+          "key": "STONE",
+          "value": 3
+        }
+      ],
+      "victoryPoints": 3,
+      "level": 1
+    },
+    "cardId": "c6265a6c-bc52-4205-8c66-f05cbf241506",
+    "cardPaths": {
+      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_1.png",
+      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_YELLOW_1.png"
+    }
+  },
+  "c5972963-4610-4bbd-bd39-c968a44fec42": {
+    "developmentCard": {
+      "cardType": "BLUE",
+      "production": {
+        "input": [
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "restoreinput": [
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "output": [
+          0,
+          0,
+          3,
+          0,
+          2,
+          0,
+          0
+        ],
+        "restoreoutput": [
+          0,
+          0,
+          3,
+          0,
+          2,
+          0,
+          0
+        ]
+      },
+      "costList": [
+        {
+          "key": "GOLD",
+          "value": 6
+        }
+      ],
+      "victoryPoints": 9,
+      "level": 3
+    },
+    "cardId": "c5972963-4610-4bbd-bd39-c968a44fec42",
+    "cardPaths": {
+      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_3.png",
+      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_BLUE_3.png"
+    }
+  },
+  "762e36a1-a04c-4d7e-9f1b-421b2c420c37": {
+    "developmentCard": {
+      "cardType": "GREEN",
+      "production": {
+        "input": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "restoreinput": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "output": [
+          0,
+          0,
+          0,
+          3,
+          2,
+          0,
+          0
+        ],
+        "restoreoutput": [
+          0,
+          0,
+          0,
+          3,
+          2,
+          0,
+          0
+        ]
+      },
+      "costList": [
+        {
+          "key": "SHIELD",
+          "value": 6
+        }
+      ],
+      "victoryPoints": 9,
+      "level": 3
+    },
+    "cardId": "762e36a1-a04c-4d7e-9f1b-421b2c420c37",
+    "cardPaths": {
+      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_3.png",
+      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_GREEN_3.png"
+    }
+  },
+  "916596e4-3cde-4536-84a3-c23c14fd85c3": {
+    "developmentCard": {
+      "cardType": "GREEN",
+      "production": {
+        "input": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "restoreinput": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "output": [
+          0,
+          0,
+          2,
+          2,
+          1,
+          0,
+          0
+        ],
+        "restoreoutput": [
+          0,
+          0,
+          2,
+          2,
+          1,
+          0,
+          0
+        ]
+      },
+      "costList": [
+        {
+          "key": "SHIELD",
+          "value": 5
+        },
+        {
+          "key": "SERVANT",
+          "value": 2
+        }
+      ],
+      "victoryPoints": 10,
+      "level": 3
+    },
+    "cardId": "916596e4-3cde-4536-84a3-c23c14fd85c3",
+    "cardPaths": {
+      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_3.png",
+      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_GREEN_3.png"
+    }
+  },
+  "d04ccc43-d944-4a59-a9f0-30071f499725": {
+    "developmentCard": {
+      "cardType": "GREEN",
+      "production": {
+        "input": [
+          0,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "restoreinput": [
+          0,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "output": [
+          2,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "restoreoutput": [
+          2,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ]
+      },
+      "costList": [
+        {
+          "key": "SHIELD",
+          "value": 2
+        },
+        {
+          "key": "GOLD",
+          "value": 2
+        }
+      ],
+      "victoryPoints": 4,
+      "level": 1
+    },
+    "cardId": "d04ccc43-d944-4a59-a9f0-30071f499725",
+    "cardPaths": {
+      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_1.png",
+      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_GREEN_1.png"
+    }
+  },
+  "617ce5f6-f52e-444c-8f0a-b630b3fcd9a4": {
+    "developmentCard": {
+      "cardType": "BLUE",
+      "production": {
+        "input": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "restoreinput": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "output": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "restoreoutput": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ]
+      },
+      "costList": [
+        {
+          "key": "GOLD",
+          "value": 2
+        }
+      ],
+      "victoryPoints": 1,
+      "level": 1
+    },
+    "cardId": "617ce5f6-f52e-444c-8f0a-b630b3fcd9a4",
+    "cardPaths": {
+      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_1.png",
+      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_BLUE_1.png"
+    }
+  },
+  "24c2e7af-404b-4552-822e-f7a6ff1b756c": {
+    "developmentCard": {
+      "cardType": "BLUE",
+      "production": {
+        "input": [
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "restoreinput": [
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "output": [
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "restoreoutput": [
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "costList": [
+        {
+          "key": "STONE",
+          "value": 1
+        },
+        {
+          "key": "SERVANT",
+          "value": 1
+        },
+        {
+          "key": "GOLD",
+          "value": 1
+        }
+      ],
+      "victoryPoints": 2,
+      "level": 1
+    },
+    "cardId": "24c2e7af-404b-4552-822e-f7a6ff1b756c",
+    "cardPaths": {
+      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_1.png",
+      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_BLUE_1.png"
+    }
+  },
+  "6336f6e8-4405-4bb8-80e5-63b7eaa386de": {
+    "developmentCard": {
+      "cardType": "BLUE",
+      "production": {
+        "input": [
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "restoreinput": [
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "output": [
+          0,
+          2,
+          0,
+          2,
+          1,
+          0,
+          0
+        ],
+        "restoreoutput": [
+          0,
+          2,
+          0,
+          2,
+          1,
+          0,
+          0
+        ]
+      },
+      "costList": [
+        {
+          "key": "GOLD",
+          "value": 5
+        },
+        {
+          "key": "STONE",
+          "value": 2
+        }
+      ],
+      "victoryPoints": 10,
+      "level": 3
+    },
+    "cardId": "6336f6e8-4405-4bb8-80e5-63b7eaa386de",
+    "cardPaths": {
+      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_3.png",
+      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_BLUE_3.png"
+    }
+  },
+  "424f9dd4-d319-4a49-b2be-425c02b46cd3": {
+    "developmentCard": {
+      "cardType": "BLUE",
+      "production": {
+        "input": [
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "restoreinput": [
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "output": [
+          1,
+          0,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        "restoreoutput": [
+          1,
+          0,
+          3,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "costList": [
+        {
+          "key": "GOLD",
+          "value": 4
+        },
+        {
+          "key": "STONE",
+          "value": 4
+        }
+      ],
+      "victoryPoints": 12,
+      "level": 3
+    },
+    "cardId": "424f9dd4-d319-4a49-b2be-425c02b46cd3",
+    "cardPaths": {
+      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_3.png",
+      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_BLUE_3.png"
+    }
+  },
+  "3a302836-170c-493f-bb5b-34914982bced": {
     "developmentCard": {
       "cardType": "PURPLE",
       "production": {
@@ -350,13 +753,355 @@
       "victoryPoints": 11,
       "level": 3
     },
+    "cardId": "3a302836-170c-493f-bb5b-34914982bced",
     "cardPaths": {
       "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_3.png",
       "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_PURPLE_3.png"
     }
   },
-  "3a0d22a0-8d32-4578-a782-4174c4e00f39": {
-    "cardId": "3a0d22a0-8d32-4578-a782-4174c4e00f39",
+  "0224e23e-16e6-401f-9851-21cdb91af8f4": {
+    "developmentCard": {
+      "cardType": "GREEN",
+      "production": {
+        "input": [
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "restoreinput": [
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "output": [
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        "restoreoutput": [
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "costList": [
+        {
+          "key": "SHIELD",
+          "value": 3
+        }
+      ],
+      "victoryPoints": 3,
+      "level": 1
+    },
+    "cardId": "0224e23e-16e6-401f-9851-21cdb91af8f4",
+    "cardPaths": {
+      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_1.png",
+      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_GREEN_1.png"
+    }
+  },
+  "ab82fc5a-4f28-4e6e-ac58-5a1483026802": {
+    "developmentCard": {
+      "cardType": "GREEN",
+      "production": {
+        "input": [
+          2,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "restoreinput": [
+          2,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "output": [
+          0,
+          0,
+          0,
+          2,
+          2,
+          0,
+          0
+        ],
+        "restoreoutput": [
+          0,
+          0,
+          0,
+          2,
+          2,
+          0,
+          0
+        ]
+      },
+      "costList": [
+        {
+          "key": "SHIELD",
+          "value": 5
+        }
+      ],
+      "victoryPoints": 7,
+      "level": 2
+    },
+    "cardId": "ab82fc5a-4f28-4e6e-ac58-5a1483026802",
+    "cardPaths": {
+      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_2.png",
+      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_GREEN_2.png"
+    }
+  },
+  "c2b90b2a-3ab7-4631-84fa-7413f8b1e858": {
+    "developmentCard": {
+      "cardType": "BLUE",
+      "production": {
+        "input": [
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "restoreinput": [
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "output": [
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0
+        ],
+        "restoreoutput": [
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0
+        ]
+      },
+      "costList": [
+        {
+          "key": "GOLD",
+          "value": 4
+        }
+      ],
+      "victoryPoints": 5,
+      "level": 2
+    },
+    "cardId": "c2b90b2a-3ab7-4631-84fa-7413f8b1e858",
+    "cardPaths": {
+      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_2.png",
+      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_BLUE_2.png"
+    }
+  },
+  "2bbbffd4-798e-410f-b14d-4854c531fe53": {
+    "developmentCard": {
+      "cardType": "YELLOW",
+      "production": {
+        "input": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "restoreinput": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "output": [
+          0,
+          1,
+          0,
+          0,
+          0,
+          3,
+          0,
+          0
+        ],
+        "restoreoutput": [
+          0,
+          1,
+          0,
+          0,
+          0,
+          3,
+          0,
+          0
+        ]
+      },
+      "costList": [
+        {
+          "key": "STONE",
+          "value": 7
+        }
+      ],
+      "victoryPoints": 11,
+      "level": 3
+    },
+    "cardId": "2bbbffd4-798e-410f-b14d-4854c531fe53",
+    "cardPaths": {
+      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_3.png",
+      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_YELLOW_3.png"
+    }
+  },
+  "3f4191ba-ed73-4266-8399-7285a110e47a": {
+    "developmentCard": {
+      "cardType": "PURPLE",
+      "production": {
+        "input": [
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "restoreinput": [
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "output": [
+          0,
+          2,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "restoreoutput": [
+          0,
+          2,
+          0,
+          0,
+          1,
+          0,
+          0
+        ]
+      },
+      "costList": [
+        {
+          "key": "SERVANT",
+          "value": 3
+        },
+        {
+          "key": "SHIELD",
+          "value": 3
+        }
+      ],
+      "victoryPoints": 8,
+      "level": 2
+    },
+    "cardId": "3f4191ba-ed73-4266-8399-7285a110e47a",
+    "cardPaths": {
+      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_2.png",
+      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_PURPLE_2.png"
+    }
+  },
+  "d0a89b57-34ab-4750-bf14-750e2fc39f04": {
+    "developmentCard": {
+      "cardType": "YELLOW",
+      "production": {
+        "input": [
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0
+        ],
+        "restoreinput": [
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0
+        ],
+        "output": [
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          0
+        ],
+        "restoreoutput": [
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          0
+        ]
+      },
+      "costList": [
+        {
+          "key": "STONE",
+          "value": 5
+        }
+      ],
+      "victoryPoints": 7,
+      "level": 2
+    },
+    "cardId": "d0a89b57-34ab-4750-bf14-750e2fc39f04",
+    "cardPaths": {
+      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_2.png",
+      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_YELLOW_2.png"
+    }
+  },
+  "859201d7-2686-4a8a-9e11-11183906c61c": {
     "developmentCard": {
       "cardType": "GREEN",
       "production": {
@@ -379,7 +1124,239 @@
           0
         ],
         "output": [
-          3,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0
+        ],
+        "restoreoutput": [
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0
+        ]
+      },
+      "costList": [
+        {
+          "key": "SHIELD",
+          "value": 4
+        }
+      ],
+      "victoryPoints": 5,
+      "level": 2
+    },
+    "cardId": "859201d7-2686-4a8a-9e11-11183906c61c",
+    "cardPaths": {
+      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_2.png",
+      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_GREEN_2.png"
+    }
+  },
+  "995ce127-51b7-4b88-9599-92c91c7dd372": {
+    "developmentCard": {
+      "cardType": "BLUE",
+      "production": {
+        "input": [
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "restoreinput": [
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "output": [
+          0,
+          0,
+          2,
+          0,
+          2,
+          0,
+          0
+        ],
+        "restoreoutput": [
+          0,
+          0,
+          2,
+          0,
+          2,
+          0,
+          0
+        ]
+      },
+      "costList": [
+        {
+          "key": "GOLD",
+          "value": 5
+        }
+      ],
+      "victoryPoints": 7,
+      "level": 2
+    },
+    "cardId": "995ce127-51b7-4b88-9599-92c91c7dd372",
+    "cardPaths": {
+      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_2.png",
+      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_BLUE_2.png"
+    }
+  },
+  "0e20521f-3603-4c0c-9942-fa9032c093f9": {
+    "developmentCard": {
+      "cardType": "GREEN",
+      "production": {
+        "input": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "restoreinput": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "output": [
+          0,
+          0,
+          2,
+          0,
+          1,
+          0,
+          0
+        ],
+        "restoreoutput": [
+          0,
+          0,
+          2,
+          0,
+          1,
+          0,
+          0
+        ]
+      },
+      "costList": [
+        {
+          "key": "SHIELD",
+          "value": 3
+        },
+        {
+          "key": "GOLD",
+          "value": 3
+        }
+      ],
+      "victoryPoints": 8,
+      "level": 2
+    },
+    "cardId": "0e20521f-3603-4c0c-9942-fa9032c093f9",
+    "cardPaths": {
+      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_2.png",
+      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_GREEN_2.png"
+    }
+  },
+  "e7a484e7-8db4-4c35-9786-0ff4bde4da4a": {
+    "developmentCard": {
+      "cardType": "YELLOW",
+      "production": {
+        "input": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "restoreinput": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "output": [
+          2,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "restoreoutput": [
+          2,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ]
+      },
+      "costList": [
+        {
+          "key": "SERVANT",
+          "value": 3
+        },
+        {
+          "key": "STONE",
+          "value": 3
+        }
+      ],
+      "victoryPoints": 8,
+      "level": 2
+    },
+    "cardId": "e7a484e7-8db4-4c35-9786-0ff4bde4da4a",
+    "cardPaths": {
+      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_2.png",
+      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_YELLOW_2.png"
+    }
+  },
+  "7e77f1ff-7d5b-4464-bb9e-1878aab137be": {
+    "developmentCard": {
+      "cardType": "GREEN",
+      "production": {
+        "input": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "restoreinput": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "output": [
+          0,
           0,
           1,
           0,
@@ -388,7 +1365,7 @@
           0
         ],
         "restoreoutput": [
-          3,
+          0,
           0,
           1,
           0,
@@ -400,23 +1377,87 @@
       "costList": [
         {
           "key": "SHIELD",
+          "value": 1
+        },
+        {
+          "key": "SERVANT",
+          "value": 1
+        },
+        {
+          "key": "STONE",
+          "value": 1
+        }
+      ],
+      "victoryPoints": 2,
+      "level": 1
+    },
+    "cardId": "7e77f1ff-7d5b-4464-bb9e-1878aab137be",
+    "cardPaths": {
+      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_1.png",
+      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_GREEN_1.png"
+    }
+  },
+  "bafb420c-c205-473a-8cd9-ba556e8b7250": {
+    "developmentCard": {
+      "cardType": "YELLOW",
+      "production": {
+        "input": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "restoreinput": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "output": [
+          0,
+          3,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "restoreoutput": [
+          0,
+          3,
+          0,
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "costList": [
+        {
+          "key": "STONE",
           "value": 4
         },
         {
-          "key": "GOLD",
+          "key": "SERVANT",
           "value": 4
         }
       ],
       "victoryPoints": 12,
       "level": 3
     },
+    "cardId": "bafb420c-c205-473a-8cd9-ba556e8b7250",
     "cardPaths": {
-      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_3.png",
-      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_GREEN_3.png"
+      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_3.png",
+      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_YELLOW_3.png"
     }
   },
-  "231ffe1f-ceef-431b-94d5-34717ae7e97e": {
-    "cardId": "231ffe1f-ceef-431b-94d5-34717ae7e97e",
+  "b2dee6f5-1e6b-4863-ba32-74a9e1e9f771": {
     "developmentCard": {
       "cardType": "PURPLE",
       "production": {
@@ -470,21 +1511,21 @@
       "victoryPoints": 4,
       "level": 1
     },
+    "cardId": "b2dee6f5-1e6b-4863-ba32-74a9e1e9f771",
     "cardPaths": {
       "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_1.png",
       "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_PURPLE_1.png"
     }
   },
-  "70f4301a-f7f0-48ee-b783-3883c339fc82": {
-    "cardId": "70f4301a-f7f0-48ee-b783-3883c339fc82",
+  "adee953c-966c-4902-8017-ff4a94143fd5": {
     "developmentCard": {
-      "cardType": "YELLOW",
+      "cardType": "GREEN",
       "production": {
         "input": [
           0,
           1,
-          0,
           1,
+          0,
           0,
           0,
           0
@@ -492,25 +1533,85 @@
         "restoreinput": [
           0,
           1,
+          1,
           0,
+          0,
+          0,
+          0
+        ],
+        "output": [
+          0,
+          0,
+          0,
+          3,
+          0,
+          0,
+          0
+        ],
+        "restoreoutput": [
+          0,
+          0,
+          0,
+          3,
+          0,
+          0,
+          0
+        ]
+      },
+      "costList": [
+        {
+          "key": "SHIELD",
+          "value": 3
+        },
+        {
+          "key": "SERVANT",
+          "value": 2
+        }
+      ],
+      "victoryPoints": 5,
+      "level": 2
+    },
+    "cardId": "adee953c-966c-4902-8017-ff4a94143fd5",
+    "cardPaths": {
+      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_2.png",
+      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_GREEN_2.png"
+    }
+  },
+  "f94ba08a-8254-4bda-aaca-5af2e172f024": {
+    "developmentCard": {
+      "cardType": "BLUE",
+      "production": {
+        "input": [
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        "restoreinput": [
+          0,
+          0,
+          1,
           1,
           0,
           0,
           0
         ],
         "output": [
-          2,
           0,
           2,
+          0,
           0,
           1,
           0,
           0
         ],
         "restoreoutput": [
-          2,
           0,
           2,
+          0,
           0,
           1,
           0,
@@ -519,24 +1620,80 @@
       },
       "costList": [
         {
-          "key": "STONE",
-          "value": 5
+          "key": "GOLD",
+          "value": 2
         },
         {
           "key": "SERVANT",
           "value": 2
         }
       ],
-      "victoryPoints": 10,
-      "level": 3
+      "victoryPoints": 4,
+      "level": 1
     },
+    "cardId": "f94ba08a-8254-4bda-aaca-5af2e172f024",
     "cardPaths": {
-      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_3.png",
-      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_YELLOW_3.png"
+      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_1.png",
+      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_BLUE_1.png"
     }
   },
-  "05b05e52-7acc-4de4-aec7-ff5feb4d9ad3": {
-    "cardId": "05b05e52-7acc-4de4-aec7-ff5feb4d9ad3",
+  "fe8869e3-37ac-4484-a976-86b098e79fc6": {
+    "developmentCard": {
+      "cardType": "YELLOW",
+      "production": {
+        "input": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "restoreinput": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "output": [
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0
+        ],
+        "restoreoutput": [
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0
+        ]
+      },
+      "costList": [
+        {
+          "key": "STONE",
+          "value": 4
+        }
+      ],
+      "victoryPoints": 5,
+      "level": 2
+    },
+    "cardId": "fe8869e3-37ac-4484-a976-86b098e79fc6",
+    "cardPaths": {
+      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_2.png",
+      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_YELLOW_2.png"
+    }
+  },
+  "725ae63b-8661-4350-8102-9dbbf9dcbf91": {
     "developmentCard": {
       "cardType": "BLUE",
       "production": {
@@ -590,1457 +1747,13 @@
       "victoryPoints": 6,
       "level": 2
     },
+    "cardId": "725ae63b-8661-4350-8102-9dbbf9dcbf91",
     "cardPaths": {
       "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_2.png",
       "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_BLUE_2.png"
     }
   },
-  "a74816c9-5b18-47e6-a1c7-213d642bc323": {
-    "cardId": "a74816c9-5b18-47e6-a1c7-213d642bc323",
-    "developmentCard": {
-      "cardType": "BLUE",
-      "production": {
-        "input": [
-          0,
-          1,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "restoreinput": [
-          0,
-          1,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "output": [
-          0,
-          0,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "restoreoutput": [
-          0,
-          0,
-          0,
-          1,
-          0,
-          0,
-          0
-        ]
-      },
-      "costList": [
-        {
-          "key": "STONE",
-          "value": 1
-        },
-        {
-          "key": "SERVANT",
-          "value": 1
-        },
-        {
-          "key": "GOLD",
-          "value": 1
-        }
-      ],
-      "victoryPoints": 2,
-      "level": 1
-    },
-    "cardPaths": {
-      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_1.png",
-      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_BLUE_1.png"
-    }
-  },
-  "0c826831-da91-4900-a920-074083171144": {
-    "cardId": "0c826831-da91-4900-a920-074083171144",
-    "developmentCard": {
-      "cardType": "PURPLE",
-      "production": {
-        "input": [
-          1,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "restoreinput": [
-          1,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "output": [
-          0,
-          0,
-          1,
-          0,
-          0,
-          0,
-          0
-        ],
-        "restoreoutput": [
-          0,
-          0,
-          1,
-          0,
-          0,
-          0,
-          0
-        ]
-      },
-      "costList": [
-        {
-          "key": "SHIELD",
-          "value": 1
-        },
-        {
-          "key": "SERVANT",
-          "value": 1
-        },
-        {
-          "key": "GOLD",
-          "value": 1
-        }
-      ],
-      "victoryPoints": 2,
-      "level": 1
-    },
-    "cardPaths": {
-      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_1.png",
-      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_PURPLE_1.png"
-    }
-  },
-  "806686c3-ec36-4a5f-886a-7ebf7eacf4e7": {
-    "cardId": "806686c3-ec36-4a5f-886a-7ebf7eacf4e7",
-    "developmentCard": {
-      "cardType": "GREEN",
-      "production": {
-        "input": [
-          2,
-          0,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "restoreinput": [
-          2,
-          0,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "output": [
-          0,
-          0,
-          0,
-          2,
-          2,
-          0,
-          0
-        ],
-        "restoreoutput": [
-          0,
-          0,
-          0,
-          2,
-          2,
-          0,
-          0
-        ]
-      },
-      "costList": [
-        {
-          "key": "SHIELD",
-          "value": 5
-        }
-      ],
-      "victoryPoints": 7,
-      "level": 2
-    },
-    "cardPaths": {
-      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_2.png",
-      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_GREEN_2.png"
-    }
-  },
-  "51d70b77-5f4e-4351-aa39-aafa472e4d06": {
-    "cardId": "51d70b77-5f4e-4351-aa39-aafa472e4d06",
-    "developmentCard": {
-      "cardType": "YELLOW",
-      "production": {
-        "input": [
-          1,
-          1,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "restoreinput": [
-          1,
-          1,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "output": [
-          0,
-          0,
-          2,
-          0,
-          1,
-          0,
-          0
-        ],
-        "restoreoutput": [
-          0,
-          0,
-          2,
-          0,
-          1,
-          0,
-          0
-        ]
-      },
-      "costList": [
-        {
-          "key": "STONE",
-          "value": 2
-        },
-        {
-          "key": "SHIELD",
-          "value": 2
-        }
-      ],
-      "victoryPoints": 4,
-      "level": 1
-    },
-    "cardPaths": {
-      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_1.png",
-      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_YELLOW_1.png"
-    }
-  },
-  "8eb3c246-1b87-4671-ac1c-5c47828adac6": {
-    "cardId": "8eb3c246-1b87-4671-ac1c-5c47828adac6",
-    "developmentCard": {
-      "cardType": "BLUE",
-      "production": {
-        "input": [
-          0,
-          0,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "restoreinput": [
-          0,
-          0,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "output": [
-          0,
-          0,
-          1,
-          0,
-          3,
-          0,
-          0
-        ],
-        "restoreoutput": [
-          0,
-          0,
-          1,
-          0,
-          3,
-          0,
-          0
-        ]
-      },
-      "costList": [
-        {
-          "key": "GOLD",
-          "value": 7
-        }
-      ],
-      "victoryPoints": 11,
-      "level": 3
-    },
-    "cardPaths": {
-      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_3.png",
-      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_BLUE_3.png"
-    }
-  },
-  "747912da-0aeb-495f-80a5-ca7b1b6b3c37": {
-    "cardId": "747912da-0aeb-495f-80a5-ca7b1b6b3c37",
-    "developmentCard": {
-      "cardType": "BLUE",
-      "production": {
-        "input": [
-          0,
-          0,
-          1,
-          0,
-          0,
-          0,
-          0
-        ],
-        "restoreinput": [
-          0,
-          0,
-          1,
-          0,
-          0,
-          0,
-          0
-        ],
-        "output": [
-          0,
-          0,
-          0,
-          0,
-          1,
-          0,
-          0
-        ],
-        "restoreoutput": [
-          0,
-          0,
-          0,
-          0,
-          1,
-          0,
-          0
-        ]
-      },
-      "costList": [
-        {
-          "key": "GOLD",
-          "value": 2
-        }
-      ],
-      "victoryPoints": 1,
-      "level": 1
-    },
-    "cardPaths": {
-      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_1.png",
-      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_BLUE_1.png"
-    }
-  },
-  "6dcb6ecb-3dd4-4b9e-9f0c-25e0b6e6bc95": {
-    "cardId": "6dcb6ecb-3dd4-4b9e-9f0c-25e0b6e6bc95",
-    "developmentCard": {
-      "cardType": "GREEN",
-      "production": {
-        "input": [
-          2,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "restoreinput": [
-          2,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "output": [
-          0,
-          0,
-          0,
-          3,
-          2,
-          0,
-          0
-        ],
-        "restoreoutput": [
-          0,
-          0,
-          0,
-          3,
-          2,
-          0,
-          0
-        ]
-      },
-      "costList": [
-        {
-          "key": "SHIELD",
-          "value": 6
-        }
-      ],
-      "victoryPoints": 9,
-      "level": 3
-    },
-    "cardPaths": {
-      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_3.png",
-      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_GREEN_3.png"
-    }
-  },
-  "c6e523c3-51bf-4689-8c94-98de23c96506": {
-    "cardId": "c6e523c3-51bf-4689-8c94-98de23c96506",
-    "developmentCard": {
-      "cardType": "YELLOW",
-      "production": {
-        "input": [
-          0,
-          0,
-          2,
-          0,
-          0,
-          0,
-          0
-        ],
-        "restoreinput": [
-          0,
-          0,
-          2,
-          0,
-          0,
-          0,
-          0
-        ],
-        "output": [
-          0,
-          3,
-          0,
-          0,
-          2,
-          0,
-          0
-        ],
-        "restoreoutput": [
-          0,
-          3,
-          0,
-          0,
-          2,
-          0,
-          0
-        ]
-      },
-      "costList": [
-        {
-          "key": "STONE",
-          "value": 6
-        }
-      ],
-      "victoryPoints": 9,
-      "level": 3
-    },
-    "cardPaths": {
-      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_3.png",
-      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_YELLOW_3.png"
-    }
-  },
-  "e45edf1f-aa3f-4330-ba99-b47c91dd7320": {
-    "cardId": "e45edf1f-aa3f-4330-ba99-b47c91dd7320",
-    "developmentCard": {
-      "cardType": "YELLOW",
-      "production": {
-        "input": [
-          0,
-          0,
-          1,
-          0,
-          0,
-          0,
-          0
-        ],
-        "restoreinput": [
-          0,
-          0,
-          1,
-          0,
-          0,
-          0,
-          0
-        ],
-        "output": [
-          0,
-          1,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "restoreoutput": [
-          0,
-          1,
-          0,
-          0,
-          0,
-          0,
-          0
-        ]
-      },
-      "costList": [
-        {
-          "key": "STONE",
-          "value": 2
-        }
-      ],
-      "victoryPoints": 1,
-      "level": 1
-    },
-    "cardPaths": {
-      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_1.png",
-      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_YELLOW_1.png"
-    }
-  },
-  "c02c757f-bfa1-4409-99a9-8d8bdd729173": {
-    "cardId": "c02c757f-bfa1-4409-99a9-8d8bdd729173",
-    "developmentCard": {
-      "cardType": "PURPLE",
-      "production": {
-        "input": [
-          0,
-          0,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "restoreinput": [
-          0,
-          0,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "output": [
-          0,
-          0,
-          0,
-          0,
-          1,
-          0,
-          0
-        ],
-        "restoreoutput": [
-          0,
-          0,
-          0,
-          0,
-          1,
-          0,
-          0
-        ]
-      },
-      "costList": [
-        {
-          "key": "SERVANT",
-          "value": 2
-        }
-      ],
-      "victoryPoints": 1,
-      "level": 1
-    },
-    "cardPaths": {
-      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_1.png",
-      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_PURPLE_1.png"
-    }
-  },
-  "2d007083-b466-437c-abb9-0e1d45a15c44": {
-    "cardId": "2d007083-b466-437c-abb9-0e1d45a15c44",
-    "developmentCard": {
-      "cardType": "PURPLE",
-      "production": {
-        "input": [
-          0,
-          0,
-          0,
-          2,
-          0,
-          0,
-          0
-        ],
-        "restoreinput": [
-          0,
-          0,
-          0,
-          2,
-          0,
-          0,
-          0
-        ],
-        "output": [
-          3,
-          0,
-          0,
-          0,
-          2,
-          0,
-          0
-        ],
-        "restoreoutput": [
-          3,
-          0,
-          0,
-          0,
-          2,
-          0,
-          0
-        ]
-      },
-      "costList": [
-        {
-          "key": "SERVANT",
-          "value": 6
-        }
-      ],
-      "victoryPoints": 9,
-      "level": 3
-    },
-    "cardPaths": {
-      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_3.png",
-      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_PURPLE_3.png"
-    }
-  },
-  "19924113-8c9c-4583-a93b-90a26ca6ce3a": {
-    "cardId": "19924113-8c9c-4583-a93b-90a26ca6ce3a",
-    "developmentCard": {
-      "cardType": "PURPLE",
-      "production": {
-        "input": [
-          1,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "restoreinput": [
-          1,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "output": [
-          0,
-          0,
-          0,
-          0,
-          2,
-          0,
-          0
-        ],
-        "restoreoutput": [
-          0,
-          0,
-          0,
-          0,
-          2,
-          0,
-          0
-        ]
-      },
-      "costList": [
-        {
-          "key": "SERVANT",
-          "value": 4
-        }
-      ],
-      "victoryPoints": 5,
-      "level": 2
-    },
-    "cardPaths": {
-      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_2.png",
-      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_PURPLE_2.png"
-    }
-  },
-  "a9865409-ba8e-4214-85d1-6ca2d827e31a": {
-    "cardId": "a9865409-ba8e-4214-85d1-6ca2d827e31a",
-    "developmentCard": {
-      "cardType": "BLUE",
-      "production": {
-        "input": [
-          0,
-          2,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "restoreinput": [
-          0,
-          2,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "output": [
-          0,
-          0,
-          2,
-          0,
-          2,
-          0,
-          0
-        ],
-        "restoreoutput": [
-          0,
-          0,
-          2,
-          0,
-          2,
-          0,
-          0
-        ]
-      },
-      "costList": [
-        {
-          "key": "GOLD",
-          "value": 5
-        }
-      ],
-      "victoryPoints": 7,
-      "level": 2
-    },
-    "cardPaths": {
-      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_2.png",
-      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_BLUE_2.png"
-    }
-  },
-  "dcad75f6-91e3-4728-8567-d1eaba2e146e": {
-    "cardId": "dcad75f6-91e3-4728-8567-d1eaba2e146e",
-    "developmentCard": {
-      "cardType": "BLUE",
-      "production": {
-        "input": [
-          0,
-          2,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "restoreinput": [
-          0,
-          2,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "output": [
-          0,
-          0,
-          3,
-          0,
-          2,
-          0,
-          0
-        ],
-        "restoreoutput": [
-          0,
-          0,
-          3,
-          0,
-          2,
-          0,
-          0
-        ]
-      },
-      "costList": [
-        {
-          "key": "GOLD",
-          "value": 6
-        }
-      ],
-      "victoryPoints": 9,
-      "level": 3
-    },
-    "cardPaths": {
-      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_3.png",
-      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_BLUE_3.png"
-    }
-  },
-  "fbcfc45c-4352-4e63-8e2a-0d167c54afd7": {
-    "cardId": "fbcfc45c-4352-4e63-8e2a-0d167c54afd7",
-    "developmentCard": {
-      "cardType": "BLUE",
-      "production": {
-        "input": [
-          0,
-          1,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "restoreinput": [
-          0,
-          1,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "output": [
-          1,
-          0,
-          3,
-          0,
-          0,
-          0,
-          0
-        ],
-        "restoreoutput": [
-          1,
-          0,
-          3,
-          0,
-          0,
-          0,
-          0
-        ]
-      },
-      "costList": [
-        {
-          "key": "GOLD",
-          "value": 4
-        },
-        {
-          "key": "STONE",
-          "value": 4
-        }
-      ],
-      "victoryPoints": 12,
-      "level": 3
-    },
-    "cardPaths": {
-      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_3.png",
-      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_BLUE_3.png"
-    }
-  },
-  "03bf0063-656f-4705-80ce-497890e04dc0": {
-    "cardId": "03bf0063-656f-4705-80ce-497890e04dc0",
-    "developmentCard": {
-      "cardType": "PURPLE",
-      "production": {
-        "input": [
-          1,
-          1,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "restoreinput": [
-          1,
-          1,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "output": [
-          0,
-          0,
-          3,
-          0,
-          0,
-          0,
-          0
-        ],
-        "restoreoutput": [
-          0,
-          0,
-          3,
-          0,
-          0,
-          0,
-          0
-        ]
-      },
-      "costList": [
-        {
-          "key": "GOLD",
-          "value": 2
-        },
-        {
-          "key": "SERVANT",
-          "value": 3
-        }
-      ],
-      "victoryPoints": 6,
-      "level": 2
-    },
-    "cardPaths": {
-      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_2.png",
-      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_PURPLE_2.png"
-    }
-  },
-  "d008a3bb-3037-4ed4-b6cb-bee317824dd8": {
-    "cardId": "d008a3bb-3037-4ed4-b6cb-bee317824dd8",
-    "developmentCard": {
-      "cardType": "GREEN",
-      "production": {
-        "input": [
-          0,
-          1,
-          1,
-          0,
-          0,
-          0,
-          0
-        ],
-        "restoreinput": [
-          0,
-          1,
-          1,
-          0,
-          0,
-          0,
-          0
-        ],
-        "output": [
-          0,
-          0,
-          0,
-          3,
-          0,
-          0,
-          0
-        ],
-        "restoreoutput": [
-          0,
-          0,
-          0,
-          3,
-          0,
-          0,
-          0
-        ]
-      },
-      "costList": [
-        {
-          "key": "SHIELD",
-          "value": 3
-        },
-        {
-          "key": "SERVANT",
-          "value": 2
-        }
-      ],
-      "victoryPoints": 5,
-      "level": 2
-    },
-    "cardPaths": {
-      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_2.png",
-      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_GREEN_2.png"
-    }
-  },
-  "e746de7e-5f0e-43e7-87a6-d638ec74d699": {
-    "cardId": "e746de7e-5f0e-43e7-87a6-d638ec74d699",
-    "developmentCard": {
-      "cardType": "PURPLE",
-      "production": {
-        "input": [
-          0,
-          0,
-          0,
-          2,
-          0,
-          0,
-          0
-        ],
-        "restoreinput": [
-          0,
-          0,
-          0,
-          2,
-          0,
-          0,
-          0
-        ],
-        "output": [
-          2,
-          0,
-          0,
-          0,
-          2,
-          0,
-          0
-        ],
-        "restoreoutput": [
-          2,
-          0,
-          0,
-          0,
-          2,
-          0,
-          0
-        ]
-      },
-      "costList": [
-        {
-          "key": "SERVANT",
-          "value": 5
-        }
-      ],
-      "victoryPoints": 7,
-      "level": 2
-    },
-    "cardPaths": {
-      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_2.png",
-      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_PURPLE_2.png"
-    }
-  },
-  "d8641b17-29a7-4126-87d6-1289ea0f6ac6": {
-    "cardId": "d8641b17-29a7-4126-87d6-1289ea0f6ac6",
-    "developmentCard": {
-      "cardType": "BLUE",
-      "production": {
-        "input": [
-          0,
-          1,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "restoreinput": [
-          0,
-          1,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "output": [
-          0,
-          0,
-          0,
-          2,
-          1,
-          0,
-          0
-        ],
-        "restoreoutput": [
-          0,
-          0,
-          0,
-          2,
-          1,
-          0,
-          0
-        ]
-      },
-      "costList": [
-        {
-          "key": "GOLD",
-          "value": 3
-        },
-        {
-          "key": "STONE",
-          "value": 3
-        }
-      ],
-      "victoryPoints": 8,
-      "level": 2
-    },
-    "cardPaths": {
-      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_2.png",
-      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_BLUE_2.png"
-    }
-  },
-  "a9b88168-3937-4f98-ad6a-95c145857534": {
-    "cardId": "a9b88168-3937-4f98-ad6a-95c145857534",
-    "developmentCard": {
-      "cardType": "GREEN",
-      "production": {
-        "input": [
-          0,
-          2,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "restoreinput": [
-          0,
-          2,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "output": [
-          1,
-          0,
-          1,
-          1,
-          0,
-          0,
-          0
-        ],
-        "restoreoutput": [
-          1,
-          0,
-          1,
-          1,
-          0,
-          0,
-          0
-        ]
-      },
-      "costList": [
-        {
-          "key": "SHIELD",
-          "value": 3
-        }
-      ],
-      "victoryPoints": 3,
-      "level": 1
-    },
-    "cardPaths": {
-      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_1.png",
-      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_GREEN_1.png"
-    }
-  },
-  "3e2d6645-0bbd-4901-9813-552b34ed7c27": {
-    "cardId": "3e2d6645-0bbd-4901-9813-552b34ed7c27",
-    "developmentCard": {
-      "cardType": "BLUE",
-      "production": {
-        "input": [
-          0,
-          0,
-          0,
-          2,
-          0,
-          0,
-          0
-        ],
-        "restoreinput": [
-          0,
-          0,
-          0,
-          2,
-          0,
-          0,
-          0
-        ],
-        "output": [
-          1,
-          1,
-          1,
-          0,
-          0,
-          0,
-          0
-        ],
-        "restoreoutput": [
-          1,
-          1,
-          1,
-          0,
-          0,
-          0,
-          0
-        ]
-      },
-      "costList": [
-        {
-          "key": "GOLD",
-          "value": 3
-        }
-      ],
-      "victoryPoints": 3,
-      "level": 1
-    },
-    "cardPaths": {
-      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_1.png",
-      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_BLUE_1.png"
-    }
-  },
-  "4399f302-2452-4748-93c9-2ae99d22cb25": {
-    "cardId": "4399f302-2452-4748-93c9-2ae99d22cb25",
-    "developmentCard": {
-      "cardType": "PURPLE",
-      "production": {
-        "input": [
-          0,
-          0,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "restoreinput": [
-          0,
-          0,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "output": [
-          0,
-          2,
-          0,
-          0,
-          1,
-          0,
-          0
-        ],
-        "restoreoutput": [
-          0,
-          2,
-          0,
-          0,
-          1,
-          0,
-          0
-        ]
-      },
-      "costList": [
-        {
-          "key": "SERVANT",
-          "value": 3
-        },
-        {
-          "key": "SHIELD",
-          "value": 3
-        }
-      ],
-      "victoryPoints": 8,
-      "level": 2
-    },
-    "cardPaths": {
-      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_2.png",
-      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_PURPLE_2.png"
-    }
-  },
-  "c10f8110-a798-444e-93c8-83427ab12e15": {
-    "cardId": "c10f8110-a798-444e-93c8-83427ab12e15",
-    "developmentCard": {
-      "cardType": "YELLOW",
-      "production": {
-        "input": [
-          0,
-          0,
-          2,
-          0,
-          0,
-          0,
-          0
-        ],
-        "restoreinput": [
-          0,
-          0,
-          2,
-          0,
-          0,
-          0,
-          0
-        ],
-        "output": [
-          0,
-          2,
-          0,
-          0,
-          2,
-          0,
-          0
-        ],
-        "restoreoutput": [
-          0,
-          2,
-          0,
-          0,
-          2,
-          0,
-          0
-        ]
-      },
-      "costList": [
-        {
-          "key": "STONE",
-          "value": 5
-        }
-      ],
-      "victoryPoints": 7,
-      "level": 2
-    },
-    "cardPaths": {
-      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_2.png",
-      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_YELLOW_2.png"
-    }
-  },
-  "9ba685b2-1c47-4a24-9057-ab8dceb7977d": {
-    "cardId": "9ba685b2-1c47-4a24-9057-ab8dceb7977d",
-    "developmentCard": {
-      "cardType": "YELLOW",
-      "production": {
-        "input": [
-          0,
-          0,
-          1,
-          0,
-          0,
-          0,
-          0
-        ],
-        "restoreinput": [
-          0,
-          0,
-          1,
-          0,
-          0,
-          0,
-          0
-        ],
-        "output": [
-          0,
-          3,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "restoreoutput": [
-          0,
-          3,
-          0,
-          1,
-          0,
-          0,
-          0
-        ]
-      },
-      "costList": [
-        {
-          "key": "STONE",
-          "value": 4
-        },
-        {
-          "key": "SERVANT",
-          "value": 4
-        }
-      ],
-      "victoryPoints": 12,
-      "level": 3
-    },
-    "cardPaths": {
-      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_3.png",
-      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_YELLOW_3.png"
-    }
-  },
-  "b2a1ad39-956a-4ee6-8533-5ed32cf4a8aa": {
-    "cardId": "b2a1ad39-956a-4ee6-8533-5ed32cf4a8aa",
-    "developmentCard": {
-      "cardType": "BLUE",
-      "production": {
-        "input": [
-          0,
-          1,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "restoreinput": [
-          0,
-          1,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "output": [
-          0,
-          0,
-          0,
-          0,
-          2,
-          0,
-          0
-        ],
-        "restoreoutput": [
-          0,
-          0,
-          0,
-          0,
-          2,
-          0,
-          0
-        ]
-      },
-      "costList": [
-        {
-          "key": "GOLD",
-          "value": 4
-        }
-      ],
-      "victoryPoints": 5,
-      "level": 2
-    },
-    "cardPaths": {
-      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_2.png",
-      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_BLUE_2.png"
-    }
-  },
-  "c6f68b35-ac54-4df8-ac0a-6395702ee035": {
-    "cardId": "c6f68b35-ac54-4df8-ac0a-6395702ee035",
+  "30dcc07c-df16-4099-bc37-e12e13d287c1": {
     "developmentCard": {
       "cardType": "PURPLE",
       "production": {
@@ -2090,249 +1803,13 @@
       "victoryPoints": 3,
       "level": 1
     },
+    "cardId": "30dcc07c-df16-4099-bc37-e12e13d287c1",
     "cardPaths": {
       "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_1.png",
       "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_PURPLE_1.png"
     }
   },
-  "82a5f8ce-595a-4cd0-b5e2-c850760499fb": {
-    "cardId": "82a5f8ce-595a-4cd0-b5e2-c850760499fb",
-    "developmentCard": {
-      "cardType": "GREEN",
-      "production": {
-        "input": [
-          1,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "restoreinput": [
-          1,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "output": [
-          0,
-          0,
-          2,
-          0,
-          1,
-          0,
-          0
-        ],
-        "restoreoutput": [
-          0,
-          0,
-          2,
-          0,
-          1,
-          0,
-          0
-        ]
-      },
-      "costList": [
-        {
-          "key": "SHIELD",
-          "value": 3
-        },
-        {
-          "key": "GOLD",
-          "value": 3
-        }
-      ],
-      "victoryPoints": 8,
-      "level": 2
-    },
-    "cardPaths": {
-      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_2.png",
-      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_GREEN_2.png"
-    }
-  },
-  "86962224-ef1d-453f-8b80-caef97a56837": {
-    "cardId": "86962224-ef1d-453f-8b80-caef97a56837",
-    "developmentCard": {
-      "cardType": "YELLOW",
-      "production": {
-        "input": [
-          0,
-          0,
-          1,
-          0,
-          0,
-          0,
-          0
-        ],
-        "restoreinput": [
-          0,
-          0,
-          1,
-          0,
-          0,
-          0,
-          0
-        ],
-        "output": [
-          2,
-          0,
-          0,
-          0,
-          1,
-          0,
-          0
-        ],
-        "restoreoutput": [
-          2,
-          0,
-          0,
-          0,
-          1,
-          0,
-          0
-        ]
-      },
-      "costList": [
-        {
-          "key": "SERVANT",
-          "value": 3
-        },
-        {
-          "key": "STONE",
-          "value": 3
-        }
-      ],
-      "victoryPoints": 8,
-      "level": 2
-    },
-    "cardPaths": {
-      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_2.png",
-      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_YELLOW_2.png"
-    }
-  },
-  "b1be78c8-d2c5-4a12-8b01-94f587392ac2": {
-    "cardId": "b1be78c8-d2c5-4a12-8b01-94f587392ac2",
-    "developmentCard": {
-      "cardType": "GREEN",
-      "production": {
-        "input": [
-          0,
-          1,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "restoreinput": [
-          0,
-          1,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "output": [
-          2,
-          0,
-          0,
-          0,
-          1,
-          0,
-          0
-        ],
-        "restoreoutput": [
-          2,
-          0,
-          0,
-          0,
-          1,
-          0,
-          0
-        ]
-      },
-      "costList": [
-        {
-          "key": "SHIELD",
-          "value": 2
-        },
-        {
-          "key": "GOLD",
-          "value": 2
-        }
-      ],
-      "victoryPoints": 4,
-      "level": 1
-    },
-    "cardPaths": {
-      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_1.png",
-      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_GREEN_1.png"
-    }
-  },
-  "4ab981dc-c355-482c-a849-f9425b3f869b": {
-    "cardId": "4ab981dc-c355-482c-a849-f9425b3f869b",
-    "developmentCard": {
-      "cardType": "GREEN",
-      "production": {
-        "input": [
-          1,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "restoreinput": [
-          1,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "output": [
-          0,
-          0,
-          0,
-          0,
-          2,
-          0,
-          0
-        ],
-        "restoreoutput": [
-          0,
-          0,
-          0,
-          0,
-          2,
-          0,
-          0
-        ]
-      },
-      "costList": [
-        {
-          "key": "SHIELD",
-          "value": 2
-        }
-      ],
-      "victoryPoints": 1,
-      "level": 1
-    },
-    "cardPaths": {
-      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_1.png",
-      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_GREEN_1.png"
-    }
-  },
-  "c5cd642f-bad9-47cc-ae68-09658b0c1701": {
-    "cardId": "c5cd642f-bad9-47cc-ae68-09658b0c1701",
+  "bc4c18b3-6ab9-467e-883b-e763b6e419e2": {
     "developmentCard": {
       "cardType": "YELLOW",
       "production": {
@@ -2355,20 +1832,20 @@
           0
         ],
         "output": [
-          3,
+          2,
           0,
+          2,
           0,
-          0,
-          0,
+          1,
           0,
           0
         ],
         "restoreoutput": [
-          3,
+          2,
           0,
+          2,
           0,
-          0,
-          0,
+          1,
           0,
           0
         ]
@@ -2376,244 +1853,6 @@
       "costList": [
         {
           "key": "STONE",
-          "value": 3
-        },
-        {
-          "key": "SHIELD",
-          "value": 2
-        }
-      ],
-      "victoryPoints": 6,
-      "level": 2
-    },
-    "cardPaths": {
-      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_2.png",
-      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_YELLOW_2.png"
-    }
-  },
-  "3090d067-3b35-4966-ad6e-65cd7c20a21f": {
-    "cardId": "3090d067-3b35-4966-ad6e-65cd7c20a21f",
-    "developmentCard": {
-      "cardType": "GREEN",
-      "production": {
-        "input": [
-          0,
-          1,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "restoreinput": [
-          0,
-          1,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "output": [
-          1,
-          0,
-          0,
-          0,
-          3,
-          0,
-          0
-        ],
-        "restoreoutput": [
-          1,
-          0,
-          0,
-          0,
-          3,
-          0,
-          0
-        ]
-      },
-      "costList": [
-        {
-          "key": "SHIELD",
-          "value": 7
-        }
-      ],
-      "victoryPoints": 11,
-      "level": 3
-    },
-    "cardPaths": {
-      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_3.png",
-      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_GREEN_3.png"
-    }
-  },
-  "146bc5ef-5e4a-4192-9418-d2610d13f34f": {
-    "cardId": "146bc5ef-5e4a-4192-9418-d2610d13f34f",
-    "developmentCard": {
-      "cardType": "GREEN",
-      "production": {
-        "input": [
-          1,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "restoreinput": [
-          1,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "output": [
-          0,
-          0,
-          1,
-          0,
-          0,
-          0,
-          0
-        ],
-        "restoreoutput": [
-          0,
-          0,
-          1,
-          0,
-          0,
-          0,
-          0
-        ]
-      },
-      "costList": [
-        {
-          "key": "SHIELD",
-          "value": 1
-        },
-        {
-          "key": "SERVANT",
-          "value": 1
-        },
-        {
-          "key": "STONE",
-          "value": 1
-        }
-      ],
-      "victoryPoints": 2,
-      "level": 1
-    },
-    "cardPaths": {
-      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_1.png",
-      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_GREEN_1.png"
-    }
-  },
-  "da820658-a9b6-499a-92e2-4bd5be7749cb": {
-    "cardId": "da820658-a9b6-499a-92e2-4bd5be7749cb",
-    "developmentCard": {
-      "cardType": "YELLOW",
-      "production": {
-        "input": [
-          0,
-          0,
-          1,
-          0,
-          0,
-          0,
-          0
-        ],
-        "restoreinput": [
-          0,
-          0,
-          1,
-          0,
-          0,
-          0,
-          0
-        ],
-        "output": [
-          0,
-          1,
-          0,
-          0,
-          0,
-          3,
-          0,
-          0
-        ],
-        "restoreoutput": [
-          0,
-          1,
-          0,
-          0,
-          0,
-          3,
-          0,
-          0
-        ]
-      },
-      "costList": [
-        {
-          "key": "STONE",
-          "value": 7
-        }
-      ],
-      "victoryPoints": 11,
-      "level": 3
-    },
-    "cardPaths": {
-      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_3.png",
-      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_YELLOW_3.png"
-    }
-  },
-  "110d225c-ed04-4aa0-8764-f9d840c46df3": {
-    "cardId": "110d225c-ed04-4aa0-8764-f9d840c46df3",
-    "developmentCard": {
-      "cardType": "GREEN",
-      "production": {
-        "input": [
-          1,
-          1,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "restoreinput": [
-          1,
-          1,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "output": [
-          0,
-          0,
-          2,
-          2,
-          1,
-          0,
-          0
-        ],
-        "restoreoutput": [
-          0,
-          0,
-          2,
-          2,
-          1,
-          0,
-          0
-        ]
-      },
-      "costList": [
-        {
-          "key": "SHIELD",
           "value": 5
         },
         {
@@ -2624,69 +1863,129 @@
       "victoryPoints": 10,
       "level": 3
     },
+    "cardId": "bc4c18b3-6ab9-467e-883b-e763b6e419e2",
     "cardPaths": {
-      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_3.png",
-      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_GREEN_3.png"
+      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_3.png",
+      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_YELLOW_3.png"
     }
   },
-  "b081e3b3-32be-4d08-96fe-9dff97d7f1ed": {
-    "cardId": "b081e3b3-32be-4d08-96fe-9dff97d7f1ed",
+  "b0abbe32-f6c3-4dc3-8935-83584289bb95": {
     "developmentCard": {
-      "cardType": "YELLOW",
+      "cardType": "PURPLE",
       "production": {
         "input": [
           0,
-          2,
           0,
           0,
+          1,
           0,
           0,
           0
         ],
         "restoreinput": [
           0,
-          2,
           0,
           0,
+          1,
           0,
           0,
           0
         ],
         "output": [
-          1,
+          0,
+          0,
+          0,
           0,
           1,
-          1,
-          0,
           0,
           0
         ],
         "restoreoutput": [
-          1,
+          0,
+          0,
+          0,
           0,
           1,
-          1,
-          0,
           0,
           0
         ]
       },
       "costList": [
         {
-          "key": "STONE",
-          "value": 3
+          "key": "SERVANT",
+          "value": 2
         }
       ],
-      "victoryPoints": 3,
+      "victoryPoints": 1,
       "level": 1
     },
+    "cardId": "b0abbe32-f6c3-4dc3-8935-83584289bb95",
     "cardPaths": {
-      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_1.png",
-      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_YELLOW_1.png"
+      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_1.png",
+      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_PURPLE_1.png"
     }
   },
-  "5b1b930b-649a-4abf-b47a-9c565ac6d9a0": {
-    "cardId": "5b1b930b-649a-4abf-b47a-9c565ac6d9a0",
+  "73025781-a59c-4d3d-ba7c-f755556af048": {
+    "developmentCard": {
+      "cardType": "PURPLE",
+      "production": {
+        "input": [
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        "restoreinput": [
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        "output": [
+          2,
+          2,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "restoreoutput": [
+          2,
+          2,
+          0,
+          0,
+          1,
+          0,
+          0
+        ]
+      },
+      "costList": [
+        {
+          "key": "SERVANT",
+          "value": 5
+        },
+        {
+          "key": "GOLD",
+          "value": 2
+        }
+      ],
+      "victoryPoints": 10,
+      "level": 3
+    },
+    "cardId": "73025781-a59c-4d3d-ba7c-f755556af048",
+    "cardPaths": {
+      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_3.png",
+      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_PURPLE_3.png"
+    }
+  },
+  "bbbfd6cc-004e-4756-a2b4-f115ebad3248": {
     "developmentCard": {
       "cardType": "GREEN",
       "production": {
@@ -2704,6 +2003,350 @@
           0,
           0,
           1,
+          0,
+          0,
+          0
+        ],
+        "output": [
+          3,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "restoreoutput": [
+          3,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "costList": [
+        {
+          "key": "SHIELD",
+          "value": 4
+        },
+        {
+          "key": "GOLD",
+          "value": 4
+        }
+      ],
+      "victoryPoints": 12,
+      "level": 3
+    },
+    "cardId": "bbbfd6cc-004e-4756-a2b4-f115ebad3248",
+    "cardPaths": {
+      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_3.png",
+      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_GREEN_3.png"
+    }
+  },
+  "f22b7eb0-6fb1-458e-aee6-54710f3e583d": {
+    "developmentCard": {
+      "cardType": "PURPLE",
+      "production": {
+        "input": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "restoreinput": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "output": [
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0
+        ],
+        "restoreoutput": [
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0
+        ]
+      },
+      "costList": [
+        {
+          "key": "SERVANT",
+          "value": 4
+        }
+      ],
+      "victoryPoints": 5,
+      "level": 2
+    },
+    "cardId": "f22b7eb0-6fb1-458e-aee6-54710f3e583d",
+    "cardPaths": {
+      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_2.png",
+      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_PURPLE_2.png"
+    }
+  },
+  "9346da5f-4810-413a-87e1-a10435a9790c": {
+    "developmentCard": {
+      "cardType": "YELLOW",
+      "production": {
+        "input": [
+          0,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "restoreinput": [
+          0,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "output": [
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "restoreoutput": [
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "costList": [
+        {
+          "key": "STONE",
+          "value": 3
+        },
+        {
+          "key": "SHIELD",
+          "value": 2
+        }
+      ],
+      "victoryPoints": 6,
+      "level": 2
+    },
+    "cardId": "9346da5f-4810-413a-87e1-a10435a9790c",
+    "cardPaths": {
+      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_2.png",
+      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_YELLOW_2.png"
+    }
+  },
+  "d85ef002-9481-44f7-848c-1d006f6ae3bf": {
+    "developmentCard": {
+      "cardType": "GREEN",
+      "production": {
+        "input": [
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "restoreinput": [
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "output": [
+          1,
+          0,
+          0,
+          0,
+          3,
+          0,
+          0
+        ],
+        "restoreoutput": [
+          1,
+          0,
+          0,
+          0,
+          3,
+          0,
+          0
+        ]
+      },
+      "costList": [
+        {
+          "key": "SHIELD",
+          "value": 7
+        }
+      ],
+      "victoryPoints": 11,
+      "level": 3
+    },
+    "cardId": "d85ef002-9481-44f7-848c-1d006f6ae3bf",
+    "cardPaths": {
+      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_3.png",
+      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_GREEN_3.png"
+    }
+  },
+  "887bbf0a-275c-49b0-a5bd-0c72bee79341": {
+    "developmentCard": {
+      "cardType": "BLUE",
+      "production": {
+        "input": [
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ],
+        "restoreinput": [
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ],
+        "output": [
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "restoreoutput": [
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "costList": [
+        {
+          "key": "GOLD",
+          "value": 3
+        }
+      ],
+      "victoryPoints": 3,
+      "level": 1
+    },
+    "cardId": "887bbf0a-275c-49b0-a5bd-0c72bee79341",
+    "cardPaths": {
+      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_1.png",
+      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_BLUE_1.png"
+    }
+  },
+  "e47b61e3-a649-41fb-82c2-b7392479119c": {
+    "developmentCard": {
+      "cardType": "PURPLE",
+      "production": {
+        "input": [
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ],
+        "restoreinput": [
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ],
+        "output": [
+          3,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0
+        ],
+        "restoreoutput": [
+          3,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0
+        ]
+      },
+      "costList": [
+        {
+          "key": "SERVANT",
+          "value": 6
+        }
+      ],
+      "victoryPoints": 9,
+      "level": 3
+    },
+    "cardId": "e47b61e3-a649-41fb-82c2-b7392479119c",
+    "cardPaths": {
+      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_3.png",
+      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_PURPLE_3.png"
+    }
+  },
+  "24865bd1-090d-471d-b72c-dab373497967": {
+    "developmentCard": {
+      "cardType": "GREEN",
+      "production": {
+        "input": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "restoreinput": [
+          1,
+          0,
+          0,
+          0,
           0,
           0,
           0
@@ -2730,19 +2373,251 @@
       "costList": [
         {
           "key": "SHIELD",
-          "value": 4
+          "value": 2
         }
       ],
-      "victoryPoints": 5,
-      "level": 2
+      "victoryPoints": 1,
+      "level": 1
     },
+    "cardId": "24865bd1-090d-471d-b72c-dab373497967",
     "cardPaths": {
-      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_2.png",
-      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_GREEN_2.png"
+      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_1.png",
+      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_GREEN_1.png"
     }
   },
-  "c1487c26-9364-4ffa-8199-30e0f5643e92": {
-    "cardId": "c1487c26-9364-4ffa-8199-30e0f5643e92",
+  "9991b468-456e-4f3f-a83e-1537cf07e190": {
+    "developmentCard": {
+      "cardType": "YELLOW",
+      "production": {
+        "input": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "restoreinput": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "output": [
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "restoreoutput": [
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "costList": [
+        {
+          "key": "STONE",
+          "value": 2
+        }
+      ],
+      "victoryPoints": 1,
+      "level": 1
+    },
+    "cardId": "9991b468-456e-4f3f-a83e-1537cf07e190",
+    "cardPaths": {
+      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_1.png",
+      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_YELLOW_1.png"
+    }
+  },
+  "6aa4fe83-8d71-46c5-8bd3-441df68522af": {
+    "developmentCard": {
+      "cardType": "YELLOW",
+      "production": {
+        "input": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "restoreinput": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "output": [
+          0,
+          0,
+          2,
+          0,
+          1,
+          0,
+          0
+        ],
+        "restoreoutput": [
+          0,
+          0,
+          2,
+          0,
+          1,
+          0,
+          0
+        ]
+      },
+      "costList": [
+        {
+          "key": "STONE",
+          "value": 2
+        },
+        {
+          "key": "SHIELD",
+          "value": 2
+        }
+      ],
+      "victoryPoints": 4,
+      "level": 1
+    },
+    "cardId": "6aa4fe83-8d71-46c5-8bd3-441df68522af",
+    "cardPaths": {
+      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_1.png",
+      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_YELLOW_1.png"
+    }
+  },
+  "a0f62849-fd9d-4dd4-82d9-7385a0ff84af": {
+    "developmentCard": {
+      "cardType": "PURPLE",
+      "production": {
+        "input": [
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ],
+        "restoreinput": [
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ],
+        "output": [
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0
+        ],
+        "restoreoutput": [
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0
+        ]
+      },
+      "costList": [
+        {
+          "key": "SERVANT",
+          "value": 5
+        }
+      ],
+      "victoryPoints": 7,
+      "level": 2
+    },
+    "cardId": "a0f62849-fd9d-4dd4-82d9-7385a0ff84af",
+    "cardPaths": {
+      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_2.png",
+      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_PURPLE_2.png"
+    }
+  },
+  "87e044df-b644-4ecf-8fcb-8c8ee73b9831": {
+    "developmentCard": {
+      "cardType": "BLUE",
+      "production": {
+        "input": [
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "restoreinput": [
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "output": [
+          0,
+          0,
+          0,
+          2,
+          1,
+          0,
+          0
+        ],
+        "restoreoutput": [
+          0,
+          0,
+          0,
+          2,
+          1,
+          0,
+          0
+        ]
+      },
+      "costList": [
+        {
+          "key": "GOLD",
+          "value": 3
+        },
+        {
+          "key": "STONE",
+          "value": 3
+        }
+      ],
+      "victoryPoints": 8,
+      "level": 2
+    },
+    "cardId": "87e044df-b644-4ecf-8fcb-8c8ee73b9831",
+    "cardPaths": {
+      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_2.png",
+      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_BLUE_2.png"
+    }
+  },
+  "79e78d5e-5db2-4958-a544-af0464e19489": {
     "developmentCard": {
       "cardType": "PURPLE",
       "production": {
@@ -2796,9 +2671,134 @@
       "victoryPoints": 12,
       "level": 3
     },
+    "cardId": "79e78d5e-5db2-4958-a544-af0464e19489",
     "cardPaths": {
       "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_3.png",
       "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_PURPLE_3.png"
+    }
+  },
+  "d505f7d4-cdc7-418f-b94c-e9b82f0779d6": {
+    "developmentCard": {
+      "cardType": "PURPLE",
+      "production": {
+        "input": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "restoreinput": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "output": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "restoreoutput": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "costList": [
+        {
+          "key": "SHIELD",
+          "value": 1
+        },
+        {
+          "key": "SERVANT",
+          "value": 1
+        },
+        {
+          "key": "GOLD",
+          "value": 1
+        }
+      ],
+      "victoryPoints": 2,
+      "level": 1
+    },
+    "cardId": "d505f7d4-cdc7-418f-b94c-e9b82f0779d6",
+    "cardPaths": {
+      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_1.png",
+      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_PURPLE_1.png"
+    }
+  },
+  "406bb61e-7e10-4d01-b29d-9264c0c47ce4": {
+    "developmentCard": {
+      "cardType": "PURPLE",
+      "production": {
+        "input": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "restoreinput": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "output": [
+          0,
+          0,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        "restoreoutput": [
+          0,
+          0,
+          3,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "costList": [
+        {
+          "key": "GOLD",
+          "value": 2
+        },
+        {
+          "key": "SERVANT",
+          "value": 3
+        }
+      ],
+      "victoryPoints": 6,
+      "level": 2
+    },
+    "cardId": "406bb61e-7e10-4d01-b29d-9264c0c47ce4",
+    "cardPaths": {
+      "key": "src/main/resources/cards/devCards/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_2.png",
+      "value": "src/main/resources/cards/devCards/BACK/Masters of Renaissance__Cards_BACK_PURPLE_2.png"
     }
   }
 }

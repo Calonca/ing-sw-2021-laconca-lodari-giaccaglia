@@ -9,8 +9,8 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.ingsw.network.jsonUtility.deserializeFromString;
-import static it.polimi.ingsw.network.jsonUtility.serialize;
+import static it.polimi.ingsw.server.model.utils.JsonUtility.deserializeFromString;
+import static it.polimi.ingsw.server.model.utils.JsonUtility.serialize;
 import static org.junit.Assert.*;
 
 public class ChooseLineEventTest {

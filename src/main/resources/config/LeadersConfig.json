@@ -453,7 +453,7 @@
   {
     "type": "DevelopmentDiscountLeader",
     "discount": {
-      "key": "SHIELD",
+      "key": "SERVANT",
       "value": 1
     },
     "state": "INACTIVE",
@@ -461,11 +461,11 @@
     "requirementsResources": [],
     "requirementsCards": [
       {
-        "key": "PURPLE",
+        "key": "YELLOW",
         "value": 1
       },
       {
-        "key": "BLUE",
+        "key": "GREEN",
         "value": 1
       }
     ],

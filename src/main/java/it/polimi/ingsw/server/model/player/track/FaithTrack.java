@@ -6,10 +6,9 @@ import it.polimi.ingsw.server.model.solo.SoloActionToken;
 import org.apache.commons.lang3.tuple.MutablePair;
 
 
-import java.io.IOException;
 import java.util.*;
 
-import static it.polimi.ingsw.network.jsonUtility.deserialize;
+import static it.polimi.ingsw.server.model.utils.JsonUtility.deserialize;
 
 /**
  * Represents the {@link Player} <em>FaithTrack</em>
