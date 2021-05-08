@@ -1,6 +1,12 @@
 package it.polimi.ingsw.client.view.GUI;
 
 import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -8,8 +14,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+
+import java.io.IOException;
 
 public class ConnectToServer extends ViewBuilder implements GUIView {
+
     public StackPane connectionPane;
     public Button connectionButton;
     public TextField addressText;
@@ -17,13 +27,19 @@ public class ConnectToServer extends ViewBuilder implements GUIView {
 
     @Override
     public void run() {
-        Stage stage = getClient().getStage();
-        //Load scene and add things to stage
-        Label label = new Label("Hello");
-        AnchorPane anchorPane = new AnchorPane(label);
-        Scene scene = new Scene(anchorPane);
-        stage.setScene(scene);
-        stage.setTitle("TEst");
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/ConnectToServerScene.fxml"));
+        Parent root = null;
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Scene scene = new Scene(root);
+
+        getClient().getStage().setScene(scene);
+        getClient().getStage().show();
     }
 
     //Add buttons here that call client.changeViewBuilder(new *****, this);
