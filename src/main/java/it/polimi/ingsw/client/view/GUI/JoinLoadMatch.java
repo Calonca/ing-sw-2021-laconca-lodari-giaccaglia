@@ -4,14 +4,16 @@ import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.view.GUI.GUIelem.MatchRow;
 import it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchViewBuilder;
 import it.polimi.ingsw.server.controller.Match;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 import java.net.URL;
@@ -56,19 +58,31 @@ public class JoinLoadMatch extends CreateJoinLoadMatchViewBuilder implements GUI
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
-        Button tempb;
-        TableColumn nicknames= new TableColumn<MatchRow,String>("NICKNAMES");
-        nicknames.setCellValueFactory(new PropertyValueFactory<MatchRow,String>("people"));
         TableColumn players= new TableColumn<MatchRow,String>("MATCH ID");
+        TableColumn nicknames= new TableColumn<MatchRow,String>("NICKNAMES");
+
+        final ObservableList<MatchRow> data= FXCollections.observableArrayList(new MatchRow(3,new String[] {"Ani", "Sam", "Joe"}),new MatchRow(3,new String[] {"Ani", "Sam", "Joe"}));
+
+        nicknames.setCellValueFactory(new PropertyValueFactory<MatchRow,String>("people"));
         players.setCellValueFactory(new PropertyValueFactory<MatchRow,String>("number"));
+
         guiMatchesData.getColumns().add(nicknames);
         guiMatchesData.getColumns().add(players);
 
-        String[] ciccio=new String[] {"Ani", "Sam", "Joe"};
-        guiMatchesData.getItems().add(new MatchRow(4,ciccio));
-        Client.getInstance().getCommonData().getMatchesData();
+        guiMatchesData.setItems(data);
 
-        guiMatchesData.rowFactoryProperty();
-        Client.getInstance().getCommonData();
+        players.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        guiMatchesData.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        guiMatchesData.getSelectionModel().setCellSelectionEnabled(true);
+    }
+
+    public void clickedColumn(MouseEvent event) {
+       // TablePosition tablePosition=guiMatchesData.getSelectionModel().getSelectedCells().get(0);
+      //  int row=tablePosition.getRow();
+       // Product item=tableview.getItems().get(row);
+      //  TableColumn tableColumn=tablePosition.getTableColumn();
+     //   String data= (String) tableColumn.getCellObservableValue(item).getValue();
+      //  System.out.println(data);
     }
 }
