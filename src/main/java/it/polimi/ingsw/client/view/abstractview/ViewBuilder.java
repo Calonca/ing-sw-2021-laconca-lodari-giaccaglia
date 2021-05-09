@@ -39,6 +39,17 @@ public abstract class ViewBuilder implements Runnable, PropertyChangeListener
         return commonData;
     }
 
+    /**
+     * Using regex to verify
+     * @param ip
+     * @return true if is ip address
+     */
+    public static boolean isIPAddr(final String ip) {
+        String PATTERN = "^((0|1\\d?\\d?|2[0-4]?\\d?|25[0-5]?|[3-9]\\d?)\\.){3}(0|1\\d?\\d?|2[0-4]?\\d?|25[0-5]?|[3-9]\\d?)$";
+
+        return ip.matches(PATTERN);
+    }
+
     public void setCommonData(CommonData commonData) {
         this.commonData = commonData;
     }
