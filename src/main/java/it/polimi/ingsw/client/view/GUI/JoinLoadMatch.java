@@ -53,7 +53,8 @@ public class JoinLoadMatch extends CreateJoinLoadMatchViewBuilder implements GUI
         ////TODO ADD OBSERVER FOR CONNECTION
         ObservableList<MatchRow> selected;
         selected=guiMatchesData.getSelectionModel().getSelectedItems();
-        System.out.println(selected.get(0).getNumber());
+        if(selected.size()!=0)
+            System.out.println(selected.get(0).getNumber());
     }
 
 
@@ -78,8 +79,10 @@ public class JoinLoadMatch extends CreateJoinLoadMatchViewBuilder implements GUI
         guiMatchesData.getSelectionModel().setCellSelectionEnabled(true);
     }
 
-    public void clickedColumn(MouseEvent event) {
+    public void clickedColumn(MouseEvent event)
+    {
 
+        //TODO SELECT WHOLE ROW (NOT NECESSARY IT WOULD WORK ANYWAY BUT ITS UGLY)
     }
 
 

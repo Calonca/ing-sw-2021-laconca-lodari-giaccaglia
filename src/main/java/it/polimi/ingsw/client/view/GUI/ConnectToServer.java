@@ -10,16 +10,15 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
+import javafx.scene.text.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -34,6 +33,7 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
     private TextField addressText;
     @FXML
     private TextField portText;
+    private Text errortext;
 
     @Override
     public void run() {
@@ -60,21 +60,36 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
 
     public void handleButton()
     {
-        if(!addressText.getCharacters().toString().isEmpty())
+        if(isIPAddr(addressText.getCharacters().toString()))
             if(!portText.getCharacters().toString().isEmpty())
             {
                 Client.getInstance().changeViewBuilder(new CreateJoinLoadMatch(), null);
                 return;
             }
-        Text text=new Text("INSERISCI I DATI CORRETTI!");
-        text.setTextOrigin(VPos.TOP);
-        text.setFont(Font.font(null, FontWeight.BOLD,10));
+
+
+
+        errortext.setOpacity(200);
+
+
+        Client.getInstance().getStage().show();
 
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        errortext=new Text("INSERISCI I DATI CORRETTI!");
+        errortext.setFont(Font.font(null, FontWeight.BOLD,10));
+        StackPane.setAlignment(errortext, Pos.TOP_CENTER);
+        StackPane.setMargin(errortext,new Insets(40,10,10,10));
+
+        errortext.setOpacity(0);
+
+        connectionPane.getChildren().add(errortext);
+
+        StackPane.setAlignment(errortext, Pos.TOP_CENTER);
+        StackPane.setMargin(errortext,new Insets(40,10,10,10));
         //connectionButton.setOnAction(e -> Client.getInstance().changeViewBuilder(new CreateJoinLoadMatch(), null));
     }
 }
