@@ -1,15 +1,15 @@
 package it.polimi.ingsw.client.view.GUI.GUIelem;
 
 public class MatchRow {
-    private String[] people;
+    private String people;
     private int number;
 
-    public MatchRow(int number, String[] people) {
+    public MatchRow(int number, String people) {
         this.people=people;
         this.number=number;
     }
 
-    public String[] getPeople() {
+    public String getPeople() {
         return people;
     }
 

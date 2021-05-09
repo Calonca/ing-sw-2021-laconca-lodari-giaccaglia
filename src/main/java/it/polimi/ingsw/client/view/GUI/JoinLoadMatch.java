@@ -28,7 +28,7 @@ import java.util.UUID;
 public class JoinLoadMatch extends CreateJoinLoadMatchViewBuilder implements GUIView {
 
     @FXML
-    private TableView guiMatchesData;
+    private TableView<MatchRow> guiMatchesData;
 
     @Override
     public void run() {
@@ -58,31 +58,30 @@ public class JoinLoadMatch extends CreateJoinLoadMatchViewBuilder implements GUI
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
-        TableColumn players= new TableColumn<MatchRow,String>("MATCH ID");
-        TableColumn nicknames= new TableColumn<MatchRow,String>("NICKNAMES");
+        TableColumn<MatchRow,Integer> players= new TableColumn<MatchRow,Integer>("MATCH ID");
+        TableColumn<MatchRow,String> nicknames= new TableColumn<MatchRow,String>("NICKNAMES");
 
-        final ObservableList<MatchRow> data= FXCollections.observableArrayList(new MatchRow(3,new String[] {"Ani", "Sam", "Joe"}),new MatchRow(3,new String[] {"Ani", "Sam", "Joe"}));
+        final ObservableList<MatchRow> data= FXCollections.observableArrayList(new MatchRow(3,"mimmo"),new MatchRow(3,"toni"));
 
         nicknames.setCellValueFactory(new PropertyValueFactory<MatchRow,String>("people"));
-        players.setCellValueFactory(new PropertyValueFactory<MatchRow,String>("number"));
+        players.setCellValueFactory(new PropertyValueFactory<MatchRow,Integer>("number"));
 
         guiMatchesData.getColumns().add(nicknames);
         guiMatchesData.getColumns().add(players);
 
         guiMatchesData.setItems(data);
 
-        players.setCellFactory(TextFieldTableCell.forTableColumn());
 
         guiMatchesData.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         guiMatchesData.getSelectionModel().setCellSelectionEnabled(true);
     }
 
     public void clickedColumn(MouseEvent event) {
-       // TablePosition tablePosition=guiMatchesData.getSelectionModel().getSelectedCells().get(0);
-      //  int row=tablePosition.getRow();
-       // Product item=tableview.getItems().get(row);
-      //  TableColumn tableColumn=tablePosition.getTableColumn();
-     //   String data= (String) tableColumn.getCellObservableValue(item).getValue();
-      //  System.out.println(data);
+        // TablePosition tablePosition=guiMatchesData.getSelectionModel().getSelectedCells().get(0);
+        //  int row=tablePosition.getRow();
+        // Product item=tableview.getItems().get(row);
+        //  TableColumn tableColumn=tablePosition.getTableColumn();
+        //   String data= (String) tableColumn.getCellObservableValue(item).getValue();
+        //  System.out.println(data);
     }
 }
