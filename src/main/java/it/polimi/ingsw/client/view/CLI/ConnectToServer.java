@@ -1,8 +1,8 @@
 package it.polimi.ingsw.client.view.CLI;
 
-import it.polimi.ingsw.client.CommonData;
-import it.polimi.ingsw.client.view.CLI.CLIelem.Spinner;
 import it.polimi.ingsw.client.view.abstractview.ConnectToServerViewBuilder;
+
+import java.beans.PropertyChangeEvent;
 
 public class ConnectToServer extends ConnectToServerViewBuilder implements CLIBuilder {
 
@@ -13,7 +13,7 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements CLIBu
             getCLIView().runOnIntInput("Port number: ","Insert a port",0,65535,()->{
 
                 getClient().setServerConnection(portString, getCLIView().getLastInt());
-                getClient().changeViewBuilder(new CreateJoinLoadMatch(), this);
+                getClient().changeViewBuilder(new CreateJoinLoadMatch());
                 getClient().run();
             });
             getCLIView().displayWithDivider();
@@ -21,4 +21,8 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements CLIBu
         getCLIView().displayWithDivider();
     }
 
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+
+    }
 }

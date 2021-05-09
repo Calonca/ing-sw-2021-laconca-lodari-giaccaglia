@@ -1,15 +1,11 @@
 package it.polimi.ingsw.client.view.GUI;
 
 import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.view.abstractview.ConnectToServerViewBuilder;
-import it.polimi.ingsw.server.controller.SessionController;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.geometry.VPos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -17,10 +13,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
+import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -63,18 +59,25 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
         if(!addressText.getCharacters().toString().isEmpty())
             if(!portText.getCharacters().toString().isEmpty())
             {
-                Client.getInstance().changeViewBuilder(new CreateJoinLoadMatch(), null);
+                Client.getInstance().setServerConnection("127.0.0.1",7890);//Todo take real data
+                Client.getInstance().run();
                 return;
             }
         Text text=new Text("INSERISCI I DATI CORRETTI!");
         text.setTextOrigin(VPos.TOP);
         text.setFont(Font.font(null, FontWeight.BOLD,10));
-
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+    }
 
-        //connectionButton.setOnAction(e -> Client.getInstance().changeViewBuilder(new CreateJoinLoadMatch(), null));
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals(CommonData.matchesDataString))
+            Platform.runLater(()->
+                Client.getInstance().changeViewBuilder(new CreateJoinLoadMatch())
+            );
+
     }
 }

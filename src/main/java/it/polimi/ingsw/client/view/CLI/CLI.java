@@ -8,8 +8,6 @@ import java.util.Optional;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static it.polimi.ingsw.client.view.CLI.Color.BACKSPACE;
-
 /**
  * Builds the CLI.<br>
  * Usage: Add {@link it.polimi.ingsw.client.view.CLI.CLIelem.CLIelem elements}
@@ -47,10 +45,10 @@ public class CLI {
             client.setCLI();
             client.setServerConnection(args[0],Integer.parseInt(args[1]));
             client.run();
-            client.changeViewBuilder(new CreateJoinLoadMatch(),null);
+            client.changeViewBuilder(new CreateJoinLoadMatch());
         } else {
             client.setCLI();
-            client.changeViewBuilder(new ConnectToServer(), null);
+            client.changeViewBuilder(new ConnectToServer());
         }
     }
 

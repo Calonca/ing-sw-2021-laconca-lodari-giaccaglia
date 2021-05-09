@@ -4,11 +4,13 @@ import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.view.CLI.CLI;
 
+import java.beans.PropertyChangeListener;
+
 
 /**
  * Adds view elements to the view and contains references to useful classes
  */
-public abstract class ViewBuilder implements Runnable
+public abstract class ViewBuilder implements Runnable, PropertyChangeListener
 {
     private Client client;
     private CommonData commonData;
@@ -17,6 +19,8 @@ public abstract class ViewBuilder implements Runnable
     public CLI getCLIView() {
         return cli;
     }
+
+    public static ViewBuilder getBuilder(boolean isCLI){return null;};
 
     public void setCLIView(CLI cli) {
         this.cli = cli;

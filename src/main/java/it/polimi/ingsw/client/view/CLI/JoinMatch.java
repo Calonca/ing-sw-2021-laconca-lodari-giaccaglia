@@ -4,14 +4,10 @@ import it.polimi.ingsw.client.view.CLI.CLIelem.Spinner;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Title;
 import it.polimi.ingsw.network.messages.clienttoserver.JoinMatchRequest;
 
+import java.beans.PropertyChangeEvent;
 import java.util.UUID;
 
 public class JoinMatch extends it.polimi.ingsw.client.view.abstractview.JoinMatch implements CLIBuilder {
-
-
-    public JoinMatch(UUID matchId) {
-        super(matchId);
-    }
 
     @Override
     public void run() {
@@ -29,4 +25,8 @@ public class JoinMatch extends it.polimi.ingsw.client.view.abstractview.JoinMatc
 
     }
 
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+
+    }
 }

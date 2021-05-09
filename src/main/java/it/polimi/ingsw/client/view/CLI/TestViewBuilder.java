@@ -3,8 +3,13 @@ package it.polimi.ingsw.client.view.CLI;
 import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Spinner;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Title;
+import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
+
+import java.beans.PropertyChangeEvent;
 
 public class TestViewBuilder extends it.polimi.ingsw.client.view.abstractview.TestViewBuilder implements CLIBuilder {
+
+
 
     @Override
     public void run() {
@@ -32,5 +37,10 @@ public class TestViewBuilder extends it.polimi.ingsw.client.view.abstractview.Te
         getCLIView().setSpinner(spinner);
 
         getCLIView().displayWithDivider();
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+
     }
 }

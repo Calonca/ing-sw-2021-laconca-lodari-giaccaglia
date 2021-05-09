@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 
+import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -46,11 +47,18 @@ public class CreateMatch extends CreateJoinLoadMatchViewBuilder implements GUIVi
 
     //Add buttons here that call client.changeViewBuilder(new *****, this);
 
+    //Todo Add button here that call Client.getInstance().getServerHandler().sendCommandMessage(new CreateMatchRequest(numberOfPlayers,nickName));
+
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        connectionButton.setOnAction(e -> Client.getInstance().changeViewBuilder(new CreateMatch(), null));
+        connectionButton.setOnAction(e -> Client.getInstance().changeViewBuilder(new CreateMatch()));
+
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
 
     }
 }

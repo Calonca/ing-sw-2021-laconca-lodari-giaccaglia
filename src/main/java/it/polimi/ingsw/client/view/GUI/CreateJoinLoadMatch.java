@@ -1,18 +1,26 @@
 package it.polimi.ingsw.client.view.GUI;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchViewBuilder;
-import it.polimi.ingsw.server.controller.SessionController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.VPos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 
+import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.ResourceBundle;
+import java.util.UUID;
 
 /**
  * The user will be asked if they want to join a match of their choosing or create one.
@@ -48,7 +56,15 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        joinLoadButton.setOnAction(e -> Client.getInstance().changeViewBuilder(new JoinLoadMatch(), null));
-        createButton.setOnAction(e -> Client.getInstance().changeViewBuilder(new CreateMatch(), null));
+        joinLoadButton.setOnAction(e -> Client.getInstance().changeViewBuilder(new JoinLoadMatch()));
+        createButton.setOnAction(e -> Client.getInstance().changeViewBuilder(new CreateMatch()));
+        System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(
+                Client.getInstance().getCommonData().getMatchesData().orElse(null)));
+
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+
     }
 }

@@ -14,4 +14,8 @@ public class InitialPhase extends InitialPhaseViewBuilder implements CLIBuilder 
     }
 
 
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+
+    }
 }

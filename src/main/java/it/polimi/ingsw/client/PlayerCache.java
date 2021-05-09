@@ -1,8 +1,6 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.client.view.CLI.InitialPhase;
-import it.polimi.ingsw.network.messages.servertoclient.state.StateMessage;
-import it.polimi.ingsw.server.model.State;
+import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -15,7 +13,7 @@ import java.util.Optional;
  */
 public class PlayerCache {
 
-    private Map<String, StateMessage> stateData;
+    private Map<String, StateInNetwork> stateData;
 
     private final PropertyChangeSupport support;
     private final Client client;
@@ -36,8 +34,8 @@ public class PlayerCache {
     }
 
 
-    public <T extends StateMessage> Optional<T> getDataFromState(String state){
-        Optional<StateMessage> notCasted= Optional.ofNullable(stateData.getOrDefault(state,null));
+    public <T extends StateInNetwork> Optional<T> getDataFromState(String state){
+        Optional<StateInNetwork> notCasted= Optional.ofNullable(stateData.getOrDefault(state,null));
         try {
             return (Optional<T>) notCasted;
         } catch (Exception e){
@@ -45,9 +43,9 @@ public class PlayerCache {
         }
     }
 
-    public void update(String state, StateMessage stateMessage) {
-        StateMessage oldState = stateData.get(state);
-        stateData.put(state,stateMessage);
-        support.firePropertyChange(state, oldState, stateMessage);
+    public void update(String state, StateInNetwork stateInNetwork) {
+        StateInNetwork oldState = stateData.get(state);
+        stateData.put(state, stateInNetwork);
+        support.firePropertyChange(state, oldState, stateInNetwork);
     }
 }

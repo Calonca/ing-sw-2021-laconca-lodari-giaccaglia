@@ -4,10 +4,10 @@ import it.polimi.ingsw.client.view.CLI.CLI;
 import it.polimi.ingsw.client.view.CLI.ConnectToServer;
 import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 import it.polimi.ingsw.network.messages.servertoclient.state.SETUP_PHASE;
-import it.polimi.ingsw.network.messages.servertoclient.state.StateMessage;
-import it.polimi.ingsw.server.controller.SessionController;
+import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
 import javafx.stage.Stage;
 
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.*;
@@ -55,6 +55,14 @@ public class Client implements Runnable
         cli = new CLI(this);
     }
 
+    public ViewBuilder getCurrentViewBuilder() {
+        return currentViewBuilder;
+    }
+
+    public boolean isCLI() {
+        return isCLI;
+    }
+
     public void setGUI(){
         isCLI = false;
     }
@@ -75,7 +83,7 @@ public class Client implements Runnable
             server = new Socket(ip, port);
         } catch (IOException e) {
             System.out.println("server unreachable");
-            changeViewBuilder(new ConnectToServer(), null);
+            changeViewBuilder(new ConnectToServer());
             return;
         }
         serverHandler = new ServerHandler(server, this);
@@ -99,21 +107,37 @@ public class Client implements Runnable
      * Changes the ViewBuilder.
      * Should only be called from another ViewBuilder.
      * @param newViewBuilder The ViewBuilder to transition to.
-     * @param fromView the ViewBuilder from where you are making the transition.
+     *
      */
-    public synchronized void changeViewBuilder(ViewBuilder newViewBuilder, ViewBuilder fromView)
+    public synchronized void changeViewBuilder(ViewBuilder newViewBuilder)
     {
-        if (isCLI)
-            cli.resetCLI();
 
-        currentViewBuilder = newViewBuilder;
-        currentViewBuilder.setClient(this);
-        currentViewBuilder.setCommonData(commonData);
-        if (isCLI)
-            currentViewBuilder.setCLIView(cli);
-        newViewBuilder.run();
+        if (newViewBuilder!=null) {
+            removeFromPublishers(currentViewBuilder);
+            addToPublishers(newViewBuilder);
+
+            if (isCLI)
+                cli.resetCLI();
+
+            currentViewBuilder = newViewBuilder;
+            currentViewBuilder.setClient(this);
+            currentViewBuilder.setCommonData(commonData);
+            if (isCLI)
+                currentViewBuilder.setCLIView(cli);
+            newViewBuilder.run();
+        }else System.out.println("ViewBuilder was null");
     }
 
+    public void addToPublishers(PropertyChangeListener obj){
+        removeFromPublishers(obj);//Added so that if the method is is called more than once it won't register two listeners.
+        getCommonData().addPropertyChangeListener(obj);
+        currentPlayerCache().ifPresent(playerCache -> playerCache.addPropertyChangeListener(obj));
+    }
+
+    public void removeFromPublishers(PropertyChangeListener obj){
+        getCommonData().removePropertyChangeListener(obj);
+        currentPlayerCache().ifPresent(playerCache -> playerCache.removePropertyChangeListener(obj));
+    }
 
     public CommonData getCommonData() {
         return commonData;
@@ -138,8 +162,8 @@ public class Client implements Runnable
         else return Optional.of(playersCache.get(commonData.getCurrentPlayerIndex()));
     }
 
-    public <T extends StateMessage> Optional<T> getState(String state){
-        Optional<StateMessage> o = currentPlayerCache().flatMap(cache->cache.getDataFromState(state));
+    public <T extends StateInNetwork> Optional<T> getState(String state){
+        Optional<StateInNetwork> o = currentPlayerCache().flatMap(cache->cache.getDataFromState(state));
         try {
             return (Optional<T>) o;
         } catch (Exception ignored){
@@ -148,7 +172,7 @@ public class Client implements Runnable
 
     }
 
-    public void setState(int thisPlayerIndex, String state, StateMessage serializedObject){
+    public void setState(int thisPlayerIndex, String state, StateInNetwork serializedObject){
         if (playersCache.size()==0){
             SETUP_PHASE setup_phase = (SETUP_PHASE) serializedObject;
             commonData.setStartData(setup_phase.getMatchID(),thisPlayerIndex);

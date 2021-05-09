@@ -44,7 +44,7 @@ public abstract class CLIelem implements PropertyChangeListener {
     public void switchToStateWhenReceiving(String key, ViewBuilder view, Client client) {
         this.updater = ()->{
             if (evt.getPropertyName().equals(key))
-                client.changeViewBuilder(view,null);
+                client.changeViewBuilder(view);
         };
     }
 
@@ -86,14 +86,11 @@ public abstract class CLIelem implements PropertyChangeListener {
     }
 
     private void addToPublishers(Client client){
-        removeFromPublishers(client);//Added so that if the method is is called more than once it won't register two listeners.
-        client.getCommonData().addPropertyChangeListener(this);
-        client.currentPlayerCache().ifPresent(playerCache -> playerCache.addPropertyChangeListener(this));
+        client.addToPublishers(this);
     }
 
     public void removeFromPublishers(Client client){
-        client.getCommonData().removePropertyChangeListener(this);
-        client.currentPlayerCache().ifPresent(playerCache -> playerCache.removePropertyChangeListener(this));
+        client.removeFromPublishers(this);
     }
 
 }
