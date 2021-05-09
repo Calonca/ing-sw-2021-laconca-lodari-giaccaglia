@@ -10,11 +10,16 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.VPos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
@@ -55,13 +60,21 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
 
     public void handleButton()
     {
-        ////TODO ADD OBSERVER FOR CONNECTION
+        if(!addressText.getCharacters().toString().isEmpty())
+            if(!portText.getCharacters().toString().isEmpty())
+            {
+                Client.getInstance().changeViewBuilder(new CreateJoinLoadMatch(), null);
+                return;
+            }
+        Text text=new Text("INSERISCI I DATI CORRETTI!");
+        text.setTextOrigin(VPos.TOP);
+        text.setFont(Font.font(null, FontWeight.BOLD,10));
 
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        connectionButton.setOnAction(e -> Client.getInstance().changeViewBuilder(new CreateJoinLoadMatch(), null));
+        //connectionButton.setOnAction(e -> Client.getInstance().changeViewBuilder(new CreateJoinLoadMatch(), null));
     }
 }
