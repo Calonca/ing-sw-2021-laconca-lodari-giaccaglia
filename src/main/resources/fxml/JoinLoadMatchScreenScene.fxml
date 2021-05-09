@@ -5,7 +5,8 @@
 <?import javafx.scene.layout.*?>
 
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.GUI.JoinLoadMatch">
-    <TableView fx:id="guiMatchesData" onMouseClicked="#clickedColumn" prefHeight="200.0" prefWidth="200.0" />
+    <TableView fx:id="guiMatchesData" layoutX="250.0" maxHeight="370.0" onMouseClicked="#clickedColumn" prefHeight="200.0" prefWidth="200.0" translateY="-15.0" />
+   <Button maxHeight="40.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleButton" text="Button" StackPane.alignment="BOTTOM_CENTER" />
    <cursor>
       <Cursor fx:constant="OPEN_HAND" />
    </cursor>

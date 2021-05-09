@@ -51,7 +51,9 @@ public class JoinLoadMatch extends CreateJoinLoadMatchViewBuilder implements GUI
     public void handleButton()
     {
         ////TODO ADD OBSERVER FOR CONNECTION
-        getClient().changeViewBuilder(new it.polimi.ingsw.client.view.GUI.CreateJoinLoadMatch(), null);
+        ObservableList<MatchRow> selected;
+        selected=guiMatchesData.getSelectionModel().getSelectedItems();
+        System.out.println(selected.get(0).getNumber());
     }
 
 
@@ -77,11 +79,8 @@ public class JoinLoadMatch extends CreateJoinLoadMatchViewBuilder implements GUI
     }
 
     public void clickedColumn(MouseEvent event) {
-        // TablePosition tablePosition=guiMatchesData.getSelectionModel().getSelectedCells().get(0);
-        //  int row=tablePosition.getRow();
-        // Product item=tableview.getItems().get(row);
-        //  TableColumn tableColumn=tablePosition.getTableColumn();
-        //   String data= (String) tableColumn.getCellObservableValue(item).getValue();
-        //  System.out.println(data);
+
     }
+
+
 }
