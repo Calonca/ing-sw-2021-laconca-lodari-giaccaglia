@@ -79,6 +79,12 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
 
     }
 
+    public void handleButton2()
+    {
+        Client.getInstance().setServerConnection("127.0.0.1",7890);
+        Client.getInstance().run();
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

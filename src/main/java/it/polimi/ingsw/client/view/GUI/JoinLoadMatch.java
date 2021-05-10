@@ -87,6 +87,10 @@ public class JoinLoadMatch extends CreateJoinLoadMatchViewBuilder implements GUI
     }
 
 
+    public void backButton(){
+        Client.getInstance().changeViewBuilder(new CreateJoinLoadMatch());
+    }
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
 

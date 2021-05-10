@@ -9,6 +9,7 @@
       <Button fx:id="connectionButton" layoutX="274.0" layoutY="313.0" mnemonicParsing="false" text="CREATE" />
       <TextField fx:id="addressText" layoutX="229.0" layoutY="175.0" promptText="NUMBER OF PLAYERS" />
       <TextField fx:id="portText" layoutX="229.0" layoutY="201.0" promptText="YOUR NICKNAME" />
+      <Button layoutX="11.0" layoutY="358.0" mnemonicParsing="false" onAction="#backButton" text="BACK" />
    </AnchorPane>
    <cursor>
       <Cursor fx:constant="TEXT" />

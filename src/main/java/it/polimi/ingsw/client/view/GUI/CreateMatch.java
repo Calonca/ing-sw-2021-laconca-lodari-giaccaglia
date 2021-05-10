@@ -57,6 +57,10 @@ public class CreateMatch extends CreateJoinLoadMatchViewBuilder implements GUIVi
 
     }
 
+    public void backButton(){
+        Client.getInstance().changeViewBuilder(new CreateJoinLoadMatch());
+    }
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
 
