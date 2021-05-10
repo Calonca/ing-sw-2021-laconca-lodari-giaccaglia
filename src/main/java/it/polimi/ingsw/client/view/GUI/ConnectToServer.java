@@ -64,7 +64,7 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
         if(isIPAddr(addressText.getCharacters().toString()))
             if(!portText.getCharacters().toString().isEmpty())
             {
-                Client.getInstance().setServerConnection("127.0.0.1",7890);//Todo take real data
+                Client.getInstance().setServerConnection(addressText.getCharacters().toString(),Integer.parseInt(portText.getCharacters().toString()));
                 Client.getInstance().run();
                 return;
             }
