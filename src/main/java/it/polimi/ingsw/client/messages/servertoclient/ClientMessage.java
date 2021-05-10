@@ -24,6 +24,7 @@ public interface ClientMessage {
         jsonToClientAdapter.registerSubtype(JoinStatus.class);
         jsonToClientAdapter.registerSubtype(MatchesData.class);
         jsonToClientAdapter.registerSubtype(StateMessage.class);
+        jsonToClientAdapter.registerSubtype(EventNotValid.class);
 
         Gson gson1 = new GsonBuilder()
                 .registerTypeAdapterFactory(jsonToClientAdapter)

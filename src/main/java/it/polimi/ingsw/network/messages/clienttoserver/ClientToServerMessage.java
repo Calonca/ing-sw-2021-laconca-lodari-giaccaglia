@@ -4,6 +4,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.network.messages.NetworkMessage;
 import it.polimi.ingsw.RuntimeTypeAdapterFactory;
+import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
+import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
+import it.polimi.ingsw.network.messages.clienttoserver.events.setupphaseevent.SetupPhaseEvent;
+import it.polimi.ingsw.network.messages.servertoclient.state.SETUP_PHASE;
+import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
 import it.polimi.ingsw.server.model.utils.JsonUtility;
 
 /**
@@ -22,14 +27,24 @@ public abstract class ClientToServerMessage extends NetworkMessage
 
         clientToJsonAdapter.registerSubtype(CreateMatchRequest.class);
         clientToJsonAdapter.registerSubtype(JoinMatchRequest.class);
+        clientToJsonAdapter.registerSubtype(EventMessage.class);
 
 
         Gson gson1 = new GsonBuilder()
                 .registerTypeAdapterFactory(clientToJsonAdapter)
+                .registerTypeAdapterFactory(eventMessageAdapter())
                 .create();
 
         return JsonUtility.serialize(this,ClientToServerMessage.class, gson1);
 
+    }
+
+    public static RuntimeTypeAdapterFactory<Event> eventMessageAdapter(){
+        RuntimeTypeAdapterFactory<Event> eventMessageAdapter = RuntimeTypeAdapterFactory.of(Event.class);
+
+        //Todo Register here all the event message types in the server
+        eventMessageAdapter.registerSubtype(SetupPhaseEvent.class);
+        return eventMessageAdapter;
     }
 
 }

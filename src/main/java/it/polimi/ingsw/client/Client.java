@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.view.CLI.CLI;
 import it.polimi.ingsw.client.view.CLI.ConnectToServer;
+import it.polimi.ingsw.client.view.abstractview.ConnectToServerViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 import it.polimi.ingsw.network.messages.servertoclient.state.SETUP_PHASE;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
@@ -83,7 +84,7 @@ public class Client implements Runnable
             server = new Socket(ip, port);
         } catch (IOException e) {
             System.out.println("server unreachable");
-            changeViewBuilder(new ConnectToServer());
+            changeViewBuilder(ConnectToServerViewBuilder.getBuilder(isCLI));
             return;
         }
         serverHandler = new ServerHandler(server, this);

@@ -85,7 +85,7 @@ public class Match {
                         );
     }
     public void validateEvent(Validable event) throws EventValidationFailedException {
-        if (event.validate(game))
+        if (!event.validate(game))
             throw new EventValidationFailedException();
     }
 

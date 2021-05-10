@@ -140,7 +140,6 @@ public class StatesTransitionTable {
         statesTransitionTable.table.put(State.CHOOSING_RESOURCES_FOR_DEVCARD,eventsAndStrategy);
 
         //PRODUCTION
-
         eventsAndStrategy = new HashMap<>();
         eventsAndStrategy.put(name(ChooseProductionAtPositionEvent.class),new TogglingForProduction());
         eventsAndStrategy.put(name(FinalProductionPhase.class),new TogglingForProduction());
