@@ -61,10 +61,11 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
 
     public void handleButton()
     {
+        int t=Integer.parseInt(portText.getCharacters().toString());
         if(isIPAddr(addressText.getCharacters().toString()))
-            if(!portText.getCharacters().toString().isEmpty())
+            if(t<65536)
             {
-                Client.getInstance().setServerConnection(addressText.getCharacters().toString(),Integer.parseInt(portText.getCharacters().toString()));
+                Client.getInstance().setServerConnection(addressText.getCharacters().toString(),t);
                 Client.getInstance().run();
                 return;
             }
