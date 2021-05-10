@@ -17,7 +17,7 @@ public class CreatedMatchStatus extends it.polimi.ingsw.network.messages.servert
     @Override
     public void processMessage(ServerHandler serverHandler) throws IOException {
         if (matchId==null)
-            serverHandler.getClient().changeViewBuilder(new CreateJoinLoadMatch(), null);
+            serverHandler.getClient().changeViewBuilder(CreateJoinLoadMatch.getBuilder(serverHandler.getClient().isCLI()));
         //Todo make a view do the transition
         else serverHandler.getClient().getCommonData().setStartData(matchId,0);
     }

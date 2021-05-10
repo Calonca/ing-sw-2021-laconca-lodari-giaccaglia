@@ -6,8 +6,8 @@ import it.polimi.ingsw.network.messages.NetworkMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
 import it.polimi.ingsw.RuntimeTypeAdapterFactory;
 import it.polimi.ingsw.network.messages.servertoclient.state.SETUP_PHASE;
+import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateMessage;
-import it.polimi.ingsw.network.messages.servertoclient.state.StateMessageContainer;
 
 import java.util.UUID;
 
@@ -67,7 +67,7 @@ public abstract class ServerToClientMessage extends NetworkMessage
         s2cAdapter.registerSubtype(CreatedMatchStatus.class);
         s2cAdapter.registerSubtype(JoinStatus.class);
         s2cAdapter.registerSubtype(MatchesData.class);
-        s2cAdapter.registerSubtype(StateMessageContainer.class);
+        s2cAdapter.registerSubtype(StateMessage.class);
 
 
         Gson gson1 = new GsonBuilder()
@@ -79,8 +79,8 @@ public abstract class ServerToClientMessage extends NetworkMessage
 
     }
 
-    public static RuntimeTypeAdapterFactory<StateMessage> stateMessageAdapter(){
-        RuntimeTypeAdapterFactory<StateMessage> stateMessageAdapter = RuntimeTypeAdapterFactory.of(StateMessage.class);
+    public static RuntimeTypeAdapterFactory<StateInNetwork> stateMessageAdapter(){
+        RuntimeTypeAdapterFactory<StateInNetwork> stateMessageAdapter = RuntimeTypeAdapterFactory.of(StateInNetwork.class);
 
         //Register here all the states message types
         stateMessageAdapter.registerSubtype(SETUP_PHASE.class);

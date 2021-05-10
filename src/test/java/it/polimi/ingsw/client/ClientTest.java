@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 
 public class ClientTest {
 
-    @Test
+
     public void setStage() {
         Client client = Client.getInstance();
         client.setGUI();

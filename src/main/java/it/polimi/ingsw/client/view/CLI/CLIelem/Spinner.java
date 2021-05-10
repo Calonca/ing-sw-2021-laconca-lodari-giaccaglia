@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client.view.CLI.CLIelem;
 
 
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.CommonData;
@@ -41,7 +40,7 @@ public class Spinner extends CLIelem {
                 spinner.perform();
         });
         spinner.setPerformer(()-> {
-            client.changeViewBuilder(new SetupPhase(),viewBuilder);
+            client.changeViewBuilder(new SetupPhase());
         });
         return spinner;
     }

@@ -5,6 +5,8 @@ import it.polimi.ingsw.client.view.CLI.CLIelem.Title;
 import it.polimi.ingsw.client.view.abstractview.CreateMatchViewBuilder;
 import it.polimi.ingsw.network.messages.clienttoserver.CreateMatchRequest;
 
+import java.beans.PropertyChangeEvent;
+
 public class CreateMatch extends CreateMatchViewBuilder implements CLIBuilder {
 
 
@@ -28,4 +30,8 @@ public class CreateMatch extends CreateMatchViewBuilder implements CLIBuilder {
 
     }
 
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+
+    }
 }

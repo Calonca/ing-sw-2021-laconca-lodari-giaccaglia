@@ -20,6 +20,6 @@ public class GUI extends Application {
         client.setGUI();
         client.setStage(stage);
         stage.show();
-        client.changeViewBuilder(new ConnectToServer(), null);
+        client.changeViewBuilder(new ConnectToServer());
     }
 }

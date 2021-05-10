@@ -1,9 +1,8 @@
 package it.polimi.ingsw.network.messages.servertoclient.state;
 
-import java.util.List;
 import java.util.UUID;
 
-public class SETUP_PHASE extends StateMessage {
+public class SETUP_PHASE extends StateInNetwork {
     protected Object[] leadersToChooseFrom;
     protected int numOfToChoose;
     private final UUID matchID;

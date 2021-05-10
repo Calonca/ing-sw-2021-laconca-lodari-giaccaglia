@@ -5,6 +5,8 @@ import it.polimi.ingsw.client.view.CLI.CLIelem.body.LeadersBody;
 import it.polimi.ingsw.client.view.abstractview.SetupPhaseViewBuilder;
 import it.polimi.ingsw.network.messages.servertoclient.state.SETUP_PHASE;
 
+import java.beans.PropertyChangeEvent;
+
 public class SetupPhase extends SetupPhaseViewBuilder implements CLIBuilder {
 
     @Override
@@ -19,4 +21,8 @@ public class SetupPhase extends SetupPhaseViewBuilder implements CLIBuilder {
         getCLIView().displayWithScroll();
     }
 
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+
+    }
 }

@@ -3,7 +3,7 @@ package it.polimi.ingsw.server.controller;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.network.messages.servertoclient.MatchesData;
-import it.polimi.ingsw.network.messages.servertoclient.state.StateMessageContainer;
+import it.polimi.ingsw.network.messages.servertoclient.state.StateMessage;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.model.State;
 import org.apache.commons.lang3.StringUtils;
@@ -58,7 +58,7 @@ public class SessionController {
                 playersInLobby.remove(clientHandler);
                 try {
                     match.currentPlayerClientHandler().sendAnswerMessage(
-                            new StateMessageContainer(State.SETUP_PHASE.toStateMessage(match.getGame()))
+                            new StateMessage(State.SETUP_PHASE.toStateMessage(match.getGame()))
                             );
                 } catch (IOException e) {
                     e.printStackTrace();
