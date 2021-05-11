@@ -34,6 +34,8 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
     private TextField addressText;
     @FXML
     private TextField portText;
+    @FXML
+    private TextField nickText;
     private Text errortext;
 
     @Override
@@ -61,15 +63,16 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
 
     public void handleButton()
     {
-        int t=Integer.parseInt(portText.getCharacters().toString());
-        if(isIPAddr(addressText.getCharacters().toString()))
-            if(t<65536)
-            {
-                Client.getInstance().setServerConnection(addressText.getCharacters().toString(),t);
-                Client.getInstance().run();
-                return;
-            }
 
+        if(!nickText.getCharacters().toString().isEmpty())
+            if(isIPAddr(addressText.getCharacters().toString()))
+                if(Integer.parseInt(portText.getCharacters().toString())<65536)
+                {
+                    Client.getInstance().getCommonData().setCurrentnick(nickText.getCharacters().toString());
+                    Client.getInstance().setServerConnection(addressText.getCharacters().toString(),Integer.parseInt(portText.getCharacters().toString()));
+                    Client.getInstance().run();
+                    return;
+                }
 
 
         errortext.setOpacity(200);
@@ -81,6 +84,7 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
 
     public void handleButton2()
     {
+        Client.getInstance().getCommonData().setCurrentnick("DUMMY");
         Client.getInstance().setServerConnection("127.0.0.1",7890);
         Client.getInstance().run();
     }

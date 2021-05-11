@@ -80,11 +80,7 @@ public class JoinLoadMatch extends CreateJoinLoadMatchViewBuilder implements GUI
         guiMatchesData.getSelectionModel().setCellSelectionEnabled(true);
     }
 
-    public void clickedColumn(MouseEvent event)
-    {
 
-        //TODO SELECT WHOLE ROW (NOT NECESSARY IT WOULD WORK ANYWAY BUT ITS UGLY)
-    }
 
 
     public void backButton(){

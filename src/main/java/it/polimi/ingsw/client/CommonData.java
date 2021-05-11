@@ -24,6 +24,7 @@ public class CommonData {
     private Integer thisPlayerIndex;
     private int currentPlayerIndex;
     private UUID matchId;
+    private String currentnick;
 
 
     public Optional<Integer> getThisPlayerIndex() {
@@ -80,6 +81,15 @@ public class CommonData {
         this.thisPlayerIndex = thisPlayerIndex;
 
         support.firePropertyChange(thisMatchData,oldMatchId,matchId);
+    }
+
+
+    public void setCurrentnick(String currentnick) {
+        this.currentnick = currentnick;
+    }
+
+    public String getCurrentnick() {
+        return this.currentnick;
     }
 
 }
