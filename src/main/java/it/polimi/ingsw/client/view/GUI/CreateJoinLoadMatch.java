@@ -4,7 +4,8 @@ import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.view.GUI.GUIelem.MatchRow;
 import it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchViewBuilder;
-import it.polimi.ingsw.server.messages.clienttoserver.CreateMatchRequest;
+import it.polimi.ingsw.network.assets.devcards.DevelopmentCardColor;
+import it.polimi.ingsw.network.messages.clienttoserver.CreateMatchRequest;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -19,6 +20,8 @@ import javafx.scene.layout.StackPane;
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Map;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.UUID;
 
@@ -83,6 +86,16 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
     public void propertyChange(PropertyChangeEvent evt) {
 
     }
+
+    public void dataToRow(PropertyChangeEvent evt) {
+        Map<UUID, String[]> ciccio;
+        if(Client.getInstance().getCommonData().getMatchesData().isPresent())
+            for(int i=0; i<Client.getInstance().getCommonData().getMatchesData().get().size();i++)
+            {
+                ///ciccio=Client.getInstance().getCommonData().getMatchesData().get().
+            }
+    }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
