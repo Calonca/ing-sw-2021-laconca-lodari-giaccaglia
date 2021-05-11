@@ -6,6 +6,7 @@ import it.polimi.ingsw.client.view.GUI.GUIelem.MatchRow;
 import it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchViewBuilder;
 import it.polimi.ingsw.network.assets.devcards.DevelopmentCardColor;
 import it.polimi.ingsw.network.messages.clienttoserver.CreateMatchRequest;
+import it.polimi.ingsw.network.messages.clienttoserver.JoinMatchRequest;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -20,10 +21,7 @@ import javafx.scene.layout.StackPane;
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Map;
-import java.util.Optional;
-import java.util.ResourceBundle;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * The user will be asked if they want to join a match of their choosing or create one.
@@ -67,12 +65,21 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         ObservableList<MatchRow> selected;
         selected=guiMatchesData.getSelectionModel().getSelectedItems();
         if(selected.size()!=0)
-            System.out.println(selected.get(0).getKey());
+        {
+            System.out.println(selected.get(0).getKey()+Client.getInstance().getCommonData().getCurrentnick());
+            //TODO CANNOT SERIALIZE fix
+            Client.getInstance().getServerHandler().sendCommandMessage(new JoinMatchRequest(selected.get(0).getKey(),Client.getInstance().getCommonData().getCurrentnick()));
+            Client.getInstance().changeViewBuilder(new CreateMatch());
+
+        }
 
     }
 
     public void handleCreate(){
-        Client.getInstance().getServerHandler().sendCommandMessage(new CreateMatchRequest((int) playerCount.getValue(),Client.getInstance().getCommonData().getCurrentnick()));
+        int a= (int) playerCount.getValue();
+        //TODO CANNOT SERIALIZE fix
+        System.out.println(a+Client.getInstance().getCommonData().getCurrentnick());
+        Client.getInstance().getServerHandler().sendCommandMessage(new CreateMatchRequest(a,Client.getInstance().getCommonData().getCurrentnick()));
         Client.getInstance().changeViewBuilder(new CreateMatch());
     }
 
@@ -87,13 +94,18 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
 
     }
 
-    public void dataToRow(PropertyChangeEvent evt) {
-        Map<UUID, String[]> ciccio;
+    public List<MatchRow> dataToRow() {
+        List<MatchRow> templist=new ArrayList<MatchRow>();
+        int k=0;
         if(Client.getInstance().getCommonData().getMatchesData().isPresent())
-            for(int i=0; i<Client.getInstance().getCommonData().getMatchesData().get().size();i++)
+            for(UUID key : Client.getInstance().getCommonData().getMatchesData().get().keySet())
             {
-                ///ciccio=Client.getInstance().getCommonData().getMatchesData().get().
+
+                templist.add(new MatchRow(k,Client.getInstance().getCommonData().getMatchesData().get().get(key)[0],key));
             }
+        templist.add(new MatchRow(1,"test",UUID.randomUUID()));
+
+        return templist;
     }
 
 
@@ -105,7 +117,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         TableColumn<MatchRow,UUID> UUIDs= new TableColumn<MatchRow,UUID>("UUID");
 
 
-        final ObservableList<MatchRow> data= FXCollections.observableArrayList(new MatchRow(3,"mimmo",UUID.randomUUID()),new MatchRow(3,"toni",UUID.randomUUID()));
+        final ObservableList<MatchRow> data= FXCollections.observableArrayList(dataToRow());
 
         nicknames.setCellValueFactory(new PropertyValueFactory<MatchRow,String>("people"));
         players.setCellValueFactory(new PropertyValueFactory<MatchRow,Integer>("number"));
