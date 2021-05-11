@@ -1,29 +1,24 @@
 package it.polimi.ingsw.client.view.GUI;
 
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.view.GUI.GUIelem.MatchRow;
 import it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchViewBuilder;
+import it.polimi.ingsw.server.messages.clienttoserver.CreateMatchRequest;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.VPos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.UUID;
 
@@ -69,13 +64,13 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         ObservableList<MatchRow> selected;
         selected=guiMatchesData.getSelectionModel().getSelectedItems();
         if(selected.size()!=0)
-            System.out.println(selected.get(0).getNumber());
+            System.out.println(selected.get(0).getKey());
 
     }
 
     public void handleCreate(){
-        System.out.println(playerCount.getValue());
-
+        Client.getInstance().getServerHandler().sendCommandMessage(new CreateMatchRequest((int) playerCount.getValue(),Client.getInstance().getCommonData().getCurrentnick()));
+        Client.getInstance().changeViewBuilder(new CreateMatch());
     }
 
     public void clickedColumn(MouseEvent event)
@@ -94,11 +89,14 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
     {
         TableColumn<MatchRow,Integer> players= new TableColumn<MatchRow,Integer>("MATCH ID");
         TableColumn<MatchRow,String> nicknames= new TableColumn<MatchRow,String>("NICKNAMES");
+        TableColumn<MatchRow,UUID> UUIDs= new TableColumn<MatchRow,UUID>("UUID");
 
-        final ObservableList<MatchRow> data= FXCollections.observableArrayList(new MatchRow(3,"mimmo"),new MatchRow(3,"toni"));
+
+        final ObservableList<MatchRow> data= FXCollections.observableArrayList(new MatchRow(3,"mimmo",UUID.randomUUID()),new MatchRow(3,"toni",UUID.randomUUID()));
 
         nicknames.setCellValueFactory(new PropertyValueFactory<MatchRow,String>("people"));
         players.setCellValueFactory(new PropertyValueFactory<MatchRow,Integer>("number"));
+        UUIDs.setCellValueFactory(new PropertyValueFactory<MatchRow,UUID>("key"));
 
         guiMatchesData.getColumns().add(nicknames);
         guiMatchesData.getColumns().add(players);

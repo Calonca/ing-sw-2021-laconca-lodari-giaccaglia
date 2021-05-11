@@ -1,7 +1,10 @@
 package it.polimi.ingsw.client.view.GUI;
 
 import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.client.CommonData;
+import it.polimi.ingsw.client.view.CLI.SetupPhase;
 import it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchViewBuilder;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -31,7 +34,7 @@ public class CreateMatch extends CreateJoinLoadMatchViewBuilder implements GUIVi
     @Override
     public void run() {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/fxml/CreateMatchScene.fxml"));
+        loader.setLocation(getClass().getResource("/fxml/MatchToStart.fxml"));
         Parent root = null;
         try {
             root = loader.load();
@@ -45,24 +48,15 @@ public class CreateMatch extends CreateJoinLoadMatchViewBuilder implements GUIVi
         getClient().getStage().show();
     }
 
-    //Add buttons here that call client.changeViewBuilder(new *****, this);
-
-    //Todo Add button here that call Client.getInstance().getServerHandler().sendCommandMessage(new CreateMatchRequest(numberOfPlayers,nickName));
-
-
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        connectionButton.setOnAction(e -> Client.getInstance().changeViewBuilder(new CreateMatch()));
-
-    }
-
-    public void backButton(){
-        Client.getInstance().changeViewBuilder(new CreateJoinLoadMatch());
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
+        if (evt.getPropertyName().equals(CommonData.thisMatchData))
+            Platform.runLater(()->
+                    Client.getInstance().changeViewBuilder(new SetupPhase())
+            );
     }
 }
