@@ -179,7 +179,9 @@ public class Client implements Runnable
             commonData.setStartData(setup_phase.getMatchID(),thisPlayerIndex);
             commonData.setCurrentPlayer(0);
             initializePlayerCache(setup_phase.getNickNames().length);
-            cli.updateListeners();
+            if (cli!=null)
+                cli.updateListeners();
+           //Todo update listeners in GUI
         }
         playersCache.get(thisPlayerIndex).update(state,serializedObject);
     }
