@@ -108,7 +108,7 @@ public class ClientHandlerTest {
     }
 
 
-    @Test
+
     public void singlePlayerCreation() throws IOException, ClassNotFoundException {
 
         //1 Received matches data
