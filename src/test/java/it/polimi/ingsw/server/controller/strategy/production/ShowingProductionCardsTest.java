@@ -2,7 +2,7 @@ package it.polimi.ingsw.server.controller.strategy.production;
 
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.server.model.State;
+import it.polimi.ingsw.server.controller.states.State;
 import org.junit.Test;
 
 import java.util.ArrayList;

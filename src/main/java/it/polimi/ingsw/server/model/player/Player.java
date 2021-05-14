@@ -1,7 +1,8 @@
 package it.polimi.ingsw.server.model.player;
 
-import it.polimi.ingsw.server.model.utils.Deserializator;
-import it.polimi.ingsw.server.model.State;
+import it.polimi.ingsw.server.controller.states.StatesTransitionTable;
+import it.polimi.ingsw.server.utils.Deserializator;
+import it.polimi.ingsw.server.controller.states.State;
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.server.model.cards.*;
 import it.polimi.ingsw.server.model.player.leaders.DevelopmentDiscountLeader;
@@ -10,9 +11,8 @@ import it.polimi.ingsw.server.model.player.leaders.Leader;
 import it.polimi.ingsw.server.model.player.leaders.LeaderState;
 import it.polimi.ingsw.server.model.player.track.FaithTrack;
 import javafx.util.Pair;
-import java.util.ArrayList;
-import java.util.List;
 
+import java.util.*;
 
 
 /**
@@ -33,14 +33,12 @@ public class Player {
     private final PersonalBoard personalBoard;
 
 
-    private List<Leader> leaders;
+    private Map<UUID, Leader> leaders;
 
     /**
      * {@link Player} current {@link State} during game phases. When not playing, the default state is {@link State#IDLE IDLE}
      */
     private State currentState;
-
-
 
     /**
      * Boolean value used by {@link GameModel} to determine currently unavailable players, to handle game logic
@@ -65,8 +63,8 @@ public class Player {
     /**
      * Class constructor
      */
-    public Player(String nickName) {
-        leaders = new ArrayList<>();
+    public Player(String nickName, Map<UUID, Leader> initialLeaders) {
+        leaders = initialLeaders;
         personalBoard= new PersonalBoard();
         currentlyOnline = true;
         currentState = State.IDLE;
@@ -74,6 +72,10 @@ public class Player {
         marketBonus=new boolean[4];
         this.nickName = nickName;
         initializeFaithTrack();
+    }
+
+    public Optional<Leader> getLeader(UUID leaderId){
+        return Optional.ofNullable(leaders.get(leaderId));
     }
 
     public PersonalBoard getPersonalBoard() {
@@ -90,8 +92,19 @@ public class Player {
         return discounts;
     }
 
-    public List<Leader> getLeaders() {
-        return leaders;
+
+    public List<Leader> getLeadersList() {
+        return new ArrayList<>(leaders.values());
+    }
+
+    public List<UUID> getLeadersUUIDs() {return new ArrayList<>(leaders.keySet());}
+
+    /**
+     * @param leaderUUID UUID value corresponding to a <em>leaderCard</em>
+     * @return true if the <em>leaderCard</em> is available among ones of this player, otherwise false.
+     */
+    public boolean isLeaderAvailable(UUID leaderUUID){
+        return getLeadersUUIDs().stream().anyMatch(availableUUID -> availableUUID.toString().equals(leaderUUID.toString()));
     }
 
     public boolean[] getMarketBonus() {
@@ -221,7 +234,7 @@ public class Player {
     }
 
     public boolean anyLeaderPlayable(){
-        for (Leader leader : getLeaders())
+        for (Leader leader : leaders.values())
             if (leader.getState()==LeaderState.INACTIVE)
                 return true;
         return false;

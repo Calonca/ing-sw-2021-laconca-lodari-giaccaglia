@@ -6,7 +6,7 @@ import it.polimi.ingsw.network.messages.servertoclient.state.StateMessage;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.controller.EventValidationFailedException;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
-import it.polimi.ingsw.server.model.State;
+import it.polimi.ingsw.server.controller.states.State;
 
 import java.io.IOException;
 

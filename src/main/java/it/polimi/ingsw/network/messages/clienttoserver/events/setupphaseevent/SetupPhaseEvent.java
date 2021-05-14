@@ -1,10 +1,11 @@
 package it.polimi.ingsw.network.messages.clienttoserver.events.setupphaseevent;
 import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
-import it.polimi.ingsw.server.model.State;
+import it.polimi.ingsw.server.controller.states.State;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Client side {@link Event} created during {@link State#SETUP_PHASE SETUP_PHASE} when player initialization is
@@ -13,8 +14,8 @@ import java.util.List;
 public class SetupPhaseEvent extends Event {
 
     protected Pair<Integer, Integer> [] resources; //key = position, value = resource number
-    protected List<Integer> chosenLeaders;
-    protected List<Integer> discardedLeaders;
+    protected List<UUID> chosenLeaders;
+    protected List<UUID> discardedLeaders;
     protected int initialResources;
     protected int initialChosenLeaders;
     protected int initialDiscardedLeaders;
@@ -60,7 +61,7 @@ public class SetupPhaseEvent extends Event {
      * Method to select initial player <em>leaderCards</em> during setup phase.
      * @param leaderNumber int value representing <em>leaderCard</em> number.
      */
-    public void addChosenLeader(int leaderNumber){
+    public void addChosenLeader(UUID leaderNumber){
         chosenLeaders.add(leaderNumber);
         }
 
@@ -68,7 +69,7 @@ public class SetupPhaseEvent extends Event {
      * Method to select <em>leaderCards</em> to discard during setup phase.
      * @param leaderNumber int value representing <em>leaderCard</em> number.
      */
-    public void addDiscardedLeader(int leaderNumber){
+    public void addDiscardedLeader(UUID leaderNumber){
         discardedLeaders.add(leaderNumber);
     }
 

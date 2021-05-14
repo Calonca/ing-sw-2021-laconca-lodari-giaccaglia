@@ -7,9 +7,7 @@ import it.polimi.ingsw.RuntimeTypeAdapterFactory;
 import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
 import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.events.setupphaseevent.SetupPhaseEvent;
-import it.polimi.ingsw.network.messages.servertoclient.state.SETUP_PHASE;
-import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
-import it.polimi.ingsw.server.model.utils.JsonUtility;
+import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 
 /**
  * A message sent to the server.

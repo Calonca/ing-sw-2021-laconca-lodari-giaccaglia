@@ -1,33 +1,21 @@
 package it.polimi.ingsw.server.model.player.leaders;
 
+import it.polimi.ingsw.network.assets.leaders.LeaderCard;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.network.assets.devcards.DevelopmentCardColor;
 import javafx.util.Pair;
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * Abstract Leader Class. Each leader may override the "basic" methods according to its needs
  * TODO AreRequirementsSatisfied Test
  */
 
-public abstract class Leader
-{
-
-    protected LeaderState state;
-    protected int victoryPoints;
-    protected List<Pair<Resource, Integer>> requirementsResources;
-    protected List<Pair<DevelopmentCardColor, Integer>> requirementsCards;
-    protected int requirementsCardsLevel=1;
-
-
-
+public abstract class Leader extends LeaderCard{
     public Leader(){
 
-    }
-
-    public LeaderState getState(){
-        return state;
     }
 
     /**
@@ -38,7 +26,7 @@ public abstract class Leader
     public abstract void activate(GameModel gamemodel);
 
     /**
-     * Basic Leader discard method. It's the same for all leaders
+     * Basic Leader discard method. It's the same for all cards.leaders
      * @param gamemodel!= NULL
      * Ensures that the Player's Faith Points are increased by 1
      */
@@ -70,15 +58,6 @@ public abstract class Leader
         return true;
     }
 
-
-    public List<Pair<DevelopmentCardColor, Integer>> getRequirementsCards() {
-        return requirementsCards;
-    }
-
-    public int getRequirementsCardsLevel() {
-        return requirementsCardsLevel;
-    }
-
     public int[] getCostAsArray() {
         int[] toar = new int[4];
         for (Pair<Resource, Integer> resourceIntegerPair : this.getRequirementsResources())
@@ -87,12 +66,5 @@ public abstract class Leader
     }
 
 
-    public List<Pair<Resource, Integer>> getRequirementsResources() {
-        return requirementsResources;
-    }
-
-    public boolean anyLeaderPlayable(GameModel gamemodel){
-        return gamemodel.getCurrentPlayer().anyLeaderPlayable();
-    }
 
 }

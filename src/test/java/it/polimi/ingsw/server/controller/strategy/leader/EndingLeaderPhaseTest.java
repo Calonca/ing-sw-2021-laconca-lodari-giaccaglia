@@ -2,7 +2,7 @@ package it.polimi.ingsw.server.controller.strategy.leader;
 
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.server.model.State;
+import it.polimi.ingsw.server.controller.states.State;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -20,14 +20,16 @@ public class EndingLeaderPhaseTest {
         boolean isSinglePlayer = true;
         GameModel gamemodel = new GameModel(nicknames, isSinglePlayer,null);
         gamemodel.getCurrentPlayer().setCurrentState(State.SHOWING_LEADERS_INITIAL);
+
         try {
-            assertEquals(State.MIDDLE_PHASE,new EndingLeaderPhase().execute(gamemodel, v) );
+            assertEquals(State.SHOWING_LEADERS_INITIAL, new EndingLeaderPhase().execute(gamemodel, v) );
         } catch (it.polimi.ingsw.server.controller.EventValidationFailedException e) {
             e.printStackTrace();
         }
+
         gamemodel.getCurrentPlayer().setCurrentState(State.SHOWING_LEADERS_FINAL);
         try {
-            assertEquals(State.IDLE,new EndingLeaderPhase().execute(gamemodel, v) );
+            assertEquals(State.SHOWING_LEADERS_FINAL,new EndingLeaderPhase().execute(gamemodel, v) );
         } catch (it.polimi.ingsw.server.controller.EventValidationFailedException e) {
             e.printStackTrace();
         }

@@ -200,8 +200,7 @@ public class LeaderTest
         boolean isSinglePlayer = true;
         GameModel gamemodel = new GameModel(nicknames, isSinglePlayer,null);
 
-
         Leader test=new MarketLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, bonus);;
-        assertFalse(test.anyLeaderPlayable(gamemodel));
+        assertTrue(gamemodel.anyLeaderPlayableForCurrentPlayer());
     }
 }

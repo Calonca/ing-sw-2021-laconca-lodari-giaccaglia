@@ -2,8 +2,10 @@ package it.polimi.ingsw.network.messages.clienttoserver.events.leaderphaseevent;
 
 
 import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
-import it.polimi.ingsw.server.model.State;
+import it.polimi.ingsw.server.controller.states.State;
 import it.polimi.ingsw.server.model.GameModel;
+
+import java.util.UUID;
 
 /**
  * Client side {@link it.polimi.ingsw.network.messages.clienttoserver.events.Event Event} created when {@link GameModel#currentPlayer currentPlayer}
@@ -20,7 +22,7 @@ public class PlayLeaderEvent extends ChooseLeaderEvent {
      * @param leaderNumber chosen {@link it.polimi.ingsw.server.model.player.leaders.Leader Leader} position in
      * {@link GameModel#currentPlayer currentPlayer}'s {@link it.polimi.ingsw.server.model.player.Player#leaders Leaders} List
      */
-    public PlayLeaderEvent(int leaderNumber){
+    public PlayLeaderEvent(UUID leaderNumber){
         super(leaderNumber);
     }
 

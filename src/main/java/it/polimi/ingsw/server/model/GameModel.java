@@ -1,6 +1,8 @@
 package it.polimi.ingsw.server.model;
+import com.rits.cloning.Cloner;
 import it.polimi.ingsw.network.assets.devcards.DevelopmentCardColor;
-import it.polimi.ingsw.server.model.utils.Deserializator;
+import it.polimi.ingsw.server.controller.states.State;
+import it.polimi.ingsw.server.utils.Deserializator;
 import it.polimi.ingsw.server.controller.Match;
 import it.polimi.ingsw.server.model.cards.*;
 import it.polimi.ingsw.server.model.market.*;
@@ -9,7 +11,6 @@ import it.polimi.ingsw.server.model.player.board.*;
 import it.polimi.ingsw.server.model.player.leaders.Leader;
 import it.polimi.ingsw.server.model.player.track.*;
 import it.polimi.ingsw.server.model.solo.*;
-
 import java.io.IOException;
 import java.util.*;
 import java.util.function.Function;
@@ -76,15 +77,14 @@ public class GameModel {
     /**
      * List containing Leader cards to distribute in {@link State#SETUP_PHASE}.
      */
-    private Map<Integer, Leader> leaders;
+        private Map<UUID, Leader> leaders;
 
     /**
      *
      * @throws IOException
      */
     private void initializeLeadersList() throws IOException {
-        List<Leader> leadersList = Deserializator.leaderCardsDeserialization();
-        leaders = IntStream.range(0, leadersList.size()).boxed().collect(Collectors.toMap(Function.identity(), leadersList::get));
+       leaders = Deserializator.leadersCardMapBuilder();
     }
 
     /**
@@ -120,9 +120,24 @@ public class GameModel {
 
         players = IntStream.range(0, nicknames.size())
                 .boxed()
-                .collect(Collectors.toMap(Function.identity(), i -> new Player(nicknames.get(i))));
+                .collect(Collectors.toMap(Function.identity(), i ->
+                        {
+                            List<UUID> leaderKeys = new ArrayList<>(leaders.keySet());
 
-        // players = nicknames.stream().map(Player::new).collect(Collectors.toList());
+                            List<UUID> keys = IntStream.range(0,4)
+                                    .boxed()
+                                    .map(index ->
+                                            leaderKeys.remove(new Random().nextInt(leaderKeys.size())))
+                                    .collect(Collectors.toList());
+
+                            Map<UUID, Leader> initialLeaders = IntStream.range(0,4)
+                                    .boxed()
+                                    .collect(Collectors.toMap
+                                            (keys::get, k -> leaders.remove(keys.get(k))));
+
+                           return new Player(nicknames.get(i), initialLeaders);
+                        }));
+
         onlinePlayers = IntStream.range(0, nicknames.size())
                 .boxed()
                 .collect(Collectors.toMap(Function.identity(), i -> players.get(i)));
@@ -207,17 +222,26 @@ public class GameModel {
                 : -1;
     }
 
-    /**
-     * @param leaderNumber int value corresponding to a <em>leaderCard</em>
-     * @return true if the <em>leaderCard</em> is available among ones in this gameModel, otherwise false.
-     */
-    public boolean isLeaderAvailable(int leaderNumber){
-        return leaders.keySet().stream().anyMatch(availableNumbers -> availableNumbers==leaderNumber);
+    public List<UUID> getRemainingLeadersUUIDs (){
+        return new ArrayList<>(leaders.keySet());
     }
 
-    public Leader getLeader(int leaderNumber){
+
+
+    public Leader getLeader(UUID leaderNumber){
         return leaders.remove(leaderNumber);
     }
+
+    public Map<UUID, Leader> getLeaders () {
+        Cloner c = new Cloner();
+        return c.deepClone(leaders);
+    }
+
+    public boolean anyLeaderPlayableForCurrentPlayer(){
+        return currentPlayer.anyLeaderPlayable();
+    }
+
+
     public void setOfflinePlayer(Player player){
         player.setCurrentStatus(false);
         updateOnlinePlayers();

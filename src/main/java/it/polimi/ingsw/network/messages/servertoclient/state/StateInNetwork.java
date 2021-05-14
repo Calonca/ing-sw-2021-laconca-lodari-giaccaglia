@@ -8,6 +8,7 @@ import it.polimi.ingsw.network.messages.servertoclient.ServerToClientMessage;
  * Each message has the same name of the state it contains.
  */
 public abstract class StateInNetwork extends ServerToClientMessage {
+
     private final int player;
 
     public int getPlayer() {

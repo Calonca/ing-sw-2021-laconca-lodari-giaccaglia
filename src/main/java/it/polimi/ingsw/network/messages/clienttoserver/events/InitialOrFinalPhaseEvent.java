@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.messages.clienttoserver.events;
 
 
-import it.polimi.ingsw.server.model.State;
+import it.polimi.ingsw.server.controller.states.State;
 import it.polimi.ingsw.server.model.GameModel;
 
 /**

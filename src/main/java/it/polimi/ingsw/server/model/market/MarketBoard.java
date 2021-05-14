@@ -1,9 +1,9 @@
 package it.polimi.ingsw.server.model.market;
 
-import it.polimi.ingsw.server.model.State;
+import it.polimi.ingsw.server.controller.states.State;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.player.board.*;
-import it.polimi.ingsw.server.model.utils.Deserializator;
+import it.polimi.ingsw.server.utils.Deserializator;
 import javafx.util.Pair;
 import java.io.*;
 import java.util.*;
