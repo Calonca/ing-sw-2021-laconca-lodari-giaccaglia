@@ -10,6 +10,7 @@ import it.polimi.ingsw.network.messages.servertoclient.JoinStatus;
 import it.polimi.ingsw.network.messages.servertoclient.MatchesData;
 import it.polimi.ingsw.network.messages.servertoclient.ServerToClientMessage;
 import it.polimi.ingsw.network.messages.servertoclient.state.SETUP_PHASE;
+import it.polimi.ingsw.network.messages.servertoclient.state.StateMessage;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -127,8 +128,9 @@ public class ClientHandlerTest {
         ClientToServerMessage request = new CreateMatchRequest(1,"Name1");
         output1.writeObject(request.serialized());
         //1 Received state message
-        assertEquals(SETUP_PHASE.class.getSimpleName(),
-                toJsonObject(input1.readObject().toString()).get("stateMessage").getAsJsonObject().get("type").getAsString());
+        JsonObject obj = toJsonObject(input1.readObject().toString());
+        assertEquals(StateMessage.class.getSimpleName(),obj.get("type").getAsString());
+        assertEquals(SETUP_PHASE.class.getSimpleName(),obj.get("stateInNetwork").getAsJsonObject().get("type").getAsString());
         //2 Received matches data
         assertEquals(MatchesData.class.getSimpleName(),
                 toJsonObject(input2.readObject().toString()).get("type").getAsString());
