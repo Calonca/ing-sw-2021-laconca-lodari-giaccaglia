@@ -5,7 +5,7 @@ import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.network.assets.devcards.DevelopmentCardColor;
-import it.polimi.ingsw.server.controller.states.State;
+import it.polimi.ingsw.server.model.states.State;
 /**
  * The chosen card gets acquired. If it's not possible, the user returns to the market view.
  * Received message is int, cards are mapped as follows INT%3 IS THE LEVEL, INT/3 IS THE COLOR

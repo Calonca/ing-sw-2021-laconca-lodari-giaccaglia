@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model.market;
 
-import it.polimi.ingsw.server.controller.states.State;
+import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.player.board.*;
 import it.polimi.ingsw.server.utils.Deserializator;

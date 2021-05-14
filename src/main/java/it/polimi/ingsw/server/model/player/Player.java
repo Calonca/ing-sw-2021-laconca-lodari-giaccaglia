@@ -1,8 +1,8 @@
 package it.polimi.ingsw.server.model.player;
 
-import it.polimi.ingsw.server.controller.states.StatesTransitionTable;
+import it.polimi.ingsw.server.model.states.StatesTransitionTable;
 import it.polimi.ingsw.server.utils.Deserializator;
-import it.polimi.ingsw.server.controller.states.State;
+import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.server.model.cards.*;
 import it.polimi.ingsw.server.model.player.leaders.DevelopmentDiscountLeader;

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.controller.states;
+package it.polimi.ingsw.server.model.states;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

@@ -4,7 +4,7 @@ import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.server.controller.states.State;
+import it.polimi.ingsw.server.model.states.State;
 
 import java.util.*;
 import java.util.stream.IntStream;

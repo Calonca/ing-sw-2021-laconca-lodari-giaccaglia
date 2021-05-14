@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.messages.clienttoserver.events.marketboardevent;
 
 import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
-import it.polimi.ingsw.server.controller.states.State;
+import it.polimi.ingsw.server.model.states.State;
 
 /**
  * Client side {@link Event} created when player wants move {@link it.polimi.ingsw.server.model.Resource Resources} picked

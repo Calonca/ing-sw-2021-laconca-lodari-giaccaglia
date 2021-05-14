@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.controller.states;
+package it.polimi.ingsw.server.model.states;
 import it.polimi.ingsw.network.messages.servertoclient.state.SETUP_PHASE;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
 import it.polimi.ingsw.server.model.GameModel;
@@ -11,8 +11,6 @@ import it.polimi.ingsw.server.model.market.MarketBoard;
 import it.polimi.ingsw.server.model.market.MarketLine;
 import it.polimi.ingsw.server.model.player.board.*;
 import it.polimi.ingsw.server.utils.Util;
-
-import java.util.UUID;
 
 
 /**

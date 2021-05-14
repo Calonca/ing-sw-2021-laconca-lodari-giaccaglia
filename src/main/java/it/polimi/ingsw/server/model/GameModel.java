@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model;
 import com.rits.cloning.Cloner;
 import it.polimi.ingsw.network.assets.devcards.DevelopmentCardColor;
-import it.polimi.ingsw.server.controller.states.State;
+import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.server.utils.Deserializator;
 import it.polimi.ingsw.server.controller.Match;
 import it.polimi.ingsw.server.model.cards.*;

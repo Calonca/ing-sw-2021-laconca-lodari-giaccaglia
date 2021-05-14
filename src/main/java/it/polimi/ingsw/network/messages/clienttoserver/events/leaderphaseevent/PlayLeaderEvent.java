@@ -2,7 +2,7 @@ package it.polimi.ingsw.network.messages.clienttoserver.events.leaderphaseevent;
 
 
 import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
-import it.polimi.ingsw.server.controller.states.State;
+import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.server.model.GameModel;
 
 import java.util.UUID;

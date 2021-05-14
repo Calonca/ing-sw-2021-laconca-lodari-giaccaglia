@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.network.messages.servertoclient.MatchesData;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateMessage;
 import it.polimi.ingsw.server.ClientHandler;
-import it.polimi.ingsw.server.controller.states.State;
+import it.polimi.ingsw.server.model.states.State;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;

@@ -2,7 +2,7 @@ package it.polimi.ingsw.network.messages.clienttoserver.events.marketboardevent;
 
 import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
 import it.polimi.ingsw.network.messages.clienttoserver.events.MiddlePhaseEvent;
-import it.polimi.ingsw.server.controller.states.State;
+import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.server.model.market.MarketLine;
 
 /**

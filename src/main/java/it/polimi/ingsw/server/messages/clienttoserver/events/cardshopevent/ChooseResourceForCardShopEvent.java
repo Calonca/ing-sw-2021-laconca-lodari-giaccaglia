@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent;
 
-import it.polimi.ingsw.server.controller.states.State;
+import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
 
