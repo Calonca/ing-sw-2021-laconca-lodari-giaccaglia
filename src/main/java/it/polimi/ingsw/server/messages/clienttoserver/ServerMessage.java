@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.RuntimeTypeAdapterFactory;
+import it.polimi.ingsw.server.messages.clienttoserver.events.TestEvent;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.messages.clienttoserver.events.setupphaseevent.SetupPhaseEvent;
 
@@ -30,7 +31,6 @@ public interface ServerMessage {
                 .registerTypeAdapterFactory(jsonToServerAdapter)
                 .registerTypeAdapterFactory(eventMessageAdapter())
                 .create();
-
         return deserializeFromString(jsonString, ServerMessage.class,gson1);
     }
 
@@ -38,7 +38,7 @@ public interface ServerMessage {
         RuntimeTypeAdapterFactory<Validable> eventMessageAdapter = RuntimeTypeAdapterFactory.of(Validable.class);
 
         //Todo Register here all the event message types in the server
-        eventMessageAdapter.registerSubtype(SetupPhaseEvent.class);
+        eventMessageAdapter.registerSubtype(TestEvent.class);
         return eventMessageAdapter;
     }
 }
