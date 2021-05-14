@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.view.CLI.CLI;
-import it.polimi.ingsw.client.view.CLI.ConnectToServer;
+import it.polimi.ingsw.client.view.GUI.SetupPhase;
 import it.polimi.ingsw.client.view.abstractview.ConnectToServerViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 import it.polimi.ingsw.network.messages.servertoclient.state.SETUP_PHASE;
@@ -179,11 +179,12 @@ public class Client implements Runnable
             commonData.setStartData(setup_phase.getMatchID(),thisPlayerIndex);
             commonData.setCurrentPlayer(0);
             initializePlayerCache(setup_phase.getNickNames().length);
-            if (cli!=null)
+            if (isCLI)
                 cli.updateListeners();
-           //Todo update listeners in GUI
         }
         playersCache.get(thisPlayerIndex).update(state,serializedObject);
+        if (!isCLI)
+            changeViewBuilder(new SetupPhase());
     }
 
     public void initializePlayerCache(int numberOfPlayers){
