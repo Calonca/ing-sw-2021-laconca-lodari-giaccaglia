@@ -6,7 +6,7 @@ import it.polimi.ingsw.server.controller.strategy.production.ShowingProductionCa
 import it.polimi.ingsw.server.controller.strategy.resourcemarket.ShowingResourceMarket;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.server.model.State;
+import it.polimi.ingsw.server.model.states.State;
 /**
  * Before the initial choice, Past is set to true, so the Leader logic will acquire that information.
  */

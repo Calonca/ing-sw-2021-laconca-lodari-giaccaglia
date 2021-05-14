@@ -1,19 +1,19 @@
 package it.polimi.ingsw.network.assets;
 
-import it.polimi.ingsw.server.model.player.leaders.Leader;
+import it.polimi.ingsw.network.assets.leaders.LeaderCard;
 
 import java.util.UUID;
 
 public class LeaderCardAsset extends CardAsset{
 
-    private final Leader leaderCard;
+    private final LeaderCard leaderCard;
 
-    public LeaderCardAsset(Leader leaderCard, String front, String back, UUID cardId){
+    public LeaderCardAsset(LeaderCard leaderCard, String front, String back, UUID cardId){
         super(front, back, cardId);
         this.leaderCard = leaderCard;
     }
 
-    public Leader getDevelopmentCard() {
+    public LeaderCard getDevelopmentCard() {
         return leaderCard;
     }
 

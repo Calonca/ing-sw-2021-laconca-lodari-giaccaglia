@@ -6,7 +6,7 @@ import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.market.MarketLine;
-import it.polimi.ingsw.server.model.State;
+import it.polimi.ingsw.server.model.states.State;
 
 /**
  * This implementation allows the user to choose a line, sliding in the remaining marble. If the player has

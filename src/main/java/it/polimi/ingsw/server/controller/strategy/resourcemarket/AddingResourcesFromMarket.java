@@ -4,7 +4,7 @@ import it.polimi.ingsw.server.controller.EventValidationFailedException;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.server.model.State;
+import it.polimi.ingsw.server.model.states.State;
 /**
  * This implementation allows the user to move one at a time the resources from one of the depot lines to an empty
  * space. Before being able to proceed, the user needs to place all of the resources from the market either in the

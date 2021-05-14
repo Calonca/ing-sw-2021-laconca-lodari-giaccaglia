@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.messages.clienttoserver.events.leaderphaseevent;
 
 import it.polimi.ingsw.network.messages.clienttoserver.events.InitialOrFinalPhaseEvent;
-import it.polimi.ingsw.server.model.State;
+import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.server.model.GameModel;
 
 /**

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent;
 
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
-import it.polimi.ingsw.server.model.State;
+import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.cards.CardShop;
 import it.polimi.ingsw.network.assets.devcards.DevelopmentCardColor;

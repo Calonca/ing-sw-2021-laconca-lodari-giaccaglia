@@ -4,28 +4,31 @@ import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.player.leaders.Leader;
 import it.polimi.ingsw.server.model.player.leaders.LeaderState;
 
+import java.util.Optional;
+import java.util.UUID;
+
 public interface LeaderValidation {
 
-    default boolean validateLeaderNumber(GameModel gameModel, int leaderNumber){
-        return validateNumber(gameModel, leaderNumber);
+    default boolean validateLeaderNumber(GameModel gameModel, UUID leaderNumber){
+        return validateLeaderId(gameModel, leaderNumber);
     }
 
-    default boolean validateLeaderAvailability(GameModel gameModel, int leaderNumber){
+    default boolean validateLeaderAvailability(GameModel gameModel, UUID leaderNumber){
         return validateAvailability(gameModel, leaderNumber);
     }
 
-    default boolean validateLeaderRequirements(GameModel gameModel, int leaderNumber){
+    default boolean validateLeaderRequirements(GameModel gameModel, UUID leaderNumber){
         return validateRequirements(gameModel, leaderNumber);
     }
 
     /**
      * Method to verify if chosen {@link PlayLeaderEvent#leaderNumber} is a legit value according to {@link Leader Leaders}
-     * list size.
+     * map key values.
      * @return true if {@link PlayLeaderEvent#leaderNumber} has a positive value ranging inside {@link Leader Leaders}
-     * list size, otherwise false.
+     * map key values, otherwise false.
      */
-    private boolean validateNumber(GameModel gameModel, int leaderNumber){
-        return (gameModel.getCurrentPlayer().getLeaders().size() > leaderNumber) && (leaderNumber>=0) && validateLeaderRequirements(gameModel, leaderNumber);
+    private boolean validateLeaderId(GameModel gameModel, UUID leaderNumber){
+        return (gameModel.getCurrentPlayer().getLeader(leaderNumber).isPresent()) && validateLeaderRequirements(gameModel, leaderNumber);
     }
 
     /**
@@ -34,11 +37,11 @@ public interface LeaderValidation {
      * If this happens, client is modified thus event has to be refused.
      * @return true if chosen {@link Leader}'s current {@link LeaderState} is {@link LeaderState#INACTIVE INACTIVE}, otherwise false.
      */
-    private boolean validateAvailability(GameModel gameModel, int leaderNumber){
+    private boolean validateAvailability(GameModel gameModel, UUID leaderId){
 
-        if(validateLeaderNumber(gameModel, leaderNumber)) {
-            LeaderState selectedLeaderState = gameModel.getCurrentPlayer().getLeaders().get(leaderNumber).getState();
-            return selectedLeaderState.equals(LeaderState.INACTIVE);
+        if(validateLeaderNumber(gameModel, leaderId)) {
+            Optional<Leader> selectedLeaderState = gameModel.getCurrentPlayer().getLeader(leaderId);
+            return selectedLeaderState.isPresent() && selectedLeaderState.get().getState().equals(LeaderState.INACTIVE);
         }
         else return false;
     }
@@ -50,8 +53,9 @@ public interface LeaderValidation {
      * {@link it.polimi.ingsw.server.model.cards.DevelopmentCard DevelopmentCards} satisfy leader activation requirements,
      * otherwise false.
      */
-    private boolean validateRequirements(GameModel gameModel, int leaderNumber){
-        Leader requiredLeader = gameModel.getCurrentPlayer().getLeaders().get(leaderNumber);
-        return gameModel.getCurrentPlayer().getPersonalBoard().isLeaderRequirementsSatisfied(requiredLeader);
+    private boolean validateRequirements(GameModel gameModel, UUID leaderNumber){
+        Optional<Leader> requiredLeader = gameModel.getCurrentPlayer().getLeader(leaderNumber);
+
+        return requiredLeader.isPresent() && gameModel.getCurrentPlayer().getPersonalBoard().isLeaderRequirementsSatisfied(requiredLeader.get());
     }
 }

@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.network.messages.servertoclient.MatchesData;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateMessage;
 import it.polimi.ingsw.server.ClientHandler;
-import it.polimi.ingsw.server.model.State;
+import it.polimi.ingsw.server.model.states.State;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
@@ -15,7 +15,7 @@ import java.io.Writer;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static it.polimi.ingsw.server.model.utils.JsonUtility.deserialize;
+import static it.polimi.ingsw.network.jsonUtils.JsonUtility.deserialize;
 
 public class SessionController {
     
@@ -27,7 +27,6 @@ public class SessionController {
     {
         if (single_instance == null)
             single_instance = new SessionController();
-
         return single_instance;
     }
 
@@ -39,9 +38,10 @@ public class SessionController {
            return matches.get(matches.size()-1);
     }
 
-    public Match addNewMatch(int maxPlayers){
+    public Match addNewMatch(int maxPlayers, ClientHandler clientHandler){
         Match match = new Match(maxPlayers);
         matches.put(match.getMatchId(),match);
+        clientHandler.setMatch(match);
         return match;
     }
 
@@ -49,29 +49,32 @@ public class SessionController {
      * Adds player to match and start
      * @return -1 if match is full or other problems
      */
-    public int addPlayerToMatchAndStartWhenReady(UUID matchID, String nickname, ClientHandler clientHandler){
+    public int addPlayerToMatch(UUID matchID, String nickname, ClientHandler clientHandler){
         Match match = matches.get(matchID);
         if (match.canAddPlayer()){
             match.addPlayer(nickname,clientHandler);
-            if (!match.canAddPlayer()) {
-                match.startGame();
-                playersInLobby.remove(clientHandler);
-                try {
-                    match.currentPlayerClientHandler().sendAnswerMessage(
-                            new StateMessage(State.SETUP_PHASE.toStateMessage(match.getGame()))
-                            );
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            notifyOthers(clientHandler);
+            clientHandler.setMatch(match);
             return match.getLastPos();
         }
         else return -1;
     }
 
+    public void startMatchAndNotifyStateIfPossible(Match match, ClientHandler clientHandler) {
+        if (!match.canAddPlayer()) {
+            match.startGame();
+            playersInLobby.removeAll(match.clientsStream().collect(Collectors.toList()));
+            try {
+                match.currentPlayerClientHandler().sendAnswerMessage(
+                        new StateMessage(State.SETUP_PHASE.toStateMessage(match.getGame()))
+                        );
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
-    public void notifyOthers(ClientHandler cl){
+
+    public void notifyPlayersInLobby(ClientHandler cl){
         playersInLobby.forEach(
                 clientHandler -> {
                     try {

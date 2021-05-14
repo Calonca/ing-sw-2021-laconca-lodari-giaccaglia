@@ -23,6 +23,7 @@ public class CreateMatchRequest extends it.polimi.ingsw.network.messages.clientt
         clientHandler.getMatch().ifPresentOrElse(
              (match)->{
                     try {
+                        //Player is already in a match, resent matches data
                         clientHandler.sendAnswerMessage(new MatchesData(SessionController.getInstance().matchesData(clientHandler)));
                         clientHandler.sendAnswerMessage(new CreatedMatchStatus(this,null, CreatedMatchStatus.motive.OTHER));
                     } catch (IOException e) {
@@ -30,10 +31,12 @@ public class CreateMatchRequest extends it.polimi.ingsw.network.messages.clientt
                     }},
              ()->{
                      try {
-                         Match match = SessionController.getInstance().addNewMatch(maxPlayers);
-                         clientHandler.setMatch(match);
-                         SessionController.getInstance().addPlayerToMatchAndStartWhenReady(match.getMatchId(),nickName,clientHandler);
+                         //Match created successfully
+                         Match match = SessionController.getInstance().addNewMatch(maxPlayers, clientHandler);
+                         SessionController.getInstance().addPlayerToMatch(match.getMatchId(),nickName,clientHandler);
+                         SessionController.getInstance().notifyPlayersInLobby(clientHandler);
                          clientHandler.sendAnswerMessage(new CreatedMatchStatus(this,match.getMatchId(),null));
+                         SessionController.getInstance().startMatchAndNotifyStateIfPossible(match, clientHandler);
                      } catch (IOException e) {
                          e.printStackTrace();
                      }

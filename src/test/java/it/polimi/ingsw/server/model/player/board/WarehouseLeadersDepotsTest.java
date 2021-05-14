@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model.player.board;
 
-import it.polimi.ingsw.server.model.utils.JsonUtility;
+import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.server.model.Resource;
 import javafx.util.Pair;
 import org.junit.Before;

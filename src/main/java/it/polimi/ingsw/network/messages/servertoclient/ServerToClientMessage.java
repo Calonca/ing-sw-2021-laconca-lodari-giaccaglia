@@ -8,11 +8,10 @@ import it.polimi.ingsw.RuntimeTypeAdapterFactory;
 import it.polimi.ingsw.network.messages.servertoclient.state.SETUP_PHASE;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateMessage;
-import it.polimi.ingsw.server.messages.clienttoserver.EventMessage;
 
 import java.util.UUID;
 
-import static it.polimi.ingsw.server.model.utils.JsonUtility.serialize;
+import static it.polimi.ingsw.network.jsonUtils.JsonUtility.serialize;
 
 /**
  * A network message from the server to the client visible to both.

@@ -17,9 +17,13 @@ public class JoinMatchRequest extends it.polimi.ingsw.network.messages.clienttos
 
     @Override
     public void processMessage(ClientHandler clientHandler) throws IOException {
-        int playerIndex = SessionController.getInstance().addPlayerToMatchAndStartWhenReady(matchId,nickName,clientHandler);
+        int playerIndex = SessionController.getInstance().addPlayerToMatch(matchId,nickName,clientHandler);
         if(playerIndex!=-1) {
+            SessionController.getInstance().notifyPlayersInLobby(clientHandler);
             clientHandler.sendAnswerMessage(new JoinStatus(this, matchId, null, playerIndex));
+            clientHandler.getMatch().ifPresent(m->
+                    SessionController.getInstance().startMatchAndNotifyStateIfPossible(m,clientHandler)
+                    );
         }else {
             clientHandler.sendAnswerMessage(new JoinStatus(this, null, JoinStatus.motive.OTHER, 0));
             clientHandler.sendAnswerMessage(new MatchesData(SessionController.getInstance().matchesData(clientHandler)));

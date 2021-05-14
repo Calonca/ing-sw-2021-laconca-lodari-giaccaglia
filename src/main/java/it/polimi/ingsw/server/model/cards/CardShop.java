@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import it.polimi.ingsw.network.assets.devcards.DevelopmentCardColor;
-import it.polimi.ingsw.server.model.State;
-import it.polimi.ingsw.server.model.utils.Deserializator;
+import it.polimi.ingsw.server.model.states.State;
+import it.polimi.ingsw.server.utils.Deserializator;
 import it.polimi.ingsw.server.model.solo.SoloActionToken;
 
 /**

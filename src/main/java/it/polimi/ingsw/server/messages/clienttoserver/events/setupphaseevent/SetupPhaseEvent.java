@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.messages.clienttoserver.events.setupphaseevent;
 
 import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
-import it.polimi.ingsw.server.model.State;
+import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
@@ -9,6 +9,7 @@ import javafx.util.Pair;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -21,7 +22,7 @@ public class SetupPhaseEvent extends it.polimi.ingsw.network.messages.clienttose
     /**
      * {@link GameModel} of the event's current game on which event validation has to be performed.
      */
-    private GameModel gamemodel;
+    protected GameModel gamemodel;
 
     @Override
     public boolean validate(GameModel gameModel) {
@@ -34,7 +35,7 @@ public class SetupPhaseEvent extends it.polimi.ingsw.network.messages.clienttose
      * false.
      */
     private boolean validatePlayerNumber() {
-        return playerNumber -1 == gamemodel.getPlayerIndex(gamemodel.getCurrentPlayer());
+        return playerNumber - 1 == gamemodel.getPlayerIndex(gamemodel.getCurrentPlayer());
     }
 
     /**
@@ -43,17 +44,18 @@ public class SetupPhaseEvent extends it.polimi.ingsw.network.messages.clienttose
     private boolean validateLeaders() {
         if(chosenLeaders.size() == initialChosenLeaders && initialChosenLeaders  == 2 && discardedLeaders.size() == initialDiscardedLeaders && initialDiscardedLeaders == 2)
         {
-            boolean validationOk = false;
-            for (Integer leaderNumber : chosenLeaders) {
-                validationOk = gamemodel.isLeaderAvailable(leaderNumber);
+            boolean validationOk;
+            for (UUID leaderId : chosenLeaders) {
+                validationOk = gamemodel.getCurrentPlayer().isLeaderAvailable(leaderId);
                 if(!validationOk) return false;
             }
 
-            for (Integer leaderNumber : discardedLeaders) {
-                validationOk = gamemodel.isLeaderAvailable(leaderNumber);
+            for (UUID leaderId: discardedLeaders) {
+                validationOk = gamemodel.getCurrentPlayer().isLeaderAvailable(leaderId);
                 if(!validationOk) return false;
             }
-            return validationOk;
+
+            return true;
         }
         else return false;
     }
