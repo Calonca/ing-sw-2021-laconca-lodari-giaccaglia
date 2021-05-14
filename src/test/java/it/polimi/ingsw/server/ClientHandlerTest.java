@@ -94,18 +94,21 @@ public class ClientHandlerTest {
         //2 Send join request
         request = new JoinMatchRequest(matchId,"Name2");
         output2.writeObject(request.serialized());
-        //1 Received state message
-        assertEquals(SETUP_PHASE.class.getSimpleName(),
-                toJsonObject(input1.readObject().toString()).get("stateMessage").getAsJsonObject().get("type").getAsString());
         //1 Received matches data
         assertEquals(MatchesData.class.getSimpleName(),
                 toJsonObject(input1.readObject().toString()).get("type").getAsString());
+        //1 Received matches data
+        assertEquals(MatchesData.class.getSimpleName(),
+                toJsonObject(input2.readObject().toString()).get("type").getAsString());
         //2 Receive join status
         jsonObject = toJsonObject(input2.readObject().toString());
         expected = toJsonObject(new JoinStatus(request,matchId,null,1));
         assertEquals(expected,
                 jsonObject);
-
+        //1 Received state message
+        JsonObject obj = toJsonObject(input1.readObject().toString());
+        assertEquals(StateMessage.class.getSimpleName(),obj.get("type").getAsString());
+        assertEquals(SETUP_PHASE.class.getSimpleName(),obj.get("stateInNetwork").getAsJsonObject().get("type").getAsString());
     }
 
 
@@ -127,10 +130,9 @@ public class ClientHandlerTest {
         //1 Send create request
         ClientToServerMessage request = new CreateMatchRequest(1,"Name1");
         output1.writeObject(request.serialized());
-        //1 Received state message
-        JsonObject obj = toJsonObject(input1.readObject().toString());
-        assertEquals(StateMessage.class.getSimpleName(),obj.get("type").getAsString());
-        assertEquals(SETUP_PHASE.class.getSimpleName(),obj.get("stateInNetwork").getAsJsonObject().get("type").getAsString());
+        //1 Received matches data
+        assertEquals(MatchesData.class.getSimpleName(),
+                toJsonObject(input1.readObject().toString()).get("type").getAsString());
         //2 Received matches data
         assertEquals(MatchesData.class.getSimpleName(),
                 toJsonObject(input2.readObject().toString()).get("type").getAsString());
@@ -140,6 +142,10 @@ public class ClientHandlerTest {
         JsonObject expected = toJsonObject(new CreatedMatchStatus(request,matchId,null));
         assertEquals(expected,
                 jsonObject);
+        //1 Received state message
+        JsonObject obj = toJsonObject(input1.readObject().toString());
+        assertEquals(StateMessage.class.getSimpleName(),obj.get("type").getAsString());
+        assertEquals(SETUP_PHASE.class.getSimpleName(),obj.get("stateInNetwork").getAsJsonObject().get("type").getAsString());
     }
 
 
