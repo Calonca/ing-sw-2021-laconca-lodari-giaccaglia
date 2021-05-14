@@ -1,19 +1,13 @@
 {
   "table": {
-    "CHOOSING_POSITION_FOR_RESOURCES": {
-      "MoveResourceEvent": {
-        "type": "AddingResourcesFromMarket"
-      },
-      "DiscardResourcesEvent": {
-        "type": "DiscardingResources"
+    "SETUP_PHASE": {
+      "SetupPhaseEvent": {
+        "type": "ChooseInitialResource"
       }
     },
-    "CHOOSING_CARD_FOR_PRODUCTION": {
-      "FinalProductionPhase": {
-        "type": "TogglingForProduction"
-      },
-      "ChooseProductionAtPositionEvent": {
-        "type": "TogglingForProduction"
+    "SHOWING_CARD_SHOP": {
+      "ChooseCardEvent": {
+        "type": "AcquiringDevelopmentCard"
       }
     },
     "SHOWING_LEADERS_INITIAL": {
@@ -27,31 +21,6 @@
         "type": "ActivatingLeader"
       }
     },
-    "CHOOSING_POSITION_FOR_DEVCARD": {
-      "ChooseCardPositionEvent": {
-        "type": "ChoosingSpaceForDevelopmentCard"
-      }
-    },
-    "CHOOSING_WHITEMARBLE_CONVERSION": {
-      "ChooseWhiteMarbleConversionEvent": {
-        "type": "ChoosingMarketBonus"
-      }
-    },
-    "SHOWING_CARD_SHOP": {
-      "ChooseCardEvent": {
-        "type": "AcquiringDevelopmentCard"
-      }
-    },
-    "SETUP_PHASE": {
-      "SetupPhaseEvent": {
-        "type": "ChooseInitialResource"
-      }
-    },
-    "CHOOSING_RESOURCES_FOR_DEVCARD": {
-      "ChooseResourceForCardShopEvent": {
-        "type": "PayingResourcesForDevelopmentCard"
-      }
-    },
     "SHOWING_LEADERS_FINAL": {
       "SkipLeaderEvent": {
         "type": "EndingLeaderPhase"
@@ -63,9 +32,40 @@
         "type": "ActivatingLeader"
       }
     },
+    "CHOOSING_WHITEMARBLE_CONVERSION": {
+      "ChooseWhiteMarbleConversionEvent": {
+        "type": "ChoosingMarketBonus"
+      }
+    },
+    "CHOOSING_POSITION_FOR_DEVCARD": {
+      "ChooseCardPositionEvent": {
+        "type": "ChoosingSpaceForDevelopmentCard"
+      }
+    },
     "CHOOSING_RESOURCE_FOR_PRODUCTION": {
       "ChooseResourcesForProductionEvent": {
         "type": "ChoosingResourceForProduction"
+      }
+    },
+    "CHOOSING_RESOURCES_FOR_DEVCARD": {
+      "ChooseResourceForCardShopEvent": {
+        "type": "PayingResourcesForDevelopmentCard"
+      }
+    },
+    "CHOOSING_CARD_FOR_PRODUCTION": {
+      "FinalProductionPhase": {
+        "type": "TogglingForProduction"
+      },
+      "ChooseProductionAtPositionEvent": {
+        "type": "TogglingForProduction"
+      }
+    },
+    "CHOOSING_POSITION_FOR_RESOURCES": {
+      "MoveResourceEvent": {
+        "type": "AddingResourcesFromMarket"
+      },
+      "DiscardResourcesEvent": {
+        "type": "DiscardingResources"
       }
     },
     "MIDDLE_PHASE": {
