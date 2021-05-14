@@ -5,7 +5,7 @@ import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
-import it.polimi.ingsw.server.model.State;
+import it.polimi.ingsw.server.model.states.State;
 /**
  * This implementation allows the user to sequentially select the input and output optional choices. The inputs are
  * chosen first, and it has already been calculated that there will be enough basic resources to complete the choice.

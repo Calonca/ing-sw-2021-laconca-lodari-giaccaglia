@@ -7,8 +7,10 @@ import java.nio.file.Paths;
 import java.util.UUID;
 
 public class CardAsset {
-    private final UUID cardId;
-    private final Pair<Path, Path> cardPaths;
+    private UUID cardId;
+    private Pair<Path, Path> cardPaths;
+
+    public CardAsset(){}
 
     public CardAsset(String front, String back, UUID cardId){
         this.cardPaths = new Pair<>(Paths.get(front), Paths.get(back));

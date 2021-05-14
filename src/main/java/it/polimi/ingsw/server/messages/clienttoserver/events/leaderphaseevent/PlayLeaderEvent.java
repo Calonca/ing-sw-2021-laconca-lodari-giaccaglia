@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.messages.clienttoserver.events.leaderphaseevent;
 
-import it.polimi.ingsw.server.model.State;
+import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
 
@@ -19,5 +19,7 @@ public class PlayLeaderEvent extends it.polimi.ingsw.network.messages.clienttose
         return  isGameStarted(gameModel) && validateLeaderAvailability(model, leaderNumber)
                 && validateLeaderNumber(model, leaderNumber) && validateLeaderRequirements(model, leaderNumber);
     }
+
+
 
 }

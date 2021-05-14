@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static it.polimi.ingsw.server.model.utils.JsonUtility.deserializeFromString;
-import static it.polimi.ingsw.server.model.utils.JsonUtility.serialize;
+import static it.polimi.ingsw.network.jsonUtils.JsonUtility.deserializeFromString;
+import static it.polimi.ingsw.network.jsonUtils.JsonUtility.serialize;
 import static org.junit.Assert.*;
 
 public class ChooseWhiteMarbleConversionEventTest {

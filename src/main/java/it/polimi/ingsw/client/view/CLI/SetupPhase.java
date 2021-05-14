@@ -14,7 +14,7 @@ public class SetupPhase extends SetupPhaseViewBuilder implements CLIBuilder {
     @Override
     public void run() {
 
-        String title = "Select two leaders and resources";
+        String title = "Select two cards.leaders and resources";
         getCLIView().setTitle(new Title(title));
         LeadersBody leadersBody = new LeadersBody(
                 (SETUP_PHASE) getClient().currentPlayerCache().get().getDataFromState(SETUP_PHASE.class.getSimpleName()).get()

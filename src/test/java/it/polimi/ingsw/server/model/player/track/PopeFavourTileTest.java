@@ -9,7 +9,7 @@ import org.junit.Test;
 import java.lang.reflect.Type;
 import java.util.List;
 
-import static it.polimi.ingsw.server.model.utils.JsonUtility.deserialize;
+import static it.polimi.ingsw.network.jsonUtils.JsonUtility.deserialize;
 import static org.junit.Assert.*;
 
 public class PopeFavourTileTest {

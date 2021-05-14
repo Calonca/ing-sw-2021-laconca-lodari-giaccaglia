@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.server.model.states.State;
+import it.polimi.ingsw.server.model.states.StatesTransitionTable;
 import it.polimi.ingsw.server.controller.strategy.ChooseInitialResource;
 import it.polimi.ingsw.server.messages.clienttoserver.events.setupphaseevent.SetupPhaseEvent;
 import org.junit.Before;

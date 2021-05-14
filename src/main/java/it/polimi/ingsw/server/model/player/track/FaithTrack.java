@@ -8,7 +8,7 @@ import org.apache.commons.lang3.tuple.MutablePair;
 
 import java.util.*;
 
-import static it.polimi.ingsw.server.model.utils.JsonUtility.deserialize;
+import static it.polimi.ingsw.network.jsonUtils.JsonUtility.deserialize;
 
 /**
  * Represents the {@link Player} <em>FaithTrack</em>

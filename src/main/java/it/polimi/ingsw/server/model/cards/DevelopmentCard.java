@@ -11,20 +11,12 @@ import java.util.List;
 /**
  * Class for Development Cards. Since the color is not strictly tied to the input/output we totally decoupled that
  */
-public class DevelopmentCard
+public class DevelopmentCard extends it.polimi.ingsw.network.assets.devcards.DevelopmentCard
 {
-
-    /**
-     * Enum to indicate card color
-     */
-    private final DevelopmentCardColor cardType;
     /**
      * Production is the class to effectively use the card
      */
-    private Production production;
-    private List<Pair<Resource,Integer>> costList;
-    private int victoryPoints;
-    private int level;
+    protected Production production;
 
     public DevelopmentCard(int level, DevelopmentCardColor cardType)
     {
@@ -57,21 +49,7 @@ public class DevelopmentCard
         this.costList= another.costList;
     }
 
-    public int getLevel() {
-        return level;
-    }
-
-    public DevelopmentCardColor getCardType() {
-        return cardType;
-    }
-
     public Production getProduction(){return production;}
-
-    public List<Pair<Resource,Integer>> getCostList(){
-        return costList;
-    }
-
-
     public int[] getCostAsArray() {
         int[] toar = new int[4];
         for (Pair<Resource, Integer> resourceIntegerPair : costList)

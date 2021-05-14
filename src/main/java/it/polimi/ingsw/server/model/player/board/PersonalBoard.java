@@ -8,7 +8,7 @@ import it.polimi.ingsw.server.model.cards.production.ProductionCardCell;
 import it.polimi.ingsw.server.model.player.leaders.Leader;
 import it.polimi.ingsw.server.model.player.leaders.ProductionLeader;
 import it.polimi.ingsw.server.model.player.track.FaithTrack;
-import it.polimi.ingsw.server.model.utils.Util;
+import it.polimi.ingsw.server.utils.Util;
 import javafx.util.Pair;
 
 import java.util.*;
@@ -42,7 +42,7 @@ public class PersonalBoard {
      * The first one is the basic {@link Production},
      * then there are {@link Production productions} from {@link DevelopmentCard developmentCards}
      * that are initialized to Optional.empty() before being set
-     * and then the ones from {@link ProductionLeader leaders}
+     * and then the ones from {@link ProductionLeader cards.leaders}
      */
     private  List<Optional<Production>> productions;
     /**
@@ -425,7 +425,6 @@ public class PersonalBoard {
         int[] toar = new int[4];
         for (Pair<Resource, Integer> resourceIntegerPair : leader.getRequirementsResources())
             toar[resourceIntegerPair.getKey().getResourceNumber()] += resourceIntegerPair.getValue();
-
 
         return hasResources(toar)&&isLeaderColorRequirementsSatisfied(leader);
     }

@@ -1,15 +1,15 @@
 package it.polimi.ingsw.network.assets;
 
-import it.polimi.ingsw.server.model.cards.DevelopmentCard;
-import javafx.util.Pair;
+import it.polimi.ingsw.network.assets.devcards.DevelopmentCard;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.UUID;
 
 public class DevelopmentCardAsset extends CardAsset{
 
-    private final DevelopmentCard developmentCard;
+    private DevelopmentCard developmentCard;
+
+    public DevelopmentCardAsset(){
+    }
 
     public DevelopmentCardAsset(DevelopmentCard developmentCard, String front, String back, UUID cardId){
         super(front, back, cardId);

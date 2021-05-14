@@ -1,8 +1,10 @@
 package it.polimi.ingsw.network.messages.clienttoserver.events.leaderphaseevent;
 
 import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
-import it.polimi.ingsw.server.model.State;
+import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.server.model.GameModel;
+
+import java.util.UUID;
 
 /**
  * Client side {@link Event} created when {@link GameModel#currentPlayer currentPlayer} wants to discard a
@@ -20,7 +22,7 @@ public class DiscardLeaderEvent extends ChooseLeaderEvent {
      * @param leaderNumber chosen {@link it.polimi.ingsw.server.model.player.leaders.Leader Leader} position in
      *{@link GameModel#currentPlayer currentPlayer}'s {@link it.polimi.ingsw.server.model.player.Player#leaders Leaders} List
      */
-    public DiscardLeaderEvent(int leaderNumber){
+    public DiscardLeaderEvent(UUID leaderNumber){
         this.leaderNumber = leaderNumber;
     }
 

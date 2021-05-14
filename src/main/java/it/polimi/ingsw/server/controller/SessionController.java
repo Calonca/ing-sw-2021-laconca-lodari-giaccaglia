@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.network.messages.servertoclient.MatchesData;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateMessage;
 import it.polimi.ingsw.server.ClientHandler;
-import it.polimi.ingsw.server.model.State;
+import it.polimi.ingsw.server.model.states.State;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
@@ -15,7 +15,7 @@ import java.io.Writer;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static it.polimi.ingsw.server.model.utils.JsonUtility.deserialize;
+import static it.polimi.ingsw.network.jsonUtils.JsonUtility.deserialize;
 
 public class SessionController {
     
