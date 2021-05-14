@@ -2,11 +2,13 @@ package it.polimi.ingsw.client.view.GUI;
 
 import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.view.GUI.GUIelem.MatchRow;
 import it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchViewBuilder;
 import it.polimi.ingsw.network.assets.devcards.DevelopmentCardColor;
 import it.polimi.ingsw.network.messages.clienttoserver.CreateMatchRequest;
 import it.polimi.ingsw.network.messages.clienttoserver.JoinMatchRequest;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -91,6 +93,29 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals(CommonData.matchesDataString))
+            Platform.runLater(()->
+            {
+                    TableColumn<MatchRow,Integer> players= new TableColumn<MatchRow,Integer>("MATCH ID");
+        TableColumn<MatchRow,String> nicknames= new TableColumn<MatchRow,String>("NICKNAMES");
+        TableColumn<MatchRow,UUID> UUIDs= new TableColumn<MatchRow,UUID>("UUID");
+
+        final ObservableList<MatchRow> data= FXCollections.observableArrayList(dataToRow());
+
+        nicknames.setCellValueFactory(new PropertyValueFactory<MatchRow,String>("people"));
+        players.setCellValueFactory(new PropertyValueFactory<MatchRow,Integer>("number"));
+        UUIDs.setCellValueFactory(new PropertyValueFactory<MatchRow,UUID>("key"));
+
+        guiMatchesData.getColumns().add(nicknames);
+        guiMatchesData.getColumns().add(players);
+
+        guiMatchesData.setItems(data);
+
+
+        guiMatchesData.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        guiMatchesData.getSelectionModel().setCellSelectionEnabled(true);
+        System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(
+                Client.getInstance().getCommonData().getMatchesData().orElse(null)));  }          );
 
     }
 
@@ -103,7 +128,6 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
 
                 templist.add(new MatchRow(k,Client.getInstance().getCommonData().getMatchesData().get().get(key)[0],key));
             }
-        templist.add(new MatchRow(1,"test",UUID.randomUUID()));
 
         return templist;
     }
@@ -115,7 +139,6 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         TableColumn<MatchRow,Integer> players= new TableColumn<MatchRow,Integer>("MATCH ID");
         TableColumn<MatchRow,String> nicknames= new TableColumn<MatchRow,String>("NICKNAMES");
         TableColumn<MatchRow,UUID> UUIDs= new TableColumn<MatchRow,UUID>("UUID");
-
 
         final ObservableList<MatchRow> data= FXCollections.observableArrayList(dataToRow());
 
