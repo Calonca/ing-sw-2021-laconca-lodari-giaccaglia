@@ -2,7 +2,7 @@ package it.polimi.ingsw.server.model.player.leaders;
 
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
-import it.polimi.ingsw.network.assets.devcards.DevelopmentCardColor;
+import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
 import javafx.util.Pair;
 
 import java.util.List;
@@ -14,8 +14,6 @@ import java.util.List;
 public class MarketLeader extends Leader
 {
     private Resource bonus;
-
-
 
     public MarketLeader(LeaderState state, int victoryPoints, List<Pair<Resource,Integer>> requirementsResources, List<Pair<DevelopmentCardColor, Integer>> requirementsCards, Resource bonus, int requirementsCardsLevel)
     {
@@ -36,6 +34,10 @@ public class MarketLeader extends Leader
     {
         state = LeaderState.ACTIVE;
         gamemodel.getCurrentPlayer().applyMarketBonus(bonus);
+    }
+
+    public int getResourceBonusType(){
+        return bonus.getResourceNumber();
     }
 
 }

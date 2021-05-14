@@ -5,7 +5,7 @@ import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.server.model.GameModel;
 
 /**
- * Client side {@link Event} created when {@link GameModel#currentPlayer currentPlayer} has to place a {@link it.polimi.ingsw.server.model.cards.DevelopmentCard DevelopmentCard}
+ * Client side {@link Event} created when {@link GameModel#currentPlayer currentPlayer} has to place a {@link it.polimi.ingsw.server.model.cards.DevelopmentCard NetworkDevelopmentCard}
  * in his {@link it.polimi.ingsw.server.model.player.board.PersonalBoard PersonalBoard} during
  * {@link State#CHOOSING_POSITION_FOR_DEVCARD CHOOSING_POSITION_FOR_DEVCARD} phase by performing a
  * game turn action processed to accomplish server-side client validation.

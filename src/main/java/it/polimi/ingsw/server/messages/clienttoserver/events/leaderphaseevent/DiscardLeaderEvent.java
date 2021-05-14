@@ -14,10 +14,10 @@ import it.polimi.ingsw.server.model.GameModel;
  */
 public class DiscardLeaderEvent extends it.polimi.ingsw.network.messages.clienttoserver.events.leaderphaseevent.DiscardLeaderEvent implements Validable, LeaderValidation {
 
+
     @Override
     public boolean validate(GameModel model) {
-        initializeInitialOrFinalPhaseEvent(model);
-        return  isGameStarted(gameModel)  && validateLeaderNumber(model, leaderNumber)
+        return  isGameStarted(model)  && validateLeaderNumber(model, leaderNumber)
                 && validateLeaderAvailability(model, leaderNumber);
 
     }

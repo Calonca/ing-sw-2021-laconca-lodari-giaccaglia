@@ -8,7 +8,7 @@ public class WarehouseDepot extends Depot {
 
     /**
      * Creates a depot of the given dimension and given global position
-     * Resource.Empty means that it will change when adding resources to the type of the added resource
+     * NetworkResource.Empty means that it will change when adding resources to the type of the added resource
      * @param length number of cells in the depot
      * @param globalPositionOfFirstElement global position of the first element of the depot
      */

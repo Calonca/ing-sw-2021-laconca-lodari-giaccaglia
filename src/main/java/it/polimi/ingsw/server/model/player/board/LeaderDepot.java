@@ -15,4 +15,8 @@ public class LeaderDepot extends Depot {
     public LeaderDepot(int globalPositionOfFirstElement, Resource type) {
         super(2, globalPositionOfFirstElement, type);
     }
+
+    public int geResourceType(){
+        return type.getResourceNumber();
+    }
 }

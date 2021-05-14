@@ -16,7 +16,6 @@ public class ChooseLineEvent extends MarketBoardEvent {
      */
     public ChooseLineEvent(){}
 
-
     /**
      * Client side {@link Event} constructor invoked when {@link State#SHOWING_MARKET_RESOURCES SHOWING_MARKET_RESOURCES}
      * phase action is performed.

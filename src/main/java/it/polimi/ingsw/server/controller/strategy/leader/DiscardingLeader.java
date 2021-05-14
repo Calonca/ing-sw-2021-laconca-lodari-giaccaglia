@@ -14,7 +14,7 @@ public class DiscardingLeader implements GameStrategy {
     {
         //ON EVENT DISCARDLEADEREVENT
         //MESSAGE IS INT 2
-       // if(gamemodel.getCurrentPlayer().getLeaders().get(2).getState()== LeaderState.INACTIVE)
+       // if(gamemodel.getCurrentPlayer().getLeaders().get(2).getState()== NetworkLeaderState.INACTIVE)
 
        // gamemodel.getCurrentPlayer().getLeadersList().get(2).discard(gamemodel);
 

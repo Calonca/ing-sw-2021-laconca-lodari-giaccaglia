@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.model.cards;
 
-import it.polimi.ingsw.network.assets.devcards.DevelopmentCardColor;
 import it.polimi.ingsw.server.model.cards.production.Production;
 import it.polimi.ingsw.server.model.Resource;
 import javafx.util.Pair;
@@ -11,12 +10,25 @@ import java.util.List;
 /**
  * Class for Development Cards. Since the color is not strictly tied to the input/output we totally decoupled that
  */
-public class DevelopmentCard extends it.polimi.ingsw.network.assets.devcards.DevelopmentCard
+public class DevelopmentCard
 {
     /**
      * Production is the class to effectively use the card
      */
     protected Production production;
+
+    /**
+     * Enum to indicate card color
+     */
+    protected DevelopmentCardColor cardType;
+    protected List<Pair<Resource,Integer>> costList;
+    protected int victoryPoints;
+    protected int level;
+    public int getLevel() {
+        return level;
+    }
+
+    public DevelopmentCard(){}
 
     public DevelopmentCard(int level, DevelopmentCardColor cardType)
     {
@@ -47,6 +59,14 @@ public class DevelopmentCard extends it.polimi.ingsw.network.assets.devcards.Dev
         this.cardType = another.cardType;
         this.victoryPoints= another.victoryPoints;
         this.costList= another.costList;
+    }
+
+    public DevelopmentCardColor getCardType() {
+        return cardType;
+    }
+
+    public List<Pair<Resource,Integer>> getCostList(){
+        return costList;
     }
 
     public Production getProduction(){return production;}

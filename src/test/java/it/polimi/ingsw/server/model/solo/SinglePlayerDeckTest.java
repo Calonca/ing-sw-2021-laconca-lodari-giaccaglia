@@ -3,7 +3,7 @@ import java.lang.reflect.Field;
 
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.cards.CardShop;
-import it.polimi.ingsw.network.assets.devcards.DevelopmentCardColor;
+import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
 import it.polimi.ingsw.server.model.cards.DevelopmentCardDeck;
 import org.junit.*;
 import java.util.ArrayList;

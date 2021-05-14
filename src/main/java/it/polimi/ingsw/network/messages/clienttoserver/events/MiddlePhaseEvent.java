@@ -10,20 +10,5 @@ import it.polimi.ingsw.server.model.player.board.PersonalBoard;
  */
 public class MiddlePhaseEvent extends Event {
 
-    /**
-     * {@link GameModel} of the event's current game on which event validation has to be performed.
-     */
-    protected GameModel gameModel;
-    protected PersonalBoard currentPlayerPersonalBoard;
-
-    /**
-     * Server-side initializer to setup common attributes among {@link State#MIDDLE_PHASE MIDDLE_PHASE}
-     * events.
-     * @param gameModel {@link GameModel} of the event's current game on which event validation has to be performed.
-     */
-    protected void initializeMiddlePhaseEventValidation(GameModel gameModel){
-        this.gameModel = gameModel;
-        this.currentPlayerPersonalBoard = gameModel.getCurrentPlayer().getPersonalBoard();
-    }
 
 }

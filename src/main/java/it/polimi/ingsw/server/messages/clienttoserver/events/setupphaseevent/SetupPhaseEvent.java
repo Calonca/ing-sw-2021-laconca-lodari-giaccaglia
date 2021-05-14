@@ -22,7 +22,7 @@ public class SetupPhaseEvent extends it.polimi.ingsw.network.messages.clienttose
     /**
      * {@link GameModel} of the event's current game on which event validation has to be performed.
      */
-    protected GameModel gamemodel;
+    protected transient GameModel gamemodel;
 
     @Override
     public boolean validate(GameModel gameModel) {

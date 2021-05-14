@@ -23,27 +23,27 @@ public enum Marble {
      */
     WHITE(Resource.EMPTY),
     /**
-     * This <em>Marble</em> is mapped to the {@link Resource#SHIELD SHIELD} Resource
+     * This <em>Marble</em> is mapped to the {@link Resource#SHIELD SHIELD} NetworkResource
      */
     BLUE(Resource.SHIELD),
 
     /**
-     * This <em>Marble</em> is mapped to the {@link Resource#STONE STONE} Resource
+     * This <em>Marble</em> is mapped to the {@link Resource#STONE STONE} NetworkResource
      */
     GRAY(Resource.STONE),
 
     /**
-     * This <em>Marble</em> is mapped to the {@link Resource#GOLD GOLD} Resource
+     * This <em>Marble</em> is mapped to the {@link Resource#GOLD GOLD} NetworkResource
      */
     YELLOW(Resource.GOLD),
 
     /**
-     * This <em>Marble</em> is mapped to the {@link Resource#SERVANT SERVANT} Resource
+     * This <em>Marble</em> is mapped to the {@link Resource#SERVANT SERVANT} NetworkResource
      */
     PURPLE(Resource.SERVANT),
 
     /**
-     * This <em>Marble</em> is mapped to the {@link Resource#FAITH FAITH} Resource
+     * This <em>Marble</em> is mapped to the {@link Resource#FAITH FAITH} NetworkResource
      */
     RED(Resource.FAITH);
 

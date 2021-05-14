@@ -1,5 +1,10 @@
 {
   "table": {
+    "SETUP_PHASE": {
+      "SetupPhaseEvent": {
+        "type": "ChooseInitialResource"
+      }
+    },
     "SHOWING_LEADERS_INITIAL": {
       "SkipLeaderEvent": {
         "type": "EndingLeaderPhase"
@@ -9,11 +14,6 @@
       },
       "PlayLeaderEvent": {
         "type": "ActivatingLeader"
-      }
-    },
-    "SETUP_PHASE": {
-      "SetupPhaseEvent": {
-        "type": "ChooseInitialResource"
       }
     }
   }

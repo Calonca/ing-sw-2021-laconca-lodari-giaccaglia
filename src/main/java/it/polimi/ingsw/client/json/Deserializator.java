@@ -2,11 +2,11 @@ package it.polimi.ingsw.client.json;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import it.polimi.ingsw.server.utils.UUIDTypeAdapter;
 import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
-import it.polimi.ingsw.network.assets.devcards.DevelopmentCard;
-import it.polimi.ingsw.network.assets.leaders.LeaderCard;
+import it.polimi.ingsw.network.assets.leaders.NetworkLeaderCard;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import java.lang.reflect.Type;
 import java.nio.file.Path;
@@ -19,17 +19,17 @@ public class Deserializator extends JsonUtility {
     public static final String clientConfigPathString = "src/main/resources/clientconfig/";
 
     //helper method to initialize gameModel list of 16 cards.leaders
-    public static List<LeaderCard> leaderCardsDeserialization() {
-        LeaderCard[] leaders = deserialize(clientConfigPathString + "LeadersConfig.json", LeaderCard[].class, new Gson());
+    public static List<NetworkLeaderCard> leaderCardsDeserialization() {
+        NetworkLeaderCard[] leaders = deserialize(clientConfigPathString + "LeadersConfig.json", NetworkLeaderCard[].class, new Gson());
         return (Arrays.asList(leaders));
     }
     //helper method to load a 48 devcards array from json
-    public static List<DevelopmentCard> devCardsListDeserialization() {
-        DevelopmentCard[] cardsArray = deserialize(clientConfigPathString + "DevelopmentCardConfig.json", DevelopmentCard[].class);
+    public static List<NetworkDevelopmentCard> devCardsListDeserialization() {
+        NetworkDevelopmentCard[] cardsArray = deserialize(clientConfigPathString + "DevelopmentCardConfig.json", NetworkDevelopmentCard[].class);
         return (Arrays.asList(cardsArray));
     }
 
-    public static Map<UUID, DevelopmentCard> devCardsMap() {
+    public static Map<UUID, NetworkDevelopmentCard> devCardsMap() {
         return devCardsListDeserialization().stream().collect(Collectors.toMap(x -> UUID.randomUUID(), Function.identity()));
     }
 

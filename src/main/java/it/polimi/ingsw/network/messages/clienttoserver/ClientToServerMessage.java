@@ -16,17 +16,14 @@ import it.polimi.ingsw.network.jsonUtils.JsonUtility;
  */
 public abstract class ClientToServerMessage extends NetworkMessage
 {
-
     public String serialized()
     {
 
         RuntimeTypeAdapterFactory<ClientToServerMessage> clientToJsonAdapter = RuntimeTypeAdapterFactory.of(ClientToServerMessage.class);
 
-
         clientToJsonAdapter.registerSubtype(CreateMatchRequest.class);
         clientToJsonAdapter.registerSubtype(JoinMatchRequest.class);
         clientToJsonAdapter.registerSubtype(EventMessage.class);
-
 
         Gson gson1 = new GsonBuilder()
                 .registerTypeAdapterFactory(clientToJsonAdapter)
@@ -44,5 +41,4 @@ public abstract class ClientToServerMessage extends NetworkMessage
         eventMessageAdapter.registerSubtype(SetupPhaseEvent.class);
         return eventMessageAdapter;
     }
-
 }

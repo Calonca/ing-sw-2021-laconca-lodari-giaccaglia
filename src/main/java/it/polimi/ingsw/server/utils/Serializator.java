@@ -4,7 +4,9 @@ import com.google.gson.*;
 import it.polimi.ingsw.RuntimeTypeAdapterFactory;
 import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
-import it.polimi.ingsw.network.assets.devcards.DevelopmentCardColor;
+import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
+import it.polimi.ingsw.network.assets.leaders.NetworkLeaderCard;
+import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.cards.CardShop;
@@ -35,6 +37,7 @@ public class Serializator extends JsonUtility {
     public static final String backLeaderCardPathString = "src/main/resources/assets/leaders/BACK/Masters of Renaissance__Cards_BACK.png";
     private static final GsonBuilder gsonBuilder = new GsonBuilder();
     //helper method to serialize cardshop configuration
+
     public static void cardShopSerialization(){
         CardShop shop = new CardShop(Deserializator.devCardsDeckDeserialization());
         serialize(configPathString + "CardShopConfig.json", shop, CardShop.class);
@@ -42,9 +45,9 @@ public class Serializator extends JsonUtility {
 
 
     private static Map<UUID , DevelopmentCardAsset> devCardsAssetsBuilder() {
-        Map<UUID, DevelopmentCard> cardsFromJsonHandlerMap = devCardsMap();
+        Map<UUID, NetworkDevelopmentCard> cardsFromJsonHandlerMap = devCardsMap();
         return cardsFromJsonHandlerMap.keySet().stream().map(id -> {
-            DevelopmentCard card = cardsFromJsonHandlerMap.get(id);
+            NetworkDevelopmentCard card = cardsFromJsonHandlerMap.get(id);
             String cardPathSuffix = card.getCardType().toString() + "_" + card.getLevel() + ".png";
             String front = frontDevCardPathString + cardPathSuffix;
             String back = backDevCardPathString + cardPathSuffix;
@@ -54,9 +57,9 @@ public class Serializator extends JsonUtility {
 
     private static Map<UUID , LeaderCardAsset> leaderCardsAssetsMapBuilder() {
 
-        return IntStream.range(0, Deserializator.leaderCardsDeserialization().size()).boxed().map(index -> {
+        return IntStream.range(0, Deserializator.networkLeaderCardsDeserialization().size()).boxed().map(index -> {
 
-            Leader card = Deserializator.leaderCardsDeserialization().get(index);
+            NetworkLeaderCard card = Deserializator.networkLeaderCardsDeserialization().get(index);
             String cardPathSuffix = index.toString() + ".png";
             String front = frontLeaderCardPathString + cardPathSuffix;
             return new LeaderCardAsset(card, front, backLeaderCardPathString, UUID.nameUUIDFromBytes(card.toString().getBytes(StandardCharsets.UTF_8)));
@@ -143,7 +146,7 @@ public class Serializator extends JsonUtility {
         costTest = new Pair<>(Resource.SHIELD, 2);
         costTest2 = new Pair<>(Resource.GOLD, 2);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<>();
         requirementsTest.add(costTest);
         requirementsTest.add(costTest2);
         victoryPoints=4;
@@ -204,7 +207,7 @@ public class Serializator extends JsonUtility {
 
         addProd=new Production(new int[]{0,0,0,1,0,0,0},new int[]{0,0,0,0,2,0,0});
         costTest = new Pair<>(Resource.SHIELD, 4);
-        //costTest2 = new Pair<>(Resource.SHIELD, 2);
+        //costTest2 = new Pair<>(NetworkResource.SHIELD, 2);
 
         requirementsTest = new ArrayList<Pair<Resource, Integer>>();
         requirementsTest.add(costTest);
@@ -218,7 +221,7 @@ public class Serializator extends JsonUtility {
 //10
         addProd=new Production(new int[]{1,0,0,0,0,0,0},new int[]{0,0,0,0,2,0,0});
         costTest = new Pair<>(Resource.SERVANT, 4);
-        //costTest2 = new Pair<>(Resource.SHIELD, 2);
+        //costTest2 = new Pair<>(NetworkResource.SHIELD, 2);
 
         requirementsTest = new ArrayList<Pair<Resource, Integer>>();
         requirementsTest.add(costTest);
@@ -232,7 +235,7 @@ public class Serializator extends JsonUtility {
 
         addProd=new Production(new int[]{0,1,0,0,0,0,0},new int[]{0,0,0,0,2,0,0});
         costTest = new Pair<>(Resource.GOLD, 4);
-        //costTest2 = new Pair<>(Resource.SHIELD, 2);
+        //costTest2 = new Pair<>(NetworkResource.SHIELD, 2);
 
         requirementsTest = new ArrayList<Pair<Resource, Integer>>();
         requirementsTest.add(costTest);
@@ -247,7 +250,7 @@ public class Serializator extends JsonUtility {
         //12
         addProd=new Production(new int[]{0,0,0,1,0,0,0},new int[]{0,0,0,0,1,0,0});
         costTest = new Pair<>(Resource.SERVANT, 2);
-        //costTest2 = new Pair<>(Resource.SHIELD, 2);
+        //costTest2 = new Pair<>(NetworkResource.SHIELD, 2);
 
         requirementsTest = new ArrayList<Pair<Resource, Integer>>();
         requirementsTest.add(costTest);
@@ -263,7 +266,7 @@ public class Serializator extends JsonUtility {
         //13
         addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,0,0,0,2,0,0});
         costTest = new Pair<>(Resource.STONE, 4);
-        //costTest2 = new Pair<>(Resource.SHIELD, 2);
+        //costTest2 = new Pair<>(NetworkResource.SHIELD, 2);
 
         requirementsTest = new ArrayList<Pair<Resource, Integer>>();
         requirementsTest.add(costTest);
@@ -341,7 +344,7 @@ public class Serializator extends JsonUtility {
         //18
         addProd=new Production(new int[]{2,0,0,1,0,0,0},new int[]{0,0,0,2,2,0,0});
         costTest = new Pair<>(Resource.SHIELD, 5);
-        //costTest2 = new Pair<>(Resource.SHIELD, 2);
+        //costTest2 = new Pair<>(NetworkResource.SHIELD, 2);
 
         requirementsTest = new ArrayList<Pair<Resource, Integer>>();
         requirementsTest.add(costTest);
@@ -355,7 +358,7 @@ public class Serializator extends JsonUtility {
         //19
         addProd=new Production(new int[]{0,0,0,2,0,0,0},new int[]{2,0,0,0,2,0,0});
         costTest = new Pair<>(Resource.SERVANT, 5);
-        //costTest2 = new Pair<>(Resource.SHIELD, 2);
+        //costTest2 = new Pair<>(NetworkResource.SHIELD, 2);
 
         requirementsTest = new ArrayList<Pair<Resource, Integer>>();
         requirementsTest.add(costTest);
@@ -369,7 +372,7 @@ public class Serializator extends JsonUtility {
         //20
         addProd=new Production(new int[]{0,2,0,0,0,0,0},new int[]{0,0,2,0,2,0,0});
         costTest = new Pair<>(Resource.GOLD, 5);
-        //costTest2 = new Pair<>(Resource.SHIELD, 2);
+        //costTest2 = new Pair<>(NetworkResource.SHIELD, 2);
 
         requirementsTest = new ArrayList<Pair<Resource, Integer>>();
         requirementsTest.add(costTest);
@@ -384,7 +387,7 @@ public class Serializator extends JsonUtility {
         //21
         addProd=new Production(new int[]{0,0,2,0,0,0,0},new int[]{0,2,0,0,2,0,0});
         costTest = new Pair<>(Resource.STONE, 5);
-        //costTest2 = new Pair<>(Resource.SHIELD, 2);
+        //costTest2 = new Pair<>(NetworkResource.SHIELD, 2);
 
         requirementsTest = new ArrayList<Pair<Resource, Integer>>();
         requirementsTest.add(costTest);
@@ -414,7 +417,7 @@ public class Serializator extends JsonUtility {
         //23
         addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,0,0,0,1,0,0});
         costTest = new Pair<>(Resource.GOLD, 2);
-        //costTest2 = new Pair<>(Resource.GOLD, 3);
+        //costTest2 = new Pair<>(NetworkResource.GOLD, 3);
 
         requirementsTest = new ArrayList<Pair<Resource, Integer>>();
         requirementsTest.add(costTest);
@@ -476,7 +479,7 @@ public class Serializator extends JsonUtility {
         //27
         addProd=new Production(new int[]{2,0,0,0,0,0,0},new int[]{0,0,0,3,2,0,0});
         costTest = new Pair<>(Resource.SHIELD, 6);
-        //costTest2 = new Pair<>(Resource.STONE, 3);
+        //costTest2 = new Pair<>(NetworkResource.STONE, 3);
 
         requirementsTest = new ArrayList<Pair<Resource, Integer>>();
         requirementsTest.add(costTest);
@@ -491,7 +494,7 @@ public class Serializator extends JsonUtility {
         //28
         addProd=new Production(new int[]{0,0,0,2,0,0,0},new int[]{3,0,0,0,2,0,0});
         costTest = new Pair<>(Resource.SERVANT, 6);
-        //costTest2 = new Pair<>(Resource.STONE, 3);
+        //costTest2 = new Pair<>(NetworkResource.STONE, 3);
 
         requirementsTest = new ArrayList<Pair<Resource, Integer>>();
         requirementsTest.add(costTest);
@@ -508,7 +511,7 @@ public class Serializator extends JsonUtility {
         //29
         addProd=new Production(new int[]{0,2,0,0,0,0,0},new int[]{0,0,3,0,2,0,0});
         costTest = new Pair<>(Resource.GOLD, 6);
-        //costTest2 = new Pair<>(Resource.STONE, 3);
+        //costTest2 = new Pair<>(NetworkResource.STONE, 3);
 
         requirementsTest = new ArrayList<Pair<Resource, Integer>>();
         requirementsTest.add(costTest);
@@ -524,7 +527,7 @@ public class Serializator extends JsonUtility {
         //30
         addProd=new Production(new int[]{0,0,2,0,0,0,0},new int[]{0,3,0,0,2,0,0});
         costTest = new Pair<>(Resource.STONE, 6);
-        //costTest2 = new Pair<>(Resource.STONE, 3);
+        //costTest2 = new Pair<>(NetworkResource.STONE, 3);
 
         requirementsTest = new ArrayList<Pair<Resource, Integer>>();
         requirementsTest.add(costTest);
@@ -584,7 +587,7 @@ public class Serializator extends JsonUtility {
         //34
         addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,1,0,0,0,0,0});
         costTest = new Pair<>(Resource.STONE, 2);
-        //costTest2 = new Pair<>(Resource.STONE, 2);
+        //costTest2 = new Pair<>(NetworkResource.STONE, 2);
 
         requirementsTest = new ArrayList<Pair<Resource, Integer>>();
         requirementsTest.add(costTest);
@@ -827,7 +830,7 @@ public class Serializator extends JsonUtility {
         level=1;
         color=DevelopmentCardColor.GREEN ;
 
-       /* series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+       /* series.add(new NetworkDevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
         Gson gsonprint= new Gson();
         System.out.println(gsonprint.toJson(series));
         */
@@ -1148,6 +1151,7 @@ public class Serializator extends JsonUtility {
         //   Leader[] cards.leaders = deserialize("src/main/resources/config/LeadersConfig.json" , Leader[].class);
     }
 
+
     public static void main(String[] args) throws IOException {
       /*
       cardShopSerialization();
@@ -1157,8 +1161,10 @@ public class Serializator extends JsonUtility {
       serialize(configPathString + "MarketBoardConfig.json", test, MarketBoard.class);
       faithTrackDeserialization();
       */
-      devCardsAssetsSerialization();
-      leaderCardsAssetsSerialization();
+    //  devCardsAssetsSerialization();
+    //  leaderCardsAssetsSerialization();
+
+
     }
 
 

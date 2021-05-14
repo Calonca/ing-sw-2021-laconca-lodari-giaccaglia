@@ -13,17 +13,17 @@ import it.polimi.ingsw.server.model.states.State;
  */
 public class ChooseWhiteMarbleConversionEvent extends it.polimi.ingsw.network.messages.clienttoserver.events.marketboardevent.ChooseWhiteMarbleConversionEvent implements Validable {
 
+
     @Override
     public boolean validate(GameModel model) {
-        initializeMiddlePhaseEventValidation(model);
-        return verifyWhiteMarbleInPickedLine() && validateResourceNumber();
+        return verifyWhiteMarbleInPickedLine(model) && validateResourceNumber();
     }
 
     /**
      * @return true if previously selected {@link it.polimi.ingsw.server.model.market.MarketLine MarketLine} contains any {@link Marble#WHITE WHITEMARBLE},
      * otherwise false.
      */
-    private boolean verifyWhiteMarbleInPickedLine(){
+    private boolean verifyWhiteMarbleInPickedLine(GameModel gameModel){
         return gameModel.areThereWhiteMarblesInPickedLine() && gameModel.getNumberOfWhiteMarblesInPickedLine()>0;
     }
 

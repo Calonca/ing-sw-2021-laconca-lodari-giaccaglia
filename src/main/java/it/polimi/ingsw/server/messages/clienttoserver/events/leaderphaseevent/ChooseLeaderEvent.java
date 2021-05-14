@@ -15,8 +15,7 @@ public class ChooseLeaderEvent extends it.polimi.ingsw.network.messages.clientto
 
     @Override
     public boolean validate(GameModel model) {
-        initializeInitialOrFinalPhaseEvent(model);
-        return  isGameStarted(gameModel) && validateLeaderNumber(model, leaderNumber)
+        return  isGameStarted(model) && validateLeaderNumber(model, leaderNumber)
                 && validateLeaderAvailability(model, leaderNumber);
     }
 

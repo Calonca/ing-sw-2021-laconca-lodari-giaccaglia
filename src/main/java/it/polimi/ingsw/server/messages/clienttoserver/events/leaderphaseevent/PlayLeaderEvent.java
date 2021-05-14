@@ -13,11 +13,11 @@ import it.polimi.ingsw.server.model.GameModel;
  */
 public class PlayLeaderEvent extends it.polimi.ingsw.network.messages.clienttoserver.events.leaderphaseevent.PlayLeaderEvent implements Validable, LeaderValidation{
 
+
     @Override
-    public boolean validate(GameModel model) {
-        initializeInitialOrFinalPhaseEvent(model);
-        return  isGameStarted(gameModel) && validateLeaderAvailability(model, leaderNumber)
-                && validateLeaderNumber(model, leaderNumber) && validateLeaderRequirements(model, leaderNumber);
+    public boolean validate(GameModel gameModel) {
+        return  isGameStarted(gameModel) && validateLeaderAvailability(gameModel, leaderNumber)
+                && validateLeaderNumber(gameModel, leaderNumber) && validateLeaderRequirements(gameModel, leaderNumber);
     }
 
 

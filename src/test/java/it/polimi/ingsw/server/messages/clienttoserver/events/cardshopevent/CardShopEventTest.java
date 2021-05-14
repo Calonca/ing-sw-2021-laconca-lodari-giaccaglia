@@ -3,7 +3,7 @@ package it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent;
 import com.google.gson.Gson;
 import it.polimi.ingsw.network.messages.clienttoserver.events.cardshopevent.CardShopEvent;
 import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.network.assets.devcards.DevelopmentCardColor;
+import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -31,7 +31,7 @@ public class CardShopEventTest {
     public void validationOkTest(){
         initializeMultiPlayerGameModel();
         gameModelTest.setCurrentPlayer(gameModelTest.getPlayer("testPlayer3"));
-        clientEventTest = new it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent.CardShopEvent();
+        clientEventTest = new CardShopEvent();
         serializedEvent = serialize(clientEventTest);
         serverEventTest = deserializeFromString(serializedEvent, it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent.CardShopEvent.class , gson);
         assertTrue(serverEventTest.validate(gameModelTest));
@@ -41,7 +41,7 @@ public class CardShopEventTest {
     public void validationNotOkTest(){
         initializeSinglePlayerGameModel();
         invalidTestInitialization();
-        clientEventTest = new it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent.CardShopEvent();
+        clientEventTest = new CardShopEvent();
         serializedEvent = serialize(clientEventTest);
         serverEventTest = deserializeFromString(serializedEvent, it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent.CardShopEvent.class , gson);
         assertFalse(serverEventTest.validate(gameModelTest));

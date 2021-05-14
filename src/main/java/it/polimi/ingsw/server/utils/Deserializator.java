@@ -3,12 +3,10 @@ package it.polimi.ingsw.server.utils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.RuntimeTypeAdapterFactory;
-import it.polimi.ingsw.network.assets.LeaderCardAsset;
-import it.polimi.ingsw.network.assets.devcards.DevelopmentCardColor;
+import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
+import it.polimi.ingsw.network.assets.leaders.*;
+import it.polimi.ingsw.server.model.cards.*;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
-import it.polimi.ingsw.server.model.cards.CardShop;
-import it.polimi.ingsw.server.model.cards.DevelopmentCard;
-import it.polimi.ingsw.server.model.cards.DevelopmentCardDeck;
 import it.polimi.ingsw.server.model.market.MarketBoard;
 import it.polimi.ingsw.server.model.player.leaders.*;
 import it.polimi.ingsw.server.model.player.track.FaithTrack;
@@ -20,6 +18,8 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Deserializator extends JsonUtility {
+
+    public static Gson gson = new Gson();
 
     public static MarketBoard marketBoardDeserialization(){
         return deserialize(configPathString + "MarketBoardConfig.json", MarketBoard.class);
@@ -108,7 +108,7 @@ public class Deserializator extends JsonUtility {
         return listOfDecks;
     }
 
-    //helper method to initialize gameModel list of 16 cards.leaders
+    //helper method to initialize gameModel list of 16 leaders
     public static List<Leader> leaderCardsDeserialization(){
 
         RuntimeTypeAdapterFactory<Leader> jsonToLeaderListAdapter = RuntimeTypeAdapterFactory.of(Leader.class);
@@ -125,7 +125,65 @@ public class Deserializator extends JsonUtility {
 
         Leader[] leaders = deserialize(configPathString + "LeadersConfig.json", Leader[].class, gson);
         return (Arrays.asList(leaders));
+
     }
+
+    public static List<NetworkLeaderCard> networkLeaderCardsDeserialization(){
+
+
+        RuntimeTypeAdapterFactory<NetworkLeaderCard> jsonToNetworkLeaderListAdapter = RuntimeTypeAdapterFactory.of(NetworkLeaderCard.class);
+
+        jsonToNetworkLeaderListAdapter.registerSubtype(NetworkDepositLeaderCard.class);
+        jsonToNetworkLeaderListAdapter.registerSubtype(NetworkMarketLeaderCard.class);
+        jsonToNetworkLeaderListAdapter.registerSubtype(NetworkProductionLeaderCard.class);
+        jsonToNetworkLeaderListAdapter.registerSubtype(DevelopmentDiscountNetworkLeaderCard.class);
+
+        List<Leader> modelLeadersList = leaderCardsDeserialization();
+
+        return modelLeadersList.stream().map(leader -> {
+
+            NetworkLeaderCard networkLeaderCard = null;
+
+            if(leader instanceof DepositLeader){
+                String jsonString = Serializator.serialize(leader);
+                NetworkDepositLeaderCard depositLeaderCard = Deserializator.deserializeFromString(jsonString, NetworkDepositLeaderCard.class, gson);
+                depositLeaderCard.setResourcesTypeInDepot(((DepositLeader) leader).getDepotResourcesType());
+                networkLeaderCard = depositLeaderCard;
+
+            }
+
+            if(leader instanceof MarketLeader){
+
+                String jsonString = Serializator.serialize(leader);
+                NetworkMarketLeaderCard marketLeaderCard = Deserializator.deserializeFromString(jsonString, NetworkMarketLeaderCard.class, gson);
+                marketLeaderCard.setMarketBonusResource(((MarketLeader) leader).getResourceBonusType());
+                networkLeaderCard = marketLeaderCard;
+
+            }
+
+            if(leader instanceof ProductionLeader){
+
+                String jsonString = Serializator.serialize(leader);
+                NetworkProductionLeaderCard productionLeaderCard = Deserializator.deserializeFromString(jsonString, NetworkProductionLeaderCard.class, gson);
+                productionLeaderCard.setProductionInputResources(((ProductionLeader) leader).getProductionInputs());
+                productionLeaderCard.setProductionOutputResources(((ProductionLeader) leader).getProductionOutputs());
+                networkLeaderCard = productionLeaderCard;
+
+            }
+
+            if(leader instanceof DevelopmentDiscountLeader){
+                String jsonString = Serializator.serialize(leader);
+                DevelopmentDiscountNetworkLeaderCard developmentDiscountLeaderCard= Deserializator.deserializeFromString(jsonString, DevelopmentDiscountNetworkLeaderCard.class, gson);
+                developmentDiscountLeaderCard.setResourcesDiscount(((DevelopmentDiscountLeader) leader).getDiscountAsIntegerPair());
+                networkLeaderCard = developmentDiscountLeaderCard;
+            }
+
+            return networkLeaderCard;
+
+        }).collect(Collectors.toList());
+
+    }
+
 
     public static Map<UUID, Leader> leadersCardMapBuilder(){
         List<Leader> leaderList = leaderCardsDeserialization();
@@ -143,7 +201,21 @@ public class Deserializator extends JsonUtility {
         return (Arrays.asList(cardsArray));
     }
 
-    public static Map<UUID, DevelopmentCard> devCardsMap() {
-        return devCardsListDeserialization().stream().collect(Collectors.toMap(x -> UUID.randomUUID(), Function.identity()));
+    public static List<NetworkDevelopmentCard> networkDevCardsListDeserialization(){
+        NetworkDevelopmentCard[] cardsArray = deserialize(configPathString + "DevelopmentCardConfig.json", NetworkDevelopmentCard[].class);
+        return (Arrays.asList(cardsArray));
     }
+
+    public static Map<UUID, NetworkDevelopmentCard> devCardsMap() {
+        return networkDevCardsListDeserialization().stream().collect(Collectors.toMap(x -> UUID.randomUUID(), Function.identity()));
+    }
+
+    public static void main(String[] args) {
+        List<NetworkDevelopmentCard> test = networkDevCardsListDeserialization();
+        int ciao = 5;
+        List<NetworkLeaderCard> test2 = networkLeaderCardsDeserialization();
+        int ciaso = 2;
+    }
+
+
 }

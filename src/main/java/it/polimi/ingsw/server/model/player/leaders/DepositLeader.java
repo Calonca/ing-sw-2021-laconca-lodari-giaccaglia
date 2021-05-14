@@ -2,7 +2,7 @@ package it.polimi.ingsw.server.model.player.leaders;
 
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
-import it.polimi.ingsw.network.assets.devcards.DevelopmentCardColor;
+import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
 import it.polimi.ingsw.server.model.player.board.LeaderDepot;
 import javafx.util.Pair;
 
@@ -39,6 +39,10 @@ public class DepositLeader extends Leader
     {
         gamemodel.getCurrentPlayer().getPersonalBoard().getWarehouseLeadersDepots().addDepot(this.leaderdepot);
         state = LeaderState.ACTIVE; //assumo che il leader attivato sia "in cima"
+    }
+
+    public int getDepotResourcesType(){
+        return leaderdepot.geResourceType();
     }
 
 }

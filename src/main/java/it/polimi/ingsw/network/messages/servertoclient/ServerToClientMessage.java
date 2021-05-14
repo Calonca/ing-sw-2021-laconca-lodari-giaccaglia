@@ -85,7 +85,6 @@ public abstract class ServerToClientMessage extends NetworkMessage
 
         //Todo Register here all the states message types
         stateMessageAdapter.registerSubtype(SETUP_PHASE.class);
-
         return stateMessageAdapter;
     }
 

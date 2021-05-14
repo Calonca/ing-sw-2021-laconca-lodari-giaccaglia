@@ -179,11 +179,6 @@ public class StatesTransitionTable {
         eventsAndStrategy.put(name(DiscardResourcesEvent.class),new DiscardingResources());
         statesTransitionTable.table.put(State.CHOOSING_POSITION_FOR_RESOURCES,eventsAndStrategy);
 
-
-
-
-
-
         //Todo add other states
 
         JsonUtility.serialize(JsonUtility.configPathString+multiPLayerTableFile,

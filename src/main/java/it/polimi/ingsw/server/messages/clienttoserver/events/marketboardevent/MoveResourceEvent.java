@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.messages.clienttoserver.events.marketboardevent;
 
 import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
 import it.polimi.ingsw.server.model.Resource;
+import it.polimi.ingsw.server.model.player.board.PersonalBoard;
 import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
@@ -14,24 +15,38 @@ import it.polimi.ingsw.server.model.GameModel;
  */
 public class MoveResourceEvent extends it.polimi.ingsw.network.messages.clienttoserver.events.marketboardevent.MoveResourceEvent implements Validable {
 
-    @Override
-    public boolean validate(GameModel model) {
-        this.gameModel = model;
-        this.currentPlayerPersonalBoard = model.getCurrentPlayer().getPersonalBoard();
-        return isGameStarted(model) && checkResourceAvailability() && validatePositions();
+    /**
+     * {@link GameModel} of the event's current game on which event validation has to be performed.
+     */
+    private transient GameModel gameModel;
+    private transient PersonalBoard currentPlayerPersonalBoard;
+
+    /**
+     * Server-side initializer to setup common attributes among {@link State#MIDDLE_PHASE MIDDLE_PHASE}
+     * events.
+     * @param gameModel {@link GameModel} of the event's current game on which event validation has to be performed.
+     */
+    private void initializeMiddlePhaseEventValidation(GameModel gameModel){
+        this.gameModel = gameModel;
+        this.currentPlayerPersonalBoard = gameModel.getCurrentPlayer().getPersonalBoard();
     }
 
+    @Override
+    public boolean validate(GameModel model) {
+        initializeMiddlePhaseEventValidation(model);
+        return isGameStarted(model) && checkResourceAvailability() && validatePositions();
+    }
 
     /*
 
     /**
-     * Method to validate initial and final positions for {@link it.polimi.ingsw.server.model.Resource Resources} taken from
+     * Method to validate initial and final positions for {@link it.polimi.ingsw.server.model.NetworkResource Resources} taken from
      * {@link it.polimi.ingsw.server.model.market.MarketBoard MarketBoard} and placed in
      * {@link it.polimi.ingsw.server.model.player.board.WarehouseDepot WarehouseDepot}
      *
-     * @param endPos  int value of the destination position for the {@link it.polimi.ingsw.server.model.Resource Resource} to move.
+     * @param endPos  int value of the destination position for the {@link it.polimi.ingsw.server.model.NetworkResource NetworkResource} to move.
      *
-     * @return true if starting position is among ones in the picked {@link it.polimi.ingsw.server.model.Resource Resources} and
+     * @return true if starting position is among ones in the picked {@link it.polimi.ingsw.server.model.NetworkResource Resources} and
      * ending position is among available ones inside {@link it.polimi.ingsw.server.model.player.board.WarehouseDepot WarehouseDepot}
      *
     private boolean validateNewResourceToAdd(int endPos){
@@ -45,8 +60,8 @@ public class MoveResourceEvent extends it.polimi.ingsw.network.messages.clientto
      * Method to validate initial and final position for {@link it.polimi.ingsw.server.model.Resource Resources} moved
      * from a spot to another available inside {@link it.polimi.ingsw.server.model.player.board.WarehouseDepot WarehouseDepot}.
      *
-     * @param startPos int value position of the {@link it.polimi.ingsw.server.model.Resource Resource} to move.
-     * @param endPos  int value of the destination position for the {@link it.polimi.ingsw.server.model.Resource Resource} to move.
+     * @param startPos int value position of the {@link it.polimi.ingsw.server.model.Resource NetworkResource} to move.
+     * @param endPos  int value of the destination position for the {@link it.polimi.ingsw.server.model.Resource NetworkResource} to move.
      *
      * @return true if starting position is among ones in inside {@link it.polimi.ingsw.server.model.player.board.WarehouseDepot WarehouseDepot} and
      * ending position is among available ones inside {@link it.polimi.ingsw.server.model.player.board.WarehouseDepot WarehouseDepot}

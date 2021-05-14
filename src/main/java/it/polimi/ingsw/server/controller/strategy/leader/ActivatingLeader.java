@@ -15,7 +15,7 @@ public class ActivatingLeader implements GameStrategy {
         //ON EVENT PLAYLEADEREVENT
         //MESSAGE IS INT 2
     //    if(gamemodel.getCurrentPlayer().getPersonalBoard().isLeaderRequirementsSatisfied(gamemodel.getCurrentPlayer().getLeaders().get(2))&&
-    //        gamemodel.getCurrentPlayer().getLeaders().get(2).getState()== LeaderState.INACTIVE)
+    //        gamemodel.getCurrentPlayer().getLeaders().get(2).getState()== NetworkLeaderState.INACTIVE)
       //  gamemodel.getCurrentPlayer().getLeader().get(2).activate(gamemodel);
 
         return new EndingLeaderPhase().execute(gamemodel, event);

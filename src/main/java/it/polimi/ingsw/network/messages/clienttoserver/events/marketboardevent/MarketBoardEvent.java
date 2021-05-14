@@ -18,7 +18,6 @@ public class MarketBoardEvent extends MiddlePhaseEvent {
      */
     protected int chosenRow;
 
-
     //no constructor apart from basic one needed
 
 }

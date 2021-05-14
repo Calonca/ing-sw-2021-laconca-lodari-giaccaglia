@@ -45,7 +45,6 @@ public interface ServerMessage {
     static RuntimeTypeAdapterFactory<Validable> eventMessageAdapter(){
         RuntimeTypeAdapterFactory<Validable> eventMessageAdapter = RuntimeTypeAdapterFactory.of(Validable.class);
 
-        //Todo Register here all the event message types in the server
         eventMessageAdapter.registerSubtype(TestEvent.class);
 
         eventMessageAdapter.registerSubtype(MiddlePhaseEvent.class);
@@ -57,7 +56,6 @@ public interface ServerMessage {
         eventMessageAdapter.registerSubtype(ChooseCardPositionEvent.class);
         eventMessageAdapter.registerSubtype(ChooseResourcesForProductionEvent.class);
         eventMessageAdapter.registerSubtype(FinalProductionPhase.class);
-        eventMessageAdapter.registerSubtype(ProductionEvent.class);
 
         eventMessageAdapter.registerSubtype(ChooseLineEvent.class);
         eventMessageAdapter.registerSubtype(ChooseWhiteMarbleConversionEvent.class);

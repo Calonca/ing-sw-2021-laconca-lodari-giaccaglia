@@ -4,7 +4,7 @@ import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.cards.CardShop;
-import it.polimi.ingsw.network.assets.devcards.DevelopmentCardColor;
+import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
 import it.polimi.ingsw.server.model.cards.DevelopmentCardDeck;
 
 /**
@@ -13,6 +13,23 @@ import it.polimi.ingsw.server.model.cards.DevelopmentCardDeck;
  * game turn action processed to accomplish server-side client validation.
  */
 public class CardShopEvent extends it.polimi.ingsw.network.messages.clienttoserver.events.cardshopevent.CardShopEvent implements Validable {
+
+
+
+    /**
+     * {@link GameModel} of the event's current game on which event validation has to be performed.
+     */
+    private transient GameModel gameModel;
+
+    /**
+     * Server-side initializer to setup common attributes among {@link State#MIDDLE_PHASE MIDDLE_PHASE}
+     * events.
+     * @param gameModel {@link GameModel} of the event's current game on which event validation has to be performed.
+     */
+    private void initializeMiddlePhaseEventValidation(GameModel gameModel){
+        this.gameModel = gameModel;
+    }
+
 
     @Override
     public boolean validate(GameModel gameModel) {

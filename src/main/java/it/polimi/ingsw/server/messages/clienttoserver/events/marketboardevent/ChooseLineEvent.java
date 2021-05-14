@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.messages.clienttoserver.events.marketboardevent;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.market.MarketLine;
+import it.polimi.ingsw.server.model.player.board.PersonalBoard;
 import it.polimi.ingsw.server.model.states.State;
 
 /**
@@ -15,7 +16,6 @@ public class ChooseLineEvent extends it.polimi.ingsw.network.messages.clienttose
 
     @Override
     public boolean validate(GameModel model) {
-        initializeMiddlePhaseEventValidation(model);
         return isGameStarted(model) && validateRowNumber();
     }
 

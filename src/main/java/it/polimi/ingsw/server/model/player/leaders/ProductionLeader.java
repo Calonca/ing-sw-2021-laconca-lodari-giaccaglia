@@ -3,10 +3,12 @@ package it.polimi.ingsw.server.model.player.leaders;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.cards.production.Production;
 import it.polimi.ingsw.server.model.Resource;
-import it.polimi.ingsw.network.assets.devcards.DevelopmentCardColor;
+import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
 import javafx.util.Pair;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Concrete class for Production Leader. Upon activation, a Production will be added to the player's board
@@ -40,6 +42,14 @@ public class ProductionLeader extends Leader
     {
         state = LeaderState.ACTIVE;
         gamemodel.getCurrentPlayer().getPersonalBoard().addProduction(production);
+    }
+
+    public List<Integer> getProductionInputs(){
+        return Arrays.stream(production.getInputs()).boxed().collect(Collectors.toList());
+    }
+
+    public List<Integer> getProductionOutputs(){
+        return Arrays.stream(production.getOutputs()).boxed().collect(Collectors.toList());
     }
 
 

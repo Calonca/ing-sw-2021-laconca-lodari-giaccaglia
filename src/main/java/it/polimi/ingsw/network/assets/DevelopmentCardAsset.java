@@ -1,23 +1,23 @@
 package it.polimi.ingsw.network.assets;
 
-import it.polimi.ingsw.network.assets.devcards.DevelopmentCard;
+import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 
 import java.util.UUID;
 
 public class DevelopmentCardAsset extends CardAsset{
 
-    private DevelopmentCard developmentCard;
+    private NetworkDevelopmentCard networkDevelopmentCard;
 
     public DevelopmentCardAsset(){
     }
 
-    public DevelopmentCardAsset(DevelopmentCard developmentCard, String front, String back, UUID cardId){
+    public DevelopmentCardAsset(NetworkDevelopmentCard networkDevelopmentCard, String front, String back, UUID cardId){
         super(front, back, cardId);
-        this.developmentCard = developmentCard;
+        this.networkDevelopmentCard = networkDevelopmentCard;
     }
 
-    public DevelopmentCard getDevelopmentCard() {
-        return developmentCard;
+    public NetworkDevelopmentCard getDevelopmentCard() {
+        return networkDevelopmentCard;
     }
 
 }

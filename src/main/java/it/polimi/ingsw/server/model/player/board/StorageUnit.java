@@ -56,9 +56,9 @@ interface StorageUnit {
 
 
     ///**
-    // * Returns if the {@link Resource resource} at the given global position in the {@link StorageUnit} is selected for production
-    // * @param globalPos the global position of the {@link Resource resource}
-    // * @return if the {@link Resource resource} at the given global position in the {@link StorageUnit} is selected for production
+    // * Returns if the {@link NetworkResource resource} at the given global position in the {@link StorageUnit} is selected for production
+    // * @param globalPos the global position of the {@link NetworkResource resource}
+    // * @return if the {@link NetworkResource resource} at the given global position in the {@link StorageUnit} is selected for production
     // */
     //boolean getResSelectedAt(int globalPos);
 }
