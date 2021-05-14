@@ -3,11 +3,11 @@ package it.polimi.ingsw.client.view.GUI.GUIelem;
 import java.util.UUID;
 
 public class MatchRow {
-    private String people;
+    private String people[];
     private int number;
     private UUID key;
 
-    public MatchRow(int number, String people, UUID key) {
+    public MatchRow(int number, String[] people, UUID key) {
         this.people=people;
         this.number=number;
         this.key=key;
@@ -16,7 +16,7 @@ public class MatchRow {
         return key;
     }
 
-    public String getPeople() {
+    public String[] getPeople() {
         return people;
     }
 

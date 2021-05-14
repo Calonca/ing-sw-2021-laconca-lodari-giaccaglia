@@ -31,8 +31,11 @@ import java.util.*;
 public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implements GUIView {
 
     @FXML
-    private TableView<MatchRow> guiMatchesData;
+    public TableView<MatchRow> guiMatchesData;
 
+    TableColumn<MatchRow,Integer> players;
+    TableColumn<MatchRow,String[]> nicknames;
+    TableColumn<MatchRow,UUID> UUIDs;
     @FXML
     private Button joinLoadButton;
     @FXML
@@ -69,7 +72,6 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         if(selected.size()!=0)
         {
             System.out.println(selected.get(0).getKey()+Client.getInstance().getCommonData().getCurrentnick());
-            //TODO CANNOT SERIALIZE fix
             Client.getInstance().getServerHandler().sendCommandMessage(new JoinMatchRequest(selected.get(0).getKey(),Client.getInstance().getCommonData().getCurrentnick()));
             Client.getInstance().changeViewBuilder(new CreateMatch());
 
@@ -79,7 +81,6 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
 
     public void handleCreate(){
         int a= (int) playerCount.getValue();
-        //TODO CANNOT SERIALIZE fix
         System.out.println(a+Client.getInstance().getCommonData().getCurrentnick());
         Client.getInstance().getServerHandler().sendCommandMessage(new CreateMatchRequest(a,Client.getInstance().getCommonData().getCurrentnick()));
         Client.getInstance().changeViewBuilder(new CreateMatch());
@@ -87,7 +88,6 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
 
     public void clickedColumn(MouseEvent event)
     {
-
         //TODO SELECT WHOLE ROW (NOT NECESSARY IT WOULD WORK ANYWAY BUT ITS UGLY)
     }
 
@@ -96,26 +96,21 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         if (evt.getPropertyName().equals(CommonData.matchesDataString))
             Platform.runLater(()->
             {
-                    TableColumn<MatchRow,Integer> players= new TableColumn<MatchRow,Integer>("MATCH ID");
-        TableColumn<MatchRow,String> nicknames= new TableColumn<MatchRow,String>("NICKNAMES");
-        TableColumn<MatchRow,UUID> UUIDs= new TableColumn<MatchRow,UUID>("UUID");
+                //todo fix this may be ugly
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/fxml/CreateJoinLoadMatch.fxml"));
+                Parent root = null;
+                try {
+                    root = loader.load();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
-        final ObservableList<MatchRow> data= FXCollections.observableArrayList(dataToRow());
+                Scene scene = new Scene(root);
 
-        nicknames.setCellValueFactory(new PropertyValueFactory<MatchRow,String>("people"));
-        players.setCellValueFactory(new PropertyValueFactory<MatchRow,Integer>("number"));
-        UUIDs.setCellValueFactory(new PropertyValueFactory<MatchRow,UUID>("key"));
-
-        guiMatchesData.getColumns().add(nicknames);
-        guiMatchesData.getColumns().add(players);
-
-        guiMatchesData.setItems(data);
-
-
-        guiMatchesData.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        guiMatchesData.getSelectionModel().setCellSelectionEnabled(true);
-        System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(
-                Client.getInstance().getCommonData().getMatchesData().orElse(null)));  }          );
+                getClient().getStage().setScene(scene);
+                getClient().getStage().show();
+            });
 
     }
 
@@ -125,8 +120,8 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         if(Client.getInstance().getCommonData().getMatchesData().isPresent())
             for(UUID key : Client.getInstance().getCommonData().getMatchesData().get().keySet())
             {
-
-                templist.add(new MatchRow(k,Client.getInstance().getCommonData().getMatchesData().get().get(key)[0],key));
+                //todo cast for pretty print
+                templist.add(new MatchRow(k,Client.getInstance().getCommonData().getMatchesData().get().get(key),key));
             }
 
         return templist;
@@ -136,18 +131,20 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
-        TableColumn<MatchRow,Integer> players= new TableColumn<MatchRow,Integer>("MATCH ID");
-        TableColumn<MatchRow,String> nicknames= new TableColumn<MatchRow,String>("NICKNAMES");
-        TableColumn<MatchRow,UUID> UUIDs= new TableColumn<MatchRow,UUID>("UUID");
+        players= new TableColumn<MatchRow,Integer>("MATCH ID");
+        nicknames= new TableColumn<MatchRow,String[]>("NICKNAMES");
+        UUIDs= new TableColumn<MatchRow,UUID>("UUID");
 
         final ObservableList<MatchRow> data= FXCollections.observableArrayList(dataToRow());
 
-        nicknames.setCellValueFactory(new PropertyValueFactory<MatchRow,String>("people"));
+        nicknames.setCellValueFactory(new PropertyValueFactory<MatchRow,String[]>("people"));
         players.setCellValueFactory(new PropertyValueFactory<MatchRow,Integer>("number"));
         UUIDs.setCellValueFactory(new PropertyValueFactory<MatchRow,UUID>("key"));
 
         guiMatchesData.getColumns().add(nicknames);
         guiMatchesData.getColumns().add(players);
+        guiMatchesData.getColumns().add(UUIDs);
+
 
         guiMatchesData.setItems(data);
 

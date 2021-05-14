@@ -30,7 +30,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
     @Override
     public void run() {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/fxml/MatchToStart.fxml"));
+        loader.setLocation(getClass().getResource("/fxml/SetupMenu.fxml"));
         Parent root = null;
         try {
             root = loader.load();
