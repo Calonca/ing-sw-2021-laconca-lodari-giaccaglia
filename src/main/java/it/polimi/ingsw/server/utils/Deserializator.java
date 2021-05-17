@@ -19,14 +19,14 @@ import java.util.stream.IntStream;
 
 public class Deserializator extends JsonUtility {
 
-    public static Gson gson = new Gson();
+    public static Gson gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).create();
 
     public static MarketBoard marketBoardDeserialization(){
         return deserialize(configPathString + "MarketBoardConfig.json", MarketBoard.class);
     }
 
     public static CardShop cardShopDeserialization(){
-        return deserialize(configPathString + "CardShopConfig.json", CardShop.class);
+        return deserialize(configPathString + "CardShopConfig.json", CardShop.class, gson);
     }
 
     //helper method to build 12 devDecks from an array of 48 devcards
@@ -197,25 +197,18 @@ public class Deserializator extends JsonUtility {
 
     //helper method to load a 48 devcards array from json
     public static List<DevelopmentCard> devCardsListDeserialization() {
-        DevelopmentCard[] cardsArray = deserialize(configPathString + "DevelopmentCardConfig.json", DevelopmentCard[].class);
+        DevelopmentCard[] cardsArray = deserialize(configPathString + "DevelopmentCardConfig.json", DevelopmentCard[].class, gson);
         return (Arrays.asList(cardsArray));
     }
 
     public static List<NetworkDevelopmentCard> networkDevCardsListDeserialization(){
-        NetworkDevelopmentCard[] cardsArray = deserialize(configPathString + "DevelopmentCardConfig.json", NetworkDevelopmentCard[].class);
+        NetworkDevelopmentCard[] cardsArray = deserialize(configPathString + "DevelopmentCardConfig.json",
+                NetworkDevelopmentCard[].class, gson);
         return (Arrays.asList(cardsArray));
     }
 
     public static Map<UUID, NetworkDevelopmentCard> devCardsMap() {
-        return networkDevCardsListDeserialization().stream().collect(Collectors.toMap(x -> UUID.randomUUID(), Function.identity()));
+        return networkDevCardsListDeserialization().stream().collect(Collectors.toMap(NetworkDevelopmentCard::getCardId, Function.identity()));
     }
-
-    public static void main(String[] args) {
-        List<NetworkDevelopmentCard> test = networkDevCardsListDeserialization();
-        int ciao = 5;
-        List<NetworkLeaderCard> test2 = networkLeaderCardsDeserialization();
-        int ciaso = 2;
-    }
-
 
 }

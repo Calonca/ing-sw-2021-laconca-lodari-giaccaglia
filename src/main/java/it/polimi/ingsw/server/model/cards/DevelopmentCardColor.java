@@ -27,4 +27,5 @@ public enum DevelopmentCardColor {
     public static DevelopmentCardColor fromInt(int rNum){
         return rNum>vals.length||rNum<0? INVALID: vals[rNum];
     }
+
 }

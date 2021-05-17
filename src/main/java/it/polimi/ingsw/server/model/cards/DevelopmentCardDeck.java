@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.cards;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * {@link DevelopmentCard DevelopmentCards} container representing a {@link CardShop} deck, containing cards
@@ -40,15 +41,17 @@ public class DevelopmentCardDeck {
         return deck.remove(deckSize);
     }
 
-    public DevelopmentCard getCardCopy(){
+    public DevelopmentCard getCardCopyOnTop(){
         int position = deckSize;
         return new DevelopmentCard(deck.get(position-1));
     }
 
+    public Optional<DevelopmentCard> getCardCopyFromPosition(int position){
 
-  /*  public NetworkDevelopmentCardColor getColor(){
-        return color;
-    } */
+        return (position<deckSize && position>-1) ? Optional.of(new DevelopmentCard((deck.get(position))) )
+                : Optional.empty();
+
+    }
 
 
 }

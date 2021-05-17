@@ -2,15 +2,13 @@ package it.polimi.ingsw.server.utils;
 
 import com.google.gson.*;
 import it.polimi.ingsw.RuntimeTypeAdapterFactory;
-import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
-import it.polimi.ingsw.network.assets.LeaderCardAsset;
+import it.polimi.ingsw.network.assets.*;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import it.polimi.ingsw.network.assets.leaders.NetworkLeaderCard;
 import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.server.model.Resource;
-import it.polimi.ingsw.server.model.cards.CardShop;
-import it.polimi.ingsw.server.model.cards.DevelopmentCard;
+import it.polimi.ingsw.server.model.cards.*;
 import it.polimi.ingsw.server.model.cards.production.Production;
 import it.polimi.ingsw.server.model.player.board.LeaderDepot;
 import it.polimi.ingsw.server.model.player.leaders.*;
@@ -24,8 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.stream.*;
 
 import static it.polimi.ingsw.server.utils.Deserializator.devCardsMap;
 
@@ -40,7 +37,7 @@ public class Serializator extends JsonUtility {
 
     public static void cardShopSerialization(){
         CardShop shop = new CardShop(Deserializator.devCardsDeckDeserialization());
-        serialize(configPathString + "CardShopConfig.json", shop, CardShop.class);
+        serialize(configPathString + "CardShopConfig.json", shop, CardShop.class, gsonBuilder.registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).setPrettyPrinting().create());
     }
 
 
@@ -161,7 +158,7 @@ public class Serializator extends JsonUtility {
         costTest = new Pair<>(Resource.SERVANT, 2);
         costTest2 = new Pair<>(Resource.STONE, 2);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<>();
         requirementsTest.add(costTest);
         requirementsTest.add(costTest2);
         victoryPoints=4;
@@ -176,7 +173,7 @@ public class Serializator extends JsonUtility {
         costTest = new Pair<>(Resource.GOLD, 2);
         costTest2 = new Pair<>(Resource.SERVANT, 2);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<>();
         requirementsTest.add(costTest);
         requirementsTest.add(costTest2);
         victoryPoints=4;
@@ -209,7 +206,7 @@ public class Serializator extends JsonUtility {
         costTest = new Pair<>(Resource.SHIELD, 4);
         //costTest2 = new Pair<>(NetworkResource.SHIELD, 2);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<>();
         requirementsTest.add(costTest);
         //requirementsTest.add(costTest2);
         victoryPoints=5;
@@ -223,7 +220,7 @@ public class Serializator extends JsonUtility {
         costTest = new Pair<>(Resource.SERVANT, 4);
         //costTest2 = new Pair<>(NetworkResource.SHIELD, 2);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<>();
         requirementsTest.add(costTest);
         //requirementsTest.add(costTest2);
         victoryPoints=5;
@@ -268,7 +265,7 @@ public class Serializator extends JsonUtility {
         costTest = new Pair<>(Resource.STONE, 4);
         //costTest2 = new Pair<>(NetworkResource.SHIELD, 2);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<>();
         requirementsTest.add(costTest);
         //requirementsTest.add(costTest2);
         victoryPoints=5;
@@ -300,7 +297,7 @@ public class Serializator extends JsonUtility {
         costTest = new Pair<>(Resource.GOLD, 2);
         costTest2 = new Pair<>(Resource.SERVANT, 3);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<>();
         requirementsTest.add(costTest);
         requirementsTest.add(costTest2);
         victoryPoints=6 ;
@@ -315,7 +312,7 @@ public class Serializator extends JsonUtility {
         costTest = new Pair<>(Resource.GOLD, 3);
         costTest2 = new Pair<>(Resource.STONE, 2);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<>();
         requirementsTest.add(costTest);
         requirementsTest.add(costTest2);
         victoryPoints=6 ;
@@ -346,7 +343,7 @@ public class Serializator extends JsonUtility {
         costTest = new Pair<>(Resource.SHIELD, 5);
         //costTest2 = new Pair<>(NetworkResource.SHIELD, 2);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<>();
         requirementsTest.add(costTest);
         //requirementsTest.add(costTest2);
         victoryPoints=7 ;
@@ -419,7 +416,7 @@ public class Serializator extends JsonUtility {
         costTest = new Pair<>(Resource.GOLD, 2);
         //costTest2 = new Pair<>(NetworkResource.GOLD, 3);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<>();
         requirementsTest.add(costTest);
         //requirementsTest.add(costTest2);
         victoryPoints=1;
@@ -466,7 +463,7 @@ public class Serializator extends JsonUtility {
         costTest = new Pair<>(Resource.SERVANT, 3);
         costTest2 = new Pair<>(Resource.STONE, 3);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<>();
         requirementsTest.add(costTest);
         requirementsTest.add(costTest2);
         victoryPoints=8;
@@ -605,7 +602,7 @@ public class Serializator extends JsonUtility {
         costTest = new Pair<>(Resource.STONE, 5);
         costTest2 = new Pair<>(Resource.SERVANT, 2);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<>();
         requirementsTest.add(costTest);
         requirementsTest.add(costTest2);
         victoryPoints=10;
@@ -821,7 +818,7 @@ public class Serializator extends JsonUtility {
         costTest = new Pair<>(Resource.SHIELD, 1);
         costTest2 = new Pair<>(Resource.SERVANT, 1);
         costTest3 = new Pair<>(Resource.STONE, 1);
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<>();
         requirementsTest.add(costTest);
         requirementsTest.add(costTest2);
         requirementsTest.add(costTest3);
@@ -923,9 +920,9 @@ public class Serializator extends JsonUtility {
         costTestCards = new Pair<>(DevelopmentCardColor.BLUE, 2);
         costTestCards2 = new Pair<>(DevelopmentCardColor.YELLOW, 1);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<>();
 
-        requirementsTestCards = new ArrayList<Pair<DevelopmentCardColor, Integer>>();
+        requirementsTestCards = new ArrayList<>();
         requirementsTestCards.add(costTestCards);
         requirementsTestCards.add(costTestCards2);
 
@@ -1151,19 +1148,20 @@ public class Serializator extends JsonUtility {
         //   Leader[] cards.leaders = deserialize("src/main/resources/config/LeadersConfig.json" , Leader[].class);
     }
 
-
     public static void main(String[] args) throws IOException {
-      /*
-      cardShopSerialization();
-      devCardsAssetsSerialization();
-      leaderCardsArraySerialization();
-      MarketBoard test = marketBoardDeserialization();
-      serialize(configPathString + "MarketBoardConfig.json", test, MarketBoard.class);
-      faithTrackDeserialization();
-      */
-    //  devCardsAssetsSerialization();
-    //  leaderCardsAssetsSerialization();
+    /*
+        --- * uncomment to update config files / test serialization * ---
 
+        cardShopSerialization();
+        devCardsAssetsSerialization();
+        leaderCardsArraySerialization();
+        MarketBoard test = marketBoardDeserialization();
+        serialize(configPathString + "MarketBoardConfig.json", test, MarketBoard.class);
+        faithTrackDeserialization();
+        devCardsAssetsSerialization();
+        leaderCardsAssetsSerialization();
+
+     */
 
     }
 

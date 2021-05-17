@@ -6,6 +6,7 @@ import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Class for Development Cards. Since the color is not strictly tied to the input/output we totally decoupled that
@@ -15,15 +16,16 @@ public class DevelopmentCard
     /**
      * Production is the class to effectively use the card
      */
-    protected Production production;
+    private Production production;
 
     /**
      * Enum to indicate card color
      */
-    protected DevelopmentCardColor cardType;
-    protected List<Pair<Resource,Integer>> costList;
-    protected int victoryPoints;
-    protected int level;
+    private DevelopmentCardColor cardType;
+    private List<Pair<Resource,Integer>> costList;
+    private int victoryPoints;
+    private int level;
+    private UUID cardId;
     public int getLevel() {
         return level;
     }
@@ -59,8 +61,16 @@ public class DevelopmentCard
         this.cardType = another.cardType;
         this.victoryPoints= another.victoryPoints;
         this.costList= another.costList;
+        this.cardId = another.cardId;
     }
 
+    public void setCardId(UUID cardId){
+        this.cardId = cardId;
+    }
+
+    public UUID getCardId(){
+        return cardId;
+    }
     public DevelopmentCardColor getCardType() {
         return cardType;
     }

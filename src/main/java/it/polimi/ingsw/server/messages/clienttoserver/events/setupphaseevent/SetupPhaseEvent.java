@@ -5,6 +5,7 @@ import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
+import it.polimi.ingsw.server.utils.Util;
 import javafx.util.Pair;
 
 import java.util.Arrays;
@@ -65,11 +66,10 @@ public class SetupPhaseEvent extends it.polimi.ingsw.network.messages.clienttose
      * {@link SetupPhaseEvent#playerNumber}, otherwise false.
      */
     private boolean validateResourcesAmount() {
-        int playerNumber = gamemodel.getPlayerIndex(gamemodel.getCurrentPlayer()) + 1;
-        int resourcesFromPlayerNumber = (11 % playerNumber);
+        int playerNumber = gamemodel.getPlayerIndex(gamemodel.getCurrentPlayer());
+        int resourcesFromPlayerNumber = Util.resourcesToChooseOnSetup(playerNumber);
         int resourcesAmount = resources.length;
-        return (playerNumber == 3 || playerNumber == 4) ? resourcesFromPlayerNumber - 1 == resourcesAmount :
-                resourcesFromPlayerNumber == resourcesAmount;
+        return resourcesFromPlayerNumber == resourcesAmount;
     }
 
     private boolean validateResources() {

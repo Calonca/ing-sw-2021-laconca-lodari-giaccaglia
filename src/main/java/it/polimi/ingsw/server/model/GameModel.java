@@ -226,8 +226,6 @@ public class GameModel {
         return new ArrayList<>(leaders.keySet());
     }
 
-
-
     public Leader getLeader(UUID leaderNumber){
         return leaders.remove(leaderNumber);
     }
@@ -240,7 +238,6 @@ public class GameModel {
     public boolean anyLeaderPlayableForCurrentPlayer(){
         return currentPlayer.anyLeaderPlayable();
     }
-
 
     public void setOfflinePlayer(Player player){
         player.setCurrentStatus(false);
@@ -529,4 +526,8 @@ public class GameModel {
     public UUID getMatchID() {
         return match.getMatchId();
     }
+
+
+
+
 }

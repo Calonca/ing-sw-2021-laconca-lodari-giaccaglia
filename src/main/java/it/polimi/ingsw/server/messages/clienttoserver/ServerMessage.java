@@ -56,6 +56,7 @@ public interface ServerMessage {
         eventMessageAdapter.registerSubtype(ChooseCardPositionEvent.class);
         eventMessageAdapter.registerSubtype(ChooseResourcesForProductionEvent.class);
         eventMessageAdapter.registerSubtype(FinalProductionPhase.class);
+        eventMessageAdapter.registerSubtype(ProductionEvent.class);
 
         eventMessageAdapter.registerSubtype(ChooseLineEvent.class);
         eventMessageAdapter.registerSubtype(ChooseWhiteMarbleConversionEvent.class);

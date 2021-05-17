@@ -1,9 +1,9 @@
 package it.polimi.ingsw.server.model.cards;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.server.utils.Deserializator;
@@ -19,7 +19,7 @@ public class CardShop {
     /**
      * Indicates the maximum level a {@link DevelopmentCardColor} inside <em>devDecks</em> may have.
      */
-    private Integer maxLevel;
+    private int maxLevel;
 
 
     /**
@@ -72,7 +72,6 @@ public class CardShop {
         }
     }
 
-
     public int getMaxCardLevel(){
         return maxLevel;
     }
@@ -90,7 +89,7 @@ public class CardShop {
     }
 
     public DevelopmentCard getCardCopy(DevelopmentCardColor color, int level){
-        return devDecks.get(color).get(level).getCardCopy();
+        return devDecks.get(color).get(level).getCardCopyOnTop();
     }
 
     public boolean isLevelOfColourOutOfStock(DevelopmentCardColor color, int level){
@@ -157,5 +156,29 @@ public class CardShop {
                 .allMatch(DevelopmentCardDeck::isDeckEmpty);
     }
 
+    public Map<DevelopmentCardColor, Map<Integer, List<DevelopmentCard>>> getSimpleCardShop(){
 
+        return devDecks.keySet()
+                .stream()
+                .collect(
+                        Collectors.toMap(colorKey -> colorKey ,  colorKey ->
+                    devDecks.get(colorKey)
+                            .keySet()
+                            .stream()
+                            .collect(Collectors.toMap(intKey -> intKey, intKey-> {
+
+                              int deckSize = devDecks.get(colorKey).get(intKey).getDeckSize();
+                              return  IntStream.range(0, deckSize)
+                                        .boxed()
+                                        .sorted(Collections.reverseOrder())
+                                        .map(
+                                        position ->  devDecks.get(colorKey).get(intKey).getCardCopyFromPosition(position)
+                                )
+                                        .filter(Optional::isPresent).map(Optional::get)
+                                        .collect(Collectors.toList());
+
+                            }
+                        ))));
+
+    }
 }
