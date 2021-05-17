@@ -13,7 +13,7 @@ public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.m
     /**
      * {@link GameModel} of the event's current game on which event validation has to be performed.
      */
-    private PersonalBoard currentPlayerPersonalBoard;
+    private transient PersonalBoard currentPlayerPersonalBoard;
 
     /**
      * Server-side initializer to setup common attributes among {@link State#MIDDLE_PHASE MIDDLE_PHASE}

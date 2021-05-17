@@ -15,7 +15,7 @@ import it.polimi.ingsw.server.model.GameModel;
  */
 public class ChooseResourceForCardShopEvent extends it.polimi.ingsw.network.messages.clienttoserver.events.cardshopevent.ChooseResourceForCardShopEvent implements Validable {
 
-    private PersonalBoard currentPlayerPersonalBoard;
+    private transient PersonalBoard currentPlayerPersonalBoard;
 
     /**
      * Server-side initializer to setup common attributes among {@link State#MIDDLE_PHASE MIDDLE_PHASE}
