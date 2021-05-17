@@ -71,7 +71,6 @@ public interface ServerMessage {
 
         eventMessageAdapter.registerSubtype(CardShopEvent.class);
         eventMessageAdapter.registerSubtype(ChooseCardEvent.class);
-        eventMessageAdapter.registerSubtype(ChooseCardPositionEvent.class);
         eventMessageAdapter.registerSubtype(ChooseResourceForCardShopEvent.class);
 
 
