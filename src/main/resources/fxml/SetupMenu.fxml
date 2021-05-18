@@ -4,9 +4,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<StackPane fx:id="cjlPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.GUI.SetupPhase">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.GUI.SetupPhase">
     <AnchorPane fx:id="cjlAnchor" prefHeight="200.0" prefWidth="200.0">
-        <Text fx:id="gggg" layoutX="209.0" layoutY="196.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CHOOSE YOUR STARTING BONUS" />
     </AnchorPane>
    <cursor>
       <Cursor fx:constant="OPEN_HAND" />

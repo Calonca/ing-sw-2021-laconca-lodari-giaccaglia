@@ -42,8 +42,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
     private Button createButton;
     @FXML
     private Slider playerCount;
-    @FXML
-    private StackPane cjlPane;
+
 
     @Override
     public void run() {

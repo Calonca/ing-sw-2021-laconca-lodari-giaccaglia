@@ -30,9 +30,6 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
     Spinner slaveSpin;
     Spinner stoneSpin;
     Spinner shieldSpin;
-    public StackPane cjlPane;
-    public Text gggg;
-    public Spinner spin1;
     public AnchorPane cjlAnchor;
 
     @FXML
@@ -64,35 +61,38 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
     {
         //gggg.setText("pisellogfggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg");
         Spinner spin;
-        goldSpin=new Spinner<Integer>(1,3,1);
+        goldSpin=new Spinner<Integer>(0,3,0);
         goldSpin.setPadding(new Insets(10,10,10,10));
         goldSpin.setBackground(Background.EMPTY);
         goldSpin.styleProperty().set(" -fx-background-color: #B8860B");
         goldSpin.setLayoutY(100);
         goldSpin.setLayoutX(300);
-
         cjlAnchor.getChildren().add(goldSpin);
-        slaveSpin=new Spinner<Integer>(1,3,1);
+
+        slaveSpin=new Spinner<Integer>(0,3,0);
         slaveSpin.setPadding(new Insets(10,10,10,10));
         slaveSpin.setBackground(Background.EMPTY);
         slaveSpin.styleProperty().set(" -fx-background-color: #9400D3");
         slaveSpin.setLayoutY(100);
         slaveSpin.setLayoutX(100);
         cjlAnchor.getChildren().add(slaveSpin);
-        shieldSpin=new Spinner<Integer>(1,3,1);
+
+        shieldSpin=new Spinner<Integer>(0,3,0);
         shieldSpin.setPadding(new Insets(10,10,10,10));
         shieldSpin.setBackground(Background.EMPTY);
         shieldSpin.styleProperty().set(" -fx-background-color: #0099FF");
         shieldSpin.setLayoutY(50);
         shieldSpin.setLayoutX(300);
         cjlAnchor.getChildren().add(shieldSpin);
-        stoneSpin=new Spinner<Integer>(1,3,1);
+
+        stoneSpin=new Spinner<Integer>(0,3,0);
         stoneSpin.setPadding(new Insets(10,10,10,10));
         stoneSpin.setBackground(Background.EMPTY);
         stoneSpin.styleProperty().set(" -fx-background-color: #DEB887");
         stoneSpin.setLayoutY(50);
         stoneSpin.setLayoutX(100);
         cjlAnchor.getChildren().add(stoneSpin);
+
         Client.getInstance().getStage().show();
 
     }
