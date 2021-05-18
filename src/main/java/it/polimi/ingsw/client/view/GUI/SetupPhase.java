@@ -8,10 +8,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -29,10 +26,10 @@ import java.util.ResourceBundle;
  */
 public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupPhaseViewBuilder implements GUIView {
 
-    public ToggleButton b1;
-    public ToggleButton b2;
-    public ToggleButton b3;
-    public ToggleButton b4;
+    public Button b1;
+    public Button b2;
+    public Button b3;
+    public Button b4;
 
     Spinner<Integer> goldSpin;
     Spinner<Integer> slaveSpin;
@@ -102,7 +99,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         cjlAnchor.getChildren().add(stoneSpin);
 
         ImageView temp;
-
+        ToggleGroup ciccio=new ToggleGroup();
         temp=new ImageView(new Image("assets/leaders/FRONT/Masters of Renaissance_Cards_FRONT_0.png", true));
         temp.setFitHeight(100);
         temp.setFitWidth(100);
