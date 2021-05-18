@@ -11,6 +11,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -26,10 +29,16 @@ import java.util.ResourceBundle;
  */
 public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupPhaseViewBuilder implements GUIView {
 
-    Spinner goldSpin;
-    Spinner slaveSpin;
-    Spinner stoneSpin;
-    Spinner shieldSpin;
+    public ToggleButton b1;
+    public ToggleButton b2;
+    public ToggleButton b3;
+    public ToggleButton b4;
+
+    Spinner<Integer> goldSpin;
+    Spinner<Integer> slaveSpin;
+    Spinner<Integer> stoneSpin;
+    Spinner<Integer> shieldSpin;
+
     public AnchorPane cjlAnchor;
 
     @FXML
@@ -60,7 +69,6 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
         //gggg.setText("pisellogfggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg");
-        Spinner spin;
         goldSpin=new Spinner<Integer>(0,3,0);
         goldSpin.setPadding(new Insets(10,10,10,10));
         goldSpin.setBackground(Background.EMPTY);
@@ -92,6 +100,26 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         stoneSpin.setLayoutY(50);
         stoneSpin.setLayoutX(100);
         cjlAnchor.getChildren().add(stoneSpin);
+
+        ImageView temp;
+
+        temp=new ImageView(new Image("assets/leaders/FRONT/Masters of Renaissance_Cards_FRONT_0.png", true));
+        temp.setFitHeight(100);
+        temp.setFitWidth(100);
+        b1.setGraphic(temp);
+        temp=new ImageView(new Image("assets/leaders/FRONT/Masters of Renaissance_Cards_FRONT_0.png", true));
+        temp.setFitHeight(100);
+        temp.setFitWidth(100);
+        b2.setGraphic(temp);
+        temp=new ImageView(new Image("assets/leaders/FRONT/Masters of Renaissance_Cards_FRONT_0.png", true));
+        temp.setFitHeight(100);
+        temp.setFitWidth(100);
+        b3.setGraphic(temp);
+        temp=new ImageView(new Image("assets/leaders/FRONT/Masters of Renaissance_Cards_FRONT_0.png", true));
+        temp.setFitHeight(100);
+        temp.setFitWidth(100);
+        b4.setGraphic(temp);
+
 
         Client.getInstance().getStage().show();
 

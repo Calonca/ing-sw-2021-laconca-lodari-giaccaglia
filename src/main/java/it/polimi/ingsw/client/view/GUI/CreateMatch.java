@@ -31,6 +31,14 @@ import java.util.ResourceBundle;
 public class CreateMatch extends CreateJoinLoadMatchViewBuilder implements GUIView {
 
     public AnchorPane createPane;
+    @FXML
+    private StackPane connectionPane;
+    @FXML
+    private Button connectionButton;
+    @FXML
+    private TextField addressText;
+    @FXML
+    private TextField portText;
 
     @Override
     public void run() {
@@ -133,7 +141,6 @@ public class CreateMatch extends CreateJoinLoadMatchViewBuilder implements GUIVi
 
         createPane.getChildren().add(circle4);
         Client.getInstance().getStage().show();
-
 
 
     }
