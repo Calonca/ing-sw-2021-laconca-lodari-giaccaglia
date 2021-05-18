@@ -6,6 +6,7 @@ import it.polimi.ingsw.client.view.abstractview.ConnectToServerViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 import it.polimi.ingsw.network.messages.servertoclient.state.SETUP_PHASE;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
+import javafx.application.Platform;
 import javafx.stage.Stage;
 
 import java.beans.PropertyChangeListener;
@@ -125,7 +126,10 @@ public class Client implements Runnable
             currentViewBuilder.setCommonData(commonData);
             if (isCLI)
                 currentViewBuilder.setCLIView(cli);
-            newViewBuilder.run();
+            if (isCLI)
+                newViewBuilder.run();
+            else
+                Platform.runLater(newViewBuilder);
         }else System.out.println("ViewBuilder was null");
     }
 
