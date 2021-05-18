@@ -32,6 +32,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
     @FXML
     public TableView<MatchRow> guiMatchesData;
 
+    boolean created=false;
     TableColumn<MatchRow,Integer> players;
     TableColumn<MatchRow,String[]> nicknames;
     TableColumn<MatchRow,UUID> UUIDs;
@@ -82,6 +83,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         int a= (int) playerCount.getValue();
         System.out.println(a+Client.getInstance().getCommonData().getCurrentnick());
         Client.getInstance().getServerHandler().sendCommandMessage(new CreateMatchRequest(a,Client.getInstance().getCommonData().getCurrentnick()));
+        created=true;
         Client.getInstance().changeViewBuilder(new CreateMatch());
     }
 
@@ -95,6 +97,8 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         if (evt.getPropertyName().equals(CommonData.matchesDataString))
             Platform.runLater(()->
             {
+                if(!created)
+                {
                 //todo fix this may be ugly
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(getClass().getResource("/fxml/CreateJoinLoadMatch.fxml"));
@@ -109,6 +113,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
 
                 getClient().getStage().setScene(scene);
                 getClient().getStage().show();
+                }
             });
 
     }

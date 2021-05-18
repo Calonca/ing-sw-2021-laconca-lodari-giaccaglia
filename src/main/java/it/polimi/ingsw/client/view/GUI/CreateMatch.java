@@ -2,7 +2,6 @@ package it.polimi.ingsw.client.view.GUI;
 
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.CommonData;
-import it.polimi.ingsw.client.view.CLI.SetupPhase;
 import it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchViewBuilder;
 import javafx.animation.Animation;
 import javafx.animation.FillTransition;
@@ -144,13 +143,16 @@ public class CreateMatch extends CreateJoinLoadMatchViewBuilder implements GUIVi
         Client.getInstance().getStage().show();
 
 
+
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(CommonData.thisMatchData))
             Platform.runLater(()->
-                    Client.getInstance().changeViewBuilder(new CreateJoinLoadMatch())
+                    {
+                        Client.getInstance().changeViewBuilder(new SetupPhase());
+                    }
             );
 
     }
