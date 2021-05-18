@@ -1,5 +1,4 @@
 package it.polimi.ingsw.server.model.player.board;
-
 import it.polimi.ingsw.server.model.Resource;
 import javafx.util.Pair;
 
@@ -9,12 +8,12 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
- * A deposit composed of cells in which each cell can contain one NetworkResource or be empty.
+ * A deposit composed of cells in which each cell can contain one Resource or be empty.
  */
 public abstract class Depot{
 
     /**
-     * A pair of NetworkResource and boolean that indicates if the resource is selected for the next action, meaning that it will be used in the next action
+     * A pair of Resource and boolean that indicates if the resource is selected for the next action, meaning that it will be used in the next action
      */
     private final List<Pair<Resource,Boolean>> res_sel;
     /**
@@ -34,7 +33,7 @@ public abstract class Depot{
      * Creates a depot with parameters
      * @param length the size of the depot, must be greater than zero
      * @param globalPositionOfFirstElement Resources in the depot have a global position to make it easier to move them between depots
-     * @param type the newly created depot will only accept Resources of this type, can be NetworkResource.EMPTY
+     * @param type the newly created depot will only accept Resources of this type, can be Resource.EMPTY
      */
     public Depot(int length, int globalPositionOfFirstElement, Resource type){
         res_sel = Stream.generate(()-> new Pair<>(Resource.EMPTY,false)).limit(length).collect(Collectors.toList());
@@ -60,7 +59,7 @@ public abstract class Depot{
     }
 
     /**
-     * Used to get the global position of the last NetworkResource
+     * Used to get the global position of the last Resource
      * @return the global Position of the last cell in the depot
      */
     int getLastGlobalPosition(){

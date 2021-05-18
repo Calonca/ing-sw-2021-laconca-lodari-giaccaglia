@@ -9,7 +9,7 @@ import it.polimi.ingsw.network.messages.servertoclient.ServerToClientMessage;
  */
 public abstract class StateInNetwork extends ServerToClientMessage {
 
-    private final int player;
+    private int player;
 
     public int getPlayer() {
         return player;
@@ -19,8 +19,11 @@ public abstract class StateInNetwork extends ServerToClientMessage {
         return stateInNetwork.getClass().getSimpleName();
     }
 
+    public StateInNetwork(){}
+
     public StateInNetwork(int player) {
         super();
         this.player = player;
     }
+
 }

@@ -131,7 +131,7 @@ buildNumber.properties
 Icon
 
 
-# NetworkResource forks and xattr data on non-Apple filesystems
+# Resource forks and xattr data on non-Apple filesystems
 ._*
 
 # Files that might appear in the root of a volume

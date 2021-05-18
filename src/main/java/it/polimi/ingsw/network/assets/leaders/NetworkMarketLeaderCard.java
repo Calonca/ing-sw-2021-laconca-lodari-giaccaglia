@@ -4,9 +4,9 @@ import it.polimi.ingsw.network.assets.devcards.NetworkResource;
 
 public class NetworkMarketLeaderCard extends NetworkLeaderCard {
 
-    private NetworkResource marketBonusResource;
+    private NetworkResource marketBonusNetworkResource;
 
     public void setMarketBonusResource(int marketBonusResource){
-        this.marketBonusResource = NetworkResource.fromInt(marketBonusResource);
+        this.marketBonusNetworkResource = NetworkResource.fromInt(marketBonusResource);
     }
 }

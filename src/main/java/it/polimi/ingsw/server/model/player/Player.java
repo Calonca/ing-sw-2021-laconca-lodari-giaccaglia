@@ -121,8 +121,8 @@ public class Player {
 
     /**
      * Method to store inside player's {@link Player#discounts} array a new positional {@link Resource} value to discount
-     * after the appropriate {@link it.polimi.ingsw.server.model.player.leaders.Leader} <em>effect</em> has been activated.
-     * @param discount {@link Pair} containing a NetworkResource to discount when purchasing a {@link DevelopmentCard} from {@link CardShop} as a key
+     * after the appropriate {@link Leader} <em>effect</em> has been activated.
+     * @param discount {@link Pair} containing a Resource to discount when purchasing a {@link DevelopmentCard} from {@link CardShop} as a key
      * and an int as a value indicating the discount amount.
      * Used by leader interface
      */

@@ -40,13 +40,13 @@ public class MoveResourceEvent extends it.polimi.ingsw.network.messages.clientto
     /*
 
     /**
-     * Method to validate initial and final positions for {@link it.polimi.ingsw.server.model.NetworkResource Resources} taken from
+     * Method to validate initial and final positions for {@Resource Resources} taken from
      * {@link it.polimi.ingsw.server.model.market.MarketBoard MarketBoard} and placed in
      * {@link it.polimi.ingsw.server.model.player.board.WarehouseDepot WarehouseDepot}
      *
-     * @param endPos  int value of the destination position for the {@link it.polimi.ingsw.server.model.NetworkResource NetworkResource} to move.
+     * @param endPos  int value of the destination position for the {@link Resource Resource} to move.
      *
-     * @return true if starting position is among ones in the picked {@link it.polimi.ingsw.server.model.NetworkResource Resources} and
+     * @return true if starting position is among ones in the picked {@link Resource Resources} and
      * ending position is among available ones inside {@link it.polimi.ingsw.server.model.player.board.WarehouseDepot WarehouseDepot}
      *
     private boolean validateNewResourceToAdd(int endPos){
@@ -57,11 +57,11 @@ public class MoveResourceEvent extends it.polimi.ingsw.network.messages.clientto
     */
 
     /**
-     * Method to validate initial and final position for {@link it.polimi.ingsw.server.model.Resource Resources} moved
+     * Method to validate initial and final position for {@link Resource Resources} moved
      * from a spot to another available inside {@link it.polimi.ingsw.server.model.player.board.WarehouseDepot WarehouseDepot}.
      *
-     * @param startPos int value position of the {@link it.polimi.ingsw.server.model.Resource NetworkResource} to move.
-     * @param endPos  int value of the destination position for the {@link it.polimi.ingsw.server.model.Resource NetworkResource} to move.
+     * @param startPos int value position of the {@link Resource Resource} to move.
+     * @param endPos  int value of the destination position for the {@link Resource Resource} to move.
      *
      * @return true if starting position is among ones in inside {@link it.polimi.ingsw.server.model.player.board.WarehouseDepot WarehouseDepot} and
      * ending position is among available ones inside {@link it.polimi.ingsw.server.model.player.board.WarehouseDepot WarehouseDepot}

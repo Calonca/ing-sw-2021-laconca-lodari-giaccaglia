@@ -170,8 +170,8 @@ public class Serializator extends JsonUtility {
         //7
 
         addProd=new Production(new int[]{0,0,1,1,0,0,0},new int[]{0,2,0,0,1,0,0});
-        costTest = new Pair<>(Resource.GOLD, 2);
-        costTest2 = new Pair<>(Resource.SERVANT, 2);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.GOLD, 2);
+        costTest2 = new Pair<>(it.polimi.ingsw.server.model.Resource.SERVANT, 2);
 
         requirementsTest = new ArrayList<>();
         requirementsTest.add(costTest);
@@ -187,10 +187,10 @@ public class Serializator extends JsonUtility {
         //8
 
         addProd=new Production(new int[]{1,1,0,0,0,0,0},new int[]{0,0,2,0,1,0,0});
-        costTest = new Pair<>(Resource.STONE, 2);
-        costTest2 = new Pair<>(Resource.SHIELD, 2);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.STONE, 2);
+        costTest2 = new Pair<>(it.polimi.ingsw.server.model.Resource.SHIELD, 2);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<Pair<it.polimi.ingsw.server.model.Resource, Integer>>();
         requirementsTest.add(costTest);
         requirementsTest.add(costTest2);
         victoryPoints=4;
@@ -203,8 +203,8 @@ public class Serializator extends JsonUtility {
         //9
 
         addProd=new Production(new int[]{0,0,0,1,0,0,0},new int[]{0,0,0,0,2,0,0});
-        costTest = new Pair<>(Resource.SHIELD, 4);
-        //costTest2 = new Pair<>(NetworkResource.SHIELD, 2);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.SHIELD, 4);
+        //costTest2 = new Pair<>(Resource.SHIELD, 2);
 
         requirementsTest = new ArrayList<>();
         requirementsTest.add(costTest);
@@ -217,8 +217,8 @@ public class Serializator extends JsonUtility {
 
 //10
         addProd=new Production(new int[]{1,0,0,0,0,0,0},new int[]{0,0,0,0,2,0,0});
-        costTest = new Pair<>(Resource.SERVANT, 4);
-        //costTest2 = new Pair<>(NetworkResource.SHIELD, 2);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.SERVANT, 4);
+        //costTest2 = new Pair<>(Resource.SHIELD, 2);
 
         requirementsTest = new ArrayList<>();
         requirementsTest.add(costTest);
@@ -231,10 +231,10 @@ public class Serializator extends JsonUtility {
         //11
 
         addProd=new Production(new int[]{0,1,0,0,0,0,0},new int[]{0,0,0,0,2,0,0});
-        costTest = new Pair<>(Resource.GOLD, 4);
-        //costTest2 = new Pair<>(NetworkResource.SHIELD, 2);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.GOLD, 4);
+        //costTest2 = new Pair<>(Resource.SHIELD, 2);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<Pair<it.polimi.ingsw.server.model.Resource, Integer>>();
         requirementsTest.add(costTest);
         //requirementsTest.add(costTest2);
         victoryPoints=5;
@@ -246,10 +246,10 @@ public class Serializator extends JsonUtility {
 
         //12
         addProd=new Production(new int[]{0,0,0,1,0,0,0},new int[]{0,0,0,0,1,0,0});
-        costTest = new Pair<>(Resource.SERVANT, 2);
-        //costTest2 = new Pair<>(NetworkResource.SHIELD, 2);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.SERVANT, 2);
+        //costTest2 = new Pair<>(Resource.SHIELD, 2);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<Pair<it.polimi.ingsw.server.model.Resource, Integer>>();
         requirementsTest.add(costTest);
         //requirementsTest.add(costTest2);
         victoryPoints=1;
@@ -262,8 +262,8 @@ public class Serializator extends JsonUtility {
 
         //13
         addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,0,0,0,2,0,0});
-        costTest = new Pair<>(Resource.STONE, 4);
-        //costTest2 = new Pair<>(NetworkResource.SHIELD, 2);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.STONE, 4);
+        //costTest2 = new Pair<>(Resource.SHIELD, 2);
 
         requirementsTest = new ArrayList<>();
         requirementsTest.add(costTest);
@@ -278,10 +278,10 @@ public class Serializator extends JsonUtility {
 
         //14
         addProd=new Production(new int[]{0,1,1,0,0,0,0},new int[]{0,0,0,3,0,0,0});
-        costTest = new Pair<>(Resource.SHIELD, 3);
-        costTest2 = new Pair<>(Resource.SERVANT, 2);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.SHIELD, 3);
+        costTest2 = new Pair<>(it.polimi.ingsw.server.model.Resource.SERVANT, 2);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<Pair<it.polimi.ingsw.server.model.Resource, Integer>>();
         requirementsTest.add(costTest);
         requirementsTest.add(costTest2);
         victoryPoints=5;
@@ -294,8 +294,8 @@ public class Serializator extends JsonUtility {
 
         //15
         addProd=new Production(new int[]{1,1,0,0,0,0,0},new int[]{0,0,3,0,0,0,0});
-        costTest = new Pair<>(Resource.GOLD, 2);
-        costTest2 = new Pair<>(Resource.SERVANT, 3);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.GOLD, 2);
+        costTest2 = new Pair<>(it.polimi.ingsw.server.model.Resource.SERVANT, 3);
 
         requirementsTest = new ArrayList<>();
         requirementsTest.add(costTest);
@@ -309,8 +309,8 @@ public class Serializator extends JsonUtility {
 
         //16
         addProd=new Production(new int[]{1,0,0,1,0,0,0},new int[]{0,3,0,0,0,0,0});
-        costTest = new Pair<>(Resource.GOLD, 3);
-        costTest2 = new Pair<>(Resource.STONE, 2);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.GOLD, 3);
+        costTest2 = new Pair<>(it.polimi.ingsw.server.model.Resource.STONE, 2);
 
         requirementsTest = new ArrayList<>();
         requirementsTest.add(costTest);
@@ -324,10 +324,10 @@ public class Serializator extends JsonUtility {
 
         //17
         addProd=new Production(new int[]{0,1,0,1,0,0,0},new int[]{3,0,0,0,0,0,0});
-        costTest = new Pair<>(Resource.STONE, 3);
-        costTest2 = new Pair<>(Resource.SHIELD, 2);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.STONE, 3);
+        costTest2 = new Pair<>(it.polimi.ingsw.server.model.Resource.SHIELD, 2);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<>();
         requirementsTest.add(costTest);
         requirementsTest.add(costTest2);
         victoryPoints=6 ;
@@ -340,8 +340,8 @@ public class Serializator extends JsonUtility {
 
         //18
         addProd=new Production(new int[]{2,0,0,1,0,0,0},new int[]{0,0,0,2,2,0,0});
-        costTest = new Pair<>(Resource.SHIELD, 5);
-        //costTest2 = new Pair<>(NetworkResource.SHIELD, 2);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.SHIELD, 5);
+        //costTest2 = new Pair<>(Resource.SHIELD, 2);
 
         requirementsTest = new ArrayList<>();
         requirementsTest.add(costTest);
@@ -354,10 +354,10 @@ public class Serializator extends JsonUtility {
 
         //19
         addProd=new Production(new int[]{0,0,0,2,0,0,0},new int[]{2,0,0,0,2,0,0});
-        costTest = new Pair<>(Resource.SERVANT, 5);
-        //costTest2 = new Pair<>(NetworkResource.SHIELD, 2);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.SERVANT, 5);
+        //costTest2 = new Pair<>(Resource.SHIELD, 2);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<>();
         requirementsTest.add(costTest);
         //requirementsTest.add(costTest2);
         victoryPoints=7 ;
@@ -368,10 +368,10 @@ public class Serializator extends JsonUtility {
 
         //20
         addProd=new Production(new int[]{0,2,0,0,0,0,0},new int[]{0,0,2,0,2,0,0});
-        costTest = new Pair<>(Resource.GOLD, 5);
-        //costTest2 = new Pair<>(NetworkResource.SHIELD, 2);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.GOLD, 5);
+        //costTest2 = new Pair<>(Resource.SHIELD, 2);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<>();
         requirementsTest.add(costTest);
         //requirementsTest.add(costTest2);
         victoryPoints=7 ;
@@ -383,10 +383,10 @@ public class Serializator extends JsonUtility {
 
         //21
         addProd=new Production(new int[]{0,0,2,0,0,0,0},new int[]{0,2,0,0,2,0,0});
-        costTest = new Pair<>(Resource.STONE, 5);
-        //costTest2 = new Pair<>(NetworkResource.SHIELD, 2);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.STONE, 5);
+        //costTest2 = new Pair<>(Resource.SHIELD, 2);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<>();
         requirementsTest.add(costTest);
         //requirementsTest.add(costTest2);
         victoryPoints=7 ;
@@ -398,10 +398,10 @@ public class Serializator extends JsonUtility {
 
         //22
         addProd=new Production(new int[]{1,0,0,0,0,0,0},new int[]{0,0,2,0,1,0,0});
-        costTest = new Pair<>(Resource.SHIELD, 3);
-        costTest2 = new Pair<>(Resource.GOLD, 3);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.SHIELD, 3);
+        costTest2 = new Pair<>(it.polimi.ingsw.server.model.Resource.GOLD, 3);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<Pair<it.polimi.ingsw.server.model.Resource, Integer>>();
         requirementsTest.add(costTest);
         requirementsTest.add(costTest2);
         victoryPoints=8;
@@ -413,8 +413,8 @@ public class Serializator extends JsonUtility {
 
         //23
         addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,0,0,0,1,0,0});
-        costTest = new Pair<>(Resource.GOLD, 2);
-        //costTest2 = new Pair<>(NetworkResource.GOLD, 3);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.GOLD, 2);
+        //costTest2 = new Pair<>(Resource.GOLD, 3);
 
         requirementsTest = new ArrayList<>();
         requirementsTest.add(costTest);
@@ -428,10 +428,10 @@ public class Serializator extends JsonUtility {
 
         //24
         addProd=new Production(new int[]{0,0,0,1,0,0,0},new int[]{0,2,0,0,1,0,0});
-        costTest = new Pair<>(Resource.SERVANT, 3);
-        costTest2 = new Pair<>(Resource.SHIELD, 3);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.SERVANT, 3);
+        costTest2 = new Pair<>(it.polimi.ingsw.server.model.Resource.SHIELD, 3);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<Pair<it.polimi.ingsw.server.model.Resource, Integer>>();
         requirementsTest.add(costTest);
         requirementsTest.add(costTest2);
         victoryPoints=8;
@@ -444,10 +444,10 @@ public class Serializator extends JsonUtility {
 
         //25
         addProd=new Production(new int[]{0,1,0,0,0,0,0},new int[]{0,0,0,2,1,0,0});
-        costTest = new Pair<>(Resource.GOLD, 3);
-        costTest2 = new Pair<>(Resource.STONE, 3);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.GOLD, 3);
+        costTest2 = new Pair<>(it.polimi.ingsw.server.model.Resource.STONE, 3);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<Pair<it.polimi.ingsw.server.model.Resource, Integer>>();
         requirementsTest.add(costTest);
         requirementsTest.add(costTest2);
         victoryPoints=8;
@@ -460,8 +460,8 @@ public class Serializator extends JsonUtility {
 
         //26
         addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{2,0,0,0,1,0,0});
-        costTest = new Pair<>(Resource.SERVANT, 3);
-        costTest2 = new Pair<>(Resource.STONE, 3);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.SERVANT, 3);
+        costTest2 = new Pair<>(it.polimi.ingsw.server.model.Resource.STONE, 3);
 
         requirementsTest = new ArrayList<>();
         requirementsTest.add(costTest);
@@ -475,10 +475,10 @@ public class Serializator extends JsonUtility {
 
         //27
         addProd=new Production(new int[]{2,0,0,0,0,0,0},new int[]{0,0,0,3,2,0,0});
-        costTest = new Pair<>(Resource.SHIELD, 6);
-        //costTest2 = new Pair<>(NetworkResource.STONE, 3);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.SHIELD, 6);
+        //costTest2 = new Pair<>(Resource.STONE, 3);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<Pair<it.polimi.ingsw.server.model.Resource, Integer>>();
         requirementsTest.add(costTest);
         //requirementsTest.add(costTest2);
         victoryPoints=9;
@@ -490,10 +490,10 @@ public class Serializator extends JsonUtility {
 
         //28
         addProd=new Production(new int[]{0,0,0,2,0,0,0},new int[]{3,0,0,0,2,0,0});
-        costTest = new Pair<>(Resource.SERVANT, 6);
-        //costTest2 = new Pair<>(NetworkResource.STONE, 3);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.SERVANT, 6);
+        //costTest2 = new Pair<>(Resource.STONE, 3);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<Pair<it.polimi.ingsw.server.model.Resource, Integer>>();
         requirementsTest.add(costTest);
         //requirementsTest.add(costTest2);
         victoryPoints=9;
@@ -507,10 +507,10 @@ public class Serializator extends JsonUtility {
 
         //29
         addProd=new Production(new int[]{0,2,0,0,0,0,0},new int[]{0,0,3,0,2,0,0});
-        costTest = new Pair<>(Resource.GOLD, 6);
-        //costTest2 = new Pair<>(NetworkResource.STONE, 3);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.GOLD, 6);
+        //costTest2 = new Pair<>(Resource.STONE, 3);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<Pair<it.polimi.ingsw.server.model.Resource, Integer>>();
         requirementsTest.add(costTest);
         //requirementsTest.add(costTest2);
         victoryPoints=9;
@@ -523,10 +523,10 @@ public class Serializator extends JsonUtility {
 
         //30
         addProd=new Production(new int[]{0,0,2,0,0,0,0},new int[]{0,3,0,0,2,0,0});
-        costTest = new Pair<>(Resource.STONE, 6);
-        //costTest2 = new Pair<>(NetworkResource.STONE, 3);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.STONE, 6);
+        //costTest2 = new Pair<>(Resource.STONE, 3);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<Pair<it.polimi.ingsw.server.model.Resource, Integer>>();
         requirementsTest.add(costTest);
         //requirementsTest.add(costTest2);
         victoryPoints=9;
@@ -538,10 +538,10 @@ public class Serializator extends JsonUtility {
 
         //31
         addProd=new Production(new int[]{1,1,0,0,0,0,0},new int[]{0,0,2,2,1,0,0});
-        costTest = new Pair<>(Resource.SHIELD, 5);
-        costTest2 = new Pair<>(Resource.SERVANT, 2);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.SHIELD, 5);
+        costTest2 = new Pair<>(it.polimi.ingsw.server.model.Resource.SERVANT, 2);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<>();
         requirementsTest.add(costTest);
         requirementsTest.add(costTest2);
         victoryPoints=10;
@@ -552,10 +552,10 @@ public class Serializator extends JsonUtility {
 
         //32
         addProd=new Production(new int[]{0,0,1,1,0,0,0},new int[]{2,2,0,0,1,0,0});
-        costTest = new Pair<>(Resource.SERVANT, 5);
-        costTest2 = new Pair<>(Resource.GOLD, 2);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.SERVANT, 5);
+        costTest2 = new Pair<>(it.polimi.ingsw.server.model.Resource.GOLD, 2);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<>();
         requirementsTest.add(costTest);
         requirementsTest.add(costTest2);
         victoryPoints=10;
@@ -568,10 +568,10 @@ public class Serializator extends JsonUtility {
 
         //33
         addProd=new Production(new int[]{1,0,1,0,0,0,0},new int[]{0,2,0,2,1,0,0});
-        costTest = new Pair<>(Resource.GOLD, 5);
-        costTest2 = new Pair<>(Resource.STONE, 2);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.GOLD, 5);
+        costTest2 = new Pair<>(it.polimi.ingsw.server.model.Resource.STONE, 2);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<>();
         requirementsTest.add(costTest);
         requirementsTest.add(costTest2);
         victoryPoints=10;
@@ -583,10 +583,10 @@ public class Serializator extends JsonUtility {
 
         //34
         addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,1,0,0,0,0,0});
-        costTest = new Pair<>(Resource.STONE, 2);
-        //costTest2 = new Pair<>(NetworkResource.STONE, 2);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.STONE, 2);
+        //costTest2 = new Pair<>(Resource.STONE, 2);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<>();
         requirementsTest.add(costTest);
         //requirementsTest.add(costTest2);
         victoryPoints=1;
@@ -599,8 +599,8 @@ public class Serializator extends JsonUtility {
 
         //35
         addProd=new Production(new int[]{0,1,0,1,0,0,0},new int[]{2,0,2,0,1,0,0});
-        costTest = new Pair<>(Resource.STONE, 5);
-        costTest2 = new Pair<>(Resource.SERVANT, 2);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.STONE, 5);
+        costTest2 = new Pair<>(it.polimi.ingsw.server.model.Resource.SERVANT, 2);
 
         requirementsTest = new ArrayList<>();
         requirementsTest.add(costTest);
@@ -615,10 +615,10 @@ public class Serializator extends JsonUtility {
 
         //36
         addProd=new Production(new int[]{0,1,0,0    ,0,0,0},new int[]{1,0,0,0,3,0,0});
-        costTest = new Pair<>(Resource.SHIELD, 7);
-        costTest2 = new Pair<>(Resource.SERVANT, 2);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.SHIELD, 7);
+        costTest2 = new Pair<>(it.polimi.ingsw.server.model.Resource.SERVANT, 2);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<>();
         requirementsTest.add(costTest);
         //requirementsTest.add(costTest2);
         victoryPoints=11;
@@ -632,10 +632,10 @@ public class Serializator extends JsonUtility {
 
         //37
         addProd=new Production(new int[]{0,1,0,0,0,0,0},new int[]{0,0,0,1,3,0,0});
-        costTest = new Pair<>(Resource.SERVANT, 7);
-        costTest2 = new Pair<>(Resource.SERVANT, 2);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.SERVANT, 7);
+        costTest2 = new Pair<>(it.polimi.ingsw.server.model.Resource.SERVANT, 2);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<>();
         requirementsTest.add(costTest);
         //requirementsTest.add(costTest2);
         victoryPoints=11;
@@ -649,10 +649,10 @@ public class Serializator extends JsonUtility {
 
         //38
         addProd=new Production(new int[]{0,0,0,1,0,0,0},new int[]{0,0,1,0,3,0,0});
-        costTest = new Pair<>(Resource.GOLD, 7);
-        costTest2 = new Pair<>(Resource.SERVANT, 2);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.GOLD, 7);
+        costTest2 = new Pair<>(it.polimi.ingsw.server.model.Resource.SERVANT, 2);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<Pair<it.polimi.ingsw.server.model.Resource, Integer>>();
         requirementsTest.add(costTest);
         //requirementsTest.add(costTest2);
         victoryPoints=11;
@@ -664,10 +664,10 @@ public class Serializator extends JsonUtility {
 
         //39
         addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,1,0,0,0,3,0,0});
-        costTest = new Pair<>(Resource.STONE, 7);
-        costTest2 = new Pair<>(Resource.SERVANT, 2);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.STONE, 7);
+        costTest2 = new Pair<>(it.polimi.ingsw.server.model.Resource.SERVANT, 2);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<Pair<it.polimi.ingsw.server.model.Resource, Integer>>();
         requirementsTest.add(costTest);
         //requirementsTest.add(costTest2);
         victoryPoints=11;
@@ -680,10 +680,10 @@ public class Serializator extends JsonUtility {
 
         //40
         addProd=new Production(new int[]{0,0,0,1,0,0,0},new int[]{3,0,1,0,0,0,0});
-        costTest = new Pair<>(Resource.SHIELD, 4);
-        costTest2 = new Pair<>(Resource.GOLD, 4);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.SHIELD, 4);
+        costTest2 = new Pair<>(it.polimi.ingsw.server.model.Resource.GOLD, 4);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<Pair<it.polimi.ingsw.server.model.Resource, Integer>>();
         requirementsTest.add(costTest);
         requirementsTest.add(costTest2);
         victoryPoints=12;
@@ -699,10 +699,10 @@ public class Serializator extends JsonUtility {
 
         //41
         addProd=new Production(new int[]{1,0,0,0,0,0,0},new int[]{0,1,0,3,0,0,0});
-        costTest = new Pair<>(Resource.SERVANT, 4);
-        costTest2 = new Pair<>(Resource.SHIELD, 4);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.SERVANT, 4);
+        costTest2 = new Pair<>(it.polimi.ingsw.server.model.Resource.SHIELD, 4);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<Pair<it.polimi.ingsw.server.model.Resource, Integer>>();
         requirementsTest.add(costTest);
         requirementsTest.add(costTest2);
         victoryPoints=12;
@@ -714,10 +714,10 @@ public class Serializator extends JsonUtility {
 
         //42
         addProd=new Production(new int[]{0,1,0,0,0,0,0},new int[]{1,0,3,0,0,0,0});
-        costTest = new Pair<>(Resource.GOLD, 4);
-        costTest2 = new Pair<>(Resource.STONE, 4);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.GOLD, 4);
+        costTest2 = new Pair<>(it.polimi.ingsw.server.model.Resource.STONE, 4);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<Pair<it.polimi.ingsw.server.model.Resource, Integer>>();
         requirementsTest.add(costTest);
         requirementsTest.add(costTest2);
         victoryPoints=12;
@@ -730,10 +730,10 @@ public class Serializator extends JsonUtility {
 
         //43
         addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,3,0,1,0,0,0});
-        costTest = new Pair<>(Resource.STONE, 4);
-        costTest2 = new Pair<>(Resource.SERVANT, 4);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.STONE, 4);
+        costTest2 = new Pair<>(it.polimi.ingsw.server.model.Resource.SERVANT, 4);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<Pair<it.polimi.ingsw.server.model.Resource, Integer>>();
         requirementsTest.add(costTest);
         requirementsTest.add(costTest2);
         victoryPoints=12;
@@ -747,10 +747,10 @@ public class Serializator extends JsonUtility {
 
         //64
         addProd=new Production(new int[]{0,2,0,0,0,0,0},new int[]{1,0,1,1,0,0,0});
-        costTest = new Pair<>(Resource.SHIELD, 3);
-        costTest2 = new Pair<>(Resource.SERVANT, 4);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.SHIELD, 3);
+        costTest2 = new Pair<>(it.polimi.ingsw.server.model.Resource.SERVANT, 4);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<Pair<it.polimi.ingsw.server.model.Resource, Integer>>();
         requirementsTest.add(costTest);
         //requirementsTest.add(costTest2);
         victoryPoints=3;
@@ -763,10 +763,10 @@ public class Serializator extends JsonUtility {
 
         //63
         addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{1,0,0,0,0,0,0});
-        costTest = new Pair<>(Resource.STONE, 1);
-        costTest2 = new Pair<>(Resource.SHIELD, 1);
-        costTest3 = new Pair<>(Resource.GOLD, 1);
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.STONE, 1);
+        costTest2 = new Pair<>(it.polimi.ingsw.server.model.Resource.SHIELD, 1);
+        costTest3 = new Pair<>(it.polimi.ingsw.server.model.Resource.GOLD, 1);
+        requirementsTest = new ArrayList<Pair<it.polimi.ingsw.server.model.Resource, Integer>>();
         requirementsTest.add(costTest);
         requirementsTest.add(costTest2);
         requirementsTest.add(costTest3);
@@ -780,10 +780,10 @@ public class Serializator extends JsonUtility {
 
         //62
         addProd=new Production(new int[]{0,1,0,0,0,0,0},new int[]{0,0,0,1,0,0,0});
-        costTest = new Pair<>(Resource.STONE, 1);
-        costTest2 = new Pair<>(Resource.SERVANT, 1);
-        costTest3 = new Pair<>(Resource.GOLD, 1);
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.STONE, 1);
+        costTest2 = new Pair<>(it.polimi.ingsw.server.model.Resource.SERVANT, 1);
+        costTest3 = new Pair<>(it.polimi.ingsw.server.model.Resource.GOLD, 1);
+        requirementsTest = new ArrayList<Pair<it.polimi.ingsw.server.model.Resource, Integer>>();
         requirementsTest.add(costTest);
         requirementsTest.add(costTest2);
         requirementsTest.add(costTest3);
@@ -797,10 +797,10 @@ public class Serializator extends JsonUtility {
 
         //56
         addProd=new Production(new int[]{1,0,0,0,0,0,0},new int[]{0,0,1,0,0,0,0});
-        costTest = new Pair<>(Resource.SHIELD, 1);
-        costTest2 = new Pair<>(Resource.SERVANT, 1);
-        costTest3 = new Pair<>(Resource.GOLD, 1);
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.SHIELD, 1);
+        costTest2 = new Pair<>(it.polimi.ingsw.server.model.Resource.SERVANT, 1);
+        costTest3 = new Pair<>(it.polimi.ingsw.server.model.Resource.GOLD, 1);
+        requirementsTest = new ArrayList<Pair<it.polimi.ingsw.server.model.Resource, Integer>>();
         requirementsTest.add(costTest);
         requirementsTest.add(costTest2);
         requirementsTest.add(costTest3);
@@ -815,9 +815,9 @@ public class Serializator extends JsonUtility {
 
         //45
         addProd=new Production(new int[]{1,0,0,0,0,0,0},new int[]{0,0,1,0,0,0,0});
-        costTest = new Pair<>(Resource.SHIELD, 1);
-        costTest2 = new Pair<>(Resource.SERVANT, 1);
-        costTest3 = new Pair<>(Resource.STONE, 1);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.SHIELD, 1);
+        costTest2 = new Pair<>(it.polimi.ingsw.server.model.Resource.SERVANT, 1);
+        costTest3 = new Pair<>(it.polimi.ingsw.server.model.Resource.STONE, 1);
         requirementsTest = new ArrayList<>();
         requirementsTest.add(costTest);
         requirementsTest.add(costTest2);
@@ -841,7 +841,7 @@ public class Serializator extends JsonUtility {
         addProd=new Production(new int[]{1,0,0,0,0,0,0},new int[]{0,0,0,0,1,0,1});
         costTestCards = new Pair<>(DevelopmentCardColor.GREEN, 1);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<Pair<it.polimi.ingsw.server.model.Resource, Integer>>();
 
         requirementsTestCards = new ArrayList<Pair<DevelopmentCardColor, Integer>>();
         requirementsTestCards.add(costTestCards);
@@ -857,7 +857,7 @@ public class Serializator extends JsonUtility {
         addProd=new Production(new int[]{0,0,0,1,0,0,0},new int[]{0,0,0,0,1,0,1});
         costTestCards = new Pair<>(DevelopmentCardColor.PURPLE, 1);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<Pair<it.polimi.ingsw.server.model.Resource, Integer>>();
 
         requirementsTestCards = new ArrayList<Pair<DevelopmentCardColor, Integer>>();
         requirementsTestCards.add(costTestCards);
@@ -872,7 +872,7 @@ public class Serializator extends JsonUtility {
         addProd=new Production(new int[]{0,1,0,0,0,0,0},new int[]{0,0,0,0,1,0,1});
         costTestCards = new Pair<>(DevelopmentCardColor.BLUE, 1);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<Pair<it.polimi.ingsw.server.model.Resource, Integer>>();
 
         requirementsTestCards = new ArrayList<Pair<DevelopmentCardColor, Integer>>();
         requirementsTestCards.add(costTestCards);
@@ -886,7 +886,7 @@ public class Serializator extends JsonUtility {
         addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,0,0,0,1,0,1});
         costTestCards = new Pair<>(DevelopmentCardColor.YELLOW, 1);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<Pair<it.polimi.ingsw.server.model.Resource, Integer>>();
 
         requirementsTestCards = new ArrayList<Pair<DevelopmentCardColor, Integer>>();
         requirementsTestCards.add(costTestCards);
@@ -902,7 +902,7 @@ public class Serializator extends JsonUtility {
         costTestCards = new Pair<>(DevelopmentCardColor.PURPLE, 2);
         costTestCards2 = new Pair<>(DevelopmentCardColor.GREEN, 1);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<Pair<it.polimi.ingsw.server.model.Resource, Integer>>();
 
         requirementsTestCards = new ArrayList<Pair<DevelopmentCardColor, Integer>>();
         requirementsTestCards.add(costTestCards);
@@ -910,7 +910,7 @@ public class Serializator extends JsonUtility {
 
         victoryPoints=5;
         level=1;
-        bonus=Resource.GOLD;
+        bonus= it.polimi.ingsw.server.model.Resource.GOLD;
 
         series2.add(new MarketLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,bonus));
 
@@ -927,7 +927,7 @@ public class Serializator extends JsonUtility {
         requirementsTestCards.add(costTestCards2);
 
         victoryPoints=5;
-        bonus=Resource.STONE;
+        bonus= it.polimi.ingsw.server.model.Resource.STONE;
 
 
         series2.add(new MarketLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,bonus));
@@ -946,7 +946,7 @@ public class Serializator extends JsonUtility {
         requirementsTestCards.add(costTestCards2);
 
         victoryPoints=5;
-        bonus =Resource.SHIELD;
+        bonus = it.polimi.ingsw.server.model.Resource.SHIELD;
 
 
         series2.add(new MarketLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,bonus));
@@ -957,14 +957,14 @@ public class Serializator extends JsonUtility {
         costTestCards = new Pair<>(DevelopmentCardColor.YELLOW, 2);
         costTestCards2 = new Pair<>(DevelopmentCardColor.BLUE, 1);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<Pair<it.polimi.ingsw.server.model.Resource, Integer>>();
 
         requirementsTestCards = new ArrayList<Pair<DevelopmentCardColor, Integer>>();
         requirementsTestCards.add(costTestCards);
         requirementsTestCards.add(costTestCards2);
 
         victoryPoints=5;
-        bonus =Resource.SERVANT;
+        bonus = it.polimi.ingsw.server.model.Resource.SERVANT;
 
 
         series2.add(new MarketLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,bonus));
@@ -974,32 +974,32 @@ public class Serializator extends JsonUtility {
 
         //52
         addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,0,0,0,1,0,1});
-        costTest = new Pair<>(Resource.SHIELD, 5);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.SHIELD, 5);
         costTestCards2 = new Pair<>(DevelopmentCardColor.BLUE, 1);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<Pair<it.polimi.ingsw.server.model.Resource, Integer>>();
         requirementsTestCards = new ArrayList<Pair<DevelopmentCardColor, Integer>>();
 
         requirementsTest.add(costTest);
 
         victoryPoints=3;
-        depo=new LeaderDepot(0,Resource.GOLD);
+        depo=new LeaderDepot(0, it.polimi.ingsw.server.model.Resource.GOLD);
 
         series2.add(new DepositLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,depo));
 
 
         //51
         addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,0,0,0,1,0,1});
-        costTest = new Pair<>(Resource.SERVANT, 5);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.SERVANT, 5);
         costTestCards2 = new Pair<>(DevelopmentCardColor.BLUE, 1);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<Pair<it.polimi.ingsw.server.model.Resource, Integer>>();
         requirementsTestCards = new ArrayList<Pair<DevelopmentCardColor, Integer>>();
 
         requirementsTest.add(costTest);
 
         victoryPoints=3;
-        depo=new LeaderDepot(0,Resource.SHIELD);
+        depo=new LeaderDepot(0, it.polimi.ingsw.server.model.Resource.SHIELD);
 
         series2.add(new DepositLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,depo));
 
@@ -1007,16 +1007,16 @@ public class Serializator extends JsonUtility {
 
         //50
         addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,0,0,0,1,0,1});
-        costTest = new Pair<>(Resource.STONE, 5);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.STONE, 5);
         costTestCards2 = new Pair<>(DevelopmentCardColor.BLUE, 1);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<Pair<it.polimi.ingsw.server.model.Resource, Integer>>();
         requirementsTestCards = new ArrayList<Pair<DevelopmentCardColor, Integer>>();
 
         requirementsTest.add(costTest);
 
         victoryPoints=3;
-        depo=new LeaderDepot(0,Resource.SERVANT);
+        depo=new LeaderDepot(0, it.polimi.ingsw.server.model.Resource.SERVANT);
 
         series2.add(new DepositLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,depo));
 
@@ -1025,16 +1025,16 @@ public class Serializator extends JsonUtility {
 
         //49
         addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,0,0,0,1,0,1});
-        costTest = new Pair<>(Resource.GOLD, 5);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.GOLD, 5);
         costTestCards2 = new Pair<>(DevelopmentCardColor.BLUE, 1);
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<Pair<it.polimi.ingsw.server.model.Resource, Integer>>();
         requirementsTestCards = new ArrayList<Pair<DevelopmentCardColor, Integer>>();
 
         requirementsTest.add(costTest);
 
         victoryPoints=3;
-        depo=new LeaderDepot(0,Resource.STONE);
+        depo=new LeaderDepot(0, it.polimi.ingsw.server.model.Resource.STONE);
 
         series2.add(new DepositLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,depo));
 
@@ -1047,7 +1047,7 @@ public class Serializator extends JsonUtility {
         costTestCards2 = new Pair<>(DevelopmentCardColor.PURPLE, 1);
 
 
-        requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        requirementsTest = new ArrayList<Pair<it.polimi.ingsw.server.model.Resource, Integer>>();
         requirementsTestCards = new ArrayList<Pair<DevelopmentCardColor, Integer>>();
 
         requirementsTestCards.add(costTestCards);
@@ -1055,7 +1055,7 @@ public class Serializator extends JsonUtility {
 
 
         victoryPoints=2;
-        costTest = new Pair<>(Resource.GOLD, 1);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.GOLD, 1);
 
 
         series2.add(new DevelopmentDiscountLeader(  LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,costTest));
@@ -1076,7 +1076,7 @@ public class Serializator extends JsonUtility {
 
 
         victoryPoints=2;
-        costTest = new Pair<>(Resource.STONE, 1);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.STONE, 1);
 
 
         series2.add(new DevelopmentDiscountLeader(  LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,costTest));
@@ -1097,7 +1097,7 @@ public class Serializator extends JsonUtility {
 
 
         victoryPoints=2;
-        costTest = new Pair<>(Resource.SHIELD, 1);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.SHIELD, 1);
 
 
         series2.add(new DevelopmentDiscountLeader(  LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,costTest));
@@ -1118,7 +1118,7 @@ public class Serializator extends JsonUtility {
 
 
         victoryPoints=2;
-        costTest = new Pair<>(Resource.SERVANT, 1);
+        costTest = new Pair<>(it.polimi.ingsw.server.model.Resource.SERVANT, 1);
 
 
         series2.add(new DevelopmentDiscountLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,costTest));

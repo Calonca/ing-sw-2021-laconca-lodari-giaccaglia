@@ -8,17 +8,13 @@ import java.util.Map;
 
 public class SimpleCardShop {
 
-    private int maxLevel;
-
     private Map<NetworkDevelopmentCardColor, Map<Integer, List<NetworkDevelopmentCard> >> simpleCardShop;
 
     public SimpleCardShop(){}
 
     public SimpleCardShop(Map<NetworkDevelopmentCardColor, Map<Integer, List<NetworkDevelopmentCard>>> simpleCardShop) {
-        this.maxLevel = 4;
         this.simpleCardShop = simpleCardShop;
     }
-
 
     public void updateSimpleCardShop(Map<NetworkDevelopmentCardColor, Map<Integer, List<NetworkDevelopmentCard> >> updatedSimpleCardShop){
         simpleCardShop = updatedSimpleCardShop;
@@ -31,6 +27,5 @@ public class SimpleCardShop {
     public NetworkDevelopmentCard getCardOnBack(NetworkDevelopmentCardColor color, int level){
         return simpleCardShop.get(color).get(level).get(1);
     }
-
 
 }

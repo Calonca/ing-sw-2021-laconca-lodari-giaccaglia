@@ -12,12 +12,12 @@ import it.polimi.ingsw.server.model.states.State;
 public class MoveResourceEvent extends MarketBoardEvent {
 
     /**
-     * Represents position of the {@link it.polimi.ingsw.server.model.Resource NetworkResource} to move.
+     * Represents position of the {@link it.polimi.ingsw.server.model.Resource Resource} to move.
      */
     protected int startPos;
 
     /**
-     * Represents the destination position for the {@link it.polimi.ingsw.server.model.Resource NetworkResource} to move.
+     * Represents the destination position for the {@link it.polimi.ingsw.server.model.Resource Resource} to move.
      */
     protected int endPos;
 
@@ -25,8 +25,8 @@ public class MoveResourceEvent extends MarketBoardEvent {
     /**
      * Client side {@link Event} constructor invoked when {@link State#CHOOSING_POSITION_FOR_RESOURCES CHOOSING_POSITION_FOR_RESOURCES}
      * phase action is performed.
-     * @param startPos int value position of the {@link it.polimi.ingsw.server.model.Resource NetworkResource} to move.
-     * @param endPos  int value of the destination position for the {@link it.polimi.ingsw.server.model.Resource NetworkResource} to move.
+     * @param startPos int value position of the {@link it.polimi.ingsw.server.model.Resource Resource} to move.
+     * @param endPos  int value of the destination position for the {@link it.polimi.ingsw.server.model.Resource Resource} to move.
      */
     public MoveResourceEvent(int startPos, int endPos){
         this.startPos = startPos;

@@ -28,11 +28,11 @@ public class PuttingBallOnLine implements GameStrategy {
 
 
         // gamemodel.getBoxResourcesFromMarketBoard().removeResources(new int[]{0,0,0,0,faithnum,0,0});
-        //gamemodel.getBoxResourcesFromMarketBoard().selectN(faithnum,NetworkResource.FAITH);
+        //gamemodel.getBoxResourcesFromMarketBoard().selectN(faithnum,Resource.FAITH);
         //gamemodel.getBoxResourcesFromMarketBoard().removeSelected();
 
 
-        //if (gamemodel.getBoxResourcesFromMarketBoard().getNumberOf(NetworkResource.TOCHOOSE)>0)
+        //if (gamemodel.getBoxResourcesFromMarketBoard().getNumberOf(Resource.TOCHOOSE)>0)
         if (gamemodel.areThereWhiteMarblesInPickedLine())
            if(!gamemodel.getCurrentPlayer().moreThanOneMarketBonus())
                for(int i=0;i<gamemodel.getNumberOfWhiteMarblesInPickedLine();i++)

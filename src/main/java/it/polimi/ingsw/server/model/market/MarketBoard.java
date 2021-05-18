@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.market;
 
+import com.rits.cloning.Cloner;
 import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.player.board.*;
@@ -75,11 +76,9 @@ public class MarketBoard {
 
         Collections.shuffle(marbles);
 
-        final int rows = marketBoard.rows;
-
         marketBoard.marbleMatrix = IntStream.range(0,marketBoard.columns * marketBoard.rows)
                 .mapToObj((pos)->new Pair<>(pos,marbles.get(pos)))
-                .collect(groupingBy((e)->e.getKey()% rows))
+                .collect(groupingBy((e)->e.getKey()% marketBoard.rows))
                 .values()
                 .stream()
                 .map(MarketBoard::pairToValue)
@@ -94,6 +93,23 @@ public class MarketBoard {
 
         return marketBoard;
     }
+
+    public Marble[][] getMarbleMatrix(){
+        return new Cloner().deepClone(marbleMatrix);
+    }
+
+    public Marble getSlideMarble(){
+        return slideMarble;
+    }
+
+    public int getRows(){
+        return rows;
+    }
+
+    public int getColumns(){
+        return columns;
+    }
+
 
     private static Marble[] pairToValue(List<Pair<Integer, Marble>> pos_marArray){
         return pos_marArray.stream().map(Pair::getValue).toArray(Marble[]::new);
@@ -254,6 +270,8 @@ public class MarketBoard {
                     .collect(Collectors.toList())
         );
     }
+
+
 
     /* public static void main(String[] args) {
         MarketBoard resourcesMarket = initializeMarketBoard("/Users/pablo/IdeaProjects/ing-sw-2021-laconca-lodari-giaccaglia/target/classes/config/MarketBoardConfig.json");

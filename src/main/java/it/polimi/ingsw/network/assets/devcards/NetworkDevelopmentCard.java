@@ -15,10 +15,14 @@ public class NetworkDevelopmentCard {
     private int victoryPoints;
     private int level;
     private UUID cardId;
+    private boolean purchasable;
 
 
     public NetworkDevelopmentCard(){}
 
+    public void setPurchasable(boolean isPurchasable){
+        this.purchasable = isPurchasable;
+    }
     public UUID getCardId(){
         return cardId;
     }
@@ -35,5 +39,8 @@ public class NetworkDevelopmentCard {
         return costList;
     }
 
+    public boolean isPurchasable(){
+        return purchasable;
+    }
 
 }

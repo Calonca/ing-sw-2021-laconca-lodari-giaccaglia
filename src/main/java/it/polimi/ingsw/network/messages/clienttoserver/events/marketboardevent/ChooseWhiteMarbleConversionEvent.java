@@ -12,7 +12,7 @@ import it.polimi.ingsw.server.model.Resource;
 public class ChooseWhiteMarbleConversionEvent extends MarketBoardEvent {
 
     /**
-     * Represents current player chosen {@link Resource NetworkResource} in the int encoding,
+     * Represents current player chosen {@link Resource Resource} in the int encoding,
      * for {@link it.polimi.ingsw.server.model.market.Marble#WHITE WHITEMARBLE} conversion.
      */
     protected int resourceNumber;
@@ -25,7 +25,7 @@ public class ChooseWhiteMarbleConversionEvent extends MarketBoardEvent {
     /**
      * Client side {@link Event} constructor invoked when {@link State#CHOOSING_WHITEMARBLE_CONVERSION CHOOSING_WHITEMARBLE_CONVERSION}
      * phase action is performed.
-     * @param resourceNumber int representing current player chosen {@link Resource NetworkResource} in the int encoding,
+     * @param resourceNumber int representing current player chosen {@link it.polimi.ingsw.server.model.Resource Resource} in the int encoding,
      * for {@link it.polimi.ingsw.server.model.market.Marble#WHITE WHITEMARBLE} conversion.
      */
     public ChooseWhiteMarbleConversionEvent(int resourceNumber){

@@ -16,16 +16,16 @@ public class ChoosingMarketBonus implements GameStrategy {
     public State execute(GameModel gamemodel, Validable event) throws EventValidationFailedException
     {
         //ON EVENT CHOOSEWHITEMARBLECONVERSIONEVENT
-        //MESSAGE IS NetworkResource.SHIELD
-        Resource msg=Resource.SHIELD;
-        //gamemodel.getBoxResourcesFromMarketBoard().selectN(1,NetworkResource.TOCHOOSE);
+        //MESSAGE IS Resource.SHIELD
+        Resource msg= Resource.SHIELD;
+        //gamemodel.getBoxResourcesFromMarketBoard().selectN(1,Resource.TOCHOOSE);
         //gamemodel.getBoxResourcesFromMarketBoard().removeSelected();
-        //gamemodel.getBoxResourcesFromMarketBoard().addResource(new Pair<>(1, NetworkResource.SHIELD));
+        //gamemodel.getBoxResourcesFromMarketBoard().addResource(new Pair<>(1, Resource.SHIELD));
 
         //if(gamemodel.getCurrentPlayer().getMarketBonus()[msg.getResourceNumber()])
         gamemodel.convertWhiteMarbleInPickedLine(msg);
 
-        //if(gamemodel.getBoxResourcesFromMarketBoard().getNumberOf(NetworkResource.TOCHOOSE)>0)
+        //if(gamemodel.getBoxResourcesFromMarketBoard().getNumberOf(Resource.TOCHOOSE)>0)
         if(gamemodel.areThereWhiteMarblesInPickedLine())
             return State.CHOOSING_WHITEMARBLE_CONVERSION;
 

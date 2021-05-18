@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.UUID;
 
 public class CardAsset {
+
     private UUID cardId;
     private Pair<Path, Path> cardPaths;
 
@@ -23,4 +24,5 @@ public class CardAsset {
     public UUID getCardId(){
         return cardId;
     }
+
 }
