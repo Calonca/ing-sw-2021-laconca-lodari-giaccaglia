@@ -14,4 +14,12 @@ public class SimpleMarketBoard {
         this.slideMarble = slideMarble;
     }
 
+    public MarbleAsset getSlideMarble(){
+        return slideMarble;
+    }
+
+    public MarbleAsset[][] getMarbleMatrix(){
+        return marbleMatrix;
+    }
+
 }

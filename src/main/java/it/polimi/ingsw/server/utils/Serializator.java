@@ -5,12 +5,13 @@ import it.polimi.ingsw.RuntimeTypeAdapterFactory;
 import it.polimi.ingsw.network.assets.*;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import it.polimi.ingsw.network.assets.leaders.NetworkLeaderCard;
+import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
+import it.polimi.ingsw.network.jsonUtils.UUIDTypeAdapter;
 import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.cards.*;
 import it.polimi.ingsw.server.model.cards.production.Production;
-import it.polimi.ingsw.server.model.market.MarketBoard;
 import it.polimi.ingsw.server.model.player.board.LeaderDepot;
 import it.polimi.ingsw.server.model.player.leaders.*;
 import javafx.util.Pair;
@@ -18,20 +19,13 @@ import javafx.util.Pair;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.*;
 
 import static it.polimi.ingsw.server.utils.Deserializator.*;
 
 public class Serializator extends JsonUtility {
-
-
-
-
 
     public static final String frontDevCardPathString = "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_";
     public static final String backDevCardPathString = "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_";
@@ -1162,6 +1156,13 @@ public class Serializator extends JsonUtility {
         //   Leader[] cards.leaders = deserialize("src/main/resources/config/LeadersConfig.json" , Leader[].class);
     }
 
+    public static void serializeMarbles(){
+        Map<MarbleAsset, Path> marbles = Arrays.stream(MarbleAsset.values()).collect(Collectors.toMap(marble -> marble, MarbleAsset::getPath));
+        Gson customGson = gsonBuilder.enableComplexMapKeySerialization().registerTypeHierarchyAdapter(Path.class, new PathConverter()).setPrettyPrinting().create();
+        String path = "src/main/resources/clientconfig/MarblesAssetsConfig.json";
+        serialize(path ,marbles, Map.class, customGson);
+    }
+
     public static void main(String[] args) throws IOException {
   /*
         --- * uncomment to update config files / test serialization * ---
@@ -1173,8 +1174,10 @@ public class Serializator extends JsonUtility {
         faithTrackDeserialization();
         devCardsAssetsSerialization();
         leaderCardsAssetsSerialization();
-     */
-    }
+        serializeMarbles();
+        MarbleAsset.initializeMarblesFromConfig("src/main/resources/clientconfig/MarblesAssetsConfig.json");
+   */
 
+    }
 
 }

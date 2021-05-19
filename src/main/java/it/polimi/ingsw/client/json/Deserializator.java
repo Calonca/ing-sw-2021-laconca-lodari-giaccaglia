@@ -1,9 +1,9 @@
 package it.polimi.ingsw.client.json;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
-import it.polimi.ingsw.server.utils.UUIDTypeAdapter;
+import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
+import it.polimi.ingsw.network.jsonUtils.UUIDTypeAdapter;
 import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
 import it.polimi.ingsw.network.assets.leaders.NetworkLeaderCard;
@@ -44,6 +44,20 @@ public class Deserializator extends JsonUtility {
         Gson customGson = new GsonBuilder().enableComplexMapKeySerialization().registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).registerTypeHierarchyAdapter(Path.class, new PathConverter()).setPrettyPrinting().create();
         Type type = new TypeToken<Map<UUID, LeaderCardAsset> >(){}.getType();
         return deserialize(clientConfigPathString + "leaderCardsAssetsMap.json", type ,customGson);
+    }
+
+    public static class MarblesDeserializer implements JsonDeserializer<Map<MarbleAsset, Path>> {
+
+        @Override
+        public Map<MarbleAsset, Path> deserialize(JsonElement element, Type arg1, JsonDeserializationContext arg2) throws JsonParseException {
+
+            JsonObject map = element.getAsJsonObject();
+
+            return new Gson().<HashMap<MarbleAsset, Path>>fromJson(
+                    map, new TypeToken<HashMap<MarbleAsset, Path>>() {}.getType()
+            );
+        }
+
     }
 
 }

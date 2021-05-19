@@ -1,24 +1,16 @@
 {
   "table": {
-    "SETUP_PHASE": {
-      "SetupPhaseEvent": {
-        "type": "ChooseInitialResource"
+    "CHOOSING_WHITEMARBLE_CONVERSION": {
+      "ChooseWhiteMarbleConversionEvent": {
+        "type": "ChoosingMarketBonus"
       }
     },
-    "MIDDLE_PHASE": {
-      "CardShopEvent": {
-        "type": "ShowingDevelopmentCardsMarket"
+    "CHOOSING_POSITION_FOR_RESOURCES": {
+      "MoveResourceEvent": {
+        "type": "AddingResourcesFromMarket"
       },
-      "MarketBoardEvent": {
-        "type": "ShowingResourceMarket"
-      },
-      "ProductionEvent": {
-        "type": "ShowingProductionCards"
-      }
-    },
-    "SHOWING_CARD_SHOP": {
-      "ChooseCardEvent": {
-        "type": "AcquiringDevelopmentCard"
+      "DiscardResourcesEvent": {
+        "type": "DiscardingResources"
       }
     },
     "SHOWING_LEADERS_FINAL": {
@@ -32,31 +24,33 @@
         "type": "ActivatingLeader"
       }
     },
+    "SHOWING_CARD_SHOP": {
+      "ChooseCardEvent": {
+        "type": "AcquiringDevelopmentCard"
+      }
+    },
+    "MIDDLE_PHASE": {
+      "CardShopEvent": {
+        "type": "ShowingDevelopmentCardsMarket"
+      },
+      "MarketBoardEvent": {
+        "type": "ShowingResourceMarket"
+      },
+      "ProductionEvent": {
+        "type": "ShowingProductionCards"
+      }
+    },
+    "SETUP_PHASE": {
+      "SetupPhaseEvent": {
+        "type": "ChooseInitialResource"
+      }
+    },
     "CHOOSING_CARD_FOR_PRODUCTION": {
       "FinalProductionPhase": {
         "type": "TogglingForProduction"
       },
       "ChooseProductionAtPositionEvent": {
         "type": "TogglingForProduction"
-      }
-    },
-    "CHOOSING_POSITION_FOR_RESOURCES": {
-      "MoveResourceEvent": {
-        "type": "AddingResourcesFromMarket"
-      },
-      "DiscardResourcesEvent": {
-        "type": "DiscardingResources"
-      }
-    },
-    "SHOWING_LEADERS_INITIAL": {
-      "SkipLeaderEvent": {
-        "type": "EndingLeaderPhase"
-      },
-      "DiscardLeaderEvent": {
-        "type": "DiscardingLeader"
-      },
-      "PlayLeaderEvent": {
-        "type": "ActivatingLeader"
       }
     },
     "CHOOSING_RESOURCE_FOR_PRODUCTION": {
@@ -69,11 +63,6 @@
         "type": "PuttingBallOnLine"
       }
     },
-    "CHOOSING_WHITEMARBLE_CONVERSION": {
-      "ChooseWhiteMarbleConversionEvent": {
-        "type": "ChoosingMarketBonus"
-      }
-    },
     "CHOOSING_POSITION_FOR_DEVCARD": {
       "ChooseCardPositionEvent": {
         "type": "ChoosingSpaceForDevelopmentCard"
@@ -82,6 +71,17 @@
     "CHOOSING_RESOURCES_FOR_DEVCARD": {
       "ChooseResourceForCardShopEvent": {
         "type": "PayingResourcesForDevelopmentCard"
+      }
+    },
+    "SHOWING_LEADERS_INITIAL": {
+      "SkipLeaderEvent": {
+        "type": "EndingLeaderPhase"
+      },
+      "DiscardLeaderEvent": {
+        "type": "DiscardingLeader"
+      },
+      "PlayLeaderEvent": {
+        "type": "ActivatingLeader"
       }
     }
   }

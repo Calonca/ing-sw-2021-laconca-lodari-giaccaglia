@@ -1,0 +1,9 @@
+{
+  "YELLOW": "src/main/resources/assets/marbles/Masters of Renaissance_Marbles_YELLOW.png",
+  "INVALID": "src/main/resources/config/dummypath",
+  "BLUE": "src/main/resources/assets/marbles/Masters of Renaissance_Marbles_BLUE.png",
+  "RED": "src/main/resources/assets/marbles/Masters of Renaissance_Marbles_RED.png",
+  "GRAY": "src/main/resources/assets/marbles/Masters_of_Renaissance_Marbles_GRAY.png",
+  "WHITE": "src/main/resources/assets/marbles/Masters of Renaissance_Marbles_WHITE.png",
+  "PURPLE": "src/main/resources/assets/marbles/Masters of Renaissance_Marbles_PURPLE.png"
+}

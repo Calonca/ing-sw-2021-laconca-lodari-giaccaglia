@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.utils;
+package it.polimi.ingsw.network.jsonUtils;
 import java.io.IOException;
 import java.util.UUID;
 

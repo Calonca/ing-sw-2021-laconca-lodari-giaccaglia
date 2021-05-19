@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.market;
 
+import com.google.gson.annotations.SerializedName;
 import it.polimi.ingsw.server.model.Resource;
 
 import java.util.Arrays;
@@ -23,6 +24,7 @@ public enum Marble {
      * According to the official rulebook this <em>Marble</em> hasn't a mapped {@link Resource}. <br>
      * Any possible mapping to a resource due to dedicated leader effect is done in the{@link MarketBoard}
      */
+
     WHITE(Resource.EMPTY),
     /**
      * This <em>Marble</em> is mapped to the {@link Resource#SHIELD SHIELD} Resource

@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.RuntimeTypeAdapterFactory;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import it.polimi.ingsw.network.assets.leaders.*;
+import it.polimi.ingsw.network.jsonUtils.UUIDTypeAdapter;
 import it.polimi.ingsw.server.model.cards.*;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.server.model.market.MarketBoard;
