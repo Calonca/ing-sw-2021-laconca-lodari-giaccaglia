@@ -14,12 +14,17 @@
       ],
       "victoryPoints": 8,
       "level": 2,
-      "cardId": "a55d4953cda43053b2cc1b0550497279"
+      "cardId": "a55d4953cda43053b2cc1b0550497279",
+      "purchasable": false
     },
     "cardId": "a55d4953cda43053b2cc1b0550497279",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_2.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_BLUE_2.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_2.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_BLUE_2.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_2.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_BLUE_2.png"
     }
   },
   "12bb03f09a1338cf876c1a08b35c3fec": {
@@ -33,12 +38,17 @@
       ],
       "victoryPoints": 5,
       "level": 2,
-      "cardId": "12bb03f09a1338cf876c1a08b35c3fec"
+      "cardId": "12bb03f09a1338cf876c1a08b35c3fec",
+      "purchasable": false
     },
     "cardId": "12bb03f09a1338cf876c1a08b35c3fec",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_2.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_BLUE_2.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_2.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_BLUE_2.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_2.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_BLUE_2.png"
     }
   },
   "2d46943181b132b9992146a21d06f43e": {
@@ -52,12 +62,17 @@
       ],
       "victoryPoints": 3,
       "level": 1,
-      "cardId": "2d46943181b132b9992146a21d06f43e"
+      "cardId": "2d46943181b132b9992146a21d06f43e",
+      "purchasable": false
     },
     "cardId": "2d46943181b132b9992146a21d06f43e",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_1.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_YELLOW_1.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_1.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_YELLOW_1.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_1.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_YELLOW_1.png"
     }
   },
   "80c4a12f478c33469921847a51528a6e": {
@@ -71,12 +86,17 @@
       ],
       "victoryPoints": 5,
       "level": 2,
-      "cardId": "80c4a12f478c33469921847a51528a6e"
+      "cardId": "80c4a12f478c33469921847a51528a6e",
+      "purchasable": false
     },
     "cardId": "80c4a12f478c33469921847a51528a6e",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_2.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_PURPLE_2.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_2.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_PURPLE_2.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_2.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_PURPLE_2.png"
     }
   },
   "b071d81ac96b37d89359ed6cf6920279": {
@@ -98,12 +118,17 @@
       ],
       "victoryPoints": 2,
       "level": 1,
-      "cardId": "b071d81ac96b37d89359ed6cf6920279"
+      "cardId": "b071d81ac96b37d89359ed6cf6920279",
+      "purchasable": false
     },
     "cardId": "b071d81ac96b37d89359ed6cf6920279",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_1.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_PURPLE_1.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_1.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_PURPLE_1.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_1.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_PURPLE_1.png"
     }
   },
   "e496b0c4b2023e2bab1f78ba0ac0be94": {
@@ -121,12 +146,17 @@
       ],
       "victoryPoints": 10,
       "level": 3,
-      "cardId": "e496b0c4b2023e2bab1f78ba0ac0be94"
+      "cardId": "e496b0c4b2023e2bab1f78ba0ac0be94",
+      "purchasable": false
     },
     "cardId": "e496b0c4b2023e2bab1f78ba0ac0be94",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_3.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_GREEN_3.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_3.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_GREEN_3.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_3.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_GREEN_3.png"
     }
   },
   "0db0821962cf35c1af948b92c2edc200": {
@@ -140,12 +170,17 @@
       ],
       "victoryPoints": 3,
       "level": 1,
-      "cardId": "0db0821962cf35c1af948b92c2edc200"
+      "cardId": "0db0821962cf35c1af948b92c2edc200",
+      "purchasable": false
     },
     "cardId": "0db0821962cf35c1af948b92c2edc200",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_1.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_GREEN_1.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_1.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_GREEN_1.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_1.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_GREEN_1.png"
     }
   },
   "16779089ad4533b09479150d6f7a7a4b": {
@@ -159,12 +194,17 @@
       ],
       "victoryPoints": 5,
       "level": 2,
-      "cardId": "16779089ad4533b09479150d6f7a7a4b"
+      "cardId": "16779089ad4533b09479150d6f7a7a4b",
+      "purchasable": false
     },
     "cardId": "16779089ad4533b09479150d6f7a7a4b",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_2.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_YELLOW_2.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_2.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_YELLOW_2.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_2.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_YELLOW_2.png"
     }
   },
   "a44b03e49b52302c98446e1dc385cb82": {
@@ -178,12 +218,17 @@
       ],
       "victoryPoints": 9,
       "level": 3,
-      "cardId": "a44b03e49b52302c98446e1dc385cb82"
+      "cardId": "a44b03e49b52302c98446e1dc385cb82",
+      "purchasable": false
     },
     "cardId": "a44b03e49b52302c98446e1dc385cb82",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_3.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_PURPLE_3.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_3.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_PURPLE_3.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_3.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_PURPLE_3.png"
     }
   },
   "28b6bb2295a93ffe88bea9e0bac080cc": {
@@ -201,12 +246,17 @@
       ],
       "victoryPoints": 10,
       "level": 3,
-      "cardId": "28b6bb2295a93ffe88bea9e0bac080cc"
+      "cardId": "28b6bb2295a93ffe88bea9e0bac080cc",
+      "purchasable": false
     },
     "cardId": "28b6bb2295a93ffe88bea9e0bac080cc",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_3.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_PURPLE_3.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_3.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_PURPLE_3.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_3.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_PURPLE_3.png"
     }
   },
   "c65cc292c07e316486a1e88f502f6401": {
@@ -220,12 +270,17 @@
       ],
       "victoryPoints": 7,
       "level": 2,
-      "cardId": "c65cc292c07e316486a1e88f502f6401"
+      "cardId": "c65cc292c07e316486a1e88f502f6401",
+      "purchasable": false
     },
     "cardId": "c65cc292c07e316486a1e88f502f6401",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_2.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_GREEN_2.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_2.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_GREEN_2.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_2.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_GREEN_2.png"
     }
   },
   "188bde22d4863b76ad6336165a3e6407": {
@@ -247,12 +302,17 @@
       ],
       "victoryPoints": 2,
       "level": 1,
-      "cardId": "188bde22d4863b76ad6336165a3e6407"
+      "cardId": "188bde22d4863b76ad6336165a3e6407",
+      "purchasable": false
     },
     "cardId": "188bde22d4863b76ad6336165a3e6407",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_1.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_YELLOW_1.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_1.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_YELLOW_1.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_1.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_YELLOW_1.png"
     }
   },
   "3b3f822cea67378d94149e83204e53b7": {
@@ -266,12 +326,17 @@
       ],
       "victoryPoints": 1,
       "level": 1,
-      "cardId": "3b3f822cea67378d94149e83204e53b7"
+      "cardId": "3b3f822cea67378d94149e83204e53b7",
+      "purchasable": false
     },
     "cardId": "3b3f822cea67378d94149e83204e53b7",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_1.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_PURPLE_1.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_1.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_PURPLE_1.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_1.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_PURPLE_1.png"
     }
   },
   "5a633fc7f18e3b1b8878f764b7736546": {
@@ -285,12 +350,17 @@
       ],
       "victoryPoints": 11,
       "level": 3,
-      "cardId": "5a633fc7f18e3b1b8878f764b7736546"
+      "cardId": "5a633fc7f18e3b1b8878f764b7736546",
+      "purchasable": false
     },
     "cardId": "5a633fc7f18e3b1b8878f764b7736546",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_3.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_YELLOW_3.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_3.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_YELLOW_3.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_3.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_YELLOW_3.png"
     }
   },
   "625a04d56cd13131b3ee88503b962e1f": {
@@ -308,12 +378,17 @@
       ],
       "victoryPoints": 12,
       "level": 3,
-      "cardId": "625a04d56cd13131b3ee88503b962e1f"
+      "cardId": "625a04d56cd13131b3ee88503b962e1f",
+      "purchasable": false
     },
     "cardId": "625a04d56cd13131b3ee88503b962e1f",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_3.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_BLUE_3.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_3.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_BLUE_3.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_3.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_BLUE_3.png"
     }
   },
   "f982aeceae20370093919d323890b3c6": {
@@ -327,12 +402,17 @@
       ],
       "victoryPoints": 7,
       "level": 2,
-      "cardId": "f982aeceae20370093919d323890b3c6"
+      "cardId": "f982aeceae20370093919d323890b3c6",
+      "purchasable": false
     },
     "cardId": "f982aeceae20370093919d323890b3c6",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_2.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_YELLOW_2.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_2.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_YELLOW_2.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_2.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_YELLOW_2.png"
     }
   },
   "947584bd9c583c55b3126a87271fda55": {
@@ -350,12 +430,17 @@
       ],
       "victoryPoints": 6,
       "level": 2,
-      "cardId": "947584bd9c583c55b3126a87271fda55"
+      "cardId": "947584bd9c583c55b3126a87271fda55",
+      "purchasable": false
     },
     "cardId": "947584bd9c583c55b3126a87271fda55",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_2.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_YELLOW_2.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_2.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_YELLOW_2.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_2.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_YELLOW_2.png"
     }
   },
   "f7658131424b3b1c9868229aef429f6e": {
@@ -369,12 +454,17 @@
       ],
       "victoryPoints": 1,
       "level": 1,
-      "cardId": "f7658131424b3b1c9868229aef429f6e"
+      "cardId": "f7658131424b3b1c9868229aef429f6e",
+      "purchasable": false
     },
     "cardId": "f7658131424b3b1c9868229aef429f6e",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_1.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_GREEN_1.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_1.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_GREEN_1.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_1.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_GREEN_1.png"
     }
   },
   "f0e91ad2019631efa1bb018e4e011ad6": {
@@ -392,12 +482,17 @@
       ],
       "victoryPoints": 12,
       "level": 3,
-      "cardId": "f0e91ad2019631efa1bb018e4e011ad6"
+      "cardId": "f0e91ad2019631efa1bb018e4e011ad6",
+      "purchasable": false
     },
     "cardId": "f0e91ad2019631efa1bb018e4e011ad6",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_3.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_PURPLE_3.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_3.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_PURPLE_3.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_3.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_PURPLE_3.png"
     }
   },
   "f5d3858f4ca23e84a7aa7a9cc95ea6b2": {
@@ -419,12 +514,17 @@
       ],
       "victoryPoints": 2,
       "level": 1,
-      "cardId": "f5d3858f4ca23e84a7aa7a9cc95ea6b2"
+      "cardId": "f5d3858f4ca23e84a7aa7a9cc95ea6b2",
+      "purchasable": false
     },
     "cardId": "f5d3858f4ca23e84a7aa7a9cc95ea6b2",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_1.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_GREEN_1.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_1.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_GREEN_1.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_1.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_GREEN_1.png"
     }
   },
   "030d638c31703268a05b2cb3f46d25be": {
@@ -442,12 +542,17 @@
       ],
       "victoryPoints": 8,
       "level": 2,
-      "cardId": "030d638c31703268a05b2cb3f46d25be"
+      "cardId": "030d638c31703268a05b2cb3f46d25be",
+      "purchasable": false
     },
     "cardId": "030d638c31703268a05b2cb3f46d25be",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_2.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_PURPLE_2.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_2.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_PURPLE_2.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_2.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_PURPLE_2.png"
     }
   },
   "1a7b645a4b1c384488de824eb6e35769": {
@@ -461,12 +566,17 @@
       ],
       "victoryPoints": 11,
       "level": 3,
-      "cardId": "1a7b645a4b1c384488de824eb6e35769"
+      "cardId": "1a7b645a4b1c384488de824eb6e35769",
+      "purchasable": false
     },
     "cardId": "1a7b645a4b1c384488de824eb6e35769",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_3.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_GREEN_3.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_3.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_GREEN_3.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_3.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_GREEN_3.png"
     }
   },
   "6f25f95020f63afc84125c03593496fe": {
@@ -480,12 +590,17 @@
       ],
       "victoryPoints": 7,
       "level": 2,
-      "cardId": "6f25f95020f63afc84125c03593496fe"
+      "cardId": "6f25f95020f63afc84125c03593496fe",
+      "purchasable": false
     },
     "cardId": "6f25f95020f63afc84125c03593496fe",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_2.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_BLUE_2.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_2.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_BLUE_2.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_2.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_BLUE_2.png"
     }
   },
   "18ae1276406c3ce3ac0b294420add353": {
@@ -503,12 +618,17 @@
       ],
       "victoryPoints": 4,
       "level": 1,
-      "cardId": "18ae1276406c3ce3ac0b294420add353"
+      "cardId": "18ae1276406c3ce3ac0b294420add353",
+      "purchasable": false
     },
     "cardId": "18ae1276406c3ce3ac0b294420add353",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_1.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_YELLOW_1.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_1.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_YELLOW_1.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_1.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_YELLOW_1.png"
     }
   },
   "4a63fc25324f3ee08330346bb49ddd07": {
@@ -526,12 +646,17 @@
       ],
       "victoryPoints": 6,
       "level": 2,
-      "cardId": "4a63fc25324f3ee08330346bb49ddd07"
+      "cardId": "4a63fc25324f3ee08330346bb49ddd07",
+      "purchasable": false
     },
     "cardId": "4a63fc25324f3ee08330346bb49ddd07",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_2.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_PURPLE_2.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_2.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_PURPLE_2.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_2.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_PURPLE_2.png"
     }
   },
   "11087aec4ef0300e992c6a1bf1400cc5": {
@@ -545,12 +670,17 @@
       ],
       "victoryPoints": 9,
       "level": 3,
-      "cardId": "11087aec4ef0300e992c6a1bf1400cc5"
+      "cardId": "11087aec4ef0300e992c6a1bf1400cc5",
+      "purchasable": false
     },
     "cardId": "11087aec4ef0300e992c6a1bf1400cc5",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_3.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_YELLOW_3.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_3.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_YELLOW_3.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_3.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_YELLOW_3.png"
     }
   },
   "49c2e876e297332e9d4547642318c05e": {
@@ -564,12 +694,17 @@
       ],
       "victoryPoints": 3,
       "level": 1,
-      "cardId": "49c2e876e297332e9d4547642318c05e"
+      "cardId": "49c2e876e297332e9d4547642318c05e",
+      "purchasable": false
     },
     "cardId": "49c2e876e297332e9d4547642318c05e",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_1.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_PURPLE_1.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_1.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_PURPLE_1.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_1.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_PURPLE_1.png"
     }
   },
   "426514d7ef1f3f728d621a4dbf3725ed": {
@@ -583,12 +718,17 @@
       ],
       "victoryPoints": 11,
       "level": 3,
-      "cardId": "426514d7ef1f3f728d621a4dbf3725ed"
+      "cardId": "426514d7ef1f3f728d621a4dbf3725ed",
+      "purchasable": false
     },
     "cardId": "426514d7ef1f3f728d621a4dbf3725ed",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_3.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_PURPLE_3.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_3.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_PURPLE_3.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_3.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_PURPLE_3.png"
     }
   },
   "b5c03961a22735798dca2eeeb8db39ac": {
@@ -602,12 +742,17 @@
       ],
       "victoryPoints": 9,
       "level": 3,
-      "cardId": "b5c03961a22735798dca2eeeb8db39ac"
+      "cardId": "b5c03961a22735798dca2eeeb8db39ac",
+      "purchasable": false
     },
     "cardId": "b5c03961a22735798dca2eeeb8db39ac",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_3.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_BLUE_3.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_3.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_BLUE_3.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_3.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_BLUE_3.png"
     }
   },
   "80f68ada0e443ddf978a67bbad4cb166": {
@@ -629,12 +774,17 @@
       ],
       "victoryPoints": 2,
       "level": 1,
-      "cardId": "80f68ada0e443ddf978a67bbad4cb166"
+      "cardId": "80f68ada0e443ddf978a67bbad4cb166",
+      "purchasable": false
     },
     "cardId": "80f68ada0e443ddf978a67bbad4cb166",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_1.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_BLUE_1.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_1.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_BLUE_1.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_1.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_BLUE_1.png"
     }
   },
   "dd86e5662d183e10b5d4ae9ec5e3a4ae": {
@@ -652,12 +802,17 @@
       ],
       "victoryPoints": 8,
       "level": 2,
-      "cardId": "dd86e5662d183e10b5d4ae9ec5e3a4ae"
+      "cardId": "dd86e5662d183e10b5d4ae9ec5e3a4ae",
+      "purchasable": false
     },
     "cardId": "dd86e5662d183e10b5d4ae9ec5e3a4ae",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_2.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_YELLOW_2.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_2.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_YELLOW_2.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_2.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_YELLOW_2.png"
     }
   },
   "b6360b0dab253fb19c756c6a86b29b6d": {
@@ -671,12 +826,17 @@
       ],
       "victoryPoints": 1,
       "level": 1,
-      "cardId": "b6360b0dab253fb19c756c6a86b29b6d"
+      "cardId": "b6360b0dab253fb19c756c6a86b29b6d",
+      "purchasable": false
     },
     "cardId": "b6360b0dab253fb19c756c6a86b29b6d",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_1.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_YELLOW_1.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_1.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_YELLOW_1.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_1.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_YELLOW_1.png"
     }
   },
   "ecbefb21f9dd386a83b2c0100ed29128": {
@@ -694,12 +854,17 @@
       ],
       "victoryPoints": 10,
       "level": 3,
-      "cardId": "ecbefb21f9dd386a83b2c0100ed29128"
+      "cardId": "ecbefb21f9dd386a83b2c0100ed29128",
+      "purchasable": false
     },
     "cardId": "ecbefb21f9dd386a83b2c0100ed29128",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_3.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_BLUE_3.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_3.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_BLUE_3.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_3.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_BLUE_3.png"
     }
   },
   "cb3a270aa38d33b9a29ef66e09ba893e": {
@@ -717,12 +882,17 @@
       ],
       "victoryPoints": 10,
       "level": 3,
-      "cardId": "cb3a270aa38d33b9a29ef66e09ba893e"
+      "cardId": "cb3a270aa38d33b9a29ef66e09ba893e",
+      "purchasable": false
     },
     "cardId": "cb3a270aa38d33b9a29ef66e09ba893e",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_3.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_YELLOW_3.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_3.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_YELLOW_3.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_3.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_YELLOW_3.png"
     }
   },
   "bc086040a03635c186f52c040ca074dc": {
@@ -740,12 +910,17 @@
       ],
       "victoryPoints": 6,
       "level": 2,
-      "cardId": "bc086040a03635c186f52c040ca074dc"
+      "cardId": "bc086040a03635c186f52c040ca074dc",
+      "purchasable": false
     },
     "cardId": "bc086040a03635c186f52c040ca074dc",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_2.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_BLUE_2.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_2.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_BLUE_2.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_2.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_BLUE_2.png"
     }
   },
   "f24a463b641732dd8023ebe136e243ae": {
@@ -759,12 +934,17 @@
       ],
       "victoryPoints": 7,
       "level": 2,
-      "cardId": "f24a463b641732dd8023ebe136e243ae"
+      "cardId": "f24a463b641732dd8023ebe136e243ae",
+      "purchasable": false
     },
     "cardId": "f24a463b641732dd8023ebe136e243ae",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_2.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_PURPLE_2.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_2.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_PURPLE_2.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_2.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_PURPLE_2.png"
     }
   },
   "cab409d364e63387a8da095d81e3cfd4": {
@@ -778,12 +958,17 @@
       ],
       "victoryPoints": 5,
       "level": 2,
-      "cardId": "cab409d364e63387a8da095d81e3cfd4"
+      "cardId": "cab409d364e63387a8da095d81e3cfd4",
+      "purchasable": false
     },
     "cardId": "cab409d364e63387a8da095d81e3cfd4",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_2.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_GREEN_2.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_2.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_GREEN_2.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_2.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_GREEN_2.png"
     }
   },
   "de445700690e3027a1536a13f9d179cb": {
@@ -801,12 +986,17 @@
       ],
       "victoryPoints": 4,
       "level": 1,
-      "cardId": "de445700690e3027a1536a13f9d179cb"
+      "cardId": "de445700690e3027a1536a13f9d179cb",
+      "purchasable": false
     },
     "cardId": "de445700690e3027a1536a13f9d179cb",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_1.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_GREEN_1.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_1.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_GREEN_1.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_1.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_GREEN_1.png"
     }
   },
   "1970e0ab610f3dd2b9e54a400d115e4a": {
@@ -824,12 +1014,17 @@
       ],
       "victoryPoints": 4,
       "level": 1,
-      "cardId": "1970e0ab610f3dd2b9e54a400d115e4a"
+      "cardId": "1970e0ab610f3dd2b9e54a400d115e4a",
+      "purchasable": false
     },
     "cardId": "1970e0ab610f3dd2b9e54a400d115e4a",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_1.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_BLUE_1.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_1.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_BLUE_1.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_1.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_BLUE_1.png"
     }
   },
   "82deff8d13eb30918a6df97e3c52f390": {
@@ -843,12 +1038,17 @@
       ],
       "victoryPoints": 9,
       "level": 3,
-      "cardId": "82deff8d13eb30918a6df97e3c52f390"
+      "cardId": "82deff8d13eb30918a6df97e3c52f390",
+      "purchasable": false
     },
     "cardId": "82deff8d13eb30918a6df97e3c52f390",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_3.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_GREEN_3.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_3.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_GREEN_3.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_3.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_GREEN_3.png"
     }
   },
   "90c43e193fc33744bc3ca652309e5013": {
@@ -866,12 +1066,17 @@
       ],
       "victoryPoints": 4,
       "level": 1,
-      "cardId": "90c43e193fc33744bc3ca652309e5013"
+      "cardId": "90c43e193fc33744bc3ca652309e5013",
+      "purchasable": false
     },
     "cardId": "90c43e193fc33744bc3ca652309e5013",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_1.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_PURPLE_1.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_1.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_PURPLE_1.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_PURPLE_1.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_PURPLE_1.png"
     }
   },
   "41e678fce20232028c7595ba4adb52b7": {
@@ -889,12 +1094,17 @@
       ],
       "victoryPoints": 12,
       "level": 3,
-      "cardId": "41e678fce20232028c7595ba4adb52b7"
+      "cardId": "41e678fce20232028c7595ba4adb52b7",
+      "purchasable": false
     },
     "cardId": "41e678fce20232028c7595ba4adb52b7",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_3.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_YELLOW_3.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_3.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_YELLOW_3.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_YELLOW_3.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_YELLOW_3.png"
     }
   },
   "4904d0c6135736ae8264c7377eacd63f": {
@@ -912,12 +1122,17 @@
       ],
       "victoryPoints": 8,
       "level": 2,
-      "cardId": "4904d0c6135736ae8264c7377eacd63f"
+      "cardId": "4904d0c6135736ae8264c7377eacd63f",
+      "purchasable": false
     },
     "cardId": "4904d0c6135736ae8264c7377eacd63f",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_2.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_GREEN_2.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_2.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_GREEN_2.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_2.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_GREEN_2.png"
     }
   },
   "e4befa8cd23938c78d1fb23dcafb30ee": {
@@ -931,12 +1146,17 @@
       ],
       "victoryPoints": 1,
       "level": 1,
-      "cardId": "e4befa8cd23938c78d1fb23dcafb30ee"
+      "cardId": "e4befa8cd23938c78d1fb23dcafb30ee",
+      "purchasable": false
     },
     "cardId": "e4befa8cd23938c78d1fb23dcafb30ee",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_1.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_BLUE_1.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_1.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_BLUE_1.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_1.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_BLUE_1.png"
     }
   },
   "a88ba6c692973c23aa32981b8d6fe603": {
@@ -950,12 +1170,17 @@
       ],
       "victoryPoints": 3,
       "level": 1,
-      "cardId": "a88ba6c692973c23aa32981b8d6fe603"
+      "cardId": "a88ba6c692973c23aa32981b8d6fe603",
+      "purchasable": false
     },
     "cardId": "a88ba6c692973c23aa32981b8d6fe603",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_1.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_BLUE_1.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_1.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_BLUE_1.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_1.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_BLUE_1.png"
     }
   },
   "24f8c231fe9d3954b5aa758fac5c4146": {
@@ -973,12 +1198,17 @@
       ],
       "victoryPoints": 5,
       "level": 2,
-      "cardId": "24f8c231fe9d3954b5aa758fac5c4146"
+      "cardId": "24f8c231fe9d3954b5aa758fac5c4146",
+      "purchasable": false
     },
     "cardId": "24f8c231fe9d3954b5aa758fac5c4146",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_2.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_GREEN_2.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_2.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_GREEN_2.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_2.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_GREEN_2.png"
     }
   },
   "98228120032836bfb4e26b12f873b029": {
@@ -992,12 +1222,17 @@
       ],
       "victoryPoints": 11,
       "level": 3,
-      "cardId": "98228120032836bfb4e26b12f873b029"
+      "cardId": "98228120032836bfb4e26b12f873b029",
+      "purchasable": false
     },
     "cardId": "98228120032836bfb4e26b12f873b029",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_3.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_BLUE_3.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_3.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_BLUE_3.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_3.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_BLUE_3.png"
     }
   },
   "ff5ed8509a263c6daf292e9ff7221e2e": {
@@ -1015,12 +1250,17 @@
       ],
       "victoryPoints": 12,
       "level": 3,
-      "cardId": "ff5ed8509a263c6daf292e9ff7221e2e"
+      "cardId": "ff5ed8509a263c6daf292e9ff7221e2e",
+      "purchasable": false
     },
     "cardId": "ff5ed8509a263c6daf292e9ff7221e2e",
-    "cardPaths": {
-      "key": "src/main/resources/assets/devCards/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_3.png",
-      "value": "src/main/resources/assets/devCards/BACK/Masters of Renaissance__Cards_BACK_GREEN_3.png"
+    "activeCardPaths": {
+      "key": "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_3.png",
+      "value": "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_GREEN_3.png"
+    },
+    "inactiveCardPaths": {
+      "key": "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_GREEN_3.png",
+      "value": "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_GREEN_3.png"
     }
   }
 }

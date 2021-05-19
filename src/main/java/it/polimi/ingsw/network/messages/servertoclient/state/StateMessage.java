@@ -17,4 +17,5 @@ public class StateMessage extends ServerToClientMessage {
         this.stateInNetwork = stateInNetwork;
     }
 
+
 }

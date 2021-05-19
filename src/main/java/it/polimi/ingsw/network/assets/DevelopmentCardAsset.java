@@ -1,7 +1,10 @@
 package it.polimi.ingsw.network.assets;
 
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
+import javafx.util.Pair;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.UUID;
 
 public class DevelopmentCardAsset extends CardAsset{
@@ -11,13 +14,18 @@ public class DevelopmentCardAsset extends CardAsset{
     public DevelopmentCardAsset(){
     }
 
-    public DevelopmentCardAsset(NetworkDevelopmentCard networkDevelopmentCard, String front, String back, UUID cardId){
-        super(front, back, cardId);
+    public DevelopmentCardAsset(NetworkDevelopmentCard networkDevelopmentCard, String frontPurchasable, String backPurchasable, String frontNotPurchasable, String backNotPurchasable, UUID cardId){
+        super(frontPurchasable, backPurchasable, frontNotPurchasable, backNotPurchasable, cardId);
         this.networkDevelopmentCard = networkDevelopmentCard;
     }
 
     public NetworkDevelopmentCard getDevelopmentCard() {
         return networkDevelopmentCard;
+    }
+
+    @Override
+    public Pair<Path, Path> getCardPaths() {
+        return networkDevelopmentCard.isPurchasable() ? getActiveCardPaths() : getInactiveCardPaths();
     }
 
 }

@@ -13,6 +13,7 @@ public class NetworkLeaderCard {
     protected List<Pair<NetworkResource, Integer>> requirementsResources;
     protected List<Pair<NetworkDevelopmentCardColor, Integer>> requirementsCards;
     protected int requirementsCardsLevel=1;
+    protected boolean isActive;
 
     public NetworkLeaderCard(){}
 
@@ -30,6 +31,10 @@ public class NetworkLeaderCard {
 
     public int getRequirementsCardsLevel() {
         return requirementsCardsLevel;
+    }
+
+    public boolean isLeaderActive(){
+        return isActive;
     }
 
 }

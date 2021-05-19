@@ -7,7 +7,6 @@ public class SimpleMarketBoard {
     private MarbleAsset[][] marbleMatrix;
     private MarbleAsset slideMarble;
 
-
     public SimpleMarketBoard(){}
 
     public SimpleMarketBoard(MarbleAsset[][] marbleMatrix, MarbleAsset slideMarble){
