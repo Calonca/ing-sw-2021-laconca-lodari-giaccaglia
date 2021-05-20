@@ -14,6 +14,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.*;
 import javafx.scene.text.Font;
@@ -26,6 +28,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ConnectToServer extends ConnectToServerViewBuilder implements GUIView {
+    public Text error;
     @FXML
     private StackPane connectionPane;
     @FXML
@@ -75,7 +78,7 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
                 }
 
 
-        errortext.setOpacity(200);
+        error.setOpacity(200);
 
 
         Client.getInstance().getStage().show();
@@ -92,18 +95,12 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        errortext = new Text("INSERISCI I DATI CORRETTI!");
-        errortext.setFont(Font.font(null, FontWeight.BOLD, 10));
-        StackPane.setAlignment(errortext, Pos.TOP_CENTER);
-        StackPane.setMargin(errortext, new Insets(40, 10, 10, 10));
 
-        errortext.setOpacity(0);
-
-        connectionPane.getChildren().add(errortext);
-
-        StackPane.setAlignment(errortext, Pos.TOP_CENTER);
-        StackPane.setMargin(errortext, new Insets(40, 10, 10, 10));
-        //connectionButton.setOnAction(e -> Client.getInstance().changeViewBuilder(new CreateJoinLoadMatch(), null));
+        ImageView temp=new ImageView(new Image("assets/logo.png", true));
+        StackPane.setAlignment(temp,Pos.TOP_CENTER);
+        temp.setFitWidth(800);
+        temp.setFitHeight(300);
+        connectionPane.getChildren().add(temp);
     }
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
