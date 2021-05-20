@@ -2,6 +2,8 @@ package it.polimi.ingsw.client.view.GUI;
 
 
 import it.polimi.ingsw.client.Client;
+
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -11,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -19,6 +22,7 @@ import javax.swing.*;
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 /**
@@ -31,6 +35,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
     public Button b3;
     public Button b4;
 
+    boolean[] selected =new boolean[4];
     Spinner<Integer> goldSpin;
     Spinner<Integer> slaveSpin;
     Spinner<Integer> stoneSpin;
@@ -59,6 +64,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
+        Arrays.fill(selected, false);
         goldSpin=new Spinner<>(0,3,0);
         goldSpin.setPadding(new Insets(10,10,10,10));
         goldSpin.setBackground(Background.EMPTY);
@@ -108,9 +114,52 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         temp=new ImageView(new Image("assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_0.png", true));
         temp.setFitHeight(100);
         temp.setFitWidth(100);
+        b4.setOnAction(e ->
+        {
+            ImageView tempo=new ImageView(new Image("assets/leaders/grayed out/BACK/Masters of Renaissance__Cards_BACK.png", true));
+            tempo.setFitHeight(100);
+            tempo.setFitWidth(100);
+            b4.setGraphic(tempo);
+        });
         b4.setGraphic(temp);
 
+        b1.setOnAction(e ->
+        {
+            ImageView tempo;
+            if(!selected[1])
+            {
+                tempo=new ImageView(new Image("assets/leaders/grayed out/BACK/Masters of Renaissance__Cards_BACK.png", true));
+                tempo.setFitHeight(100);
+                tempo.setFitWidth(100);
+                b1.setGraphic(tempo);
+                selected[1]=true;
+            }
+            else
+            {
+                tempo=new ImageView(new Image("assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_0.png", true));
+                tempo.setFitHeight(100);
+                tempo.setFitWidth(100);
+                b1.setGraphic(tempo);
+                selected[1]=false;
+            }
 
+        });
+
+        b2.setOnAction(e ->
+        {
+            ImageView tempo=new ImageView(new Image("assets/leaders/grayed out/BACK/Masters of Renaissance__Cards_BACK.png", true));
+            tempo.setFitHeight(100);
+            tempo.setFitWidth(100);
+            b2.setGraphic(tempo);
+        });
+
+        b3.setOnAction(e ->
+        {
+            ImageView tempo=new ImageView(new Image("assets/leaders/grayed out/BACK/Masters of Renaissance__Cards_BACK.png", true));
+            tempo.setFitHeight(100);
+            tempo.setFitWidth(100);
+            b3.setGraphic(tempo);
+        });
         Client.getInstance().getStage().show();
 
     }
