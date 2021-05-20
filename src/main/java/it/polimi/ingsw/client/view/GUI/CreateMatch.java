@@ -74,8 +74,7 @@ public class CreateMatch extends CreateJoinLoadMatchViewBuilder implements GUIVi
         TranslateTransition transition = new TranslateTransition(Duration.seconds(1.5),circle1);
         transition.setToX(200);
         transition.setToY(0);
-        transition.setAutoReverse(true);
-        transition.setCycleCount(Animation.INDEFINITE);
+        transition.setAutoReverse(false);
         transition.play();
 
         createPane.getChildren().add(circle1);
