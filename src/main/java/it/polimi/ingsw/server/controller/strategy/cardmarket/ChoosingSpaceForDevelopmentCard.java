@@ -15,13 +15,13 @@ import it.polimi.ingsw.server.model.states.State;
 public class ChoosingSpaceForDevelopmentCard implements GameStrategy {
     public State execute(GameModel gamemodel, Validable event) throws EventValidationFailedException
     {
-        //ON EVENT CHOOSECARDPOSITIONEVENT
+  /*      //ON EVENT CHOOSECARDPOSITIONEVENT
         //MESSAGE IS 2
+     //   if(chosencell.isSpotAvailable(gamemodel.getPurchasedCard()))
+   //     else
+     //       return State.CHOOSING_POSITION_FOR_DEVCARD;*/
         ProductionCardCell chosencell=gamemodel.getCurrentPlayer().getPersonalBoard().getCardCells().get(2);
-        if(chosencell.isSpotAvailable(gamemodel.getPurchasedCard()))
-            chosencell.addToTop(gamemodel.getPurchasedCard());
-        else
-            return State.CHOOSING_POSITION_FOR_DEVCARD;
+        chosencell.addToTop(gamemodel.getPurchasedCard());
 
         return new Final().execute(gamemodel, event);
     }

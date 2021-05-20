@@ -6,6 +6,8 @@ import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.states.State;
 
+import java.util.UUID;
+
 /**
  *  If the chosen Leader is playable, its effect is activated. If not, nothing happens.
  */
@@ -16,7 +18,7 @@ public class ActivatingLeader implements GameStrategy {
         //MESSAGE IS INT 2
     //    if(gamemodel.getCurrentPlayer().getPersonalBoard().isLeaderRequirementsSatisfied(gamemodel.getCurrentPlayer().getLeaders().get(2))&&
     //        gamemodel.getCurrentPlayer().getLeaders().get(2).getState()== NetworkLeaderState.INACTIVE)
-      //  gamemodel.getCurrentPlayer().getLeader().get(2).activate(gamemodel);
+        gamemodel.getCurrentPlayer().getLeader(UUID.randomUUID()).get().activate(gamemodel);
 
         return new EndingLeaderPhase().execute(gamemodel, event);
 

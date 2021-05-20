@@ -23,10 +23,7 @@ public class AcquiringDevelopmentCard implements GameStrategy {
         int chosencard=4;
         int level=chosencard%3; //1      LEVEL 2 CARD
         int color=chosencard/3; //1      BLUe
-        if(!gamemodel.isCardColorOutOfStock(DevelopmentCardColor.fromInt(color)))
-            gamemodel.purchaseCardFromCardShop(DevelopmentCardColor.fromInt(color),level);
-                if(!gamemodel.getCurrentPlayer().getPersonalBoard().isDevelopmentCardAvailable(gamemodel.getPurchasedCard()))
-                    return State.SHOWING_CARD_SHOP;
+        gamemodel.purchaseCardFromCardShop(DevelopmentCardColor.fromInt(color),level);
 
         return State.CHOOSING_RESOURCES_FOR_DEVCARD;
     }

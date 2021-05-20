@@ -23,8 +23,7 @@ public class TogglingForProduction implements GameStrategy {
             return new Final().execute(gamemodel, event);
 
         }
-        if(gamemodel.getCurrentPlayer().getPersonalBoard().getAvailableProductions()[msg])
-            gamemodel.getCurrentPlayer().getPersonalBoard().toggleSelectProductionAt(msg);
+        gamemodel.getCurrentPlayer().getPersonalBoard().toggleSelectProductionAt(msg);
                 if(gamemodel.getCurrentPlayer().getPersonalBoard().firstProductionSelectedWithChoice().isPresent())
                     return State.CHOOSING_RESOURCE_FOR_PRODUCTION;
         return State.CHOOSING_CARD_FOR_PRODUCTION;
