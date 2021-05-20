@@ -1,6 +1,9 @@
 package it.polimi.ingsw.server.model.states;
 import it.polimi.ingsw.network.messages.servertoclient.state.SETUP_PHASE;
+import it.polimi.ingsw.network.messages.servertoclient.state.SHOWING_CARD_SHOP;
+import it.polimi.ingsw.network.messages.servertoclient.state.SHOWING_MARKET_RESOURCES;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
+import it.polimi.ingsw.server.messages.MessagesBuilderHandler;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.cards.*;
@@ -11,6 +14,9 @@ import it.polimi.ingsw.server.model.market.MarketBoard;
 import it.polimi.ingsw.server.model.market.MarketLine;
 import it.polimi.ingsw.server.model.player.board.*;
 import it.polimi.ingsw.server.utils.Util;
+
+import java.nio.charset.StandardCharsets;
+import java.util.UUID;
 
 
 /**
@@ -61,12 +67,14 @@ public enum State {
         @Override
         public StateInNetwork toStateMessage(GameModel gameModel) {
             return new SETUP_PHASE(
+
                     gameModel.getPlayerIndex(gameModel.getCurrentPlayer()),
                     gameModel.getCurrentPlayer().getLeadersUUIDs(),
                     Util.resourcesToChooseOnSetup(gameModel.getPlayerIndex(gameModel.getCurrentPlayer())),
                     gameModel.getMatchID(),
                     gameModel.getOnlinePlayers().values().stream().map(Player::getNickName).toArray(String[]::new)
                     );
+
         }
     },
 
@@ -88,10 +96,9 @@ public enum State {
     SHOWING_LEADERS_INITIAL {
         @Override
         public StateInNetwork toStateMessage(GameModel gameModel) {
-            return null;
+            return null ;
         }
     },
-
 
     /**
      * Core turn phase where player perform a <em>Normal Action</em>.
@@ -132,7 +139,13 @@ public enum State {
     SHOWING_MARKET_RESOURCES {
         @Override
         public StateInNetwork toStateMessage(GameModel gameModel) {
-            return null;
+            return new SHOWING_MARKET_RESOURCES(
+
+                    gameModel.getPlayerIndex(gameModel.getCurrentPlayer()),
+                    MessagesBuilderHandler.marketBoardAdapter(gameModel.getMarketMarbles(), gameModel.getMarketBoardRows(), gameModel.getMarketBoardColumns()),
+                    UUID.nameUUIDFromBytes(gameModel.getSlideMarble().toString().getBytes(StandardCharsets.UTF_8)),
+                    gameModel.getMarketBoardRows(),
+                    gameModel.getMarketBoardColumns());
         }
     },
 
@@ -164,7 +177,9 @@ public enum State {
     SHOWING_CARD_SHOP {
         @Override
         public StateInNetwork toStateMessage(GameModel gameModel) {
-            return null;
+            return new SHOWING_CARD_SHOP(
+                    gameModel.getPlayerIndex(gameModel.getCurrentPlayer()),
+                    MessagesBuilderHandler.cardShopAdapter());
         }
     },
 

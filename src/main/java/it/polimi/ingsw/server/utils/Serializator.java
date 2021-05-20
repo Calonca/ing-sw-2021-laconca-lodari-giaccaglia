@@ -12,6 +12,7 @@ import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.cards.*;
 import it.polimi.ingsw.server.model.cards.production.Production;
+import it.polimi.ingsw.server.model.market.Marble;
 import it.polimi.ingsw.server.model.player.board.LeaderDepot;
 import it.polimi.ingsw.server.model.player.leaders.*;
 import javafx.util.Pair;
@@ -1178,6 +1179,9 @@ public class Serializator extends JsonUtility {
         MarbleAsset.initializeMarblesFromConfig("src/main/resources/clientconfig/MarblesAssetsConfig.json");
    */
 
+        MarbleAsset.initializeMarblesFromConfig("src/main/resources/clientconfig/MarblesAssetsConfig.json");
+        Marble.values();
+        int ciao=5;
     }
 
 }

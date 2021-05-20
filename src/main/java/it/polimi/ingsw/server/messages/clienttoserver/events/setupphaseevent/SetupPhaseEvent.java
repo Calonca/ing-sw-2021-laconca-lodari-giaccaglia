@@ -40,17 +40,13 @@ public class SetupPhaseEvent extends it.polimi.ingsw.network.messages.clienttose
     }
 
     /**
-     * @return true if chosen and discarded <em>leaderCards</em> are available among ones in {@link GameModel}, otherwise false.
+     * @return true if discarded <em>leaderCards</em> are available among ones in {@link GameModel}, otherwise false.
      */
     private boolean validateLeaders() {
-        if(chosenLeaders.size() == initialChosenLeaders && initialChosenLeaders  == 2 && discardedLeaders.size() == initialDiscardedLeaders && initialDiscardedLeaders == 2)
+
+        if(discardedLeaders.size() == initialDiscardedLeaders && initialDiscardedLeaders == 2)
         {
             boolean validationOk;
-            for (UUID leaderId : chosenLeaders) {
-                validationOk = gamemodel.getCurrentPlayer().isLeaderAvailable(leaderId);
-                if(!validationOk) return false;
-            }
-
             for (UUID leaderId: discardedLeaders) {
                 validationOk = gamemodel.getCurrentPlayer().isLeaderAvailable(leaderId);
                 if(!validationOk) return false;

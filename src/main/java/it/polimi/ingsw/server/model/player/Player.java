@@ -24,7 +24,7 @@ public class Player {
     /**
      * Player's declared nickname at client side game setup
      */
-    private String nickName;
+    private final String nickName;
 
     /**
      * Player's {@link PersonalBoard} for handling personal storage of both {@link DevelopmentCard DevelopmentCards}
@@ -33,7 +33,7 @@ public class Player {
     private final PersonalBoard personalBoard;
 
 
-    private Map<UUID, Leader> leaders;
+    private final Map<UUID, Leader> leaders;
 
     /**
      * {@link Player} current {@link State} during game phases. When not playing, the default state is {@link State#IDLE IDLE}
@@ -55,9 +55,10 @@ public class Player {
     /**
      * Keeps track of currently active {@link DevelopmentDiscountLeader} related resources discounts.
      */
-    private int[] discounts;
+    private final int[] discounts;
 
-    private boolean[] marketBonus;
+    private final boolean[] marketBonus;
+
     private StatesTransitionTable statesTransitionTable;
 
     /**
@@ -92,12 +93,19 @@ public class Player {
         return discounts;
     }
 
-
-    public List<Leader> getLeadersList() {
+  /*  public List<Leader> getLeadersList() {
         return new ArrayList<>(leaders.values());
-    }
+    } */
 
     public List<UUID> getLeadersUUIDs() {return new ArrayList<>(leaders.keySet());}
+
+    public void discardLeader(UUID leaderId){
+        leaders.remove(leaderId);
+    }
+
+    public Optional<Leader> getLeaderToActivate(UUID leaderId){
+            return Optional.ofNullable(leaders.get(leaderId));
+    }
 
     /**
      * @param leaderUUID UUID value corresponding to a <em>leaderCard</em>

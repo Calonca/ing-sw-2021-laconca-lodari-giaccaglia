@@ -11,6 +11,7 @@ import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
 import it.polimi.ingsw.server.model.market.Marble;
 import javafx.util.Pair;
 
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -22,26 +23,16 @@ public class MessagesBuilderHandler {
     private static GameModel gameModel;
 
     private static Map<UUID, DevelopmentCard> devCards;
-    private static Marble[][] market;
-    private static int marketRows;
-    private static int marketColumns;
 
-    public void initMessagesBuilderHandler(GameModel currentGameModel, Map<UUID, DevelopmentCard> devCardsMap){
+
+    public static void initMessagesBuilderHandler(GameModel currentGameModel, Map<UUID, DevelopmentCard> devCardsMap){
         gameModel = currentGameModel;
         devCards = devCardsMap;
     }
 
-    public void initMessagesBuilderHandler(GameModel currentGameModel, Marble[][] marketMarbles, int rows, int columns){
-        gameModel = currentGameModel;
-        market = marketMarbles;
-        marketRows = rows;
-        marketColumns = columns;
-    }
 
     public static Map<NetworkDevelopmentCardColor, Map<Integer, List<NetworkDevelopmentCard>>> cardShopAdapter (){
-
-
-        Map<DevelopmentCardColor, Map<Integer, List<DevelopmentCard>>> simpleCardShop = gameModel.getCardShop().getSimpleCardShop();
+        Map<DevelopmentCardColor, Map<Integer, List<DevelopmentCard>>> simpleCardShop = gameModel.getSimpleCardShop();
 
         return simpleCardShop
                 .keySet()
@@ -81,10 +72,13 @@ public class MessagesBuilderHandler {
 
     }
 
-    public static MarbleAsset[][] marketBoardAdapter(){
-        List<MarbleAsset> marbles  = Arrays
-                .stream(market)
-                .flatMap(Arrays::stream).map(marble -> MarbleAsset.fromInt(Marble.getMarbleNumber(marble))).collect(Collectors.toList());
+    public static UUID[][] marketBoardAdapter(Marble[][] marketMarbles, int marketRows, int marketColumns){
+        List<UUID> marbles  = Arrays
+                .stream(marketMarbles)
+                .flatMap(Arrays::stream)
+                .map(marble ->
+                        UUID.nameUUIDFromBytes(MarbleAsset.fromInt(Marble.getMarbleNumber(marble)).getName().getBytes(StandardCharsets.UTF_8)))
+                .collect(Collectors.toList());
 
         return IntStream.range(0, marketColumns*marketColumns)
                 .mapToObj((pos)->new Pair<>(pos,marbles.get(pos)))
@@ -92,11 +86,10 @@ public class MessagesBuilderHandler {
                 .values()
                 .stream()
                 .map(MessagesBuilderHandler::pairToValue)
-                .toArray(MarbleAsset[][]::new);
+                .toArray(UUID[][]::new);
     }
-    private static MarbleAsset[] pairToValue(List<Pair<Integer, MarbleAsset>> pos_marArray){
-        return pos_marArray.stream().map(Pair::getValue).toArray(MarbleAsset[]::new);
+    private static UUID[] pairToValue(List<Pair<Integer, UUID>> pos_marArray){
+        return pos_marArray.stream().map(Pair::getValue).toArray(UUID[]::new);
     }
-
 
 }

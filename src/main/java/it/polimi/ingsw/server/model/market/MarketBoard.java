@@ -110,7 +110,6 @@ public class MarketBoard {
         return columns;
     }
 
-
     private static Marble[] pairToValue(List<Pair<Integer, Marble>> pos_marArray){
         return pos_marArray.stream().map(Pair::getValue).toArray(Marble[]::new);
     }
@@ -195,8 +194,6 @@ public class MarketBoard {
 
     }
 
-
-
     private Map<Marble, Long> getResourcesOccurrences(Marble [] pickedMarbles){
         return Arrays.stream(pickedMarbles)
                 .collect(groupingBy(Function.identity(), counting()));
@@ -271,8 +268,6 @@ public class MarketBoard {
         );
     }
 
-
-
     /* public static void main(String[] args) {
         MarketBoard resourcesMarket = initializeMarketBoard("/Users/pablo/IdeaProjects/ing-sw-2021-laconca-lodari-giaccaglia/target/classes/config/MarketBoardConfig.json");
         System.out.println(Arrays.deepToString(resourcesMarket.marbleMatrix));
@@ -280,6 +275,7 @@ public class MarketBoard {
         resourcesMarket.updateMatrix(MarketLine.FIRST_ROW);
         System.out.println(Arrays.deepToString(resourcesMarket.marbleMatrix));
     }*/
+
 }
 
 

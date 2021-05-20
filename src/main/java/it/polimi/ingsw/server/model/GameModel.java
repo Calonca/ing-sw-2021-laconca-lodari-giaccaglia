@@ -66,18 +66,18 @@ public class GameModel {
      */
     private SinglePlayerDeck soloDeck;
 
-
     /**
      * This game data structure to represent a {@link DevelopmentCard DevelopmentCards} grid structured according to
      * official game rules.
      */
     private CardShop cardShop;
 
-
     /**
      * List containing Leader cards to distribute in {@link State#SETUP_PHASE}.
      */
-        private Map<UUID, Leader> leaders;
+    private Map<UUID, Leader> leaders;
+
+    Map<UUID, DevelopmentCard> devCardsMap;
 
     /**
      *
@@ -180,7 +180,6 @@ public class GameModel {
         return currentPlayer;
     }
 
-
     public boolean isDevCardInShopAvailable(int cardColorNumber, int cardLevel) {
         return !cardShop.isLevelOfColourOutOfStock(DevelopmentCardColor.fromInt(cardColorNumber), cardLevel);
     }
@@ -188,12 +187,18 @@ public class GameModel {
     public int getMaxDevCardLevelInCardShop(){
         return cardShop.getMaxCardLevel();
     }
+
     /**
      * @return the cardshop
      */
     public CardShop getCardShop() {
         return cardShop;
     }
+
+    public Map<DevelopmentCardColor, Map<Integer, List<DevelopmentCard>>> getSimpleCardShop(){
+        return cardShop.getSimpleCardShop();
+    }
+
     /**
      * Sets the player currently playing to the given {@link Player player}.
      * @param currentPlayer the player to set to current player.
@@ -239,6 +244,10 @@ public class GameModel {
         return currentPlayer.anyLeaderPlayable();
     }
 
+    public void discardLeadersOnSetupPhase(int playerNumber, List<UUID> leadersToDiscard){
+        leadersToDiscard.stream().forEach(leader -> players.get(playerNumber).discardLeader(leader));
+    }
+
     public void setOfflinePlayer(Player player){
         player.setCurrentStatus(false);
         updateOnlinePlayers();
@@ -267,7 +276,6 @@ public class GameModel {
                 .collect(Collectors.toMap(Function.identity(), index -> onlinePlayers.get(index)));
     }
 
-    //TODO CHECK IF IS REASONABLE TO RETURN PLAYER REFERENCE, MAYBE STRING NAME IS ENOUGH
     /**
      * @return a list of currently online {@link Player Players}
      */
@@ -431,6 +439,22 @@ public class GameModel {
      */
     public Player getSinglePlayer(){
         return singlePlayer;
+    }
+
+    public int getMarketBoardRows(){
+        return resourcesMarket.getRows();
+    }
+
+    public int getMarketBoardColumns(){
+        return resourcesMarket.getColumns();
+    }
+
+    public Marble[][] getMarketMarbles(){
+        return new Cloner().deepClone(resourcesMarket.getMarbleMatrix());
+    }
+
+    public Marble getSlideMarble(){
+        return new Cloner().deepClone(resourcesMarket.getSlideMarble());
     }
 
     /**

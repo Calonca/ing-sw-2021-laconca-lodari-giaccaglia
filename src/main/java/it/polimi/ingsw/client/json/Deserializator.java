@@ -46,18 +46,4 @@ public class Deserializator extends JsonUtility {
         return deserialize(clientConfigPathString + "leaderCardsAssetsMap.json", type ,customGson);
     }
 
-    public static class MarblesDeserializer implements JsonDeserializer<Map<MarbleAsset, Path>> {
-
-        @Override
-        public Map<MarbleAsset, Path> deserialize(JsonElement element, Type arg1, JsonDeserializationContext arg2) throws JsonParseException {
-
-            JsonObject map = element.getAsJsonObject();
-
-            return new Gson().<HashMap<MarbleAsset, Path>>fromJson(
-                    map, new TypeToken<HashMap<MarbleAsset, Path>>() {}.getType()
-            );
-        }
-
-    }
-
 }

@@ -8,9 +8,12 @@ import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.server.utils.Deserializator;
 
 import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  *  <p>Enum class for <em>Market Marbles</em> of MarketBoard<br>
@@ -75,29 +78,27 @@ public enum MarbleAsset {
         return marbleNum>vals.length|| marbleNum<0 ? INVALID: vals[marbleNum];
     }
 
+    public static MarbleAsset fromUUID(UUID marbleId){
+       return Arrays.stream(vals)
+               .filter(marble -> UUID.nameUUIDFromBytes(marble.getName().getBytes(StandardCharsets.UTF_8)).equals(marbleId))
+               .findFirst()
+               .orElse(INVALID);
+    }
+
     public String getName() {
         return this.name();
     }
 
-    public static MarbleAsset fromKey(String enumName) {
-        for(MarbleAsset marbleAsset : MarbleAsset.values()) {
-            if (marbleAsset.getName().equals(enumName)) {
-                return marbleAsset;
-            }
-        }
-        return null;
-    }
 
-    private void setPath(Path path){
+    public void setPath(Path path){
         this.marbleAssetPath = path;
     }
 
     public static void initializeMarblesFromConfig(String path){
 
-        Gson gson = new GsonBuilder().enableComplexMapKeySerialization().registerTypeHierarchyAdapter(Path.class, new JsonUtility.PathConverter()).registerTypeAdapter(Enum.class, new it.polimi.ingsw.client.json.Deserializator.MarblesDeserializer()).create();
+        Gson gson = new GsonBuilder().enableComplexMapKeySerialization().registerTypeHierarchyAdapter(Path.class, new JsonUtility.PathConverter()).create();
         Type type = new TypeToken <Map<MarbleAsset, Path>>(){}.getType();
         Map<MarbleAsset, Path> marblesMap = Deserializator.deserialize(path, type, gson);
-
         marblesMap.forEach(MarbleAsset::setPath);
 
     }

@@ -2,16 +2,11 @@ package it.polimi.ingsw.server.messages.clienttoserver.events.marketboardevent;
 import com.google.gson.Gson;
 import it.polimi.ingsw.network.messages.clienttoserver.events.setupphaseevent.SetupPhaseEvent;
 import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.server.model.player.Player;
-import it.polimi.ingsw.server.model.player.leaders.Leader;
-import it.polimi.ingsw.server.utils.Deserializator;
 import javafx.util.Pair;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.lang.reflect.Array;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.network.jsonUtils.JsonUtility.deserializeFromString;
 import static it.polimi.ingsw.network.jsonUtils.JsonUtility.serialize;
@@ -24,7 +19,6 @@ public class SetupPhaseEventTest {
     GameModel gameModelTest;
     List<Pair<Integer, Integer>> initialResources;
 
-    List<UUID> initialChosenLeaders;
     List<UUID> initialDiscardedLeaders;
     List<UUID> playerLeadersUUIDs;
     String serializedEvent;
@@ -82,17 +76,13 @@ public class SetupPhaseEventTest {
         initialResources = new ArrayList<>();
         initialResources.add(new Pair<>(1, 3));
 
-        initialChosenLeaders = new ArrayList<>(2);
-
-        initialChosenLeaders.add(playerLeadersUUIDs.get(0));
-        initialChosenLeaders.add(playerLeadersUUIDs.get(1));
 
         initialDiscardedLeaders = new ArrayList<>(2);
 
         initialDiscardedLeaders.add(playerLeadersUUIDs.get(2));
         initialDiscardedLeaders.add(playerLeadersUUIDs.get(3));
 
-        initializeEvent(3,initialResources,initialChosenLeaders,initialDiscardedLeaders);
+        initializeEvent(3,initialResources,initialDiscardedLeaders);
     }
 
 
@@ -102,15 +92,11 @@ public class SetupPhaseEventTest {
         initialResources = new ArrayList<>();
         initialResources.add(new Pair<>(4, 2));
 
-        initialChosenLeaders = new ArrayList<>(2);
-        initialChosenLeaders.add(playerLeadersUUIDs.get(0));
-        initialChosenLeaders.add(playerLeadersUUIDs.get(1));
-
         initialDiscardedLeaders = new ArrayList<>(2);
         initialDiscardedLeaders.add(playerLeadersUUIDs.get(2));
         initialDiscardedLeaders.add(playerLeadersUUIDs.get(3));
 
-        initializeEvent(3,initialResources,initialChosenLeaders,initialDiscardedLeaders);
+        initializeEvent(3,initialResources,initialDiscardedLeaders);
 
     }
 
@@ -130,15 +116,11 @@ public class SetupPhaseEventTest {
         initialResources.add(new Pair<>(1, 3));
         initialResources.add(new Pair<>(2, 2)); //different resource same deposit in warehouse --> validation fail
 
-        initialChosenLeaders = new ArrayList<>(2);
-        initialChosenLeaders.add(playerLeadersUUIDs.get(0));
-        initialChosenLeaders.add(playerLeadersUUIDs.get(1));
-
         initialDiscardedLeaders = new ArrayList<>(2);
         initialDiscardedLeaders.add(playerLeadersUUIDs.get(2));
         initialDiscardedLeaders.add(playerLeadersUUIDs.get(3));
 
-        initializeEvent(4,initialResources,initialChosenLeaders,initialDiscardedLeaders);
+        initializeEvent(4,initialResources,initialDiscardedLeaders);
     }
 
     private void invalidLeadersTestInitialization(){
@@ -148,31 +130,20 @@ public class SetupPhaseEventTest {
         initialResources.add(new Pair<>(1, 3));
         initialResources.add(new Pair<>(2, 3)); //different resource same deposit in warehouse --> validation fail
 
-        initialChosenLeaders = new ArrayList<>(2);
-        initialChosenLeaders.add(gameModelTest.getRemainingLeadersUUIDs().get(0));
-        initialChosenLeaders.add(playerLeadersUUIDs.get(2));
-
         initialDiscardedLeaders = new ArrayList<>(2);
         initialDiscardedLeaders.add(gameModelTest.getRemainingLeadersUUIDs().get(1));
         initialDiscardedLeaders.add(playerLeadersUUIDs.get(3));
 
-        initializeEvent(4,initialResources,initialChosenLeaders,initialDiscardedLeaders);
+        initializeEvent(4,initialResources,initialDiscardedLeaders);
 
     }
 
-
-
-    private void initializeEvent(int playerNumber,  List<Pair<Integer, Integer>> initialResources, List<UUID> initialChosenLeaders, List<UUID> initialDiscardedLeaders){
-        clientEventTest = new SetupPhaseEvent(initialResources.size(), initialChosenLeaders.size(), initialDiscardedLeaders.size(), playerNumber);
+    private void initializeEvent(int playerNumber,  List<Pair<Integer, Integer>> initialResources, List<UUID> initialDiscardedLeaders){
+        clientEventTest = new SetupPhaseEvent(initialResources.size(), initialDiscardedLeaders.size(), playerNumber);
 
 
         for (Pair<Integer, Integer> initialResource : initialResources) {
             clientEventTest.addResource(initialResource);
-        }
-
-
-        for (UUID initialChosenLeader : initialChosenLeaders) {
-            clientEventTest.addChosenLeader(initialChosenLeader);
         }
 
         for (UUID initialDiscardedLeader : initialDiscardedLeaders) {

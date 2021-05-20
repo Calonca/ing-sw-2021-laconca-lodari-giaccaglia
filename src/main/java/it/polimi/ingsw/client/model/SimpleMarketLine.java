@@ -27,7 +27,6 @@ public enum SimpleMarketLine {
          */
         private static final SimpleMarketLine[] vals = SimpleMarketLine.values();
 
-
         /**
          * Return the {@link SimpleMarketLine} corresponding to given value in the {@link SimpleMarketLine} ordering,
          * returns {@link SimpleMarketLine#INVALID_LINE} if the given value is outside the array

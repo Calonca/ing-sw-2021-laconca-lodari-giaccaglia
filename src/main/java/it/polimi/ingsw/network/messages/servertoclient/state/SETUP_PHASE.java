@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.UUID;
 
 public class SETUP_PHASE extends StateInNetwork {
-    private final List<UUID> leadersToChooseFrom;
-    private final int numOfResourcesToChoose;
-    private final UUID matchID;
-    private final String[] nickNames;
+    private List<UUID> leadersToChooseFrom;
+    private int numOfResourcesToChoose;
+    private UUID matchID;
+    private String[] nickNames;
+
+    public SETUP_PHASE(){}
 
     public SETUP_PHASE(int player, List<UUID> leadersToChooseFrom, int numOfResourcesToChoose, UUID matchID, String[] nickNames) {
         super(player);
