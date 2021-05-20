@@ -8,7 +8,6 @@ import java.util.List;
 
 public class NetworkLeaderCard {
 
-    protected NetworkLeaderState state;
     protected int victoryPoints;
     protected List<Pair<NetworkResource, Integer>> requirementsResources;
     protected List<Pair<NetworkDevelopmentCardColor, Integer>> requirementsCards;
@@ -16,10 +15,6 @@ public class NetworkLeaderCard {
     protected boolean isActive;
 
     public NetworkLeaderCard(){}
-
-    public NetworkLeaderState getState(){
-        return state;
-    }
 
     public List<Pair<NetworkResource, Integer>> getRequirementsResources() {
         return requirementsResources;
@@ -36,5 +31,10 @@ public class NetworkLeaderCard {
     public boolean isLeaderActive(){
         return isActive;
     }
+
+    public void setLeaderState(boolean state){
+        this.isActive = state;
+    }
+
 
 }

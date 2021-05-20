@@ -199,6 +199,10 @@ public class GameModel {
         return cardShop.getSimpleCardShop();
     }
 
+    public Map<UUID, DevelopmentCard> getDevCardsMap(){
+        return devCardsMap;
+    }
+
     /**
      * Sets the player currently playing to the given {@link Player player}.
      * @param currentPlayer the player to set to current player.

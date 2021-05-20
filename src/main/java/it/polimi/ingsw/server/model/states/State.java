@@ -1,9 +1,8 @@
 package it.polimi.ingsw.server.model.states;
-import it.polimi.ingsw.network.messages.servertoclient.state.SETUP_PHASE;
-import it.polimi.ingsw.network.messages.servertoclient.state.SHOWING_CARD_SHOP;
-import it.polimi.ingsw.network.messages.servertoclient.state.SHOWING_MARKET_RESOURCES;
-import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
-import it.polimi.ingsw.server.messages.MessagesBuilderHandler;
+import it.polimi.ingsw.network.messages.servertoclient.state.*;
+import it.polimi.ingsw.server.messages.messagebuilders.LeadersPhaseMessageBuilder;
+import it.polimi.ingsw.server.messages.messagebuilders.MarketBoardMessageBuilder;
+import it.polimi.ingsw.server.messages.messagebuilders.CardShopMessageBuilder;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.cards.*;
@@ -17,7 +16,6 @@ import it.polimi.ingsw.server.utils.Util;
 
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
-
 
 /**
  *  <p>Enum class for player turn phases represented as FSM States. Game turn is divided in three macro phases.<br>
@@ -96,7 +94,7 @@ public enum State {
     SHOWING_LEADERS_INITIAL {
         @Override
         public StateInNetwork toStateMessage(GameModel gameModel) {
-            return null ;
+            return new SHOWING_LEADERS_INITIAL(LeadersPhaseMessageBuilder.playerLeaders(gameModel));
         }
     },
 
@@ -142,10 +140,11 @@ public enum State {
             return new SHOWING_MARKET_RESOURCES(
 
                     gameModel.getPlayerIndex(gameModel.getCurrentPlayer()),
-                    MessagesBuilderHandler.marketBoardAdapter(gameModel.getMarketMarbles(), gameModel.getMarketBoardRows(), gameModel.getMarketBoardColumns()),
+                    MarketBoardMessageBuilder.marketBoardAdapter(gameModel.getMarketMarbles(), gameModel.getMarketBoardRows(), gameModel.getMarketBoardColumns()),
                     UUID.nameUUIDFromBytes(gameModel.getSlideMarble().toString().getBytes(StandardCharsets.UTF_8)),
                     gameModel.getMarketBoardRows(),
                     gameModel.getMarketBoardColumns());
+
         }
     },
 
@@ -179,7 +178,7 @@ public enum State {
         public StateInNetwork toStateMessage(GameModel gameModel) {
             return new SHOWING_CARD_SHOP(
                     gameModel.getPlayerIndex(gameModel.getCurrentPlayer()),
-                    MessagesBuilderHandler.cardShopAdapter());
+                    CardShopMessageBuilder.cardShopAdapter(gameModel));
         }
     },
 
@@ -234,7 +233,7 @@ public enum State {
     SHOWING_LEADERS_FINAL {
         @Override
         public StateInNetwork toStateMessage(GameModel gameModel) {
-            return null;
+            return new SHOWING_LEADERS_FINAL(LeadersPhaseMessageBuilder.playerLeaders(gameModel));
         }
     },
 
@@ -279,13 +278,11 @@ public enum State {
         }
     };
 
-
     /**
      * Serializes objects useful for the view corresponding to that state in json
      * @param gameModel the {@link GameModel gamemodel} of the curent game
      * @return a String in json format
      */
     public abstract StateInNetwork toStateMessage(GameModel gameModel);
-
 
 }

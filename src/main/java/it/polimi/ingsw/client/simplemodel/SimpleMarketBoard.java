@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.model;
+package it.polimi.ingsw.client.simplemodel;
 
 import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
 import javafx.util.Pair;

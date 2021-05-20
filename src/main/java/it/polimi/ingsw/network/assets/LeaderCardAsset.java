@@ -16,7 +16,7 @@ public class LeaderCardAsset extends CardAsset{
         this.networkLeaderCard = networkLeaderCard;
     }
 
-    public NetworkLeaderCard getDevelopmentCard() {
+    public NetworkLeaderCard getNetworkLeaderCard() {
         return networkLeaderCard;
     }
 

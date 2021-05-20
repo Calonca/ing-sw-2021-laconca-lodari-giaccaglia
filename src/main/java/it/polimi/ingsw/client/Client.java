@@ -93,7 +93,6 @@ public class Client implements Runnable
         serverHandlerThread.start();
     }
 
-
     /**
      * The handler object responsible for communicating with the server.
      * @return The server handler.
@@ -102,8 +101,6 @@ public class Client implements Runnable
     {
         return serverHandler;
     }
-
-
 
     /**
      * Changes the ViewBuilder.
