@@ -21,6 +21,8 @@ public class GUI extends Application {
         client.setStage(stage);
         stage.show();
         stage.setResizable(false);
+        stage.setTitle("Maestri");
+        stage.centerOnScreen();
         client.changeViewBuilder(new ConnectToServer());
     }
 }
