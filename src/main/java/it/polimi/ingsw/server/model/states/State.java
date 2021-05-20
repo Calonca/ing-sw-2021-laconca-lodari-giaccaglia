@@ -1,8 +1,6 @@
 package it.polimi.ingsw.server.model.states;
 import it.polimi.ingsw.network.messages.servertoclient.state.*;
-import it.polimi.ingsw.server.messages.messagebuilders.LeadersPhaseMessageBuilder;
-import it.polimi.ingsw.server.messages.messagebuilders.MarketBoardMessageBuilder;
-import it.polimi.ingsw.server.messages.messagebuilders.CardShopMessageBuilder;
+import it.polimi.ingsw.server.messages.messagebuilders.*;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.cards.*;
@@ -104,8 +102,12 @@ public enum State {
     MIDDLE_PHASE {
         @Override
         public StateInNetwork toStateMessage(GameModel gameModel) {
-            return null;
+
+            return new MIDDLE_PHASE(SimpleDepotsMessageBuilder.getSimpleWarehouseLeadersDepots(gameModel.getCurrentPlayer().getPersonalBoard().getSimpleWarehouseLeadersDepots()),
+                            SimpleDepotsMessageBuilder.getSimpleStrongBox(gameModel.getCurrentPlayer().getPersonalBoard().getSimpleStrongBox()),
+                            SimpleCardsCellsMessageBuilder.cardCellsAdapter(gameModel.getCurrentPlayer().getPersonalBoard().getVisibleCardsOnCells()));
         }
+
     },
 
     /**
@@ -149,7 +151,7 @@ public enum State {
     },
 
     /**
-     * <em>Normal Action</em> phase to choose the corresponding {@link Marble#WHITE}Marble's {@link Resource}
+     * <em>Normal Action</em> phase to choose the corresponding {@link Marble#WHITE} Marble's {@link Resource}
      * when two <em>Production</em> {@link Leader Leaders} have been previously played.
      */
     CHOOSING_WHITEMARBLE_CONVERSION {

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.assets.leaders;
 
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCardColor;
-import it.polimi.ingsw.network.assets.devcards.NetworkResource;
+import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import javafx.util.Pair;
 
 import java.util.List;
@@ -9,14 +9,14 @@ import java.util.List;
 public class NetworkLeaderCard {
 
     protected int victoryPoints;
-    protected List<Pair<NetworkResource, Integer>> requirementsResources;
+    protected List<Pair<ResourceAsset, Integer>> requirementsResources;
     protected List<Pair<NetworkDevelopmentCardColor, Integer>> requirementsCards;
     protected int requirementsCardsLevel=1;
     protected boolean isActive;
 
     public NetworkLeaderCard(){}
 
-    public List<Pair<NetworkResource, Integer>> getRequirementsResources() {
+    public List<Pair<ResourceAsset, Integer>> getRequirementsResources() {
         return requirementsResources;
     }
 

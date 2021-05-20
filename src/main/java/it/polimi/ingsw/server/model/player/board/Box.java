@@ -1,6 +1,10 @@
 package it.polimi.ingsw.server.model.player.board;
 import it.polimi.ingsw.server.model.Resource;
 import javafx.util.Pair;
+
+import java.util.Arrays;
+import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import static java.lang.Integer.max;
 import static java.lang.Math.min;
@@ -176,6 +180,13 @@ public class Box implements StorageUnit {
      */
     public int getNumberOf(Resource type){
         return nResAtPos[type.getResourceNumber()];
+    }
+
+    public Map<Integer, Integer> getSimpleBox(){
+        return Arrays.stream(Resource.values()).collect(Collectors.toMap(
+                Resource::getResourceNumber,
+                this::getNumberOf
+        ));
     }
 
     /**

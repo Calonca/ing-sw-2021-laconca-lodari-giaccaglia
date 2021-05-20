@@ -200,6 +200,7 @@ public class WarehouseLeadersDepots implements StorageUnit {
                         (p)->depotAtPosition.get(p.getKey())
                 )
                 );
+
         Map<Integer, List<Pair<Resource, Boolean>>> b = a.entrySet().stream().map((entry)->
         {
             List<Pair<Resource, Boolean>> test = entry.getValue().stream().map(Pair::getValue).collect(Collectors.toList());
@@ -208,6 +209,25 @@ public class WarehouseLeadersDepots implements StorageUnit {
 
         return serialize(b);
     }
+
+    public Map<Integer, List<Integer>> getSimpleWarehouseLeadersDepots(){
+
+        Map<Integer, List<Pair<Integer, Integer>>> a = IntStream.range(0, depotAtPosition.size())
+                .mapToObj((pos)->new Pair<>(pos, getResourceAndSelectedAt(pos).getKey().getResourceNumber()))
+                .collect(Collectors.groupingBy(
+                        p ->depotAtPosition.get(p.getKey())
+                        )
+                );
+
+        return a.entrySet().stream().map((entry)->
+        {
+            List<Integer> test = entry.getValue().stream().map(Pair::getValue).collect(Collectors.toList());
+            return new Pair<>(entry.getKey(),test);
+        }).collect(Collectors.toMap(Pair::getKey,Pair::getValue));
+
+    }
+
+
 
     /**
      * Adds a new depot at the end of the list of depots
@@ -277,5 +297,6 @@ public class WarehouseLeadersDepots implements StorageUnit {
     public int getTotalSelected(){
         return (int) IntStream.range(0,depotAtPosition.size()).filter((pos)->depotThatHasPos(pos).getSelected(pos)).count();
     }
+
 
 }

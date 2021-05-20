@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.messages.messagebuilders;
 
-import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
 import it.polimi.ingsw.server.model.market.Marble;
 import javafx.util.Pair;
 
@@ -18,7 +17,7 @@ public class MarketBoardMessageBuilder {
                 .stream(marketMarbles)
                 .flatMap(Arrays::stream)
                 .map(marble ->
-                        UUID.nameUUIDFromBytes(MarbleAsset.fromInt(Marble.getMarbleNumber(marble)).getName().getBytes(StandardCharsets.UTF_8)))
+                        UUID.nameUUIDFromBytes(marble.toString().getBytes(StandardCharsets.UTF_8)))
                 .collect(Collectors.toList());
 
         return IntStream.range(0, marketColumns*marketColumns)
@@ -33,5 +32,6 @@ public class MarketBoardMessageBuilder {
     private static UUID[] pairToValue(List<Pair<Integer, UUID>> pos_marArray){
         return pos_marArray.stream().map(Pair::getValue).toArray(UUID[]::new);
     }
+
 
 }

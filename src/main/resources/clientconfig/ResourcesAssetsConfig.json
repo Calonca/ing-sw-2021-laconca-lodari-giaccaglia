@@ -1,0 +1,26 @@
+{
+  "GOLD": {
+    "key": 0,
+    "value": "src/main/resources/assets/resources/GOLD.png"
+  },
+  "EMPTY": {
+    "key": 7,
+    "value": "src/main/resources/assets/resources/EMPTY.png"
+  },
+  "FAITH": {
+    "key": 4,
+    "value": "src/main/resources/assets/resources/FAITH.png"
+  },
+  "SHIELD": {
+    "key": 2,
+    "value": "src/main/resources/assets/resources/SHIELD.png"
+  },
+  "SERVANT": {
+    "key": 1,
+    "value": "src/main/resources/assets/resources/SERVANT.png"
+  },
+  "STONE": {
+    "key": 3,
+    "value": "src/main/resources/assets/resources/STONE.png"
+  }
+}

@@ -6,6 +6,7 @@ import it.polimi.ingsw.network.assets.*;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import it.polimi.ingsw.network.assets.leaders.NetworkLeaderCard;
 import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
+import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.jsonUtils.UUIDTypeAdapter;
 import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
@@ -1164,6 +1165,17 @@ public class Serializator extends JsonUtility {
         serialize(path ,marbles, Map.class, customGson);
     }
 
+    public static void serializeResources(){
+
+        Map<ResourceAsset, Pair<Integer, Path>> resources = Arrays.stream(ResourceAsset.values()).collect(Collectors.toMap(
+                resource -> resource,
+                resource -> new Pair<>(resource.getResourceNumber(), resource.getResourcePath())
+        ));
+        Gson customGson = gsonBuilder.enableComplexMapKeySerialization().registerTypeHierarchyAdapter(Path.class, new PathConverter()).setPrettyPrinting().create();
+        String path = "src/main/resources/clientconfig/ResourcesAssetsConfig.json";
+        serialize(path, resources, Map.class, customGson);
+    }
+
     public static void main(String[] args) throws IOException {
   /*
         --- * uncomment to update config files / test serialization * ---
@@ -1177,11 +1189,14 @@ public class Serializator extends JsonUtility {
         leaderCardsAssetsSerialization();
         serializeMarbles();
         MarbleAsset.initializeMarblesFromConfig("src/main/resources/clientconfig/MarblesAssetsConfig.json");
-   */
-
         MarbleAsset.initializeMarblesFromConfig("src/main/resources/clientconfig/MarblesAssetsConfig.json");
         Marble.values();
-        int ciao=5;
+        serializeResources();
+        ResourceAsset.initializeResourcesFromConfig("src/main/resources/clientconfig/ResourcesAssetsConfig.json");
+        ResourceAsset[] value = ResourceAsset.values();
+
+   */
+
     }
 
 }

@@ -15,6 +15,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+import java.util.Collections;
 
 
 /**
@@ -88,6 +89,21 @@ public class PersonalBoard {
      */
     public List<ProductionCardCell> getCardCells() {
         return Arrays.stream(cardCells).collect(Collectors.toList());
+    }
+
+    public Map<Integer, List<DevelopmentCard>> getVisibleCardsOnCells(){
+
+        return IntStream.range(0, cardCells.length).boxed().collect(Collectors.toMap(integer -> integer,
+                integer -> {
+
+                List<DevelopmentCard> card = new ArrayList<>();
+
+                if(cardCells[integer].getStackedCardsSize() > 0)
+                    card.add(cardCells[integer].getFrontCard());
+
+                 return card;
+                }));
+
     }
 
     /**
@@ -246,7 +262,7 @@ public class PersonalBoard {
      * @return true if the player has bought six or more cards at the development market
      */
     public boolean playerHasSixOrMoreCards() {
-        return Arrays.stream(cardCells).map((p)->p.stackedCards.size())
+        return Arrays.stream(cardCells).map((p)->p.getStackedCards().size())
                 .reduce(0, Integer::sum)>=6;
     }
 
@@ -302,6 +318,14 @@ public class PersonalBoard {
      */
     public WarehouseLeadersDepots getWarehouseLeadersDepots(){
         return warehouseLeadersDepots;
+    }
+
+    public Map<Integer, List<Integer>> getSimpleWarehouseLeadersDepots(){
+        return warehouseLeadersDepots.getSimpleWarehouseLeadersDepots();
+    }
+
+    public Map<Integer, Integer> getSimpleStrongBox(){
+        return strongBox.getSimpleBox();
     }
 
     /**

@@ -89,7 +89,7 @@ public class PersonalBoardTest {
                 "{0:[{key:SERVANT,value:false}]," +
                         "1:[{key:EMPTY,value:false},{key:GOLD,value:false}]," +
                         "2:[{key:EMPTY,value:false},{key:EMPTY,value:false},{key:SHIELD,value:false}]}"),
-                board.getWarehouseLeadersDepots().structuredTableJson() );
+                board.getWarehouseLeadersDepots().structuredTableJson());
     }
 
     @Test

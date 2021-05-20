@@ -5,6 +5,7 @@ import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Container class for Development Cards, similiar to a stack
@@ -14,8 +15,7 @@ public class ProductionCardCell {
     private DevelopmentCard cardOnTop;
     private int maxsize=3;
 
-
-    public List<DevelopmentCard> stackedCards;
+    private List<DevelopmentCard> stackedCards;
 
     public ProductionCardCell()
     {
@@ -38,6 +38,10 @@ public class ProductionCardCell {
     public DevelopmentCard getFrontCard()
     {
         return cardOnTop;
+    }
+
+    public List<DevelopmentCard> getStackedCards(){
+        return stackedCards;
     }
 
     /**
@@ -73,6 +77,7 @@ public class ProductionCardCell {
                     temp++;
         }
         return temp;
+
     }
 
 }

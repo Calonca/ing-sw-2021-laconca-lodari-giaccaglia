@@ -17,12 +17,12 @@ public class NetworkDevelopmentCard {
     private UUID cardId;
     private boolean purchasable;
 
-
     public NetworkDevelopmentCard(){}
 
     public void setPurchasable(boolean isPurchasable){
         this.purchasable = isPurchasable;
     }
+
     public UUID getCardId(){
         return cardId;
     }

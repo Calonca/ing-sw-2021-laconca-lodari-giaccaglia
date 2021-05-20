@@ -1,11 +1,17 @@
 package it.polimi.ingsw.network.assets.leaders;
-import it.polimi.ingsw.network.assets.devcards.NetworkResource;
+import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 
 public class NetworkDepositLeaderCard extends NetworkLeaderCard {
 
-    private NetworkResource resourcesTypeInDepot;
+    private ResourceAsset resourcesTypeInDepot;
+
+    public NetworkDepositLeaderCard(){}
 
     public void setResourcesTypeInDepot(int resourcesTypeInDepot) {
-        this.resourcesTypeInDepot = NetworkResource.fromInt(resourcesTypeInDepot);
+        this.resourcesTypeInDepot = ResourceAsset.fromInt(resourcesTypeInDepot);
     }
+    public ResourceAsset getResourcesTypeInDepot(){
+        return resourcesTypeInDepot;
+    }
+
 }

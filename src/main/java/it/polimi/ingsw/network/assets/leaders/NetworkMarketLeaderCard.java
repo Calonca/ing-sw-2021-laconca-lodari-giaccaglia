@@ -1,12 +1,20 @@
 package it.polimi.ingsw.network.assets.leaders;
 
-import it.polimi.ingsw.network.assets.devcards.NetworkResource;
+import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 
 public class NetworkMarketLeaderCard extends NetworkLeaderCard {
 
-    private NetworkResource marketBonusNetworkResource;
+    private ResourceAsset marketBonusResourceAsset;
+
+    public NetworkMarketLeaderCard(){
+    }
 
     public void setMarketBonusResource(int marketBonusResource){
-        this.marketBonusNetworkResource = NetworkResource.fromInt(marketBonusResource);
+        this.marketBonusResourceAsset = ResourceAsset.fromInt(marketBonusResource);
     }
+
+    public ResourceAsset getMarketBonusNetworkResource(){
+        return marketBonusResourceAsset;
+    }
+
 }
