@@ -38,12 +38,6 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
 
     public AnchorPane cjlAnchor;
 
-    @FXML
-    private Button connectionButton;
-    @FXML
-    private TextField addressText;
-    @FXML
-    private TextField portText;
 
     @Override
     public void run() {
@@ -65,8 +59,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
-        //gggg.setText("pisellogfggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg");
-        goldSpin=new Spinner<Integer>(0,3,0);
+        goldSpin=new Spinner<>(0,3,0);
         goldSpin.setPadding(new Insets(10,10,10,10));
         goldSpin.setBackground(Background.EMPTY);
         goldSpin.styleProperty().set(" -fx-background-color: #B8860B");
@@ -74,7 +67,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         goldSpin.setLayoutX(300);
         cjlAnchor.getChildren().add(goldSpin);
 
-        slaveSpin=new Spinner<Integer>(0,3,0);
+        slaveSpin=new Spinner<>(0,3,0);
         slaveSpin.setPadding(new Insets(10,10,10,10));
         slaveSpin.setBackground(Background.EMPTY);
         slaveSpin.styleProperty().set(" -fx-background-color: #9400D3");
@@ -82,7 +75,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         slaveSpin.setLayoutX(100);
         cjlAnchor.getChildren().add(slaveSpin);
 
-        shieldSpin=new Spinner<Integer>(0,3,0);
+        shieldSpin=new Spinner<>(0,3,0);
         shieldSpin.setPadding(new Insets(10,10,10,10));
         shieldSpin.setBackground(Background.EMPTY);
         shieldSpin.styleProperty().set(" -fx-background-color: #0099FF");
@@ -90,7 +83,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         shieldSpin.setLayoutX(300);
         cjlAnchor.getChildren().add(shieldSpin);
 
-        stoneSpin=new Spinner<Integer>(0,3,0);
+        stoneSpin=new Spinner<>(0,3,0);
         stoneSpin.setPadding(new Insets(10,10,10,10));
         stoneSpin.setBackground(Background.EMPTY);
         stoneSpin.styleProperty().set(" -fx-background-color: #DEB887");
@@ -99,20 +92,20 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         cjlAnchor.getChildren().add(stoneSpin);
 
         ImageView temp;
-        ToggleGroup ciccio=new ToggleGroup();
-        temp=new ImageView(new Image("assets/leaders/FRONT/Masters of Renaissance_Cards_FRONT_0.png", true));
+
+        temp=new ImageView(new Image("assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_0.png", true));
         temp.setFitHeight(100);
         temp.setFitWidth(100);
         b1.setGraphic(temp);
-        temp=new ImageView(new Image("assets/leaders/FRONT/Masters of Renaissance_Cards_FRONT_0.png", true));
+        temp=new ImageView(new Image("assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_0.png", true));
         temp.setFitHeight(100);
         temp.setFitWidth(100);
         b2.setGraphic(temp);
-        temp=new ImageView(new Image("assets/leaders/FRONT/Masters of Renaissance_Cards_FRONT_0.png", true));
+        temp=new ImageView(new Image("assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_0.png", true));
         temp.setFitHeight(100);
         temp.setFitWidth(100);
         b3.setGraphic(temp);
-        temp=new ImageView(new Image("assets/leaders/FRONT/Masters of Renaissance_Cards_FRONT_0.png", true));
+        temp=new ImageView(new Image("assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_0.png", true));
         temp.setFitHeight(100);
         temp.setFitWidth(100);
         b4.setGraphic(temp);
