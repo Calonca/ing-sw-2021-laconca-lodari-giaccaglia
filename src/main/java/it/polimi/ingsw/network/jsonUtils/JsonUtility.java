@@ -40,7 +40,7 @@ public class JsonUtility {
     public static <T> T deserialize(String jsonPath, Class<T> destinationClass, Gson customGson) {
         String jsonString = null;
         try {
-            jsonString = Files.readString(Path.of(jsonPath), StandardCharsets.US_ASCII);
+            jsonString = Files.readString(Path.of(jsonPath).toAbsolutePath(), StandardCharsets.US_ASCII);
         } catch (IOException e) {
             e.printStackTrace();
         }

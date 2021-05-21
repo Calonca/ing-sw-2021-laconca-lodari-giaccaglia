@@ -14,7 +14,6 @@ import it.polimi.ingsw.server.utils.Util;
 
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
-
 /**
  *  <p>Enum class for player turn phases represented as FSM States. Game turn is divided in three macro phases.<br>
  *  Execution of {@link #INITIAL_PHASE} and {@link #FINAL_PHASE} are up to player decision,
