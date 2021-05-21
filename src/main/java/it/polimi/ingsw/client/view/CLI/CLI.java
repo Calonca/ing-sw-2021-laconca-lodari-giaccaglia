@@ -2,6 +2,8 @@ package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.view.CLI.CLIelem.*;
+import it.polimi.ingsw.client.view.CLI.textUtil.Characters;
+import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -11,7 +13,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * Builds the CLI.<br>
  * Usage: Add {@link it.polimi.ingsw.client.view.CLI.CLIelem.CLIelem elements}
- * like optionList, body, title, spinner, and then call {@link #displayWithDivider()} or {@link #displayWithScroll()}.
+ * like optionList, body, title, spinner, and then call {@link #refreshCLI()}.
  * Call {@link #refreshCLI()} to update.
  */
 public class CLI {
@@ -31,6 +33,10 @@ public class CLI {
 
     private int writtenChars;
 
+    //Min is 20
+    private static final int height =50;
+    //Min is 20
+    private static final int width =160;
 
 
     /**
@@ -123,11 +129,12 @@ public class CLI {
         
         cli.spinner.ifPresent(s->s.removeFromPublishers(cli.client));
         cli.spinner = Optional.empty();
+        cli.deleteText();
     }
 
     public void refreshCLI(){
         deleteText();
-        displayWithDivider();
+        display();
     }
 
     public void updateListeners(){
@@ -218,22 +225,11 @@ public class CLI {
         print(Color.colorString(error,Color.ANSI_RED));
     }
 
-    public void displayWithScroll(){
-        scroll();
-        display();
-    }
-
-    public void displayWithDivider(){
-        deleteText();
-        putDivider();
-        display();
-    }
-
     /**
      * Used to refresh the screen
      */
     private synchronized void display(){
-
+        putDivider();
         title.ifPresent(t->print(t.toString()+"\n"));
 
         body.ifPresent(b->print(b.toString()+"\n"));
@@ -244,7 +240,7 @@ public class CLI {
 
         //Todo: Sometimes the choices are not updated
         //Can be solved via a check after taking the input
-        //printError("Todo: Sometimes the choices are not updated, sometimes you hase to select new match 2 times");
+        //printError("Sometimes the choices are not updated, sometimes you have to select new match 2 times");
         if (isTakingInput){
             //Should never get here
             print(Color.colorString(inputMessage,Color.ANSI_GREEN));
@@ -273,32 +269,29 @@ public class CLI {
         }
     }
 
+
     public void putDivider(){
-        print("||-----------------------------------------------------------");
+
+        print(
+                Characters.VERT_DIVIDER.getString()+
+                Characters.HOR_DIVIDER.repeated(width)+
+                Characters.VERT_DIVIDER.getString()
+                );
     }
 
     public void putEndDiv(){
-        print("-----------------------------------------------------------||");
+        putDivider();
     }
 
     public void scroll(){
-        for (int i = 0; i < 40; i++) {
-            print("");
-        }
+        System.out.println("\n".repeat(height/10));
     }
-    private static final String BACKSPACE = "\010";
+
     public void deleteText(){
-        return;
-        //cleanConsole();
         //System.out.print("\033[H\033[2J");
         //System.out.flush();
-        //System.out.print("Line 1");
-        //System.out.print("\n");
-        //System.out.print("Line 2");
-        //
-        //for (int i = 0; i < 100; i++)
-        //            System.out.print(BACKSPACE);
-        //writtenChars=0;
+        scroll();//Used in intellij terminal, can be disabled if using linux terminal
+        System.out.print("\033\143");//Tested on linux terminal
     }
 
 }

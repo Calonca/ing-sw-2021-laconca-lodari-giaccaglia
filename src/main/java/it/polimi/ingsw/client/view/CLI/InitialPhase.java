@@ -10,7 +10,7 @@ public class InitialPhase extends InitialPhaseViewBuilder implements CLIBuilder 
     @Override
     public void run() {
         getCLIView().setTitle(new Title("Initial Phase"));
-        getCLIView().displayWithScroll();
+        getCLIView().resetCLI();
     }
 
 

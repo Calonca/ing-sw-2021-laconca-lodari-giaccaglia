@@ -5,7 +5,6 @@ import it.polimi.ingsw.client.view.CLI.CLIelem.Title;
 import it.polimi.ingsw.network.messages.clienttoserver.JoinMatchRequest;
 
 import java.beans.PropertyChangeEvent;
-import java.util.UUID;
 
 public class JoinMatch extends it.polimi.ingsw.client.view.abstractview.JoinMatch implements CLIBuilder {
 
@@ -18,9 +17,9 @@ public class JoinMatch extends it.polimi.ingsw.client.view.abstractview.JoinMatc
             getClient().getServerHandler().sendCommandMessage(new JoinMatchRequest(matchId,getCLIView().getLastInput()));
             getCLIView().resetCLI();
             getCLIView().setSpinner(Spinner.matchToStart(getClient(),this));
-            getCLIView().displayWithDivider();
+            getCLIView().refreshCLI();
         });
-        getCLIView().displayWithDivider();
+        getCLIView().refreshCLI();
 
 
     }

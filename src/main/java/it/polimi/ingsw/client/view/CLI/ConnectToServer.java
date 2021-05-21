@@ -16,9 +16,9 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements CLIBu
                 getClient().changeViewBuilder(new CreateJoinLoadMatch());
                 getClient().run();
             });
-            getCLIView().displayWithDivider();
+            getCLIView().refreshCLI();
         });
-        getCLIView().displayWithDivider();
+        getCLIView().refreshCLI();
     }
 
     @Override

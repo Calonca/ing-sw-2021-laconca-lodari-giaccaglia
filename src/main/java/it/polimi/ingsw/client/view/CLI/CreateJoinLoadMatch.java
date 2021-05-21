@@ -37,13 +37,13 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
                     optionList.setPerformer(performer);
 
                     getCLIView().setBody(optionList);
-                    getCLIView().displayWithDivider();
+                    getCLIView().refreshCLI();
                     getCLIView().performLastChoice();
 
                 }
         );
         getCLIView().setSpinner(spinner);
-        getCLIView().displayWithDivider();
+        getCLIView().refreshCLI();
     }
 
     private Option getOption(Map.Entry<UUID, String[]> uuidPair) {

@@ -22,11 +22,11 @@ public class CreateMatch extends CreateMatchViewBuilder implements CLIBuilder {
                 getCLIView().resetCLI();
                 getCLIView().setSpinner(Spinner.matchToStart(getClient(),this));
                 getClient().getServerHandler().sendCommandMessage(new CreateMatchRequest(numberOfPlayers,nickName));
-                getCLIView().displayWithDivider();
+                getCLIView().refreshCLI();
             });
-            getCLIView().displayWithDivider();
+            getCLIView().refreshCLI();
         });
-        getCLIView().displayWithDivider();
+        getCLIView().refreshCLI();
 
     }
 
