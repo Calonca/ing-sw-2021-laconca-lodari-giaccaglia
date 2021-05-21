@@ -29,7 +29,6 @@ public class EventMessage extends ClientToServerMessage implements ServerMessage
                     e.printStackTrace();
                 }
             } catch (EventValidationFailedException e) {
-                e.printStackTrace();
                 try {
                     clientHandler.sendAnswerMessage(new EventNotValid(this));
                     clientHandler.sendAnswerMessage(new StateMessage(this, m.getGame().getCurrentPlayer().getCurrentState().toStateMessage(m.getGame())));
