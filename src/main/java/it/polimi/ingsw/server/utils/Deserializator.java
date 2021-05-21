@@ -112,6 +112,7 @@ public class Deserializator extends JsonUtility {
     //helper method to initialize gameModel list of 16 leaders
     public static List<Leader> leaderCardsDeserialization(){
 
+
         RuntimeTypeAdapterFactory<Leader> jsonToLeaderListAdapter = RuntimeTypeAdapterFactory.of(Leader.class);
 
         //Register here all the Leader types
