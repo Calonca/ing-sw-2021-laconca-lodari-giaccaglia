@@ -9,6 +9,7 @@ import org.apache.commons.lang3.tuple.MutablePair;
 import java.util.*;
 
 import static it.polimi.ingsw.network.jsonUtils.JsonUtility.deserialize;
+import static it.polimi.ingsw.network.jsonUtils.JsonUtility.serialize;
 
 /**
  * Represents the {@link Player} <em>FaithTrack</em>
@@ -51,6 +52,10 @@ public class FaithTrack {
      * The default number of elements is 3, which is set on the game setup.<br>
      */
     private List<PopeFavourTile> tiles;
+
+    public String serializeFaithTrack(){
+        return serialize(this);
+    }
 
     /**
      * <p>Increments by one the <em>position</em> of the <em>Piece</em> parameter when a <em>Vatican Report</em> occurs,

@@ -83,6 +83,8 @@ public class Player {
         return personalBoard;
     }
 
+
+
     /**
      * Method to get currentlu active {@link DevelopmentCard} required resources discounts, stored inside player's
      * {@link Player#discounts} array as positional int values-
@@ -155,6 +157,9 @@ public class Player {
         faithTrack = Deserializator.faithTrackDeserialization();
     }
 
+    public String getSerializedFaithTrack(){
+        return faithTrack.serializeFaithTrack();
+    }
     /**
      * Method to set current player connection status, either online or offline.
      * @param currentlyOnline boolean value representing current player connection status.

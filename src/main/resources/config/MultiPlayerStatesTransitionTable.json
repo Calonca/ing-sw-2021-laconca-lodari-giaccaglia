@@ -1,25 +1,5 @@
 {
   "table": {
-    "CHOOSING_RESOURCES_FOR_DEVCARD": {
-      "ChooseResourceForCardShopEvent": {
-        "type": "PayingResourcesForDevelopmentCard"
-      }
-    },
-    "CHOOSING_RESOURCE_FOR_PRODUCTION": {
-      "ChooseResourcesForProductionEvent": {
-        "type": "ChoosingResourceForProduction"
-      }
-    },
-    "CHOOSING_POSITION_FOR_DEVCARD": {
-      "ChooseCardPositionEvent": {
-        "type": "ChoosingSpaceForDevelopmentCard"
-      }
-    },
-    "SHOWING_MARKET_RESOURCES": {
-      "ChooseLineEvent": {
-        "type": "PuttingBallOnLine"
-      }
-    },
     "SHOWING_LEADERS_INITIAL": {
       "SkipLeaderEvent": {
         "type": "EndingLeaderPhase"
@@ -31,14 +11,14 @@
         "type": "ActivatingLeader"
       }
     },
-    "SETUP_PHASE": {
-      "SetupPhaseEvent": {
-        "type": "ChooseInitialResource"
-      }
-    },
     "CHOOSING_WHITEMARBLE_CONVERSION": {
       "ChooseWhiteMarbleConversionEvent": {
         "type": "ChoosingMarketBonus"
+      }
+    },
+    "SETUP_PHASE": {
+      "SetupPhaseEvent": {
+        "type": "ChooseInitialResource"
       }
     },
     "MIDDLE_PHASE": {
@@ -52,17 +32,9 @@
         "type": "ShowingProductionCards"
       }
     },
-    "CHOOSING_POSITION_FOR_RESOURCES": {
-      "MoveResourceEvent": {
-        "type": "AddingResourcesFromMarket"
-      },
-      "DiscardResourcesEvent": {
-        "type": "DiscardingResources"
-      }
-    },
-    "SHOWING_CARD_SHOP": {
-      "ChooseCardEvent": {
-        "type": "AcquiringDevelopmentCard"
+    "CHOOSING_RESOURCES_FOR_DEVCARD": {
+      "ChooseResourceForCardShopEvent": {
+        "type": "PayingResourcesForDevelopmentCard"
       }
     },
     "CHOOSING_CARD_FOR_PRODUCTION": {
@@ -71,6 +43,11 @@
       },
       "ChooseProductionAtPositionEvent": {
         "type": "TogglingForProduction"
+      }
+    },
+    "CHOOSING_RESOURCE_FOR_PRODUCTION": {
+      "ChooseResourcesForProductionEvent": {
+        "type": "ChoosingResourceForProduction"
       }
     },
     "SHOWING_LEADERS_FINAL": {
@@ -82,6 +59,29 @@
       },
       "PlayLeaderEvent": {
         "type": "ActivatingLeader"
+      }
+    },
+    "CHOOSING_POSITION_FOR_RESOURCES": {
+      "MoveResourceEvent": {
+        "type": "AddingResourcesFromMarket"
+      },
+      "DiscardResourcesEvent": {
+        "type": "DiscardingResources"
+      }
+    },
+    "SHOWING_MARKET_RESOURCES": {
+      "ChooseLineEvent": {
+        "type": "PuttingBallOnLine"
+      }
+    },
+    "SHOWING_CARD_SHOP": {
+      "ChooseCardEvent": {
+        "type": "AcquiringDevelopmentCard"
+      }
+    },
+    "CHOOSING_POSITION_FOR_DEVCARD": {
+      "ChooseCardPositionEvent": {
+        "type": "ChoosingSpaceForDevelopmentCard"
       }
     }
   }
