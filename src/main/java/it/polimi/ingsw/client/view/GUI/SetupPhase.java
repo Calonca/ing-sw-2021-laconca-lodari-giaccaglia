@@ -48,15 +48,18 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
     private Button b4;
     @FXML
     private Button confirm;
-    List<Button> sceneButtons=new ArrayList<Button>();
+    List<Button> sceneButtons=new ArrayList<>();
 
 
     boolean[] selected =new boolean[4];
+
+
     Spinner<Integer> goldSpin;
     Spinner<Integer> slaveSpin;
     Spinner<Integer> stoneSpin;
     Spinner<Integer> shieldSpin;
-    List<Spinner<Integer>> sceneSpinners=new ArrayList<Spinner<Integer>>();
+    List<Spinner<Integer>> sceneSpinners= new ArrayList<>();
+
     @FXML
     private AnchorPane cjlAnchor;
 
@@ -78,20 +81,20 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         getClient().getStage().show();
     }
 
-    public Spinner<Integer> colorAndAnimate(String color ,int height, int x)
+    public Spinner<Integer> colorAndAnimate(String color ,int y, int x)
     {
         Spinner<Integer> spin=new Spinner<>(0,3,0);
         spin.setPadding(new Insets(10,10,10,10));
         spin.setBackground(Background.EMPTY);
         spin.styleProperty().set(color);
-        spin.setLayoutY(height);
+        spin.setLayoutY(y);
         spin.setLayoutX(x);
         spin.setOnMouseClicked( p ->
         {
             Circle circle2=new Circle();
             circle2.setRadius(10);
             circle2.setLayoutX(x);
-            circle2.setLayoutY(height);
+            circle2.setLayoutY(y);
 
             FillTransition filltransition2= new FillTransition(Duration.seconds(1.5),circle2,Color.GOLD,Color.PURPLE);
             filltransition2.setCycleCount(Animation.INDEFINITE);
@@ -113,26 +116,26 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
-        int height=200;
+        int y=200;
         int x=120;
         Arrays.fill(selected, false);
 
 
-        goldSpin=colorAndAnimate(" -fx-background-color: #B8860B",height,x);
+        goldSpin=colorAndAnimate(" -fx-background-color: #B8860B",y,x);
         cjlAnchor.getChildren().add(goldSpin);
 
 
         x+=200;
-        slaveSpin=colorAndAnimate("  -fx-background-color: #0099FF",height,x);
+        slaveSpin=colorAndAnimate("  -fx-background-color: #0099FF",y,x);
         cjlAnchor.getChildren().add(slaveSpin);
 
 
         x+=200;
-        shieldSpin=colorAndAnimate(" -fx-background-color: #DEB887",height,x);
+        shieldSpin=colorAndAnimate(" -fx-background-color: #DEB887",y,x);
         cjlAnchor.getChildren().add(shieldSpin);
 
         x+=200;
-        stoneSpin=colorAndAnimate(" -fx-background-color: #9400D3",height,x);
+        stoneSpin=colorAndAnimate(" -fx-background-color: #9400D3",y,x);
         cjlAnchor.getChildren().add(stoneSpin);
 
         sceneSpinners.add(goldSpin);
@@ -165,7 +168,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
                 }
                 else
                 {
-                    tempo=new ImageView(new Image("assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_0.png", true));
+                    tempo=new ImageView(new Image("assets/leaders/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_0.png", true));
                     tempo.setFitHeight(200);
                     tempo.setFitWidth(200);
                     sceneButton.setGraphic(tempo);
@@ -187,7 +190,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
             System.out.println(sceneSpinners.get(i).getValue() + Resource.fromInt(i).toString());
         for(int i=0;i<sceneButtons.size();i++)
             System.out.println((selected[i]+ sceneButtons.get(i).toString()));
-        //Client.getInstance().changeViewBuilder(new ViewPersonalBoard());
+        Client.getInstance().changeViewBuilder(new MarketMatrix());
 
     }
 
