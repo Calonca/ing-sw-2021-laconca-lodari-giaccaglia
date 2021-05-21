@@ -65,9 +65,13 @@ public enum State {
             return new SETUP_PHASE(
 
                     gameModel.getPlayerIndex(gameModel.getCurrentPlayer()),
+
                     gameModel.getCurrentPlayer().getLeadersUUIDs(),
+
                     Util.resourcesToChooseOnSetup(gameModel.getPlayerIndex(gameModel.getCurrentPlayer())),
+
                     gameModel.getMatchID(),
+
                     gameModel.getOnlinePlayers().values().stream().map(Player::getNickName).toArray(String[]::new)
                     );
 
@@ -81,7 +85,17 @@ public enum State {
     INITIAL_PHASE{
         @Override
         public StateInNetwork toStateMessage(GameModel gameModel) {
-            return null;
+            return new INITIAL_PHASE(
+
+                    SimpleDepotsMessageBuilder.getSimpleWarehouseLeadersDepots(gameModel.getCurrentPlayer().getPersonalBoard().getSimpleWarehouseLeadersDepots()),
+
+                    SimpleDepotsMessageBuilder.getSimpleStrongBox(gameModel.getCurrentPlayer().getPersonalBoard().getSimpleStrongBox()),
+
+                    SimpleCardsCellsMessageBuilder.cardCellsAdapter(gameModel.getCurrentPlayer().getPersonalBoard().getVisibleCardsOnCells()),
+
+                    gameModel.getCurrentPlayer().getSerializedFaithTrack()
+
+            );
         }
     },
 
@@ -103,9 +117,15 @@ public enum State {
         @Override
         public StateInNetwork toStateMessage(GameModel gameModel) {
 
-            return new MIDDLE_PHASE(SimpleDepotsMessageBuilder.getSimpleWarehouseLeadersDepots(gameModel.getCurrentPlayer().getPersonalBoard().getSimpleWarehouseLeadersDepots()),
+            return new MIDDLE_PHASE(
+
+                            SimpleDepotsMessageBuilder.getSimpleWarehouseLeadersDepots(gameModel.getCurrentPlayer().getPersonalBoard().getSimpleWarehouseLeadersDepots()),
+
                             SimpleDepotsMessageBuilder.getSimpleStrongBox(gameModel.getCurrentPlayer().getPersonalBoard().getSimpleStrongBox()),
-                            SimpleCardsCellsMessageBuilder.cardCellsAdapter(gameModel.getCurrentPlayer().getPersonalBoard().getVisibleCardsOnCells()));
+
+                            SimpleCardsCellsMessageBuilder.cardCellsAdapter(gameModel.getCurrentPlayer().getPersonalBoard().getVisibleCardsOnCells())
+
+            );
         }
 
     },
@@ -142,9 +162,13 @@ public enum State {
             return new SHOWING_MARKET_RESOURCES(
 
                     gameModel.getPlayerIndex(gameModel.getCurrentPlayer()),
+
                     MarketBoardMessageBuilder.marketBoardAdapter(gameModel.getMarketMarbles(), gameModel.getMarketBoardRows(), gameModel.getMarketBoardColumns()),
+
                     UUID.nameUUIDFromBytes(gameModel.getSlideMarble().toString().getBytes(StandardCharsets.UTF_8)),
+
                     gameModel.getMarketBoardRows(),
+
                     gameModel.getMarketBoardColumns());
 
         }

@@ -16,6 +16,7 @@ import it.polimi.ingsw.server.model.cards.production.Production;
 import it.polimi.ingsw.server.model.market.Marble;
 import it.polimi.ingsw.server.model.player.board.LeaderDepot;
 import it.polimi.ingsw.server.model.player.leaders.*;
+import it.polimi.ingsw.server.model.player.track.FaithTrack;
 import javafx.util.Pair;
 
 import java.io.IOException;
@@ -46,7 +47,6 @@ public class Serializator extends JsonUtility {
         CardShop shop = new CardShop(Deserializator.devCardsDeckDeserialization());
         serialize(configPathString + "CardShopConfig.json", shop, CardShop.class, gsonBuilder.registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).setPrettyPrinting().create());
     }
-
 
     private static Map<UUID , DevelopmentCardAsset> devCardsAssetsBuilder() {
         Map<UUID, NetworkDevelopmentCard> cardsFromJsonHandlerMap = devCardsMap();

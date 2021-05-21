@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.player.track;
 
+import it.polimi.ingsw.server.utils.Deserializator;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,8 +18,7 @@ public class FaithTrackTest {
 
     @Before
     public void setUp() throws Exception {
-       testTrack = new FaithTrack();
-       testTrack = testTrack.faithTrackConstructor();
+       testTrack = Deserializator.faithTrackDeserialization();
     }
 
     @Test
@@ -191,7 +191,7 @@ public class FaithTrackTest {
         assertTrue(testTrack.hasReachedLastSpace(lorenzo));
         assertTrue(testTrack.hasReachedLastSpace(player));
 
-        testTrack = testTrack.faithTrackConstructor();
+        testTrack = Deserializator.faithTrackDeserialization();
 
         for(int i=0; i<=14; i++) {
             testTrack.moveLorenzoOnePosition();

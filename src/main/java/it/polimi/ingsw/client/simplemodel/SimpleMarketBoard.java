@@ -2,6 +2,9 @@ package it.polimi.ingsw.client.simplemodel;
 
 import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
 import javafx.util.Pair;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -17,6 +20,7 @@ public class SimpleMarketBoard {
     private int marketRows;
     private MarbleAsset slideMarble;
     private MarbleAsset[] pickedMarbles;
+    private Path boardAsset = Paths.get("src/main/resources/assets/punchboard/MarketBoard.png");
 
     public SimpleMarketBoard(){}
 
@@ -38,6 +42,10 @@ public class SimpleMarketBoard {
 
         this.slideMarble = MarbleAsset.fromUUID(slideMarbleId);
 
+    }
+
+    public void setBoardAsset(String path){
+        this.boardAsset = Paths.get(path);
     }
 
     public MarbleAsset getSlideMarble(){

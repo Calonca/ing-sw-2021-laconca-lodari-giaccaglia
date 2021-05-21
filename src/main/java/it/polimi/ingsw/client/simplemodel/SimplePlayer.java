@@ -15,8 +15,7 @@ public class SimplePlayer {
 
     public SimplePlayer(){}
 
-    public void setPlayerLeaders(Map<UUID, Boolean> playerLeadersMap){
-
+    public void updatePlayerLeaders(Map<UUID, Boolean> playerLeadersMap){
       playerLeaders =  playerLeadersMap
               .keySet()
               .stream()
@@ -26,7 +25,6 @@ public class SimplePlayer {
           UUID leaderId = leader.getCardId();
           leader.getNetworkLeaderCard().setLeaderState(playerLeadersMap.get(leaderId));
       }
-
     }
 
     public List<LeaderCardAsset> getPlayerLeaders(){

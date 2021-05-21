@@ -1,4 +1,7 @@
-package it.polimi.ingsw.server.model.player.track;
+package it.polimi.ingsw.client.simplemodel;
+
+import it.polimi.ingsw.server.model.player.track.FaithTrack;
+import it.polimi.ingsw.server.model.player.track.PopeFavourTile;
 
 /**
  *  <p>Enum class for the <em>Tile State</em> of <em>Pope's Favour tiles</em> in the {@link FaithTrack}.<br>
@@ -26,4 +29,5 @@ public enum TileState {
      * <em>Tile state</em> corresponding to the discarded {@link PopeFavourTile} when Vatican Report requirements aren't met.
      */
     DISCARDED
+
 }
