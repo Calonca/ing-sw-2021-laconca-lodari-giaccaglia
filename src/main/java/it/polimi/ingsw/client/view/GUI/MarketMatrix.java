@@ -23,27 +23,23 @@ import javafx.util.Duration;
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
  * The user will be asked to insert a nickname and the number of players
  */
-public class CreateMatch extends CreateJoinLoadMatchViewBuilder implements GUIView {
+public class MarketMatrix extends CreateJoinLoadMatchViewBuilder implements GUIView {
 
-    public AnchorPane createPane;
-    @FXML
-    private StackPane connectionPane;
-    @FXML
-    private Button connectionButton;
-    @FXML
-    private TextField addressText;
-    @FXML
-    private TextField portText;
+
+    public AnchorPane marketPane;
+    public List<Circle> firstRow=new ArrayList<>();
 
     @Override
     public void run() {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/fxml/MatchToStart.fxml"));
+        loader.setLocation(getClass().getResource("/fxml/MarketMatrix.fxml"));
         Parent root = null;
         try {
             root = loader.load();
@@ -57,15 +53,63 @@ public class CreateMatch extends CreateJoinLoadMatchViewBuilder implements GUIVi
         getClient().getStage().show();
     }
 
+    public void handleButton()
+    {
+        for (Circle circle : firstRow) {
+            FillTransition fillTransition1 = new FillTransition(Duration.seconds(1.5), circle, Color.YELLOW, Color.BLUE);
+            fillTransition1.setCycleCount(Animation.INDEFINITE);
+            fillTransition1.setAutoReverse(true);
+            fillTransition1.play();
+
+
+            TranslateTransition transition = new TranslateTransition(Duration.seconds(1.5), circle);
+            transition.setToX(-200);
+            transition.setToY(0);
+            transition.setAutoReverse(false);
+            transition.play();
+
+        }
+
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
-        Circle circle1=new Circle();
-        circle1.setRadius(10);
-        circle1.setLayoutX(200);
-        circle1.setLayoutY(200);
+        for(int i=0;i<4;i++)
+        {
+            Circle circle1=new Circle();
+            circle1.setRadius(10);
+            circle1.setLayoutX(225+125*i);
+            circle1.setLayoutY(175);
+            marketPane.getChildren().add(circle1);
+            firstRow.add(circle1);
 
-        FillTransition fillTransition1= new FillTransition(Duration.seconds(1.5),circle1,Color.YELLOW,Color.BLUE);
+        }
+
+
+
+        for(int i=0;i<4;i++)
+        {
+            Circle circle1=new Circle();
+            circle1.setRadius(10);
+            circle1.setLayoutX(225+125*i);
+            circle1.setLayoutY(325);
+            marketPane.getChildren().add(circle1);
+
+        }
+
+        for(int i=0;i<4;i++)
+        {
+            Circle circle1=new Circle();
+            circle1.setRadius(10);
+            circle1.setLayoutX(225+125*i);
+            circle1.setLayoutY(475);
+            marketPane.getChildren().add(circle1);
+
+        }
+
+
+/*      FillTransition fillTransition1= new FillTransition(Duration.seconds(1.5),circle1,Color.YELLOW,Color.BLUE);
         fillTransition1.setCycleCount(Animation.INDEFINITE);
         fillTransition1.setAutoReverse(true);
         fillTransition1.play();
@@ -78,7 +122,6 @@ public class CreateMatch extends CreateJoinLoadMatchViewBuilder implements GUIVi
         transition.setCycleCount(Animation.INDEFINITE);
         transition.play();
 
-        createPane.getChildren().add(circle1);
 
 
 
@@ -101,7 +144,7 @@ public class CreateMatch extends CreateJoinLoadMatchViewBuilder implements GUIVi
 
 
 
-        createPane.getChildren().add(circle2);
+        marketPane.getChildren().add(circle2);
 
         Circle circle3=new Circle();
         circle3.setRadius(10);
@@ -120,7 +163,7 @@ public class CreateMatch extends CreateJoinLoadMatchViewBuilder implements GUIVi
         transition3.setCycleCount(Animation.INDEFINITE);
         transition3.play();
 
-        createPane.getChildren().add(circle3);
+        marketPane.getChildren().add(circle3);
 
         Circle circle4=new Circle();
         circle4.setRadius(10);
@@ -139,7 +182,8 @@ public class CreateMatch extends CreateJoinLoadMatchViewBuilder implements GUIVi
         transition4.setCycleCount(Animation.INDEFINITE);
         transition4.play();
 
-        createPane.getChildren().add(circle4);
+        marketPane.getChildren().add(circle4);
+        */
         Client.getInstance().getStage().show();
 
 
