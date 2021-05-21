@@ -14,7 +14,7 @@ public class StatesTransitionTableTest {
 
     @Before
     public void setUp() throws Exception {
-        serializeTables();
+        //serializeTables();
         singlePlayerTable = StatesTransitionTable.singlePlayer();
         multiPlayerTable = StatesTransitionTable.multiPlayer();
     }
