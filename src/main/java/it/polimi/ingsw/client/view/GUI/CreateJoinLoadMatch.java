@@ -17,7 +17,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
 
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
@@ -33,8 +32,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
     public TableView<MatchRow> guiMatchesData;
 
     boolean created=false;
-    TableColumn<MatchRow,Integer> players;
-    TableColumn<MatchRow,String[]> nicknames;
+    TableColumn<MatchRow,String> nicknames;
     TableColumn<MatchRow,UUID> UUIDs;
     @FXML
     private Button joinLoadButton;
@@ -118,15 +116,10 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
     }
 
     public List<MatchRow> dataToRow() {
-        List<MatchRow> templist=new ArrayList<MatchRow>();
-        int k=0;
-        if(Client.getInstance().getCommonData().getMatchesData().isPresent())
-            for(UUID key : Client.getInstance().getCommonData().getMatchesData().get().keySet())
-            {
-                //todo cast for pretty print
-                templist.add(new MatchRow(k,Client.getInstance().getCommonData().getMatchesData().get().get(key),key));
-            }
-
+        List<MatchRow> templist=new ArrayList<>();
+        Client.getInstance().getCommonData().getMatchesData().ifPresent((data)->{
+            data.forEach((key, value) -> templist.add(new MatchRow(key, Arrays.toString(value))));
+        });
         return templist;
     }
 
@@ -134,18 +127,15 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
-        players= new TableColumn<MatchRow,Integer>("MATCH ID");
-        nicknames= new TableColumn<MatchRow,String[]>("NICKNAMES");
+        nicknames= new TableColumn<MatchRow,String>("NICKNAMES");
         UUIDs= new TableColumn<MatchRow,UUID>("UUID");
 
         final ObservableList<MatchRow> data= FXCollections.observableArrayList(dataToRow());
 
-        nicknames.setCellValueFactory(new PropertyValueFactory<MatchRow,String[]>("people"));
-        players.setCellValueFactory(new PropertyValueFactory<MatchRow,Integer>("number"));
+        nicknames.setCellValueFactory(new PropertyValueFactory<MatchRow,String>("people"));
         UUIDs.setCellValueFactory(new PropertyValueFactory<MatchRow,UUID>("key"));
 
         guiMatchesData.getColumns().add(nicknames);
-        guiMatchesData.getColumns().add(players);
         guiMatchesData.getColumns().add(UUIDs);
 
 
