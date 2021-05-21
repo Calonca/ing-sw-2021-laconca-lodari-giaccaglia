@@ -15,13 +15,16 @@ public class SimplePersonalBoard {
 
     private Map<Integer, List<DevelopmentCardAsset>> visibleCardsOnCells;
 
-    public SimplePersonalBoard(SimpleDepots depots, Map<Integer, List<UUID>> cards){
-        updateSimplePersonalBoard(depots, cards);
+    private SimpleFaithTrack simpleFaithTrack;
+
+    public SimplePersonalBoard(SimpleDepots depots, Map<Integer, List<UUID>> cards, String trackConfig){
+        updateSimplePersonalBoard(depots, cards, trackConfig);
     }
 
-    public void updateSimplePersonalBoard(SimpleDepots depots, Map<Integer, List<UUID>> cards){
+    public void updateSimplePersonalBoard(SimpleDepots depots, Map<Integer, List<UUID>> cards, String trackConfig){
         updateSimpleDepots(depots);
         updateVisibleCards(cards);
+        updateSimpleFaithTrack(trackConfig);
     }
 
     public void updateSimpleDepots(SimpleDepots depots){
@@ -30,6 +33,10 @@ public class SimplePersonalBoard {
 
     public void updateSimpleDepots(Map<Integer, List<ResourceAsset>> simpleWarehouseLeadersDepot, Map<ResourceAsset, Integer> simpleStrongBox){
         depots.updateSimpleDepots(simpleWarehouseLeadersDepot, simpleStrongBox);
+    }
+
+    public void updateSimpleFaithTrack(String config){
+        simpleFaithTrack.updateTrack(config);
     }
 
     public void updateVisibleCards(Map<Integer, List<UUID>> cards){

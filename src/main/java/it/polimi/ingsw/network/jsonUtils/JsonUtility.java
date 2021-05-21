@@ -11,17 +11,19 @@ import java.util.stream.*;
 
 public class JsonUtility {
 
-    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+ //   private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     public static final String configPathString = "src/main/resources/config/";
     public static String serializeVarArgs(Object... o) {
         return serialize(Arrays.stream(o).collect(Collectors.toList()));
     }
 
     public static <T> T deserialize(String jsonPath, Class<T> destinationClass){
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
         return deserialize(jsonPath,destinationClass,gson);
     }
 
     public static <T> T deserialize(JsonElement jsonElement, Type destinationType) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
         return gson.fromJson(jsonElement, destinationType);
     }
 
@@ -50,6 +52,7 @@ public class JsonUtility {
     }
 
     public static <T> String serialize(T Object){
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
         return gson.toJson(Object);
     }
 
@@ -58,6 +61,7 @@ public class JsonUtility {
     }
 
     public static <T> void serialize(String jsonPath, T Object , Class<T> classToSerialize){
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
         serialize(jsonPath, Object, classToSerialize, gson);
     }
 

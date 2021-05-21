@@ -6,17 +6,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class MIDDLE_PHASE extends StateInNetwork{
+public class INITIAL_PHASE extends StateInNetwork{
 
     Map<Integer, List<ResourceAsset>> simpleWarehouseLeadersDepot;
     Map<ResourceAsset, Integer> simpleStrongBox;
     Map<Integer, List<UUID>> visibleCardsOnCells;
+    String trackConfig;
 
-    public MIDDLE_PHASE(Map<Integer, List<ResourceAsset>> simpleWarehouseLeadersDepot, Map<ResourceAsset, Integer> simpleStrongBox, Map<Integer, List<UUID>> visibleCardsOnCells){
+    public INITIAL_PHASE(Map<Integer, List<ResourceAsset>> simpleWarehouseLeadersDepot, Map<ResourceAsset, Integer> simpleStrongBox, Map<Integer, List<UUID>> visibleCardsOnCells, String trackConfig){
+
         this.simpleWarehouseLeadersDepot = simpleWarehouseLeadersDepot;
         this.simpleStrongBox = simpleStrongBox;
         this.visibleCardsOnCells = visibleCardsOnCells;
-    }
+        this.trackConfig = trackConfig;
+}
 
     public Map<Integer, List<ResourceAsset>> getSimpleWarehouseLeadersDepot() {
         return simpleWarehouseLeadersDepot;
@@ -26,7 +29,12 @@ public class MIDDLE_PHASE extends StateInNetwork{
         return simpleStrongBox;
     }
 
-    public Map<Integer, List<UUID>> getVisibleCardsOnCells(){
+    public Map<Integer, List<UUID>> getVisibleCardsOnCells() {
         return visibleCardsOnCells;
     }
+
+    public String getTrackConfig() {
+        return trackConfig;
+    }
+
 }
