@@ -16,4 +16,9 @@ public class SetupBody extends CLIelem {
                 .setPrettyPrinting()
                 .create().toJson(setup_phase);
     }
+
+    @Override
+    public int horizontalSize() {
+        return -1;
+    }
 }

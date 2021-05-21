@@ -20,6 +20,11 @@ public class OptionList extends CLIelem {
         setUpdater(()-> {});
     }
 
+    @Override
+    public int horizontalSize() {
+        return -1;
+    }
+
     public OptionList(Stream<Option> optionStream){
         options = optionStream.collect(Collectors.toList());
         if (options.size()>=1)

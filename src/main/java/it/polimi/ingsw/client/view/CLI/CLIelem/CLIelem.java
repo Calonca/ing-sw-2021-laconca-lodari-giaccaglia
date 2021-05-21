@@ -7,6 +7,7 @@ import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Arrays;
 
 /**
  * An element of a CLIView, for example an option or a Text
@@ -79,6 +80,8 @@ public abstract class CLIelem implements PropertyChangeListener {
     public String toString(){
         return new Gson().toJson(this);
     }
+
+    public abstract int horizontalSize();
 
     public void setCLIAndUpdateSubscriptions(CLI cli, Client client){
         this.cli = cli;

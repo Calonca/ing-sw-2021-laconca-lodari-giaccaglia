@@ -1,8 +1,10 @@
 package it.polimi.ingsw.client.view.CLI.CLIelem;
 
-import it.polimi.ingsw.client.view.CLI.Color;
+import it.polimi.ingsw.client.view.CLI.textUtil.Background;
+import it.polimi.ingsw.client.view.CLI.textUtil.Color;
+import it.polimi.ingsw.client.view.CLI.textUtil.StringUtil;
 
-import java.util.Optional;
+import java.util.Arrays;
 
 /**
  * A selectable option in a CLIView that will execute the given code when perform is called
@@ -38,6 +40,11 @@ public class Option extends CLIelem{
         this.selected = selected;
     }
 
+
+    @Override
+    public int horizontalSize() {
+        return Math.max(name.length(),subtitle.length()+4);
+    }
 
     @Override
     public String toString() {

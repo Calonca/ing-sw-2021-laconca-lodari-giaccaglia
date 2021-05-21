@@ -25,7 +25,7 @@ public class SetupPhase extends SetupPhaseViewBuilder implements CLIBuilder {
                     SetupPhaseEvent event = new SetupPhaseEvent(0,0,0);
                     getClient().getServerHandler().sendCommandMessage(new EventMessage(event));
                 });
-        getCLIView().displayWithScroll();
+        getCLIView().refreshCLI();
     }
 
     @Override

@@ -76,6 +76,11 @@ public class Spinner extends CLIelem {
                 currentValue;
     }
 
+    @Override
+    public int horizontalSize() {
+        return -1;
+    }
+
     /** Characters used for the spinner animation */
     private static final String SPINNER = "\\|/-\\|/-";
     /** Ascii backspace character */

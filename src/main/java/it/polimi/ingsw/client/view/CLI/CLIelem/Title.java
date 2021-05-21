@@ -19,4 +19,9 @@ public class Title extends CLIelem{
     public String toString() {
         return title;
     }
+
+    @Override
+    public int horizontalSize() {
+        return title.length();
+    }
 }
