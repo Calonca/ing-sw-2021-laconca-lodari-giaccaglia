@@ -39,6 +39,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
     public Button b2;
     public Button b3;
     public Button b4;
+    public Button confirm;
 
     boolean[] selected =new boolean[4];
     Spinner<Integer> goldSpin;
@@ -197,6 +198,10 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
 
     }
 
+    public void handleButton(){
+        Client.getInstance().changeViewBuilder(new ViewPersonalBoard());
+
+    }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
