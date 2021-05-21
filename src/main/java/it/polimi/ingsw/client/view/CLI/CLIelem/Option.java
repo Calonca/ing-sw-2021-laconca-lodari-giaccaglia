@@ -48,17 +48,18 @@ public class Option extends CLIelem{
 
     @Override
     public String toString() {
-        String correctedSubtitle;
         if (subtitle == null || subtitle.equals(" ") || subtitle.equals("")) {
-            correctedSubtitle = "";
+            return colorIfSelected(name);
         } else {
-            correctedSubtitle = "\n    " + subtitle;
+            String formattedSub = "\n   " + colorIfSelected(" "+subtitle);
+            return colorIfSelected(name) +formattedSub;
         }
+    }
 
-        String toPrint = name+correctedSubtitle;
+    private String colorIfSelected(String s){
         if (selected)
-            return Color.colorString(toPrint,Color.ANSI_BLUE);
-        else return toPrint;
+            return Color.colorStringAndBackground(StringUtil.stringUntilReachingSize(s,horizontalSize()),Color.ANSI_BLACK, Background.ANSI_WHITE_BACKGROUND);
+        else return StringUtil.stringUntilReachingSize(s,horizontalSize());
     }
 
 }
