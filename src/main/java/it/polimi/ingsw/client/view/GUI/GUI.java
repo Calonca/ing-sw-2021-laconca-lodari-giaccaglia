@@ -25,12 +25,10 @@ public class GUI extends Application {
     public void start(Stage stage) throws Exception {
         Client client = Client.getInstance();
         client.setStage(stage);
-        stage.setResizable(false);
-        stage.setHeight(700);
-        stage.setWidth(1000);
         stage.setTitle("Maestri");
+        stage.setResizable(false);
         stage.centerOnScreen();
-        stage.show();
         client.run();
+
     }
 }
