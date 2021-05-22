@@ -38,6 +38,8 @@ import java.util.ResourceBundle;
  */
 public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupPhaseViewBuilder implements GUIView {
 
+    private final int SPINNERNUMBER=4;
+    private final int LEADERNUMBER=4;
     @FXML
     private Button b1;
     @FXML
@@ -138,18 +140,20 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         stoneSpin=colorAndAnimate(" -fx-background-color: #9400D3",y,x);
         cjlAnchor.getChildren().add(stoneSpin);
 
-        sceneSpinners.add(goldSpin);
-        sceneSpinners.add((slaveSpin));
-        sceneSpinners.add(shieldSpin);
-        sceneSpinners.add(stoneSpin);
+        for(int i=0;i<SPINNERNUMBER;i++)
+            sceneSpinners.add((Spinner<Integer>) cjlAnchor.getChildren().get(LEADERNUMBER+1+i));
+
+
 
         ImageView temp;
 
-        sceneButtons.add(b1);
-        sceneButtons.add(b2);
-        sceneButtons.add(b3);
-        sceneButtons.add(b4);
+        for(int i=0;i<LEADERNUMBER;i++)
+            sceneButtons.add((Button) cjlAnchor.getChildren().get(1+i));
 
+
+
+
+        //TODO MAKE METHOD WHICH TAKES RUNNABLE, BOOLEAN ARRAY AND BUTTON ARRAY TO BIND
         for (Button sceneButton : sceneButtons) {
             temp = new ImageView(new Image("assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_0.png", true));
             temp.setFitHeight(200);
@@ -178,7 +182,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
             });
 
         }
-
+        for(int i=0;i<cjlAnchor.getChildren().size();i++)
 
         Client.getInstance().getStage().show();
 
