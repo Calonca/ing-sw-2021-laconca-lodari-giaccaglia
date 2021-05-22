@@ -7,17 +7,27 @@ import javafx.animation.Animation;
 import javafx.animation.FillTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.PhongMaterial;
+import javafx.scene.shape.Box;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Sphere;
+import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Translate;
 import javafx.util.Duration;
 
 import java.beans.PropertyChangeEvent;
@@ -32,9 +42,14 @@ import java.util.ResourceBundle;
  */
 public class MarketMatrix extends CreateJoinLoadMatchViewBuilder implements GUIView {
 
+    public Button button1;
+    Sphere sphere1;
 
     public AnchorPane marketPane;
-    public List<Circle> firstRow=new ArrayList<>();
+
+    public List<List<Sphere>> rows=new ArrayList<>();
+    public List<List<Sphere>> columns=new ArrayList<>();
+
 
     @Override
     public void run() {
@@ -51,31 +66,85 @@ public class MarketMatrix extends CreateJoinLoadMatchViewBuilder implements GUIV
 
         getClient().getStage().setScene(scene);
         getClient().getStage().show();
+
+
+
     }
 
-    public void handleButton()
-    {
-        for (Circle circle : firstRow) {
-            FillTransition fillTransition1 = new FillTransition(Duration.seconds(1.5), circle, Color.YELLOW, Color.BLUE);
-            fillTransition1.setCycleCount(Animation.INDEFINITE);
-            fillTransition1.setAutoReverse(true);
-            fillTransition1.play();
 
 
-            TranslateTransition transition = new TranslateTransition(Duration.seconds(1.5), circle);
-            transition.setToX(-200);
-            transition.setToY(0);
-            transition.setAutoReverse(false);
-            transition.play();
+    public void generateRow(List<Sphere> row, Group root3D,double x, double y, int h){
+
+        for(int i=0;i<4;i++)
+        {
+            Sphere ball=new Sphere(0.4);
+            ball.translateYProperty().set(y+i*2);
+            ball.translateXProperty().set(x);
+            marketPane.getChildren().add(ball);
+            root3D.getChildren().add(ball);
+
+            row.add(ball);
 
         }
+        Button button=new Button();
+        button.setLayoutX(900);
+        button.setLayoutY(h);
+        button.setOnAction( p-> {
+            for (Sphere circle : row) {
+
+                System.out.println("X" + circle.getTranslateX()+"Y"+circle.getTranslateY()+"Z"+circle.getTranslateZ());
+                TranslateTransition transition = new TranslateTransition(Duration.seconds(1.5), circle);
+                transition.setToY(circle.getTranslateY()-2);
+                transition.setAutoReverse(false);
+                transition.play();
+
+
+            }
+        });
+        rows.add(row);
+        marketPane.getChildren().add(button);
+
+    }
+
+    public void generateColumns(List<List<Sphere>> rows,int h){
+
+
+        for(int i=0;i<rows.get(0).size();i++)
+        {
+            List<Sphere> column=new ArrayList<>();
+
+            for(int k=0;k<rows.size();k++)
+                column.add(rows.get(k).get(i));
+
+            Button button=new Button();
+            button.setLayoutX(h);
+            h+=125;
+            button.setLayoutY(650);
+            button.setOnAction( p-> {
+                for (Sphere circle : column) {
+
+                    System.out.println("X" + circle.getTranslateX()+"Y"+circle.getTranslateY()+"Z"+circle.getTranslateZ());
+                    TranslateTransition transition = new TranslateTransition(Duration.seconds(1.5), circle);
+                    transition.setToX(circle.getTranslateX()+2);
+                    transition.setAutoReverse(false);
+                    transition.play();
+
+
+                }
+            });
+
+            columns.add(column);
+            marketPane.getChildren().add(button);
+
+        }
+
 
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
-        for(int i=0;i<4;i++)
+      /*  for(int i=0;i<4;i++)
         {
             Circle circle1=new Circle();
             circle1.setRadius(10);
@@ -109,7 +178,7 @@ public class MarketMatrix extends CreateJoinLoadMatchViewBuilder implements GUIV
         }
 
 
-/*      FillTransition fillTransition1= new FillTransition(Duration.seconds(1.5),circle1,Color.YELLOW,Color.BLUE);
+        FillTransition fillTransition1= new FillTransition(Duration.seconds(1.5),circle1,Color.YELLOW,Color.BLUE);
         fillTransition1.setCycleCount(Animation.INDEFINITE);
         fillTransition1.setAutoReverse(true);
         fillTransition1.play();
@@ -184,9 +253,29 @@ public class MarketMatrix extends CreateJoinLoadMatchViewBuilder implements GUIV
 
         marketPane.getChildren().add(circle4);
         */
+
+        PerspectiveCamera camera = new PerspectiveCamera(true);
+        camera.getTransforms().addAll(new Rotate(90,Rotate.Z_AXIS),new Rotate(0,Rotate.X_AXIS), new Rotate(0,Rotate.Y_AXIS), new Translate(0, 0, -20));
+        camera.translateXProperty().set(-1.0);
+        camera.translateYProperty().set(-0.5);
+
+
+        Group root3D = new Group(camera);
+
+
+        generateRow(new ArrayList<Sphere>(),root3D,1.5,-4.5,175);
+        generateRow(new ArrayList<Sphere>(),root3D,-0.5,-4.5,325);
+        generateRow(new ArrayList<Sphere>(),root3D,-2.5,-4.5,475);
+
+        generateColumns(rows,225);
+
+
+        SubScene subScene = new SubScene(root3D, 1000, 700, true, SceneAntialiasing.BALANCED);
+        subScene.setFill(Color.AQUAMARINE);
+        subScene.setCamera(camera);
+
+        marketPane.getChildren().add(0,subScene);
         Client.getInstance().getStage().show();
-
-
     }
 
     @Override
