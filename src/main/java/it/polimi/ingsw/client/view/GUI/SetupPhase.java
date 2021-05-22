@@ -161,21 +161,15 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
             sceneButton.setGraphic(temp);
             sceneButton.setOnAction(e ->
             {
-                ImageView tempo;
                 if(!selected[sceneButtons.indexOf(sceneButton)])
                 {
-                    tempo=new ImageView(new Image("assets/leaders/grayed out/BACK/Masters of Renaissance__Cards_BACK.png", true));
-                    tempo.setFitHeight(200);
-                    tempo.setFitWidth(200);
-                    sceneButton.setGraphic(tempo);
+                    sceneButton.setLayoutY(sceneButton.getLayoutY()-30);
                     selected[sceneButtons.indexOf(sceneButton)]=true;
                 }
                 else
                 {
-                    tempo=new ImageView(new Image("assets/leaders/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_0.png", true));
-                    tempo.setFitHeight(200);
-                    tempo.setFitWidth(200);
-                    sceneButton.setGraphic(tempo);
+                    sceneButton.setLayoutY(sceneButton.getLayoutY()+30);
+
                     selected[sceneButtons.indexOf(sceneButton)]=false;
                 }
 
@@ -184,7 +178,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         }
         for(int i=0;i<cjlAnchor.getChildren().size();i++)
 
-        Client.getInstance().getStage().show();
+            Client.getInstance().getStage().show();
 
     }
 
