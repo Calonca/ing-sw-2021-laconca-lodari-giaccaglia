@@ -100,7 +100,7 @@ public class Maestri {
         PrintWriter printWriter = new PrintWriter(System.out);
         printWriter.println("Maestri del rinascimento");
         printWriter.println();
-        helpFormatter.printUsage(printWriter,CLI.width,"java -jar Maestri.jar whatToStart [port] [ip]");
+        helpFormatter.printUsage(printWriter,CLI.width,"java -jar Maestri.jar whatToStart [port] [ip] [nickname]");
         helpFormatter.printOptions(printWriter,CLI.width,options,2,5);
         printWriter.close();
     }
