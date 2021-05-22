@@ -102,24 +102,29 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
         nickText=new TextField();
         nickText.setLayoutX(461);
         nickText.setLayoutY(419);
-        nickText.setText("DUM");
+        nickText.setPromptText("nickname");
 
         portText=new TextField();
         portText.setLayoutX(461);
         portText.setLayoutY(471);
+        portText.setPromptText("port");
         portText.setText(Integer.toString(Client.getInstance().getPort()));
 
         addressText=new TextField();
-        addressText.setText(Client.getInstance().getIp());
+        String ip = Client.getInstance().getIp();
+        if (ip!=null)
+            addressText.setText(ip);
+        addressText.setPromptText("ip address");
         addressText.setLayoutX(461);
         addressText.setLayoutY(445);
+
 
         temp.setFitWidth(800);
         temp.setFitHeight(300);
 
         connectionAnchor.getChildren().add(nickText);
-        connectionAnchor.getChildren().add(portText);
         connectionAnchor.getChildren().add(addressText);
+        connectionAnchor.getChildren().add(portText);
 
         connectionPane.getChildren().add(temp);
     }
