@@ -34,29 +34,10 @@ public class CLI {
     private int writtenChars;
 
     //Min is 20
-    private static final int height =50;
+    public static final int height =50;
     //Min is 20
-    private static final int width =160;
+    public static final int width =160;
 
-
-    /**
-     * Initializes a client that asks the user for ip and port or if given arguments from the given arguments
-     * @param args the first argument is the ip and the second the port.
-     */
-    public static void main(String[] args)
-    {
-        Client client = Client.getInstance();
-        if (args.length==2)
-        {
-            client.setCLI();
-            client.setServerConnection(args[0],Integer.parseInt(args[1]));
-            client.run();
-            client.changeViewBuilder(new CreateJoinLoadMatch());
-        } else {
-            client.setCLI();
-            client.changeViewBuilder(new ConnectToServer());
-        }
-    }
 
     public CLI(Client client) {
         stopASAP = new AtomicBoolean(false);

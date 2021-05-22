@@ -12,11 +12,14 @@ public class Server
     /**
      * The socket port where the server listens to client connections.
      */
-    public final static int SOCKET_PORT = 7890;
+    public static int SOCKET_PORT = 7890;
 
 
     public static void main(String[] args)
     {
+        if (args.length==2){
+            SOCKET_PORT=Integer.parseInt(args[1]);
+        }
         ServerSocket socket;
         System.out.println("My port is : "+SOCKET_PORT);
         try {
