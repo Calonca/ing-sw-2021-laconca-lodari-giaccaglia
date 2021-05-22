@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.*;
 import javafx.scene.text.Font;
@@ -28,18 +29,17 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ConnectToServer extends ConnectToServerViewBuilder implements GUIView {
+
     public Text error;
     @FXML
+    private AnchorPane connectionAnchor;
+    @FXML
     private StackPane connectionPane;
-    @FXML
-    private Button connectionButton;
-    @FXML
+
+
     private TextField addressText;
-    @FXML
     private TextField portText;
-    @FXML
     private TextField nickText;
-    private Text errortext;
 
     @Override
     public void run() {
@@ -98,8 +98,29 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
 
         ImageView temp=new ImageView(new Image("assets/logo.png", true));
         StackPane.setAlignment(temp,Pos.TOP_CENTER);
+
+        nickText=new TextField();
+        nickText.setLayoutX(461);
+        nickText.setLayoutY(419);
+        nickText.setText("DUM");
+
+        portText=new TextField();
+        portText.setLayoutX(461);
+        portText.setLayoutY(471);
+        portText.setText(Integer.toString(Client.getInstance().getPort()));
+
+        addressText=new TextField();
+        addressText.setText(Client.getInstance().getIp());
+        addressText.setLayoutX(461);
+        addressText.setLayoutY(445);
+
         temp.setFitWidth(800);
         temp.setFitHeight(300);
+
+        connectionAnchor.getChildren().add(nickText);
+        connectionAnchor.getChildren().add(portText);
+        connectionAnchor.getChildren().add(addressText);
+
         connectionPane.getChildren().add(temp);
     }
     @Override
