@@ -42,9 +42,8 @@ import java.util.ResourceBundle;
  */
 public class MarketMatrix extends CreateJoinLoadMatchViewBuilder implements GUIView {
 
-    public Button button1;
-    Sphere sphere1;
-
+    Sphere toPut;
+    public int rowsize=4;
     public AnchorPane marketPane;
 
     public List<List<Sphere>> rows=new ArrayList<>();
@@ -73,14 +72,14 @@ public class MarketMatrix extends CreateJoinLoadMatchViewBuilder implements GUIV
 
 
 
-    public void generateRow(List<Sphere> row, Group root3D,double x, double y, int h){
+    public void generateRow(Group root3D,double x, double y, int h){
 
-        for(int i=0;i<4;i++)
+        List<Sphere> row=new ArrayList<>();
+        for(int i=0;i<rowsize;i++)
         {
             Sphere ball=new Sphere(0.4);
             ball.translateYProperty().set(y+i*2);
             ball.translateXProperty().set(x);
-            marketPane.getChildren().add(ball);
             root3D.getChildren().add(ball);
 
             row.add(ball);
@@ -91,8 +90,8 @@ public class MarketMatrix extends CreateJoinLoadMatchViewBuilder implements GUIV
         button.setLayoutY(h);
         button.setOnAction( p-> {
             for (Sphere circle : row) {
-
                 System.out.println("X" + circle.getTranslateX()+"Y"+circle.getTranslateY()+"Z"+circle.getTranslateZ());
+
                 TranslateTransition transition = new TranslateTransition(Duration.seconds(1.5), circle);
                 transition.setToY(circle.getTranslateY()-2);
                 transition.setAutoReverse(false);
@@ -254,6 +253,7 @@ public class MarketMatrix extends CreateJoinLoadMatchViewBuilder implements GUIV
         marketPane.getChildren().add(circle4);
         */
 
+
         PerspectiveCamera camera = new PerspectiveCamera(true);
         camera.getTransforms().addAll(new Rotate(90,Rotate.Z_AXIS),new Rotate(0,Rotate.X_AXIS), new Rotate(0,Rotate.Y_AXIS), new Translate(0, 0, -20));
         camera.translateXProperty().set(-1.0);
@@ -263,9 +263,14 @@ public class MarketMatrix extends CreateJoinLoadMatchViewBuilder implements GUIV
         Group root3D = new Group(camera);
 
 
-        generateRow(new ArrayList<Sphere>(),root3D,1.5,-4.5,175);
-        generateRow(new ArrayList<Sphere>(),root3D,-0.5,-4.5,325);
-        generateRow(new ArrayList<Sphere>(),root3D,-2.5,-4.5,475);
+        toPut=new Sphere(0.4);
+        toPut.translateYProperty().set(3.5);
+        toPut.translateXProperty().set(1.5);
+        root3D.getChildren().add(toPut);
+
+        generateRow(root3D,1.5,-4.5,175);
+        generateRow(root3D,-0.5,-4.5,325);
+        generateRow(root3D,-2.5,-4.5,475);
 
         generateColumns(rows,225);
 
