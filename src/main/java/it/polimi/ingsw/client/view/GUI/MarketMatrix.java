@@ -5,8 +5,10 @@ import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchViewBuilder;
 import javafx.animation.Animation;
 import javafx.animation.FillTransition;
+import javafx.animation.Transition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
+import javafx.beans.property.ObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -42,10 +44,10 @@ import java.util.ResourceBundle;
  */
 public class MarketMatrix extends CreateJoinLoadMatchViewBuilder implements GUIView {
 
-    Sphere toPut;
+    public Sphere toPut;
     public int rowsize=4;
     public AnchorPane marketPane;
-
+    double LOWER_CORNER=-4.5;
     public List<List<Sphere>> rows=new ArrayList<>();
     public List<List<Sphere>> columns=new ArrayList<>();
 
@@ -89,16 +91,33 @@ public class MarketMatrix extends CreateJoinLoadMatchViewBuilder implements GUIV
         button.setLayoutX(900);
         button.setLayoutY(h);
         button.setOnAction( p-> {
-            for (Sphere circle : row) {
-                System.out.println("X" + circle.getTranslateX()+"Y"+circle.getTranslateY()+"Z"+circle.getTranslateZ());
 
-                TranslateTransition transition = new TranslateTransition(Duration.seconds(1.5), circle);
+            TranslateTransition transition = new TranslateTransition(Duration.seconds(0.5), toPut);
+            transition.setToX(x);
+            transition.setAutoReverse(false);
+            transition.play();
+
+            transition = new TranslateTransition(Duration.seconds(1.5), toPut);
+            transition.setToY(toPut.getTranslateY()-2);
+            transition.setAutoReverse(false);
+            transition.setDelay(new Duration(1000));
+            transition.play();
+
+            int k=rowsize*1000;
+            for (Sphere circle : row) {
+                System.out.println("X" + toPut.getTranslateX()+"Y"+toPut.getTranslateY()+"Z"+toPut.getTranslateZ());
+
+                transition = new TranslateTransition(Duration.seconds(1.5), circle);
                 transition.setToY(circle.getTranslateY()-2);
                 transition.setAutoReverse(false);
+                transition.setDelay(new Duration(1000+k));
+                k-=1000;
                 transition.play();
 
 
             }
+
+
         });
         rows.add(row);
         marketPane.getChildren().add(button);
@@ -107,6 +126,7 @@ public class MarketMatrix extends CreateJoinLoadMatchViewBuilder implements GUIV
 
     public void generateColumns(List<List<Sphere>> rows,int h){
 
+        double y=-4.5;
 
         for(int i=0;i<rows.get(0).size();i++)
         {
@@ -119,27 +139,60 @@ public class MarketMatrix extends CreateJoinLoadMatchViewBuilder implements GUIV
             button.setLayoutX(h);
             h+=125;
             button.setLayoutY(650);
-            button.setOnAction( p-> {
-                for (Sphere circle : column) {
 
-                    System.out.println("X" + circle.getTranslateX()+"Y"+circle.getTranslateY()+"Z"+circle.getTranslateZ());
-                    TranslateTransition transition = new TranslateTransition(Duration.seconds(1.5), circle);
-                    transition.setToX(circle.getTranslateX()+2);
-                    transition.setAutoReverse(false);
-                    transition.play();
-
-
-                }
-            });
+            setBut(button,y,column);
 
             columns.add(column);
             marketPane.getChildren().add(button);
+            y+=2;
 
         }
 
 
     }
 
+    public void setBut(Button but,double y, List<Sphere> column)
+    {
+        but.setOnAction( p-> {
+
+            TranslateTransition transition = new TranslateTransition(Duration.seconds(0.5), toPut);
+            transition.setToX(LOWER_CORNER);
+            transition.setAutoReverse(false);
+            transition.play();
+
+            transition = new TranslateTransition(Duration.seconds(0.5), toPut);
+            transition.setToY(y);
+            transition.setDelay(new Duration(550));
+            transition.setAutoReverse(false);
+            transition.play();
+
+            TranslateTransition trans = new TranslateTransition(Duration.seconds(3), toPut);
+            trans.setToX(-2.5);
+            trans.setDelay(new Duration(1100));
+            trans.setAutoReverse(false);
+            trans.play();
+
+
+
+            int k=rowsize*1000;
+            for (Sphere circle : column) {
+
+
+                System.out.println("X" + toPut.getTranslateX()+"Y"+toPut.getTranslateY()+"Z"+toPut.getTranslateZ());
+                transition = new TranslateTransition(Duration.seconds(1.5), circle);
+                transition.setToX(circle.getTranslateX()+2);
+                transition.setDelay(new Duration(1000+k));
+                k-=1000;
+                transition.setAutoReverse(false);
+                transition.play();
+
+
+            }
+
+        });
+
+
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
@@ -265,7 +318,7 @@ public class MarketMatrix extends CreateJoinLoadMatchViewBuilder implements GUIV
 
         toPut=new Sphere(0.4);
         toPut.translateYProperty().set(3.5);
-        toPut.translateXProperty().set(1.5);
+        toPut.translateXProperty().set(-2.5);
         root3D.getChildren().add(toPut);
 
         generateRow(root3D,1.5,-4.5,175);
