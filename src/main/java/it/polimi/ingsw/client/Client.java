@@ -42,8 +42,6 @@ public class Client implements Runnable
         return single_instance;
     }
 
-    private Client(){}
-
     public void setStage(Stage stage) {
         this.stage = stage;
     }
@@ -52,9 +50,10 @@ public class Client implements Runnable
         return stage;
     }
 
-    public void setCLI(){
-        isCLI = true;
-        cli = new CLI(this);
+    public void setCLIOrGUI(boolean isCli){
+        this.isCLI = isCli;
+        if(isCli)
+            cli = new CLI(this);
     }
 
     public ViewBuilder getCurrentViewBuilder() {
@@ -63,10 +62,6 @@ public class Client implements Runnable
 
     public boolean isCLI() {
         return isCLI;
-    }
-
-    public void setGUI(){
-        isCLI = false;
     }
 
     public void setServerConnection(String ip,int port){
@@ -78,8 +73,11 @@ public class Client implements Runnable
     @Override
     public void run()
     {
+        changeViewBuilder(ConnectToServerViewBuilder.getBuilder(isCLI));
         /* Open connection to the server and start a thread for handling
          * communication. */
+        if (ip==null||commonData.getCurrentnick()==null){
+            return;}
         Socket server;
         try {
             server = new Socket(ip, port);
