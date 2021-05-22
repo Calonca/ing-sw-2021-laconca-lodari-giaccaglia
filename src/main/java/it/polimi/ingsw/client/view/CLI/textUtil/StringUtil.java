@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.CLI.textUtil;
 
+import java.util.Arrays;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 
@@ -10,5 +11,13 @@ public class StringUtil {
                 StringBuilder::append,
                 StringBuilder::append,
                 StringBuilder::toString));
+    }
+
+    public static int maxWidth(String s){
+        return Arrays.stream(s.split("\n")).mapToInt(String::length).max().orElse(0);
+    }
+
+    public static int maxHeight(String s){
+        return s.split("\n").length;
     }
 }
