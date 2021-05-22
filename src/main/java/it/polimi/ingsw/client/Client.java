@@ -56,6 +56,14 @@ public class Client implements Runnable
             cli = new CLI(this);
     }
 
+    public String getIp() {
+        return ip;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
     public ViewBuilder getCurrentViewBuilder() {
         return currentViewBuilder;
     }
