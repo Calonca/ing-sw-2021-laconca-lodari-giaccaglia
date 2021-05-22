@@ -73,10 +73,10 @@ public class Client implements Runnable
     @Override
     public void run()
     {
-        changeViewBuilder(ConnectToServerViewBuilder.getBuilder(isCLI));
         /* Open connection to the server and start a thread for handling
          * communication. */
         if (ip==null||commonData.getCurrentnick()==null){
+            changeViewBuilder(ConnectToServerViewBuilder.getBuilder(isCLI));
             return;}
         Socket server;
         try {
