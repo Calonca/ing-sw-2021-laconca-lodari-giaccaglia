@@ -23,7 +23,7 @@ public class VerticalListBody extends OptionList {
     public String toString() {
         MatrixPrinter matrixPrinter = MatrixPrinter.withBorder(CLI.width,CLI.height-3);
         String spaces = StringUtil.spaces(CLI.getCenterX()-horizontalSize()/2);
-        matrixPrinter.print(spaces.length(),0,stringWithNumber());
+        matrixPrinter.printWhiteText(spaces.length(),0,stringWithNumber());
         return matrixPrinter.toString();
     }
 

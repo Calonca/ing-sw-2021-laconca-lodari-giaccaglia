@@ -21,7 +21,7 @@ public class Title extends CLIelem{
     @Override
     public String toString() {
         MatrixPrinter matrixPrinter = MatrixPrinter.withBorder(CLI.width,1);
-        matrixPrinter.print(CLI.getCenterX()-title.length()/2,0,title);
+        matrixPrinter.printWhiteText(CLI.getCenterX()-title.length()/2,0,title);
         return matrixPrinter.toString();
     }
 
