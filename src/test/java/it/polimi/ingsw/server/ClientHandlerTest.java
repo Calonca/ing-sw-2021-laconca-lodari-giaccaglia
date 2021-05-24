@@ -25,14 +25,15 @@ public class ClientHandlerTest {
     Socket server1,server2;
     ObjectOutputStream output1,output2;
     ObjectInputStream input1,input2;
+    private static int testPort = 2653;
 
     @Before
     public void setUp() throws InterruptedException, IOException {
-        Thread serverThread = new Thread(() -> Server.main(null));
+        Thread serverThread = new Thread(() -> Server.main(new String[]{"-s",String.valueOf(testPort)}));
         serverThread.start();
         Thread.sleep(100);
         try {
-            server1 = new Socket("127.0.0.1",Server.SOCKET_PORT);
+            server1 = new Socket("127.0.0.1",testPort);
         } catch (IOException e) {
             System.out.println("server unreachable");
             return;
@@ -40,7 +41,7 @@ public class ClientHandlerTest {
         output1 = new ObjectOutputStream(server1.getOutputStream());
         input1 = new ObjectInputStream(server1.getInputStream());
         try {
-            server2 = new Socket("127.0.0.1",Server.SOCKET_PORT);
+            server2 = new Socket("127.0.0.1",testPort);
         } catch (IOException e) {
             System.out.println("server unreachable");
             return;

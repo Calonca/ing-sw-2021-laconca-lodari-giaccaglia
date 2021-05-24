@@ -70,6 +70,7 @@ public abstract class CLIelem implements PropertyChangeListener {
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        System.out.println(evt.getPropertyName());
         this.evt=evt;
         if (updater!=null) {
             updater.run();

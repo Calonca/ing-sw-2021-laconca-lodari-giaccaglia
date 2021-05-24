@@ -2,7 +2,7 @@ package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Option;
-import it.polimi.ingsw.client.view.CLI.CLIelem.Spinner;
+import it.polimi.ingsw.client.view.CLI.CLIelem.body.SpinnerBody;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Title;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.VerticalListBody;
 import it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchViewBuilder;
@@ -16,9 +16,11 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
 
     @Override
     public void run() {
-        Spinner spinner = new Spinner("matches data");
-        spinner.performWhenReceiving(CommonData.matchesDataString);
-        spinner.setPerformer(()->
+        SpinnerBody spinnerBody = new SpinnerBody();
+        getCLIView().setTitle(new Title("Waiting for matches data"));
+
+        spinnerBody.performWhenReceiving(CommonData.matchesDataString);
+        spinnerBody.setPerformer(()->
                 {
                     getCLIView().resetCLI();
                     getCLIView().setTitle(new Title("Hey "+getCommonData().getCurrentnick()+", what do you want to do?"));
@@ -42,7 +44,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
 
                 }
         );
-        getCLIView().setSpinner(spinner);
+        getCLIView().setBody(spinnerBody);
         getCLIView().refreshCLI();
     }
 

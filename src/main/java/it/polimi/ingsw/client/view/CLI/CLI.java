@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.view.CLI.CLIelem.*;
+import it.polimi.ingsw.client.view.CLI.CLIelem.body.SpinnerBody;
 import it.polimi.ingsw.client.view.CLI.textUtil.Characters;
 import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 
@@ -21,7 +22,6 @@ public class CLI {
     private Optional<Title> title;
     private Optional<CLIelem> body;
     private Optional<CLIelem> bottom;
-    private Optional<Spinner> spinner;
     private Optional<Option> lastChoice=Optional.empty();
     public final AtomicBoolean stopASAP;
 
@@ -33,9 +33,9 @@ public class CLI {
     private int writtenChars;
 
     //Min is 21
-    public static final int height =47;
+    public static final int height =23;//Usually 45
     //Min is 21
-    public static final int width =185;
+    public static final int width =185;//Usually 47
 
 
     public CLI(Client client) {
@@ -44,7 +44,6 @@ public class CLI {
         title = Optional.empty();
         body = Optional.empty();
         bottom = Optional.empty();
-        spinner = Optional.empty();
         writtenChars = 0;
         Thread inputThread = new Thread(() -> {
             Scanner scanner = new Scanner(System.in);
@@ -69,6 +68,8 @@ public class CLI {
         return height/2;
     }
 
+    public int getMaxBodyHeight(){return height-5;}
+
     public void setTitle(Title title){
         this.title.ifPresent(t->t.removeFromPublishers(client));
         title.setCLIAndUpdateSubscriptions(this,client);
@@ -92,11 +93,6 @@ public class CLI {
         this.body.ifPresent(b->b.setCLIAndUpdateSubscriptions(this,client));
     }
 
-    public void setSpinner(Spinner spinner){
-        this.spinner.ifPresent(s->s.removeFromPublishers(client));
-        this.spinner = Optional.of(spinner);
-        spinner.setCLIAndUpdateSubscriptions(this, client);
-    }
 
     public int getLastInt() {
         return lastInt;
@@ -124,9 +120,7 @@ public class CLI {
 
         cli.bottom.ifPresent(b->b.removeFromPublishers(cli.client));
         cli.bottom = Optional.empty();
-        
-        cli.spinner.ifPresent(s->s.removeFromPublishers(cli.client));
-        cli.spinner = Optional.empty();
+
         cli.deleteText();
     }
 
@@ -141,8 +135,6 @@ public class CLI {
         body.ifPresent(b->b.setCLIAndUpdateSubscriptions(this,client));
 
         bottom.ifPresent(b->b.setCLIAndUpdateSubscriptions(this,client));
-
-        spinner.ifPresent(s->s.setCLIAndUpdateSubscriptions(this,client));
     }
 
     public void performLastChoice(){
@@ -210,8 +202,6 @@ public class CLI {
         body.ifPresent(b-> print(b.toString()));
         putDivider();
         bottom.ifPresent(b-> printLine(b.toString()));
-
-        spinner.ifPresent(spinner1 -> printLine(spinner1.toString()));
 
         putEndDiv();
         if (errorMessage!=null)

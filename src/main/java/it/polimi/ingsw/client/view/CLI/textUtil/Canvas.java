@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.CLI.textUtil;
 
+import it.polimi.ingsw.client.view.CLI.CLI;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -20,6 +21,14 @@ public class Canvas {
         String lineChars = Characters.VERT_DIVIDER.getString()+" ".repeat(width)+Characters.VERT_DIVIDER.getString();
         printer.matrix = Stream.generate(()-> generateLine(lineChars)).limit(height).toArray(String[][]::new);
 
+        return printer;
+    }
+
+    public static Canvas fromText(int width, int height,String s){
+        Canvas printer = Canvas.withBorder(width,height);
+        int x = StringUtil.startCenterWritingX(s, width);
+        int y = StringUtil.startCenterWritingY(s, height);
+        printer.drawWithDefaultColor(x,y,s);
         return printer;
     }
 

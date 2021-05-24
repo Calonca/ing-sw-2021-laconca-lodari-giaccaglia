@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.view.CLI;
 
-import it.polimi.ingsw.client.view.CLI.CLIelem.Spinner;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Title;
+import it.polimi.ingsw.client.view.CLI.CLIelem.body.WaitingForMatchToStart;
 import it.polimi.ingsw.client.view.abstractview.CreateMatchViewBuilder;
 import it.polimi.ingsw.network.messages.clienttoserver.CreateMatchRequest;
 
@@ -18,7 +18,7 @@ public class CreateMatch extends CreateMatchViewBuilder implements CLIBuilder {
         {
             int numberOfPlayers = getCLIView().getLastInt();
             getCLIView().resetCLI();
-            getCLIView().setSpinner(Spinner.matchToStart(getClient(),this));
+            getCLIView().setBody(WaitingForMatchToStart.test(getClient()));
             getClient().getServerHandler().sendCommandMessage(new CreateMatchRequest(numberOfPlayers,getCommonData().getCurrentnick()));
             getCLIView().refreshCLI();
         });
@@ -28,6 +28,6 @@ public class CreateMatch extends CreateMatchViewBuilder implements CLIBuilder {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
+       // System.out.println(evt.getPropertyName());
     }
 }
