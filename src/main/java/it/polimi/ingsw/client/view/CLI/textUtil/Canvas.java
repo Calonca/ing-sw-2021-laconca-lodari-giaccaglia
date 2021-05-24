@@ -5,12 +5,15 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
-public class MatrixPrinter {
+/**
+ * A drawable canvas that can be displayed in the CLI
+ */
+public class Canvas {
     String[][] matrix;
 
     int width,height;
-    public static MatrixPrinter withBorder(int width, int height){
-        MatrixPrinter printer = new MatrixPrinter();
+    public static Canvas withBorder(int width, int height){
+        Canvas printer = new Canvas();
         printer.height = height;
         printer.width = width;
 
@@ -26,11 +29,15 @@ public class MatrixPrinter {
     }
 
 
-    public void printWhiteText(int x, int y, String s){
-        printWithColorAndBackground(x,y,s,Color.DEFAULT,Background.DEFAULT);
+    public void drawWithDefaultColor(int x, int y, String s){
+        draw(x,y,s,Color.DEFAULT,Background.DEFAULT);
     }
 
-    public void printWithColorAndBackground(int x, int y, String s, Color c, Background b){
+    /**
+     * Draws the string in the canvas at the given position,
+     * the output in the CLI is similar to that of System.out.print(s) but with the text starting form the given x,y position.
+     */
+    public void draw(int x, int y, String s, Color c, Background b){
         int matX = x;
         int matY = y;
         char[] chars = s.toCharArray();

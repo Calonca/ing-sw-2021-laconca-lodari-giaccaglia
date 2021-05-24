@@ -3,7 +3,7 @@ package it.polimi.ingsw.client.view.CLI.CLIelem.body;
 import it.polimi.ingsw.client.view.CLI.CLI;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Option;
 import it.polimi.ingsw.client.view.CLI.CLIelem.OptionList;
-import it.polimi.ingsw.client.view.CLI.textUtil.MatrixPrinter;
+import it.polimi.ingsw.client.view.CLI.textUtil.Canvas;
 import it.polimi.ingsw.client.view.CLI.textUtil.StringUtil;
 
 import java.util.stream.IntStream;
@@ -21,10 +21,10 @@ public class VerticalListBody extends OptionList {
     //Prints horizontally
     @Override
     public String toString() {
-        MatrixPrinter matrixPrinter = MatrixPrinter.withBorder(CLI.width,CLI.height-3);
+        Canvas canvas = Canvas.withBorder(CLI.width,CLI.height-3);
         String spaces = StringUtil.spaces(CLI.getCenterX()-horizontalSize()/2);
-        matrixPrinter.printWhiteText(spaces.length(),0,stringWithNumber());
-        return matrixPrinter.toString();
+        canvas.drawWithDefaultColor(spaces.length(),0,stringWithNumber());
+        return canvas.toString();
     }
 
 
