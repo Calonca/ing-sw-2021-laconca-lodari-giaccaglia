@@ -27,6 +27,7 @@ import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Stack;
 
 public class ConnectToServer extends ConnectToServerViewBuilder implements GUIView {
 
@@ -103,6 +104,7 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
         nickText.setLayoutX(461);
         nickText.setLayoutY(419);
         nickText.setPromptText("nickname");
+
 
         portText=new TextField();
         portText.setLayoutX(461);
