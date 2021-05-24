@@ -12,28 +12,54 @@ public class TestViewBuilder extends it.polimi.ingsw.client.view.abstractview.Te
 
     @Override
     public void run() {
-        getCLIView().runOnInput("Write something",()->
+        getCLIView().runOnIntInput("Write 0","ERR1, ",0,0,()->
         {
-            String input = getCLIView().getLastInput();
-            getCLIView().setTitle(new Title("Printed after input "+input));
+            int in = getCLIView().getLastInt();
+            getCLIView().setTitle(new Title("Printed after input "+in));
             getCLIView().refreshCLI();
             //getClient().changeViewBuilder(new CreateJoinLoadMatch(),this);
         });
 
+        //getCLIView().runOnInput("Get in",()->
+        //{
+        //    String in = getCLIView().getLastInput();
+        //    getCLIView().setTitle(new Title("Printed after input "+in));
+        //    getCLIView().refreshCLI();
+        //    //getClient().changeViewBuilder(new CreateJoinLoadMatch(),this);
+        //});
+        //getCLIView().runOnInput("2 Get in",()->
+        //{
+        //    String in = getCLIView().getLastInput();
+        //    getCLIView().setTitle(new Title("2 Printed after input "+in));
+        //    getCLIView().refreshCLI();
+        //    //getClient().changeViewBuilder(new CreateJoinLoadMatch(),this);
+        //});
 
-        Spinner spinner = new Spinner("matches data");
-        spinner.setUpdater(()->
-                {
-                    if (spinner.getEvt().getPropertyName().equals(CommonData.matchesDataString)) {
-                        spinner.setMeanwhileShow("Last matches data: "+spinner.getEvt().getNewValue());
-                        getCLIView().refreshCLI();
 
-                    }
-                }
-        );
+        //Spinner spinner = new Spinner("matches data");
+        //spinner.setUpdater(()->
+        //        {
+        //            if (spinner.getEvt().getPropertyName().equals(CommonData.matchesDataString)) {
+        //                spinner.setMeanwhileShow("Last matches data: "+spinner.getEvt().getNewValue());
+        //                getCLIView().refreshCLI();
+        //
+        //            }
+        //        }
+        //);
         //getCLIView().setSpinner(spinner);
-
         getCLIView().refreshCLI();
+
+        //Simulating matches updates
+        //getCLIView().runOnIntInput("Get1, getting 1","ERR1",1,1,()->
+        //{
+        //    int in = getCLIView().getLastInt();
+        //    getCLIView().setTitle(new Title("Printed after input "+in));
+        //    getCLIView().refreshCLI();
+        //    //getClient().changeViewBuilder(new CreateJoinLoadMatch(),this);
+        //});
+        //
+        //getCLIView().refreshCLI();
+
     }
 
     @Override
