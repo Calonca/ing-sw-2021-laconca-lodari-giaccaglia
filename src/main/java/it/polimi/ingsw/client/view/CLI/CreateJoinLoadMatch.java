@@ -21,7 +21,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         spinner.setPerformer(()->
                 {
                     getCLIView().resetCLI();
-                    getCLIView().setTitle(new Title("Menu:"));
+                    getCLIView().setTitle(new Title("Hey "+getCommonData().getCurrentnick()+", what do you want to do?"));
                     //Initial options
                     Stream<Option> optionsToAdd = getNewOptionList(getClient().getCommonData().getMatchesData());
 

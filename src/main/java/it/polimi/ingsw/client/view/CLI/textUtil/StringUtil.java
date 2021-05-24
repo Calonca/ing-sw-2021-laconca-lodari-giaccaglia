@@ -13,6 +13,10 @@ public class StringUtil {
                 StringBuilder::toString));
     }
 
+    public static String spaces(int numOf){
+        return " ".repeat(numOf);
+    }
+
     public static int maxWidth(String s){
         return Arrays.stream(s.split("\n")).mapToInt(String::length).max().orElse(0);
     }

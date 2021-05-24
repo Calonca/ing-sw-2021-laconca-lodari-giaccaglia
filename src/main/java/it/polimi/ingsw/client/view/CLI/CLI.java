@@ -24,19 +24,18 @@ public class CLI {
     private Optional<Spinner> spinner;
     private Optional<Option> lastChoice=Optional.empty();
     public final AtomicBoolean stopASAP;
-    private Thread inputThread;
-    private String inputMessage;
+
+    private String inputMessage, errorMessage;
     private String lastInput;
     private int lastInt;
-    private boolean isTakingInput;
     private Runnable afterInput;
 
     private int writtenChars;
 
-    //Min is 20
-    public static final int height =50;
-    //Min is 20
-    public static final int width =160;
+    //Min is 21
+    public static final int height =47;
+    //Min is 21
+    public static final int width =185;
 
 
     public CLI(Client client) {
@@ -47,6 +46,27 @@ public class CLI {
         bottom = Optional.empty();
         spinner = Optional.empty();
         writtenChars = 0;
+        Thread inputThread = new Thread(() -> {
+            Scanner scanner = new Scanner(System.in);
+            while (true) {
+                lastInput = scanner.nextLine();
+                Runnable toRun = afterInput;
+                afterInput = this::refreshCLI;
+                inputMessage = "Not asking for input";
+                errorMessage = null;
+                toRun.run();
+            }
+        });
+
+        inputThread.start();
+    }
+
+    public static int getCenterX(){
+        return width/2;
+    }
+
+    public static int getCenterY(){
+        return height/2;
     }
 
     public void setTitle(Title title){
@@ -95,10 +115,7 @@ public class CLI {
     }
 
     private static void clearOptions(CLI cli) throws ChangingViewBuilderBeforeTakingInput {
-        if (cli.isTakingInput)
-        {
-            throw new ChangingViewBuilderBeforeTakingInput();
-        }
+
         cli.title.ifPresent(t->t.removeFromPublishers(cli.client));
         cli.title = Optional.empty();
 
@@ -132,74 +149,51 @@ public class CLI {
         lastChoice.ifPresent(Option::perform);
     }
 
-    private synchronized void commonRunOnInput(String message, Runnable r, Runnable afterInput){
-        if (inputThread!= null && inputThread.isAlive() && isTakingInput) {
-            inputThread.interrupt();
-            isTakingInput = false;
-        }
-        this.afterInput = afterInput;
+    public void runOnInput(String message, Runnable r1){
         inputMessage = message;
-        inputThread = new Thread(r);
+        errorMessage = null;
+        afterInput = r1;
     }
 
-    private synchronized void callRunnableAfterGettingInput(){
-        afterInput.run();
-        inputThread = null;
-    }
-
-    public synchronized void runOnInput(String message, Runnable r1){
-        Runnable r = ()-> {
-            print(Color.colorString(message,Color.ANSI_GREEN));
-            putEndDiv();
-            lastInput = getInString();
-            callRunnableAfterGettingInput();
-        };
-        commonRunOnInput(message,r,r1);
-    }
-
-    public synchronized void runOnIntInput(String message, String errorMessage, int min, int max, Runnable r1){
-        Runnable r = ()-> {
-            int choice;
-            do  {
-                print(Color.colorString(message,Color.ANSI_GREEN));
-                putEndDiv();
-                String in = getInString();
-                try
+    public void runOnIntInput(String message, String errorMessage, int min, int max, Runnable r1){
+        inputMessage = message;
+        afterInput = ()->{
+            try
+            {
+                int choice = Integer.parseInt(lastInput);
+                if (choice<min||choice>max)
                 {
-                    choice = Integer.parseInt(in);
-                    if (choice<min||choice>max)
-                    {
-                        printError(errorMessage);
-                        if (choice<min)
-                            printError("Insert a GREATER number!");
-                        else printError("Insert a SMALLER number!");
-                    }else {
-                        break;
+                    this.errorMessage = errorMessage;
+                    if (choice<min) {
+                        this.errorMessage += "Insert a GREATER number!";
                     }
+                    else {
+                        this.errorMessage += "Insert a SMALLER number!";
+                    }
+                    runOnIntInput(message,errorMessage,min,max,r1);
+                    refreshCLI();
+                }else {
+                    lastInt = choice;
+                    r1.run();
                 }
-                catch (NumberFormatException e){
-                    printError(errorMessage);
-                    printError("Insert a NUMBER!");
-                }
-            }while(true);
-            lastInt = choice;
-            lastInput = Integer.toString(choice);
-            callRunnableAfterGettingInput();
+            }
+            catch (NumberFormatException e){
+                this.errorMessage = errorMessage+"Insert a NUMBER!";
+                runOnIntInput(message,errorMessage,min,max,r1);
+                refreshCLI();
+            }
         };
-        commonRunOnInput(message,r,r1);
     }
 
-    private String getInString(){
-        isTakingInput = true;
-        Scanner scanner = new Scanner(System.in);
-        isTakingInput = false;
-        return scanner.nextLine();
-    }
 
+    private void printLine(String s){
+        writtenChars += s.length()+1;
+        System.out.println(s);
+    }
 
     private void print(String s){
         writtenChars += s.length();
-        System.out.println(s);
+        System.out.print(s);
     }
 
     private void printError(String error){
@@ -211,25 +205,18 @@ public class CLI {
      */
     private synchronized void display(){
         putDivider();
-        title.ifPresent(t->print(t.toString()+"\n"));
+        title.ifPresent(t-> print(t.toString()));
+        putDivider();
+        body.ifPresent(b-> print(b.toString()));
+        putDivider();
+        bottom.ifPresent(b-> printLine(b.toString()));
 
-        body.ifPresent(b->print(b.toString()+"\n"));
+        spinner.ifPresent(spinner1 -> printLine(spinner1.toString()));
 
-        bottom.ifPresent(b->print(b.toString()));
-
-        spinner.ifPresent(spinner1 -> print(spinner1.toString()));
-
-        //Todo: Sometimes the choices are not updated
-        //Can be solved via a check after taking the input
-        //printError("Sometimes the choices are not updated, sometimes you have to select new match 2 times");
-        if (isTakingInput){
-            //Should never get here
-            print(Color.colorString(inputMessage,Color.ANSI_GREEN));
-            putEndDiv();
-        }
-        else if (inputThread!=null && !inputThread.isAlive()) {
-            inputThread.start();
-        } else putEndDiv();
+        putEndDiv();
+        if (errorMessage!=null)
+            printError(errorMessage+" ");
+        printLine(Color.colorString(inputMessage,Color.ANSI_GREEN));
     }
 
     static void cleanConsole() {
@@ -252,8 +239,7 @@ public class CLI {
 
 
     public void putDivider(){
-
-        print(
+        printLine(
                 Characters.VERT_DIVIDER.getString()+
                 Characters.HOR_DIVIDER.repeated(width)+
                 Characters.VERT_DIVIDER.getString()
@@ -261,7 +247,11 @@ public class CLI {
     }
 
     public void putEndDiv(){
-        putDivider();
+        printLine(
+                Characters.HOR_DIVIDER.getString()+
+                        Characters.HOR_DIVIDER.repeated(width)+
+                        Characters.VERT_DIVIDER.getString()
+        );
     }
 
     public void scroll(){

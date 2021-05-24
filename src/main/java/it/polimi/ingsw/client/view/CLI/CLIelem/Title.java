@@ -1,5 +1,8 @@
 package it.polimi.ingsw.client.view.CLI.CLIelem;
 
+import it.polimi.ingsw.client.view.CLI.CLI;
+import it.polimi.ingsw.client.view.CLI.textUtil.MatrixPrinter;
+
 public class Title extends CLIelem{
     private String title;
 
@@ -17,7 +20,9 @@ public class Title extends CLIelem{
 
     @Override
     public String toString() {
-        return title;
+        MatrixPrinter matrixPrinter = MatrixPrinter.withBorder(CLI.width,1);
+        matrixPrinter.print(CLI.getCenterX()-title.length()/2,0,title);
+        return matrixPrinter.toString();
     }
 
     @Override

@@ -11,10 +11,13 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements CLIBu
         getCLIView().runOnInput("Write the server ip",()->{
             String portString = getCLIView().getLastInput();
             getCLIView().runOnIntInput("Port number: ","Insert a port",0,65535,()->{
-
                 getClient().setServerConnection(portString, getCLIView().getLastInt());
-                getClient().changeViewBuilder(new CreateJoinLoadMatch());
-                getClient().run();
+                getCLIView().runOnInput("Write your nickname",()->{
+                    String nickname = getCLIView().getLastInput();
+                    getCommonData().setCurrentnick(nickname);
+                    getClient().run();
+                });
+                getCLIView().refreshCLI();
             });
             getCLIView().refreshCLI();
         });
