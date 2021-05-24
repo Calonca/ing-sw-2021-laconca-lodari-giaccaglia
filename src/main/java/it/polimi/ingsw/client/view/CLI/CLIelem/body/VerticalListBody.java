@@ -21,7 +21,7 @@ public class VerticalListBody extends OptionList {
     //Prints horizontally
     @Override
     public String toString() {
-        Canvas canvas = Canvas.withBorder(CLI.width,CLI.height-3);
+        Canvas canvas = Canvas.withBorder(CLI.width,cli.getMaxBodyHeight());
         String spaces = StringUtil.spaces(CLI.getCenterX()-horizontalSize()/2);
         canvas.drawWithDefaultColor(spaces.length(),0,stringWithNumber());
         return canvas.toString();
