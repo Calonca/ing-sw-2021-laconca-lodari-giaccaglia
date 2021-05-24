@@ -57,6 +57,7 @@ public class Option extends CLIelem{
     }
 
     private String colorIfSelected(String s){
+        selected = false;
         if (selected)
             return Color.colorStringAndBackground(StringUtil.stringUntilReachingSize(s,horizontalSize()),Color.ANSI_BLACK, Background.ANSI_WHITE_BACKGROUND);
         else return StringUtil.stringUntilReachingSize(s,horizontalSize());

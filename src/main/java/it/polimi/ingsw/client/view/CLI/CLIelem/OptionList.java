@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.view.CLI.CLI;
 import it.polimi.ingsw.client.view.CLI.CLIelem.CLIelem;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Option;
+import it.polimi.ingsw.client.view.CLI.textUtil.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,18 +13,14 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class OptionList extends CLIelem {
-    private List<Option> options;
+public abstract class OptionList extends CLIelem {
+    protected List<Option> options;
 
     public OptionList(){
         options = new ArrayList<>();
         setUpdater(()-> {});
     }
 
-    @Override
-    public int horizontalSize() {
-        return -1;
-    }
 
     public OptionList(Stream<Option> optionStream){
         options = optionStream.collect(Collectors.toList());
@@ -64,11 +61,6 @@ public class OptionList extends CLIelem {
             cli.performLastChoice();
         };
         cli.runOnIntInput("Select a choice:","Select a valid choice",0,options.size()-1,r);
-    }
-
-    public Stream<String> toStringStream() {
-        return IntStream.range(0,options.size())
-                .mapToObj(i->i+": "+options.get(i).toString());
     }
 
     @Override
