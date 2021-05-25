@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class LeadersPhaseMessageBuilder {
+public class PlayerLeadersMessageBuilder {
 
     public static Map<UUID, Boolean> playerLeaders(GameModel gameModel){
 

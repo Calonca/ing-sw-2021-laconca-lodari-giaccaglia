@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.simplemodel;
+package it.polimi.ingsw.network.simplemodel;
 
 
 import java.nio.file.Path;

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.simplemodel;
+package it.polimi.ingsw.network.simplemodel;
 
 import it.polimi.ingsw.client.json.Deserializator;
 import it.polimi.ingsw.network.assets.DevelopmentCardAsset;

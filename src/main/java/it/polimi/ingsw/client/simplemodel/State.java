@@ -1,22 +1,4 @@
-package it.polimi.ingsw.server.model.states;
-import it.polimi.ingsw.network.messages.servertoclient.state.*;
-import it.polimi.ingsw.network.simplemodel.Element;
-import it.polimi.ingsw.network.simplemodel.SimpleModelElement;
-import it.polimi.ingsw.server.messages.messagebuilders.*;
-import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.server.model.Resource;
-import it.polimi.ingsw.server.model.cards.*;
-import it.polimi.ingsw.server.model.player.leaders.Leader;
-import it.polimi.ingsw.server.model.market.Marble;
-import it.polimi.ingsw.server.model.market.MarketBoard;
-import it.polimi.ingsw.server.model.market.MarketLine;
-import it.polimi.ingsw.server.model.player.board.*;
-
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.stream.Collectors;
+package it.polimi.ingsw.client.simplemodel;
 
 /**
  *  <p>Enum class for player turn phases represented as FSM States. Game turn is divided in three macro phases.<br>
@@ -59,10 +41,11 @@ import java.util.stream.Collectors;
 public enum State {
 
     /**
-     * Initial game phase where each player receives two {@link Leader LeaderCards}, faithPoints and {@link Resource Resources}
+     * Initial game phase where each player receives two LeaderCards, faithPoints and Resources
      * according to players' numbering.
      */
     SETUP_PHASE,
+
 
     /**
      * Initial turn phase where player can either perform a <em>"Leader action"</em> or skip to {@link State#MIDDLE_PHASE}
@@ -71,10 +54,11 @@ public enum State {
     INITIAL_PHASE,
 
     /**
-     * Optional beginning turn phase to show player's current available {@link Leader Leaders}
+     * Optional beginning turn phase to show player's current available Leaders
      * for <em>Leader Action</em> performance.
      */
     SHOWING_LEADERS_INITIAL,
+
 
     /**
      * Core turn phase where player perform a <em>Normal Action</em>.
@@ -82,49 +66,49 @@ public enum State {
     MIDDLE_PHASE,
 
     /**
-     * <em>Normal Action</em> phase to choose a {@link DevelopmentCard} from {@link PersonalBoard}
+     * <em>Normal Action</em> phase to choose a DevelopmentCard from PersonalBoard
      * to activate the <em>Production</em>
      */
     CHOOSING_CARD_FOR_PRODUCTION,
 
     /**
      * <em>Normal Action</em> phase following {@link State#CHOOSING_CARD_FOR_PRODUCTION}, where player chooses
-     * {@link Resource Resources} stored in any available type of {@link Box}, to complete the production process.
+     Resources stored in any available type of Box, to complete the production process.
      */
     CHOOSING_RESOURCE_FOR_PRODUCTION,
 
     /**
-     * <em>Normal Action</em> phase to show {@link MarketBoard} and let player choose a
-     * {@link MarketLine line}(row or column) to pick {@link Marble Marbles} from.
+     * <em>Normal Action</em> phase to show MarketBoard and let player choose a
+     * MarketLine (row or column) to pick Marbles from.
      */
     SHOWING_MARKET_RESOURCES,
 
     /**
-     * <em>Normal Action</em> phase to choose the corresponding {@link Marble#WHITE} Marble's {@link Resource}
-     * when two <em>Production</em> {@link Leader Leaders} have been previously played.
+     * <em>Normal Action</em> phase to choose the corresponding White Marble's Resource
+     * when two <em>Production</em> Leaders have been previously played.
      */
     CHOOSING_WHITEMARBLE_CONVERSION,
 
     /**
-     * <em>Normal Action</em> phase to place the {@link Resource Resources} taken from the {@link MarketBoard} in the
+     * <em>Normal Action</em> phase to place the Resources taken from the MarketBoard in the
      * <em>Wharehouse</em> depot.
      */
     CHOOSING_POSITION_FOR_RESOURCES,
 
     /**
-     * <em>Normal Action</em> phase to show {@link DevelopmentCard DevelopmentCards} from {@link CardShop},
+     * <em>Normal Action</em> phase to show DevelopmentCards from CardShop,
      */
     SHOWING_CARD_SHOP,
 
     /**
      * <em>Normal Action</em> phase following {@link State#SHOWING_CARD_SHOP}
-     * where player chooses one {@link DevelopmentCard NetworkDevelopmentCard} to purchase.
+     * where player chooses one DevelopmentCard to purchase.
      */
     CHOOSING_DEVELOPMENT_CARD,
 
     /**
      * <em>Normal Action</em> phase following {@link State#CHOOSING_DEVELOPMENT_CARD} where player chooses resources
-     * among available ones in {@link PersonalBoard}.
+     * among available ones in PersonalBoard.
      */
     CHOOSING_RESOURCES_FOR_DEVCARD,
     /**
@@ -141,7 +125,7 @@ public enum State {
     FINAL_PHASE,
 
     /**
-     * Optional ending turn phase to show player's current available {@link Leader Leaders}
+     * Optional ending turn phase to show player's current available Leaders
      * for <em>Leader Action</em> performance.
      */
     SHOWING_LEADERS_FINAL,
@@ -165,20 +149,7 @@ public enum State {
     /**
      * Losing players phase when game ends, after <em>Victory Points</em> calculation.
      */
-    LOSING_STATE;
+    LOSING_STATE,
 
-    /**
-     * Serializes objects useful for the view corresponding to that state in json
-     * @param gameModel the {@link GameModel gamemodel} of the curent game
-     * @return a String in json format
-     */
-    public StateInNetwork toStateMessage(GameModel gameModel, List<Element> elementsToUpdate) {
-        List<SimpleModelElement> playerSimpleModelElements = elementsToUpdate.stream().filter(element -> !element.isCommonElement()).map(element -> element.buildSimpleModelElement(gameModel)).collect(Collectors.toList());
-        List<SimpleModelElement> commonSimpleModelElements = elementsToUpdate.stream().filter(Element::isCommonElement).map(element -> element.buildSimpleModelElement(gameModel)).collect(Collectors.toList());
 
-        return new StateInNetwork(
-                gameModel.getPlayerIndex(gameModel.getCurrentPlayer()),
-                this, playerSimpleModelElements,
-                commonSimpleModelElements);
-    }
 }

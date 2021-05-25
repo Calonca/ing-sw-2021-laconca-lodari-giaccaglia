@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.simplemodel;
+package it.polimi.ingsw.network.simplemodel;
 
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCardColor;
@@ -7,11 +7,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class SimpleCardShop {
+public class SimpleCardShop extends SimpleModelElement{
 
     private Map<NetworkDevelopmentCardColor, Map<Integer, List<NetworkDevelopmentCard> >> simpleCardShop;
 
-    public SimpleCardShop(){}
 
     public SimpleCardShop(Map<NetworkDevelopmentCardColor, Map<Integer, List<NetworkDevelopmentCard>>> simpleCardShop) {
         this.simpleCardShop = simpleCardShop;

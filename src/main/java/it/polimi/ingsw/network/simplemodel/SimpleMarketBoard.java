@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.simplemodel;
+package it.polimi.ingsw.network.simplemodel;
 
 import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
 import javafx.util.Pair;
@@ -13,7 +13,7 @@ import java.util.stream.IntStream;
 
 import static java.util.stream.Collectors.groupingBy;
 
-public class SimpleMarketBoard {
+public class SimpleMarketBoard extends SimpleModelElement{
 
     private MarbleAsset[][] marbleMatrix;
     private int marketColumns;
@@ -22,7 +22,6 @@ public class SimpleMarketBoard {
     private MarbleAsset[] pickedMarbles;
     private Path boardAsset = Paths.get("src/main/resources/assets/punchboard/MarketBoard.png");
 
-    public SimpleMarketBoard(){}
 
     public SimpleMarketBoard(UUID[][] marbleMatrix, int marketColumns, int marketRows, UUID slideMarbleId){
 
@@ -44,12 +43,29 @@ public class SimpleMarketBoard {
 
     }
 
+    @Override
+    public MarbleAsset[][] getElement(){
+        return marbleMatrix;
+    }
+
+    @Override
+    public void update(SimpleModelElement element){
+        SimpleMarketBoard board = (SimpleMarketBoard) element;
+        this.marbleMatrix = board.getElement();
+        this.slideMarble = board.getSlideMarble();
+        this.pickedMarbles = board.getPickedMarbles();
+    }
+
     public void setBoardAsset(String path){
         this.boardAsset = Paths.get(path);
     }
 
     public MarbleAsset getSlideMarble(){
         return slideMarble;
+    }
+
+    public MarbleAsset[] getPickedMarbles(){
+        return pickedMarbles;
     }
 
     public MarbleAsset[][] getMarbleMatrix(){
@@ -84,4 +100,6 @@ public class SimpleMarketBoard {
     private static MarbleAsset[] pairToValue(List<Pair<Integer, MarbleAsset>> pos_marArray){
         return pos_marArray.stream().map(Pair::getValue).toArray(MarbleAsset[]::new);
     }
+
+
 }

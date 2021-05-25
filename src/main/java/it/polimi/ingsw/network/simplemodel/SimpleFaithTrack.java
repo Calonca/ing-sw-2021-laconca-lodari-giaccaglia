@@ -1,6 +1,7 @@
-package it.polimi.ingsw.client.simplemodel;
+package it.polimi.ingsw.network.simplemodel;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.server.model.player.track.FaithTrack;
 import org.apache.commons.lang3.tuple.MutablePair;
 
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
 import static it.polimi.ingsw.network.jsonUtils.JsonUtility.deserialize;
 import static it.polimi.ingsw.network.jsonUtils.JsonUtility.deserializeFromString;
 
-public class SimpleFaithTrack {
+public class SimpleFaithTrack extends SimpleModelElement {
 
     /**
      *  <p>Enum class for the <em>Faith Marker</em> and the <em>Black Cross</em> token of <em>Solo mode</em>
@@ -28,23 +29,34 @@ public class SimpleFaithTrack {
 
     }
 
+    private String config;
+
     private final MutablePair<Piece, Integer> playerPiece = new MutablePair<>(Piece.PLAYER, 0);
     private final MutablePair<Piece, Integer> lorenzoPiece = new MutablePair<>(Piece.LORENZO, 0);
 
-    public SimpleFaithTrack faithTrackConstructor(){
+    @Override
+    public String getElement(){
+        return config;
+    }
 
-        return deserialize("src/main/resources/config/FaithTrackConfig.json", SimpleFaithTrack.class);
+    @Override
+    public void update(SimpleModelElement element){
+        String config = (String) element.getElement();
+        updateTrack(config);
 
     }
 
-    public SimpleFaithTrack updateTrack(String config){
+    public SimpleFaithTrack faithTrackConstructor(String config){
+        return updateTrack(config);
+    }
 
+    public SimpleFaithTrack updateTrack(String config){
         return deserializeFromString(config, SimpleFaithTrack.class, new Gson());
 
     }
 
     /**
-     * <p>{@link List} of {@link it.polimi.ingsw.client.simplemodel.FaithCell FaithCells} objects representing the core structure of the <em>FaithTrack</em>.<br>
+     * <p>{@link List} of {@link it.polimi.ingsw.network.simplemodel.FaithCell FaithCells} objects representing the core structure of the <em>FaithTrack</em>.<br>
      * The default number of elements is 25, which is set on the game setup.
      */
     private List<FaithCell> track;

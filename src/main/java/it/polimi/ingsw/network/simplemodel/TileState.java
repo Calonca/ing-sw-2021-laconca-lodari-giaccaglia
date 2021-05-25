@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.simplemodel;
+package it.polimi.ingsw.network.simplemodel;
 
 import it.polimi.ingsw.server.model.player.track.FaithTrack;
 import it.polimi.ingsw.server.model.player.track.PopeFavourTile;
