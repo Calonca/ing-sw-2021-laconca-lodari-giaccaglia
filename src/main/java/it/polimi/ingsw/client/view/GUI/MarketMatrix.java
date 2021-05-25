@@ -14,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -46,6 +47,7 @@ public class MarketMatrix extends CreateJoinLoadMatchViewBuilder implements GUIV
     boolean selected=false;
     public Sphere toPut;
     public int ROWSIZE=4;
+    public int ROWNUMBER=3;
     public double ballsize=1.03;
     public AnchorPane marketPane;
     double LOWER_CORNER_X=-4.5;
@@ -74,7 +76,23 @@ public class MarketMatrix extends CreateJoinLoadMatchViewBuilder implements GUIV
 
     }
 
+    public void moveX(Sphere sphere,double x, Duration duration)
+    {
+        TranslateTransition transition = new TranslateTransition(Duration.seconds(0.75), sphere);
+        transition.setToX(x);
+        transition.setDelay(duration);
+        transition.setAutoReverse(false);
+        transition.play();
+    }
 
+    public void moveY(Sphere sphere,double y, Duration duration)
+    {
+        TranslateTransition transition = new TranslateTransition(Duration.seconds(0.75), sphere);
+        transition.setToY(y);
+        transition.setAutoReverse(false);
+        transition.setDelay(duration);
+        transition.play();
+    }
 
     public void generateRow(Group root3D,double x, double y, int h){
 
@@ -85,9 +103,7 @@ public class MarketMatrix extends CreateJoinLoadMatchViewBuilder implements GUIV
             ball.translateYProperty().set(y+i*2);
             ball.translateXProperty().set(x);
             ball.setMaterial(new PhongMaterial(Color.PURPLE));
-
             root3D.getChildren().add(ball);
-
             row.add(ball);
 
         }
@@ -100,29 +116,15 @@ public class MarketMatrix extends CreateJoinLoadMatchViewBuilder implements GUIV
                 return;
             selected=true;
 
-            TranslateTransition transition = new TranslateTransition(Duration.seconds(0.25), toPut);
-            transition.setToX(x);
-            transition.setAutoReverse(false);
-            transition.play();
+            moveX(toPut,x,new Duration(0));
+            moveY(toPut,toPut.getTranslateY()-2,new Duration(700));
 
-            transition = new TranslateTransition(Duration.seconds(0.75), toPut);
-            transition.setToY(toPut.getTranslateY()-2);
-            transition.setAutoReverse(false);
-            transition.setDelay(new Duration(700));
-            transition.play();
 
             int k=ROWSIZE*500;
             for (Sphere circle : row) {
                 System.out.println("X" + toPut.getTranslateX()+"Y"+toPut.getTranslateY()+"Z"+toPut.getTranslateZ());
 
-                transition = new TranslateTransition(Duration.seconds(0.75), circle);
-                transition.setToY(circle.getTranslateY()-2);
-                transition.setAutoReverse(false);
-                transition.setDelay(new Duration(700));
-
-                k-=500;
-                transition.play();
-
+                moveY(circle,circle.getTranslateY()-2,new Duration(700));
 
             }
             Sphere temp=row.get(0);
@@ -131,17 +133,10 @@ public class MarketMatrix extends CreateJoinLoadMatchViewBuilder implements GUIV
             toPut=temp;
             toPut.setMaterial(new PhongMaterial(Color.BLANCHEDALMOND));
 
-            transition = new TranslateTransition(Duration.seconds(0.7), toPut);
-            transition.setToX(3.5);
-            transition.setDelay(new Duration(1700));
-            transition.setAutoReverse(false);
-            transition.play();
+            moveX(toPut,3.5,new Duration(1700));
 
-            transition = new TranslateTransition(Duration.seconds(1), toPut);
-            transition.setToY(LOWER_CORNER_Y);
-            transition.setDelay(new Duration(3000));
-            transition.setAutoReverse(false);
-            transition.play();
+            moveY(toPut,LOWER_CORNER_Y,new Duration(3000));
+
 
 
 
@@ -187,32 +182,20 @@ public class MarketMatrix extends CreateJoinLoadMatchViewBuilder implements GUIV
             selected=true;
 
 
-            TranslateTransition transition = new TranslateTransition(Duration.seconds(0.25), toPut);
-            transition.setToY(y);
-            transition.setAutoReverse(false);
-            transition.play();
+            moveY(toPut,y,new Duration(0));
+            moveX(toPut,-2.5,new Duration(700));
 
-            TranslateTransition trans = new TranslateTransition(Duration.seconds(0.75), toPut);
-            trans.setToX(-2.5);
-            trans.setDelay(new Duration(700));
-            trans.setAutoReverse(false);
-            trans.play();
 
             ArrayList<Sphere> column= new ArrayList<>();
             for (List<Sphere> row : rows) column.add(row.get(i));
 
-            int k=ROWSIZE*500;
             for (Sphere circle : column) {
 
 
                 System.out.println("X" + toPut.getTranslateX()+"Y"+toPut.getTranslateY()+"Z"+toPut.getTranslateZ());
-                transition = new TranslateTransition(Duration.seconds(0.75), circle);
-                transition.setToX(circle.getTranslateX()+2);
-                transition.setDelay(new Duration(700));
+                moveX(circle,circle.getTranslateX()+2,new Duration(700));
+
                 System.out.println("you will get a " + circle.getMaterial().toString());
-                k-=500;
-                transition.setAutoReverse(false);
-                transition.play();
 
 
             }
@@ -221,13 +204,11 @@ public class MarketMatrix extends CreateJoinLoadMatchViewBuilder implements GUIV
             column.add(toPut);
             toPut=temp;
             toPut.setMaterial(new PhongMaterial(Color.BLANCHEDALMOND));
-            transition = new TranslateTransition(Duration.seconds(0.75), toPut);
-            transition.setToY(LOWER_CORNER_Y);
-            transition.setToX(LOWER_CORNER_X);
+            moveX(toPut,LOWER_CORNER_X,new Duration(1000));
+            moveY(toPut,LOWER_CORNER_Y,new Duration(1000));
 
-            transition.setAutoReverse(false);
-            transition.setDelay(new Duration(1000));
-            transition.play();
+
+
         });
 
 
@@ -261,10 +242,16 @@ public class MarketMatrix extends CreateJoinLoadMatchViewBuilder implements GUIV
         toPut.setMaterial(new PhongMaterial(Color.GOLD));
         root3D.getChildren().add(toPut);
 
+        double x=1.5;
+        int h=175;
+        for(int i=0;i<ROWNUMBER;i++)
+        {
+            generateRow(root3D,x,-4.5,h);
+            x-=2;
+            h+=150;
+        }
 
-        generateRow(root3D,1.5,-4.5,175);
-        generateRow(root3D,-0.5,-4.5,325);
-        generateRow(root3D,-2.5,-4.5,475);
+
 
         generateColumns(rows,225);
 

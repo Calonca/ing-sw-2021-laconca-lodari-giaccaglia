@@ -12,11 +12,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
@@ -30,6 +35,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
 
     @FXML
     public TableView<MatchRow> guiMatchesData;
+    public StackPane cjlPane;
 
     boolean created=false;
     TableColumn<MatchRow,String> nicknames;
@@ -138,14 +144,56 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         guiMatchesData.getColumns().add(nicknames);
         guiMatchesData.getColumns().add(UUIDs);
 
-
         guiMatchesData.setItems(data);
 
+        AnchorPane temppane=new AnchorPane();
+        temppane.setPrefHeight(200);
+        temppane.setPrefWidth(200);
+        Label templabel=new Label("players");
+        templabel.setLayoutY(10);
+        templabel.setLayoutX(50);
+        temppane.getChildren().add(templabel);
+        Button but=new Button();
+        but.setLayoutY(100);
+        but.setLayoutX(100);
+        but.setOnAction( p ->
+        {
+            int a= (int) playerCount.getValue();
+            System.out.println(a+Client.getInstance().getCommonData().getCurrentnick());
+            Client.getInstance().getServerHandler().sendCommandMessage(new CreateMatchRequest(a,Client.getInstance().getCommonData().getCurrentnick()));
+            created=true;
+            Client.getInstance().changeViewBuilder(new CreateMatch());
+        });
 
+        but.setGraphic(new Label("CREATE"));
+        playerCount=new Slider(1,4,1);
+
+        playerCount.setBlockIncrement(4);
+        playerCount.setMinorTickCount(0);
+        playerCount.setMajorTickUnit(1);
+        playerCount.setShowTickLabels(true);
+        playerCount.setShowTickMarks(true);
+        playerCount.setSnapToTicks(true);
+
+        temppane.getChildren().add(playerCount);
+        playerCount.setLayoutX(200);
+        playerCount.setLayoutY(200);
+        temppane.setStyle("-fx-background-color: #DEB887");
+        temppane.getChildren().add(but);
+
+
+        GridPane ciccio=new GridPane();
+        ciccio.setPadding(new Insets(10,10,10,10));
+        ciccio.add(temppane,0,0);
+
+        cjlPane.getChildren().remove(guiMatchesData);
+        cjlPane.getChildren().add(ciccio);
         guiMatchesData.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         guiMatchesData.getSelectionModel().setCellSelectionEnabled(true);
         System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(
                 Client.getInstance().getCommonData().getMatchesData().orElse(null)));
+
+
 
     }
 }
