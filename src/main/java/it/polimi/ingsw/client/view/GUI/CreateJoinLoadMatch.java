@@ -40,11 +40,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
     boolean created=false;
     TableColumn<MatchRow,String> nicknames;
     TableColumn<MatchRow,UUID> UUIDs;
-    @FXML
-    private Button joinLoadButton;
-    @FXML
-    private Button createButton;
-    @FXML
+
     private Slider playerCount;
     public int tileheight=70;
 
@@ -79,9 +75,10 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         if (evt.getPropertyName().equals(CommonData.matchesDataString))
             Platform.runLater(()->
             {
+                /*
                 if(!created)
                 {
-                //todo fix this may be ugly
+                //todo clean this up
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(getClass().getResource("/fxml/CreateJoinLoadMatch.fxml"));
                 Parent root = null;
@@ -95,7 +92,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
 
                 getClient().getStage().setScene(scene);
                 getClient().getStage().show();
-                }
+                }*/
             });
 
     }
@@ -108,6 +105,10 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         return templist;
     }
 
+    /**
+     * First tile has a bonus slider and sends a different request to the server.
+     * @return the Create slider. This is a service method
+     */
     public AnchorPane creationTile(){
         AnchorPane temppane=new AnchorPane();
         temppane.setPrefHeight(tileheight);
@@ -144,17 +145,26 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         return temppane;
     }
 
+    /**
+     * Converts MatchRow to a suitable type to be added to a GridPane
+     * @param matchRow is not null
+     * @return the corresponding AnchorPane
+     */
     public AnchorPane matchToTile(MatchRow matchRow)
     {
 
         AnchorPane temppane=new AnchorPane();
+
         temppane.setPrefHeight(tileheight);
         temppane.setPrefWidth(tiledim+150);
+
         Label templabel=new Label(matchRow.getPeople());
         templabel.setMaxSize(tiledim,40);
         templabel.setLayoutY(10);
         templabel.setLayoutX(10);
+
         temppane.getChildren().add(templabel);
+
         Button but=new Button();
         but.setLayoutY(tileheight-20);
         but.setLayoutX(40);
@@ -188,7 +198,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
 
         guiMatchesData.getColumns().add(nicknames);
         guiMatchesData.getColumns().add(UUIDs);
-
+        //tableview init code
         guiMatchesData.setItems(data);
 
 
@@ -204,20 +214,19 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         List<MatchRow> temp=dataToRow();
         int row=0;
         int column=1;
-        temp.add(new MatchRow(UUID.randomUUID(),"topo"));
-        temp.add(new MatchRow(UUID.randomUUID(),"topo"));
-        temp.add(new MatchRow(UUID.randomUUID(),"topo,cane,cantalupo,porpora"));
-        temp.add(new MatchRow(UUID.randomUUID(),"topo"));
-        temp.add(new MatchRow(UUID.randomUUID(),"topo"));
-        temp.add(new MatchRow(UUID.randomUUID(),"topo"));
-        temp.add(new MatchRow(UUID.randomUUID(),"topo"));
-        temp.add(new MatchRow(UUID.randomUUID(),"topo"));
-        temp.add(new MatchRow(UUID.randomUUID(),"topo"));
-        temp.add(new MatchRow(UUID.randomUUID(),"topo"));
-        temp.add(new MatchRow(UUID.randomUUID(),"top0000000000000000o"));
-        temp.add(new MatchRow(UUID.randomUUID(),"topo"));
+        temp.add(new MatchRow(UUID.randomUUID(),"lorenzo"));
+        temp.add(new MatchRow(UUID.randomUUID(),"lorenzo"));
+        temp.add(new MatchRow(UUID.randomUUID(),"lorenzo,gigi,cantalupo,porpora"));
+        temp.add(new MatchRow(UUID.randomUUID(),"lorenzo"));
+        temp.add(new MatchRow(UUID.randomUUID(),"lorenzo"));
+        temp.add(new MatchRow(UUID.randomUUID(),"lorenzo"));
+        temp.add(new MatchRow(UUID.randomUUID(),"lorenzo le magnifique"));
+        temp.add(new MatchRow(UUID.randomUUID(),"lorenzo"));
+        temp.add(new MatchRow(UUID.randomUUID(),"lorenzo"));
+        temp.add(new MatchRow(UUID.randomUUID(),"lorenzo"));
+        temp.add(new MatchRow(UUID.randomUUID(),"lorenzo il magnifico"));
+        temp.add(new MatchRow(UUID.randomUUID(),"lorenzo"));
 
-        temp.add(new MatchRow(UUID.randomUUID(),"topo"));
 
 
         while(!temp.isEmpty())
