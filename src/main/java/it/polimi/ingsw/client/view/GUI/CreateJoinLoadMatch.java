@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.view.GUI.GUIelem.MatchRow;
 import it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchViewBuilder;
+import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.network.messages.clienttoserver.CreateMatchRequest;
 import it.polimi.ingsw.network.messages.clienttoserver.JoinMatchRequest;
 import javafx.application.Platform;
@@ -27,7 +28,6 @@ import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
-
 /**
  * The user will be asked if they want to join a match of their choosing or create one.
  */
@@ -36,7 +36,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
     @FXML
     public TableView<MatchRow> guiMatchesData;
     public StackPane cjlPane;
-
+    public double tiledim;
     boolean created=false;
     TableColumn<MatchRow,String> nicknames;
     TableColumn<MatchRow,UUID> UUIDs;
@@ -46,7 +46,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
     private Button createButton;
     @FXML
     private Slider playerCount;
-
+    public int tileheight=70;
 
     @Override
     public void run() {
@@ -65,30 +65,9 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         getClient().getStage().show();
     }
 
-    //Add buttons here that call client.changeViewBuilder(new *****, this);
 
 
 
-    public void handleJoin(){
-        ObservableList<MatchRow> selected;
-        selected=guiMatchesData.getSelectionModel().getSelectedItems();
-        if(selected.size()!=0)
-        {
-            System.out.println(selected.get(0).getKey()+Client.getInstance().getCommonData().getCurrentnick());
-            Client.getInstance().getServerHandler().sendCommandMessage(new JoinMatchRequest(selected.get(0).getKey(),Client.getInstance().getCommonData().getCurrentnick()));
-            Client.getInstance().changeViewBuilder(new CreateMatch());
-
-        }
-
-    }
-
-    public void handleCreate(){
-        int a= (int) playerCount.getValue();
-        System.out.println(a+Client.getInstance().getCommonData().getCurrentnick());
-        Client.getInstance().getServerHandler().sendCommandMessage(new CreateMatchRequest(a,Client.getInstance().getCommonData().getCurrentnick()));
-        created=true;
-        Client.getInstance().changeViewBuilder(new CreateMatch());
-    }
 
     public void clickedColumn(MouseEvent event)
     {
@@ -129,10 +108,76 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         return templist;
     }
 
+    public AnchorPane creationTile(){
+        AnchorPane temppane=new AnchorPane();
+        temppane.setPrefHeight(tileheight);
+        temppane.setPrefWidth(tiledim+150);
+
+        Button but=new Button();
+        but.setLayoutY(tileheight-20);
+        but.setLayoutX(30);
+        but.setOnAction( p ->
+        {
+            int a= (int) playerCount.getValue();
+            System.out.println(a+Client.getInstance().getCommonData().getCurrentnick());
+            Client.getInstance().getServerHandler().sendCommandMessage(new CreateMatchRequest(a,Client.getInstance().getCommonData().getCurrentnick()));
+            created=true;
+            Client.getInstance().changeViewBuilder(new CreateMatch());
+        });
+
+        but.setGraphic(new Label("CREATE"));
+        playerCount=new Slider(1,4,1);
+        playerCount.setMaxWidth(tiledim);
+        playerCount.setBlockIncrement(4);
+        playerCount.setMinorTickCount(0);
+        playerCount.setMajorTickUnit(1);
+        playerCount.setShowTickLabels(true);
+        playerCount.setShowTickMarks(true);
+        playerCount.setSnapToTicks(true);
+
+        temppane.getChildren().add(playerCount);
+        playerCount.setLayoutX(0);
+        playerCount.setLayoutY(0);
+        temppane.setStyle("-fx-background-color: #DEB887");
+        temppane.getChildren().add(but);
+
+        return temppane;
+    }
+
+    public AnchorPane matchToTile(MatchRow matchRow)
+    {
+
+        AnchorPane temppane=new AnchorPane();
+        temppane.setPrefHeight(tileheight);
+        temppane.setPrefWidth(tiledim+150);
+        Label templabel=new Label(matchRow.getPeople());
+        templabel.setMaxSize(tiledim,40);
+        templabel.setLayoutY(10);
+        templabel.setLayoutX(10);
+        temppane.getChildren().add(templabel);
+        Button but=new Button();
+        but.setLayoutY(tileheight-20);
+        but.setLayoutX(40);
+        but.setOnAction( p ->
+        {
+            System.out.println(matchRow.getKey()+Client.getInstance().getCommonData().getCurrentnick());
+            Client.getInstance().getServerHandler().sendCommandMessage(new JoinMatchRequest(matchRow.getKey(),Client.getInstance().getCommonData().getCurrentnick()));
+            Client.getInstance().changeViewBuilder(new CreateMatch());
+        });
+
+        but.setGraphic(new Label("JOIN"));
+        temppane.setStyle("-fx-background-color: #DEB887");
+        temppane.getChildren().add(but);
+
+        return temppane;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
+       // double rowdim=( Math.sqrt(dataToRow().size())+1);
+        tiledim= 264;
+
         nicknames= new TableColumn<MatchRow,String>("NICKNAMES");
         UUIDs= new TableColumn<MatchRow,UUID>("UUID");
 
@@ -146,52 +191,59 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
 
         guiMatchesData.setItems(data);
 
-        AnchorPane temppane=new AnchorPane();
-        temppane.setPrefHeight(200);
-        temppane.setPrefWidth(200);
-        Label templabel=new Label("players");
-        templabel.setLayoutY(10);
-        templabel.setLayoutX(50);
-        temppane.getChildren().add(templabel);
-        Button but=new Button();
-        but.setLayoutY(100);
-        but.setLayoutX(100);
-        but.setOnAction( p ->
+
+
+        GridPane grid=new GridPane();
+        grid.setPadding(new Insets(50,50,50,50));
+        grid.setHgap(50);
+        grid.setVgap(35);
+
+        grid.add(creationTile(),0,0);
+
+
+        List<MatchRow> temp=dataToRow();
+        int row=0;
+        int column=1;
+        temp.add(new MatchRow(UUID.randomUUID(),"topo"));
+        temp.add(new MatchRow(UUID.randomUUID(),"topo"));
+        temp.add(new MatchRow(UUID.randomUUID(),"topo,cane,cantalupo,porpora"));
+        temp.add(new MatchRow(UUID.randomUUID(),"topo"));
+        temp.add(new MatchRow(UUID.randomUUID(),"topo"));
+        temp.add(new MatchRow(UUID.randomUUID(),"topo"));
+        temp.add(new MatchRow(UUID.randomUUID(),"topo"));
+        temp.add(new MatchRow(UUID.randomUUID(),"topo"));
+        temp.add(new MatchRow(UUID.randomUUID(),"topo"));
+        temp.add(new MatchRow(UUID.randomUUID(),"topo"));
+        temp.add(new MatchRow(UUID.randomUUID(),"top0000000000000000o"));
+        temp.add(new MatchRow(UUID.randomUUID(),"topo"));
+
+        temp.add(new MatchRow(UUID.randomUUID(),"topo"));
+
+
+        while(!temp.isEmpty())
         {
-            int a= (int) playerCount.getValue();
-            System.out.println(a+Client.getInstance().getCommonData().getCurrentnick());
-            Client.getInstance().getServerHandler().sendCommandMessage(new CreateMatchRequest(a,Client.getInstance().getCommonData().getCurrentnick()));
-            created=true;
-            Client.getInstance().changeViewBuilder(new CreateMatch());
-        });
+            if(column==2)
+            {
+                column=0;
+                row++;
+            }
+            grid.add(matchToTile(temp.get(0)),column,row);
+            column++;
+            temp.remove(0);
 
-        but.setGraphic(new Label("CREATE"));
-        playerCount=new Slider(1,4,1);
-
-        playerCount.setBlockIncrement(4);
-        playerCount.setMinorTickCount(0);
-        playerCount.setMajorTickUnit(1);
-        playerCount.setShowTickLabels(true);
-        playerCount.setShowTickMarks(true);
-        playerCount.setSnapToTicks(true);
-
-        temppane.getChildren().add(playerCount);
-        playerCount.setLayoutX(200);
-        playerCount.setLayoutY(200);
-        temppane.setStyle("-fx-background-color: #DEB887");
-        temppane.getChildren().add(but);
+        }
 
 
-        GridPane ciccio=new GridPane();
-        ciccio.setPadding(new Insets(10,10,10,10));
-        ciccio.add(temppane,0,0);
-
+        ScrollPane scrollPane= new ScrollPane();
+        scrollPane.setContent(grid);
         cjlPane.getChildren().remove(guiMatchesData);
-        cjlPane.getChildren().add(ciccio);
+        cjlPane.getChildren().add(scrollPane);
+
         guiMatchesData.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         guiMatchesData.getSelectionModel().setCellSelectionEnabled(true);
         System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(
                 Client.getInstance().getCommonData().getMatchesData().orElse(null)));
+
 
 
 

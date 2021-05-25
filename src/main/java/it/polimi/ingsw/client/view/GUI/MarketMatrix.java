@@ -230,6 +230,7 @@ public class MarketMatrix extends CreateJoinLoadMatchViewBuilder implements GUIV
         camera.getTransforms().addAll(new Rotate(90,Rotate.Z_AXIS),new Rotate(0,Rotate.X_AXIS), new Rotate(0,Rotate.Y_AXIS), new Translate(0, 0, -20));
         camera.translateXProperty().set(-1.0);
         camera.translateYProperty().set(-0.5);
+        camera.setTranslateZ(-10);
 
 
         Group root3D = new Group(camera);
