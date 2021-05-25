@@ -1,7 +1,5 @@
 package it.polimi.ingsw.client.view.CLI;
 
-import it.polimi.ingsw.client.CommonData;
-import it.polimi.ingsw.client.view.CLI.CLIelem.Spinner;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Title;
 
 import java.beans.PropertyChangeEvent;
@@ -12,13 +10,15 @@ public class TestViewBuilder extends it.polimi.ingsw.client.view.abstractview.Te
 
     @Override
     public void run() {
-        getCLIView().runOnIntInput("Write 0","ERR1, ",0,0,()->
-        {
-            int in = getCLIView().getLastInt();
-            getCLIView().setTitle(new Title("Printed after input "+in));
-            getCLIView().refreshCLI();
-            //getClient().changeViewBuilder(new CreateJoinLoadMatch(),this);
-        });
+        //getCLIView().runOnIntInput("Write 0","ERR1, ",0,0,()->
+        //{
+        //    int in = getCLIView().getLastInt();
+        //    getCLIView().setTitle(new Title("Printed after input "+in));
+        //    getCLIView().refreshCLI();
+        //
+        //    //getClient().changeViewBuilder(new CreateJoinLoadMatch(),this);
+        //});
+        getCommonData().setStartData(null,2);
 
         //getCLIView().runOnInput("Get in",()->
         //{
@@ -64,6 +64,6 @@ public class TestViewBuilder extends it.polimi.ingsw.client.view.abstractview.Te
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
+        System.out.println(evt.getPropertyName());
     }
 }

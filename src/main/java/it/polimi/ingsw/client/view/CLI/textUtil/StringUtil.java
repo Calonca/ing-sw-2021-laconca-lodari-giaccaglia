@@ -24,4 +24,14 @@ public class StringUtil {
     public static int maxHeight(String s){
         return s.split("\n").length;
     }
+
+    public static int startCenterWritingX(String s,int canvasWidth){
+        return (canvasWidth-maxWidth(s))/2;
+    }
+
+    public static int startCenterWritingY(String s,int canvasHeight) {
+        return (canvasHeight - maxHeight(s))/2;
+    }
+
+
 }

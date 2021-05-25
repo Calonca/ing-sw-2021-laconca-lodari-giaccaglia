@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view.CLI.textUtil;
 
 public enum Color {
 
+    DEFAULT(""),
     BACKSPACE("\010"),
     ANSI_RESET("\u001B[0m"),
     ANSI_BLACK("\u001B[30m"),
@@ -28,6 +29,14 @@ public enum Color {
 
     public static String colorString(String s,Color c){
         return c.escape()+s+Color.RESET;
+    }
+
+    public static String startColorStringBackground(String s,Color c,Background background){
+        return background.escape()+c.escape()+s;
+    }
+
+    public static String endColorString(String s){
+        return s+Color.RESET;
     }
 
     public static String colorStringAndBackground(String s, Color c,Background background){
