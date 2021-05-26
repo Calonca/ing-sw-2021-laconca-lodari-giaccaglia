@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.client.ServerHandler;
 import it.polimi.ingsw.RuntimeTypeAdapterFactory;
-import it.polimi.ingsw.network.messages.servertoclient.ServerToClientMessage;
 
 import java.io.IOException;
 
@@ -23,7 +22,7 @@ public interface ClientMessage {
         jsonToClientAdapter.registerSubtype(CreatedMatchStatus.class);
         jsonToClientAdapter.registerSubtype(JoinStatus.class);
         jsonToClientAdapter.registerSubtype(MatchesData.class);
-        jsonToClientAdapter.registerSubtype(StateMessage.class);
+        jsonToClientAdapter.registerSubtype(StateInNetwork.class);
         jsonToClientAdapter.registerSubtype(EventNotValid.class);
 
         Gson gson1 = new GsonBuilder()

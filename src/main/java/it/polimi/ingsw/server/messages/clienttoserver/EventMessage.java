@@ -2,7 +2,6 @@ package it.polimi.ingsw.server.messages.clienttoserver;
 
 import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
 import it.polimi.ingsw.network.messages.servertoclient.EventNotValid;
-import it.polimi.ingsw.network.messages.servertoclient.state.StateMessage;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.controller.EventValidationFailedException;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;

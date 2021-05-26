@@ -46,13 +46,8 @@ public class tem {
         int player = stateInNetwork.getPlayerNumber();
         SimpleModel simpleModel = new SimpleModel(2);
 
-        for(SimpleModelElement element : commonlist){
-           simpleModel.updateSimpleModelElement(element.getClass().getSimpleName(), element);
-        }
 
-        for(SimpleModelElement element : playerList){
-            simpleModel.getPlayerCache(player).updateSimpleModelElement(element.getClass().getSimpleName(), element);
-        }
+
 
         int ciao = 5;
 

@@ -174,7 +174,7 @@ public enum State {
 
         return new StateInNetwork(
                 gameModel.getPlayerIndex(gameModel.getCurrentPlayer()),
-                this, playerSimpleModelElements,
+                this.toString(), playerSimpleModelElements,
                 commonSimpleModelElements);
     }
 }

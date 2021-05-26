@@ -2,7 +2,6 @@ package it.polimi.ingsw.network.messages.servertoclient.state;
 
 import it.polimi.ingsw.network.messages.servertoclient.ServerToClientMessage;
 import it.polimi.ingsw.network.simplemodel.SimpleModelElement;
-import it.polimi.ingsw.server.model.states.State;
 
 import java.util.List;
 
@@ -12,8 +11,11 @@ import java.util.List;
  */
 public class StateInNetwork extends ServerToClientMessage {
 
+    /**
+     * The index in the players array of the player receiving a state update
+     */
     private int playerNumber;
-    private State state;
+    private String state;
     private List<SimpleModelElement> playerSimpleModelElements;
     private List<SimpleModelElement> commonSimpleModelElements;
 
@@ -22,14 +24,14 @@ public class StateInNetwork extends ServerToClientMessage {
         return playerNumber;
     }
 
-    public static String getState(StateInNetwork stateInNetwork){
-        return stateInNetwork.getClass().getSimpleName();
+    public String getState(){
+        return state;
     }
 
     public StateInNetwork(){}
 
 
-    public StateInNetwork(int playerNumber, State state, List<SimpleModelElement> playerSimpleModelElements, List<SimpleModelElement> commonSimpleModelElements) {
+    public StateInNetwork(int playerNumber, String state, List<SimpleModelElement> playerSimpleModelElements, List<SimpleModelElement> commonSimpleModelElements) {
 
         super();
         this.playerNumber = playerNumber;

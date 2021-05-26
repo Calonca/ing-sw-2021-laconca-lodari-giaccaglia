@@ -2,14 +2,10 @@ package it.polimi.ingsw.network.messages.servertoclient;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import it.polimi.ingsw.network.jsonUtils.UUIDTypeAdapter;
 import it.polimi.ingsw.network.messages.NetworkMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
 import it.polimi.ingsw.RuntimeTypeAdapterFactory;
-import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
-import it.polimi.ingsw.network.messages.clienttoserver.events.setupphaseevent.SetupPhaseEvent;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
-import it.polimi.ingsw.network.messages.servertoclient.state.StateMessage;
 import it.polimi.ingsw.network.simplemodel.SimpleCardShop;
 import it.polimi.ingsw.network.simplemodel.SimpleModelElement;
 import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
@@ -70,7 +66,6 @@ public abstract class ServerToClientMessage extends NetworkMessage
         s2cAdapter.registerSubtype(CreatedMatchStatus.class);
         s2cAdapter.registerSubtype(JoinStatus.class);
         s2cAdapter.registerSubtype(MatchesData.class);
-        s2cAdapter.registerSubtype(StateMessage.class);
         s2cAdapter.registerSubtype(EventNotValid.class);
         s2cAdapter.registerSubtype(StateInNetwork.class);
 

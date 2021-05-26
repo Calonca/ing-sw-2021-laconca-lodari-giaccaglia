@@ -9,10 +9,9 @@ import it.polimi.ingsw.network.messages.servertoclient.CreatedMatchStatus;
 import it.polimi.ingsw.network.messages.servertoclient.JoinStatus;
 import it.polimi.ingsw.network.messages.servertoclient.MatchesData;
 import it.polimi.ingsw.network.messages.servertoclient.ServerToClientMessage;
-import it.polimi.ingsw.network.messages.servertoclient.state.StateMessage;
+import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
 
 import java.io.*;
 import java.net.Socket;
@@ -107,7 +106,7 @@ public class ClientHandlerTest {
                 jsonObject);
         //1 Received state message
         JsonObject obj = toJsonObject(input1.readObject().toString());
-        assertEquals(StateMessage.class.getSimpleName(),obj.get("type").getAsString());
+        assertEquals(StateInNetwork.class.getSimpleName(),obj.get("type").getAsString());
     // TODO RESTORE CODE
         //     assertEquals(SETUP_PHASE.class.getSimpleName(),obj.get("stateInNetwork").getAsJsonObject().get("type").getAsString());
     }
@@ -145,7 +144,7 @@ public class ClientHandlerTest {
                 jsonObject);
         //1 Received state message
         JsonObject obj = toJsonObject(input1.readObject().toString());
-        assertEquals(StateMessage.class.getSimpleName(),obj.get("type").getAsString());
+        assertEquals(StateInNetwork.class.getSimpleName(),obj.get("type").getAsString());
        // todo restore code here
         // assertEquals(SETUP_PHASE.class.getSimpleName(),obj.get("stateInNetwork").getAsJsonObject().get("type").getAsString());
     }

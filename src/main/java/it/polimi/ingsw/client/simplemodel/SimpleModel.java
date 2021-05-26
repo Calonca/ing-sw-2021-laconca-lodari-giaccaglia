@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.simplemodel;
 
+import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
 import it.polimi.ingsw.network.simplemodel.SimpleCardShop;
 import it.polimi.ingsw.network.simplemodel.SimpleMarketBoard;
 import it.polimi.ingsw.network.simplemodel.SimpleModelElement;
@@ -30,8 +31,18 @@ public class SimpleModel {
         return playersCacheList.get(playerNumber);
     }
 
-    public void updateSimpleModelElement(String name, SimpleModelElement element){
+    private void updateSimpleModelElement(String name, SimpleModelElement element){
         commonSimpleModelElementsMap.get(name).update(element);
+    }
+
+    public void updateSimpleModel(StateInNetwork stateInNetwork){
+        for(SimpleModelElement element : stateInNetwork.getCommonSimpleModelElements()){
+            updateSimpleModelElement(element.getClass().getSimpleName(), element);
+        }
+
+        for(SimpleModelElement element : stateInNetwork.getPlayerSimpleModelElements()){
+            getPlayerCache(stateInNetwork.getPlayerNumber()).updateSimpleModelElement(element.getClass().getSimpleName(), element);
+        }
     }
 
 
