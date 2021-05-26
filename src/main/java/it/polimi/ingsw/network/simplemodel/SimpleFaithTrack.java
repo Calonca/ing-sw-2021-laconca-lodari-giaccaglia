@@ -35,13 +35,9 @@ public class SimpleFaithTrack extends SimpleModelElement {
     private final MutablePair<Piece, Integer> lorenzoPiece = new MutablePair<>(Piece.LORENZO, 0);
 
     @Override
-    public String getElement(){
-        return config;
-    }
-
-    @Override
     public void update(SimpleModelElement element){
-        String config = (String) element.getElement();
+        SimpleFaithTrack serverFaithTrack = (SimpleFaithTrack) element;
+        String config = serverFaithTrack.config;
         updateTrack(config);
 
     }

@@ -9,13 +9,10 @@ public class SimpleCardCells extends SimpleModelElement{
 
     private Map<Integer, List<DevelopmentCardAsset>> visibleCardsOnCells;
 
-    @Override
-    public Map<Integer, List<DevelopmentCardAsset>> getElement(){
-        return visibleCardsOnCells;
-    }
 
     public void update(SimpleModelElement element){
-        this.visibleCardsOnCells = (Map<Integer, List<DevelopmentCardAsset>>) element.getElement();
+        SimpleCardCells serverCardCells = (SimpleCardCells) element;
+        this.visibleCardsOnCells = serverCardCells.visibleCardsOnCells;
     }
 
 }

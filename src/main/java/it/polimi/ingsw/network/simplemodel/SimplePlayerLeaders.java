@@ -23,16 +23,12 @@ public class SimplePlayerLeaders extends SimpleModelElement{
     }
 
     @Override
-    public Map<UUID, Boolean> getElement(){
-        return playerLeadersMap;
-    }
-
-    @Override
     public void update(SimpleModelElement element){
-        SimplePlayerLeaders newElement = (SimplePlayerLeaders) element;
 
-        this.playerLeadersMap = newElement.playerLeadersMap;
-        Map<UUID, Boolean> map = newElement.playerLeadersMap;
+        SimplePlayerLeaders serverSimplePlayerLeaders = (SimplePlayerLeaders) element;
+
+        this.playerLeadersMap = serverSimplePlayerLeaders.playerLeadersMap;
+        Map<UUID, Boolean> map = serverSimplePlayerLeaders.playerLeadersMap;
 
         this.playerLeaders = (map).keySet()
                 .stream()

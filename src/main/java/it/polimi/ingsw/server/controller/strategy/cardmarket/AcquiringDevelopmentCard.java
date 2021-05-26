@@ -13,6 +13,7 @@ import it.polimi.ingsw.server.model.states.State;
  * been possible, it will get back to the previous state
  */
 public class AcquiringDevelopmentCard implements GameStrategy {
+
     public State execute(GameModel gamemodel, Validable event) throws EventValidationFailedException
     {
         //ON EVENT CHOOSECARDEVENT

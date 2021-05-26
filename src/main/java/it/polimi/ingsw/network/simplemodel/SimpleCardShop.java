@@ -18,17 +18,9 @@ public class SimpleCardShop extends SimpleModelElement{
     }
 
     @Override
-    public Map<NetworkDevelopmentCardColor, Map<Integer, List<NetworkDevelopmentCard> >> getElement(){
-        return simpleCardShop;
-    }
-
-    @Override
     public void update(SimpleModelElement element){
-        this.simpleCardShop = (Map<NetworkDevelopmentCardColor, Map<Integer, List<NetworkDevelopmentCard> >>) element.getElement();
-    }
-
-    public void updateSimpleCardShop(Map<NetworkDevelopmentCardColor, Map<Integer, List<NetworkDevelopmentCard> >> updatedSimpleCardShop){
-        simpleCardShop = updatedSimpleCardShop;
+        SimpleCardShop serverCardShop = (SimpleCardShop) element;
+        this.simpleCardShop = serverCardShop.simpleCardShop;
     }
 
     public Optional<NetworkDevelopmentCard> getCardOnFront(NetworkDevelopmentCardColor color, int level){

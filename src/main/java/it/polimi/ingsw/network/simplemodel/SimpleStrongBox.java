@@ -9,13 +9,9 @@ public class SimpleStrongBox extends SimpleModelElement {
     Map<ResourceAsset, Integer> simpleStrongBox;
 
     @Override
-    public Map<ResourceAsset, Integer> getElement(){
-        return simpleStrongBox;
-    }
-
-    @Override
     public void update(SimpleModelElement element) {
-        this.simpleStrongBox = (Map<ResourceAsset, Integer>) element.getElement();
+        SimpleStrongBox serverStrongBox = (SimpleStrongBox) element;
+        this.simpleStrongBox = serverStrongBox.simpleStrongBox;
     }
 
 }

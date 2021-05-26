@@ -16,6 +16,7 @@ public class Middle implements GameStrategy {
     {
         //MESSAGE IS MARKET, SHOP, PRODUCTION (0,1,2)
         int msg=0;
+
         if(msg==0)
             return new ShowingResourceMarket().execute(gamemodel, event);
         else if(msg==1)
@@ -23,4 +24,6 @@ public class Middle implements GameStrategy {
         else
             return new ShowingProductionCards().execute(gamemodel, event);
     }
+
+
 }
