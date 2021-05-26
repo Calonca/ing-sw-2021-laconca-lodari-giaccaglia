@@ -11,8 +11,8 @@ import java.util.UUID;
 public class CardAsset {
 
     private UUID cardId;
-    private Pair<Path, Path> activeCardPaths;
-    private Pair<Path, Path> inactiveCardPaths;
+    private transient Pair<Path, Path> activeCardPaths;
+    private transient Pair<Path, Path> inactiveCardPaths;
 
     public CardAsset(){}
 

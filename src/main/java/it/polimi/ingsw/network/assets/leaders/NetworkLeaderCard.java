@@ -9,7 +9,7 @@ import java.util.List;
 public class NetworkLeaderCard {
 
     protected int victoryPoints;
-    protected List<Pair<ResourceAsset, Integer>> requirementsResources;
+    protected transient List<Pair<ResourceAsset, Integer>> requirementsResources;
     protected List<Pair<NetworkDevelopmentCardColor, Integer>> requirementsCards;
     protected int requirementsCardsLevel=1;
     protected boolean isActive;

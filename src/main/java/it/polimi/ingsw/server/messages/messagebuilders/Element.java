@@ -41,6 +41,13 @@ public enum Element {
         }
     },
 
+    TestElem(false){
+        @Override
+        public SimpleModelElement buildSimpleModelElement(GameModel model) {
+            return new TestElem();
+        }
+    },
+
     SimpleFaithTrack(false){
         @Override
         public SimpleModelElement buildSimpleModelElement(GameModel gameModel){

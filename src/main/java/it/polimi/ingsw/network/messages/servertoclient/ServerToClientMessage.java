@@ -6,11 +6,14 @@ import it.polimi.ingsw.network.jsonUtils.UUIDTypeAdapter;
 import it.polimi.ingsw.network.messages.NetworkMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
 import it.polimi.ingsw.RuntimeTypeAdapterFactory;
+import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
+import it.polimi.ingsw.network.messages.clienttoserver.events.setupphaseevent.SetupPhaseEvent;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateMessage;
 import it.polimi.ingsw.network.simplemodel.SimpleCardShop;
 import it.polimi.ingsw.network.simplemodel.SimpleModelElement;
 import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
+import it.polimi.ingsw.network.simplemodel.TestElem;
 
 import java.util.UUID;
 
@@ -73,11 +76,22 @@ public abstract class ServerToClientMessage extends NetworkMessage
 
         Gson gson1 = new GsonBuilder()
                 .registerTypeAdapterFactory(s2cAdapter)
+                .registerTypeAdapterFactory(elemAdapter())
                 .create();
 
         return serialize(this, ServerToClientMessage.class, gson1);
 
     }
+
+
+    public static RuntimeTypeAdapterFactory<SimpleModelElement> elemAdapter(){
+        RuntimeTypeAdapterFactory<SimpleModelElement> elemAdapter = RuntimeTypeAdapterFactory.of(SimpleModelElement.class);
+        elemAdapter.registerSubtype(SimplePlayerLeaders.class);
+        elemAdapter.registerSubtype(SimpleCardShop.class);
+        elemAdapter.registerSubtype(TestElem .class);
+        return elemAdapter;
+    }
+
 
 
 }
