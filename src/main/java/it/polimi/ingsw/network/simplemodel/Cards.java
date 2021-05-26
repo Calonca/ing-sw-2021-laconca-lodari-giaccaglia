@@ -9,8 +9,8 @@ import java.util.UUID;
 
 public class Cards {
 
-    private final static Map<UUID, LeaderCardAsset> leaderCardAssetsMap = Deserializator.leaderCardsAssetsMapDeserialization();
-    private final static Map<UUID, DevelopmentCardAsset> developmentCardAssetsMap = Deserializator.devCardsAssetsDeserialization();
+    private final static Map<UUID, LeaderCardAsset> leaderCardAssetsMap = Deserializator.networkLeaderCardsAssetsMapDeserialization();
+    private final static Map<UUID, DevelopmentCardAsset> developmentCardAssetsMap = Deserializator.networkDevCardsAssetsDeserialization();
 
     public static LeaderCardAsset getLeaderCardAsset(UUID leaderCardId){
         return leaderCardAssetsMap.get(leaderCardId);

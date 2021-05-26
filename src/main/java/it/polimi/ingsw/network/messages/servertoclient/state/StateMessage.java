@@ -11,6 +11,7 @@ public class StateMessage extends ServerToClientMessage {
         super(command);
         this.stateInNetwork = stateInNetwork;
     }
+    public StateMessage(){}
 
     public StateMessage(StateInNetwork stateInNetwork) {
         super();

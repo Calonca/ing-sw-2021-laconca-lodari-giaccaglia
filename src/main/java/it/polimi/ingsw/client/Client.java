@@ -4,7 +4,6 @@ import it.polimi.ingsw.client.view.CLI.CLI;
 import it.polimi.ingsw.client.view.GUI.SetupPhase;
 import it.polimi.ingsw.client.view.abstractview.ConnectToServerViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
-import it.polimi.ingsw.network.messages.servertoclient.state.SETUP_PHASE;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
 import javafx.application.Platform;
 import javafx.stage.Stage;
@@ -182,10 +181,11 @@ public class Client implements Runnable
 
     public void setState(int thisPlayerIndex, String state, StateInNetwork serializedObject){
         if (playersCache.size()==0){
-            SETUP_PHASE setup_phase = (SETUP_PHASE) serializedObject;
+            //TODO CHECK HERE COMMENTED OUT CODE
+          /*  SETUP_PHASE setup_phase = (SETUP_PHASE) serializedObject;
             commonData.setStartData(setup_phase.getMatchID(),thisPlayerIndex);
             commonData.setCurrentPlayer(0);
-            initializePlayerCache(setup_phase.getNickNames().length);
+            initializePlayerCache(setup_phase.getNickNames().length); */
             if (isCLI)
                 cli.updateListeners();
         }

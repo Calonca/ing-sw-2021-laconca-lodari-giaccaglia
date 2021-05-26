@@ -28,7 +28,6 @@ public interface ClientMessage {
 
         Gson gson1 = new GsonBuilder()
                 .registerTypeAdapterFactory(jsonToClientAdapter)
-                .registerTypeAdapterFactory(ServerToClientMessage.stateMessageAdapter())
                 .create();
 
         return deserializeFromString(jsonString, ClientMessage.class, gson1);

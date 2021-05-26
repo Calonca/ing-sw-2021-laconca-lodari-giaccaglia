@@ -84,7 +84,7 @@ public class GameModel {
      * @throws IOException
      */
     private void initializeLeadersList() throws IOException {
-       leaders = Deserializator.leadersCardMapBuilder();
+       leaders = Deserializator.leadersCardMapDeserialization();
     }
 
     /**
@@ -112,6 +112,7 @@ public class GameModel {
             resourcesMarket = MarketBoard.initializeMarketBoard();
             cardShop = CardShop.initializeCardShop();
             initializeLeadersList();
+            devCardsMap = Deserializator.devCardsMap();
 
         } catch (IOException e) {
             System.out.println("Error while class initialization from config file");

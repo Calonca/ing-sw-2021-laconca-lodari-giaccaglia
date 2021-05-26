@@ -6,7 +6,6 @@ import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.view.CLI.CLI;
 import it.polimi.ingsw.client.view.CLI.SetupPhase;
 import it.polimi.ingsw.client.view.CLI.textUtil.Canvas;
-import it.polimi.ingsw.network.messages.servertoclient.state.SETUP_PHASE;
 
 import java.util.*;
 
@@ -52,8 +51,9 @@ public class WaitingForMatchToStart extends SpinnerBody{
 
                 test.cli.refreshCLI();
             }
-            else if (test.getEvt().getPropertyName().equals(SETUP_PHASE.class.getSimpleName()))
-                test.perform();
+            //TODO CHECK COMMENTED CODE HERE
+        /*    else if (test.getEvt().getPropertyName().equals(SETUP_PHASE.class.getSimpleName()))
+                test.perform(); */
         });
         test.setPerformer(()-> {
             client.changeViewBuilder(new SetupPhase());

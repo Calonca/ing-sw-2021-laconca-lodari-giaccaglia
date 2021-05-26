@@ -4,6 +4,8 @@ public abstract class SimpleModelElement {
 
     private Object object;
 
+    public SimpleModelElement(){}
+
     public Object getElement(){
         return object;
     }

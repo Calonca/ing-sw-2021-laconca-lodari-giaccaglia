@@ -7,6 +7,7 @@ import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
 import java.io.IOException;
 
 public class StateMessage extends it.polimi.ingsw.network.messages.servertoclient.state.StateMessage implements ClientMessage{
+
     public StateMessage(ClientToServerMessage command, StateInNetwork stateInNetwork) {
         super(command, stateInNetwork);
     }
@@ -17,6 +18,7 @@ public class StateMessage extends it.polimi.ingsw.network.messages.servertoclien
 
     @Override
     public void processMessage(ServerHandler serverHandler) throws IOException {
-        serverHandler.getClient().setState(stateInNetwork.getPlayer(), stateInNetwork.getClass().getSimpleName(), stateInNetwork);
+     // todo restore code
+        //  serverHandler.getClient().setState(stateInNetwork.getPlayer(), stateInNetwork.getClass().getSimpleName(), stateInNetwork);
     }
 }

@@ -11,9 +11,20 @@ public class SimpleCardShop extends SimpleModelElement{
 
     private Map<NetworkDevelopmentCardColor, Map<Integer, List<NetworkDevelopmentCard> >> simpleCardShop;
 
+    public SimpleCardShop(){}
 
     public SimpleCardShop(Map<NetworkDevelopmentCardColor, Map<Integer, List<NetworkDevelopmentCard>>> simpleCardShop) {
         this.simpleCardShop = simpleCardShop;
+    }
+
+    @Override
+    public Map<NetworkDevelopmentCardColor, Map<Integer, List<NetworkDevelopmentCard> >> getElement(){
+        return simpleCardShop;
+    }
+
+    @Override
+    public void update(SimpleModelElement element){
+        this.simpleCardShop = (Map<NetworkDevelopmentCardColor, Map<Integer, List<NetworkDevelopmentCard> >>) element.getElement();
     }
 
     public void updateSimpleCardShop(Map<NetworkDevelopmentCardColor, Map<Integer, List<NetworkDevelopmentCard> >> updatedSimpleCardShop){

@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.RuntimeTypeAdapterFactory;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import it.polimi.ingsw.network.assets.leaders.*;
@@ -12,11 +13,15 @@ import it.polimi.ingsw.server.model.market.MarketBoard;
 import it.polimi.ingsw.server.model.player.leaders.*;
 import it.polimi.ingsw.server.model.player.track.FaithTrack;
 
+import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+
 
 public class Deserializator extends JsonUtility {
 
@@ -112,14 +117,13 @@ public class Deserializator extends JsonUtility {
     //helper method to initialize gameModel list of 16 leaders
     public static List<Leader> leaderCardsDeserialization(){
 
-
-        RuntimeTypeAdapterFactory<Leader> jsonToLeaderListAdapter = RuntimeTypeAdapterFactory.of(Leader.class);
+        RuntimeTypeAdapterFactory<Leader> jsonToLeaderListAdapter = RuntimeTypeAdapterFactory.of(Leader.class, "type");
 
         //Register here all the Leader types
-        jsonToLeaderListAdapter.registerSubtype(DepositLeader.class);
-        jsonToLeaderListAdapter.registerSubtype(MarketLeader.class);
-        jsonToLeaderListAdapter.registerSubtype(ProductionLeader.class);
-        jsonToLeaderListAdapter.registerSubtype(DevelopmentDiscountLeader.class);
+        jsonToLeaderListAdapter.registerSubtype(DepositLeader.class , DepositLeader.class.getName());
+        jsonToLeaderListAdapter.registerSubtype(MarketLeader.class, MarketLeader.class.getName());
+        jsonToLeaderListAdapter.registerSubtype(ProductionLeader.class, ProductionLeader.class.getName());
+        jsonToLeaderListAdapter.registerSubtype(DevelopmentDiscountLeader.class, DevelopmentDiscountLeader.class.getName());
 
         Gson gson = new GsonBuilder()
                 .registerTypeAdapterFactory(jsonToLeaderListAdapter)
@@ -130,7 +134,7 @@ public class Deserializator extends JsonUtility {
 
     }
 
-    public static List<NetworkLeaderCard> networkLeaderCardsDeserialization(){
+    public static Map<UUID, NetworkLeaderCard> networkLeaderCardsDeserialization(){
 
 
         RuntimeTypeAdapterFactory<NetworkLeaderCard> jsonToNetworkLeaderListAdapter = RuntimeTypeAdapterFactory.of(NetworkLeaderCard.class);
@@ -140,11 +144,13 @@ public class Deserializator extends JsonUtility {
         jsonToNetworkLeaderListAdapter.registerSubtype(NetworkProductionLeaderCard.class);
         jsonToNetworkLeaderListAdapter.registerSubtype(DevelopmentDiscountNetworkLeaderCard.class);
 
-        List<Leader> modelLeadersList = leaderCardsDeserialization();
+        Map<UUID, Leader> modelLeadersMap = leadersCardMapDeserialization();
 
-        return modelLeadersList.stream().map(leader -> {
+        return modelLeadersMap.keySet().stream().collect(Collectors.toMap(leaderKey -> leaderKey, leaderKey -> {
 
             NetworkLeaderCard networkLeaderCard = null;
+
+            Leader leader = modelLeadersMap.get(leaderKey);
 
             if(leader instanceof DepositLeader){
                 String jsonString = Serializator.serialize(leader);
@@ -182,16 +188,17 @@ public class Deserializator extends JsonUtility {
 
             return networkLeaderCard;
 
-        }).collect(Collectors.toList());
+        }));
 
     }
-
 
     public static Map<UUID, Leader> leadersCardMapBuilder(){
         List<Leader> leaderList = leaderCardsDeserialization();
         return IntStream.range(0, Deserializator.leaderCardsDeserialization().size()).boxed().collect(Collectors.toMap(index ->
                 UUID.nameUUIDFromBytes(leaderList.get(index).toString().getBytes(StandardCharsets.UTF_8)), leaderList::get));
     }
+
+
 
     public static FaithTrack faithTrackDeserialization(){
         return deserialize(configPathString+ "FaithTrackConfig.json", FaithTrack.class);
@@ -209,8 +216,34 @@ public class Deserializator extends JsonUtility {
         return (Arrays.asList(cardsArray));
     }
 
-    public static Map<UUID, NetworkDevelopmentCard> devCardsMap() {
+    public static Map<UUID, NetworkDevelopmentCard> networkDevCardsMap() {
         return networkDevCardsListDeserialization().stream().collect(Collectors.toMap(NetworkDevelopmentCard::getCardId, Function.identity()));
+    }
+
+    public static Map<UUID, DevelopmentCard> devCardsMap(){
+        return devCardsListDeserialization().stream().collect(Collectors.toMap(DevelopmentCard::getCardId, Function.identity()));
+    }
+
+    public static Map<UUID, Leader> leadersCardMapDeserialization(){
+
+        RuntimeTypeAdapterFactory<Leader> jsonToLeaderListAdapter = RuntimeTypeAdapterFactory.of(Leader.class, "type");
+
+        //Register here all the Leader types
+        jsonToLeaderListAdapter.registerSubtype(DepositLeader.class , DepositLeader.class.getName());
+        jsonToLeaderListAdapter.registerSubtype(MarketLeader.class, MarketLeader.class.getName());
+        jsonToLeaderListAdapter.registerSubtype(ProductionLeader.class, ProductionLeader.class.getName());
+        jsonToLeaderListAdapter.registerSubtype(DevelopmentDiscountLeader.class, DevelopmentDiscountLeader.class.getName());
+
+        Gson customGson = new GsonBuilder()
+                .registerTypeAdapterFactory(jsonToLeaderListAdapter)
+                .registerTypeAdapter(UUID.class, new UUIDTypeAdapter())
+                .registerTypeHierarchyAdapter(Path.class, new PathConverter())
+                .enableComplexMapKeySerialization()
+                .setPrettyPrinting().create();
+
+        Type type = new TypeToken<Map<UUID, Leader> >(){}.getType();
+        return deserialize(configPathString + "LeadersCardMapConfig.json", type ,customGson);
+
     }
 
 }

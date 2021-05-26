@@ -5,11 +5,12 @@ import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
 import java.util.UUID;
 
 public class JoinStatus extends ServerToClientMessage {
-    protected final UUID joinedMatchUUID;
+    protected UUID joinedMatchUUID;
     public enum motive {NUM_PLAYERS_NOT_VALID,ALREADY_FULL,OTHER}
     protected motive m;
-    protected final int playerIndex;
+    protected int playerIndex;
 
+    public JoinStatus(){}
 
     public JoinStatus(ClientToServerMessage parent, UUID joinedMatchUUID, motive m, int playerIndex) {
         super(parent);

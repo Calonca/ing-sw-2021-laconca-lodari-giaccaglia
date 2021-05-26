@@ -5,6 +5,7 @@ import javafx.util.Pair;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -20,8 +21,10 @@ public class SimpleMarketBoard extends SimpleModelElement{
     private int marketRows;
     private MarbleAsset slideMarble;
     private MarbleAsset[] pickedMarbles;
-    private Path boardAsset = Paths.get("src/main/resources/assets/punchboard/MarketBoard.png");
+    private transient Path boardAsset = Paths.get("src/main/resources/assets/punchboard/MarketBoard.png");
 
+
+    public SimpleMarketBoard(){}
 
     public SimpleMarketBoard(UUID[][] marbleMatrix, int marketColumns, int marketRows, UUID slideMarbleId){
 

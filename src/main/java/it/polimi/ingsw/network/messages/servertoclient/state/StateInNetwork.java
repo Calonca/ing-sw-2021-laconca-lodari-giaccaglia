@@ -17,6 +17,7 @@ public class StateInNetwork extends ServerToClientMessage {
     private List<SimpleModelElement> playerSimpleModelElements;
     private List<SimpleModelElement> commonSimpleModelElements;
 
+
     public int getPlayerNumber() {
         return playerNumber;
     }
@@ -38,6 +39,12 @@ public class StateInNetwork extends ServerToClientMessage {
 
     }
 
+    public List<SimpleModelElement> getPlayerSimpleModelElements(){
+        return playerSimpleModelElements;
+    }
 
+    public List<SimpleModelElement> getCommonSimpleModelElements(){
+        return commonSimpleModelElements;
+    }
 
 }

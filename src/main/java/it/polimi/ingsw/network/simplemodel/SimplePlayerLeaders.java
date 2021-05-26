@@ -12,6 +12,8 @@ public class SimplePlayerLeaders extends SimpleModelElement{
     private List<LeaderCardAsset> playerLeaders;
     private Map<UUID, Boolean> playerLeadersMap;
 
+    public SimplePlayerLeaders(){}
+
     public SimplePlayerLeaders(Map<UUID, Boolean> playerLeadersMap){
         this.playerLeadersMap = playerLeadersMap;
     }

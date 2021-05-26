@@ -10,6 +10,8 @@ public class CreatedMatchStatus extends ServerToClientMessage {
     protected motive m;
 
 
+    public CreatedMatchStatus(){}
+
     public CreatedMatchStatus(ClientToServerMessage parent, UUID matchId,motive m) {
         super(parent);
         this.matchId = matchId;

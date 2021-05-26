@@ -60,9 +60,25 @@ public class JsonUtility {
         return customGson.toJson(Object, classToSerialize);
     }
 
+    public static <T> String serialize(T Object, Type destinationType, Gson customGson){
+        return customGson.toJson(Object, destinationType);
+    }
+
     public static <T> void serialize(String jsonPath, T Object , Class<T> classToSerialize){
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         serialize(jsonPath, Object, classToSerialize, gson);
+    }
+
+    public static <T> void serialize(String jsonPath, T Object ,Type destinationType, Gson customGson) {
+        String jsonString = serialize(Object, destinationType, customGson);
+        try {
+            Writer writer = new FileWriter(jsonPath);
+            writer.write(jsonString);
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static <T> void serialize(String jsonPath, T Object , Class<T> classToSerialize, Gson customGson) {

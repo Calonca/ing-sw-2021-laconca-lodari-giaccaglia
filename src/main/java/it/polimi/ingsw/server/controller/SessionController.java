@@ -63,13 +63,13 @@ public class SessionController {
         if (!match.canAddPlayer()) {
             match.startGame();
             playersInLobby.removeAll(match.clientsStream().collect(Collectors.toList()));
-            try {
+        /*    try {
                 match.currentPlayerClientHandler().sendAnswerMessage(
                         new StateMessage(State.SETUP_PHASE.toStateMessage(match.getGame()))
                         );
             } catch (IOException e) {
                 e.printStackTrace();
-            }
+            } */ //TODO RESTORE COMMENTED OUT CODE
         }
     }
 

@@ -1,8 +1,6 @@
-package it.polimi.ingsw.network.simplemodel;
+package it.polimi.ingsw.server.messages.messagebuilders;
 
-import it.polimi.ingsw.server.messages.messagebuilders.CardShopMessageBuilder;
-import it.polimi.ingsw.server.messages.messagebuilders.MarketBoardMessageBuilder;
-import it.polimi.ingsw.server.messages.messagebuilders.SimpleDepotsMessageBuilder;
+import it.polimi.ingsw.network.simplemodel.*;
 import it.polimi.ingsw.server.model.GameModel;
 
 import java.nio.charset.StandardCharsets;
@@ -14,7 +12,7 @@ public enum Element {
 
     //----------common elements----------//
 
-    Simple_Card_Shop(true){
+    SimpleCardShop(true){
         @Override
         public SimpleModelElement buildSimpleModelElement(GameModel gameModel){
             return new SimpleCardShop(CardShopMessageBuilder.cardShopAdapter(gameModel));
@@ -36,7 +34,7 @@ public enum Element {
 
     //--------player elements-----------//
 
-    SimplePlayerLeader(false){
+    SimplePlayerLeaders(false){
         @Override
         public SimpleModelElement buildSimpleModelElement(GameModel gameModel){
             return new SimplePlayerLeaders(gameModel.getCurrentPlayer().getLeadersUUIDs());
@@ -46,7 +44,7 @@ public enum Element {
     SimpleFaithTrack(false){
         @Override
         public SimpleModelElement buildSimpleModelElement(GameModel gameModel){
-            SimpleFaithTrack track = new SimpleFaithTrack();
+            it.polimi.ingsw.network.simplemodel.SimpleFaithTrack track = new SimpleFaithTrack();
             return track.faithTrackConstructor(gameModel.getCurrentPlayer().getSerializedFaithTrack());
         }
 

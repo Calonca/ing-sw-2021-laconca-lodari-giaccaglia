@@ -1,8 +1,7 @@
 package it.polimi.ingsw.server.model.states;
 import it.polimi.ingsw.network.messages.servertoclient.state.*;
-import it.polimi.ingsw.network.simplemodel.Element;
+import it.polimi.ingsw.server.messages.messagebuilders.Element;
 import it.polimi.ingsw.network.simplemodel.SimpleModelElement;
-import it.polimi.ingsw.server.messages.messagebuilders.*;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.cards.*;
@@ -12,10 +11,7 @@ import it.polimi.ingsw.server.model.market.MarketBoard;
 import it.polimi.ingsw.server.model.market.MarketLine;
 import it.polimi.ingsw.server.model.player.board.*;
 
-import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**

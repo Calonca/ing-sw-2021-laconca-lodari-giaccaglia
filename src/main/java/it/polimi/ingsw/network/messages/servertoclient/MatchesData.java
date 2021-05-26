@@ -7,6 +7,7 @@ import java.util.UUID;
 public class MatchesData extends ServerToClientMessage {
     protected Map<UUID,String[]> matchesData;
 
+    public MatchesData(){}
 
     public MatchesData(Map<UUID,String[]> matchesData) {
         super();

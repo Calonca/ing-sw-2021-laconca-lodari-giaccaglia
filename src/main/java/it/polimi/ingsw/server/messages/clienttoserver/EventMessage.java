@@ -23,15 +23,15 @@ public class EventMessage extends ClientToServerMessage implements ServerMessage
             try {
                 m.validateEvent(event);
                 State state = m.transitionToNextState(event);
-                try {
+         /*       try {
                     clientHandler.sendAnswerMessage(new StateMessage(this, state.toStateMessage(m.getGame())));
                 } catch (IOException e) {
                     e.printStackTrace();
-                }
+                } */ //TODO RESTORE COMMENTED OUT CODE
             } catch (EventValidationFailedException e) {
                 try {
                     clientHandler.sendAnswerMessage(new EventNotValid(this));
-                    clientHandler.sendAnswerMessage(new StateMessage(this, m.getGame().getCurrentPlayer().getCurrentState().toStateMessage(m.getGame())));
+                // todo restore commented code    clientHandler.sendAnswerMessage(new StateMessage(this, m.getGame().getCurrentPlayer().getCurrentState().toStateMessage(m.getGame())));
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
