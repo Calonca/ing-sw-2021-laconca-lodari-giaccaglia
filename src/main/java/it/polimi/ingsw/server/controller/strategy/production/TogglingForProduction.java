@@ -15,7 +15,10 @@ public class TogglingForProduction implements GameStrategy {
     public State execute(GameModel gamemodel, Validable event) throws EventValidationFailedException
     {
         //ON EVENT SELECTPRODUCTIONATPOSITION
-        //MESSAGE IS INTEGER OF AVAILABLE POSITION, ZERO IS STOP?
+        //MESSAGE IS INTEGER OF AVAILABLE POSITION
+        //TODO REDO
+        event.validate(gamemodel);
+
         int msg=3;
         if (msg==0)
         {

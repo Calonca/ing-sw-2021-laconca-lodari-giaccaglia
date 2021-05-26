@@ -4,6 +4,8 @@ import it.polimi.ingsw.server.controller.EventValidationFailedException;
 import it.polimi.ingsw.server.controller.strategy.Final;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
+import it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent.ChooseCardEvent;
+import it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent.ChooseCardPositionEvent;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.cards.production.ProductionCardCell;
 import it.polimi.ingsw.server.model.states.State;
@@ -15,12 +17,12 @@ import it.polimi.ingsw.server.model.states.State;
 public class ChoosingSpaceForDevelopmentCard implements GameStrategy {
     public State execute(GameModel gamemodel, Validable event) throws EventValidationFailedException
     {
-  /*      //ON EVENT CHOOSECARDPOSITIONEVENT
-        //MESSAGE IS 2
+        //ON EVENT CHOOSECARDPOSITIONEVENT
      //   if(chosencell.isSpotAvailable(gamemodel.getPurchasedCard()))
    //     else
      //       return State.CHOOSING_POSITION_FOR_DEVCARD;*/
-        ProductionCardCell chosencell=gamemodel.getCurrentPlayer().getPersonalBoard().getCardCells().get(2);
+        event.validate(gamemodel);
+        ProductionCardCell chosencell=gamemodel.getCurrentPlayer().getPersonalBoard().getCardCells().get(((ChooseCardPositionEvent) event).getCardPositionInPersonalBoard());
         chosencell.addToTop(gamemodel.getPurchasedCard());
 
         return new Final().execute(gamemodel, event);

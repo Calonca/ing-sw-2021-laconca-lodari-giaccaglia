@@ -3,6 +3,8 @@ package it.polimi.ingsw.server.controller.strategy.leader;
 import it.polimi.ingsw.server.controller.EventValidationFailedException;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
+import it.polimi.ingsw.server.messages.clienttoserver.events.leaderphaseevent.DiscardLeaderEvent;
+import it.polimi.ingsw.server.messages.clienttoserver.events.leaderphaseevent.PlayLeaderEvent;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.states.State;
 
@@ -16,7 +18,7 @@ public class DiscardingLeader implements GameStrategy {
         //MESSAGE IS INT 2
        // if(gamemodel.getCurrentPlayer().getLeaders().get(2).getState()== NetworkLeaderState.INACTIVE)
 
-       // gamemodel.getCurrentPlayer().getLeadersList().get(2).discard(gamemodel);
+        gamemodel.getCurrentPlayer().getLeader(((DiscardLeaderEvent) event).getLeaderId()).get().activate(gamemodel);
 
         return new EndingLeaderPhase().execute(gamemodel, event);
     }

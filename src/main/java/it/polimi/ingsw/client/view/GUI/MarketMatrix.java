@@ -226,6 +226,15 @@ public class MarketMatrix extends CreateJoinLoadMatchViewBuilder implements GUIV
 
         marketPane.getChildren().add(button);
 
+        button=new Button();
+        button.setLayoutX(900);
+        button.setLayoutY(50);
+        button.setText("NEXT");
+
+        button.setOnAction(p -> Client.getInstance().changeViewBuilder(new ViewPersonalBoard()));
+
+        marketPane.getChildren().add(button);
+
         PerspectiveCamera camera = new PerspectiveCamera(true);
         camera.getTransforms().addAll(new Rotate(90,Rotate.Z_AXIS),new Rotate(0,Rotate.X_AXIS), new Rotate(0,Rotate.Y_AXIS), new Translate(0, 0, -20));
         camera.translateXProperty().set(-1.0);

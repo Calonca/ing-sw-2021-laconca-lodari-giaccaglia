@@ -13,6 +13,8 @@ import it.polimi.ingsw.server.model.states.State;
 public class PayingResourcesForDevelopmentCard implements GameStrategy {
     public State execute(GameModel gamemodel, Validable event) throws EventValidationFailedException
     {
+        event.validate(gamemodel);
+
   /*      //ON EVENT CHOOSERESOURCEEVENT
         //MESSAGE IS POSITION AND 0 OR 1 FOR DEPOT OR STRONGBOX. IF POSITION IS 0 CHECKS FOR VALIDATION
      //   boolean isDepot=false;
@@ -29,6 +31,7 @@ public class PayingResourcesForDevelopmentCard implements GameStrategy {
                     gamemodel.getCurrentPlayer().getPersonalBoard().getWarehouseLeadersDepots().getTotalSelected()+
                             gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().getNSelected(gamemodel.getPurchasedCard().getCostList().get(i).getKey()))
             {*/
+        //TODO
         gamemodel.getCurrentPlayer().getPersonalBoard().getWarehouseLeadersDepots().removeSelected();
         gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().removeSelected();
         return State.CHOOSING_POSITION_FOR_DEVCARD;

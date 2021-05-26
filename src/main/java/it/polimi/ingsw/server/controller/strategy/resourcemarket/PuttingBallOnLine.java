@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.controller.strategy.resourcemarket;
 import it.polimi.ingsw.server.controller.EventValidationFailedException;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
+import it.polimi.ingsw.server.messages.clienttoserver.events.marketboardevent.ChooseLineEvent;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.market.MarketLine;
@@ -21,7 +22,8 @@ public class PuttingBallOnLine implements GameStrategy {
         //ON EVENT CHOOSEROWEVENT
         //MESSAGE IS MarketLine.FIRST_COLUMN
 
-        gamemodel.chooseLineFromMarketBoard(MarketLine.FIRST_COLUMN);
+        event.validate(gamemodel);
+        gamemodel.chooseLineFromMarketBoard(MarketLine.fromInt(((ChooseLineEvent) event).getChosenRow()));
         gamemodel.updateMatrixAfterTakingResources();
 
         gamemodel.getCurrentPlayer().getPersonalBoard().setMarketBox(gamemodel.getBoxResourcesFromMarketBoard());

@@ -13,6 +13,8 @@ public class EndingLeaderPhase implements GameStrategy {
     public State execute(GameModel gamemodel, Validable event) throws EventValidationFailedException
     {
         //ON EVENT ACTIVATELEADEREVENT OR DISCARDLEADEREVENT
+        event.validate(gamemodel);
+
         if (gamemodel.getCurrentPlayer().anyLeaderPlayable())
             return gamemodel.getCurrentPlayer().getCurrentState();
         else if (gamemodel.getCurrentPlayer().getCurrentState()==State.SHOWING_LEADERS_INITIAL)

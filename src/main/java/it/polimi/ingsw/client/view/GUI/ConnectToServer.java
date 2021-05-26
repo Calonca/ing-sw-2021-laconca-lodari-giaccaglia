@@ -18,6 +18,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.RadialGradient;
+import javafx.scene.paint.Stop;
 import javafx.scene.text.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -57,7 +61,12 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
 
 
         Scene scene = new Scene(root);
-
+        scene.setFill(new RadialGradient(
+                0, 0, 0, 0, 1, true,                  //sizing
+                CycleMethod.NO_CYCLE,                 //cycling
+                new Stop(0, Color.web("#0099FF")),    //colors
+                new Stop(1, Color.web("#DEB887")))
+        );
         getClient().getStage().setScene(scene);
 
         getClient().getStage().show();

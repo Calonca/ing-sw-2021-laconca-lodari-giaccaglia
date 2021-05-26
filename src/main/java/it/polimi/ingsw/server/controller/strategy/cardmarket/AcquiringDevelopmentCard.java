@@ -1,8 +1,10 @@
 package it.polimi.ingsw.server.controller.strategy.cardmarket;
 
+import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.server.controller.EventValidationFailedException;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
+import it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent.ChooseCardEvent;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
 import it.polimi.ingsw.server.model.states.State;
@@ -19,10 +21,9 @@ public class AcquiringDevelopmentCard implements GameStrategy {
         //MESSAGE IS 4
         //CARDS ARE MAPPED AS FOLLOWS       INT%3 IS THE LEVEL, INT/3 IS THE COLOR
         //
-        State state;
-        int chosencard=4;
-        int level=chosencard%3; //1      LEVEL 2 CARD
-        int color=chosencard/3; //1      BLUe
+        event.validate(gamemodel);
+        int level=((ChooseCardEvent) event).getCardLevel();
+        int color=((ChooseCardEvent) event).getCardColorNumber(); //1      BLUe
         gamemodel.purchaseCardFromCardShop(DevelopmentCardColor.fromInt(color),level);
 
         return State.CHOOSING_RESOURCES_FOR_DEVCARD;

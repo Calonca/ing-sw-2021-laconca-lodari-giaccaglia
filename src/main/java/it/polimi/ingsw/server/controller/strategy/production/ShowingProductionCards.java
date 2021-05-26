@@ -12,6 +12,7 @@ public class ShowingProductionCards implements GameStrategy {
     public State execute(GameModel gamemodel, Validable event) throws EventValidationFailedException
     {
         //ON EVENT CHOOSEPRODUCTIONEVENT
+        event.validate(gamemodel);
         return State.CHOOSING_CARD_FOR_PRODUCTION;
     }
 }

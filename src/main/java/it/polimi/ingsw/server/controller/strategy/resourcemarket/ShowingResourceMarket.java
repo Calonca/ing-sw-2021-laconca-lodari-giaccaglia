@@ -13,6 +13,7 @@ public class ShowingResourceMarket implements GameStrategy {
     public State execute(GameModel gamemodel, Validable event) throws EventValidationFailedException
     {
         //ON EVENT CHOOSEMARKETBOARD
+        event.validate(gamemodel);
         return State.SHOWING_MARKET_RESOURCES;
     }
 }

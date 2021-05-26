@@ -13,6 +13,7 @@ public class ShowingDevelopmentCardsMarket implements GameStrategy {
     public State execute(GameModel gamemodel, Validable event) throws EventValidationFailedException
     {
         //ON EVENT CARDSHOPEVENT
+        event.validate(gamemodel);
         return State.SHOWING_CARD_SHOP;
     }
 }

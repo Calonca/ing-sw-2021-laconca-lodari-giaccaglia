@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.controller.strategy.resourcemarket;
 import it.polimi.ingsw.server.controller.EventValidationFailedException;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
+import it.polimi.ingsw.server.messages.clienttoserver.events.marketboardevent.MoveResourceEvent;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.states.State;
 /**
@@ -15,10 +16,8 @@ public class AddingResourcesFromMarket implements GameStrategy {
     {
         //ON EVENT MOVERESOURCEEVENT
         //MESSAGE IS TWO INT, STARTING POSITION AND ENDING POSITION. 0,0 IS FOR TERMINATION
-        int msg1=3;
-        int msg2=4;
-
-        gamemodel.getCurrentPlayer().getPersonalBoard().move(msg1,msg2);
+        event.validate(gamemodel);
+        gamemodel.getCurrentPlayer().getPersonalBoard().move(((MoveResourceEvent) event).getStartPos(),((MoveResourceEvent) event).getEndPos());
         return State.CHOOSING_POSITION_FOR_RESOURCES;
 
     }}

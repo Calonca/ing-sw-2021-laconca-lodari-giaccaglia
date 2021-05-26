@@ -15,7 +15,8 @@ public class DiscardingResources implements GameStrategy {
     public State execute(GameModel gamemodel, Validable event) throws EventValidationFailedException
     {
         //ON EVENT DISCARDRESOURCEEVENT
-
+        event.validate(gamemodel);
+        //TODO
         gamemodel.getCurrentPlayer().getPersonalBoard().discardResources();
         int temp=gamemodel.getCurrentPlayer().getPersonalBoard().getBadFaithToAdd();
         for(int i=0;i<temp;i++)
