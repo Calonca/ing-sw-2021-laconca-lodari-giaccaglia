@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view.abstractview;
 
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.CommonData;
+import it.polimi.ingsw.client.simplemodel.SimpleModel;
 import it.polimi.ingsw.client.view.CLI.CLI;
 
 import java.beans.PropertyChangeListener;
@@ -12,41 +13,50 @@ import java.beans.PropertyChangeListener;
  */
 public abstract class ViewBuilder implements Runnable, PropertyChangeListener
 {
-    private Client client;
-    private CommonData commonData;
-    private CLI cli;
+    private static Client client;
+    private static CommonData commonData;
+    private static SimpleModel simpleModel;
+    private static CLI cli;
 
-    public CLI getCLIView() {
+    public static CLI getCLIView() {
         return cli;
     }
 
     public static ViewBuilder getBuilder(boolean isCLI){return null;};
 
-    public void setCLIView(CLI cli) {
-        this.cli = cli;
+    public static void setCLIView(CLI cli) {
+        ViewBuilder.cli = cli;
+    }
+
+    public static SimpleModel getSimpleModel() {
+        return simpleModel;
+    }
+
+    public static void setSimpleModel(SimpleModel simpleModel) {
+        ViewBuilder.simpleModel = simpleModel;
     }
 
     /**
      * Set the parent object of the view.
      * @param client The parent object
      */
-    public void setClient(Client client)
+    public static void setClient(Client client)
     {
-        this.client = client;
+        ViewBuilder.client = client;
     }
 
-    public CommonData getCommonData() {
+    public static CommonData getCommonData() {
         return commonData;
     }
 
-    public void setCommonData(CommonData commonData) {
-        this.commonData = commonData;
+    public static void setCommonData(CommonData commonData) {
+        ViewBuilder.commonData = commonData;
     }
 
     /**
      * Returns The Client.
      */
-    public Client getClient()
+    public static Client getClient()
     {
         return client;
     }

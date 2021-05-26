@@ -32,7 +32,6 @@ public class Client implements Runnable
     private int port;
     private final CommonData commonData = new CommonData();
     private SimpleModel simpleModel;
-    private CLI cli;
     private Stage stage;
     private boolean isCLI;
 
@@ -56,8 +55,11 @@ public class Client implements Runnable
 
     public void setCLIOrGUI(boolean isCli){
         this.isCLI = isCli;
-        if(isCli)
-            cli = new CLI(this);
+        ViewBuilder.setCommonData(commonData);
+        ViewBuilder.setClient(this);
+        if(isCli) {
+            ViewBuilder.setCLIView(new CLI(this));
+        }
     }
 
     public String getIp() {
@@ -127,13 +129,9 @@ public class Client implements Runnable
             addToPublishers(newViewBuilder);
 
             if (isCLI)
-                cli.resetCLI();
+                ViewBuilder.getCLIView().resetCLI();
 
             currentViewBuilder = newViewBuilder;
-            currentViewBuilder.setClient(this);
-            currentViewBuilder.setCommonData(commonData);
-            if (isCLI)
-                currentViewBuilder.setCLIView(cli);
             if (isCLI)
                 newViewBuilder.run();
             else
@@ -161,8 +159,8 @@ public class Client implements Runnable
      */
     public synchronized void terminate()
     {
-        if (cli.stopASAP.get()) {
-            cli.resetCLI();
+        if (ViewBuilder.getCLIView().stopASAP.get()) {
+            ViewBuilder.getCLIView().resetCLI();
         }
     }
 
@@ -176,8 +174,9 @@ public class Client implements Runnable
                 int numOfPlayers = getCommonData().playersOfMatch().map(o->o.length).orElseThrow();
                 simpleModel = new SimpleModel(numOfPlayers);
                 commonData.setCurrentPlayer(0);
+                ViewBuilder.setSimpleModel(simpleModel);
                 if (isCLI)
-                    cli.updateListeners();
+                    ViewBuilder.getCLIView().updateListeners();
             }catch (NoSuchElementException e){
                 System.out.println("Received a state before entering a match");
             }
