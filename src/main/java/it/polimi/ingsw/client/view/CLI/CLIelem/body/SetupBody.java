@@ -4,16 +4,14 @@ import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.client.view.CLI.CLIelem.CLIelem;
 
 public class SetupBody extends CLIelem {
-  /*  SETUP_PHASE setup_phase;
-    public SetupBody(SETUP_PHASE setup_phase) {
+    String setup_phase;
+    public SetupBody(String setup_phase) {
         this.setup_phase = setup_phase;
-    } */
+    }
 
     @Override
     public String toString() {
-        return  new GsonBuilder()
-                .setPrettyPrinting()
-                .create().toJson("ciao");  //todo restore code here
+        return setup_phase;
     }
     /*
         @Override

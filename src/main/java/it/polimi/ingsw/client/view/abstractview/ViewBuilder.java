@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view.abstractview;
 
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.CommonData;
+import it.polimi.ingsw.client.simplemodel.PlayerCache;
 import it.polimi.ingsw.client.simplemodel.SimpleModel;
 import it.polimi.ingsw.client.view.CLI.CLI;
 
@@ -23,6 +24,10 @@ public abstract class ViewBuilder implements Runnable, PropertyChangeListener
     }
 
     public static ViewBuilder getBuilder(boolean isCLI){return null;};
+
+    public static PlayerCache getThisPlayerCache(){
+        return getSimpleModel().getPlayerCache(getCommonData().getThisPlayerIndex().orElse(0));
+    }
 
     public static void setCLIView(CLI cli) {
         ViewBuilder.cli = cli;

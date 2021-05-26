@@ -12,6 +12,7 @@ import it.polimi.ingsw.network.messages.servertoclient.ServerToClientMessage;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
 
 import java.io.*;
 import java.net.Socket;
@@ -57,7 +58,6 @@ public class ClientHandlerTest {
         output2.close();
         input2.close();
     }
-
 
 
     public void createMatch() throws IOException, ClassNotFoundException {
@@ -107,8 +107,7 @@ public class ClientHandlerTest {
         //1 Received state message
         JsonObject obj = toJsonObject(input1.readObject().toString());
         assertEquals(StateInNetwork.class.getSimpleName(),obj.get("type").getAsString());
-    // TODO RESTORE CODE
-        //     assertEquals(SETUP_PHASE.class.getSimpleName(),obj.get("stateInNetwork").getAsJsonObject().get("type").getAsString());
+        assertEquals("SETUP_PHASE",obj.get("state").getAsString());
     }
 
 

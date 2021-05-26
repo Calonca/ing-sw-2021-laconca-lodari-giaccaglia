@@ -2,7 +2,6 @@ package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.view.CLI.CLIelem.*;
-import it.polimi.ingsw.client.view.CLI.CLIelem.body.SpinnerBody;
 import it.polimi.ingsw.client.view.CLI.textUtil.Characters;
 import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 
@@ -71,14 +70,14 @@ public class CLI {
     public int getMaxBodyHeight(){return height-5;}
 
     public void setTitle(Title title){
-        this.title.ifPresent(t->t.removeFromPublishers(client));
-        title.setCLIAndUpdateSubscriptions(this,client);
+        this.title.ifPresent(t->t.removeFromListeners(client));
+        title.addToListeners(client);
         this.title = Optional.of(title);
     }
 
     public void setBottom(CLIelem bottom) {
-        this.bottom.ifPresent(b->b.removeFromPublishers(client));
-        bottom.setCLIAndUpdateSubscriptions(this,client);
+        this.bottom.ifPresent(b->b.removeFromListeners(client));
+        bottom.addToListeners(client);
         this.bottom = Optional.of(bottom);
     }
 
@@ -88,9 +87,9 @@ public class CLI {
     }
 
     public void setBody(CLIelem body){
-        this.body.ifPresent(b->b.removeFromPublishers(client));
+        this.body.ifPresent(b->b.removeFromListeners(client));
         this.body = Optional.ofNullable(body);
-        this.body.ifPresent(b->b.setCLIAndUpdateSubscriptions(this,client));
+        this.body.ifPresent(b->b.addToListeners(client));
     }
 
 
@@ -112,13 +111,13 @@ public class CLI {
 
     private static void clearOptions(CLI cli) throws ChangingViewBuilderBeforeTakingInput {
 
-        cli.title.ifPresent(t->t.removeFromPublishers(cli.client));
+        cli.title.ifPresent(t->t.removeFromListeners(cli.client));
         cli.title = Optional.empty();
 
-        cli.body.ifPresent(b->b.removeFromPublishers(cli.client));
+        cli.body.ifPresent(b->b.removeFromListeners(cli.client));
         cli.body = Optional.empty();
 
-        cli.bottom.ifPresent(b->b.removeFromPublishers(cli.client));
+        cli.bottom.ifPresent(b->b.removeFromListeners(cli.client));
         cli.bottom = Optional.empty();
 
         cli.deleteText();
@@ -127,14 +126,6 @@ public class CLI {
     public void refreshCLI(){
         deleteText();
         display();
-    }
-
-    public void updateListeners(){
-        title.ifPresent(t->t.setCLIAndUpdateSubscriptions(this,client));
-
-        body.ifPresent(b->b.setCLIAndUpdateSubscriptions(this,client));
-
-        bottom.ifPresent(b->b.setCLIAndUpdateSubscriptions(this,client));
     }
 
     public void performLastChoice(){
