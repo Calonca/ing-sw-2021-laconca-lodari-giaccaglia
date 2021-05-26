@@ -42,9 +42,6 @@ public class JoinLoadMatch extends CreateJoinLoadMatchViewBuilder implements GUI
         getClient().getStage().show();
     }
 
-    public void handleButton()
-    {
-    }
 
 
     @Override

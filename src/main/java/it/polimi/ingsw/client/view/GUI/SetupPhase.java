@@ -38,28 +38,13 @@ import java.util.ResourceBundle;
  */
 public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupPhaseViewBuilder implements GUIView {
 
-    private final int SPINNERNUMBER=4;
+    /**
+     * By changin LEADERNUMBER the number of received leaders to show can be easily changed
+     */
     private final int LEADERNUMBER=4;
-    @FXML
-    private Button b1;
-    @FXML
-    private Button b2;
-    @FXML
-    private Button b3;
-    @FXML
-    private Button b4;
-    @FXML
-    private Button confirm;
     List<Button> sceneButtons=new ArrayList<>();
-
-
-    boolean[] selected =new boolean[4];
-
-
-    Spinner<Integer> goldSpin;
-    Spinner<Integer> slaveSpin;
-    Spinner<Integer> stoneSpin;
-    Spinner<Integer> shieldSpin;
+    boolean[] selected;
+    List<String> colorsToRes=new ArrayList<>();
     List<Spinner<Integer>> sceneSpinners= new ArrayList<>();
 
     @FXML
@@ -83,6 +68,46 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         getClient().getStage().show();
     }
 
+    /**
+     *
+     * @param selected is a boolean array used to represent selection
+     * @param sceneButtons is a button array for the user to execute selection
+     */
+    public void bindForSelection(boolean[] selected,List<Button> sceneButtons)
+    {
+        ImageView temp;
+        for (Button sceneButton : sceneButtons) {
+        temp = new ImageView(new Image("assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_0.png", true));
+        temp.setFitHeight(200);
+        temp.setFitWidth(200);
+        sceneButton.setGraphic(temp);
+        sceneButton.setOnAction(e ->
+        {
+            if(!selected[sceneButtons.indexOf(sceneButton)])
+            {
+                sceneButton.setLayoutY(sceneButton.getLayoutY()-30);
+                selected[sceneButtons.indexOf(sceneButton)]=true;
+            }
+            else
+            {
+                sceneButton.setLayoutY(sceneButton.getLayoutY()+30);
+
+                selected[sceneButtons.indexOf(sceneButton)]=false;
+            }
+            Client.getInstance().getStage().show();
+
+
+        });
+
+    }}
+
+    /**
+     * given a color and a position, the method will build one accordingly
+     * @param color is a css color string
+     * @param y is an int position
+     * @param x is an int position
+     * @return a spinner according to parameters
+     */
     public Spinner<Integer> colorAndAnimate(String color ,int y, int x)
     {
         Spinner<Integer> spin=new Spinner<>(0,3,0);
@@ -115,82 +140,84 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
 
         return spin;
     }
+
+    /**
+     * service method
+     * @return a button according to parameters
+     */
+    public Button validationButton()
+    {
+        Button confirm=new Button();
+        confirm.setText("CONFIRM");
+        confirm.setLayoutY(800);
+        confirm.setLayoutX(450);
+        confirm.setOnAction(p -> {
+
+            for(int i=0;i<sceneSpinners.size();i++)
+                System.out.println(sceneSpinners.get(i).getValue() + Resource.fromInt(i).toString());
+            for(int i=0;i<sceneButtons.size();i++)
+                System.out.println((selected[i]+ sceneButtons.get(i).toString()));
+            Client.getInstance().changeViewBuilder(new MarketMatrix());
+
+        });
+        return confirm;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
         int y=200;
         int x=120;
-        Arrays.fill(selected, false);
+
+        colorsToRes.add(" -fx-background-color: #B8860B");
+        colorsToRes.add(" -fx-background-color: #0099FF");
+        colorsToRes.add(" -fx-background-color: #DEB887");
+        colorsToRes.add(" -fx-background-color: #9400D3");
+
+        /**
+         * Spinner are built accordig to resource colors
+         */
+        //TODO ADD GETCOLOR TO RESOURCE
+        Spinner<Integer> colorToResSpin;
+        for (String colorsToRe : colorsToRes) {
+            colorToResSpin = colorAndAnimate(colorsToRe, y, x);
+            cjlAnchor.getChildren().add(colorToResSpin);
+            sceneSpinners.add(colorToResSpin);
+            x += 200;
+        }
 
 
-        goldSpin=colorAndAnimate(" -fx-background-color: #B8860B",y,x);
-        cjlAnchor.getChildren().add(goldSpin);
+        /**
+         * Buttons are built according to leadernumber parameter
+         */
 
-
-        x+=200;
-        slaveSpin=colorAndAnimate("  -fx-background-color: #0099FF",y,x);
-        cjlAnchor.getChildren().add(slaveSpin);
-
-
-        x+=200;
-        shieldSpin=colorAndAnimate(" -fx-background-color: #DEB887",y,x);
-        cjlAnchor.getChildren().add(shieldSpin);
-
-        x+=200;
-        stoneSpin=colorAndAnimate(" -fx-background-color: #9400D3",y,x);
-        cjlAnchor.getChildren().add(stoneSpin);
-
-        for(int i=0;i<SPINNERNUMBER;i++)
-            sceneSpinners.add((Spinner<Integer>) cjlAnchor.getChildren().get(LEADERNUMBER+1+i));
-
-
-
-        ImageView temp;
-
+        Button tempbut;
         for(int i=0;i<LEADERNUMBER;i++)
-            sceneButtons.add((Button) cjlAnchor.getChildren().get(1+i));
+        {
 
+            tempbut= new Button();
+            tempbut.setLayoutY(600);
+            tempbut.setLayoutX(100+200*i);
+            cjlAnchor.getChildren().add(tempbut);
+            sceneButtons.add(tempbut);
+
+        }
+
+        selected=new boolean[LEADERNUMBER];
+        Arrays.fill(selected, false);
 
 
 
         //TODO MAKE METHOD WHICH TAKES RUNNABLE, BOOLEAN ARRAY AND BUTTON ARRAY TO BIND
-        for (Button sceneButton : sceneButtons) {
-            temp = new ImageView(new Image("assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_0.png", true));
-            temp.setFitHeight(200);
-            temp.setFitWidth(200);
-            sceneButton.setGraphic(temp);
-            sceneButton.setOnAction(e ->
-            {
-                if(!selected[sceneButtons.indexOf(sceneButton)])
-                {
-                    sceneButton.setLayoutY(sceneButton.getLayoutY()-30);
-                    selected[sceneButtons.indexOf(sceneButton)]=true;
-                }
-                else
-                {
-                    sceneButton.setLayoutY(sceneButton.getLayoutY()+30);
+       bindForSelection(selected,sceneButtons);
 
-                    selected[sceneButtons.indexOf(sceneButton)]=false;
-                }
 
-            });
 
-        }
-        for(int i=0;i<cjlAnchor.getChildren().size();i++)
-
-            Client.getInstance().getStage().show();
+       cjlAnchor.getChildren().add(validationButton());
+       Client.getInstance().getStage().show();
 
     }
 
-    public void handleButton(){
-
-        for(int i=0;i<sceneSpinners.size();i++)
-            System.out.println(sceneSpinners.get(i).getValue() + Resource.fromInt(i).toString());
-        for(int i=0;i<sceneButtons.size();i++)
-            System.out.println((selected[i]+ sceneButtons.get(i).toString()));
-        Client.getInstance().changeViewBuilder(new MarketMatrix());
-
-    }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {

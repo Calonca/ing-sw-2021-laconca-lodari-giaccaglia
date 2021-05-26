@@ -4,11 +4,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #006994;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.GUI.CreateJoinLoadMatch">
-    <Button fx:id="joinLoadButton" alignment="CENTER" maxHeight="40.0" maxWidth="300.0" mnemonicParsing="false" onAction="#handleJoin" prefHeight="40.0" prefWidth="110.0" text="JOIN" StackPane.alignment="BOTTOM_LEFT" />
-    <Button fx:id="createButton" alignment="CENTER" maxHeight="40.0" maxWidth="300.0" mnemonicParsing="false" onAction="#handleCreate" prefHeight="40.0" prefWidth="110.0" text="CREATE" StackPane.alignment="BOTTOM_RIGHT" />
-   <Slider fx:id="playerCount" blockIncrement="0.0" majorTickUnit="1.0" max="4.0" maxHeight="30.0" maxWidth="20.0" min="1.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" StackPane.alignment="BOTTOM_RIGHT" />
-    <TableView fx:id="guiMatchesData" layoutX="100.0" maxHeight="651.0" maxWidth="990.0" onMouseClicked="#clickedColumn" prefHeight="100.0" prefWidth="100.0" translateY="-15.0" />
+<StackPane fx:id="cjlPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #006994;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.GUI.CreateJoinLoadMatch">
+   <TableView fx:id="guiMatchesData" layoutX="100.0" maxHeight="651.0" maxWidth="990.0" onMouseClicked="#clickedColumn" prefHeight="100.0" prefWidth="100.0" translateY="-15.0" />
     <cursor>
         <Cursor fx:constant="OPEN_HAND" />
     </cursor>
