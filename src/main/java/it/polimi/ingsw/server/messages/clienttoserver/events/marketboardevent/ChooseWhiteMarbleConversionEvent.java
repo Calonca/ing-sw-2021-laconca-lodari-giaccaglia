@@ -35,4 +35,8 @@ public class ChooseWhiteMarbleConversionEvent extends it.polimi.ingsw.network.me
         return !Resource.fromInt(resourceNumber).equals(Resource.EMPTY);
     }
 
+    public int getResourceNumber(){
+        return resourceNumber;
+    }
+
 }

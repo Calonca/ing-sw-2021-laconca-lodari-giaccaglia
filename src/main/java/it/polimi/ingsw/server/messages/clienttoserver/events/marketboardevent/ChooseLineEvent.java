@@ -26,4 +26,7 @@ public class ChooseLineEvent extends it.polimi.ingsw.network.messages.clienttose
        return !MarketLine.fromInt(chosenRow).equals(MarketLine.INVALID_LINE);
     }
 
+    public int getChosenRow(){
+        return chosenRow;
+    }
 }

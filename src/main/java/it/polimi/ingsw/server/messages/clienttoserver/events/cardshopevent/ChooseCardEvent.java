@@ -77,4 +77,12 @@ public class ChooseCardEvent extends it.polimi.ingsw.network.messages.clienttose
         return isGameStarted(gameModel) && validateLevel() && validateColor() && isCardAvailable() && validateDevCardRequirements(cardToPurchase);
     }
 
+    public int getCardColorNumber(){
+        return cardColorNumber;
+    }
+
+    public int getCardLevel(){
+        return cardLevel;
+    }
+
 }

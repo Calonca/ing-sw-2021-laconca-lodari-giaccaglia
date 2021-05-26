@@ -38,4 +38,8 @@ public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.m
         return false;
     }
 
+    public int[] getChosenResourcesForProduction(){
+        return chosenResources;
+    }
+
 }

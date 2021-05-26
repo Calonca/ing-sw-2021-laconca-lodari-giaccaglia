@@ -49,4 +49,6 @@ public class CardShopEvent extends it.polimi.ingsw.network.messages.clienttoserv
         return gameModel.getSinglePlayer() == null || !gameModel.isSomeDevCardColourOutOfStock();
     }
 
+
+
 }

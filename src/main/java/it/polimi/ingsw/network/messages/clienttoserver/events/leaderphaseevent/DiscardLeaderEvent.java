@@ -23,7 +23,7 @@ public class DiscardLeaderEvent extends ChooseLeaderEvent {
      *{@link GameModel#currentPlayer currentPlayer}'s {@link it.polimi.ingsw.server.model.player.Player#leaders Leaders} List
      */
     public DiscardLeaderEvent(UUID leaderNumber){
-        this.leaderNumber = leaderNumber;
+        this.leaderId = leaderNumber;
     }
 
     /**

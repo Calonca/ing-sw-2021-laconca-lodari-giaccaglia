@@ -34,4 +34,8 @@ public class ChooseProductionAtPositionEvent extends it.polimi.ingsw.network.mes
             return currentPlayerPersonalBoard.getAvailableProductions()[productionPosition];
     }
 
+    public int getProductionPosition(){
+        return productionPosition;
+    }
+
 }

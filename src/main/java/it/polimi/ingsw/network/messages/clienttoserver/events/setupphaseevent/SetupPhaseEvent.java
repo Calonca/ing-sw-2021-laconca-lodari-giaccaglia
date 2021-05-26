@@ -16,7 +16,6 @@ public class SetupPhaseEvent extends Event {
     protected Pair<Integer, Integer> [] resources; //key = position, value = resource number
     protected List<UUID> discardedLeaders;
     protected int initialResources;
-    protected int initialChosenLeaders;
     protected int initialDiscardedLeaders;
     protected int actualSize = 0;
     protected int playerNumber;
@@ -45,7 +44,7 @@ public class SetupPhaseEvent extends Event {
 
     /**
      * Method to select initial player resources during setup phase.
-     * @param resource {@link Pair} whose key represents resource position inside <em>Warehouse</em>, whereas the value
+     * @param resource {@link Pair} whose key represents resource position inside <em>WarehouseLeadersDepot</em>, whereas the value
      * represent resource int corresponding value, according to {@link it.polimi.ingsw.server.model.Resource Resources}
      * encoding.
      */

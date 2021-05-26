@@ -5,6 +5,8 @@ import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
 
+import java.util.UUID;
+
 /**
  * Client side {@link Event} created when {@link GameModel#currentPlayer currentPlayer} wants to discard a
  * {@link it.polimi.ingsw.server.model.player.leaders.Leader Leader}
@@ -17,8 +19,11 @@ public class DiscardLeaderEvent extends it.polimi.ingsw.network.messages.clientt
 
     @Override
     public boolean validate(GameModel model) {
-        return  isGameStarted(model)  && validateLeaderNumber(model, leaderNumber)
-                && validateLeaderAvailability(model, leaderNumber);
+        return  isGameStarted(model)  && validateLeaderNumber(model, leaderId)
+                && validateLeaderAvailability(model, leaderId);
+    }
 
+    public UUID getLeaderId(){
+        return leaderId;
     }
 }

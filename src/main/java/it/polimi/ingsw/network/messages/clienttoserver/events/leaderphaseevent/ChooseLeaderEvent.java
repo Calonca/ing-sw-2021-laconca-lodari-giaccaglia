@@ -21,16 +21,16 @@ public class ChooseLeaderEvent extends InitialOrFinalPhaseEvent {
      * Represents the chosen {@link it.polimi.ingsw.server.model.player.leaders.Leader Leader} position in
      * {@link GameModel#currentPlayer currentPlayer}'s {@link it.polimi.ingsw.server.model.player.Player#leaders Leaders} List
      */
-    protected UUID leaderNumber;
+    protected UUID leaderId;
 
     /**
      * Client side {@link Event} constructor invoked when {@link State#SHOWING_LEADERS_INITIAL SHOWING_LEADERS_INITIAL} or
      * {@link State#SHOWING_LEADERS_FINAL SHOWING_LEADERS_FINAL} phase action is performed.
-     * @param leaderNumber chosen {@link it.polimi.ingsw.server.model.player.leaders.Leader Leader} position in
+     * @param leaderId chosen {@link it.polimi.ingsw.server.model.player.leaders.Leader Leader} position in
      *{@link GameModel#currentPlayer currentPlayer}'s {@link it.polimi.ingsw.server.model.player.Player#leaders Leaders} List
      */
-    public ChooseLeaderEvent(UUID leaderNumber){
-        this.leaderNumber = leaderNumber;
+    public ChooseLeaderEvent(UUID leaderId){
+        this.leaderId = leaderId;
     }
 
     /**

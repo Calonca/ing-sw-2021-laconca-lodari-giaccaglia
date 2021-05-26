@@ -49,4 +49,8 @@ public class ChooseCardPositionEvent extends it.polimi.ingsw.network.messages.cl
     private boolean checkSpotAvailability(){
         return currentPlayerPersonalBoard.getCardCells().get(position).isSpotAvailable(chosenCard);
     }
+
+    public int getCardPositionInPersonalBoard(){
+        return position;
+    }
 }

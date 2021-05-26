@@ -82,4 +82,12 @@ public class MoveResourceEvent extends it.polimi.ingsw.network.messages.clientto
         return startPos >= -4 && startPos < 0 && gameModel.getCurrentPlayer().getPersonalBoard().getDiscardBox().getNumberOf(Resource.fromInt(startPos + 4)) > 0;
     }
 
+    public int getStartPos(){
+        return startPos;
+    }
+
+    public int getEndPos(){
+        return endPos;
+    }
+
 }
