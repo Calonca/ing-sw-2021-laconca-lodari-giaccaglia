@@ -2,16 +2,10 @@ package it.polimi.ingsw.network.simplemodel;
 
 public abstract class SimpleModelElement {
 
-    private Object object;
-
     public SimpleModelElement(){}
 
-    public Object getElement(){
-        return object;
-    }
+    public abstract Object getElement();
 
-    public void update(SimpleModelElement element){
-        this.object = element.getElement();
-    }
+    public abstract void update(SimpleModelElement element);
 
 }

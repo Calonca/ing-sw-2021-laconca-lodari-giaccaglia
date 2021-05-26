@@ -29,7 +29,12 @@ public class SimplePlayerLeaders extends SimpleModelElement{
 
     @Override
     public void update(SimpleModelElement element){
-        this.playerLeaders = ((Map<UUID, Boolean>)(element.getElement())).keySet()
+        SimplePlayerLeaders newElement = (SimplePlayerLeaders) element;
+
+        this.playerLeadersMap = newElement.playerLeadersMap;
+        Map<UUID, Boolean> map = newElement.playerLeadersMap;
+
+        this.playerLeaders = (map).keySet()
                 .stream()
                 .map(Cards::getLeaderCardAsset).collect(Collectors.toList());
 
