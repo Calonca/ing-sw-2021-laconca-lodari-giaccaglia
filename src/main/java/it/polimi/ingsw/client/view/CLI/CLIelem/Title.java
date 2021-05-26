@@ -25,8 +25,5 @@ public class Title extends CLIelem{
         return canvas.toString();
     }
 
-    @Override
-    public int horizontalSize() {
-        return title.length();
-    }
+
 }

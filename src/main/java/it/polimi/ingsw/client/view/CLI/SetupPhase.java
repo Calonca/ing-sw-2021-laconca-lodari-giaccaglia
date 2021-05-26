@@ -17,10 +17,12 @@ public class SetupPhase extends SetupPhaseViewBuilder implements CLIBuilder {
     public void run() {
 
         String title = "Select two leader cards and resources";
+        int resourcesToChoose = 3;
         getCLIView().setTitle(new Title(title));
         SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).get();
+
         String a = new GsonBuilder().setPrettyPrinting().create().toJson(simplePlayerLeaders);
-        getCLIView().setBody(new SetupBody(a));
+        getCLIView().setBody(new SetupBody(simplePlayerLeaders.getPlayerLeaders(),resourcesToChoose));
         getCLIView().runOnInput("Insert anything and press send to test events",
                 ()->{
                     SetupPhaseEvent event = new SetupPhaseEvent(0,0,0);

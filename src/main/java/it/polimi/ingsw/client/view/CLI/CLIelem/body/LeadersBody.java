@@ -29,8 +29,5 @@ public class LeadersBody extends CLIelem {
     }
      */
 
-    @Override
-    public int horizontalSize() {
-        return -1;
-    }
+
 }

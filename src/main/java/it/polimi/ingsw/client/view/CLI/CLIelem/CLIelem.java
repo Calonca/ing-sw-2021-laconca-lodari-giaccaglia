@@ -85,8 +85,6 @@ public abstract class CLIelem implements PropertyChangeListener {
         return new Gson().toJson(this);
     }
 
-    public abstract int horizontalSize();
-
     public void addToListeners(Client client){
         client.addToListeners(this, client.getCommonData().getThisPlayerIndex().orElse(0));
     }

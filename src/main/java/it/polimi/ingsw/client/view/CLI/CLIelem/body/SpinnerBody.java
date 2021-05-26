@@ -17,12 +17,7 @@ public class SpinnerBody extends CLIelem {
 
     @Override
     public String toString() {
-        return  meanwhileShow==null? "null": meanwhileShow.toString();
-    }
-
-    @Override
-    public int horizontalSize() {
-        return -1;
+        return  meanwhileShow==null? "no data in spinner": meanwhileShow.toString();
     }
 
 }

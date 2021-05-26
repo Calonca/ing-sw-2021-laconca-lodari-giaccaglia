@@ -4,9 +4,8 @@ import it.polimi.ingsw.network.simplemodel.*;
 import it.polimi.ingsw.server.model.GameModel;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public enum Element {
 
@@ -37,7 +36,10 @@ public enum Element {
     SimplePlayerLeaders(false){
         @Override
         public SimpleModelElement buildSimpleModelElement(GameModel gameModel){
-            return new SimplePlayerLeaders(gameModel.getCurrentPlayer().getLeadersUUIDs());
+            return new SimplePlayerLeaders(gameModel.getCurrentPlayer().getLeadersUUIDs().stream().collect(Collectors.toMap(
+                    (e)->e,
+                    (e)->false
+            )));
         }
     },
 

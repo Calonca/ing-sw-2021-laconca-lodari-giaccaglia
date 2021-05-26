@@ -22,8 +22,7 @@ public class VerticalListBody extends OptionList {
     @Override
     public String toString() {
         Canvas canvas = Canvas.withBorder(CLI.width,cli.getMaxBodyHeight());
-        String spaces = StringUtil.spaces(CLI.getCenterX()-horizontalSize()/2);
-        canvas.drawWithDefaultColor(spaces.length(),0,stringWithNumber());
+        canvas.drawWithDefaultColor(StringUtil.startCenterWritingX(stringWithNumber(),CLI.width),0,stringWithNumber());
         return canvas.toString();
     }
 
@@ -34,8 +33,4 @@ public class VerticalListBody extends OptionList {
                 .mapToObj(i->i+": "+options.get(i).toString()).reduce("",(a,b)->a+b+"\n");
     }
 
-    @Override
-    public int horizontalSize() {
-        return options.stream().mapToInt(Option::horizontalSize).max().orElse(0)+3;
-    }
 }

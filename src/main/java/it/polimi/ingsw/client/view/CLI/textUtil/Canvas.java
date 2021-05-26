@@ -42,6 +42,14 @@ public class Canvas {
         draw(x,y,s,Color.DEFAULT,Background.DEFAULT);
     }
 
+    public void drawCenterX(int y, String s,Color c,Background b){
+        draw(StringUtil.startCenterWritingX(s, width),y,s,c,b);
+    }
+
+    public void drawCenterXDefault(int y, String s){
+        draw(StringUtil.startCenterWritingX(s, width),y,s,Color.DEFAULT,Background.DEFAULT);
+    }
+
     /**
      * Draws the string in the canvas at the given position,
      * the output in the CLI is similar to that of System.out.print(s) but with the text starting form the given x,y position.

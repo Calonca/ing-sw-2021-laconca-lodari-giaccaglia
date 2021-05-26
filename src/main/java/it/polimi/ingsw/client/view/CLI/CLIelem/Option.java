@@ -41,7 +41,7 @@ public class Option extends CLIelem{
     }
 
 
-    @Override
+
     public int horizontalSize() {
         return Math.max(StringUtil.maxWidth(name),StringUtil.maxWidth(subtitle)+4);
     }
