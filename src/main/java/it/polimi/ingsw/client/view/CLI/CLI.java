@@ -32,9 +32,9 @@ public class CLI {
     private int writtenChars;
 
     //Min is 21
-    public static final int height =23;//Usually 45
+    public static final int height =45;//Usually 45
     //Min is 21
-    public static final int width =185;//Usually 47
+    public static final int width =185;//Usually 185
 
 
     public CLI(Client client) {
@@ -187,7 +187,7 @@ public class CLI {
      * Used to refresh the screen
      */
     private synchronized void display(){
-        putDivider();
+        putStartDiv();
         title.ifPresent(t-> print(t.toString()));
         putDivider();
         body.ifPresent(b-> print(b.toString()));
@@ -227,11 +227,19 @@ public class CLI {
                 );
     }
 
+    public void putStartDiv(){
+        printLine(
+                Characters.TOP_LEFT_DIV.getString()+
+                        Characters.HOR_DIVIDER.repeated(width)+
+                        Characters.TOP_RIGHT_DIV.getString()
+        );
+    }
+
     public void putEndDiv(){
         printLine(
-                Characters.HOR_DIVIDER.getString()+
+                Characters.BOTTOM_LEFT_DIV.getString()+
                         Characters.HOR_DIVIDER.repeated(width)+
-                        Characters.VERT_DIVIDER.getString()
+                        Characters.BOTTOM_RIGHT_DIV.getString()
         );
     }
 
