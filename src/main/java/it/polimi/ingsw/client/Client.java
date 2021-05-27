@@ -3,6 +3,7 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.simplemodel.SimpleModel;
 import it.polimi.ingsw.client.view.CLI.CLI;
 import it.polimi.ingsw.client.view.CLI.CLIelem.CLIelem;
+import it.polimi.ingsw.client.view.CLI.TestViewBuilder;
 import it.polimi.ingsw.client.view.GUI.SetupPhase;
 import it.polimi.ingsw.client.view.abstractview.ConnectToServerViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.SetupPhaseViewBuilder;
@@ -88,8 +89,8 @@ public class Client implements Runnable
         /* Open connection to the server and start a thread for handling
          * communication. */
         if (ip==null||commonData.getCurrentnick()==null){
-            //changeViewBuilder(new TestViewBuilder());
-            changeViewBuilder(ConnectToServerViewBuilder.getBuilder(isCLI));
+            changeViewBuilder(new TestViewBuilder());
+            //changeViewBuilder(ConnectToServerViewBuilder.getBuilder(isCLI));
             return;}
         Socket server;
         try {

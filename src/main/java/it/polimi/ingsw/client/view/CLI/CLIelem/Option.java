@@ -1,18 +1,13 @@
 package it.polimi.ingsw.client.view.CLI.CLIelem;
 
-import it.polimi.ingsw.client.view.CLI.textUtil.Background;
-import it.polimi.ingsw.client.view.CLI.textUtil.Color;
-import it.polimi.ingsw.client.view.CLI.textUtil.StringUtil;
-
-import java.util.Arrays;
+import it.polimi.ingsw.client.view.CLI.textUtil.*;
 
 /**
  * A selectable option in a CLIView that will execute the given code when perform is called
  */
 public class Option extends CLIelem{
     private boolean selected;
-    private final String name;
-    private final String subtitle;
+    private final DrawableList drawableList;
 
     public static Option from(String name,String subtitle,Runnable performer){
         Option option = new Option(name,subtitle);
@@ -26,10 +21,22 @@ public class Option extends CLIelem{
         return option;
     }
 
-    public Option(String name,String subtitle){
-        this.name = name;
+    public static Option from(DrawableList drawableList,Runnable performer){
+        Option option = new Option(drawableList);
+        option.setPerformer(performer);
+        return option;
+    }
+
+    private Option(DrawableList drawableList) {
+        this.drawableList = drawableList;
+        this.selected = true;
+    }
+
+    private Option(String name, String subtitle){
+        drawableList = new DrawableList();
+        drawableList.add(0, name);
+        drawableList.add(3,subtitle);
         this.selected = false;
-        this.subtitle = subtitle;
     }
 
     public boolean isSelected() {
@@ -38,29 +45,27 @@ public class Option extends CLIelem{
 
     public void setSelected(boolean selected) {
         this.selected = selected;
+        if (selected) {
+            drawableList.get().forEach(e->e.setColor(Color.ANSI_BLACK));
+            drawableList.get().forEach(e->e.setBackground(Background.ANSI_WHITE_BACKGROUND));
+        } else {
+            drawableList.get().forEach(e->e.setColor(Color.DEFAULT));
+            drawableList.get().forEach(e->e.setBackground(Background.DEFAULT));
+        }
+
     }
 
-
+    public DrawableList toDrawableList(){
+        return drawableList;
+    }
 
     public int horizontalSize() {
-        return Math.max(StringUtil.maxWidth(name),StringUtil.maxWidth(subtitle)+4);
+        return drawableList.getWidth();
     }
 
-    @Override
-    public String toString() {
-        if (subtitle == null || subtitle.equals(" ") || subtitle.equals("")) {
-            return colorIfSelected(name);
-        } else {
-            String formattedSub = "\n   " + colorIfSelected(" "+subtitle);
-            return colorIfSelected(name) +formattedSub;
-        }
+    public int height(){
+        return drawableList.getHeight();
     }
 
-    private String colorIfSelected(String s){
-        selected = false;
-        if (selected)
-            return Color.colorStringAndBackground(StringUtil.stringUntilReachingSize(s,horizontalSize()),Color.ANSI_BLACK, Background.ANSI_WHITE_BACKGROUND);
-        else return StringUtil.stringUntilReachingSize(s,horizontalSize());
-    }
 
 }

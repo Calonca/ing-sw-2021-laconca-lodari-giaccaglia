@@ -50,6 +50,18 @@ public class Canvas {
         draw(StringUtil.startCenterWritingX(s, width),y,s,Color.DEFAULT,Background.DEFAULT);
     }
 
+    public void draw(Drawable d){
+        draw(d.getXPos(),d.getYPos(),d.getString(),d.getColor(),d.getBackground());
+    }
+
+    public void draw(DrawableList d){
+        d.get().forEach(this::draw);
+    }
+
+    public void drawShifted(int shiftX,int shiftY,DrawableList l){
+        l.get().stream().map(d->Drawable.shifted(shiftX,shiftY,d)).forEach(this::draw);
+    }
+
     /**
      * Draws the string in the canvas at the given position,
      * the output in the CLI is similar to that of System.out.print(s) but with the text starting form the given x,y position.
