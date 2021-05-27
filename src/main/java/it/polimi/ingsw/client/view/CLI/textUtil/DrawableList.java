@@ -12,6 +12,10 @@ public class DrawableList {
         this.drawables = new ArrayList<>();
     }
 
+    public DrawableList(List<Drawable> drawables) {
+        this.drawables = drawables;
+    }
+
     public DrawableList(DrawableList first, DrawableList second) {
         drawables = Stream.concat(first.drawables.stream(),second.drawables.stream()).collect(Collectors.toList());
     }
