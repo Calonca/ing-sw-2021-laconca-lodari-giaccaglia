@@ -34,16 +34,6 @@ public class VerticalListBody extends OptionList {
                     return drawableList;}).collect(Collectors.toList());
     }
 
-    private int optMaxWidth()
-    {
-        return options.stream().mapToInt(Option::horizontalSize).max().orElse(0)+1;
-    }
-
-    private int optMaxHeight()
-    {
-        return options.stream().mapToInt(Option::height).max().orElse(0);
-    }
-
     //Prints vertical list
     @Override
     public String toString() {
