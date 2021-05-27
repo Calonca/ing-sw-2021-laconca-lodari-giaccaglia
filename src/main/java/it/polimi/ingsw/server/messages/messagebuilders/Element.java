@@ -11,20 +11,20 @@ public enum Element {
 
     //----------common elements----------//
 
-    SimpleCardShop(true){
+    SimpleCardShop(true) {
         @Override
-        public SimpleModelElement buildSimpleModelElement(GameModel gameModel){
+        public SimpleModelElement buildSimpleModelElement(GameModel gameModel) {
             return new SimpleCardShop(CardShopMessageBuilder.cardShopAdapter(gameModel));
         }
 
 
     },
 
-    SimpleMarketBoard(true){
+    SimpleMarketBoard(true) {
         @Override
-        public SimpleModelElement buildSimpleModelElement(GameModel gameModel){
+        public SimpleModelElement buildSimpleModelElement(GameModel gameModel) {
             return new SimpleMarketBoard(
-                    MarketBoardMessageBuilder.marketBoardAdapter(gameModel.getMarketMarbles(), gameModel.getMarketBoardRows(), gameModel.getMarketBoardColumns()),
+                    MarketBoardMessageBuilder.marketBoardAdapter(gameModel),
                     gameModel.getMarketBoardColumns(),
                     gameModel.getMarketBoardRows(),
                     UUID.nameUUIDFromBytes(gameModel.getSlideMarble().toString().getBytes(StandardCharsets.UTF_8)));
@@ -33,71 +33,62 @@ public enum Element {
 
     //--------player elements-----------//
 
-    SimplePlayerLeaders(false){
+    SimplePlayerLeaders(false) {
         @Override
-        public SimpleModelElement buildSimpleModelElement(GameModel gameModel){
-            return new SimplePlayerLeaders(gameModel.getCurrentPlayer().getLeadersUUIDs().stream().collect(Collectors.toMap(
-                    (e)->e,
-                    (e)->false
-            )));
+        public SimpleModelElement buildSimpleModelElement(GameModel gameModel) {
+            return new SimplePlayerLeaders(PlayerLeadersMessageBuilder.playerLeadersMap(gameModel));
         }
     },
 
-    TestElem(false){
-        @Override
-        public SimpleModelElement buildSimpleModelElement(GameModel model) {
-            return new TestElem();
+        SimpleFaithTrack(false) {
+            @Override
+            public SimpleModelElement buildSimpleModelElement (GameModel gameModel){
+                it.polimi.ingsw.network.simplemodel.SimpleFaithTrack track = new SimpleFaithTrack();
+                return track.faithTrackConstructor(gameModel.getCurrentPlayer().getSerializedFaithTrack());
+            }
+
+        },
+
+        SimpleStrongBox(false) {
+            @Override
+            public SimpleModelElement buildSimpleModelElement (GameModel gameModel){
+                return new SimpleStrongBox(SimpleDepotsMessageBuilder.getSimpleStrongBox(gameModel));
+            }
+        },
+
+        SimpleWareHouseLeadersDepot(false) {
+            @Override
+            public SimpleModelElement buildSimpleModelElement (GameModel gameModel){
+                return new SimpleWarehouseLeadersDepot(
+                        SimpleDepotsMessageBuilder.getSimpleWarehouseLeadersDepots(gameModel));
+            }
+        },
+
+        SimpleCardCells(false) {
+            @Override
+            public SimpleModelElement buildSimpleModelElement (GameModel gameModel){
+                return new SimpleCardCells(SimpleCardsCellsMessageBuilder.cardCellsAdapter(gameModel));
+            }
         }
-    },
 
-    SimpleFaithTrack(false){
-        @Override
-        public SimpleModelElement buildSimpleModelElement(GameModel gameModel){
-            it.polimi.ingsw.network.simplemodel.SimpleFaithTrack track = new SimpleFaithTrack();
-            return track.faithTrackConstructor(gameModel.getCurrentPlayer().getSerializedFaithTrack());
+        ;
+
+        private final boolean isCommonElement;
+
+        private static List<Element> elements = Arrays.asList(Element.values());
+
+        Element(final Boolean isCommonElement) {
+            this.isCommonElement = isCommonElement;
         }
 
-    },
+        public abstract SimpleModelElement buildSimpleModelElement(GameModel model);
 
-    SimpleStrongBox(false){
-        @Override
-        public SimpleModelElement buildSimpleModelElement(GameModel gameModel){
-            return new SimpleCardShop(CardShopMessageBuilder.cardShopAdapter(gameModel));
+        public static List<Element> getAsList() {
+            return elements;
         }
-    },
 
-    SimpleWareHouseLeadersDepot(false){
-        @Override
-        public SimpleModelElement buildSimpleModelElement(GameModel gameModel){
-            return new SimpleWarehouseLeadersDepot(
-                    SimpleDepotsMessageBuilder.getSimpleWarehouseLeadersDepots(
-                            gameModel.getCurrentPlayer().getPersonalBoard().getSimpleWarehouseLeadersDepots()));
+        public boolean isCommonElement() {
+            return isCommonElement;
         }
-    },
-
-    SimpleCardCells(false){
-        @Override
-        public SimpleModelElement buildSimpleModelElement(GameModel gameModel){
-            return new SimpleCardShop(CardShopMessageBuilder.cardShopAdapter(gameModel));
-        }
-    };
-
-    private final boolean isCommonElement;
-
-    private static List<Element> elements = Arrays.asList(Element.values());
-
-    Element(final Boolean isCommonElement) {
-        this.isCommonElement = isCommonElement;
-    }
-
-    public abstract SimpleModelElement buildSimpleModelElement(GameModel model);
-
-    public static List<Element> getAsList(){
-        return elements;
-    }
-
-    public boolean isCommonElement(){
-        return isCommonElement;
-    }
 
 }

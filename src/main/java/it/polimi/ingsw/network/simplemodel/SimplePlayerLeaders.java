@@ -1,7 +1,5 @@
 package it.polimi.ingsw.network.simplemodel;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
 
 import java.util.*;
@@ -36,6 +34,7 @@ public class SimplePlayerLeaders extends SimpleModelElement{
         SimplePlayerLeaders serverSimplePlayerLeaders = (SimplePlayerLeaders) element;
 
         Map<UUID, Boolean> map = serverSimplePlayerLeaders.playerLeadersMap;
+
         if (map!=null&&!map.isEmpty()) {
             playerLeadersMap = map;
             this.playerLeaders = (map).keySet()
@@ -44,7 +43,7 @@ public class SimplePlayerLeaders extends SimpleModelElement{
 
             for (LeaderCardAsset leader : playerLeaders) {
                 UUID leaderId = leader.getCardId();
-                leader.getNetworkLeaderCard().setLeaderState(false/*Todo fix difference playerLeadersMap.get(leaderId)*/);
+                leader.getNetworkLeaderCard().setLeaderState(map.get(leaderId)/*Todo fix difference playerLeadersMap.get(leaderId)*/);
             }
         } else this.playerLeaders = serverSimplePlayerLeaders.playerLeaders;
     }

@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 public class PlayerLeadersMessageBuilder {
 
-    public static Map<UUID, Boolean> playerLeaders(GameModel gameModel){
+    public static Map<UUID, Boolean> playerLeadersMap(GameModel gameModel){
 
         return gameModel.getCurrentPlayer().getLeadersUUIDs().stream().collect(Collectors.toMap(
                 leaderId -> leaderId,

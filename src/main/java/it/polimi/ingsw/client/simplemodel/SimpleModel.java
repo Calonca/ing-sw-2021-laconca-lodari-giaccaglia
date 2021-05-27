@@ -43,7 +43,7 @@ public class SimpleModel {
         support.removePropertyChangeListener(pcl);
     }
 
-    private void updateSimpleModelElement(String name, SimpleModelElement element){
+    public void updateSimpleModelElement(String name, SimpleModelElement element){
         commonSimpleModelElementsMap.get(name).update(element);
         //Todo notify
     }

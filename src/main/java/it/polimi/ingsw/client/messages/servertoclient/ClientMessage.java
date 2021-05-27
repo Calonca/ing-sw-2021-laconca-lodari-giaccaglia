@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.client.ServerHandler;
 import it.polimi.ingsw.RuntimeTypeAdapterFactory;
-import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
 import it.polimi.ingsw.network.messages.servertoclient.ServerToClientMessage;
 
 import java.io.IOException;
@@ -29,7 +28,7 @@ public interface ClientMessage {
 
         Gson gson1 = new GsonBuilder()
                 .registerTypeAdapterFactory(jsonToClientAdapter)
-                .registerTypeAdapterFactory(ServerToClientMessage.elemAdapter())
+                .registerTypeAdapterFactory(ServerToClientMessage.elementAdapter())
                 .create();
 
         return deserializeFromString(jsonString, ClientMessage.class, gson1);

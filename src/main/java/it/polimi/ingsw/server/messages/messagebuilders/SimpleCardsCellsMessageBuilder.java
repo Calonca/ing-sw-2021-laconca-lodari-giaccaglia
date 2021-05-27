@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.messages.messagebuilders;
 
+import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 
 import java.util.ArrayList;
@@ -10,7 +11,9 @@ import java.util.stream.Collectors;
 
 public class SimpleCardsCellsMessageBuilder {
 
-    public static Map<Integer, List<UUID>> cardCellsAdapter(Map<Integer, List<DevelopmentCard>> visibleCardCells){
+    public static Map<Integer, List<UUID>> cardCellsAdapter(GameModel gameModel){
+
+        Map<Integer, List<DevelopmentCard>> visibleCardCells = gameModel.getCurrentPlayer().getPersonalBoard().getVisibleCardsOnCells();
 
         return visibleCardCells.keySet().stream().collect(Collectors.toMap(
                 integer -> integer,

@@ -71,7 +71,7 @@ public class Serializator extends JsonUtility {
             String cardPathSuffix = index.toString() + ".png";
             String frontActivated = frontLeaderCardPathString + cardPathSuffix;
             String frontInactive = frontLeaderCardGrayedOutPathString + cardPathSuffix;
-            return new LeaderCardAsset(card, frontInactive, backLeaderCardGrayedOutPathString, frontActivated, backLeaderCardPathString, UUID.nameUUIDFromBytes(card.toString().getBytes(StandardCharsets.UTF_8)));
+            return new LeaderCardAsset(card, frontInactive, backLeaderCardGrayedOutPathString, frontActivated, backLeaderCardPathString, index);
 
         }));
 

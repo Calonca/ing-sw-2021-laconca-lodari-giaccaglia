@@ -205,7 +205,7 @@ public class PersonalBoard {
     /**
      * Resets the {@link Resource resources} chosen to {@link Resource#TOCHOOSE} for all the {@link Production productions} that have choices
      */
-    void resetSelectedProductions(){
+    public void resetSelectedProductions(){
         IntStream.range(0,prodsSelected.size())
                 .filter((pos)->prodsSelected.get(pos).isPresent())
                 .forEach((pos)->prodsSelected.set(pos,Optional.of(false)));
@@ -488,6 +488,16 @@ public class PersonalBoard {
      */
     public IntStream availableMovingPositionsForResourceAt(int position){
         return availableMovingPositionsForResource(storageUnitFromPos(position).getResourceAt(position)).filter((i)->i!=position);
+    }
+
+    /**
+     * Returns the resource at a given position in the {{@link PersonalBoard#warehouseLeadersDepots} or {@link PersonalBoard#strongBox}
+     * @return the resource at the given position, if present, otherwise returns {@link Resource#EMPTY EMPTY}
+     */
+    public Resource getResourceAtPosition(int position){
+        return warehouseLeadersDepots.getResourceAt(position).equals(Resource.EMPTY) ?
+                strongBox.getResourceAt(position) :
+                warehouseLeadersDepots.getResourceAt(position);
     }
 
 }

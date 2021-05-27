@@ -2,13 +2,14 @@ package it.polimi.ingsw.server.messages.clienttoserver.events.productionevent;
 
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
+import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.player.board.PersonalBoard;
 import it.polimi.ingsw.server.model.states.State;
+import javafx.util.Pair;
+
+import java.util.List;
 
 public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.messages.clienttoserver.events.productionevent.ChooseResourcesForProductionEvent implements Validable {
-
-
-
 
     /**
      * {@link GameModel} of the event's current game on which event validation has to be performed.
@@ -27,15 +28,39 @@ public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.m
     @Override
     public boolean validate(GameModel gameModel) {
         initializeMiddlePhaseEventValidation(gameModel);
-        return checkResourceRequirements() && checkProductionResources();
+        return checkChosenResourceAvailability() && checkResourcesToConvert();
     }
 
-    private boolean checkResourceRequirements(){
-        return currentPlayerPersonalBoard.hasResources(chosenResources);
+    private boolean checkChosenResourceAvailability(){
+        int[] resource = new int[1];
+        resource[0] = chosenResource;
+        return currentPlayerPersonalBoard.hasResources(resource);
     }
 
-    private boolean checkProductionResources(){
-        return false;
+    private boolean checkAvailabilityOfResourcesToConvert(){
+        return currentPlayerPersonalBoard.hasResources(resourcesToDiscard.stream().mapToInt(Pair::getValue).toArray());
+    }
+
+    private boolean checkPositionOfResourcesToDiscard(){
+      return resourcesToDiscard.stream()
+              .allMatch(
+                      pair -> currentPlayerPersonalBoard.getResourceAtPosition(pair.getKey()).equals(Resource.fromInt(pair.getValue())));
+    }
+
+    private boolean checkResourcesType(){
+        return resourcesToDiscard.stream().anyMatch(resource -> Resource.fromInt(resource.getValue()).equals(Resource.EMPTY));
+    }
+
+    private boolean checkResourcesToConvert(){
+        return checkResourcesType() && checkAvailabilityOfResourcesToConvert() && checkPositionOfResourcesToDiscard();
+    }
+
+    public int getChosenResourceForProduction(){
+        return chosenResource;
+    }
+
+    public List<Pair<Integer, Integer>> getResourcesToDiscard(){
+        return resourcesToDiscard;
     }
 
 }
