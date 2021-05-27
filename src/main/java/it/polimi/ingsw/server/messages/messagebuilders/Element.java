@@ -56,6 +56,15 @@ public enum Element {
             }
         },
 
+        SimpleDiscardBox(false) {
+            @Override
+            public SimpleModelElement buildSimpleModelElement (GameModel gameModel){
+                return new SimpleDiscardBox(SimpleDepotsMessageBuilder.getSimpleDiscardBox(gameModel));
+            }
+        },
+
+
+
         SimpleWareHouseLeadersDepot(false) {
             @Override
             public SimpleModelElement buildSimpleModelElement (GameModel gameModel){

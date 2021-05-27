@@ -22,17 +22,16 @@ public class ChoosingSpaceForDevelopmentCard implements GameStrategy {
 
     List<Element> elementsToUpdate = new ArrayList<>();
 
-    public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event) throws EventValidationFailedException
+    public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event)
     {
-        //ON EVENT CHOOSECARDPOSITIONEVENT
-     //   if(chosencell.isSpotAvailable(gamemodel.getPurchasedCard()))
-   //     else
-     //       return State.CHOOSING_POSITION_FOR_DEVCARD;*/
-        event.validate(gamemodel);
-        ProductionCardCell chosencell=gamemodel.getCurrentPlayer().getPersonalBoard().getCardCells().get(((ChooseCardPositionEvent) event).getCardPositionInPersonalBoard());
-        chosencell.addToTop(gamemodel.getPurchasedCard());
 
-        return new Final().execute(gamemodel, event);
+        ProductionCardCell chosenCell=gamemodel.getCurrentPlayer().getPersonalBoard().getCardCells().get(((ChooseCardPositionEvent) event).getCardPositionInPersonalBoard());
+        chosenCell.addToTop(gamemodel.getPurchasedCard());
+
+        elementsToUpdate.add(Element.SimpleCardCells);
+
+        return new Pair<>(State.FINAL_PHASE, elementsToUpdate);
+
     }
 }
  //   /**

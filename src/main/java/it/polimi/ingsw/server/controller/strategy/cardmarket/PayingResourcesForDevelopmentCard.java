@@ -19,9 +19,8 @@ public class PayingResourcesForDevelopmentCard implements GameStrategy {
 
     List<Element> elementsToUpdate = new ArrayList<>();
 
-    public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event) throws EventValidationFailedException
+    public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event)
     {
-        event.validate(gamemodel);
 
   /*      //ON EVENT CHOOSERESOURCEEVENT
         //MESSAGE IS POSITION AND 0 OR 1 FOR DEPOT OR STRONGBOX. IF POSITION IS 0 CHECKS FOR VALIDATION
@@ -42,6 +41,12 @@ public class PayingResourcesForDevelopmentCard implements GameStrategy {
         //TODO
         gamemodel.getCurrentPlayer().getPersonalBoard().getWarehouseLeadersDepots().removeSelected();
         gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().removeSelected();
+
+        elementsToUpdate.add(Element.SimpleCardCells);
+        elementsToUpdate.add(Element.SimpleCardShop);
+        elementsToUpdate.add(Element.SimpleStrongBox);
+        elementsToUpdate.add(Element.SimpleWareHouseLeadersDepot);
+
         return new Pair<>(State.CHOOSING_POSITION_FOR_DEVCARD, elementsToUpdate);
 
     }

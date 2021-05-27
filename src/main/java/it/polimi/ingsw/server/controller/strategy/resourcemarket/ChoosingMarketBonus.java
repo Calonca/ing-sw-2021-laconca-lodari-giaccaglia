@@ -22,24 +22,18 @@ public class ChoosingMarketBonus implements GameStrategy {
 
     List<Element> elementsToUpdate = new ArrayList<>();
 
-    public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event) throws EventValidationFailedException
+    public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event)
     {
-        //ON EVENT CHOOSEWHITEMARBLECONVERSIONEVENT
-        //MESSAGE IS Resource.SHIELD
-        //gamemodel.getBoxResourcesFromMarketBoard().selectN(1,Resource.TOCHOOSE);
-        //gamemodel.getBoxResourcesFromMarketBoard().removeSelected();
-        //gamemodel.getBoxResourcesFromMarketBoard().addResource(new Pair<>(1, Resource.SHIELD));
-
-        //if(gamemodel.getCurrentPlayer().getMarketBonus()[msg.getResourceNumber()])
-        event.validate(gamemodel);
-
         gamemodel.convertWhiteMarbleInPickedLine(Resource.fromInt(((ChooseWhiteMarbleConversionEvent) event).getResourceNumber()));
 
-        //if(gamemodel.getBoxResourcesFromMarketBoard().getNumberOf(Resource.TOCHOOSE)>0)
+        elementsToUpdate.add(Element.SimpleMarketBoard);
+
         if(gamemodel.areThereWhiteMarblesInPickedLine())
             return new Pair<>(State.CHOOSING_WHITEMARBLE_CONVERSION, elementsToUpdate);
 
 
+        elementsToUpdate.add(Element.SimpleStrongBox);
         return new Pair<>(State.CHOOSING_POSITION_FOR_RESOURCES, elementsToUpdate);
     }
+
 }

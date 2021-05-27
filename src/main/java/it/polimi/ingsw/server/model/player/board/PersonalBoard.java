@@ -324,8 +324,12 @@ public class PersonalBoard {
         return warehouseLeadersDepots.getSimpleWarehouseLeadersDepots();
     }
 
-    public Map<Integer, Integer> getSimpleStrongBox(){
+    public Map<Integer, Pair<Integer, Integer>> getSimpleStrongBox(){
         return strongBox.getSimpleBox();
+    }
+
+    public Map<Integer, Pair<Integer, Integer>> getSimpleDiscardBox(){
+        return discardBox.getSimpleBox();
     }
 
     /**
@@ -431,12 +435,12 @@ public class PersonalBoard {
 
     /**
      * This method combines two methods to complete the requirements for developmentcards
-     * @param developmentCard is not NULL
+     * @param developmentCard if NULL -> return false
      * @return is true if both conditions are true
      */
      public boolean isDevelopmentCardAvailable(DevelopmentCard developmentCard)
      {
-        return isDevCardLevelSatisfied(developmentCard) && hasResources(developmentCard.getCostAsArray());
+        return developmentCard != null && isDevCardLevelSatisfied(developmentCard) && hasResources(developmentCard.getCostAsArray());
      }
 
     /**

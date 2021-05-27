@@ -10,6 +10,7 @@ import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.states.State;
 import javafx.util.Pair;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,6 +18,7 @@ import java.util.List;
  */
 
 public class Middle implements GameStrategy {
+
     public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event) throws EventValidationFailedException
     {
         //MESSAGE IS MARKET, SHOP, PRODUCTION (0,1,2)
@@ -28,4 +30,6 @@ public class Middle implements GameStrategy {
         else
             return new ShowingProductionCards().execute(gamemodel, event);
     }
+
+
 }

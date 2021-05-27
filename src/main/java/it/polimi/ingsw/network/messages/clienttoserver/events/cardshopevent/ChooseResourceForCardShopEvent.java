@@ -5,6 +5,7 @@ import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.server.model.GameModel;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Client side {@link Event} created when {@link GameModel#currentPlayer currentPlayer} has to pick {@link it.polimi.ingsw.server.model.Resource Resources}
@@ -18,16 +19,19 @@ public class ChooseResourceForCardShopEvent extends CardShopEvent {
      * Array of ints representing current player chosen {@link it.polimi.ingsw.server.model.Resource Resources} in their int encoding,
      * for DevCard purchase.
      */
-    protected int [] chosenResources;
+    protected Map<Integer,Integer> chosenResources;
 
     /**
      * Client side {@link Event} constructor invoked when {@link State#CHOOSING_RESOURCES_FOR_DEVCARD CHOOSING_RESOURCES_FOR_DEVCARD}
      * phase action is performed.
-     * @param resources List of Integers representing current player chosen {@link it.polimi.ingsw.server.model.Resource Resources} in their int encoding,
-     * for DevCard purchase.
+     * @param resources Map representing current player chosen {@link it.polimi.ingsw.server.model.Resource Resources} in their int encoding,
+     * for DevCard purchase. Each entry represents a Resource in a deposit spot: <br><br>
+     *                                      key -> Resource global position in {@link it.polimi.ingsw.server.model.player.board.WarehouseLeadersDepots WarehouseLeaderDepots} or {@link it.polimi.ingsw.server.model.player.board.PersonalBoard#strongBox StrongBox}, <br>
+     *                                      value -> Resource int encoding <br>
+     *
      */
-    public ChooseResourceForCardShopEvent(List<Integer> resources){
-       chosenResources = resources.stream().mapToInt(i->i).toArray();
+    public ChooseResourceForCardShopEvent(Map<Integer, Integer> resources){
+       chosenResources = resources;
     }
 
     /**

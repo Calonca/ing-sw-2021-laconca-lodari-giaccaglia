@@ -42,6 +42,7 @@ import java.util.stream.Collectors;
  *          <li>{@link #SHOWING_CARD_SHOP}
  *          <li>{@link #CHOOSING_DEVELOPMENT_CARD}
  *          <li>{@link #CHOOSING_RESOURCES_FOR_DEVCARD}
+ *          <li>{@link #CHOOSING_POSITION_FOR_DEVCARD}</li>
  *      </ul>
  *  <li>{@link #FINAL_PHASE}
  *      <ul>
@@ -113,18 +114,20 @@ public enum State {
     SHOWING_CARD_SHOP,
 
     /**
-     * <em>Normal Action</em> phase following {@link State#SHOWING_CARD_SHOP}
+     * <em>Normal Action</em> phase following {@link #SHOWING_CARD_SHOP}
      * where player chooses one {@link DevelopmentCard DevelopmentCard} to purchase.
      */
     CHOOSING_DEVELOPMENT_CARD,
 
     /**
-     * <em>Normal Action</em> phase following {@link State#CHOOSING_DEVELOPMENT_CARD} where player chooses resources
+     * <em>Normal Action</em> phase following {@link #CHOOSING_DEVELOPMENT_CARD} where player chooses resources
      * among available ones in {@link PersonalBoard}.
      */
     CHOOSING_RESOURCES_FOR_DEVCARD,
+
     /**
-     * Performed after correctly choosing the resources
+     * Normal action phase following {@link State#CHOOSING_RESOURCES_FOR_DEVCARD} performed after correctly choosing the resources.
+     * In this phase player chooses a position among ones in {@link PersonalBoard} to place purchased {@link DevelopmentCard}
      */
     CHOOSING_POSITION_FOR_DEVCARD,
 

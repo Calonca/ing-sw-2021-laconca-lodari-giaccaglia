@@ -85,6 +85,7 @@ public abstract class ServerToClientMessage extends NetworkMessage
         elemAdapter.registerSubtype(SimpleFaithTrack.class);
         elemAdapter.registerSubtype(SimpleMarketBoard.class);
         elemAdapter.registerSubtype(SimpleStrongBox.class);
+        elemAdapter.registerSubtype(SimpleDiscardBox.class);
         elemAdapter.registerSubtype(SimpleWarehouseLeadersDepot.class);
 
         return elemAdapter;
