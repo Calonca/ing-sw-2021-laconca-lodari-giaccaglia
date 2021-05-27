@@ -1215,12 +1215,13 @@ public class Serializator extends JsonUtility {
         MarbleAsset.initializeMarblesFromConfig("src/main/resources/clientconfig/MarblesAssetsConfig.json");
         MarbleAsset.initializeMarblesFromConfig("src/main/resources/clientconfig/MarblesAssetsConfig.json");
         Marble.values();
-        serializeResources();
+
+               networkLeaderCardsAssetsSerialization();
         ResourceAsset.initializeResourcesFromConfig("src/main/resources/clientconfig/ResourcesAssetsConfig.json");
         ResourceAsset[] value = ResourceAsset.values();
 
    */
-        networkLeaderCardsAssetsSerialization();
+        serializeResources();
        // Map<UUID, Leader> leadersCardMap = leadersCardMapDeserialization();
 
     }
