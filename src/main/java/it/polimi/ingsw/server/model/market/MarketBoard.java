@@ -224,6 +224,7 @@ public class MarketBoard {
      */
     public void convertWhiteMarble(Resource mappedResource) {
         mapResource(mappedResource.getResourceNumber(), 1);
+        whiteMarblesQuantity--;
     }
 
     public Box getMappedResourcesBox(){

@@ -1,16 +1,17 @@
 package it.polimi.ingsw.network.simplemodel;
 
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
+import javafx.util.Pair;
 
 import java.util.Map;
 
 public class SimpleStrongBox extends SimpleModelElement {
 
-    Map<ResourceAsset, Integer> simpleStrongBox;
+    Map<Integer, Pair<ResourceAsset, Integer>> simpleStrongBox;
 
     public SimpleStrongBox(){}
 
-    public SimpleStrongBox(Map<ResourceAsset, Integer> simpleStrongBox){
+    public SimpleStrongBox(Map<Integer, Pair<ResourceAsset, Integer>> simpleStrongBox){
         this.simpleStrongBox = simpleStrongBox;
     }
 

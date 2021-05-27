@@ -52,7 +52,7 @@ public class StatesTransitionTable {
 
     public static StatesTransitionTable singlePlayer() {
         return JsonUtility.deserialize(
-                JsonUtility.configPathString+ singlePLayerTableFile,
+                JsonUtility.configPathString + singlePLayerTableFile,
                 StatesTransitionTable.class,
                 jsonWithAdapter()
         );
@@ -60,7 +60,7 @@ public class StatesTransitionTable {
 
     public static StatesTransitionTable multiPlayer() {
         return JsonUtility.deserialize(
-                JsonUtility.configPathString+ multiPLayerTableFile,
+                JsonUtility.configPathString + multiPLayerTableFile,
                 StatesTransitionTable.class,
                 jsonWithAdapter()
         );
@@ -91,7 +91,7 @@ public class StatesTransitionTable {
         statesTransitionTable.table = new HashMap<>();
 
         HashMap<String, GameStrategy> eventsAndStrategy = new HashMap<>();
-        eventsAndStrategy.put(name(SetupPhaseEvent.class),new ChooseInitialResource());
+        eventsAndStrategy.put(name(SetupPhaseEvent.class),new Setup());
         statesTransitionTable.table.put(State.SETUP_PHASE,eventsAndStrategy);
 
         eventsAndStrategy = new HashMap<>();
@@ -114,7 +114,7 @@ public class StatesTransitionTable {
 
 
         HashMap<String, GameStrategy> eventsAndStrategy = new HashMap<>();
-        eventsAndStrategy.put(name(SetupPhaseEvent.class),new ChooseInitialResource());
+        eventsAndStrategy.put(name(SetupPhaseEvent.class),new Setup());
         statesTransitionTable.table.put(State.SETUP_PHASE,eventsAndStrategy);
 
 
@@ -208,7 +208,7 @@ public class StatesTransitionTable {
         strategyAdapter.registerSubtype(PuttingBallOnLine.class);
         strategyAdapter.registerSubtype(ShowingResourceMarket.class);
         strategyAdapter.registerSubtype(TogglingForProduction.class);
-        strategyAdapter.registerSubtype(ChooseInitialResource.class);
+        strategyAdapter.registerSubtype(Setup.class);
 
         return new GsonBuilder()
                 .registerTypeAdapterFactory(strategyAdapter).setPrettyPrinting()

@@ -1,10 +1,19 @@
 package it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent;
 
+import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.player.board.PersonalBoard;
 import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
+import javafx.util.Pair;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 
 /**
@@ -16,6 +25,8 @@ import it.polimi.ingsw.server.model.GameModel;
 public class ChooseResourceForCardShopEvent extends it.polimi.ingsw.network.messages.clienttoserver.events.cardshopevent.ChooseResourceForCardShopEvent implements Validable {
 
     private transient PersonalBoard currentPlayerPersonalBoard;
+    List<Integer> resourcePositions;
+    private int[] chosenResourcesArray = new int[4];
 
     /**
      * Server-side initializer to setup common attributes among {@link State#MIDDLE_PHASE MIDDLE_PHASE}
@@ -41,8 +52,18 @@ public class ChooseResourceForCardShopEvent extends it.polimi.ingsw.network.mess
 
     @Override
     public boolean validate(GameModel gameModel) {
+
         initializeMiddlePhaseEventValidation(gameModel);
-        return isGameStarted(gameModel) && checkResourceRequirements() && validateDevCardRequirements(gameModel.getPurchasedCard());
+        buildResourcesArray();
+        resourcePositions = new ArrayList<>(chosenResources.keySet());
+
+        return isGameStarted(gameModel)
+                && checkResourcePositionUniqueness()
+                && checkResourcesPositionIndexes()
+                && checkResourcesPositions()
+                && checkResourceValidity(gameModel.getPurchasedCard())
+                && checkResourceRequirements()
+                && validateDevCardRequirements(gameModel.getPurchasedCard());
     }
 
     /**
@@ -51,10 +72,51 @@ public class ChooseResourceForCardShopEvent extends it.polimi.ingsw.network.mess
      * deposits availability, otherwise false.
      */
     private boolean checkResourceRequirements(){
-        return currentPlayerPersonalBoard.hasResources(chosenResources);
+        return currentPlayerPersonalBoard.hasResources(chosenResourcesArray);
     }
 
-    public int [] getChosenResources(){
+    private boolean checkResourcesPositions(){
+       return chosenResources.keySet().stream()
+               .anyMatch(position ->
+                       !currentPlayerPersonalBoard.getResourceAtPosition(position).equals(Resource.fromInt(chosenResources.get(position))));
+    }
+
+    private boolean checkResourcesPositionIndexes(){
+        return resourcePositions.stream().anyMatch(i -> ( i<-8 || (i>-5 && i<0) ));
+    }
+
+    private boolean checkResourcePositionUniqueness(){
+        return resourcePositions.stream().distinct()
+                .count() == resourcePositions.size();
+    }
+
+    private boolean checkResourceValidity(DevelopmentCard card){
+        return Arrays.equals(card.getCostAsArray(), chosenResourcesArray);
+    }
+    
+    private void buildResourcesArray(){
+
+        Map<Integer, List<Integer>> tempMap = chosenResources.values().stream()
+                .collect(Collectors.groupingBy(value -> value,
+                        Collectors.mapping(Function.identity(), Collectors.toList())));
+
+        List<Pair<Integer, Integer>> chosenResourcesList = tempMap
+                .keySet().stream()
+                .map(key ->
+                        new Pair<>(key, tempMap.get(key).stream().reduce(0, Integer::sum)))
+                .collect(Collectors.toList());
+
+
+        for (Pair<Integer, Integer> resourceIntegerPair : chosenResourcesList)
+            chosenResourcesArray[resourceIntegerPair.getKey()] += resourceIntegerPair.getValue();
+        
+    }
+
+    public Map<Integer, Integer> getChosenResources(){
         return chosenResources;
+    }
+
+    public int[] getChosenResourcesArray() {
+        return chosenResourcesArray;
     }
 }

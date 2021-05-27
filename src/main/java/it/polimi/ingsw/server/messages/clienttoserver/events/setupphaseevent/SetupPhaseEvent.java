@@ -94,6 +94,7 @@ public class SetupPhaseEvent extends it.polimi.ingsw.network.messages.clienttose
      * @return true if chosen resources positions are available among ones in the <em>Warehouse</em>, otherwise false.
      */
     private boolean validateResourcePositions() {
+
         List<List<Integer>> availablePositionsAsList = IntStream.range(0,3)
                 .boxed().map(i ->  new int[i+1])
                 .collect(Collectors.toList())

@@ -18,10 +18,8 @@ public class ShowingResourceMarket implements GameStrategy {
 
     List<Element> elementsToUpdate = new ArrayList<>();
 
-    public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event) throws EventValidationFailedException
+    public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event)
     {
-        //ON EVENT CHOOSEMARKETBOARD
-        event.validate(gamemodel);
         return new Pair<>(State.SHOWING_MARKET_RESOURCES, elementsToUpdate);
     }
 }

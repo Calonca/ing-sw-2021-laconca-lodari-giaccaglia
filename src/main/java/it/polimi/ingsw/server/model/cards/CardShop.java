@@ -25,7 +25,7 @@ public class CardShop {
     /**
      * Temporary variable to store purchased {@link DevelopmentCard} during {@link State}
      */
-    private DevelopmentCard purchasedCard;
+    private DevelopmentCard purchasedCard = null;
 
     public CardShop(Map<DevelopmentCardColor, Map<Integer, DevelopmentCardDeck>> devDecks) {
         this.maxLevel = 4;

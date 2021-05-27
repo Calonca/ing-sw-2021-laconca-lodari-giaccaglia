@@ -182,12 +182,23 @@ public class Box implements StorageUnit {
         return nResAtPos[type.getResourceNumber()];
     }
 
-    public Map<Integer, Integer> getSimpleBox(){
-        return Arrays.stream(Resource.values()).collect(Collectors.toMap(
-                Resource::getResourceNumber,
-                this::getNumberOf
-        ));
+    /**
+     * Return a reduced representation of a {@link Box} as a Map where :
+     *
+     * - key -> Resource <em>global position</em> in this {@link Box}
+     * - value -> Pair where :
+     *                      - key -> {@link Resource} int value
+     *                      - value -> {@link Resource} current amount in this Box.
+     * @return reduced representation of a {@link Box}
+     */
+    public Map<Integer, Pair<Integer, Integer>> getSimpleBox() {
+
+        return IntStream.range(0, nResAtPos.length).boxed().collect(Collectors.toMap(
+                i -> globalPositionOfRes(Resource.fromInt(i)),
+                i -> new Pair<>(i, getNumberOf(Resource.fromInt(i)))));
+
     }
+
 
     /**
      * Removes the selected {@link Resource resources} from the {@link StorageUnit}

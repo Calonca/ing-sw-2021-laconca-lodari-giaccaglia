@@ -36,6 +36,14 @@ public class Util
                 resourcesFromPlayerNumber;
     }
 
+    public static int initialFaithPoints(int playerNumber){
+        int resources = resourcesToChooseOnSetup(playerNumber);
+        playerNumber++;
 
+        if(playerNumber%2 == 0)
+            return resources-1;
+        else
+            return resources;
+    }
 
 }
