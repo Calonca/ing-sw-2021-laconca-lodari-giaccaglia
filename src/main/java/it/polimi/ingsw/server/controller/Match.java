@@ -3,8 +3,10 @@ package it.polimi.ingsw.server.controller;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
+import it.polimi.ingsw.server.messages.messagebuilders.Element;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.states.State;
+import javafx.util.Pair;
 
 import java.util.*;
 import java.util.stream.IntStream;
@@ -89,7 +91,7 @@ public class Match {
             throw new EventValidationFailedException();
     }
 
-    public State transitionToNextState(Validable event) throws EventValidationFailedException {
+    public Pair<State, List<Element>> transitionToNextState(Validable event) throws EventValidationFailedException {
         GameStrategy gameStrategy = game.getCurrentPlayer().getStatesTransitionTable().getStrategy(game.getCurrentPlayer().getCurrentState(), event);
         return gameStrategy.execute(game,event);
     }

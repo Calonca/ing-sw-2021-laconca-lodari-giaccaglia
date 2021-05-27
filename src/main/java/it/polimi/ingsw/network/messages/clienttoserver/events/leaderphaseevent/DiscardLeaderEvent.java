@@ -19,11 +19,11 @@ public class DiscardLeaderEvent extends ChooseLeaderEvent {
      * Client side {@link Event} constructor invoked when{@link State#SHOWING_LEADERS_INITIAL SHOWING_LEADERS_INITIAL} or
      * {@link State#SHOWING_LEADERS_FINAL SHOWING_LEADERS_FINAL} phase action is performed.
      *
-     * @param leaderNumber chosen {@link it.polimi.ingsw.server.model.player.leaders.Leader Leader} position in
+     * @param leaderId chosen {@link it.polimi.ingsw.server.model.player.leaders.Leader Leader} position in
      *{@link GameModel#currentPlayer currentPlayer}'s {@link it.polimi.ingsw.server.model.player.Player#leaders Leaders} List
      */
-    public DiscardLeaderEvent(UUID leaderNumber){
-        this.leaderNumber = leaderNumber;
+    public DiscardLeaderEvent(UUID leaderId){
+        this.leaderId = leaderId;
     }
 
     /**

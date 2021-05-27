@@ -114,7 +114,7 @@ public enum State {
 
     /**
      * <em>Normal Action</em> phase following {@link State#SHOWING_CARD_SHOP}
-     * where player chooses one {@link DevelopmentCard NetworkDevelopmentCard} to purchase.
+     * where player chooses one {@link DevelopmentCard DevelopmentCard} to purchase.
      */
     CHOOSING_DEVELOPMENT_CARD,
 

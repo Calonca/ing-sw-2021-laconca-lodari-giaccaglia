@@ -133,4 +133,15 @@ public class SetupPhaseEvent extends it.polimi.ingsw.network.messages.clienttose
                 return value;
             });
     }
+
+    //key = position in warehouseLeadersDepot, value = resource number
+
+    public List<UUID> getDiscardedLeaders(){
+        return discardedLeaders;
+    }
+
+    public Pair<Integer, Integer>[] getChosenResources(){
+        return resources;
+    }
+
 }

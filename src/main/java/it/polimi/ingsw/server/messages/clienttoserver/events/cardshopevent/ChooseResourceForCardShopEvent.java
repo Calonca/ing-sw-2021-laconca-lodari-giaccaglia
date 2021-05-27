@@ -54,4 +54,7 @@ public class ChooseResourceForCardShopEvent extends it.polimi.ingsw.network.mess
         return currentPlayerPersonalBoard.hasResources(chosenResources);
     }
 
+    public int [] getChosenResources(){
+        return chosenResources;
+    }
 }

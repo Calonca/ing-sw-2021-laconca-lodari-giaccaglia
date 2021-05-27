@@ -4,6 +4,8 @@ import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
 
+import java.util.UUID;
+
 /**
  * Client side {@link it.polimi.ingsw.network.messages.clienttoserver.events.Event Event} created when {@link GameModel#currentPlayer currentPlayer}
  * wants to activate his {@link it.polimi.ingsw.server.model.player.leaders.Leader Leaders}
@@ -16,10 +18,13 @@ public class PlayLeaderEvent extends it.polimi.ingsw.network.messages.clienttose
 
     @Override
     public boolean validate(GameModel gameModel) {
-        return  isGameStarted(gameModel) && validateLeaderAvailability(gameModel, leaderNumber)
-                && validateLeaderNumber(gameModel, leaderNumber) && validateLeaderRequirements(gameModel, leaderNumber);
+        return  isGameStarted(gameModel) && validateLeaderAvailability(gameModel, leaderId)
+                && validateLeaderNumber(gameModel, leaderId) && validateLeaderRequirements(gameModel, leaderId);
     }
 
+    public UUID getLeaderId(){
+        return leaderId;
+    }
 
 
 }
