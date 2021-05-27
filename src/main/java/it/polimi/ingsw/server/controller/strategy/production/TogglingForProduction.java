@@ -4,6 +4,7 @@ import it.polimi.ingsw.server.controller.EventValidationFailedException;
 import it.polimi.ingsw.server.controller.strategy.Final;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
+import it.polimi.ingsw.server.messages.clienttoserver.events.productionevent.ChooseProductionAtPositionEvent;
 import it.polimi.ingsw.server.messages.messagebuilders.Element;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.states.State;
@@ -28,13 +29,13 @@ public class TogglingForProduction implements GameStrategy {
         event.validate(gamemodel);
 
         int msg=3;
-        if (msg==0)
+        if (((ChooseProductionAtPositionEvent) event).getProductionPosition()==-1)
         {
             gamemodel.getCurrentPlayer().getPersonalBoard().produce();
             return new Final().execute(gamemodel, event);
 
         }
-        gamemodel.getCurrentPlayer().getPersonalBoard().toggleSelectProductionAt(msg);
+        gamemodel.getCurrentPlayer().getPersonalBoard().toggleSelectProductionAt(((ChooseProductionAtPositionEvent) event).getProductionPosition());
                 if(gamemodel.getCurrentPlayer().getPersonalBoard().firstProductionSelectedWithChoice().isPresent())
                     return new Pair<>(State.CHOOSING_RESOURCE_FOR_PRODUCTION, elementsToUpdate);
         return new Pair<>(State.CHOOSING_CARD_FOR_PRODUCTION, elementsToUpdate);
