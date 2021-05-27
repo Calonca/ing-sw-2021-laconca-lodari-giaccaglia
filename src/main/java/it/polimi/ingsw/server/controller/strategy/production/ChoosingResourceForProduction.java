@@ -3,8 +3,10 @@ package it.polimi.ingsw.server.controller.strategy.production;
 import it.polimi.ingsw.server.controller.EventValidationFailedException;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
+import it.polimi.ingsw.server.messages.clienttoserver.events.productionevent.ChooseResourcesForProductionEvent;
 import it.polimi.ingsw.server.messages.messagebuilders.Element;
 import it.polimi.ingsw.server.model.GameModel;
+import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.states.State;
 import javafx.util.Pair;
 
@@ -21,6 +23,18 @@ public class ChoosingResourceForProduction implements GameStrategy {
     List<Element> elementsToUpdate = new ArrayList<>();
 
     public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event) throws EventValidationFailedException{
+
+        int[] input={1,2,3,4};
+        int[] output={1,2,3,4};
+
+        if(gamemodel.getCurrentPlayer().getPersonalBoard().firstProductionSelectedWithChoice().get().choiceCanBeMadeOnInput())
+            for(int i=0;i< input.length;i++)
+                for(int k=0;k<input[k];k++)
+                    gamemodel.getCurrentPlayer().getPersonalBoard().performChoiceOnInput(i);
+        for(int i=0;i< output.length;i++)
+            for(int k=0;k<output[k];k++)
+                gamemodel.getCurrentPlayer().getPersonalBoard().performChoiceOnInput(i);
+
 
         return new Pair<>(State.CHOOSING_CARD_FOR_PRODUCTION, elementsToUpdate);
     }
