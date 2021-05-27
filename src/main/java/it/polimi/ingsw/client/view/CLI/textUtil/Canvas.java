@@ -43,11 +43,11 @@ public class Canvas {
     }
 
     public void drawCenterX(int y, String s,Color c,Background b){
-        draw(StringUtil.startCenterWritingX(s, width),y,s,c,b);
+        draw(StringUtil.startCenterWritingX(s, width-2)+1,y,s,c,b);
     }
 
     public void drawCenterXDefault(int y, String s){
-        draw(StringUtil.startCenterWritingX(s, width),y,s,Color.DEFAULT,Background.DEFAULT);
+        draw(StringUtil.startCenterWritingX(s, width+2),y,s,Color.DEFAULT,Background.DEFAULT);
     }
 
     public void draw(Drawable d){
@@ -56,10 +56,6 @@ public class Canvas {
 
     public void draw(DrawableList d){
         d.get().forEach(this::draw);
-    }
-
-    public void drawShifted(int shiftX,int shiftY,DrawableList l){
-        l.get().stream().map(d->Drawable.shifted(shiftX,shiftY,d)).forEach(this::draw);
     }
 
     /**

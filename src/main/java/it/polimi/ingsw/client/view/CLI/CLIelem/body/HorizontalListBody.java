@@ -51,8 +51,9 @@ public class HorizontalListBody extends OptionList {
         int optWidth = width/options.size();
         AtomicInteger startX = new AtomicInteger(optWidth / options.size());
         Canvas canvas = Canvas.withBorder(CLI.width,cli.getMaxBodyHeight());
-        toStringStream().forEach(o->{
-            canvas.drawShifted(startX.get(),(height-optMaxHeight())/2,o);
+        toStringStream().map(l->DrawableList.shifted(startX.get(),height-optMaxHeight(),l))
+                .forEach(o->{
+            canvas.draw(o);
             startX.addAndGet(optWidth);
         });
         return canvas.toString();
@@ -64,8 +65,9 @@ public class HorizontalListBody extends OptionList {
         int optWidth = optMaxWidth()+4;
         AtomicInteger startX = new AtomicInteger((width-(optWidth*options.size()))/2);
         Canvas canvas = Canvas.withBorder(CLI.width,cli.getMaxBodyHeight());
-        toStringStream().forEach(o->{
-            canvas.drawShifted(startX.get(),(height-optMaxHeight())/2,o);
+        toStringStream().map(l->DrawableList.shifted(startX.get(),height-optMaxHeight(),l))
+                .forEach(o->{
+            canvas.draw(o);
             startX.addAndGet(optWidth);
         });
         return canvas.toString();
