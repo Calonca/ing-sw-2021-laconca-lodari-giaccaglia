@@ -33,7 +33,7 @@ public class ChoosingResourceForProduction implements GameStrategy {
                     gamemodel.getCurrentPlayer().getPersonalBoard().performChoiceOnInput(i);
         for(int i=0;i< output.length;i++)
             for(int k=0;k<output[k];k++)
-                gamemodel.getCurrentPlayer().getPersonalBoard().performChoiceOnInput(i);
+                gamemodel.getCurrentPlayer().getPersonalBoard().performChoiceOnOutput(Resource.fromInt(i));
 
 
         return new Pair<>(State.CHOOSING_CARD_FOR_PRODUCTION, elementsToUpdate);

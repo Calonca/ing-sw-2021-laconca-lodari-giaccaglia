@@ -46,15 +46,14 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         ImageView tempo;
-        tempo=new ImageView(new Image("assets/board/Masters of Renaissance_PlayerBoard (11_2020)-1.png", true));
+        tempo=new ImageView(new Image("assets/board/biggerboard.png", true));
 
-        tempo.setFitHeight(550);
-        tempo.setFitWidth(650);
+        tempo.setFitHeight(700);
+        tempo.setFitWidth(1000);
        /* boardView.setImage(new Image("assets/board/Masters of Renaissance_PlayerBoard (11_2020)-1.png", true));
         boardView.setRotate(270);
         boardView.setFitHeight(600);
         boardView.setFitWidth(9000);*/
-        tempo.setRotate(270);
         StackPane.setAlignment(tempo, Pos.CENTER);
         menuPane.getChildren().add(tempo);
         Client.getInstance().getStage().show();

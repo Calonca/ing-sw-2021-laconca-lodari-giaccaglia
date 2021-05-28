@@ -27,9 +27,7 @@ public class AcquiringDevelopmentCard implements GameStrategy {
     {
         //ON EVENT CHOOSECARDEVENT
         //MESSAGE IS 4
-        //CARDS ARE MAPPED AS FOLLOWS       INT%3 IS THE LEVEL, INT/3 IS THE COLOR
         //
-        event.validate(gamemodel);
         int level=((ChooseCardEvent) event).getCardLevel();
         int color=((ChooseCardEvent) event).getCardColorNumber(); //1      BLUe
         gamemodel.purchaseCardFromCardShop(DevelopmentCardColor.fromInt(color),level);

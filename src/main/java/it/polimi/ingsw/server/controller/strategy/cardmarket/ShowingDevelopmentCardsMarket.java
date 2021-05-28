@@ -21,7 +21,6 @@ public class ShowingDevelopmentCardsMarket implements GameStrategy {
     public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event) throws EventValidationFailedException
     {
         //ON EVENT CARDSHOPEVENT
-        event.validate(gamemodel);
         return new Pair<>(State.SHOWING_CARD_SHOP, elementsToUpdate);
     }
 }

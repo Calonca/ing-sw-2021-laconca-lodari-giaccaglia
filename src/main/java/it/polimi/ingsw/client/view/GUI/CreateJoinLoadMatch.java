@@ -75,7 +75,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         if (evt.getPropertyName().equals(CommonData.matchesDataString))
             Platform.runLater(()->
             {
-                /*
+
                 if(!created)
                 {
                 //todo clean this up
@@ -92,7 +92,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
 
                 getClient().getStage().setScene(scene);
                 getClient().getStage().show();
-                }*/
+                }
             });
 
     }
@@ -214,21 +214,9 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         List<MatchRow> temp=dataToRow();
         int row=0;
         int column=1;
-        temp.add(new MatchRow(UUID.randomUUID(),"lorenzo"));
-        temp.add(new MatchRow(UUID.randomUUID(),"lorenzo"));
-        temp.add(new MatchRow(UUID.randomUUID(),"lorenzo,gigi,cantalupo,porpora"));
-        temp.add(new MatchRow(UUID.randomUUID(),"lorenzo"));
-        temp.add(new MatchRow(UUID.randomUUID(),"lorenzo"));
-        temp.add(new MatchRow(UUID.randomUUID(),"lorenzo"));
-        temp.add(new MatchRow(UUID.randomUUID(),"lorenzo le magnifique"));
-        temp.add(new MatchRow(UUID.randomUUID(),"lorenzo"));
-        temp.add(new MatchRow(UUID.randomUUID(),"lorenzo"));
-        temp.add(new MatchRow(UUID.randomUUID(),"lorenzo"));
-        temp.add(new MatchRow(UUID.randomUUID(),"lorenzo il magnifico"));
-        temp.add(new MatchRow(UUID.randomUUID(),"lorenzo"));
 
 
-
+        int i=0;
         while(!temp.isEmpty())
         {
             if(column==2)
@@ -236,9 +224,10 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
                 column=0;
                 row++;
             }
-            grid.add(matchToTile(temp.get(0)),column,row);
+            grid.add(matchToTile(temp.get(i)),column,row);
             column++;
             temp.remove(0);
+            i++;
 
         }
 

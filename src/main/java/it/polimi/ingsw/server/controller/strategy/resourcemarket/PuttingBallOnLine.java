@@ -29,7 +29,6 @@ public class PuttingBallOnLine implements GameStrategy {
         //ON EVENT CHOOSEROWEVENT
         //MESSAGE IS MarketLine.FIRST_COLUMN
 
-        event.validate(gamemodel);
         gamemodel.chooseLineFromMarketBoard(MarketLine.fromInt(((ChooseLineEvent) event).getChosenRow()));
         gamemodel.updateMatrixAfterTakingResources();
 
