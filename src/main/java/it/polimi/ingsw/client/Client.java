@@ -8,6 +8,7 @@ import it.polimi.ingsw.client.view.GUI.SetupPhase;
 import it.polimi.ingsw.client.view.abstractview.ConnectToServerViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.SetupPhaseViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
+import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
 import javafx.application.Platform;
 import javafx.stage.Stage;
@@ -173,6 +174,7 @@ public class Client implements Runnable
     }
 
     public void setState(StateInNetwork stateInNetwork){
+        System.out.println(JsonUtility.serialize(stateInNetwork));
         if (simpleModel==null){
             try {
                 int numOfPlayers = getCommonData().playersOfMatch().map(o->o.length).orElse(0);
@@ -180,7 +182,7 @@ public class Client implements Runnable
             }catch (NoSuchElementException e){
                 System.out.println("Received a state before entering a match");
             }
-            commonData.setCurrentPlayer(0);
+            commonData.setCurrentPlayer(stateInNetwork.getPlayerNumber());
             ViewBuilder.setSimpleModel(simpleModel);
             simpleModel.updateSimpleModel(stateInNetwork);
             changeViewBuilder(SetupPhaseViewBuilder.getBuilder(isCLI));

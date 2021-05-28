@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.server.utils.Util;
+import it.polimi.ingsw.network.util.Util;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

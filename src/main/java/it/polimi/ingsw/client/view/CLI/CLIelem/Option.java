@@ -70,5 +70,7 @@ public class Option extends CLIelem{
         return drawableList.getHeight();
     }
 
-
+    public void setSelectable(boolean selectable) {
+        isSelectable = selectable;
+    }
 }

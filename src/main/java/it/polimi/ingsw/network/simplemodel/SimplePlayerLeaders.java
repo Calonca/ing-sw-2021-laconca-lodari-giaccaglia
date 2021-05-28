@@ -43,7 +43,7 @@ public class SimplePlayerLeaders extends SimpleModelElement{
 
             for (LeaderCardAsset leader : playerLeaders) {
                 UUID leaderId = leader.getCardId();
-                leader.getNetworkLeaderCard().setLeaderState(map.get(leaderId)/*Todo fix difference playerLeadersMap.get(leaderId)*/);
+                leader.getNetworkLeaderCard().setLeaderState(map.get(leaderId));
             }
         } else this.playerLeaders = serverSimplePlayerLeaders.playerLeaders;
     }

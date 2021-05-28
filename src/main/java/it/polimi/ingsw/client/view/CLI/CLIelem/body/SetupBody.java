@@ -1,32 +1,42 @@
 package it.polimi.ingsw.client.view.CLI.CLIelem.body;
 
+import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.view.CLI.CLI;
 import it.polimi.ingsw.client.view.CLI.CLIelem.CLIelem;
+import it.polimi.ingsw.client.view.CLI.CLIelem.DrawableLeader;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Option;
 import it.polimi.ingsw.client.view.CLI.textUtil.*;
+import it.polimi.ingsw.network.assets.CardAsset;
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
+import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
+import it.polimi.ingsw.network.messages.clienttoserver.events.setupphaseevent.SetupPhaseEvent;
+import javafx.util.Pair;
+import org.apache.commons.lang3.tuple.MutablePair;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class SetupBody extends CLIelem {
     List<LeaderCardAsset> leadersToChoose;
-    List<Boolean> selected;
+    List<MutablePair<Boolean, UUID>> selected;
     int resToChoose;
+    final Client client;
     List<ResourceAsset> chosenRes;
 
 
-    public SetupBody(List<LeaderCardAsset> leaders,int numOfResourcesToChoose) {
+    public SetupBody(List<LeaderCardAsset> leaders, int numOfResourcesToChoose, Client client) {
         leadersToChoose = leaders;
         resToChoose = numOfResourcesToChoose;
-        selected = Stream.generate(()->false).limit(leaders.size()).collect(Collectors.toList());
+        selected = leadersToChoose.stream().map(leaderCardAsset -> new MutablePair<>(false, leaderCardAsset.getCardId()))
+                .collect(Collectors.toList());
         chosenRes = new ArrayList<>();
-        //chosenRes.add(ResourceAsset.STONE);
-        //chosenRes.add(ResourceAsset.GOLD);
+        this.client = client;
     }
 
     @Override
@@ -53,6 +63,7 @@ public class SetupBody extends CLIelem {
 
 
         String choosingResString="";
+        String leadersToChooseString="";
         if (!resAreChosen()) {
             HorizontalListBody resToChooseFrom = new HorizontalListBody(7);
             DrawableList dwl1 = new DrawableList();
@@ -85,9 +96,32 @@ public class SetupBody extends CLIelem {
             dwl.addToCenter(CLI.width,s1);
             dwl.shift(4,ResourceCLI.height()-2);
             canvas.addDrawableList(dwl);
-        }
+            //Add leaders list
+            HorizontalListBody leadersToChooseFrom = new HorizontalListBody(9);
+            for (int i=0;i<leadersToChoose.size();i++){
+                int finalI1 = i;
+                DrawableList leader = DrawableLeader.fromAsset(leadersToChoose.get(i),selected.get(i).getLeft());
+                Option o = Option.from(leader,()->{
+                    selected.get(finalI1).setLeft(!selected.get(finalI1).left);
+                    cli.refreshCLI();
+                });
+                o.setSelectable(selected.get(i).left);
+                o.setSelected(selected.get(i).left);
+                leadersToChooseFrom.addOption(o);
+                leadersToChooseFrom.selectOption();
+                leadersToChooseString = leadersToChooseFrom.toString();
+            }
+        }else {
+                    SetupPhaseEvent event = new SetupPhaseEvent(chosenRes.size(),2,client.getCommonData().getThisPlayerIndex().orElse(0));
+                    selected.stream().filter(p->p.left.equals(true))
+                            .forEach(p->event.addDiscardedLeader(p.right));
+                    //event.addResource(new Pair<>(0,chosenRes.get(0).getResourceNumber()));
+                    //event.addResource(new Pair<>(0,chosenRes.get(0).getResourceNumber()));
 
-        return canvas+choosingResString;
+                    client.getServerHandler().sendCommandMessage(new EventMessage(event));
+        };
+
+        return canvas+choosingResString+leadersToChooseString;
     }
 
     private boolean resAreChosen() {

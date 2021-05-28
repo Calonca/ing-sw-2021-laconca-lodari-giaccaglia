@@ -6,7 +6,7 @@ import it.polimi.ingsw.server.messages.clienttoserver.events.setupphaseevent.Set
 import it.polimi.ingsw.server.messages.messagebuilders.Element;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.states.State;
-import it.polimi.ingsw.server.utils.Util;
+import it.polimi.ingsw.network.util.Util;
 import javafx.util.Pair;
 
 import java.util.ArrayList;

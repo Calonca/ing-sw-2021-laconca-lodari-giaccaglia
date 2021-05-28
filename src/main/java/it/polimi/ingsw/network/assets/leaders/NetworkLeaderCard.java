@@ -32,6 +32,10 @@ public class NetworkLeaderCard {
         return isActive;
     }
 
+    public int getVictoryPoints() {
+        return victoryPoints;
+    }
+
     public void setLeaderState(boolean state){
         this.isActive = state;
     }

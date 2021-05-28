@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.utils;
+package it.polimi.ingsw.network.util;
 
 import java.util.*;
 import java.util.stream.IntStream;

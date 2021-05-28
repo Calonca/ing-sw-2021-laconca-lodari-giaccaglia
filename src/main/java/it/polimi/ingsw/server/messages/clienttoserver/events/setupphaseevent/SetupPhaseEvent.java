@@ -5,7 +5,7 @@ import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
-import it.polimi.ingsw.server.utils.Util;
+import it.polimi.ingsw.network.util.Util;
 import javafx.util.Pair;
 
 import java.util.Arrays;
