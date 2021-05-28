@@ -2,14 +2,14 @@ package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.view.CLI.CLIelem.Option;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Title;
+import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.HorizontalListBody;
-import it.polimi.ingsw.client.view.CLI.textUtil.Background;
-import it.polimi.ingsw.client.view.CLI.textUtil.Color;
-import it.polimi.ingsw.client.view.CLI.textUtil.Drawable;
-import it.polimi.ingsw.client.view.CLI.textUtil.DrawableList;
+import it.polimi.ingsw.client.view.CLI.textUtil.*;
 import org.apache.commons.compress.archivers.sevenz.CLI;
 
 import java.beans.PropertyChangeEvent;
+import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class TestViewBuilder extends it.polimi.ingsw.client.view.abstractview.TestViewBuilder implements CLIBuilder {
@@ -67,8 +67,32 @@ public class TestViewBuilder extends it.polimi.ingsw.client.view.abstractview.Te
         String compactMessage = "Press send to compact, times left: ";
         String widenMessage = "Press send to widen, times left: ";
 
-        getCLIView().runOnInput(widenMessage,getWdCode(compactMessage,widenMessage,8));
-        getCLIView().refreshCLI();
+
+        Canvas ca = horList.getCanvas();
+        ca.setDebugging(false);
+        System.out.println(ca.toString());
+        //getCLIView().refreshCLI();
+        Thread t = new Thread(()-> {
+            int times=10;
+            for (int i=0;i<times;i++) {
+                List<DrawableList> dwll = ca.getListsInRow(5);
+                dwll.forEach(dwl -> dwl.shift(-5, 0));
+                String s = ca.toString();
+                getCLIView().deleteText();
+                System.out.println(s);
+                try {
+                    Thread.sleep(60);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        getCLIView().runOnInput("Start animation", t::start);
+
+
+        //getCLIView().setBody(new CanvasBody(ca));
+        //getCLIView().refreshCLI();
 
     }
     private Runnable getCompactCode(String widenMessage,String compactMessage,int timesLeft){
@@ -97,6 +121,7 @@ public class TestViewBuilder extends it.polimi.ingsw.client.view.abstractview.Te
             getCLIView().refreshCLI();
         };
     }
+
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {

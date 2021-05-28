@@ -1,11 +1,11 @@
 package it.polimi.ingsw.client.view.CLI.textUtil;
 
+import javafx.util.Pair;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
@@ -15,6 +15,7 @@ public class Canvas {
     String[][] matrix;
     UUID[][] pointTracing;
     Map<UUID,DrawableList> lists;
+    boolean isDebugging=false;
 
     int width,height;
     public static Canvas withBorder(int width, int height){
@@ -22,13 +23,18 @@ public class Canvas {
         printer.height = height;
         printer.width = width;
 
-        String lineChars = Characters.VERT_DIVIDER.getString()+" ".repeat(width)+Characters.VERT_DIVIDER.getString();
-        printer.matrix = Stream.generate(()-> generateLine(lineChars)).limit(height).toArray(String[][]::new);
-
-        printer.pointTracing = new UUID[height][width];
+        printer.resetDrawing();
         printer.lists=new HashMap<>();
 
         return printer;
+    }
+
+    public void resetDrawing(){
+        String lineChars = Characters.VERT_DIVIDER.getString()+" ".repeat(width)+Characters.VERT_DIVIDER.getString();
+        matrix = Stream.generate(()-> generateLine(lineChars)).limit(height).toArray(String[][]::new);
+
+        pointTracing = new UUID[height][width];
+
     }
 
     public static Canvas fromText(int width, int height,String s){
@@ -88,7 +94,7 @@ public class Canvas {
                     matrix[matY][matX] = Color.startColorStringBackground(String.valueOf(toPrint),c,b);
                 else
                     matrix[matY][matX] = String.valueOf(toPrint);
-                pointTracing[matY][matY]=dwl.getId();
+                pointTracing[matY][matX]=dwl.getId();
                 matX += 1;
             }
             if (defaultColorAndBack)//Resets color
@@ -99,6 +105,10 @@ public class Canvas {
                 }
 
         }
+    }
+
+    public void setDebugging(boolean debugging) {
+        isDebugging = debugging;
     }
 
     private boolean isLineEnd(int x){
@@ -113,9 +123,32 @@ public class Canvas {
         return height;
     }
 
+    public List<DrawableList> getLists(List<Pair<Integer,Integer>> cordYX){
+        return cordYX.stream().map(yx->pointTracing[yx.getKey()][yx.getValue()]).distinct().filter(Objects::nonNull)
+                .map(id->lists.get(id)).collect(Collectors.toList());
+    }
+
+    public List<DrawableList> getListsInRow(int y){
+        List<Pair<Integer,Integer>> cordYX = IntStream.range(1,width-1)
+                .mapToObj(x->new Pair<>(y,x)).collect(Collectors.toList());
+        return getLists(cordYX);
+    }
+
     @Override
     public String toString() {
+        resetDrawing();
         draw();
-        return Arrays.stream(matrix).map(line-> Arrays.stream(line).reduce("",(a, b)->a+b)).reduce("",(a, b)->a+b+"\n");
+        if (!isDebugging)
+            return Arrays.stream(matrix).map(line-> Arrays.stream(line).reduce("",(a, b)->a+b)).reduce("",(a, b)->a+b+"\n");
+        else return Arrays.stream(pointTracing).map(line-> Arrays.stream(line).map(this::idToString)
+                .reduce("",(a, b)->a+b))
+            .reduce("",(a, b)->a +b+"\n");
+    }
+
+    private String idToString(UUID id)
+    {
+        if (id==null)
+            return "░";
+        else return "█";
     }
 }

@@ -6,7 +6,6 @@ import it.polimi.ingsw.client.view.CLI.CLIelem.OptionList;
 import it.polimi.ingsw.client.view.CLI.textUtil.*;
 
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -14,21 +13,22 @@ public class HorizontalListBody extends OptionList {
 
     int height;
     Mode mode;
+    Canvas canvas;
 
     public enum Mode {
         WIDE{
             @Override
-            public String s(HorizontalListBody horizontalListBody) {
-                return horizontalListBody.toWideString();
+            public void draw(HorizontalListBody horizontalListBody) {
+                horizontalListBody.drawWideString();
             }
         }
         ,COMPACT {
             @Override
-            public String s(HorizontalListBody horizontalListBody) {
-                return horizontalListBody.toCenteredString();
+            public void draw(HorizontalListBody horizontalListBody) {
+                horizontalListBody.drawCenteredString();
             }
         };
-        public abstract String s(HorizontalListBody horizontalListBody);
+        public abstract void draw(HorizontalListBody horizontalListBody);
 
     }
 
@@ -43,34 +43,35 @@ public class HorizontalListBody extends OptionList {
 
     @Override
     public String toString() {
-        return mode.s(this);
-    }
-
-    public String toWideString() {
-        int width = CLI.width;
-        int optWidth = width/options.size();
-        AtomicInteger startX = new AtomicInteger(optWidth / options.size());
-        Canvas canvas = Canvas.withBorder(CLI.width,height+1);
-        toStringStream().map(l->DrawableList.shifted(startX.get(),height-optMaxHeight(),l))
-                .forEach(o->{
-            canvas.addDrawableList(o);
-            startX.addAndGet(optWidth);
-        });
+        mode.draw(this);
         return canvas.toString();
     }
 
+    public void drawWideString() {
+        int width = CLI.width;
+        int optWidth = width/options.size();
+        AtomicInteger startX = new AtomicInteger(optWidth / options.size());
+        Canvas ca = Canvas.withBorder(CLI.width,height+1);
+        toStringStream().map(l->DrawableList.shifted(startX.get(),(height-optMaxHeight())/2,l))
+                .forEach(o->{
+            ca.addDrawableList(o);
+            startX.addAndGet(optWidth);
+        });
+        this.canvas = ca;
+    }
 
-    public String toCenteredString() {
+
+    public void drawCenteredString() {
         int width = CLI.width;
         int optWidth = optMaxWidth()+4;
         AtomicInteger startX = new AtomicInteger((width-(optWidth*options.size()))/2);
         Canvas canvas = Canvas.withBorder(CLI.width,height+1);
-        toBelowStringStream().map(l->DrawableList.shifted(startX.get()+optWidth/4,height-optMaxHeight(),l))
+        toBelowStringStream().map(l->DrawableList.shifted(startX.get()+optWidth/4,(height-optMaxHeight())/2,l))
                 .forEach(o->{
             canvas.addDrawableList(o);
             startX.addAndGet(optWidth);
         });
-        return canvas.toString();
+        this.canvas = canvas;
     }
 
 
@@ -105,5 +106,8 @@ public class HorizontalListBody extends OptionList {
         return options.stream().mapToInt(Option::height).max().orElse(0);
     }
 
-
+    public Canvas getCanvas() {
+        mode.draw(this);
+        return canvas;
+    }
 }

@@ -32,7 +32,7 @@ public class CLI {
     private int writtenChars;
 
     //Min is 21
-    public static final int height =45;//Usually 45
+    public static final int height =20;//Usually 45
     //Min is 21
     public static final int width =185;//Usually 185
 

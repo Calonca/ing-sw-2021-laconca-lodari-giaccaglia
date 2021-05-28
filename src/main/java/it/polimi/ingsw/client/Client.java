@@ -89,8 +89,8 @@ public class Client implements Runnable
         /* Open connection to the server and start a thread for handling
          * communication. */
         if (ip==null||commonData.getCurrentnick()==null){
-            //changeViewBuilder(new TestViewBuilder());
-            changeViewBuilder(ConnectToServerViewBuilder.getBuilder(isCLI));
+            changeViewBuilder(new TestViewBuilder());
+            //changeViewBuilder(ConnectToServerViewBuilder.getBuilder(isCLI));
             return;}
         Socket server;
         try {
