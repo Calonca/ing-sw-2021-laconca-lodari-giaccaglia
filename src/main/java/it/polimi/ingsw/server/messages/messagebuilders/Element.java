@@ -78,13 +78,11 @@ public enum Element {
             public SimpleModelElement buildSimpleModelElement (GameModel gameModel){
                 return new SimpleCardCells(SimpleCardsCellsMessageBuilder.cardCellsAdapter(gameModel));
             }
-        }
-
-        ;
+        };
 
         private final boolean isCommonElement;
 
-        private static List<Element> elements = Arrays.asList(Element.values());
+        private static final List<Element> elements = Arrays.asList(Element.values());
 
         Element(final Boolean isCommonElement) {
             this.isCommonElement = isCommonElement;

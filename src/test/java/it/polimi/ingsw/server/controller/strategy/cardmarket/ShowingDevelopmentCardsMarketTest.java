@@ -22,7 +22,7 @@ public class ShowingDevelopmentCardsMarketTest {
         boolean isSinglePlayer = true;
         GameModel gamemodel = new GameModel(nicknames, isSinglePlayer,null);
         try {
-            assertEquals(State.SHOWING_CARD_SHOP,new ShowingDevelopmentCardsMarket().execute(gamemodel,v));
+            assertEquals(State.SHOWING_CARD_SHOP,new ShowingDevelopmentCardsMarket().execute(gamemodel,v).getKey());
         } catch (it.polimi.ingsw.server.controller.EventValidationFailedException e) {
             e.printStackTrace();
         }

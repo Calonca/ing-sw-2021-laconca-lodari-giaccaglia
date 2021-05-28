@@ -16,7 +16,6 @@ public class SetupPhaseEvent extends Event {
     protected Pair<Integer, Integer> [] resources; //key = position, value = resource number
     protected List<UUID> discardedLeaders;
     protected int initialResources;
-    protected int initialChosenLeaders;
     protected int initialDiscardedLeaders;
     protected int actualSize = 0;
     protected int playerNumber;

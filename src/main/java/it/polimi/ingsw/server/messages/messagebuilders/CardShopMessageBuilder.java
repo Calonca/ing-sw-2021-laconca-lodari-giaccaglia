@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 public class CardShopMessageBuilder {
 
     public static Map<NetworkDevelopmentCardColor, Map<Integer, List<NetworkDevelopmentCard>>> cardShopAdapter (GameModel gameModel){
+
         Map<DevelopmentCardColor, Map<Integer, List<DevelopmentCard>>> simpleCardShop = gameModel.getSimpleCardShop();
 
         return simpleCardShop
@@ -46,7 +47,7 @@ public class CardShopMessageBuilder {
                                             for (NetworkDevelopmentCard netCard : netCards) {
                                                 DevelopmentCard card = gameModel.getDevCardsMap().get(netCard.getCardId());
                                                 boolean isPurchasable = checkCardRequirements(gameModel, card);
-                                                netCard.setPurchasable(isPurchasable);
+                                                netCard.setSelectable(isPurchasable);
                                             }
                                             return netCards;
                                         }

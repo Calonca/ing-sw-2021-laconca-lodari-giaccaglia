@@ -27,7 +27,7 @@ public class MarketBoardTest {
         List<String> players = new ArrayList<>();
         players.add("testPlayer");
         boolean isSinglePlayer = true;
-        gameModelTest = new GameModel(players, isSinglePlayer,null);
+        gameModelTest = new GameModel(players, isSinglePlayer, null);
         areThereWhiteMarbles = false;
     }
 
@@ -44,7 +44,7 @@ public class MarketBoardTest {
 
         for (MarketLine line : lines) {
             if (!line.equals(MarketLine.INVALID_LINE))
-                 pickLineTest(line, resources);
+                pickLineTest(line, resources);
         }
     }
 
@@ -67,14 +67,14 @@ public class MarketBoardTest {
     @Test
     public void areThereWhiteMarblesTest() {
 
-        for(MarketLine  line : MarketLine.values()) {
+        for (MarketLine line : MarketLine.values()) {
             if (!line.equals(MarketLine.INVALID_LINE))
                 testWhiteMarble(line);
         }
 
     }
 
-    private void testWhiteMarble(MarketLine testLine){
+    private void testWhiteMarble(MarketLine testLine) {
 
         Marble[] pickedMarbles;
         pickedMarbles = gameModelTest.chooseLineFromMarketBoard(testLine);
@@ -92,11 +92,11 @@ public class MarketBoardTest {
         }
     }
 
-    private void testNumberOfWhiteMarbles(MarketLine testLine){
+    private void testNumberOfWhiteMarbles(MarketLine testLine) {
         List<Marble> pickedMarbles;
         pickedMarbles = Arrays.asList(gameModelTest.chooseLineFromMarketBoard(testLine));
         System.out.println(pickedMarbles);
-        int occurrences = pickedMarbles.stream().filter(marble -> marble ==(Marble.WHITE)).mapToInt(i -> 1).sum();
+        int occurrences = pickedMarbles.stream().filter(marble -> marble == (Marble.WHITE)).mapToInt(i -> 1).sum();
         System.out.println(occurrences);
 
         assertEquals(occurrences, gameModelTest.getNumberOfWhiteMarblesInPickedLine());
@@ -116,26 +116,29 @@ public class MarketBoardTest {
         for (MarketLine line : MarketLine.values()) {
             if (!line.equals(MarketLine.INVALID_LINE)) {
                 for (Resource resource : resources)
-                    mappedResourcesTest(line, resource, resources);
+                    mappedResourcesTest(line, resource);
             }
         }
 
     }
 
-    private void mappedResourcesTest(MarketLine testLine, Resource mappedResource, List<Resource> resources) {
+    private void mappedResourcesTest(MarketLine testLine, Resource mappedResource) {
+
 
         List<Marble> pickedMarbles;
+        int whiteMarblesQuantity = 0;
         pickedMarbles = Arrays.asList(gameModelTest.chooseLineFromMarketBoard(testLine));
         System.out.println(pickedMarbles);
-        if(gameModelTest.areThereWhiteMarblesInPickedLine())
-            for(int i=0; i<gameModelTest.getNumberOfWhiteMarblesInPickedLine(); i++)
+        if (gameModelTest.areThereWhiteMarblesInPickedLine())
+            whiteMarblesQuantity = gameModelTest.getNumberOfWhiteMarblesInPickedLine();
+
+            for (int i = 0; i < whiteMarblesQuantity; i++)
                 gameModelTest.convertWhiteMarbleInPickedLine(mappedResource);
 
 
         Box mappedResources = gameModelTest.getBoxResourcesFromMarketBoard();
         List<Marble> marbles = new ArrayList<>();
 
-        int whiteMarblesQuantity = gameModelTest.getNumberOfWhiteMarblesInPickedLine();
 
         marbles.add(Marble.YELLOW);
         marbles.add(Marble.RED);
@@ -143,7 +146,7 @@ public class MarketBoardTest {
         marbles.add(Marble.PURPLE);
         marbles.add(Marble.BLUE);
 
-        for(Marble marble : marbles) {
+        for (Marble marble : marbles) {
             if (marble != Marble.WHITE && marble != Marble.RED) {
                 int occurrences = pickedMarbles.stream().filter(m -> m == (marble)).mapToInt(i -> 1).sum();
                 if (marble.getConvertedMarble() == mappedResource)
@@ -155,8 +158,7 @@ public class MarketBoardTest {
 
     }
 
-    
-
-
 }
+
+
 

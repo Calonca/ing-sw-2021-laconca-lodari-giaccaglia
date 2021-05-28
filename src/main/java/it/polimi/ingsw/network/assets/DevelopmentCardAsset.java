@@ -4,7 +4,6 @@ import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import javafx.util.Pair;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.UUID;
 
 public class DevelopmentCardAsset extends CardAsset{
@@ -25,7 +24,7 @@ public class DevelopmentCardAsset extends CardAsset{
 
     @Override
     public Pair<Path, Path> getCardPaths() {
-        return networkDevelopmentCard.isPurchasable() ? getActiveCardPaths() : getInactiveCardPaths();
+        return networkDevelopmentCard.isSelectable() ? getActiveCardPaths() : getInactiveCardPaths();
     }
 
 }

@@ -2,10 +2,10 @@ package it.polimi.ingsw.network.messages.clienttoserver.events.productionevent;
 
 public class ChooseProductionAtPositionEvent extends ProductionEvent {
 
-    protected int productionPosition;
+    protected int cardPosition;
 
     public ChooseProductionAtPositionEvent(int position){
-            this.productionPosition = position;
+            this.cardPosition = position;
     }
 
     public ChooseProductionAtPositionEvent(){}

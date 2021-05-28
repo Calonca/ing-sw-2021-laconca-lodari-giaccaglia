@@ -3,16 +3,20 @@ package it.polimi.ingsw.network.messages.clienttoserver.events.productionevent;
 import javafx.util.Pair;
 
 import java.util.List;
+import java.util.Map;
 
 public class ChooseResourcesForProductionEvent extends ProductionEvent {
 
-    protected int chosenResource;
+    protected int chosenResource = -1;
 
-    protected List<Pair<Integer,Integer>>resourcesToDiscard; //key = posizione nei depositi , value = numero della risorsa
+    protected boolean isBasicProduction;
 
-    public ChooseResourcesForProductionEvent(List<Pair<Integer,Integer>> resourcesToDiscard, int chosenResource){
+    protected Map<Integer,Integer> resourcesToDiscard; //key = posizione nei depositi , value = numero della risorsa
+
+    public ChooseResourcesForProductionEvent(Map<Integer,Integer> resourcesToDiscard, int chosenResource, boolean isBasicProduction){
         this.resourcesToDiscard = resourcesToDiscard;
         this.chosenResource = chosenResource;
+        this.isBasicProduction = isBasicProduction;
     }
 
     public ChooseResourcesForProductionEvent(){}

@@ -79,7 +79,7 @@ public class MoveResourceEvent extends it.polimi.ingsw.network.messages.clientto
     }
 
     private boolean checkResourceAvailability(){
-        return startPos >= -4 && startPos < 0 && gameModel.getCurrentPlayer().getPersonalBoard().getDiscardBox().getNumberOf(Resource.fromInt(startPos + 4)) > 0;
+        return startPos >= -4 && startPos < 0 && gameModel.getCurrentPlayer().getPersonalBoard().getDiscardBox().getNumberOf(Resource.fromIntFixed(startPos + 4)) > 0;
     }
 
     public int getStartPos(){

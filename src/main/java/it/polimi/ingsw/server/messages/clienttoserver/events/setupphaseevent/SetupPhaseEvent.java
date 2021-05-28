@@ -78,7 +78,7 @@ public class SetupPhaseEvent extends it.polimi.ingsw.network.messages.clienttose
     private boolean validateResourceNumber() {
         List<Integer> resourceNumbers = Arrays.stream(resources).map(Pair::getValue).collect(Collectors.toList());
         return resourceNumbers.stream()
-                .noneMatch(number -> Resource.fromInt(number)
+                .noneMatch(number -> Resource.fromIntFixed(number)
                         .equals(Resource.EMPTY));
     }
 

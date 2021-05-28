@@ -26,6 +26,7 @@ public enum Marble {
      */
 
     WHITE(Resource.EMPTY),
+
     /**
      * This <em>Marble</em> is mapped to the {@link Resource#SHIELD SHIELD} Resource
      */
@@ -50,6 +51,7 @@ public enum Marble {
      * This <em>Marble</em> is mapped to the {@link Resource#FAITH FAITH} Resource
      */
     RED(Resource.FAITH),
+
 
     INVALID(Resource.EMPTY);
 

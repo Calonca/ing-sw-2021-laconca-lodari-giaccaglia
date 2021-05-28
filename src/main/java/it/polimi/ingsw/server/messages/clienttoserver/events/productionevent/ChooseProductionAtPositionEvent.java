@@ -27,15 +27,15 @@ public class ChooseProductionAtPositionEvent extends it.polimi.ingsw.network.mes
     }
 
     private boolean validateProductionPosition(){
-            return (currentPlayerPersonalBoard.getAvailableProductions().length > productionPosition && productionPosition>=0);
+            return (currentPlayerPersonalBoard.getAvailableProductions().length > cardPosition && cardPosition>=0 && cardPosition <= 3);
     }
 
     private boolean validateProductionRequirements(){
-            return currentPlayerPersonalBoard.getAvailableProductions()[productionPosition];
+            return currentPlayerPersonalBoard.getAvailableProductions()[cardPosition+1];
     }
 
     public int getProductionPosition(){
-        return productionPosition;
+        return cardPosition;
     }
 
 }

@@ -194,8 +194,8 @@ public class Box implements StorageUnit {
     public Map<Integer, Pair<Integer, Integer>> getSimpleBox() {
 
         return IntStream.range(0, nResAtPos.length).boxed().collect(Collectors.toMap(
-                i -> globalPositionOfRes(Resource.fromInt(i)),
-                i -> new Pair<>(i, getNumberOf(Resource.fromInt(i)))));
+                i -> globalPositionOfRes(Resource.fromIntFixed(i)),
+                i -> new Pair<>(i, getNumberOf(Resource.fromIntFixed(i)))));
 
     }
 
