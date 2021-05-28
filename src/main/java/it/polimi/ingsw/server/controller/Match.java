@@ -89,6 +89,8 @@ public class Match {
 
     public Pair<State, List<Element>> transitionToNextState(Validable event) throws EventValidationFailedException {
         GameStrategy gameStrategy = game.getCurrentPlayer().getStatesTransitionTable().getStrategy(game.getCurrentPlayer().getCurrentState(), event);
+        if (gameStrategy==null)
+            throw new EventValidationFailedException();
         return gameStrategy.execute(game,event);
     }
 

@@ -63,5 +63,7 @@ public class PlayerCache {
         playerSimpleModelElementsMap.put(SimpleStrongBox.class.getSimpleName(), new SimpleStrongBox());
     }
 
-
+    public String getCurrentState() {
+        return currentState;
+    }
 }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.client.messages.servertoclient.StateInNetwork;
 import it.polimi.ingsw.client.simplemodel.SimpleModel;
 import it.polimi.ingsw.client.view.CLI.CLI;
 import it.polimi.ingsw.client.view.CLI.CLIelem.CLIelem;
@@ -9,7 +10,6 @@ import it.polimi.ingsw.client.view.abstractview.ConnectToServerViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.SetupPhaseViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
-import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 
@@ -90,8 +90,8 @@ public class Client implements Runnable
         /* Open connection to the server and start a thread for handling
          * communication. */
         if (ip==null||commonData.getCurrentnick()==null){
-            changeViewBuilder(new TestViewBuilder());
-            //changeViewBuilder(ConnectToServerViewBuilder.getBuilder(isCLI));
+            //changeViewBuilder(new TestViewBuilder());
+            changeViewBuilder(ConnectToServerViewBuilder.getBuilder(isCLI));
             return;}
         Socket server;
         try {
@@ -174,7 +174,6 @@ public class Client implements Runnable
     }
 
     public void setState(StateInNetwork stateInNetwork){
-        System.out.println(JsonUtility.serialize(stateInNetwork));
         if (simpleModel==null){
             try {
                 int numOfPlayers = getCommonData().playersOfMatch().map(o->o.length).orElse(0);

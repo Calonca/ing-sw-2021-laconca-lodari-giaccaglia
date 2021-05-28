@@ -1,12 +1,11 @@
 package it.polimi.ingsw.client.view.CLI;
 
-import com.google.gson.GsonBuilder;
+import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Title;
+import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.SetupBody;
+import it.polimi.ingsw.client.view.CLI.textUtil.DrawableList;
 import it.polimi.ingsw.client.view.abstractview.SetupPhaseViewBuilder;
-import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
-import it.polimi.ingsw.network.messages.clienttoserver.events.setupphaseevent.SetupPhaseEvent;
-import it.polimi.ingsw.network.simplemodel.SimpleModelElement;
 import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
 import it.polimi.ingsw.network.util.Util;
 
@@ -21,8 +20,6 @@ public class SetupPhase extends SetupPhaseViewBuilder implements CLIBuilder {
         int resourcesToChoose = Util.resourcesToChooseOnSetup(getCommonData().getThisPlayerIndex().orElse(0));
         getCLIView().setTitle(new Title(title));
         SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).orElseThrow();
-
-        //String a = new GsonBuilder().setPrettyPrinting().create().toJson(simplePlayerLeaders);
         getCLIView().setBody(new SetupBody(simplePlayerLeaders.getPlayerLeaders(),resourcesToChoose,getClient()));
 
         getCLIView().refreshCLI();
@@ -30,6 +27,16 @@ public class SetupPhase extends SetupPhaseViewBuilder implements CLIBuilder {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        System.out.println("SEtup received"+evt.getPropertyName());
+        if (evt.getPropertyName().equals(State.IDLE.name()))
+            getClient().changeViewBuilder(new InitialPhase());
+        else{
+            getCLIView().setTitle(new Title("Not found what looking for"));
+            CanvasBody cb = new CanvasBody(CLI.width,getCLIView().getMaxBodyHeight());
+            DrawableList dwl = new DrawableList();
+            dwl.addToCenter(CLI.width,"Setup received: "+evt.getPropertyName());
+            cb.getCanvas().addDrawableList(dwl);
+            getCLIView().setBody(cb);
+            getCLIView().refreshCLI();
+        }
     }
 }

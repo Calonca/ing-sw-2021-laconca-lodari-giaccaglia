@@ -14,10 +14,10 @@ public class StateInNetwork extends ServerToClientMessage {
     /**
      * The index in the players array of the player receiving a state update
      */
-    private int playerNumber;
-    private String state;
-    private List<SimpleModelElement> playerSimpleModelElements;
-    private List<SimpleModelElement> commonSimpleModelElements;
+    protected int playerNumber;
+    protected String state;
+    protected List<SimpleModelElement> playerSimpleModelElements;
+    protected List<SimpleModelElement> commonSimpleModelElements;
 
 
     public int getPlayerNumber() {

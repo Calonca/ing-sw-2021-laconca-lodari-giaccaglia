@@ -11,9 +11,10 @@ import java.util.stream.Stream;
 
 public class HorizontalListBody extends OptionList {
 
-    int height;
-    Mode mode;
-    Canvas canvas;
+    private final int height;
+    private Mode mode;
+    private boolean showOptions=true;
+    private Canvas canvas;
 
     public enum Mode {
         WIDE{
@@ -39,6 +40,10 @@ public class HorizontalListBody extends OptionList {
 
     public void setMode(Mode mode) {
         this.mode = mode;
+    }
+
+    public void setShowOptions(boolean showOptions) {
+        this.showOptions = showOptions;
     }
 
     @Override
@@ -76,6 +81,9 @@ public class HorizontalListBody extends OptionList {
 
 
     public Stream<DrawableList> toStringStream() {
+        if (!showOptions) {
+            return options.stream().map(Option::toDrawableList);
+        }
         int spaces = (optMaxWidth()/2)-2;
         return IntStream.range(0,options.size())
                 .mapToObj(i->{
@@ -87,6 +95,9 @@ public class HorizontalListBody extends OptionList {
     }
 
     public Stream<DrawableList> toBelowStringStream() {
+        if (!showOptions) {
+            return options.stream().map(Option::toDrawableList);
+        }
         int spaces = (optMaxWidth()/2)-2;
         return IntStream.range(0,options.size())
                 .mapToObj(i->{

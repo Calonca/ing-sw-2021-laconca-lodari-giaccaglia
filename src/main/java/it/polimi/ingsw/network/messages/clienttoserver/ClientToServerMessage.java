@@ -6,6 +6,9 @@ import it.polimi.ingsw.network.messages.NetworkMessage;
 import it.polimi.ingsw.RuntimeTypeAdapterFactory;
 import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
 import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
+import it.polimi.ingsw.network.messages.clienttoserver.events.leaderphaseevent.DiscardLeaderEvent;
+import it.polimi.ingsw.network.messages.clienttoserver.events.leaderphaseevent.PlayLeaderEvent;
+import it.polimi.ingsw.network.messages.clienttoserver.events.leaderphaseevent.SkipLeaderEvent;
 import it.polimi.ingsw.network.messages.clienttoserver.events.setupphaseevent.SetupPhaseEvent;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 
@@ -39,6 +42,10 @@ public abstract class ClientToServerMessage extends NetworkMessage
 
         //Todo Register here all the event message types in the server
         eventMessageAdapter.registerSubtype(SetupPhaseEvent.class);
+        eventMessageAdapter.registerSubtype(PlayLeaderEvent.class);
+        eventMessageAdapter.registerSubtype(DiscardLeaderEvent.class);
+        eventMessageAdapter.registerSubtype(SkipLeaderEvent.class);
+
         return eventMessageAdapter;
     }
 }

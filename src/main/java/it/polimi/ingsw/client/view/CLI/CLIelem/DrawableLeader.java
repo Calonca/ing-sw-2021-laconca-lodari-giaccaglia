@@ -23,4 +23,8 @@ public class DrawableLeader {
         }
         return dwl;
     }
+
+    public static int height(){
+        return 7;
+    }
 }
