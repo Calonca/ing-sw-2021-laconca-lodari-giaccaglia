@@ -18,6 +18,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Sphere;
 import javafx.util.Duration;
 
 import java.beans.PropertyChangeEvent;
@@ -60,20 +61,19 @@ public class CreateMatch extends CreateJoinLoadMatchViewBuilder implements GUIVi
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
-        Circle circle1=new Circle();
-        circle1.setRadius(10);
-        circle1.setLayoutX(200);
-        circle1.setLayoutY(200);
+        double width=createPane.getWidth();
+        double len=createPane.getHeight();
 
-        FillTransition fillTransition1= new FillTransition(Duration.seconds(1.5),circle1,Color.YELLOW,Color.BLUE);
-        fillTransition1.setCycleCount(Animation.INDEFINITE);
-        fillTransition1.setAutoReverse(true);
-        fillTransition1.play();
+        Sphere circle1=new Sphere();
+        circle1.setRadius(10);
+        circle1.setLayoutX(width/2);
+        circle1.setLayoutY((3*len)/4);
+
 
 
         TranslateTransition transition = new TranslateTransition(Duration.seconds(1.5),circle1);
-        transition.setToX(200);
-        transition.setToY(0);
+        transition.setToX(width/2);
+        transition.setToY(len/4);
         transition.setAutoReverse(true);
         transition.setCycleCount(Animation.INDEFINITE);
         transition.play();
@@ -82,15 +82,11 @@ public class CreateMatch extends CreateJoinLoadMatchViewBuilder implements GUIVi
 
 
 
-        Circle circle2=new Circle();
+        Sphere circle2=new Sphere();
         circle2.setRadius(10);
         circle2.setLayoutX(300);
         circle2.setLayoutY(100);
 
-        FillTransition filltransition2= new FillTransition(Duration.seconds(1.5),circle2,Color.RED,Color.PURPLE);
-        filltransition2.setCycleCount(Animation.INDEFINITE);
-        filltransition2.setAutoReverse(true);
-        filltransition2.play();
 
         TranslateTransition transition2 = new TranslateTransition(Duration.seconds(1.5),circle2);
         transition2.setToX(0);
@@ -103,15 +99,11 @@ public class CreateMatch extends CreateJoinLoadMatchViewBuilder implements GUIVi
 
         createPane.getChildren().add(circle2);
 
-        Circle circle3=new Circle();
+        Sphere circle3=new Sphere();
         circle3.setRadius(10);
         circle3.setLayoutX(400);
         circle3.setLayoutY(200);
 
-        FillTransition fillTransition3= new FillTransition(Duration.seconds(1.5),circle3,Color.BLUE,Color.YELLOW);
-        fillTransition3.setCycleCount(Animation.INDEFINITE);
-        fillTransition3.setAutoReverse(true);
-        fillTransition3.play();
 
         TranslateTransition transition3 = new TranslateTransition(Duration.seconds(1.5),circle3);
         transition3.setToX(-200);
@@ -122,15 +114,10 @@ public class CreateMatch extends CreateJoinLoadMatchViewBuilder implements GUIVi
 
         createPane.getChildren().add(circle3);
 
-        Circle circle4=new Circle();
+        Sphere circle4=new Sphere();
         circle4.setRadius(10);
         circle4.setLayoutX(300);
         circle4.setLayoutY(300);
-
-        FillTransition filltransition4= new FillTransition(Duration.seconds(1.5),circle4,Color.PURPLE,Color.RED);
-        filltransition4.setCycleCount(Animation.INDEFINITE);
-        filltransition4.setAutoReverse(true);
-        filltransition4.play();
 
         TranslateTransition transition4 = new TranslateTransition(Duration.seconds(1.5),circle4);
         transition4.setToX(0);

@@ -26,9 +26,7 @@ public class TogglingForProduction implements GameStrategy {
         //ON EVENT SELECTPRODUCTIONATPOSITION
         //MESSAGE IS INTEGER OF AVAILABLE POSITION
         //TODO REDO
-        event.validate(gamemodel);
 
-        int msg=3;
         if (((ChooseProductionAtPositionEvent) event).getProductionPosition()==-1)
         {
             gamemodel.getCurrentPlayer().getPersonalBoard().produce();

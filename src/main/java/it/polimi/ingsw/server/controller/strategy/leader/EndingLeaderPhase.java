@@ -21,7 +21,6 @@ public class EndingLeaderPhase implements GameStrategy {
     public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event) throws EventValidationFailedException
     {
         //ON EVENT ACTIVATELEADEREVENT OR DISCARDLEADEREVENT
-        event.validate(gamemodel);
 
         if (gamemodel.getCurrentPlayer().anyLeaderPlayable())
             return new Pair<>(gamemodel.getCurrentPlayer().getCurrentState() , elementsToUpdate)

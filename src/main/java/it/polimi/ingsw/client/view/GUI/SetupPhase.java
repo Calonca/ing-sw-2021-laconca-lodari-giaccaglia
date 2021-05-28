@@ -4,6 +4,10 @@ package it.polimi.ingsw.client.view.GUI;
 import it.polimi.ingsw.client.Client;
 
 
+import it.polimi.ingsw.client.json.Deserializator;
+import it.polimi.ingsw.network.assets.CardAssetsContainer;
+import it.polimi.ingsw.network.assets.LeaderCardAsset;
+import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
 import it.polimi.ingsw.server.model.Resource;
 import javafx.animation.Animation;
 import javafx.animation.FillTransition;
@@ -76,11 +80,15 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
     public void bindForSelection(boolean[] selected,List<Button> sceneButtons)
     {
         ImageView temp;
+
+        //SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).get();
+        //List<LeaderCardAsset> leaderpics=simplePlayerLeaders.getPlayerLeaders();
+
+
         for (Button sceneButton : sceneButtons) {
-        temp = new ImageView(new Image("assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_0.png", true));
-        temp.setFitHeight(200);
-        temp.setFitWidth(200);
-        sceneButton.setGraphic(temp);
+
+
+        //sceneButton.setGraphic(temp);
         sceneButton.setOnAction(e ->
         {
             if(!selected[sceneButtons.indexOf(sceneButton)])
@@ -191,13 +199,21 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
          * Buttons are built according to leadernumber parameter
          */
 
+        CardAssetsContainer.setCardAssetsContainer(Deserializator.networkDevCardsAssetsDeserialization());
+        SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).get();
+        List<LeaderCardAsset> leaderpics=simplePlayerLeaders.getPlayerLeaders();
+
         Button tempbut;
         for(int i=0;i<LEADERNUMBER;i++)
         {
+            ImageView temp = new ImageView(new Image("assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_0.png", true));
 
             tempbut= new Button();
             tempbut.setLayoutY(600);
             tempbut.setLayoutX(100+200*i);
+            tempbut.setGraphic(temp);
+            temp.setFitHeight(200);
+            temp.setFitWidth(200);
             cjlAnchor.getChildren().add(tempbut);
             sceneButtons.add(tempbut);
 
