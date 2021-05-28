@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -35,6 +36,29 @@ public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.m
 
     @Override
     public boolean validate(GameModel gameModel) {
+        Integer resNUm = 0;
+        Integer pos = 0;
+
+        AtomicBoolean result = new AtomicBoolean(false);
+        currentPlayerPersonalBoard.firstProductionSelectedWithChoice().ifPresentOrElse((p)->{
+                if (p.choiceCanBeMade()&&p.choiceCanBeMadeOnInput()&&!pos.equals(null)&&resNUm.equals(null)){
+                    result.set(!currentPlayerPersonalBoard.getResourceAtPosition(pos).equals(Resource.EMPTY));
+                } else if(p.choiceCanBeMadeOnOutput()&&pos.equals(null)&&!resNUm.equals(null)){
+                    Resource resIfChoosingOutput = Resource.fromIntFixed(resNUm);
+                    result.set(!resIfChoosingOutput.equals(Resource.EMPTY));
+                }else result.set(false);
+                },
+            ()-> {
+                Resource r = currentPlayerPersonalBoard.getResourceAtPosition(pos);
+                //Todo check if the resource is in the production non selected input
+                result.set(currentPlayerPersonalBoard.remainingToSelectForProduction() > 0 &&
+                                !r.equals(Resource.EMPTY)
+                    );
+            }
+        );
+
+
+
         initializeMiddlePhaseEventValidation(gameModel);
         buildResourcesArray();
         resourcePositions = new ArrayList<>(resourcesToDiscard.keySet());
