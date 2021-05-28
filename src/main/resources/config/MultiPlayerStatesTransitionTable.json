@@ -18,7 +18,7 @@
     },
     "SETUP_PHASE": {
       "SetupPhaseEvent": {
-        "type": "ChooseInitialResource"
+        "type": "Setup"
       }
     },
     "MIDDLE_PHASE": {

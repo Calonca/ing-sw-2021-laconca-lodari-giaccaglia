@@ -20,8 +20,6 @@ public class ShowingProductionCards implements GameStrategy {
 
     public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event) throws EventValidationFailedException
     {
-        //ON EVENT CHOOSEPRODUCTIONEVENT
-        event.validate(gamemodel);
         return new Pair<>(State.CHOOSING_CARD_FOR_PRODUCTION, elementsToUpdate);
     }
 }

@@ -4,7 +4,6 @@ import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
 import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.server.model.GameModel;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,7 +18,7 @@ public class ChooseResourceForCardShopEvent extends CardShopEvent {
      * Array of ints representing current player chosen {@link it.polimi.ingsw.server.model.Resource Resources} in their int encoding,
      * for DevCard purchase.
      */
-    protected Map<Integer,Integer> chosenResources;
+    protected Map<Integer,Integer> chosenResources;   //key = posizione nei depositi , value = numero della risorsa
 
     /**
      * Client side {@link Event} constructor invoked when {@link State#CHOOSING_RESOURCES_FOR_DEVCARD CHOOSING_RESOURCES_FOR_DEVCARD}

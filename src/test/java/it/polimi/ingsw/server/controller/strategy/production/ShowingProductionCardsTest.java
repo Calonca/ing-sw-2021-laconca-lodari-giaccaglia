@@ -21,7 +21,7 @@ public class ShowingProductionCardsTest {
         boolean isSinglePlayer = true;
         GameModel gamemodel = new GameModel(nicknames, isSinglePlayer,null);
         try {
-            assertEquals(new ShowingProductionCards().execute(gamemodel, validable), State.CHOOSING_CARD_FOR_PRODUCTION);
+            assertEquals(new ShowingProductionCards().execute(gamemodel, validable).getKey(), State.CHOOSING_CARD_FOR_PRODUCTION);
         } catch (it.polimi.ingsw.server.controller.EventValidationFailedException e) {
             e.printStackTrace();
         }

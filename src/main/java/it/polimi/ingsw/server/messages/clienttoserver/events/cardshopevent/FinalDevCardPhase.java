@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.messages.clienttoserver.events.productionevent;
+package it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent;
 
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;

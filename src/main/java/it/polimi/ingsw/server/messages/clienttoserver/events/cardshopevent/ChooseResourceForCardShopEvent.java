@@ -58,6 +58,7 @@ public class ChooseResourceForCardShopEvent extends it.polimi.ingsw.network.mess
         resourcePositions = new ArrayList<>(chosenResources.keySet());
 
         return isGameStarted(gameModel)
+                && checkResourcesType()
                 && checkResourcePositionUniqueness()
                 && checkResourcesPositionIndexes()
                 && checkResourcesPositions()
@@ -75,10 +76,14 @@ public class ChooseResourceForCardShopEvent extends it.polimi.ingsw.network.mess
         return currentPlayerPersonalBoard.hasResources(chosenResourcesArray);
     }
 
+    private boolean checkResourcesType(){
+        return chosenResources.values().stream().noneMatch(resource -> Resource.fromIntFixed(resource).equals(Resource.EMPTY));
+    }
+
     private boolean checkResourcesPositions(){
        return chosenResources.keySet().stream()
                .anyMatch(position ->
-                       !currentPlayerPersonalBoard.getResourceAtPosition(position).equals(Resource.fromInt(chosenResources.get(position))));
+                       !currentPlayerPersonalBoard.getResourceAtPosition(position).equals(Resource.fromIntFixed(chosenResources.get(position))));
     }
 
     private boolean checkResourcesPositionIndexes(){

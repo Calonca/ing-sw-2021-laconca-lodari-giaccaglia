@@ -45,7 +45,7 @@ public class PersonalBoard {
      * that are initialized to Optional.empty() before being set
      * and then the ones from {@link ProductionLeader cards.leaders}
      */
-    private  List<Optional<Production>> productions;
+    private List<Optional<Production>> productions;
     /**
      * An array of the spots where the player can place cards
      */
@@ -89,6 +89,10 @@ public class PersonalBoard {
      */
     public List<ProductionCardCell> getCardCells() {
         return Arrays.stream(cardCells).collect(Collectors.toList());
+    }
+
+    public Optional<Production> getProductionFromCardPosition(int position){
+        return productions.get(position+1);
     }
 
     public Map<Integer, List<DevelopmentCard>> getVisibleCardsOnCells(){

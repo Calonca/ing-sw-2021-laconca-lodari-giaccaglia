@@ -1224,6 +1224,8 @@ public class Serializator extends JsonUtility {
         serializeResources();
        // Map<UUID, Leader> leadersCardMap = leadersCardMapDeserialization();
 
+        
+
     }
 
 }

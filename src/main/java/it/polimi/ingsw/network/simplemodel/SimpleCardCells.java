@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.simplemodel;
 
 import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
+import javafx.util.Pair;
 
 import java.util.List;
 import java.util.Map;
@@ -13,13 +14,20 @@ public class SimpleCardCells extends SimpleModelElement{
 
     public SimpleCardCells(){}
 
-    public SimpleCardCells(Map<Integer, List<UUID>> cards){
+    public SimpleCardCells(Map<Integer, List<Pair<UUID, Boolean>>> cards){
+
         this.visibleCardsOnCells = cards
                 .keySet()
                 .stream()
                 .collect(Collectors.toMap(
                 position -> position,
-                position -> cards.get(position).stream().map(Cards::getDevelopmentCardAsset).collect(Collectors.toList())
+                position -> cards.get(position).stream().map(cardPair -> {
+
+                DevelopmentCardAsset card = Cards.getDevelopmentCardAsset(cardPair.getKey());
+                card.getDevelopmentCard().setSelectable(cardPair.getValue());
+                return card;
+
+                }).collect(Collectors.toList())
         ));
     }
 
