@@ -36,7 +36,7 @@ public class SetupPhaseEvent extends it.polimi.ingsw.network.messages.clienttose
      * false.
      */
     private boolean validatePlayerNumber() {
-        return playerNumber - 1 == gamemodel.getPlayerIndex(gamemodel.getCurrentPlayer());
+        return playerNumber == gamemodel.getPlayerIndex(gamemodel.getCurrentPlayer());
     }
 
     /**

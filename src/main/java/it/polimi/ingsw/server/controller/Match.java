@@ -14,7 +14,6 @@ import java.util.stream.Stream;
 
 public class Match {
     private UUID matchId;
-    private boolean hasStarted=false;
     private List<String> onlineUsers = new ArrayList<>();
     private List<String> offlineUsers = new ArrayList<>();
     private transient List<ClientHandler> clientHandlers = new ArrayList<>();
@@ -40,8 +39,8 @@ public class Match {
 
 
     public void startGame() {
-        hasStarted=true;
         this.game = new GameModel(onlineUsers,onlineUsers.size()==1,this);
+        game.setGameStatus(true);
         game.getCurrentPlayer().setCurrentState(State.SETUP_PHASE);
     }
 
@@ -60,9 +59,6 @@ public class Match {
                 onlineUsers.stream(),
                 Stream.generate(()-> null)).limit(maxPlayers).toArray(String[]::new);
     }
-
-    public boolean hasStarted(){return hasStarted;}
-    public boolean hasNotStarted(){return !hasStarted;}
 
     public boolean sameID(UUID uuid) {return uuid.equals(matchId);}
 

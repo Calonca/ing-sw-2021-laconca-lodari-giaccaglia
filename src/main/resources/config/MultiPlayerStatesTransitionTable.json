@@ -1,87 +1,107 @@
 {
   "table": {
-    "SHOWING_LEADERS_INITIAL": {
-      "SkipLeaderEvent": {
-        "type": "EndingLeaderPhase"
-      },
-      "DiscardLeaderEvent": {
-        "type": "DiscardingLeader"
-      },
-      "PlayLeaderEvent": {
-        "type": "ActivatingLeader"
-      }
-    },
-    "CHOOSING_WHITEMARBLE_CONVERSION": {
-      "ChooseWhiteMarbleConversionEvent": {
-        "type": "ChoosingMarketBonus"
-      }
-    },
-    "SETUP_PHASE": {
-      "SetupPhaseEvent": {
-        "type": "Setup"
+    "CHOOSING_POSITION_FOR_DEVCARD": {
+      "ChooseCardPositionEvent": {
+        "type": "ChoosingSpaceForDevelopmentCard",
+        "elementsToUpdate": []
       }
     },
     "MIDDLE_PHASE": {
       "CardShopEvent": {
-        "type": "ShowingDevelopmentCardsMarket"
+        "type": "ShowingDevelopmentCardsMarket",
+        "elementsToUpdate": []
       },
       "MarketBoardEvent": {
-        "type": "ShowingResourceMarket"
+        "type": "ShowingResourceMarket",
+        "elementsToUpdate": []
       },
       "ProductionEvent": {
-        "type": "ShowingProductionCards"
-      }
-    },
-    "CHOOSING_RESOURCES_FOR_DEVCARD": {
-      "ChooseResourceForCardShopEvent": {
-        "type": "PayingResourcesForDevelopmentCard"
+        "type": "ShowingProductionCards",
+        "elementsToUpdate": []
       }
     },
     "CHOOSING_CARD_FOR_PRODUCTION": {
       "FinalProductionPhase": {
-        "type": "TogglingForProduction"
+        "type": "TogglingForProduction",
+        "elementsToUpdate": []
       },
       "ChooseProductionAtPositionEvent": {
-        "type": "TogglingForProduction"
+        "type": "TogglingForProduction",
+        "elementsToUpdate": []
       }
     },
-    "CHOOSING_RESOURCE_FOR_PRODUCTION": {
-      "ChooseResourcesForProductionEvent": {
-        "type": "ChoosingResourceForProduction"
+    "SHOWING_MARKET_RESOURCES": {
+      "ChooseLineEvent": {
+        "type": "PuttingBallOnLine",
+        "elementsToUpdate": []
       }
     },
-    "SHOWING_LEADERS_FINAL": {
-      "SkipLeaderEvent": {
-        "type": "EndingLeaderPhase"
-      },
-      "DiscardLeaderEvent": {
-        "type": "DiscardingLeader"
-      },
-      "PlayLeaderEvent": {
-        "type": "ActivatingLeader"
+    "SETUP_PHASE": {
+      "SetupPhaseEvent": {
+        "type": "Setup",
+        "elementsToUpdate": [],
+        "currentPlayerNumber": 0
+      }
+    },
+    "SHOWING_CARD_SHOP": {
+      "ChooseCardEvent": {
+        "type": "AcquiringDevelopmentCard",
+        "elementsToUpdate": []
+      }
+    },
+    "CHOOSING_WHITEMARBLE_CONVERSION": {
+      "ChooseWhiteMarbleConversionEvent": {
+        "type": "ChoosingMarketBonus",
+        "elementsToUpdate": []
       }
     },
     "CHOOSING_POSITION_FOR_RESOURCES": {
       "MoveResourceEvent": {
-        "type": "AddingResourcesFromMarket"
+        "type": "AddingResourcesFromMarket",
+        "elementsToUpdate": []
       },
       "DiscardResourcesEvent": {
         "type": "DiscardingResources"
       }
     },
-    "SHOWING_MARKET_RESOURCES": {
-      "ChooseLineEvent": {
-        "type": "PuttingBallOnLine"
+    "CHOOSING_RESOURCES_FOR_DEVCARD": {
+      "ChooseResourceForCardShopEvent": {
+        "type": "PayingResourcesForDevelopmentCard",
+        "elementsToUpdate": []
       }
     },
-    "SHOWING_CARD_SHOP": {
-      "ChooseCardEvent": {
-        "type": "AcquiringDevelopmentCard"
+    "SHOWING_LEADERS_FINAL": {
+      "SkipLeaderEvent": {
+        "type": "EndingLeaderPhase",
+        "elementsToUpdate": []
+      },
+      "DiscardLeaderEvent": {
+        "type": "DiscardingLeader",
+        "elementsToUpdate": []
+      },
+      "PlayLeaderEvent": {
+        "type": "ActivatingLeader",
+        "elementsToUpdate": []
       }
     },
-    "CHOOSING_POSITION_FOR_DEVCARD": {
-      "ChooseCardPositionEvent": {
-        "type": "ChoosingSpaceForDevelopmentCard"
+    "CHOOSING_RESOURCE_FOR_PRODUCTION": {
+      "ChooseResourcesForProductionEvent": {
+        "type": "ChoosingResourceForProduction",
+        "elementsToUpdate": []
+      }
+    },
+    "SHOWING_LEADERS_INITIAL": {
+      "SkipLeaderEvent": {
+        "type": "EndingLeaderPhase",
+        "elementsToUpdate": []
+      },
+      "DiscardLeaderEvent": {
+        "type": "DiscardingLeader",
+        "elementsToUpdate": []
+      },
+      "PlayLeaderEvent": {
+        "type": "ActivatingLeader",
+        "elementsToUpdate": []
       }
     }
   }

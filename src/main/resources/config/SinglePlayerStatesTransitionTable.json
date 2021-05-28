@@ -1,19 +1,107 @@
 {
   "table": {
-    "SHOWING_LEADERS_INITIAL": {
-      "SkipLeaderEvent": {
-        "type": "EndingLeaderPhase"
+    "CHOOSING_POSITION_FOR_DEVCARD": {
+      "ChooseCardPositionEvent": {
+        "type": "ChoosingSpaceForDevelopmentCard",
+        "elementsToUpdate": []
+      }
+    },
+    "MIDDLE_PHASE": {
+      "CardShopEvent": {
+        "type": "ShowingDevelopmentCardsMarket",
+        "elementsToUpdate": []
       },
-      "DiscardLeaderEvent": {
-        "type": "DiscardingLeader"
+      "MarketBoardEvent": {
+        "type": "ShowingResourceMarket",
+        "elementsToUpdate": []
       },
-      "PlayLeaderEvent": {
-        "type": "ActivatingLeader"
+      "ProductionEvent": {
+        "type": "ShowingProductionCards",
+        "elementsToUpdate": []
+      }
+    },
+    "CHOOSING_CARD_FOR_PRODUCTION": {
+      "FinalProductionPhase": {
+        "type": "TogglingForProduction",
+        "elementsToUpdate": []
+      },
+      "ChooseProductionAtPositionEvent": {
+        "type": "TogglingForProduction",
+        "elementsToUpdate": []
+      }
+    },
+    "SHOWING_MARKET_RESOURCES": {
+      "ChooseLineEvent": {
+        "type": "PuttingBallOnLine",
+        "elementsToUpdate": []
       }
     },
     "SETUP_PHASE": {
       "SetupPhaseEvent": {
-        "type": "Setup"
+        "type": "Setup",
+        "elementsToUpdate": [],
+        "currentPlayerNumber": 0
+      }
+    },
+    "SHOWING_CARD_SHOP": {
+      "ChooseCardEvent": {
+        "type": "AcquiringDevelopmentCard",
+        "elementsToUpdate": []
+      }
+    },
+    "CHOOSING_WHITEMARBLE_CONVERSION": {
+      "ChooseWhiteMarbleConversionEvent": {
+        "type": "ChoosingMarketBonus",
+        "elementsToUpdate": []
+      }
+    },
+    "CHOOSING_POSITION_FOR_RESOURCES": {
+      "MoveResourceEvent": {
+        "type": "AddingResourcesFromMarket",
+        "elementsToUpdate": []
+      },
+      "DiscardResourcesEvent": {
+        "type": "DiscardingResources"
+      }
+    },
+    "CHOOSING_RESOURCES_FOR_DEVCARD": {
+      "ChooseResourceForCardShopEvent": {
+        "type": "PayingResourcesForDevelopmentCard",
+        "elementsToUpdate": []
+      }
+    },
+    "SHOWING_LEADERS_FINAL": {
+      "SkipLeaderEvent": {
+        "type": "EndingLeaderPhase",
+        "elementsToUpdate": []
+      },
+      "DiscardLeaderEvent": {
+        "type": "DiscardingLeader",
+        "elementsToUpdate": []
+      },
+      "PlayLeaderEvent": {
+        "type": "ActivatingLeader",
+        "elementsToUpdate": []
+      }
+    },
+    "CHOOSING_RESOURCE_FOR_PRODUCTION": {
+      "ChooseResourcesForProductionEvent": {
+        "type": "ChoosingResourceForProduction",
+        "elementsToUpdate": []
+      }
+    },
+    "SHOWING_LEADERS_INITIAL": {
+      "SkipLeaderEvent": {
+        "type": "EndingLeaderPhase",
+        "elementsToUpdate": []
+      },
+      "DiscardLeaderEvent": {
+        "type": "DiscardingLeader",
+        "elementsToUpdate": []
+      },
+      "PlayLeaderEvent": {
+        "type": "ActivatingLeader",
+        "elementsToUpdate": []
       }
     }
   }

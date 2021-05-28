@@ -19,6 +19,7 @@ public class StatesTransitionTableTest {
         multiPlayerTable = StatesTransitionTable.multiPlayer();
     }
 
+    @Test
     public void testSerialization(){
         assertEquals(Setup.class,multiPlayerTable.getStrategy(State.SETUP_PHASE, new SetupPhaseEvent()).getClass());
         assertEquals(Setup.class,singlePlayerTable.getStrategy(State.SETUP_PHASE, new SetupPhaseEvent()).getClass());

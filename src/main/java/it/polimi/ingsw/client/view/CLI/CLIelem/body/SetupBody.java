@@ -113,8 +113,7 @@ public class SetupBody extends CLIelem {
             }
         }else {
                     SetupPhaseEvent event = new SetupPhaseEvent(chosenRes.size(),2,client.getCommonData().getThisPlayerIndex().orElse(0));
-                    selected.stream().filter(p->p.left.equals(true))
-                            .forEach(p->event.addDiscardedLeader(p.right));
+                    selected.stream().filter(p->p.left.equals(true)).forEach(p->event.addDiscardedLeader(p.right));
                     //event.addResource(new Pair<>(0,chosenRes.get(0).getResourceNumber()));
                     //event.addResource(new Pair<>(0,chosenRes.get(0).getResourceNumber()));
 
@@ -129,7 +128,7 @@ public class SetupBody extends CLIelem {
     }
 
     private boolean leadersAreChosen(){
-        return selected.stream().filter(e->e.equals(true)).count()==2;
+        return selected.stream().filter(e->e.left.equals(true)).count()==2;
     }
 
 }
