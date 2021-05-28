@@ -103,7 +103,7 @@ public class MarketBoardTest {
 
     }
 
-
+    @Test
     public void getMappedResourcesBoxTest() {
 
         List<Resource> resources = new ArrayList<>();

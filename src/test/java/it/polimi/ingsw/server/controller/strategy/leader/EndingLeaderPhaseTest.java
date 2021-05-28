@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 
 public class EndingLeaderPhaseTest {
 
-
+    @Test
     public void execute() {
         Validable v = gameModel -> true;
         List<String> nicknames = new ArrayList<>();
