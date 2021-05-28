@@ -3,24 +3,28 @@
     "key": 0,
     "value": "src/main/resources/assets/resources/GOLD.png"
   },
-  "EMPTY": {
-    "key": 7,
-    "value": "src/main/resources/assets/resources/EMPTY.png"
+  "TOCHOOSE": {
+    "key": 6,
+    "value": "src/main/resources/assets/resources/DUMMY_PATH"
   },
   "FAITH": {
     "key": 4,
     "value": "src/main/resources/assets/resources/FAITH.png"
   },
-  "SHIELD": {
-    "key": 2,
-    "value": "src/main/resources/assets/resources/SHIELD.png"
+  "STONE": {
+    "key": 3,
+    "value": "src/main/resources/assets/resources/STONE.png"
   },
   "SERVANT": {
     "key": 1,
     "value": "src/main/resources/assets/resources/SERVANT.png"
   },
-  "STONE": {
-    "key": 3,
-    "value": "src/main/resources/assets/resources/STONE.png"
+  "SHIELD": {
+    "key": 2,
+    "value": "src/main/resources/assets/resources/SHIELD.png"
+  },
+  "EMPTY": {
+    "key": 7,
+    "value": "src/main/resources/assets/resources/EMPTY.png"
   }
 }
