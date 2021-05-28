@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view.CLI.textUtil;
 
 import java.util.Date;
 import java.util.Map;
+import java.util.UUID;
 
 public class Drawable {
     private Color color;
@@ -22,12 +23,7 @@ public class Drawable {
     }
 
     public Drawable(int XPos, int YPos, String string) {
-        this.string = string;
-        this.XPos = XPos;
-        this.YPos = YPos;
-        this.color = Color.DEFAULT;
-        this.background = Background.DEFAULT;
-        setHeightAndWidth(string);
+        this(XPos,YPos,string,Color.DEFAULT,Background.DEFAULT);
     }
 
     public static Drawable shifted(int shiftX, int shiftY, Drawable d)

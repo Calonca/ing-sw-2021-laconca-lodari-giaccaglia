@@ -2,11 +2,13 @@ package it.polimi.ingsw.client.view.CLI.textUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class DrawableList {
     List<Drawable> drawables;
+    UUID id = UUID.randomUUID();
 
     public DrawableList() {
         this.drawables = new ArrayList<>();
@@ -72,4 +74,7 @@ public class DrawableList {
         return drawables.stream().mapToInt(Drawable::getWidth).max().orElse(0);
     }
 
+    public UUID getId() {
+        return id;
+    }
 }

@@ -3,7 +3,11 @@ package it.polimi.ingsw.client.view.CLI.textUtil;
 import it.polimi.ingsw.client.view.CLI.CLI;
 import org.jetbrains.annotations.NotNull;
 
+import javax.imageio.plugins.jpeg.JPEGImageReadParam;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 /**
@@ -11,6 +15,8 @@ import java.util.stream.Stream;
  */
 public class Canvas {
     String[][] matrix;
+    DrawableList[][] content;
+    Map<UUID,DrawableList> lists;
 
     int width,height;
     public static Canvas withBorder(int width, int height){
@@ -20,6 +26,9 @@ public class Canvas {
 
         String lineChars = Characters.VERT_DIVIDER.getString()+" ".repeat(width)+Characters.VERT_DIVIDER.getString();
         printer.matrix = Stream.generate(()-> generateLine(lineChars)).limit(height).toArray(String[][]::new);
+
+        printer.content = new DrawableList[height][width];
+        printer.lists=new HashMap<>();
 
         return printer;
     }
@@ -50,19 +59,15 @@ public class Canvas {
         draw(StringUtil.startCenterWritingX(s, width+2),y,s,Color.DEFAULT,Background.DEFAULT);
     }
 
-    public void draw(Drawable d){
-        draw(d.getXPos(),d.getYPos(),d.getString(),d.getColor(),d.getBackground());
-    }
-
     public void draw(DrawableList d){
-        d.get().forEach(this::draw);
+        //d.get().forEach(this::draw);
     }
 
     /**
      * Draws the string in the canvas at the given position,
      * the output in the CLI is similar to that of System.out.print(s) but with the text starting form the given x,y position.
      */
-    public void draw(int x, int y, String s, Color c, Background b){
+    private void draw(int x, int y, String s, Color c, Background b){
         int matX = x;
         int matY = y;
         char[] chars = s.toCharArray();

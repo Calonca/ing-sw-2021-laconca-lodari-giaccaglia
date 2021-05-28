@@ -50,7 +50,7 @@ public class HorizontalListBody extends OptionList {
         int width = CLI.width;
         int optWidth = width/options.size();
         AtomicInteger startX = new AtomicInteger(optWidth / options.size());
-        Canvas canvas = Canvas.withBorder(CLI.width,cli.getMaxBodyHeight());
+        Canvas canvas = Canvas.withBorder(CLI.width,height+1);
         toStringStream().map(l->DrawableList.shifted(startX.get(),height-optMaxHeight(),l))
                 .forEach(o->{
             canvas.draw(o);
@@ -64,8 +64,8 @@ public class HorizontalListBody extends OptionList {
         int width = CLI.width;
         int optWidth = optMaxWidth()+4;
         AtomicInteger startX = new AtomicInteger((width-(optWidth*options.size()))/2);
-        Canvas canvas = Canvas.withBorder(CLI.width,cli.getMaxBodyHeight());
-        toStringStream().map(l->DrawableList.shifted(startX.get(),height-optMaxHeight(),l))
+        Canvas canvas = Canvas.withBorder(CLI.width,height+1);
+        toBelowStringStream().map(l->DrawableList.shifted(startX.get()+optWidth/4,height-optMaxHeight(),l))
                 .forEach(o->{
             canvas.draw(o);
             startX.addAndGet(optWidth);
@@ -82,6 +82,16 @@ public class HorizontalListBody extends OptionList {
                     drawableList.add(new Drawable(spaces,0, i+":", Color.ANSI_BLUE,Background.DEFAULT));
                     DrawableList drawableOptions = DrawableList.shifted(0,1,options.get(i).toDrawableList());
                     drawableList.add(drawableOptions);
+                    return drawableList;});
+    }
+
+    public Stream<DrawableList> toBelowStringStream() {
+        int spaces = (optMaxWidth()/2)-2;
+        return IntStream.range(0,options.size())
+                .mapToObj(i->{
+                    DrawableList drawableList = new DrawableList();
+                    drawableList.add(options.get(i).toDrawableList());
+                    drawableList.add(spaces, i+":", Color.ANSI_BLUE,Background.DEFAULT);
                     return drawableList;});
     }
 
