@@ -1,9 +1,7 @@
 package it.polimi.ingsw.client.view.CLI.textUtil;
 
-import it.polimi.ingsw.client.view.CLI.CLI;
 import org.jetbrains.annotations.NotNull;
 
-import javax.imageio.plugins.jpeg.JPEGImageReadParam;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +13,7 @@ import java.util.stream.Stream;
  */
 public class Canvas {
     String[][] matrix;
-    DrawableList[][] content;
+    UUID[][] pointTracing;
     Map<UUID,DrawableList> lists;
 
     int width,height;
@@ -27,7 +25,7 @@ public class Canvas {
         String lineChars = Characters.VERT_DIVIDER.getString()+" ".repeat(width)+Characters.VERT_DIVIDER.getString();
         printer.matrix = Stream.generate(()-> generateLine(lineChars)).limit(height).toArray(String[][]::new);
 
-        printer.content = new DrawableList[height][width];
+        printer.pointTracing = new UUID[height][width];
         printer.lists=new HashMap<>();
 
         return printer;
@@ -37,7 +35,9 @@ public class Canvas {
         Canvas printer = Canvas.withBorder(width,height);
         int x = StringUtil.startCenterWritingX(s, width);
         int y = StringUtil.startCenterWritingY(s, height);
-        printer.drawWithDefaultColor(x,y,s);
+        DrawableList dwl = new DrawableList();
+        dwl.add(new Drawable(x,y,s));
+        printer.addDrawableList(dwl);
         return printer;
     }
 
@@ -46,31 +46,28 @@ public class Canvas {
         return lineChars.chars().mapToObj(c->String.valueOf((char) c)).toArray(String[]::new);
     }
 
-
-    public void drawWithDefaultColor(int x, int y, String s){
-        draw(x,y,s,Color.DEFAULT,Background.DEFAULT);
+    public void addDrawableList(DrawableList dwl){
+        lists.put(dwl.getId(),dwl);
     }
 
-    public void drawCenterX(int y, String s,Color c,Background b){
-        draw(StringUtil.startCenterWritingX(s, width-2)+1,y,s,c,b);
+    private void draw(){
+        lists.values().forEach(this::drawList);
     }
 
-    public void drawCenterXDefault(int y, String s){
-        draw(StringUtil.startCenterWritingX(s, width+2),y,s,Color.DEFAULT,Background.DEFAULT);
-    }
-
-    public void draw(DrawableList d){
-        //d.get().forEach(this::draw);
+    private void drawList(DrawableList dwl){
+        dwl.get().forEach(d-> draw(d,dwl));
     }
 
     /**
      * Draws the string in the canvas at the given position,
      * the output in the CLI is similar to that of System.out.print(s) but with the text starting form the given x,y position.
      */
-    private void draw(int x, int y, String s, Color c, Background b){
-        int matX = x;
-        int matY = y;
-        char[] chars = s.toCharArray();
+    private void draw(Drawable d,DrawableList dwl){
+        int matX = d.getXPos();
+        int matY = d.getYPos();
+        Color c = d.getColor();
+        Background b = d.getBackground();
+        char[] chars = d.getString().toCharArray();
         for (int i=0;i<chars.length;i++) {
             char aChar = chars[i];
             boolean defaultColorAndBack = !(c.equals(Color.DEFAULT) && b.equals(Background.DEFAULT));
@@ -79,17 +76,19 @@ public class Canvas {
             {
                 lastLineWidth = matX-1;
                 matY+=1;
-                matX = x;
+                matX = d.getXPos();
             } else {
                 char toPrint;
                 if (matrix[matY][matX].isBlank())//Check if writing on non-empty space, for debugging
                     toPrint = aChar;
                 else
                     toPrint = '*';
-                if (matX==x && defaultColorAndBack)//Start of the printed line
+                //Drawing
+                if (matX==d.getXPos() && defaultColorAndBack)//Start of the printed line
                     matrix[matY][matX] = Color.startColorStringBackground(String.valueOf(toPrint),c,b);
                 else
                     matrix[matY][matX] = String.valueOf(toPrint);
+                pointTracing[matY][matY]=dwl.getId();
                 matX += 1;
             }
             if (defaultColorAndBack)//Resets color
@@ -106,8 +105,17 @@ public class Canvas {
         return x>=width;
     }
 
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
     @Override
     public String toString() {
+        draw();
         return Arrays.stream(matrix).map(line-> Arrays.stream(line).reduce("",(a, b)->a+b)).reduce("",(a, b)->a+b+"\n");
     }
 }

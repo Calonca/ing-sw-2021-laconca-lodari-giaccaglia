@@ -31,35 +31,41 @@ public class SetupBody extends CLIelem {
 
     @Override
     public String toString() {
-        Canvas canvas = Canvas.withBorder(CLI.width,13);
+        Canvas canvas = Canvas.withBorder(CLI.width,11);
         String s = "Resources to choose: ";
-        int StartPositionX = StringUtil.startCenterWritingX(s,CLI.width)-ResourceCLI.width()*resToChoose/2;
-        int posX =StartPositionX+s.length();
+        int CenterX = 1+CLI.getCenterX()-(ResourceCLI.width()-2)/2;
+        int StartPositionX = CenterX-ResourceCLI.width()*chosenRes.size();
+        int posX =StartPositionX;
         for (ResourceAsset resAsset:chosenRes)
         {
             DrawableList dl = ResourceCLI.fromAsset(resAsset).toBigDrawableList(false);
             dl.shift(posX,0);
-            canvas.draw(dl);
-            posX+=dl.getWidth()+2;
+            canvas.addDrawableList(dl);
+            posX+=ResourceCLI.width();
         }
         for (int i =0;i<resToChoose;i++)
         {
             DrawableList dl = ResourceCLI.TO_CHOSE.toBigDrawableList(i==0);
             dl.shift(posX,0);
-            canvas.draw(dl);
-            posX+=dl.getWidth()+2;
+            canvas.addDrawableList(dl);
+            posX+=ResourceCLI.width();
         }
 
 
         String choosingResString="";
         if (!resAreChosen()) {
             HorizontalListBody resToChooseFrom = new HorizontalListBody(7);
-            canvas.drawWithDefaultColor(StartPositionX,0,s);
-            canvas.drawCenterXDefault(7,"^");
-            canvas.drawCenterXDefault(8,"|");
-            canvas.drawCenterXDefault(9,"|");
-            canvas.drawCenterXDefault(10,"|"+"-".repeat(2+(ResourceCLI.width()+5)*4)+"|");
+            DrawableList dwl1 = new DrawableList();
+            dwl1.add(StartPositionX-s.length(),s);
+            canvas.addDrawableList(dwl1);
 
+            DrawableList dwl = new DrawableList();
+            dwl.addToCenter(CLI.width,"^");
+            dwl.addToCenter(CLI.width,"|");
+            dwl.addToCenter(CLI.width,"|");
+            dwl.addToCenter(CLI.width,"|"+"-".repeat(1+(ResourceCLI.width()+6)*4)+"|");
+            dwl.shift(0,7);
+            canvas.addDrawableList(dwl);
 
             List<DrawableList> optionsDwList = ResourceCLI.toList();
             for (int i=0;i<optionsDwList.size();i++){
@@ -72,9 +78,13 @@ public class SetupBody extends CLIelem {
                 resToChooseFrom.addOption(o);
             }
             choosingResString=resToChooseFrom.toString();
-
+            resToChooseFrom.selectOption();
         }else if (!leadersAreChosen()){
-
+            String s1= "Your chosen resources";
+            DrawableList dwl = new DrawableList();
+            dwl.addToCenter(CLI.width,s1);
+            dwl.shift(4,ResourceCLI.height()-2);
+            canvas.addDrawableList(dwl);
         }
 
         return canvas+choosingResString;
@@ -85,8 +95,7 @@ public class SetupBody extends CLIelem {
     }
 
     private boolean leadersAreChosen(){
-        return true;
-        //return selected.stream().filter(e->e.equals(true)).count()==2;
+        return selected.stream().filter(e->e.equals(true)).count()==2;
     }
 
 }

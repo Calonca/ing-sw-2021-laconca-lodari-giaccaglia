@@ -50,7 +50,10 @@ public enum ResourceCLI {
     }
 
     public static int width(){
-        return TO_CHOSE.toBigDrawableList(false).getWidth();
+        return 2+TO_CHOSE.toBigDrawableList(false).getWidth();
+    }
+    public static int height(){
+        return TO_CHOSE.toBigDrawableList(false).getHeight();
     }
 
     public ResourceAsset getRes() {

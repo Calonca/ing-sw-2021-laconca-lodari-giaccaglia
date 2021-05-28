@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 
 public class ShowingDevelopmentCardsMarketTest {
 
-    @Test
+
     public void execute()
     {
         Validable v = gameModel -> true;

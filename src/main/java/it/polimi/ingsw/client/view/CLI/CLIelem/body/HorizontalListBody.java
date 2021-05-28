@@ -53,7 +53,7 @@ public class HorizontalListBody extends OptionList {
         Canvas canvas = Canvas.withBorder(CLI.width,height+1);
         toStringStream().map(l->DrawableList.shifted(startX.get(),height-optMaxHeight(),l))
                 .forEach(o->{
-            canvas.draw(o);
+            canvas.addDrawableList(o);
             startX.addAndGet(optWidth);
         });
         return canvas.toString();
@@ -67,7 +67,7 @@ public class HorizontalListBody extends OptionList {
         Canvas canvas = Canvas.withBorder(CLI.width,height+1);
         toBelowStringStream().map(l->DrawableList.shifted(startX.get()+optWidth/4,height-optMaxHeight(),l))
                 .forEach(o->{
-            canvas.draw(o);
+            canvas.addDrawableList(o);
             startX.addAndGet(optWidth);
         });
         return canvas.toString();

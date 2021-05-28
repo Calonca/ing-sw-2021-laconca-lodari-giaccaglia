@@ -53,7 +53,7 @@ public class VerticalListBody extends OptionList {
         int writingY= (CLI.height-toDraw.getHeight())/2;
 
         toDraw.shift(writingX,writingY);
-        canvas.draw(toDraw);
+        canvas.addDrawableList(toDraw);
 
         return canvas.toString();
     }

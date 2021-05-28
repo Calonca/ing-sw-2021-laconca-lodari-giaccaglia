@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
 import it.polimi.ingsw.client.view.CLI.textUtil.Canvas;
+import it.polimi.ingsw.client.view.CLI.textUtil.DrawableList;
 import it.polimi.ingsw.client.view.abstractview.ConnectToServerViewBuilder;
 
 import java.beans.PropertyChangeEvent;
@@ -34,8 +35,11 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements CLIBu
 
     public Canvas buildCanvas() {
         Canvas canvas = Canvas.withBorder(CLI.width, getCLIView().getMaxBodyHeight());
-        canvas.drawCenterXDefault(0, title1);
-        canvas.drawCenterXDefault(7, title1line2);
+        DrawableList dwl = new DrawableList();
+        dwl.addToCenter(CLI.width,title1);
+        dwl.addEmptyLine();
+        dwl.addToCenter(CLI.width,title1line2);
+        canvas.addDrawableList(dwl);
         return canvas;
     }
 

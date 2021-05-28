@@ -7,8 +7,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class DrawableList {
-    List<Drawable> drawables;
-    UUID id = UUID.randomUUID();
+    private List<Drawable> drawables;
+    private UUID id = UUID.randomUUID();
 
     public DrawableList() {
         this.drawables = new ArrayList<>();
@@ -47,6 +47,10 @@ public class DrawableList {
 
     public void add(int x, String s){
         drawables.add(new Drawable(x, getHeight(), s));
+    }
+
+    public void addToCenter(int canvasWidth,String s){
+        drawables.add(new Drawable(StringUtil.startCenterWritingX(s, canvasWidth+2), getHeight(), s));
     }
 
     public void shift(int shiftX,int shiftY) {
