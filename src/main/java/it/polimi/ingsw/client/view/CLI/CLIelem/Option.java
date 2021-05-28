@@ -7,6 +7,7 @@ import it.polimi.ingsw.client.view.CLI.textUtil.*;
  */
 public class Option extends CLIelem{
     private boolean selected;
+    private boolean isSelectable;
     private final DrawableList drawableList;
 
     public static Option from(String name,String subtitle,Runnable performer){
@@ -29,7 +30,8 @@ public class Option extends CLIelem{
 
     private Option(DrawableList drawableList) {
         this.drawableList = drawableList;
-        this.selected = true;
+        this.selected = false;
+        this.isSelectable = false;
     }
 
     private Option(String name, String subtitle){
@@ -45,6 +47,7 @@ public class Option extends CLIelem{
 
     public void setSelected(boolean selected) {
         this.selected = selected;
+        if (!isSelectable) return;
         if (selected) {
             drawableList.get().forEach(e->e.setColor(Color.ANSI_BLACK));
             drawableList.get().forEach(e->e.setBackground(Background.ANSI_WHITE_BACKGROUND));
