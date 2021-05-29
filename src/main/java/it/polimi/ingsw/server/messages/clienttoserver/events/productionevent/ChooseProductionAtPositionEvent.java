@@ -8,7 +8,7 @@ import it.polimi.ingsw.server.model.states.State;
 public class ChooseProductionAtPositionEvent extends it.polimi.ingsw.network.messages.clienttoserver.events.productionevent.ChooseProductionAtPositionEvent implements Validable {
 
 
-    private PersonalBoard currentPlayerPersonalBoard;
+    private transient PersonalBoard currentPlayerPersonalBoard;
 
     /**
      * Server-side initializer to setup common attributes among {@link State#MIDDLE_PHASE MIDDLE_PHASE}

@@ -170,6 +170,10 @@ public class GameModel {
         return isStarted;
     }
 
+    public boolean isSinglePlayer(){
+        return isSinglePlayer;
+    }
+
     /**
      * Gets the player currently playing.
      * @return the current player.

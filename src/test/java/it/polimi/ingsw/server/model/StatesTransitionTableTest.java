@@ -14,15 +14,15 @@ public class StatesTransitionTableTest {
 
     @Before
     public void setUp() throws Exception {
-        //serializeTables();
+        serializeTables();
         singlePlayerTable = StatesTransitionTable.singlePlayer();
         multiPlayerTable = StatesTransitionTable.multiPlayer();
     }
 
     @Test
     public void testSerialization(){
-        assertEquals(Setup.class,multiPlayerTable.getStrategy(State.SETUP_PHASE, new SetupPhaseEvent()).getClass());
-        assertEquals(Setup.class,singlePlayerTable.getStrategy(State.SETUP_PHASE, new SetupPhaseEvent()).getClass());
+        assertEquals(Setup.class, multiPlayerTable.getStrategy(State.SETUP_PHASE, new SetupPhaseEvent()).getClass());
+        assertEquals(Setup.class, singlePlayerTable.getStrategy(State.SETUP_PHASE, new SetupPhaseEvent()).getClass());
     }
 
     public void serializeTables(){

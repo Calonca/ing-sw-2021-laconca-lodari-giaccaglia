@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.strategy.leader;
 
+import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
 import it.polimi.ingsw.server.controller.EventValidationFailedException;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
@@ -19,7 +20,7 @@ public class DiscardingLeader implements GameStrategy {
 
     List<Element> elementsToUpdate = new ArrayList<>();
 
-    public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event) throws EventValidationFailedException
+    public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event)
     {
         //ON EVENT DISCARDLEADEREVENT
         //MESSAGE IS INT 2
@@ -27,6 +28,9 @@ public class DiscardingLeader implements GameStrategy {
 
         gamemodel.getCurrentPlayer().getLeader(((DiscardLeaderEvent) event).getLeaderId()).get().activate(gamemodel);
 
-        return new EndingLeaderPhase().execute(gamemodel, event);
+        elementsToUpdate.add(Element.SimpleFaithTrack);
+        elementsToUpdate.add(Element.SimplePlayerLeaders);
+
+        return new Pair<>(State.LEADER_END, elementsToUpdate);
     }
 }

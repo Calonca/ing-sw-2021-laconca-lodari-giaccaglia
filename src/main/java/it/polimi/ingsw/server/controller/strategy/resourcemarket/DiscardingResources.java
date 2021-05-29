@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.strategy.resourcemarket;
 
+import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
 import it.polimi.ingsw.server.controller.EventValidationFailedException;
 import it.polimi.ingsw.server.controller.strategy.Final;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
@@ -16,9 +17,9 @@ import java.util.List;
  * discardbox.
  */
 public class DiscardingResources implements GameStrategy {
-    public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event) throws EventValidationFailedException
+    public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event)
     {
-        //ON EVENT DISCARDRESOURCEEVENT
+
         //TODO
         gamemodel.getCurrentPlayer().getPersonalBoard().discardResources();
         int temp=gamemodel.getCurrentPlayer().getPersonalBoard().getBadFaithToAdd();

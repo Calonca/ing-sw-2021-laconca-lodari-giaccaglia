@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.controller.strategy.cardmarket;
 
-import it.polimi.ingsw.server.controller.EventValidationFailedException;
+import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent.ChooseCardEvent;
@@ -21,15 +21,13 @@ import java.util.List;
  */
 public class AcquiringDevelopmentCard implements GameStrategy {
 
-    List<Element> elementsToUpdate = new ArrayList<>();
+    List<Element> elementsToUpdate = new ArrayList<>(0);
 
-    public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event) throws EventValidationFailedException
+    public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event)
+
     {
-        //ON EVENT CHOOSECARDEVENT
-        //MESSAGE IS 4
-        //
         int level=((ChooseCardEvent) event).getCardLevel();
-        int color=((ChooseCardEvent) event).getCardColorNumber(); //1      BLUe
+        int color=((ChooseCardEvent) event).getCardColorNumber();
         gamemodel.purchaseCardFromCardShop(DevelopmentCardColor.fromInt(color),level);
 
         return new Pair<>(State.CHOOSING_RESOURCES_FOR_DEVCARD, elementsToUpdate);

@@ -57,7 +57,7 @@ public class ChooseCardEventTest {
 
 
     private void fillDiscardBox(){
-        int[] resources =gameModelTest.getCardShop().getCardCopy(DevelopmentCardColor.fromInt(2),1).getCostAsArray();
+        int[] resources =gameModelTest.getCardShop().getCopyOfCardOnTop(DevelopmentCardColor.fromInt(2),1).getCostAsArray();
         discardBox.addResources(resources);
     }
 

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.strategy.resourcemarket;
 
+import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
 import it.polimi.ingsw.server.controller.EventValidationFailedException;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
@@ -24,10 +25,8 @@ public class PuttingBallOnLine implements GameStrategy {
 
     List<Element> elementsToUpdate = new ArrayList<>();
 
-    public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event) throws EventValidationFailedException
+    public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event)
     {
-        //ON EVENT CHOOSEROWEVENT
-        //MESSAGE IS MarketLine.FIRST_COLUMN
 
         gamemodel.chooseLineFromMarketBoard(MarketLine.fromInt(((ChooseLineEvent) event).getChosenRow()));
         gamemodel.updateMatrixAfterTakingResources();

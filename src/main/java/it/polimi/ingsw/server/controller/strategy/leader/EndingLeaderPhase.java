@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.strategy.leader;
 
+import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
 import it.polimi.ingsw.server.controller.EventValidationFailedException;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
@@ -18,16 +19,16 @@ public class EndingLeaderPhase implements GameStrategy {
 
     List<Element> elementsToUpdate = new ArrayList<>();
 
-    public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event) throws EventValidationFailedException
+    public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event)
     {
-        //ON EVENT ACTIVATELEADEREVENT OR DISCARDLEADEREVENT
 
         if (gamemodel.getCurrentPlayer().anyLeaderPlayable())
-            return new Pair<>(gamemodel.getCurrentPlayer().getCurrentState() , elementsToUpdate)
-                    ;
-        else if (gamemodel.getCurrentPlayer().getCurrentState()==State.SHOWING_LEADERS_INITIAL)
+            return new Pair<>(gamemodel.getCurrentPlayer().getCurrentState() , elementsToUpdate);
+
+        else if (gamemodel.getCurrentPlayer().getCurrentState()==State.INITIAL_PHASE)
             return new Pair<>(State.MIDDLE_PHASE, elementsToUpdate);
 
         else return new Pair<>(State.IDLE, elementsToUpdate);
+
 
     }}

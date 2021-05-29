@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.controller.strategy;
 
-import it.polimi.ingsw.server.controller.EventValidationFailedException;
+import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.messages.messagebuilders.Element;
 import it.polimi.ingsw.server.model.GameModel;
@@ -18,13 +18,16 @@ public class Final implements GameStrategy {
 
     List<Element> elementsToUpdate = new ArrayList<>();
 
-    public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event) throws EventValidationFailedException
+    public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event)
     {
         //MESSAGE IS SKIPLEADER OR CHOOSELEADER (0 or 1)
         //gamemodel.getCurrentPlayer().setMacroState(State.INITIAL_PHASE);
         if(!gamemodel.getCurrentPlayer().anyLeaderPlayable())
+
             return new Pair<>(State.IDLE, elementsToUpdate);
+
         else
-            return new Pair<>(State.SHOWING_LEADERS_FINAL, elementsToUpdate);
+
+            return new Pair<>(State.FINAL_PHASE, elementsToUpdate);
     }
 }

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.server.controller.strategy.cardmarket;
 
-import it.polimi.ingsw.server.controller.EventValidationFailedException;
-import it.polimi.ingsw.server.controller.strategy.Final;
+import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent.ChooseCardPositionEvent;
@@ -29,6 +28,7 @@ public class ChoosingSpaceForDevelopmentCard implements GameStrategy {
         chosenCell.addToTop(gamemodel.getPurchasedCard());
 
         elementsToUpdate.add(Element.SimpleCardCells);
+        elementsToUpdate.add(Element.SimpleCardShop);
 
         return new Pair<>(State.FINAL_PHASE, elementsToUpdate);
 

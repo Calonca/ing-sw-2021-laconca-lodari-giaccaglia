@@ -1,36 +1,48 @@
 {
   "table": {
-    "CHOOSING_POSITION_FOR_DEVCARD": {
+    "FINAL_PHASE": {
+      "SkipLeaderEvent": {
+        "type": "EndingLeaderPhase",
+        "elementsToUpdate": []
+      },
+      "DiscardLeaderEvent": {
+        "type": "DiscardingLeader",
+        "elementsToUpdate": []
+      },
+      "InitialOrFinalPhaseEvent": {
+        "type": "Final",
+        "elementsToUpdate": []
+      },
+      "PlayLeaderEvent": {
+        "type": "ActivatingLeader",
+        "elementsToUpdate": []
+      }
+    },
+    "CHOOSING_WHITEMARBLE_CONVERSION": {
+      "ChooseWhiteMarbleConversionEvent": {
+        "type": "TogglingForProduction",
+        "elementsToUpdate": []
+      }
+    },
+    "CHOOSING_RESOURCE_FOR_PRODUCTION": {
+      "ChooseResourcesForProductionEvent": {
+        "type": "ChoosingResourceForProduction",
+        "elementsToUpdate": []
+      }
+    },
+    "CHOOSING_RESOURCES_FOR_DEVCARD": {
+      "ChooseResourceForCardShopEvent": {
+        "type": "PayingResourcesForDevelopmentCard",
+        "elementsToUpdate": []
+      }
+    },
+    "CHOOSING_POSITION_FOR_RESOURCES": {
       "ChooseCardPositionEvent": {
         "type": "ChoosingSpaceForDevelopmentCard",
         "elementsToUpdate": []
       }
     },
-    "MIDDLE_PHASE": {
-      "CardShopEvent": {
-        "type": "ShowingDevelopmentCardsMarket",
-        "elementsToUpdate": []
-      },
-      "MarketBoardEvent": {
-        "type": "ShowingResourceMarket",
-        "elementsToUpdate": []
-      },
-      "ProductionEvent": {
-        "type": "ShowingProductionCards",
-        "elementsToUpdate": []
-      }
-    },
-    "CHOOSING_CARD_FOR_PRODUCTION": {
-      "FinalProductionPhase": {
-        "type": "TogglingForProduction",
-        "elementsToUpdate": []
-      },
-      "ChooseProductionAtPositionEvent": {
-        "type": "TogglingForProduction",
-        "elementsToUpdate": []
-      }
-    },
-    "SHOWING_MARKET_RESOURCES": {
+    "CHOOSING_MARKET_LINE": {
       "ChooseLineEvent": {
         "type": "PuttingBallOnLine",
         "elementsToUpdate": []
@@ -43,34 +55,31 @@
         "currentPlayerNumber": 0
       }
     },
-    "SHOWING_CARD_SHOP": {
+    "MIDDLE_PHASE": {
+      "MiddlePhaseEvent": {
+        "type": "Middle",
+        "elementsToUpdate": []
+      }
+    },
+    "IDLE": {
+      "null": {
+        "type": "IDLE",
+        "elementsToUpdate": []
+      }
+    },
+    "CHOOSING_PRODUCTION": {
+      "ChooseProductionAtPositionEvent": {
+        "type": "TogglingForProduction",
+        "elementsToUpdate": []
+      }
+    },
+    "CHOOSING_DEVELOPMENT_CARD": {
       "ChooseCardEvent": {
         "type": "AcquiringDevelopmentCard",
         "elementsToUpdate": []
       }
     },
-    "CHOOSING_WHITEMARBLE_CONVERSION": {
-      "ChooseWhiteMarbleConversionEvent": {
-        "type": "ChoosingMarketBonus",
-        "elementsToUpdate": []
-      }
-    },
-    "CHOOSING_POSITION_FOR_RESOURCES": {
-      "MoveResourceEvent": {
-        "type": "AddingResourcesFromMarket",
-        "elementsToUpdate": []
-      },
-      "DiscardResourcesEvent": {
-        "type": "DiscardingResources"
-      }
-    },
-    "CHOOSING_RESOURCES_FOR_DEVCARD": {
-      "ChooseResourceForCardShopEvent": {
-        "type": "PayingResourcesForDevelopmentCard",
-        "elementsToUpdate": []
-      }
-    },
-    "SHOWING_LEADERS_FINAL": {
+    "INITIAL_PHASE": {
       "SkipLeaderEvent": {
         "type": "EndingLeaderPhase",
         "elementsToUpdate": []
@@ -79,24 +88,8 @@
         "type": "DiscardingLeader",
         "elementsToUpdate": []
       },
-      "PlayLeaderEvent": {
-        "type": "ActivatingLeader",
-        "elementsToUpdate": []
-      }
-    },
-    "CHOOSING_RESOURCE_FOR_PRODUCTION": {
-      "ChooseResourcesForProductionEvent": {
-        "type": "ChoosingResourceForProduction",
-        "elementsToUpdate": []
-      }
-    },
-    "SHOWING_LEADERS_INITIAL": {
-      "SkipLeaderEvent": {
-        "type": "EndingLeaderPhase",
-        "elementsToUpdate": []
-      },
-      "DiscardLeaderEvent": {
-        "type": "DiscardingLeader",
+      "InitialOrFinalPhaseEvent": {
+        "type": "IDLE",
         "elementsToUpdate": []
       },
       "PlayLeaderEvent": {

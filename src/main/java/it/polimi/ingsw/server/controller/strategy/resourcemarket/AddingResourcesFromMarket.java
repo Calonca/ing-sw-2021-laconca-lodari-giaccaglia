@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.controller.strategy.resourcemarket;
 
-import it.polimi.ingsw.server.controller.EventValidationFailedException;
+import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.messages.clienttoserver.events.marketboardevent.MoveResourceEvent;
@@ -18,15 +18,18 @@ import java.util.List;
  * DiscardBox or in one of their depot lines. For each resource in the DiscardBox all the other players get a faith point
  */
 public class AddingResourcesFromMarket implements GameStrategy {
+
     List<Element> elementsToUpdate = new ArrayList<>();
 
-    public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event) throws EventValidationFailedException
+    public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event)
     {
 
         //ON EVENT MOVERESOURCEEVENT
         //MESSAGE IS TWO INT, STARTING POSITION AND ENDING POSITION. 0,0 IS FOR TERMINATION
-        event.validate(gamemodel);
         gamemodel.getCurrentPlayer().getPersonalBoard().move(((MoveResourceEvent) event).getStartPos(),((MoveResourceEvent) event).getEndPos());
+
         return new Pair<>(State.CHOOSING_POSITION_FOR_RESOURCES, elementsToUpdate);
 
-    }}
+    }
+
+}

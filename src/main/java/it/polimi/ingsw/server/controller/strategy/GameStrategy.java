@@ -11,6 +11,6 @@ import java.util.List;
 
 public interface GameStrategy
 {
-     Pair<State, List<Element>> execute(GameModel gamemodel, Validable event) throws EventValidationFailedException;
+     Pair<State, List<Element>> execute(GameModel gamemodel, Validable event);
 
 }

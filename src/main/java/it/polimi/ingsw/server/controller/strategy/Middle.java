@@ -1,9 +1,7 @@
 package it.polimi.ingsw.server.controller.strategy;
 
+import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
 import it.polimi.ingsw.server.controller.EventValidationFailedException;
-import it.polimi.ingsw.server.controller.strategy.cardmarket.ShowingDevelopmentCardsMarket;
-import it.polimi.ingsw.server.controller.strategy.production.ShowingProductionCards;
-import it.polimi.ingsw.server.controller.strategy.resourcemarket.ShowingResourceMarket;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.messages.messagebuilders.Element;
 import it.polimi.ingsw.server.model.GameModel;
@@ -19,17 +17,18 @@ import java.util.List;
 
 public class Middle implements GameStrategy {
 
-    public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event) throws EventValidationFailedException
+    List<Element> elementsToUpdate = new ArrayList<>(0);
+
+    public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event)
     {
         //MESSAGE IS MARKET, SHOP, PRODUCTION (0,1,2)
         int msg=0;
         if(msg==0)
-            return new ShowingResourceMarket().execute(gamemodel, event);
+            return new Pair<>(State.CHOOSING_MARKET_LINE, elementsToUpdate);
         else if(msg==1)
-            return new ShowingDevelopmentCardsMarket().execute(gamemodel, event);
+            return new Pair<>(State.CHOOSING_DEVELOPMENT_CARD, elementsToUpdate);
         else
-            return new ShowingProductionCards().execute(gamemodel, event);
+            return new Pair<>(State.CHOOSING_PRODUCTION, elementsToUpdate);
     }
-
 
 }

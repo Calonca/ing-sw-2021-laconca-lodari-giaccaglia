@@ -4,13 +4,23 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.network.messages.NetworkMessage;
 import it.polimi.ingsw.RuntimeTypeAdapterFactory;
-import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
-import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
+import it.polimi.ingsw.network.messages.clienttoserver.events.*;
+import it.polimi.ingsw.network.jsonUtils.JsonUtility;
+import it.polimi.ingsw.network.messages.clienttoserver.events.cardshopevent.*;
+import it.polimi.ingsw.network.messages.clienttoserver.events.leaderphaseevent.ChooseLeaderEvent;
 import it.polimi.ingsw.network.messages.clienttoserver.events.leaderphaseevent.DiscardLeaderEvent;
 import it.polimi.ingsw.network.messages.clienttoserver.events.leaderphaseevent.PlayLeaderEvent;
 import it.polimi.ingsw.network.messages.clienttoserver.events.leaderphaseevent.SkipLeaderEvent;
+import it.polimi.ingsw.network.messages.clienttoserver.events.marketboardevent.ChooseLineEvent;
+import it.polimi.ingsw.network.messages.clienttoserver.events.marketboardevent.ChooseWhiteMarbleConversionEvent;
+import it.polimi.ingsw.network.messages.clienttoserver.events.marketboardevent.DiscardResourcesEvent;
+import it.polimi.ingsw.network.messages.clienttoserver.events.marketboardevent.MarketBoardEvent;
+import it.polimi.ingsw.network.messages.clienttoserver.events.productionevent.ChooseProductionAtPositionEvent;
+import it.polimi.ingsw.network.messages.clienttoserver.events.productionevent.ChooseResourcesForProductionEvent;
+import it.polimi.ingsw.network.messages.clienttoserver.events.productionevent.FinalProductionPhase;
+import it.polimi.ingsw.network.messages.clienttoserver.events.productionevent.ProductionEvent;
 import it.polimi.ingsw.network.messages.clienttoserver.events.setupphaseevent.SetupPhaseEvent;
-import it.polimi.ingsw.network.jsonUtils.JsonUtility;
+
 
 /**
  * A message sent to the server.
@@ -38,13 +48,35 @@ public abstract class ClientToServerMessage extends NetworkMessage
     }
 
     public static RuntimeTypeAdapterFactory<Event> eventMessageAdapter(){
+
         RuntimeTypeAdapterFactory<Event> eventMessageAdapter = RuntimeTypeAdapterFactory.of(Event.class);
 
-        //Todo Register here all the event message types in the server
-        eventMessageAdapter.registerSubtype(SetupPhaseEvent.class);
-        eventMessageAdapter.registerSubtype(PlayLeaderEvent.class);
+        eventMessageAdapter.registerSubtype(CardShopEvent.class);
+        eventMessageAdapter.registerSubtype(ChooseCardEvent.class);
+        eventMessageAdapter.registerSubtype(ChooseCardPositionEvent.class);
+        eventMessageAdapter.registerSubtype(ChooseResourceForCardShopEvent.class);
+        eventMessageAdapter.registerSubtype(FinalDevCardPhase.class);
+
+        eventMessageAdapter.registerSubtype(ChooseLeaderEvent.class);
         eventMessageAdapter.registerSubtype(DiscardLeaderEvent.class);
+        eventMessageAdapter.registerSubtype(PlayLeaderEvent.class);
         eventMessageAdapter.registerSubtype(SkipLeaderEvent.class);
+
+        eventMessageAdapter.registerSubtype(ChooseLineEvent.class);
+        eventMessageAdapter.registerSubtype(ChooseWhiteMarbleConversionEvent.class);
+        eventMessageAdapter.registerSubtype(DiscardResourcesEvent.class);
+        eventMessageAdapter.registerSubtype(MarketBoardEvent.class);
+
+        eventMessageAdapter.registerSubtype(ChooseProductionAtPositionEvent.class);
+        eventMessageAdapter.registerSubtype(ChooseResourcesForProductionEvent.class);
+        eventMessageAdapter.registerSubtype(FinalProductionPhase.class);
+        eventMessageAdapter.registerSubtype(ProductionEvent.class);
+
+        eventMessageAdapter.registerSubtype(SetupPhaseEvent.class);
+
+        eventMessageAdapter.registerSubtype(EndMiddlePhaseEvent.class);
+        eventMessageAdapter.registerSubtype(InitialOrFinalPhaseEvent.class);
+        eventMessageAdapter.registerSubtype(MiddlePhaseEvent.class);
 
         return eventMessageAdapter;
     }

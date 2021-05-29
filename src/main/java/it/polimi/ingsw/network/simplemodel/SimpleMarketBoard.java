@@ -33,7 +33,7 @@ public class SimpleMarketBoard extends SimpleModelElement{
                 .map(MarbleAsset::fromUUID)
                 .collect(Collectors.toList());
 
-        this.marbleMatrix =  IntStream.range(0, marketColumns*marketColumns)
+        this.marbleMatrix =  IntStream.range(0, marketColumns*marketRows)
                 .mapToObj((pos)->new Pair<>(pos,marbles.get(pos)))
                 .collect(groupingBy((e)->e.getKey()% marketRows))
                 .values()

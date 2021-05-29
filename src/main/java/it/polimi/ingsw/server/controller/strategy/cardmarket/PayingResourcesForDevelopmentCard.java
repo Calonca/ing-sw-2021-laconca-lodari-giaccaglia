@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.controller.strategy.cardmarket;
 
-import it.polimi.ingsw.server.controller.EventValidationFailedException;
+import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.messages.messagebuilders.Element;
@@ -42,8 +42,6 @@ public class PayingResourcesForDevelopmentCard implements GameStrategy {
         gamemodel.getCurrentPlayer().getPersonalBoard().getWarehouseLeadersDepots().removeSelected();
         gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().removeSelected();
 
-        elementsToUpdate.add(Element.SimpleCardCells);
-        elementsToUpdate.add(Element.SimpleCardShop);
         elementsToUpdate.add(Element.SimpleStrongBox);
         elementsToUpdate.add(Element.SimpleWareHouseLeadersDepot);
 

@@ -88,7 +88,7 @@ public class CardShop {
         purchasedCard = devDecks.get(color).get(level).getCard();
     }
 
-    public DevelopmentCard getCardCopy(DevelopmentCardColor color, int level){
+    public DevelopmentCard getCopyOfCardOnTop(DevelopmentCardColor color, int level){
         return devDecks.get(color).get(level).getCardCopyOnTop();
     }
 
