@@ -20,21 +20,15 @@ public abstract class OptionList extends CLIelem {
 
     public OptionList(Stream<Option> optionStream){
         options = optionStream.collect(Collectors.toList());
-        if (options.size()>=1)
-            options.get(0).setSelected(true);
         setUpdater(()-> {});
     }
 
     public void addOption(Option o){
         options.add(o);
-        if (options.size()==1)
-            o.setSelected(true);
     }
 
     public void updateOptions(Stream<Option> optionStream,Client client){
         options = optionStream.collect(Collectors.toList());
-        if (options.size()>=1)
-            options.get(0).setSelected(true);
         if (cli!=null)
         {
             addToListeners(client);
@@ -43,8 +37,7 @@ public abstract class OptionList extends CLIelem {
 
     private void selectOptionAtPosition(int numberInList)
     {
-        options.forEach(option -> option.setSelected(false));
-        options.get(numberInList).setSelected(true);
+        options.get(numberInList).setSelected(!options.get(numberInList).isSelected());
         cli.setLastChoice(Optional.of(options.get(numberInList)));
     }
     public void selectOption()

@@ -22,11 +22,18 @@ public class DrawableList {
         drawables = Stream.concat(first.drawables.stream(),second.drawables.stream()).collect(Collectors.toList());
     }
 
-    public static DrawableList shifted(int shiftX,int shiftY,DrawableList list) {
+    public static DrawableList copyShifted(int shiftX, int shiftY, DrawableList list) {
         DrawableList shifted = new DrawableList();
         shifted.drawables = list.drawables.stream()
                 .map(d->Drawable.shifted(shiftX,shiftY,d)).collect(Collectors.toList());
         return shifted;
+    }
+
+    public static DrawableList selectedDrawableList(DrawableList drawableList){
+        DrawableList dList = DrawableList.copyShifted(0,0,drawableList);
+        dList.get().forEach(e->e.setColor(Color.ANSI_BLACK));
+        dList.get().forEach(e->e.setBackground(Background.ANSI_WHITE_BACKGROUND));
+        return dList;
     }
 
     public DrawableList(Drawable first, DrawableList second) {

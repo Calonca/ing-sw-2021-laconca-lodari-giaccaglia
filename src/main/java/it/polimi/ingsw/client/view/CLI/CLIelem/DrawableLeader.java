@@ -21,7 +21,10 @@ public class DrawableLeader {
             dwl.addEmptyLine();
             dwl.addEmptyLine();
         }
-        return dwl;
+        if (isSelected)
+            return DrawableList.selectedDrawableList(dwl);
+        else
+            return  dwl;
     }
 
     public static int height(){

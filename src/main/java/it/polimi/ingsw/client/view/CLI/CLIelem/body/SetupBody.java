@@ -100,12 +100,12 @@ public class SetupBody extends CLIelem {
             HorizontalListBody leadersToChooseFrom = new HorizontalListBody(9);
             for (int i=0;i<leadersToChoose.size();i++){
                 int finalI1 = i;
-                DrawableList leader = DrawableLeader.fromAsset(leadersToChoose.get(i),selected.get(i).getLeft());
-                Option o = Option.from(leader,()->{
+                DrawableList leader = DrawableLeader.fromAsset(leadersToChoose.get(i),false);
+                DrawableList selectedLeader = DrawableLeader.fromAsset(leadersToChoose.get(i),true);
+                Option o = Option.from(leader,selectedLeader,()->{
                     selected.get(finalI1).setLeft(!selected.get(finalI1).left);
                     cli.refreshCLI();
                 });
-                o.setSelectable(selected.get(i).left);
                 o.setSelected(selected.get(i).left);
                 leadersToChooseFrom.addOption(o);
                 leadersToChooseFrom.selectOption();

@@ -2,14 +2,11 @@ package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.view.CLI.CLIelem.Option;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Title;
-import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.HorizontalListBody;
 import it.polimi.ingsw.client.view.CLI.textUtil.*;
-import org.apache.commons.compress.archivers.sevenz.CLI;
 
 import java.beans.PropertyChangeEvent;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class TestViewBuilder extends it.polimi.ingsw.client.view.abstractview.TestViewBuilder implements CLIBuilder {
@@ -51,7 +48,7 @@ public class TestViewBuilder extends it.polimi.ingsw.client.view.abstractview.Te
         d3.add(0,"|        |",Color.ANSI_BLACK, Background.ANSI_CYAN_BACKGROUND);
         d3.add(0,"|   hi   |",Color.ANSI_BLACK, Background.ANSI_CYAN_BACKGROUND);
         d3.add(0,"|________|",Color.ANSI_BLACK, Background.ANSI_CYAN_BACKGROUND);
-        d3 = DrawableList.shifted(5,3,d3);
+        d3 = DrawableList.copyShifted(5,3,d3);
 
         horList.addOption(Option.from(new DrawableList(d2,d3),()->{
             resSelected.getAndIncrement();

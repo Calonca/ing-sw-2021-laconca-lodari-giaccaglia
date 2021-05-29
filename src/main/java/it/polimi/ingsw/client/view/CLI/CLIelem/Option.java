@@ -7,9 +7,9 @@ import it.polimi.ingsw.client.view.CLI.textUtil.*;
  */
 public class Option {
     private boolean selected;
-    private boolean isSelectable;
     private Runnable performer;
     private final DrawableList drawableList;
+    private final DrawableList selectedDrawableList;
 
     public static Option from(String name,String subtitle,Runnable performer){
         Option option = new Option(name,subtitle);
@@ -24,15 +24,21 @@ public class Option {
     }
 
     public static Option from(DrawableList drawableList,Runnable performer){
-        Option option = new Option(drawableList);
+        Option option = new Option(drawableList,DrawableList.selectedDrawableList(drawableList));
         option.setPerformer(performer);
         return option;
     }
 
-    private Option(DrawableList drawableList) {
-        this.drawableList = drawableList;
+    public static Option from(DrawableList normalDwl,DrawableList selectedDwl,Runnable performer){
+        Option option = new Option(normalDwl,selectedDwl);
+        option.setPerformer(performer);
+        return option;
+    }
+
+    private Option(DrawableList normalDwl, DrawableList selectedDwl) {
+        this.drawableList = normalDwl;
+        selectedDrawableList = selectedDwl;
         this.selected = false;
-        this.isSelectable = false;
     }
 
     public void perform(){
@@ -49,6 +55,7 @@ public class Option {
         drawableList.add(0, name);
         drawableList.add(3,subtitle);
         this.selected = false;
+        selectedDrawableList = DrawableList.selectedDrawableList(drawableList);
     }
 
     public boolean isSelected() {
@@ -57,19 +64,13 @@ public class Option {
 
     public void setSelected(boolean selected) {
         this.selected = selected;
-        if (!isSelectable) return;
-        if (selected) {
-            drawableList.get().forEach(e->e.setColor(Color.ANSI_BLACK));
-            drawableList.get().forEach(e->e.setBackground(Background.ANSI_WHITE_BACKGROUND));
-        } else {
-            drawableList.get().forEach(e->e.setColor(Color.DEFAULT));
-            drawableList.get().forEach(e->e.setBackground(Background.DEFAULT));
-        }
-
     }
 
     public DrawableList toDrawableList(){
-        return drawableList;
+        if (selected)
+            return selectedDrawableList;
+        else
+            return drawableList;
     }
 
     public int horizontalSize() {
@@ -80,7 +81,4 @@ public class Option {
         return drawableList.getHeight();
     }
 
-    public void setSelectable(boolean selectable) {
-        isSelectable = selectable;
-    }
 }

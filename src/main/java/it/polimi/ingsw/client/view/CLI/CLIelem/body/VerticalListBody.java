@@ -5,7 +5,6 @@ import it.polimi.ingsw.client.view.CLI.CLIelem.Option;
 import it.polimi.ingsw.client.view.CLI.CLIelem.OptionList;
 import it.polimi.ingsw.client.view.CLI.textUtil.*;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -27,7 +26,7 @@ public class VerticalListBody extends OptionList {
                     Drawable number = new Drawable(0,0, i+": ", Color.ANSI_BLUE,Background.DEFAULT);
                     drawableList.add(number);
 
-                    DrawableList drawableOptions = DrawableList.shifted(number.getWidth(),0,options.get(i).toDrawableList());
+                    DrawableList drawableOptions = DrawableList.copyShifted(number.getWidth(),0,options.get(i).toDrawableList());
                     drawableList.add(drawableOptions);
 
 
