@@ -23,7 +23,7 @@ public class IDLEViewBuilder extends it.polimi.ingsw.client.view.abstractview.ID
         spinnerBody.setMeanwhileShow(canvas);
         spinnerBody.switchToStateWhenReceiving(State.INITIAL_PHASE.name(),new InitialOrFinalPhaseGUI(true),getClient());
 
-        getCLIView().refreshCLI();
+        getCLIView().show();
     }
 
     @Override

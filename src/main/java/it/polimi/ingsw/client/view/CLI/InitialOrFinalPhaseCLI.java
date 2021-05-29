@@ -25,7 +25,7 @@ public class InitialOrFinalPhaseCLI extends InitialOrFinalPhaseViewBuilder imple
         String end = "Final";
         getCLIView().setTitle(InitialOrFinalPhaseGUI.isInitial?initial:end+" phase");
         getCLIView().setBody(new LeaderActionBody(simplePlayerLeaders.getPlayerLeaders(),getClient()));
-        getCLIView().refreshCLI();
+        getCLIView().show();
     }
 
 }
