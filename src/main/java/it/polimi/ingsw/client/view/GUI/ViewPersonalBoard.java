@@ -106,7 +106,7 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
             selected.add(false);
         ButtonSelectionModel selectionModel=new ButtonSelectionModel();
         selectionModel.initializeFalseOnEmpty(selected,sceneResources);
-        selectionModel.disableFalseEnableTrue(selected,sceneResources);
+        //selectionModel.disableFalseEnableTrue(selected,sceneResources);
         selectionModel.bindToMove(selected,sceneResources);
 
 

@@ -2,7 +2,11 @@ package it.polimi.ingsw.client.view.GUI.GUIelem;
 
 import it.polimi.ingsw.server.model.Resource;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.paint.Color;
 
+import java.awt.*;
 import java.util.List;
 
 public class ButtonSelectionModel {
@@ -83,10 +87,10 @@ public class ButtonSelectionModel {
                     if(sceneButton.getResource()!=Resource.EMPTY)
                         if(!moving)
                         {
-                            System.out.println("please");
                             moving=true;
                             selected.set(resourcesToMove.indexOf(sceneButton),false);
-                            disableTrueEnableFalse(selected,resourcesToMove);
+                            //disableTrueEnableFalse(selected,resourcesToMove);
+                            highlightFalse(selected,resourcesToMove);
                             tomove=sceneButton.getResource();
                             sceneButton.setResource(Resource.EMPTY);
                             sceneButton.color();
@@ -99,9 +103,10 @@ public class ButtonSelectionModel {
                         else
                         {
                             moving=false;
-                            disableFalseEnableTrue(selected,resourcesToMove);
+                            //disableFalseEnableTrue(selected,resourcesToMove);
                             selected.set(resourcesToMove.indexOf(sceneButton),true);
-                            disableFalseEnableTrue(selected,resourcesToMove);
+                            deHighlightFalse(selected,resourcesToMove);
+                            //disableFalseEnableTrue(selected,resourcesToMove);
                             sceneButton.setResource(tomove);
                             tomove=Resource.EMPTY;
                             sceneButton.color();
@@ -136,7 +141,45 @@ public class ButtonSelectionModel {
 
         }
 
+    public void highlightFalse(List<Boolean> selected,List<ResourceButton> resourcesToMove)
+    {
 
+        //SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).get();
+        //List<LeaderCardAsset> leaderpics=simplePlayerLeaders.getPlayerLeaders();
+
+
+        for (ResourceButton sceneButton : resourcesToMove) {
+
+
+            if(!selected.get(resourcesToMove.indexOf(sceneButton)))
+            {
+                resourcesToMove.get(resourcesToMove.indexOf(sceneButton)).setStyle(" -fx-background-color: #f2f735");
+            }
+
+
+        };
+
+    }
+
+    public void deHighlightFalse(List<Boolean> selected,List<ResourceButton> resourcesToMove)
+    {
+
+        //SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).get();
+        //List<LeaderCardAsset> leaderpics=simplePlayerLeaders.getPlayerLeaders();
+
+
+        for (ResourceButton sceneButton : resourcesToMove) {
+
+
+            if(!selected.get(resourcesToMove.indexOf(sceneButton)))
+            {
+                resourcesToMove.get(resourcesToMove.indexOf(sceneButton)).setStyle(" -fx-background-color: #ffffff");
+            }
+
+
+        };
+
+    }
     public void disableTrueEnableFalse(List<Boolean> selected,List<ResourceButton> resourcesToMove)
     {
 
