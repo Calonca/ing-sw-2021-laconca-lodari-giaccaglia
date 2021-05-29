@@ -20,6 +20,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Material;
@@ -58,21 +59,24 @@ public class MarketMatrix extends CreateJoinLoadMatchViewBuilder implements GUIV
 
     @Override
     public void run() {
+        ((Pane)Client.getInstance().getStage().getScene().getRoot()).getChildren().remove(0);
+        ((Pane)Client.getInstance().getStage().getScene().getRoot()).getChildren().add(getRoot());
+        System.out.println(((Pane)Client.getInstance().getStage().getScene().getRoot()).getChildren());
+
+    }
+
+    public Parent getRoot() {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/MarketMatrix.fxml"));
         Parent root = null;
         try {
             root = loader.load();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        Scene scene = new Scene(root);
-
-        getClient().getStage().setScene(scene);
-        getClient().getStage().show();
-
-
+        return root;
 
     }
 

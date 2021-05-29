@@ -60,19 +60,25 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
 
     @Override
     public void run() {
+        ((Pane)Client.getInstance().getStage().getScene().getRoot()).getChildren().remove(0);
+        ((Pane)Client.getInstance().getStage().getScene().getRoot()).getChildren().add(getRoot());
+        System.out.println(((Pane)Client.getInstance().getStage().getScene().getRoot()).getChildren());
+
+    }
+
+    public Parent getRoot() {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/SetupMenu.fxml"));
         Parent root = null;
         try {
             root = loader.load();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        Scene scene = new Scene(root);
+        return root;
 
-        getClient().getStage().setScene(scene);
-        getClient().getStage().show();
     }
 
     /**

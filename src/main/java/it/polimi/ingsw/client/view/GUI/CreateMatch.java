@@ -15,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -43,19 +44,26 @@ public class CreateMatch extends CreateJoinLoadMatchViewBuilder implements GUIVi
 
     @Override
     public void run() {
+
+        ((Pane)Client.getInstance().getStage().getScene().getRoot()).getChildren().remove(0);
+        ((Pane)Client.getInstance().getStage().getScene().getRoot()).getChildren().add(getRoot());
+        System.out.println(((Pane)Client.getInstance().getStage().getScene().getRoot()).getChildren());
+
+    }
+
+    public Parent getRoot() {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/MatchToStart.fxml"));
         Parent root = null;
         try {
             root = loader.load();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        Scene scene = new Scene(root);
+        return root;
 
-        getClient().getStage().setScene(scene);
-        getClient().getStage().show();
     }
 
     @Override

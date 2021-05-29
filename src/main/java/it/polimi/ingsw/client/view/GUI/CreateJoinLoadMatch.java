@@ -5,16 +5,18 @@ import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.view.GUI.GUIelem.MatchRow;
 import it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchViewBuilder;
-import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.network.messages.clienttoserver.CreateMatchRequest;
 import it.polimi.ingsw.network.messages.clienttoserver.JoinMatchRequest;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -22,7 +24,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.util.Duration;
 
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
@@ -46,23 +50,37 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
 
     @Override
     public void run() {
+
+        ((Pane)Client.getInstance().getStage().getScene().getRoot()).getChildren().add(getRoot());
+
+        Parent root=getRoot();
+        root.translateYProperty().set(Client.getInstance().getStage().getScene().getHeight());
+        Timeline timeline=new Timeline();
+        KeyValue kv= new KeyValue(root.translateYProperty(),0, Interpolator.EASE_IN);
+        KeyFrame kf= new KeyFrame(Duration.seconds(2),kv);
+        timeline.getKeyFrames().add(kf);
+        timeline.play();
+        ((Pane)Client.getInstance().getStage().getScene().getRoot()).getChildren().remove(0);
+
+        System.out.println(((Pane)Client.getInstance().getStage().getScene().getRoot()).getChildren());
+
+    }
+
+
+    public Parent getRoot() {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/CreateJoinLoadMatch.fxml"));
         Parent root = null;
         try {
             root = loader.load();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        Scene scene = new Scene(root);
+        return root;
 
-        getClient().getStage().setScene(scene);
-        getClient().getStage().show();
     }
-
-
-
 
 
     public void clickedColumn(MouseEvent event)
