@@ -1,12 +1,12 @@
 package it.polimi.ingsw.server.controller.strategy;
 
-import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
-import it.polimi.ingsw.network.util.Util;
 import it.polimi.ingsw.server.controller.EventValidationFailedException;
+import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.messages.clienttoserver.events.setupphaseevent.SetupPhaseEvent;
 import it.polimi.ingsw.server.messages.messagebuilders.Element;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.states.State;
+import it.polimi.ingsw.network.util.Util;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class Setup implements GameStrategy {
     List<Element> elementsToUpdate = new ArrayList<>();
     int currentPlayerNumber;
 
-    public Pair<State, List<Element>> execute(GameModel gamemodel, Event event) throws EventValidationFailedException
+    public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event) throws EventValidationFailedException
     {
         int[] toadd = new int[4];
         SetupPhaseEvent clientEvent = ((SetupPhaseEvent) event);
@@ -46,16 +46,13 @@ public class Setup implements GameStrategy {
 
         buildElementsList();
 
-        State nextState = gamemodel.isSinglePlayer() ? State.INITIAL_PHASE : State.IDLE;
-
-        return new Pair<>(nextState, elementsToUpdate);
+        return new Pair<>(State.IDLE, elementsToUpdate);
 
     }
 
     private void buildElementsList(){
 
         elementsToUpdate.add(Element.SimpleWareHouseLeadersDepot);
-        elementsToUpdate.add(Element.SimplePlayerLeaders);
 
         if(Util.initialFaithPoints(currentPlayerNumber)!=0)
             elementsToUpdate.add(Element.SimpleFaithTrack);

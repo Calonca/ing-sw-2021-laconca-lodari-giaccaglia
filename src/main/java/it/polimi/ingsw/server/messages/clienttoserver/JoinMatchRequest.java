@@ -22,7 +22,7 @@ public class JoinMatchRequest extends it.polimi.ingsw.network.messages.clienttos
             SessionController.getInstance().notifyPlayersInLobby(clientHandler);
             clientHandler.sendAnswerMessage(new JoinStatus(this, matchId, null, playerIndex));
             clientHandler.getMatch().ifPresent(m->
-                    SessionController.getInstance().startMatchAndNotifyStateIfPossible(m,clientHandler)
+                    SessionController.getInstance().startMatchAndNotifyStateIfPossible(m)
                     );
         }else {
             clientHandler.sendAnswerMessage(new JoinStatus(this, null, JoinStatus.motive.OTHER, 0));
