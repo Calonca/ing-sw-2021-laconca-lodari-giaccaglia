@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.messages.servertoclient.ClientMessage;
 import it.polimi.ingsw.client.view.CLI.CreateJoinLoadMatch;
+import it.polimi.ingsw.client.view.abstractview.ConnectToServerViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
 
@@ -47,7 +48,7 @@ public class ServerHandler implements Runnable
             input = new ObjectInputStream(server.getInputStream());
         } catch (IOException e) {
             System.out.println("could not open connection to " + server.getInetAddress());
-            owner.changeViewBuilder(ViewBuilder.getBuilder(owner.isCLI()));
+            owner.changeViewBuilder(ConnectToServerViewBuilder.getBuilder(owner.isCLI()));
             return;
         }
 
