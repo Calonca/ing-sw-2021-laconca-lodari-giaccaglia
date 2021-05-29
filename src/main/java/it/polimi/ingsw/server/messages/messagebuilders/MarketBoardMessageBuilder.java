@@ -15,7 +15,7 @@ public class MarketBoardMessageBuilder {
 
     public static UUID[][] marketBoardAdapter(GameModel gameModel){
 
-        Marble[][] marketMarbles  =  gameModel.getMarketMarbles();
+        Marble[][] marketMarbles  = gameModel.getMarketMarbles();
         int marketRows = gameModel.getMarketBoardRows();
         int marketColumns = gameModel.getMarketBoardColumns();
 
@@ -26,8 +26,8 @@ public class MarketBoardMessageBuilder {
                         UUID.nameUUIDFromBytes(marble.toString().getBytes(StandardCharsets.UTF_8)))
                 .collect(Collectors.toList());
 
-        return IntStream.range(0, marketColumns*marketColumns)
-                .mapToObj((pos)->new Pair<>(pos,marbles.get(pos)))
+        return IntStream.range(0, marketColumns*marketRows)
+                .mapToObj((pos)->new Pair<>(pos, marbles.get(pos)))
                 .collect(groupingBy((e)->e.getKey()% marketRows))
                 .values()
                 .stream()

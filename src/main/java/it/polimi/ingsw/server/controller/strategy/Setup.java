@@ -53,6 +53,7 @@ public class Setup implements GameStrategy {
     private void buildElementsList(){
 
         elementsToUpdate.add(Element.SimpleWareHouseLeadersDepot);
+        elementsToUpdate.add(Element.SimplePlayerLeaders);
 
         if(Util.initialFaithPoints(currentPlayerNumber)!=0)
             elementsToUpdate.add(Element.SimpleFaithTrack);

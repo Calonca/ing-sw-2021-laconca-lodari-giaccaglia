@@ -17,8 +17,8 @@ public class SimpleDiscardBox extends SimpleModelElement{
 
     @Override
     public void update(SimpleModelElement element) {
-        SimpleStrongBox serverDiscardBox = (SimpleStrongBox) element;
-        this.simpleDiscardBox = serverDiscardBox.simpleStrongBox;
+        SimpleDiscardBox serverDiscardBox = (SimpleDiscardBox) element;
+        this.simpleDiscardBox = serverDiscardBox.simpleDiscardBox;
     }
 
 

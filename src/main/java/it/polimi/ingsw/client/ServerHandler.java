@@ -95,7 +95,7 @@ public class ServerHandler implements Runnable
                 }
             }
         } catch (ClassNotFoundException | ClassCastException e) {
-            System.out.println("invalid stream from server");
+            System.out.println("invalid stream from server" + e.toString());
         }
     }
 
