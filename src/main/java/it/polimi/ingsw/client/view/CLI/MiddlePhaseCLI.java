@@ -30,7 +30,7 @@ public class MiddlePhaseCLI extends MiddlePhaseViewBuilder implements CLIBuilder
         horizontalListBody.addOption(Option.from(cardShop,()-> MiddlePhaseViewBuilder.sendMessage(Choice.CARD_SHOP)));
 
         getCLIView().setBody(horizontalListBody);
-        getCLIView().refreshCLI();
+        getCLIView().show();
     }
 
     @Override

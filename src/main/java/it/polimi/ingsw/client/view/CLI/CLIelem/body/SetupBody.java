@@ -80,7 +80,7 @@ public class SetupBody extends CLIelem {
                 Option o = Option.from(optionsDwList.get(i),()->{
                     chosenRes.add(ResourceAsset.fromInt(finalI));
                     resToChoose-=1;
-                    cli.refreshCLI();
+                    cli.show();
                 });
                 resToChooseFrom.addOption(o);
             }
@@ -100,7 +100,7 @@ public class SetupBody extends CLIelem {
                 Drawable selectedLeader = DrawableLeader.fromAsset(leadersToChoose.get(i),true);
                 Option o = Option.from(leader,selectedLeader,()->{
                     selected.get(finalI1).setLeft(!selected.get(finalI1).left);
-                    cli.refreshCLI();
+                    cli.show();
                 });
                 o.setSelected(selected.get(i).left);
                 leadersToChooseFrom.addOption(o);

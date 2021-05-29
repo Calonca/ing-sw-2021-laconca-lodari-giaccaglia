@@ -21,11 +21,11 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements CLIBu
                     getCommonData().setCurrentnick(nickname);
                     getClient().run();
                 });
-                getCLIView().refreshCLI();
+                getCLIView().show();
             });
-            getCLIView().refreshCLI();
+            getCLIView().show();
         });
-        getCLIView().refreshCLI();
+        getCLIView().show();
     }
 
     @Override

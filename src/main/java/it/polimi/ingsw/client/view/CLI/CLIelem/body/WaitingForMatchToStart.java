@@ -1,10 +1,8 @@
 package it.polimi.ingsw.client.view.CLI.CLIelem.body;
 
-import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.view.CLI.CLI;
-import it.polimi.ingsw.client.view.CLI.CLIelem.CLIelem;
 import it.polimi.ingsw.client.view.CLI.SetupPhase;
 import it.polimi.ingsw.client.view.CLI.textUtil.Canvas;
 
@@ -35,7 +33,7 @@ public class WaitingForMatchToStart extends SpinnerBody{
                         }
                         );
 
-                cli.refreshCLI();
+                cli.show();
             } else if (test.getEvt().getPropertyName().equals(CommonData.thisMatchData)) {
                 Optional<UUID> matchID = (Optional<UUID>) test.getEvt().getNewValue();
 
@@ -50,7 +48,7 @@ public class WaitingForMatchToStart extends SpinnerBody{
                         }
                 );
 
-                cli.refreshCLI();
+                cli.show();
             }
             //TODO CHECK COMMENTED CODE HERE
         /*    else if (test.getEvt().getPropertyName().equals(SETUP_PHASE.class.getSimpleName()))

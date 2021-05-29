@@ -13,8 +13,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * Builds the CLI.<br>
  * Usage: Add {@link it.polimi.ingsw.client.view.CLI.CLIelem.CLIelem elements}
- * like optionList, body, title, spinner, and then call {@link #refreshCLI()}.
- * Call {@link #refreshCLI()} to update.
+ * like optionList, body, title, spinner, and then call {@link #show()}.
+ * Call {@link #show()} to update.
  */
 public class CLI {
     private final Client client;
@@ -49,7 +49,7 @@ public class CLI {
             while (true) {
                 lastInput = scanner.nextLine();
                 Runnable toRun = afterInput;
-                afterInput = this::refreshCLI;
+                afterInput = this::show;
                 inputMessage = "Not asking for input";
                 errorMessage = null;
                 toRun.run();
@@ -130,7 +130,7 @@ public class CLI {
         cli.deleteText();
     }
 
-    public void refreshCLI(){
+    public void show(){
         deleteText();
         display();
     }
@@ -161,7 +161,7 @@ public class CLI {
                         this.errorMessage += "Insert a SMALLER number!";
                     }
                     runOnIntInput(message,errorMessage,min,max,r1);
-                    refreshCLI();
+                    show();
                 }else {
                     lastInt = choice;
                     r1.run();
@@ -170,7 +170,7 @@ public class CLI {
             catch (NumberFormatException e){
                 this.errorMessage = errorMessage+"Insert a NUMBER!";
                 runOnIntInput(message,errorMessage,min,max,r1);
-                refreshCLI();
+                show();
             }
         };
     }

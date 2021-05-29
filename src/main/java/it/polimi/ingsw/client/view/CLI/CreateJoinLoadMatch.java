@@ -34,18 +34,18 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
                         Optional<Map<UUID,String[]>> list = (Optional<Map<UUID, String[]>>) optionList.getEvt().getNewValue();
                         optionList.updateOptions(getNewOptionList(list),getClient());
                         getCLIView().setBody(optionList);
-                        getCLIView().refreshCLI();
+                        getCLIView().show();
                     };
                     optionList.setPerformer(performer);
 
                     getCLIView().setBody(optionList);
-                    getCLIView().refreshCLI();
+                    getCLIView().show();
                     getCLIView().performLastChoice();
 
                 }
         );
         getCLIView().setBody(spinnerBody);
-        getCLIView().refreshCLI();
+        getCLIView().show();
     }
 
     private Option getOption(Map.Entry<UUID, String[]> uuidPair) {

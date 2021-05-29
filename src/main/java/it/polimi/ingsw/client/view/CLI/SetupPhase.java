@@ -21,7 +21,7 @@ public class SetupPhase extends SetupPhaseViewBuilder implements CLIBuilder {
         SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).orElseThrow();
         getCLIView().setBody(new SetupBody(simplePlayerLeaders.getPlayerLeaders(),resourcesToChoose,getClient()));
 
-        getCLIView().refreshCLI();
+        getCLIView().show();
     }
 
     @Override

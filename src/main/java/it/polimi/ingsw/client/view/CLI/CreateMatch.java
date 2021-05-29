@@ -20,9 +20,9 @@ public class CreateMatch extends CreateMatchViewBuilder implements CLIBuilder {
             getCLIView().resetCLI();
             getCLIView().setBody(WaitingForMatchToStart.test(getClient()));
             getClient().getServerHandler().sendCommandMessage(new CreateMatchRequest(numberOfPlayers,getCommonData().getCurrentnick()));
-            getCLIView().refreshCLI();
+            getCLIView().show();
         });
-        getCLIView().refreshCLI();
+        getCLIView().show();
 
     }
 

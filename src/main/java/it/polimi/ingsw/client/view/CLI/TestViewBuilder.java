@@ -24,7 +24,7 @@ public class TestViewBuilder extends it.polimi.ingsw.client.view.abstractview.Te
             resSelected.getAndIncrement();
             getCLIView().setTitle(new Title("Selected res "+resSelected.get()));
             getCLIView().setBody(hor);
-            getCLIView().refreshCLI();
+            getCLIView().show();
         }));
 
         Drawable d = new Drawable();
@@ -34,7 +34,7 @@ public class TestViewBuilder extends it.polimi.ingsw.client.view.abstractview.Te
             resSelected.getAndIncrement();
             getCLIView().setTitle(new Title("Selected res "+resSelected.get()));
             getCLIView().setBody(hor);
-            getCLIView().refreshCLI();
+            getCLIView().show();
         }));
 
         Drawable d2 = new Drawable();
@@ -54,7 +54,7 @@ public class TestViewBuilder extends it.polimi.ingsw.client.view.abstractview.Te
             resSelected.getAndIncrement();
             getCLIView().setTitle(new Title("Selected res "+resSelected.get()));
             getCLIView().setBody(hor);
-            getCLIView().refreshCLI();
+            getCLIView().show();
         }));
 
         hor = horList;
@@ -97,11 +97,11 @@ public class TestViewBuilder extends it.polimi.ingsw.client.view.abstractview.Te
         return ()->{
             if (timesLeft==0){
                 getCLIView().setBody(hor);//To show options
-                getCLIView().refreshCLI();
+                getCLIView().show();
             } else {
                 hor.setMode(HorizontalListBody.Mode.COMPACT);
                 getCLIView().runOnInput(wd, getWdCode(compactMessage, widenMessage, timesLeft - 1));
-                getCLIView().refreshCLI();
+                getCLIView().show();
             }
         };
     }
@@ -110,12 +110,12 @@ public class TestViewBuilder extends it.polimi.ingsw.client.view.abstractview.Te
         return ()->{
             if (timesLeft==0){
                 getCLIView().setBody(hor);//To show options
-                getCLIView().refreshCLI();
+                getCLIView().show();
             } else {
                 hor.setMode(HorizontalListBody.Mode.WIDE);
                 getCLIView().runOnInput(compact+timesLeft, getCompactCode(widen, compact, timesLeft - 1));
             }
-            getCLIView().refreshCLI();
+            getCLIView().show();
         };
     }
 
