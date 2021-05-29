@@ -30,7 +30,7 @@ public class ShowingDevelopmentCardsMarketTest {
         RuntimeTypeAdapterFactory<Event> adapter = ClientToServerMessage.eventMessageAdapter();
         Gson gson = new GsonBuilder().registerTypeAdapterFactory(adapter).create();
 
-        Event serverEvent = JsonUtility.deserializeFromString(serializedEvent, it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent.ChooseCardEvent.class, gson);
+        Validable serverEvent = JsonUtility.deserializeFromString(serializedEvent, it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent.ChooseCardEvent.class, gson);
 
         List<String> nicknames = new ArrayList<>();
         nicknames.add("testPlayer");

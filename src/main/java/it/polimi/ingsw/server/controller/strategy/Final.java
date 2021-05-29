@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.controller.strategy;
 
 import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
+import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.messages.messagebuilders.Element;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.states.State;
@@ -17,7 +18,7 @@ public class Final implements GameStrategy {
 
     List<Element> elementsToUpdate = new ArrayList<>();
 
-    public Pair<State, List<Element>> execute(GameModel gamemodel, Event event)
+    public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event)
     {
         //MESSAGE IS SKIPLEADER OR CHOOSELEADER (0 or 1)
         //gamemodel.getCurrentPlayer().setMacroState(State.INITIAL_PHASE);

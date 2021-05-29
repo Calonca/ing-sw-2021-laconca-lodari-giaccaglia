@@ -58,7 +58,7 @@ public class StatesTransitionTable {
     /**
      * Returns the {@link GameStrategy} to use at the given {@link State} after the given {@link Validable event}.
      */
-    public GameStrategy getStrategy(State state, Event event){
+    public GameStrategy getStrategy(State state, Validable event){
         return table.get(state).get(name(event.getClass()));
     }
 
@@ -83,9 +83,9 @@ public class StatesTransitionTable {
 
         // just an idea : player can freely move warehouse resources during idle phase
         //Idle Phase
-        //  eventsAndStrategy.put(name(IdleActionEvent.class), new MoveResourcesInWarehouse());
-        //  statesTransitionTable.table.put(State.IDLE, eventsAndStrategy);
-        //  eventsAndStrategy.clear();
+        eventsAndStrategy.put(null, new IDLE());
+        statesTransitionTable.table.put(State.IDLE, eventsAndStrategy);
+        eventsAndStrategy = new HashMap<>();
 
 
         //Setup Phase
@@ -151,7 +151,7 @@ public class StatesTransitionTable {
 
         //---Initial Leader Action --//
 
-        eventsAndStrategy.put(name(InitialOrFinalPhaseEvent.class), new Initial());
+        eventsAndStrategy.put(name(InitialOrFinalPhaseEvent.class), new IDLE());
         eventsAndStrategy.put(name(PlayLeaderEvent.class),new ActivatingLeader());
         eventsAndStrategy.put(name(DiscardLeaderEvent.class),new DiscardingLeader());
         eventsAndStrategy.put(name(SkipLeaderEvent.class),new EndingLeaderPhase());
@@ -198,6 +198,7 @@ public class StatesTransitionTable {
 
         RuntimeTypeAdapterFactory<GameStrategy> strategyAdapter = RuntimeTypeAdapterFactory.of(GameStrategy.class);
 
+        strategyAdapter.registerSubtype(IDLE.class);
         strategyAdapter.registerSubtype(Initial.class);
         strategyAdapter.registerSubtype(Middle.class);
         strategyAdapter.registerSubtype(Final.class);

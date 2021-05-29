@@ -8,6 +8,7 @@ import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
 import it.polimi.ingsw.network.messages.clienttoserver.events.productionevent.ChooseProductionAtPositionEvent;
+import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.states.State;
 import org.junit.Test;
@@ -28,7 +29,7 @@ public class TogglingForProductionTest {
         RuntimeTypeAdapterFactory<Event> adapter = ClientToServerMessage.eventMessageAdapter();
         Gson gson = new GsonBuilder().registerTypeAdapterFactory(adapter).create();
 
-        Event serverEvent = JsonUtility.deserializeFromString(serializedEvent, it.polimi.ingsw.server.messages.clienttoserver.events.productionevent.ChooseProductionAtPositionEvent.class, gson);
+        Validable serverEvent = JsonUtility.deserializeFromString(serializedEvent, it.polimi.ingsw.server.messages.clienttoserver.events.productionevent.ChooseProductionAtPositionEvent.class, gson);
         List<String> nicknames = new ArrayList<>();
         nicknames.add("testPlayer");
 

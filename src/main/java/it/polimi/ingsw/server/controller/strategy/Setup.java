@@ -23,7 +23,7 @@ public class Setup implements GameStrategy {
     List<Element> elementsToUpdate = new ArrayList<>();
     int currentPlayerNumber;
 
-    public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event) throws EventValidationFailedException
+    public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event)
     {
         int[] toadd = new int[4];
         SetupPhaseEvent clientEvent = ((SetupPhaseEvent) event);

@@ -53,12 +53,12 @@ public class Match {
 
 
     public void startGame() {
+
         this.game = new GameModel(onlineUsers.stream().map(u->u.nickname).collect(Collectors.toList()), onlineUsers.size()==1,this);
         game.setGameStatus(true);
         CardAssetsContainer.setCardAssetsContainer(Deserializator.networkDevCardsAssetsDeserialization());
         game.getCurrentPlayer().setCurrentState(State.SETUP_PHASE);
-        List<Element> elems = new ArrayList<>();
-        elems.add(Element.SimplePlayerLeaders);
+        List<Element> elems = new ArrayList<>(Arrays.asList(Element.values()));
         notifyStateToAllPlayers(elems);
     }
 
@@ -124,8 +124,7 @@ public class Match {
         if (game.getCurrentPlayer().getCurrentState().equals(State.IDLE)) {
             game.setCurrentPlayer(game.getNextPlayer());
             if (game.getCurrentPlayer().getCurrentState().equals(State.SETUP_PHASE)){
-                List<Element> elems = new ArrayList<>();
-                elems.add(Element.SimplePlayerLeaders);
+                List<Element> elems = new ArrayList<>(Arrays.asList(Element.values()));
                 notifyStateToAllPlayers(elems);
             }
             else {

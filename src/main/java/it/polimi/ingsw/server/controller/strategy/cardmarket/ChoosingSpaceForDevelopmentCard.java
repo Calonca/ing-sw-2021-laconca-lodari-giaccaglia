@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.controller.strategy.cardmarket;
 
 import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
+import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent.ChooseCardPositionEvent;
 import it.polimi.ingsw.server.messages.messagebuilders.Element;
 import it.polimi.ingsw.server.model.GameModel;
@@ -20,7 +21,7 @@ public class ChoosingSpaceForDevelopmentCard implements GameStrategy {
 
     List<Element> elementsToUpdate = new ArrayList<>();
 
-    public Pair<State, List<Element>> execute(GameModel gamemodel, Event event)
+    public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event)
     {
 
         ProductionCardCell chosenCell=gamemodel.getCurrentPlayer().getPersonalBoard().getCardCells().get(((ChooseCardPositionEvent) event).getCardPositionInPersonalBoard());

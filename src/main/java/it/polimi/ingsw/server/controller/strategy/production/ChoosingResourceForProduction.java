@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.controller.strategy.production;
 
-import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
+import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.messages.messagebuilders.Element;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.states.State;
@@ -19,7 +19,7 @@ public class ChoosingResourceForProduction implements GameStrategy {
 
     List<Element> elementsToUpdate = new ArrayList<>();
 
-    public Pair<State, List<Element>> execute(GameModel gamemodel, Event event){
+    public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event){
 
         int[] input={1,2,3,4};
         int[] output={1,2,3,4};
