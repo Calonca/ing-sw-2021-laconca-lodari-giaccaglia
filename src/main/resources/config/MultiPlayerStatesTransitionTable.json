@@ -1,8 +1,20 @@
 {
   "table": {
-    "MIDDLE_PHASE": {
-      "MiddlePhaseEvent": {
-        "type": "Middle",
+    "CHOOSING_POSITION_FOR_RESOURCES": {
+      "ChooseCardPositionEvent": {
+        "type": "ChoosingSpaceForDevelopmentCard",
+        "elementsToUpdate": []
+      }
+    },
+    "CHOOSING_MARKET_LINE": {
+      "ChooseLineEvent": {
+        "type": "PuttingBallOnLine",
+        "elementsToUpdate": []
+      }
+    },
+    "CHOOSING_DEVELOPMENT_CARD": {
+      "ChooseCardEvent": {
+        "type": "AcquiringDevelopmentCard",
         "elementsToUpdate": []
       }
     },
@@ -24,27 +36,15 @@
         "elementsToUpdate": []
       }
     },
-    "CHOOSING_RESOURCES_FOR_DEVCARD": {
-      "ChooseResourceForCardShopEvent": {
-        "type": "PayingResourcesForDevelopmentCard",
+    "CHOOSING_WHITEMARBLE_CONVERSION": {
+      "ChooseWhiteMarbleConversionEvent": {
+        "type": "TogglingForProduction",
         "elementsToUpdate": []
       }
     },
     "CHOOSING_PRODUCTION": {
       "ChooseProductionAtPositionEvent": {
         "type": "TogglingForProduction",
-        "elementsToUpdate": []
-      }
-    },
-    "CHOOSING_MARKET_LINE": {
-      "ChooseLineEvent": {
-        "type": "PuttingBallOnLine",
-        "elementsToUpdate": []
-      }
-    },
-    "CHOOSING_POSITION_FOR_RESOURCES": {
-      "ChooseCardPositionEvent": {
-        "type": "ChoosingSpaceForDevelopmentCard",
         "elementsToUpdate": []
       }
     },
@@ -66,21 +66,9 @@
         "elementsToUpdate": []
       }
     },
-    "CHOOSING_DEVELOPMENT_CARD": {
-      "ChooseCardEvent": {
-        "type": "AcquiringDevelopmentCard",
-        "elementsToUpdate": []
-      }
-    },
     "CHOOSING_RESOURCE_FOR_PRODUCTION": {
       "ChooseResourcesForProductionEvent": {
         "type": "ChoosingResourceForProduction",
-        "elementsToUpdate": []
-      }
-    },
-    "CHOOSING_WHITEMARBLE_CONVERSION": {
-      "ChooseWhiteMarbleConversionEvent": {
-        "type": "TogglingForProduction",
         "elementsToUpdate": []
       }
     },
@@ -89,6 +77,18 @@
         "type": "Setup",
         "elementsToUpdate": [],
         "currentPlayerNumber": 0
+      }
+    },
+    "CHOOSING_RESOURCES_FOR_DEVCARD": {
+      "ChooseResourceForCardShopEvent": {
+        "type": "PayingResourcesForDevelopmentCard",
+        "elementsToUpdate": []
+      }
+    },
+    "MIDDLE_PHASE": {
+      "MiddlePhaseEvent": {
+        "type": "Middle",
+        "elementsToUpdate": []
       }
     }
   }

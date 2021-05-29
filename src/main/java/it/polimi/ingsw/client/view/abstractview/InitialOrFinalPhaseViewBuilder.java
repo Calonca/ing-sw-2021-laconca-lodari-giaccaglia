@@ -33,7 +33,7 @@ public abstract class InitialOrFinalPhaseViewBuilder extends ViewBuilder {
             getClient().changeViewBuilder(getBuilder(getClient().isCLI(), true));
         }else if (State.FINAL_PHASE.name().equals(propertyName)) {
             getClient().changeViewBuilder(getBuilder(getClient().isCLI(), false));
-        }else if (State.WINNING_STATE.name().equals(propertyName)) {
+        }else if (State.END_PHASE.name().equals(propertyName)) {
                 getClient().changeViewBuilder(WinLooseBuilder.getBuilder(getClient().isCLI()));
         }else
             System.out.println("Setup received: " + evt.getPropertyName() + JsonUtility.serialize(evt.getNewValue()));
