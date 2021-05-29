@@ -142,6 +142,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
             Client.getInstance().getServerHandler().sendCommandMessage(new CreateMatchRequest(a,Client.getInstance().getCommonData().getCurrentnick()));
             created=true;
             Client.getInstance().changeViewBuilder(new CreateMatch());
+
         });
 
         but.setGraphic(new Label("CREATE"));

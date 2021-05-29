@@ -2,7 +2,9 @@ package it.polimi.ingsw.client.view.GUI;
 
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.CommonData;
+import it.polimi.ingsw.client.view.GUI.GUIelem.ResourceSphere;
 import it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchViewBuilder;
+import it.polimi.ingsw.server.model.Resource;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
@@ -46,15 +48,17 @@ import java.util.ResourceBundle;
 public class MarketMatrix extends CreateJoinLoadMatchViewBuilder implements GUIView {
 
     boolean selected=false;
-    public Sphere toPut;
+    public ResourceSphere toPut;
     public int ROWSIZE=4;
     public int ROWNUMBER=3;
     public double ballsize=1.03;
+
     public AnchorPane marketPane;
+
     double LOWER_CORNER_X=-4.5;
     double LOWER_CORNER_Y=3.5;
-    public List<List<Sphere>> rows=new ArrayList<>();
-    public List<List<Sphere>> columns=new ArrayList<>();
+    public List<List<ResourceSphere>> rows=new ArrayList<>();
+    public List<List<ResourceSphere>> columns=new ArrayList<>();
 
 
     @Override
@@ -80,7 +84,7 @@ public class MarketMatrix extends CreateJoinLoadMatchViewBuilder implements GUIV
 
     }
 
-    public void moveX(Sphere sphere,double x, Duration duration)
+    public void moveX(ResourceSphere sphere,double x, Duration duration)
     {
         TranslateTransition transition = new TranslateTransition(Duration.seconds(0.75), sphere);
         transition.setToX(x);
@@ -89,7 +93,7 @@ public class MarketMatrix extends CreateJoinLoadMatchViewBuilder implements GUIV
         transition.play();
     }
 
-    public void moveY(Sphere sphere,double y, Duration duration)
+    public void moveY(ResourceSphere sphere,double y, Duration duration)
     {
         TranslateTransition transition = new TranslateTransition(Duration.seconds(0.75), sphere);
         transition.setToY(y);
@@ -98,15 +102,27 @@ public class MarketMatrix extends CreateJoinLoadMatchViewBuilder implements GUIV
         transition.play();
     }
 
+    /**
+     * Given a starting position, using the ROWSIZE, a list of lists (rows) is created
+     * @param root3D is not null
+     * @param x is not null, coordinate
+     * @param y is not null, coordinate
+     * @param h is not null, coordinate
+     */
     public void generateRow(Group root3D,double x, double y, int h){
 
-        List<Sphere> row=new ArrayList<>();
+        List<Color> colors=new ArrayList<>();
+
+
+
+        List<ResourceSphere> row=new ArrayList<>();
         for(int i=0;i<ROWSIZE;i++)
         {
-            Sphere ball=new Sphere(ballsize);
+            int res=((int) ((Math.random() * (4)) ));
+            ResourceSphere ball=new ResourceSphere(ballsize, Resource.fromInt(res) );
             ball.translateYProperty().set(y+i*2);
             ball.translateXProperty().set(x);
-            ball.setMaterial(new PhongMaterial(Color.PURPLE));
+            ball.color();
             root3D.getChildren().add(ball);
             row.add(ball);
 
@@ -124,17 +140,17 @@ public class MarketMatrix extends CreateJoinLoadMatchViewBuilder implements GUIV
             moveY(toPut,toPut.getTranslateY()-2,new Duration(700));
 
 
-            int k=ROWSIZE*500;
-            for (Sphere circle : row) {
-                System.out.println("X" + toPut.getTranslateX()+"Y"+toPut.getTranslateY()+"Z"+toPut.getTranslateZ());
+            for (ResourceSphere circle : row) {
 
                 moveY(circle,circle.getTranslateY()-2,new Duration(700));
+                System.out.println("you will get a " + circle.getResource().toString());
+
 
             }
-            Sphere temp=row.get(0);
+            ResourceSphere toswap=row.get(0);
             row.remove(0);
             row.add(toPut);
-            toPut=temp;
+            toPut=toswap;
             toPut.setMaterial(new PhongMaterial(Color.BLANCHEDALMOND));
 
             moveX(toPut,3.5,new Duration(1700));
@@ -153,7 +169,12 @@ public class MarketMatrix extends CreateJoinLoadMatchViewBuilder implements GUIV
 
     }
 
-    public void generateColumns(List<List<Sphere>> rows,int h){
+    /**
+     * Given a list of rows, it will be explored traversally to create a list of lists(columns)
+     * @param rows is not null
+     * @param h is not null, coordinate
+     */
+    public void generateColumns(List<List<ResourceSphere>> rows,int h){
 
         double y=-4.5;
 
@@ -190,20 +211,19 @@ public class MarketMatrix extends CreateJoinLoadMatchViewBuilder implements GUIV
             moveX(toPut,-2.5,new Duration(700));
 
 
-            ArrayList<Sphere> column= new ArrayList<>();
-            for (List<Sphere> row : rows) column.add(row.get(i));
+            ArrayList<ResourceSphere> column= new ArrayList<>();
+            for (List<ResourceSphere> row : rows) column.add(row.get(i));
 
-            for (Sphere circle : column) {
+            for (ResourceSphere circle : column) {
 
 
-                System.out.println("X" + toPut.getTranslateX()+"Y"+toPut.getTranslateY()+"Z"+toPut.getTranslateZ());
                 moveX(circle,circle.getTranslateX()+2,new Duration(700));
 
-                System.out.println("you will get a " + circle.getMaterial().toString());
+                System.out.println("you will get a " + circle.getResource().toString());
 
 
             }
-            Sphere temp=column.get(0);
+            ResourceSphere temp=column.get(0);
             column.remove(0);
             column.add(toPut);
             toPut=temp;
@@ -251,7 +271,7 @@ public class MarketMatrix extends CreateJoinLoadMatchViewBuilder implements GUIV
 
 
 
-        toPut=new Sphere(ballsize);
+        toPut=new ResourceSphere(ballsize,Resource.SERVANT);
         toPut.translateYProperty().set(LOWER_CORNER_Y);
         toPut.translateXProperty().set(LOWER_CORNER_X);
         toPut.setMaterial(new PhongMaterial(Color.GOLD));

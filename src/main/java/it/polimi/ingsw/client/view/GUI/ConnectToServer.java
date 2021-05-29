@@ -30,6 +30,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Stack;
 
+/**
+ * During this phase, the initial pane will be created. All following scenes will attach themselves to the connectionPane
+ */
 public class ConnectToServer extends ConnectToServerViewBuilder implements GUIView {
 
     public Text error;
@@ -99,19 +102,13 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
 
     }
 
-    public void handleButton2()
-    {
-        Client.getInstance().getCommonData().setCurrentnick("DUMMY");
-        Client.getInstance().setServerConnection("127.0.0.1",7890);
-        Client.getInstance().run();
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
 
-        ImageView temp=new ImageView(new Image("assets/logo.png", true));
-        StackPane.setAlignment(temp,Pos.TOP_CENTER);
+        ImageView logoView=new ImageView(new Image("assets/logo.png", true));
+        StackPane.setAlignment(logoView,Pos.TOP_CENTER);
 
         nickText=new TextField();
         nickText.setLayoutX(461);
@@ -134,14 +131,14 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
         addressText.setLayoutY(445);
 
 
-        temp.setFitWidth(800);
-        temp.setFitHeight(300);
+        logoView.setFitWidth(800);
+        logoView.setFitHeight(300);
 
         connectionAnchor.getChildren().add(nickText);
         connectionAnchor.getChildren().add(addressText);
         connectionAnchor.getChildren().add(portText);
 
-        connectionPane.getChildren().add(temp);
+        connectionPane.getChildren().add(logoView);
     }
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
