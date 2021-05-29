@@ -26,7 +26,7 @@ public abstract class ViewBuilder implements Runnable, PropertyChangeListener
     public static ViewBuilder getBuilder(boolean isCLI){return null;};
 
     public static PlayerCache getThisPlayerCache(){
-        return getSimpleModel().getPlayerCache(getCommonData().getThisPlayerIndex().orElse(0));
+        return getSimpleModel().getPlayerCache(getCommonData().getThisPlayerIndex());
     }
 
     public static void setCLIView(CLI cli) {

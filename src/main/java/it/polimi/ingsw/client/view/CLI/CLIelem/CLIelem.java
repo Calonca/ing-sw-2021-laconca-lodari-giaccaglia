@@ -85,11 +85,11 @@ public abstract class CLIelem implements PropertyChangeListener {
     }
 
     public void addToListeners(Client client){
-        client.addToListeners(this, client.getCommonData().getThisPlayerIndex().orElse(0));
+        client.addToListeners(this);
     }
 
     public void removeFromListeners(Client client){
-        client.removeFromListeners(this, client.getCommonData().getThisPlayerIndex().orElse(0));
+        client.removeFromListeners(this);
     }
 
 }

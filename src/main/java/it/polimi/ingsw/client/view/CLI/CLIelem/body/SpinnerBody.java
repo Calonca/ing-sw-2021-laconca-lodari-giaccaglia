@@ -15,6 +15,10 @@ public class SpinnerBody extends CLIelem {
 
     Canvas meanwhileShow;
 
+    public void setMeanwhileShow(Canvas meanwhileShow) {
+        this.meanwhileShow = meanwhileShow;
+    }
+
     @Override
     public String toString() {
         return  meanwhileShow==null? "no data in spinner": meanwhileShow.toString();

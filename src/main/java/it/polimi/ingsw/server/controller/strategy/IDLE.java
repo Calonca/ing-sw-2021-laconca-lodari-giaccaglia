@@ -14,7 +14,7 @@ import java.util.List;
  * On turn start, if there is the possibility to play a Leader, the user will be able to decide wether to play
  * or a normal action
  */
-public class Initial implements GameStrategy {
+public class IDLE implements GameStrategy {
 
     List<Element> elementsToUpdate = new ArrayList<>();
 
@@ -23,7 +23,7 @@ public class Initial implements GameStrategy {
         if(!gamemodel.getCurrentPlayer().anyLeaderPlayable())
             return new Pair<>(State.MIDDLE_PHASE, elementsToUpdate);
         else
-            return new Pair<>(State.SHOWING_LEADERS_INITIAL, elementsToUpdate);
+            return new Pair<>(State.INITIAL_PHASE, elementsToUpdate);
     }
 
 

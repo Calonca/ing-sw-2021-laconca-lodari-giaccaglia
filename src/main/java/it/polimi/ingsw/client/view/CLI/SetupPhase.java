@@ -6,6 +6,7 @@ import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.SetupBody;
 import it.polimi.ingsw.client.view.CLI.textUtil.DrawableList;
 import it.polimi.ingsw.client.view.abstractview.SetupPhaseViewBuilder;
+import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
 import it.polimi.ingsw.network.util.Util;
 
@@ -17,7 +18,7 @@ public class SetupPhase extends SetupPhaseViewBuilder implements CLIBuilder {
     public void run() {
 
         String title = "Select two leader cards and resources";
-        int resourcesToChoose = Util.resourcesToChooseOnSetup(getCommonData().getThisPlayerIndex().orElse(0));
+        int resourcesToChoose = Util.resourcesToChooseOnSetup(getCommonData().getThisPlayerIndex());
         getCLIView().setTitle(new Title(title));
         SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).orElseThrow();
         getCLIView().setBody(new SetupBody(simplePlayerLeaders.getPlayerLeaders(),resourcesToChoose,getClient()));
@@ -28,15 +29,9 @@ public class SetupPhase extends SetupPhaseViewBuilder implements CLIBuilder {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(State.IDLE.name()))
-            getClient().changeViewBuilder(new InitialPhase());
+            getClient().changeViewBuilder(new IDLEViewBuilder());
         else{
-            getCLIView().setTitle(new Title("Not found what looking for"));
-            CanvasBody cb = new CanvasBody(CLI.width,getCLIView().getMaxBodyHeight());
-            DrawableList dwl = new DrawableList();
-            dwl.addToCenter(CLI.width,"Setup received: "+evt.getPropertyName());
-            cb.getCanvas().addDrawableList(dwl);
-            getCLIView().setBody(cb);
-            getCLIView().refreshCLI();
+            System.out.println("Setup received: "+evt.getPropertyName()+ JsonUtility.serialize(evt.getNewValue()));
         }
     }
 }

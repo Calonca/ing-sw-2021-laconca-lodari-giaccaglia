@@ -68,7 +68,7 @@ public class Player {
         leaders = initialLeaders;
         personalBoard= new PersonalBoard();
         currentlyOnline = true;
-        currentState = State.IDLE;
+        currentState = State.SETUP_PHASE;
         discounts=new int[4];
         marketBonus=new boolean[4];
         this.nickName = nickName;

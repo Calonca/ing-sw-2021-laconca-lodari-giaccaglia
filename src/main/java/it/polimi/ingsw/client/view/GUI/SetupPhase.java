@@ -52,7 +52,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
     javafx.collections.ObservableList<Boolean> selected;
     List<String> colorsToRes=new ArrayList<>();
     List<Spinner<Integer>> sceneSpinners= new ArrayList<>();
-    int resourcesToChoose = Util.resourcesToChooseOnSetup(getCommonData().getThisPlayerIndex().orElse(0));
+    int resourcesToChoose = Util.resourcesToChooseOnSetup(getCommonData().getThisPlayerIndex());
 
     @FXML
     private AnchorPane cjlAnchor;

@@ -2,13 +2,10 @@ package it.polimi.ingsw.server.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import it.polimi.ingsw.client.json.Deserializator;
-import it.polimi.ingsw.network.assets.CardAssetsContainer;
 import it.polimi.ingsw.network.messages.servertoclient.MatchesData;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.messages.messagebuilders.Element;
-import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.states.State;
 import org.apache.commons.lang3.StringUtils;
 
@@ -63,23 +60,12 @@ public class SessionController {
         else return -1;
     }
 
-    public void startMatchAndNotifyStateIfPossible(Match match, ClientHandler clientHandler) {
+    public void startMatchAndNotifyStateIfPossible(Match match) {
         if (!match.canAddPlayer()) {
-            match.startGame();
             playersInLobby.removeAll(match.clientsStream().collect(Collectors.toList()));
-            try {
-                List<Element> elements = new ArrayList<>();
-                CardAssetsContainer.setCardAssetsContainer(Deserializator.networkDevCardsAssetsDeserialization());
-                elements.add(Element.SimplePlayerLeaders);
-                State state = State.SETUP_PHASE;
-                StateInNetwork stateInNetwork = state.toStateMessage(match.getGame(), elements);
-                match.currentPlayerClientHandler().sendAnswerMessage(stateInNetwork);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } //TODO RESTORE COMMENTED OUT CODE
+            match.startGame();
         }
     }
-
 
     public void notifyPlayersInLobby(ClientHandler cl){
         playersInLobby.forEach(

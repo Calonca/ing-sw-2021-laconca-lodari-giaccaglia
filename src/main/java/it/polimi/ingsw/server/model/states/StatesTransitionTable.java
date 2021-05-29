@@ -248,7 +248,7 @@ public class StatesTransitionTable {
     private static Gson jsonWithAdapter(){
         RuntimeTypeAdapterFactory<GameStrategy> strategyAdapter = RuntimeTypeAdapterFactory.of(GameStrategy.class);
 
-        strategyAdapter.registerSubtype(Initial.class);
+        strategyAdapter.registerSubtype(IDLE.class);
         strategyAdapter.registerSubtype(Middle.class);
         strategyAdapter.registerSubtype(Final.class);
         strategyAdapter.registerSubtype(ActivatingLeader.class);

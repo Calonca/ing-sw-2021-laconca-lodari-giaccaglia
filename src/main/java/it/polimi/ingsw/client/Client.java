@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.messages.servertoclient.StateInNetwork;
 import it.polimi.ingsw.client.simplemodel.SimpleModel;
+import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.CLI.CLI;
 import it.polimi.ingsw.client.view.CLI.CLIelem.CLIelem;
 import it.polimi.ingsw.client.view.CLI.TestViewBuilder;
@@ -124,8 +125,8 @@ public class Client implements Runnable
     public synchronized void changeViewBuilder(ViewBuilder newViewBuilder)
     {
         if (newViewBuilder!=null) {
-            removeFromListeners(currentViewBuilder, commonData.getThisPlayerIndex().orElse(0));
-            addToListeners(newViewBuilder, commonData.getThisPlayerIndex().orElse(0));
+            removeFromListeners(currentViewBuilder);
+            addToListeners(newViewBuilder);
 
             if (isCLI)
                 ViewBuilder.getCLIView().resetCLI();
@@ -138,20 +139,20 @@ public class Client implements Runnable
         }else System.out.println("ViewBuilder was null");
     }
 
-    public void addToListeners(PropertyChangeListener obj, int playerIndex){
-        removeFromListeners(obj, playerIndex);//Added so that if the method is is called more than once it won't register two listeners.
+    public void addToListeners(PropertyChangeListener obj){
+        removeFromListeners(obj);//Added so that if the method is is called more than once it won't register two listeners.
         getCommonData().addPropertyChangeListener(obj);
         if (simpleModel!=null){
             simpleModel.addPropertyChangeListener(obj);
-            simpleModel.getPlayerCache(playerIndex).addPropertyChangeListener(obj);
+            simpleModel.getPlayerCache(commonData.getThisPlayerIndex()).addPropertyChangeListener(obj);
         }
     }
 
-    public void removeFromListeners(PropertyChangeListener obj, int playerIndex){
+    public void removeFromListeners(PropertyChangeListener obj){
         getCommonData().removePropertyChangeListener(obj);
         if (simpleModel!=null){
             simpleModel.removePropertyChangeListener(obj);
-            simpleModel.getPlayerCache(commonData.getThisPlayerIndex().orElse(0)).removePropertyChangeListener(obj);
+            simpleModel.getPlayerCache(commonData.getThisPlayerIndex()).removePropertyChangeListener(obj);
         }
     }
 
@@ -174,6 +175,8 @@ public class Client implements Runnable
     }
 
     public void setState(StateInNetwork stateInNetwork){
+        System.out.println("Client " +commonData.getThisPlayerIndex()+" received: "+JsonUtility.serialize(stateInNetwork));
+        commonData.setCurrentPlayer(stateInNetwork.getPlayerNumber());
         if (simpleModel==null){
             try {
                 int numOfPlayers = getCommonData().playersOfMatch().map(o->o.length).orElse(0);
@@ -181,12 +184,12 @@ public class Client implements Runnable
             }catch (NoSuchElementException e){
                 System.out.println("Received a state before entering a match");
             }
-            commonData.setCurrentPlayer(stateInNetwork.getPlayerNumber());
             ViewBuilder.setSimpleModel(simpleModel);
-            simpleModel.updateSimpleModel(stateInNetwork);
+        }
+        simpleModel.updateSimpleModel(stateInNetwork);
+        if(stateInNetwork.getPlayerNumber()==commonData.getThisPlayerIndex()
+        && stateInNetwork.getState().equals(State.SETUP_PHASE.name()))
             changeViewBuilder(SetupPhaseViewBuilder.getBuilder(isCLI));
-        }else
-            simpleModel.updateSimpleModel(stateInNetwork);
     }
 
 }

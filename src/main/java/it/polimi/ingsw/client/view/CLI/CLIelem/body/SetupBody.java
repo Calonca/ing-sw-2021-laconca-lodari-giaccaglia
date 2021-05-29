@@ -112,10 +112,12 @@ public class SetupBody extends CLIelem {
                 leadersToChooseString = leadersToChooseFrom.toString();
             }
         }else {
-                    SetupPhaseEvent event = new SetupPhaseEvent(chosenRes.size(),2,client.getCommonData().getThisPlayerIndex().orElse(0));
+                    SetupPhaseEvent event = new SetupPhaseEvent(chosenRes.size(),2,client.getCommonData().getThisPlayerIndex());
                     selected.stream().filter(p->p.left.equals(true)).forEach(p->event.addDiscardedLeader(p.right));
-                    //event.addResource(new Pair<>(0,chosenRes.get(0).getResourceNumber()));
-                    //event.addResource(new Pair<>(0,chosenRes.get(0).getResourceNumber()));
+                    if (chosenRes.size()>0)
+                        event.addResource(new Pair<>(0,chosenRes.get(0).getResourceNumber()));
+                    if (chosenRes.size()>1)
+                        event.addResource(new Pair<>(1,chosenRes.get(1).getResourceNumber()));
 
                     client.getServerHandler().sendCommandMessage(new EventMessage(event));
         };

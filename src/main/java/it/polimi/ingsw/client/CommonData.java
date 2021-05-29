@@ -27,8 +27,8 @@ public class CommonData {
     private String currentnick;
 
 
-    public Optional<Integer> getThisPlayerIndex() {
-        return Optional.ofNullable(thisPlayerIndex);
+    public Integer getThisPlayerIndex() {
+        return thisPlayerIndex;
     }
 
     public int getCurrentPlayerIndex() {
