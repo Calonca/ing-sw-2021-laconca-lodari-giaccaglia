@@ -17,7 +17,7 @@ public class CreateMatch extends CreateMatchViewBuilder implements CLIBuilder {
         getCLIView().runOnIntInput("Number of people (1 to 4): ","Number of people not valid",1,4,()->
         {
             int numberOfPlayers = getCLIView().getLastInt();
-            getCLIView().resetCLI();
+            getCLIView().clearScreen();
             getCLIView().setBody(WaitingForMatchToStart.test(getClient()));
             getClient().getServerHandler().sendCommandMessage(new CreateMatchRequest(numberOfPlayers,getCommonData().getCurrentnick()));
             getCLIView().refreshCLI();

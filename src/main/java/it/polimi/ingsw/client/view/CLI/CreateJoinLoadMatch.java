@@ -22,7 +22,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         spinnerBody.performWhenReceiving(CommonData.matchesDataString);
         spinnerBody.setPerformer(()->
                 {
-                    getCLIView().resetCLI();
+                    getCLIView().clearScreen();
                     getCLIView().setTitle(new Title("Hey "+getCommonData().getCurrentnick()+", what do you want to do?"));
                     //Initial options
                     Stream<Option> optionsToAdd = getNewOptionList(getClient().getCommonData().getMatchesData());
