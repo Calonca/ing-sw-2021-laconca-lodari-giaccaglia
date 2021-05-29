@@ -3,7 +3,6 @@ package it.polimi.ingsw.client.view.abstractview;
 import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.CLI.IDLEViewBuilder;
 import it.polimi.ingsw.client.view.CLI.InitialOrFinalPhaseCLI;
-import it.polimi.ingsw.client.view.GUI.CreateMatch;
 import it.polimi.ingsw.client.view.GUI.InitialOrFinalPhaseGUI;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 
@@ -24,7 +23,6 @@ public abstract class InitialOrFinalPhaseViewBuilder extends ViewBuilder {
             return new InitialOrFinalPhaseCLI(initial);
         else return new InitialOrFinalPhaseGUI(initial);
     }
-
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {

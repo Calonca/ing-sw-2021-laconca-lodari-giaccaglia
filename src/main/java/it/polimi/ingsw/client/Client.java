@@ -127,7 +127,7 @@ public class Client implements Runnable
             addToListeners(newViewBuilder);
 
             if (isCLI)
-                ViewBuilder.getCLIView().resetCLI();
+                ViewBuilder.getCLIView().clearScreen();
 
             currentViewBuilder = newViewBuilder;
             if (isCLI)
@@ -164,7 +164,7 @@ public class Client implements Runnable
     public synchronized void terminate()
     {
         if (ViewBuilder.getCLIView().stopASAP.get()) {
-            ViewBuilder.getCLIView().resetCLI();
+            ViewBuilder.getCLIView().clearScreen();
         }
     }
 

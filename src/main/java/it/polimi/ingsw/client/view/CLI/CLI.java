@@ -108,7 +108,7 @@ public class CLI {
         return lastInput;
     }
 
-    public void resetCLI(){
+    public void clearScreen(){
         try {
             clearOptions(this);
         } catch (ChangingViewBuilderBeforeTakingInput e){
