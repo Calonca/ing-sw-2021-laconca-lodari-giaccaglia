@@ -8,10 +8,14 @@ import it.polimi.ingsw.client.json.Deserializator;
 import it.polimi.ingsw.network.assets.CardAssetsContainer;
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
 import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
+import it.polimi.ingsw.network.util.Util;
 import it.polimi.ingsw.server.model.Resource;
 import javafx.animation.Animation;
 import javafx.animation.FillTransition;
 import javafx.animation.TranslateTransition;
+import javafx.beans.InvalidationListener;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -27,15 +31,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * The user will be asked to insert a nickname and the number of players
@@ -47,9 +49,10 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
      */
     private final int LEADERNUMBER=4;
     List<Button> sceneButtons=new ArrayList<>();
-    boolean[] selected;
+    javafx.collections.ObservableList<Boolean> selected;
     List<String> colorsToRes=new ArrayList<>();
     List<Spinner<Integer>> sceneSpinners= new ArrayList<>();
+    int resourcesToChoose = Util.resourcesToChooseOnSetup(getCommonData().getThisPlayerIndex().orElse(0));
 
     @FXML
     private AnchorPane cjlAnchor;
@@ -77,9 +80,8 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
      * @param selected is a boolean array used to represent selection
      * @param sceneButtons is a button array for the user to execute selection
      */
-    public void bindForSelection(boolean[] selected,List<Button> sceneButtons)
+    public void bindForSelection(List<Boolean> selected,List<Button> sceneButtons,int maxselection)
     {
-        ImageView temp;
 
         //SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).get();
         //List<LeaderCardAsset> leaderpics=simplePlayerLeaders.getPlayerLeaders();
@@ -91,20 +93,18 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         //sceneButton.setGraphic(temp);
         sceneButton.setOnAction(e ->
         {
-            if(!selected[sceneButtons.indexOf(sceneButton)])
+
             {
-                sceneButton.setLayoutY(sceneButton.getLayoutY()-30);
-                selected[sceneButtons.indexOf(sceneButton)]=true;
+                if(!selected.get(sceneButtons.indexOf(sceneButton)))
+                {
+                    selected.set(sceneButtons.indexOf(sceneButton),true);
+
+                }
+                else
+                {
+                    selected.set(sceneButtons.indexOf(sceneButton),false);
+                }
             }
-            else
-            {
-                sceneButton.setLayoutY(sceneButton.getLayoutY()+30);
-
-                selected[sceneButtons.indexOf(sceneButton)]=false;
-            }
-            Client.getInstance().getStage().show();
-
-
         });
 
     }}
@@ -164,7 +164,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
             for(int i=0;i<sceneSpinners.size();i++)
                 System.out.println(sceneSpinners.get(i).getValue() + Resource.fromInt(i).toString());
             for(int i=0;i<sceneButtons.size();i++)
-                System.out.println((selected[i]+ sceneButtons.get(i).toString()));
+                System.out.println((selected.get(i)+ sceneButtons.get(i).toString()));
             Client.getInstance().changeViewBuilder(new MarketMatrix());
 
         });
@@ -219,15 +219,28 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
 
         }
 
-        selected=new boolean[LEADERNUMBER];
-        Arrays.fill(selected, false);
+
+        selected=javafx.collections.FXCollections.observableArrayList();
 
 
 
-        //TODO MAKE METHOD WHICH TAKES RUNNABLE, BOOLEAN ARRAY AND BUTTON ARRAY TO BIND
-       bindForSelection(selected,sceneButtons);
+        for (int i=0;i<LEADERNUMBER;i++)
+            selected.add(false);
 
 
+       bindForSelection(selected,sceneButtons,2);
+
+        selected.addListener(new javafx.collections.ListChangeListener<Boolean>() {
+            @Override
+            public void onChanged(Change<? extends Boolean> c) {
+                c.next();
+                if(c.getAddedSubList().get(0))
+                    sceneButtons.get(c.getFrom()).setLayoutY(sceneButtons.get(c.getFrom()).getLayoutY()-30);
+                else
+                    sceneButtons.get(c.getFrom()).setLayoutY(sceneButtons.get(c.getFrom()).getLayoutY()+30);
+
+
+            }});
 
        cjlAnchor.getChildren().add(validationButton());
        Client.getInstance().getStage().show();
