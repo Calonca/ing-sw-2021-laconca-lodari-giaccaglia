@@ -27,9 +27,9 @@ public class TestViewBuilder extends it.polimi.ingsw.client.view.abstractview.Te
             getCLIView().refreshCLI();
         }));
 
-        DrawableList d = new DrawableList();
-        d.add(new Drawable(0,0,"I'm a black title", Color.ANSI_WHITE, Background.ANSI_BLACK_BACKGROUND));
-        d.add(new Drawable(3,1,"I'm a red body of text\nshifted to the left", Color.ANSI_RED, Background.DEFAULT));
+        Drawable d = new Drawable();
+        d.add(new DrawableLine(0,0,"I'm a black title", Color.ANSI_WHITE, Background.ANSI_BLACK_BACKGROUND));
+        d.add(new DrawableLine(3,1,"I'm a red body of text\nshifted to the left", Color.ANSI_RED, Background.DEFAULT));
         horList.addOption(Option.from(d,()->{
             resSelected.getAndIncrement();
             getCLIView().setTitle(new Title("Selected res "+resSelected.get()));
@@ -37,20 +37,20 @@ public class TestViewBuilder extends it.polimi.ingsw.client.view.abstractview.Te
             getCLIView().refreshCLI();
         }));
 
-        DrawableList d2 = new DrawableList();
-        d2.add(new Drawable(0,0,"I'm a square", Color.ANSI_BLACK, Background.ANSI_YELLOW_BACKGROUND));
+        Drawable d2 = new Drawable();
+        d2.add(new DrawableLine(0,0,"I'm a square", Color.ANSI_BLACK, Background.ANSI_YELLOW_BACKGROUND));
         d2.addEmptyLine();
         d2.add(0,"hi");
         d2.shift(4,0);
 
-        DrawableList d3 = new DrawableList();
-        d3.add(new Drawable(0,0,"+--------+", Color.ANSI_BLACK, Background.ANSI_CYAN_BACKGROUND));
+        Drawable d3 = new Drawable();
+        d3.add(new DrawableLine(0,0,"+--------+", Color.ANSI_BLACK, Background.ANSI_CYAN_BACKGROUND));
         d3.add(0,"|        |",Color.ANSI_BLACK, Background.ANSI_CYAN_BACKGROUND);
         d3.add(0,"|   hi   |",Color.ANSI_BLACK, Background.ANSI_CYAN_BACKGROUND);
         d3.add(0,"|________|",Color.ANSI_BLACK, Background.ANSI_CYAN_BACKGROUND);
-        d3 = DrawableList.copyShifted(5,3,d3);
+        d3 = Drawable.copyShifted(5,3,d3);
 
-        horList.addOption(Option.from(new DrawableList(d2,d3),()->{
+        horList.addOption(Option.from(new Drawable(d2,d3),()->{
             resSelected.getAndIncrement();
             getCLIView().setTitle(new Title("Selected res "+resSelected.get()));
             getCLIView().setBody(hor);
@@ -72,7 +72,7 @@ public class TestViewBuilder extends it.polimi.ingsw.client.view.abstractview.Te
         Thread t = new Thread(()-> {
             int times=10;
             for (int i=0;i<times;i++) {
-                List<DrawableList> dwll = ca.getListsInRow(5);
+                List<Drawable> dwll = ca.getListsInRow(5);
                 dwll.forEach(dwl -> dwl.shift(-5, 0));
                 String s = ca.toString();
                 getCLIView().deleteText();

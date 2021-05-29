@@ -1,11 +1,8 @@
 package it.polimi.ingsw.client.view.abstractview;
 
-import it.polimi.ingsw.client.view.CLI.CLIBuilder;
-import it.polimi.ingsw.client.view.CLI.ConnectToServer;
-
 import java.util.UUID;
 
-public abstract class JoinMatch extends ViewBuilder implements CLIBuilder {
+public abstract class JoinMatch extends ViewBuilder {
 
     protected UUID matchId;
 

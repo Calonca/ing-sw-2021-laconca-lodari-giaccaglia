@@ -57,7 +57,7 @@ public class HorizontalListBody extends OptionList {
         int optWidth = width/options.size();
         AtomicInteger startX = new AtomicInteger(optWidth / options.size());
         Canvas ca = Canvas.withBorder(CLI.width,height+1);
-        toStringStream().map(l->DrawableList.copyShifted(startX.get(),(height-optMaxHeight())/2,l))
+        toStringStream().map(l-> Drawable.copyShifted(startX.get(),(height-optMaxHeight())/2,l))
                 .forEach(o->{
             ca.addDrawableList(o);
             startX.addAndGet(optWidth);
@@ -71,7 +71,7 @@ public class HorizontalListBody extends OptionList {
         int optWidth = optMaxWidth()+4;
         AtomicInteger startX = new AtomicInteger((width-(optWidth*options.size()))/2);
         Canvas canvas = Canvas.withBorder(CLI.width,height+1);
-        toBelowStringStream().map(l->DrawableList.copyShifted(startX.get()+optWidth/4,(height-optMaxHeight())/2,l))
+        toBelowStringStream().map(l-> Drawable.copyShifted(startX.get()+optWidth/4,(height-optMaxHeight())/2,l))
                 .forEach(o->{
             canvas.addDrawableList(o);
             startX.addAndGet(optWidth);
@@ -80,31 +80,31 @@ public class HorizontalListBody extends OptionList {
     }
 
 
-    public Stream<DrawableList> toStringStream() {
+    public Stream<Drawable> toStringStream() {
         if (!showOptions) {
             return options.stream().map(Option::toDrawableList);
         }
         int spaces = (optMaxWidth()/2)-2;
         return IntStream.range(0,options.size())
                 .mapToObj(i->{
-                    DrawableList drawableList = new DrawableList();
-                    drawableList.add(new Drawable(spaces,0, i+":", Color.ANSI_BLUE,Background.DEFAULT));
-                    DrawableList drawableOptions = DrawableList.copyShifted(0,1,options.get(i).toDrawableList());
-                    drawableList.add(drawableOptions);
-                    return drawableList;});
+                    Drawable drawable = new Drawable();
+                    drawable.add(new DrawableLine(spaces,0, i+":", Color.ANSI_BLUE,Background.DEFAULT));
+                    Drawable drawableOptions = Drawable.copyShifted(0,1,options.get(i).toDrawableList());
+                    drawable.add(drawableOptions);
+                    return drawable;});
     }
 
-    public Stream<DrawableList> toBelowStringStream() {
+    public Stream<Drawable> toBelowStringStream() {
         if (!showOptions) {
             return options.stream().map(Option::toDrawableList);
         }
         int spaces = (optMaxWidth()/2)-2;
         return IntStream.range(0,options.size())
                 .mapToObj(i->{
-                    DrawableList drawableList = new DrawableList();
-                    drawableList.add(options.get(i).toDrawableList());
-                    drawableList.add(spaces, i+":", Color.ANSI_BLUE,Background.DEFAULT);
-                    return drawableList;});
+                    Drawable drawable = new Drawable();
+                    drawable.add(options.get(i).toDrawableList());
+                    drawable.add(spaces, i+":", Color.ANSI_BLUE,Background.DEFAULT);
+                    return drawable;});
     }
 
     private int optMaxWidth()

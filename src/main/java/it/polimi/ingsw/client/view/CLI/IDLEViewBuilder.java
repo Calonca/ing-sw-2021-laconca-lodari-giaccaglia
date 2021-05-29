@@ -3,7 +3,7 @@ package it.polimi.ingsw.client.view.CLI;
 import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.SpinnerBody;
 import it.polimi.ingsw.client.view.CLI.textUtil.Canvas;
-import it.polimi.ingsw.client.view.CLI.textUtil.DrawableList;
+import it.polimi.ingsw.client.view.CLI.textUtil.Drawable;
 
 import java.beans.PropertyChangeEvent;
 
@@ -17,7 +17,7 @@ public class IDLEViewBuilder extends it.polimi.ingsw.client.view.abstractview.ID
 
         spinnerBody.performWhenReceiving(State.INITIAL_PHASE.name());
         Canvas canvas = Canvas.withBorder(CLI.width,getCLIView().getMaxBodyHeight());
-        DrawableList dwl = new DrawableList();
+        Drawable dwl = new Drawable();
         dwl.add(0,"Waiting for initial phase state");
         canvas.addDrawableList(dwl);
         spinnerBody.setMeanwhileShow(canvas);

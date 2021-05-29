@@ -69,6 +69,13 @@ public class CLI {
 
     public int getMaxBodyHeight(){return height-5;}
 
+    public void setTitle(String title){
+        Title title1 = new Title(title);
+        this.title.ifPresent(t->t.removeFromListeners(client));
+        title1.addToListeners(client);
+        this.title = Optional.of(title1);
+    }
+
     public void setTitle(Title title){
         this.title.ifPresent(t->t.removeFromListeners(client));
         title.addToListeners(client);

@@ -1,10 +1,9 @@
 package it.polimi.ingsw.client.view.CLI;
 
-import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Title;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.LeaderActionBody;
-import it.polimi.ingsw.client.view.CLI.textUtil.DrawableList;
+import it.polimi.ingsw.client.view.CLI.textUtil.Drawable;
 import it.polimi.ingsw.client.view.abstractview.InitialPhaseViewBuilder;
 import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
 
@@ -29,7 +28,7 @@ public class InitialPhase extends InitialPhaseViewBuilder implements CLIBuilder 
         else{
             getCLIView().setTitle(new Title("Not found what looking for"));
             CanvasBody cb = new CanvasBody(CLI.width,getCLIView().getMaxBodyHeight());
-            DrawableList dwl = new DrawableList();
+            Drawable dwl = new Drawable();
             dwl.addToCenter(CLI.width,"Initial pahse received "+evt.getPropertyName());
             cb.getCanvas().addDrawableList(dwl);
             getCLIView().setBody(cb);

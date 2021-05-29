@@ -8,8 +8,8 @@ import it.polimi.ingsw.client.view.CLI.textUtil.*;
 public class Option {
     private boolean selected;
     private Runnable performer;
-    private final DrawableList drawableList;
-    private final DrawableList selectedDrawableList;
+    private final Drawable drawable;
+    private final Drawable selectedDrawable;
 
     public static Option from(String name,String subtitle,Runnable performer){
         Option option = new Option(name,subtitle);
@@ -23,21 +23,21 @@ public class Option {
         return option;
     }
 
-    public static Option from(DrawableList drawableList,Runnable performer){
-        Option option = new Option(drawableList,DrawableList.selectedDrawableList(drawableList));
+    public static Option from(Drawable drawable, Runnable performer){
+        Option option = new Option(drawable, Drawable.selectedDrawableList(drawable));
         option.setPerformer(performer);
         return option;
     }
 
-    public static Option from(DrawableList normalDwl,DrawableList selectedDwl,Runnable performer){
+    public static Option from(Drawable normalDwl, Drawable selectedDwl, Runnable performer){
         Option option = new Option(normalDwl,selectedDwl);
         option.setPerformer(performer);
         return option;
     }
 
-    private Option(DrawableList normalDwl, DrawableList selectedDwl) {
-        this.drawableList = normalDwl;
-        selectedDrawableList = selectedDwl;
+    private Option(Drawable normalDwl, Drawable selectedDwl) {
+        this.drawable = normalDwl;
+        selectedDrawable = selectedDwl;
         this.selected = false;
     }
 
@@ -51,11 +51,11 @@ public class Option {
     }
 
     private Option(String name, String subtitle){
-        drawableList = new DrawableList();
-        drawableList.add(0, name);
-        drawableList.add(3,subtitle);
+        drawable = new Drawable();
+        drawable.add(0, name);
+        drawable.add(3,subtitle);
         this.selected = false;
-        selectedDrawableList = DrawableList.selectedDrawableList(drawableList);
+        selectedDrawable = Drawable.selectedDrawableList(drawable);
     }
 
     public boolean isSelected() {
@@ -66,19 +66,19 @@ public class Option {
         this.selected = selected;
     }
 
-    public DrawableList toDrawableList(){
+    public Drawable toDrawableList(){
         if (selected)
-            return selectedDrawableList;
+            return selectedDrawable;
         else
-            return drawableList;
+            return drawable;
     }
 
     public int horizontalSize() {
-        return drawableList.getWidth();
+        return drawable.getWidth();
     }
 
     public int height(){
-        return drawableList.getHeight();
+        return drawable.getHeight();
     }
 
 }

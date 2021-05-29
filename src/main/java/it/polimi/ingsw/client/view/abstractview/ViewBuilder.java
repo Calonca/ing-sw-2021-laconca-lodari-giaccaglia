@@ -66,6 +66,7 @@ public abstract class ViewBuilder implements Runnable, PropertyChangeListener
         return client;
     }
 
+
     /**
      * Adds view elements to the CLIView
      */

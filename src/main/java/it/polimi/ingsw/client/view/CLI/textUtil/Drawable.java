@@ -1,76 +1,91 @@
 package it.polimi.ingsw.client.view.CLI.textUtil;
 
-import java.util.Date;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Drawable {
-    private Color color;
-    private Background background;
-    private String string;
-    private int XPos;
-    private int YPos;
-    private int height;
-    private int width;
+    private List<DrawableLine> drawableLines;
+    private UUID id = UUID.randomUUID();
 
-    public Drawable(int XPos, int YPos, String string, Color color, Background background) {
-        this.color = color;
-        this.background = background;
-        this.string = string;
-        this.XPos = XPos;
-        this.YPos = YPos;
-        setHeightAndWidth(string);
+    public Drawable() {
+        this.drawableLines = new ArrayList<>();
     }
 
-    public Drawable(int XPos, int YPos, String string) {
-        this(XPos,YPos,string,Color.DEFAULT,Background.DEFAULT);
+    public Drawable(List<DrawableLine> drawableLines) {
+        this.drawableLines = drawableLines;
     }
 
-    public static Drawable shifted(int shiftX, int shiftY, Drawable d)
-    {
-        int XPos=d.XPos+shiftX;
-        int YPos=d.YPos+shiftY;
-        return new Drawable(XPos,YPos,d.string,d.color,d.background);
+    public Drawable(Drawable first, Drawable second) {
+        drawableLines = Stream.concat(first.drawableLines.stream(),second.drawableLines.stream()).collect(Collectors.toList());
     }
 
-    public void setColor(Color color) {
-        this.color = color;
+    public static Drawable copyShifted(int shiftX, int shiftY, Drawable list) {
+        Drawable shifted = new Drawable();
+        shifted.drawableLines = list.drawableLines.stream()
+                .map(d-> DrawableLine.shifted(shiftX,shiftY,d)).collect(Collectors.toList());
+        return shifted;
     }
 
-    public void setBackground(Background background) {
-        this.background = background;
+    public static Drawable selectedDrawableList(Drawable drawable){
+        Drawable dList = Drawable.copyShifted(0,0, drawable);
+        dList.get().forEach(e->e.setColor(Color.ANSI_BLACK));
+        dList.get().forEach(e->e.setBackground(Background.ANSI_WHITE_BACKGROUND));
+        return dList;
     }
 
-    private void setHeightAndWidth(String s){
-        height = StringUtil.maxHeight(s);
-        width = StringUtil.maxWidth(s);
+    public Drawable(DrawableLine first, Drawable second) {
+        drawableLines = Stream.concat(Stream.of(first),second.drawableLines.stream()).collect(Collectors.toList());
     }
 
-    public Color getColor() {
-        return color;
+    public Drawable(Drawable first, DrawableLine second) {
+        drawableLines = Stream.concat(first.drawableLines.stream(),Stream.of(second)).collect(Collectors.toList());
     }
 
-    public Background getBackground() {
-        return background;
+    public void add(DrawableLine d){
+        drawableLines.add(d);
     }
 
-    public String getString() {
-        return string;
+    public void add(Drawable list){
+        drawableLines.addAll(list.drawableLines);
     }
 
-    public int getXPos() {
-        return XPos;
+    public void add(int x, String s){
+        drawableLines.add(new DrawableLine(x, getHeight(), s));
     }
 
-    public int getYPos() {
-        return YPos;
+    public void addToCenter(int canvasWidth,String s){
+        drawableLines.add(new DrawableLine(StringUtil.startCenterWritingX(s, canvasWidth+2), getHeight(), s));
     }
 
-    public int getHeight() {
-        return height;
+    public void shift(int shiftX,int shiftY) {
+        drawableLines = drawableLines.stream()
+                .map(d-> DrawableLine.shifted(shiftX,shiftY,d)).collect(Collectors.toList());
     }
 
-    public int getWidth() {
-        return width;
+    public void addEmptyLine(){
+        drawableLines.add(new DrawableLine(0, getHeight(), ""));
+    }
+
+    public void add(int x, String s,Color c, Background b){
+        drawableLines.add(new DrawableLine(x, getHeight(), s,c,b));
+    }
+
+    public List<DrawableLine> get(){
+        return drawableLines;
+    }
+
+    public int getHeight(){
+        return drawableLines.stream().mapToInt(DrawableLine::getHeight).sum();
+    }
+
+    public int getWidth(){
+        return drawableLines.stream().mapToInt(DrawableLine::getWidth).max().orElse(0);
+    }
+
+    public UUID getId() {
+        return id;
     }
 }

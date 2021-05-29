@@ -1,13 +1,13 @@
 package it.polimi.ingsw.client.view.CLI.CLIelem;
 
-import it.polimi.ingsw.client.view.CLI.textUtil.DrawableList;
+import it.polimi.ingsw.client.view.CLI.textUtil.Drawable;
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
 import it.polimi.ingsw.network.assets.leaders.NetworkLeaderCard;
 
 public class DrawableLeader {
-    public static DrawableList fromAsset(LeaderCardAsset ld,boolean isSelected){
+    public static Drawable fromAsset(LeaderCardAsset ld, boolean isSelected){
         NetworkLeaderCard ldCard = ld.getNetworkLeaderCard();
-        DrawableList dwl = new DrawableList();
+        Drawable dwl = new Drawable();
         if (!isSelected) {
             dwl.addEmptyLine();
             dwl.addEmptyLine();
@@ -22,7 +22,7 @@ public class DrawableLeader {
             dwl.addEmptyLine();
         }
         if (isSelected)
-            return DrawableList.selectedDrawableList(dwl);
+            return Drawable.selectedDrawableList(dwl);
         else
             return  dwl;
     }

@@ -5,7 +5,6 @@ import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public enum ResourceCLI {
     GOLD(ResourceAsset.GOLD,"G",       "  Gold   ",Color.ANSI_GOLD,Background.ANSI_GOLD_BACKGROUND),
@@ -31,10 +30,10 @@ public enum ResourceCLI {
         this.b = b;
     }
 
-    public DrawableList toBigDrawableList(boolean isSelected){
+    public Drawable toBigDrawableList(boolean isSelected){
         Background back = isSelected?b:Background.DEFAULT;
         Color cl = isSelected?Color.ANSI_BLACK:c;
-        DrawableList dwList = new DrawableList();
+        Drawable dwList = new Drawable();
         dwList.add(0,"-----------",cl,back);
         dwList.add(0,"|         |",cl,back);
         dwList.add(0,"|    "+simbol+"    |",cl,back);
@@ -45,7 +44,7 @@ public enum ResourceCLI {
         return dwList;
     }
 
-    public static List<DrawableList> toList(){
+    public static List<Drawable> toList(){
         return Arrays.stream(ResourceCLI.values()).limit(4).map(res->res.toBigDrawableList(false)).collect(Collectors.toList());
     }
 

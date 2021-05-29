@@ -6,7 +6,6 @@ import it.polimi.ingsw.client.view.CLI.CLIelem.CLIelem;
 import it.polimi.ingsw.client.view.CLI.CLIelem.DrawableLeader;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Option;
 import it.polimi.ingsw.client.view.CLI.textUtil.*;
-import it.polimi.ingsw.network.assets.CardAsset;
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
@@ -16,11 +15,8 @@ import org.apache.commons.lang3.tuple.MutablePair;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 public class SetupBody extends CLIelem {
     List<LeaderCardAsset> leadersToChoose;
@@ -48,14 +44,14 @@ public class SetupBody extends CLIelem {
         int posX =StartPositionX;
         for (ResourceAsset resAsset:chosenRes)
         {
-            DrawableList dl = ResourceCLI.fromAsset(resAsset).toBigDrawableList(false);
+            Drawable dl = ResourceCLI.fromAsset(resAsset).toBigDrawableList(false);
             dl.shift(posX,0);
             canvas.addDrawableList(dl);
             posX+=ResourceCLI.width();
         }
         for (int i =0;i<resToChoose;i++)
         {
-            DrawableList dl = ResourceCLI.TO_CHOSE.toBigDrawableList(i==0);
+            Drawable dl = ResourceCLI.TO_CHOSE.toBigDrawableList(i==0);
             dl.shift(posX,0);
             canvas.addDrawableList(dl);
             posX+=ResourceCLI.width();
@@ -66,11 +62,11 @@ public class SetupBody extends CLIelem {
         String leadersToChooseString="";
         if (!resAreChosen()) {
             HorizontalListBody resToChooseFrom = new HorizontalListBody(7);
-            DrawableList dwl1 = new DrawableList();
+            Drawable dwl1 = new Drawable();
             dwl1.add(StartPositionX-s.length(),s);
             canvas.addDrawableList(dwl1);
 
-            DrawableList dwl = new DrawableList();
+            Drawable dwl = new Drawable();
             dwl.addToCenter(CLI.width,"^");
             dwl.addToCenter(CLI.width,"|");
             dwl.addToCenter(CLI.width,"|");
@@ -78,7 +74,7 @@ public class SetupBody extends CLIelem {
             dwl.shift(0,7);
             canvas.addDrawableList(dwl);
 
-            List<DrawableList> optionsDwList = ResourceCLI.toList();
+            List<Drawable> optionsDwList = ResourceCLI.toList();
             for (int i=0;i<optionsDwList.size();i++){
                 int finalI = i;
                 Option o = Option.from(optionsDwList.get(i),()->{
@@ -92,7 +88,7 @@ public class SetupBody extends CLIelem {
             resToChooseFrom.selectOption();
         }else if (!leadersAreChosen()){
             String s1= "Your chosen resources";
-            DrawableList dwl = new DrawableList();
+            Drawable dwl = new Drawable();
             dwl.addToCenter(CLI.width,s1);
             dwl.shift(4,ResourceCLI.height()-2);
             canvas.addDrawableList(dwl);
@@ -100,8 +96,8 @@ public class SetupBody extends CLIelem {
             HorizontalListBody leadersToChooseFrom = new HorizontalListBody(9);
             for (int i=0;i<leadersToChoose.size();i++){
                 int finalI1 = i;
-                DrawableList leader = DrawableLeader.fromAsset(leadersToChoose.get(i),false);
-                DrawableList selectedLeader = DrawableLeader.fromAsset(leadersToChoose.get(i),true);
+                Drawable leader = DrawableLeader.fromAsset(leadersToChoose.get(i),false);
+                Drawable selectedLeader = DrawableLeader.fromAsset(leadersToChoose.get(i),true);
                 Option o = Option.from(leader,selectedLeader,()->{
                     selected.get(finalI1).setLeft(!selected.get(finalI1).left);
                     cli.refreshCLI();

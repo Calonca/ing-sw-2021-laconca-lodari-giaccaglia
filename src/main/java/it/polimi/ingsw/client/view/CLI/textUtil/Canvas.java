@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 public class Canvas {
     String[][] matrix;
     UUID[][] pointTracing;
-    Map<UUID,DrawableList> lists;
+    Map<UUID, Drawable> lists;
     boolean isDebugging=false;
 
     int width,height;
@@ -41,8 +41,8 @@ public class Canvas {
         Canvas printer = Canvas.withBorder(width,height);
         int x = StringUtil.startCenterWritingX(s, width);
         int y = StringUtil.startCenterWritingY(s, height);
-        DrawableList dwl = new DrawableList();
-        dwl.add(new Drawable(x,y,s));
+        Drawable dwl = new Drawable();
+        dwl.add(new DrawableLine(x,y,s));
         printer.addDrawableList(dwl);
         return printer;
     }
@@ -52,7 +52,7 @@ public class Canvas {
         return lineChars.chars().mapToObj(c->String.valueOf((char) c)).toArray(String[]::new);
     }
 
-    public void addDrawableList(DrawableList dwl){
+    public void addDrawableList(Drawable dwl){
         lists.put(dwl.getId(),dwl);
     }
 
@@ -60,7 +60,7 @@ public class Canvas {
         lists.values().forEach(this::drawList);
     }
 
-    private void drawList(DrawableList dwl){
+    private void drawList(Drawable dwl){
         dwl.get().forEach(d-> draw(d,dwl));
     }
 
@@ -68,7 +68,7 @@ public class Canvas {
      * Draws the string in the canvas at the given position,
      * the output in the CLI is similar to that of System.out.print(s) but with the text starting form the given x,y position.
      */
-    private void draw(Drawable d,DrawableList dwl){
+    private void draw(DrawableLine d, Drawable dwl){
         int matX = d.getXPos();
         int matY = d.getYPos();
         Color c = d.getColor();
@@ -123,12 +123,12 @@ public class Canvas {
         return height;
     }
 
-    public List<DrawableList> getLists(List<Pair<Integer,Integer>> cordYX){
+    public List<Drawable> getLists(List<Pair<Integer,Integer>> cordYX){
         return cordYX.stream().map(yx->pointTracing[yx.getKey()][yx.getValue()]).distinct().filter(Objects::nonNull)
                 .map(id->lists.get(id)).collect(Collectors.toList());
     }
 
-    public List<DrawableList> getListsInRow(int y){
+    public List<Drawable> getListsInRow(int y){
         List<Pair<Integer,Integer>> cordYX = IntStream.range(1,width-1)
                 .mapToObj(x->new Pair<>(y,x)).collect(Collectors.toList());
         return getLists(cordYX);

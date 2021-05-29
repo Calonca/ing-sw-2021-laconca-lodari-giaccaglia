@@ -6,7 +6,7 @@ import it.polimi.ingsw.client.view.CLI.CLIelem.DrawableLeader;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Option;
 import it.polimi.ingsw.client.view.CLI.textUtil.Background;
 import it.polimi.ingsw.client.view.CLI.textUtil.Color;
-import it.polimi.ingsw.client.view.CLI.textUtil.DrawableList;
+import it.polimi.ingsw.client.view.CLI.textUtil.Drawable;
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
 import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.events.leaderphaseevent.DiscardLeaderEvent;
@@ -14,7 +14,6 @@ import it.polimi.ingsw.network.messages.clienttoserver.events.leaderphaseevent.P
 import it.polimi.ingsw.network.messages.clienttoserver.events.leaderphaseevent.SkipLeaderEvent;
 
 import java.util.List;
-import java.util.Optional;
 
 public class LeaderActionBody extends CLIelem {
     List<LeaderCardAsset> leaders;
@@ -46,14 +45,14 @@ public class LeaderActionBody extends CLIelem {
             hiddenOptionList.addOption(activateOption);
             hiddenOptionList.addOption(discardOption);
 
-            DrawableList listEntry = DrawableLeader.fromAsset(l,false);
+            Drawable listEntry = DrawableLeader.fromAsset(l,false);
             listEntry.add(0,i*2+": Activate "+(1+i*2)+": Discard", Color.ANSI_BLUE, Background.DEFAULT);
             Option visOpt = Option.from(listEntry,()->{});
             leadersList.addOption(visOpt);
 
         }
 
-        DrawableList skipLeadersDw = new DrawableList();
+        Drawable skipLeadersDw = new Drawable();
         skipLeadersDw.add(0, leaders.size()*2+": Skip",Color.ANSI_BLUE,Background.DEFAULT);
         skipLeadersDw.shift(0,DrawableLeader.height());
         Option skipLeaderOpt = Option.from(skipLeadersDw,()->{

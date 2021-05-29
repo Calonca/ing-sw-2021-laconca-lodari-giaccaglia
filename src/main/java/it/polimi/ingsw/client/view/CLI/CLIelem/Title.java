@@ -2,7 +2,7 @@ package it.polimi.ingsw.client.view.CLI.CLIelem;
 
 import it.polimi.ingsw.client.view.CLI.CLI;
 import it.polimi.ingsw.client.view.CLI.textUtil.Canvas;
-import it.polimi.ingsw.client.view.CLI.textUtil.DrawableList;
+import it.polimi.ingsw.client.view.CLI.textUtil.Drawable;
 
 public class Title extends CLIelem{
     private String title;
@@ -22,7 +22,7 @@ public class Title extends CLIelem{
     @Override
     public String toString() {
         Canvas canvas = Canvas.withBorder(CLI.width,1);
-        DrawableList dwl = new DrawableList();
+        Drawable dwl = new Drawable();
         dwl.addToCenter(CLI.width,title);
         canvas.addDrawableList(dwl);
         return canvas.toString();
