@@ -19,14 +19,6 @@ public abstract class CLIelem implements PropertyChangeListener {
     protected static CLI cli;
     private PropertyChangeEvent evt;
 
-    public Runnable getUpdater() {
-        return updater;
-    }
-
-    public Runnable getPerformer() {
-        return performer;
-    }
-
     public CLIelem(){
     }
 

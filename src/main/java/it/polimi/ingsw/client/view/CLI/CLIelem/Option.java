@@ -5,9 +5,10 @@ import it.polimi.ingsw.client.view.CLI.textUtil.*;
 /**
  * A selectable option in a CLIView that will execute the given code when perform is called
  */
-public class Option extends CLIelem{
+public class Option {
     private boolean selected;
     private boolean isSelectable;
+    private Runnable performer;
     private final DrawableList drawableList;
 
     public static Option from(String name,String subtitle,Runnable performer){
@@ -32,6 +33,15 @@ public class Option extends CLIelem{
         this.drawableList = drawableList;
         this.selected = false;
         this.isSelectable = false;
+    }
+
+    public void perform(){
+        if (performer!=null)
+            performer.run();
+    }
+
+    public void setPerformer(Runnable performer) {
+        this.performer = performer;
     }
 
     private Option(String name, String subtitle){

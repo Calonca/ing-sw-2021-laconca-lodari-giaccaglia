@@ -32,8 +32,6 @@ public abstract class OptionList extends CLIelem {
     }
 
     public void updateOptions(Stream<Option> optionStream,Client client){
-        if (options!=null)
-            options.forEach(o->o.removeFromListeners(client));
         options = optionStream.collect(Collectors.toList());
         if (options.size()>=1)
             options.get(0).setSelected(true);
@@ -62,7 +60,6 @@ public abstract class OptionList extends CLIelem {
     @Override
     public void addToListeners(Client client) {
         super.addToListeners(client);
-        options.forEach(o->o.addToListeners(client));
         selectOption();
     }
 
