@@ -2,7 +2,6 @@ package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.view.CLI.CLIelem.*;
-import it.polimi.ingsw.client.view.CLI.CLIelem.body.SpinnerBody;
 import it.polimi.ingsw.client.view.CLI.textUtil.Characters;
 import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 
@@ -14,8 +13,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * Builds the CLI.<br>
  * Usage: Add {@link it.polimi.ingsw.client.view.CLI.CLIelem.CLIelem elements}
- * like optionList, body, title, spinner, and then call {@link #refreshCLI()}.
- * Call {@link #refreshCLI()} to update.
+ * like optionList, body, title, spinner, and then call {@link #show()}.
+ * Call {@link #show()} to update.
  */
 public class CLI {
     private final Client client;
@@ -33,9 +32,9 @@ public class CLI {
     private int writtenChars;
 
     //Min is 21
-    public static final int height =23;//Usually 45
+    public static final int height =20;//Usually 45
     //Min is 21
-    public static final int width =185;//Usually 47
+    public static final int width =185;//Usually 185
 
 
     public CLI(Client client) {
@@ -50,7 +49,7 @@ public class CLI {
             while (true) {
                 lastInput = scanner.nextLine();
                 Runnable toRun = afterInput;
-                afterInput = this::refreshCLI;
+                afterInput = this::show;
                 inputMessage = "Not asking for input";
                 errorMessage = null;
                 toRun.run();
@@ -70,15 +69,22 @@ public class CLI {
 
     public int getMaxBodyHeight(){return height-5;}
 
+    public void setTitle(String title){
+        Title title1 = new Title(title);
+        this.title.ifPresent(t->t.removeFromListeners(client));
+        title1.addToListeners(client);
+        this.title = Optional.of(title1);
+    }
+
     public void setTitle(Title title){
-        this.title.ifPresent(t->t.removeFromPublishers(client));
-        title.setCLIAndUpdateSubscriptions(this,client);
+        this.title.ifPresent(t->t.removeFromListeners(client));
+        title.addToListeners(client);
         this.title = Optional.of(title);
     }
 
     public void setBottom(CLIelem bottom) {
-        this.bottom.ifPresent(b->b.removeFromPublishers(client));
-        bottom.setCLIAndUpdateSubscriptions(this,client);
+        this.bottom.ifPresent(b->b.removeFromListeners(client));
+        bottom.addToListeners(client);
         this.bottom = Optional.of(bottom);
     }
 
@@ -88,9 +94,9 @@ public class CLI {
     }
 
     public void setBody(CLIelem body){
-        this.body.ifPresent(b->b.removeFromPublishers(client));
+        this.body.ifPresent(b->b.removeFromListeners(client));
         this.body = Optional.ofNullable(body);
-        this.body.ifPresent(b->b.setCLIAndUpdateSubscriptions(this,client));
+        this.body.ifPresent(b->b.addToListeners(client));
     }
 
 
@@ -102,7 +108,7 @@ public class CLI {
         return lastInput;
     }
 
-    public void resetCLI(){
+    public void clearScreen(){
         try {
             clearOptions(this);
         } catch (ChangingViewBuilderBeforeTakingInput e){
@@ -112,29 +118,21 @@ public class CLI {
 
     private static void clearOptions(CLI cli) throws ChangingViewBuilderBeforeTakingInput {
 
-        cli.title.ifPresent(t->t.removeFromPublishers(cli.client));
+        cli.title.ifPresent(t->t.removeFromListeners(cli.client));
         cli.title = Optional.empty();
 
-        cli.body.ifPresent(b->b.removeFromPublishers(cli.client));
+        cli.body.ifPresent(b->b.removeFromListeners(cli.client));
         cli.body = Optional.empty();
 
-        cli.bottom.ifPresent(b->b.removeFromPublishers(cli.client));
+        cli.bottom.ifPresent(b->b.removeFromListeners(cli.client));
         cli.bottom = Optional.empty();
 
         cli.deleteText();
     }
 
-    public void refreshCLI(){
+    public void show(){
         deleteText();
         display();
-    }
-
-    public void updateListeners(){
-        title.ifPresent(t->t.setCLIAndUpdateSubscriptions(this,client));
-
-        body.ifPresent(b->b.setCLIAndUpdateSubscriptions(this,client));
-
-        bottom.ifPresent(b->b.setCLIAndUpdateSubscriptions(this,client));
     }
 
     public void performLastChoice(){
@@ -163,7 +161,7 @@ public class CLI {
                         this.errorMessage += "Insert a SMALLER number!";
                     }
                     runOnIntInput(message,errorMessage,min,max,r1);
-                    refreshCLI();
+                    show();
                 }else {
                     lastInt = choice;
                     r1.run();
@@ -172,7 +170,7 @@ public class CLI {
             catch (NumberFormatException e){
                 this.errorMessage = errorMessage+"Insert a NUMBER!";
                 runOnIntInput(message,errorMessage,min,max,r1);
-                refreshCLI();
+                show();
             }
         };
     }
@@ -196,7 +194,7 @@ public class CLI {
      * Used to refresh the screen
      */
     private synchronized void display(){
-        putDivider();
+        putStartDiv();
         title.ifPresent(t-> print(t.toString()));
         putDivider();
         body.ifPresent(b-> print(b.toString()));
@@ -236,11 +234,19 @@ public class CLI {
                 );
     }
 
+    public void putStartDiv(){
+        printLine(
+                Characters.TOP_LEFT_DIV.getString()+
+                        Characters.HOR_DIVIDER.repeated(width)+
+                        Characters.TOP_RIGHT_DIV.getString()
+        );
+    }
+
     public void putEndDiv(){
         printLine(
-                Characters.HOR_DIVIDER.getString()+
+                Characters.BOTTOM_LEFT_DIV.getString()+
                         Characters.HOR_DIVIDER.repeated(width)+
-                        Characters.VERT_DIVIDER.getString()
+                        Characters.BOTTOM_RIGHT_DIV.getString()
         );
     }
 

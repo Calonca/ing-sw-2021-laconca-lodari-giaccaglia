@@ -32,7 +32,7 @@ public class ChooseWhiteMarbleConversionEvent extends it.polimi.ingsw.network.me
      * an existing {@link Resource}, otherwise false.
      */
     private boolean validateResourceNumber(){
-        return !Resource.fromInt(resourceNumber).equals(Resource.EMPTY);
+        return !Resource.fromIntFixed(resourceNumber).equals(Resource.EMPTY);
     }
 
     public int getResourceNumber(){

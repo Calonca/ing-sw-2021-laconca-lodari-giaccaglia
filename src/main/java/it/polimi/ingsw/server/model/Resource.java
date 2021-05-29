@@ -27,7 +27,6 @@ public enum Resource
      */
     public static final int nRes = 4;
 
-
     /**
      * Array containing "physical" resources, used to get resource from it's number in the ordering.
      */
@@ -47,6 +46,10 @@ public enum Resource
      */
     public static Resource fromInt(int rNum){
         return rNum>vals.length||rNum<0 ? EMPTY: vals[rNum];
+    }
+
+    public static Resource fromIntFixed(int rNum){
+        return rNum>Resource.FAITH.resourceNumber || rNum<0 ? EMPTY : vals[rNum];
     }
     /**
      * Returns a {@link Stream} of {@link Resource Resources} of the given size,

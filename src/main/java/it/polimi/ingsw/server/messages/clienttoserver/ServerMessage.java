@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.messages.clienttoserver;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.RuntimeTypeAdapterFactory;
 import it.polimi.ingsw.server.messages.clienttoserver.events.*;
@@ -28,6 +29,7 @@ public interface ServerMessage {
     void processMessage(ClientHandler clientHandler) throws IOException;
 
     static ServerMessage deserialize(String jsonString){
+
         RuntimeTypeAdapterFactory<ServerMessage> jsonToServerAdapter = RuntimeTypeAdapterFactory.of(ServerMessage.class);
 
 
@@ -43,6 +45,7 @@ public interface ServerMessage {
     }
 
     static RuntimeTypeAdapterFactory<Validable> eventMessageAdapter(){
+
         RuntimeTypeAdapterFactory<Validable> eventMessageAdapter = RuntimeTypeAdapterFactory.of(Validable.class);
 
         eventMessageAdapter.registerSubtype(TestEvent.class);

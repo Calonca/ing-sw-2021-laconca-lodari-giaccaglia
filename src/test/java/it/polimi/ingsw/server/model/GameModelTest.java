@@ -84,7 +84,7 @@ public class GameModelTest {
     private void testPurchaseCard(DevelopmentCardColor color){
 
         //turn 1
-        gameModelTest.setCurrentPlayerState(State.CHOOSING_CARD_FOR_PRODUCTION);
+        gameModelTest.setCurrentPlayerState(State.CHOOSING_PRODUCTION);
 
         for(int level = 1; level<=3; level++) {
 

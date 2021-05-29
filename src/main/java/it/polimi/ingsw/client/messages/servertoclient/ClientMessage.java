@@ -23,12 +23,12 @@ public interface ClientMessage {
         jsonToClientAdapter.registerSubtype(CreatedMatchStatus.class);
         jsonToClientAdapter.registerSubtype(JoinStatus.class);
         jsonToClientAdapter.registerSubtype(MatchesData.class);
-        jsonToClientAdapter.registerSubtype(StateMessage.class);
+        jsonToClientAdapter.registerSubtype(StateInNetwork.class);
         jsonToClientAdapter.registerSubtype(EventNotValid.class);
 
         Gson gson1 = new GsonBuilder()
                 .registerTypeAdapterFactory(jsonToClientAdapter)
-                .registerTypeAdapterFactory(ServerToClientMessage.stateMessageAdapter())
+                .registerTypeAdapterFactory(ServerToClientMessage.elementAdapter())
                 .create();
 
         return deserializeFromString(jsonString, ClientMessage.class, gson1);

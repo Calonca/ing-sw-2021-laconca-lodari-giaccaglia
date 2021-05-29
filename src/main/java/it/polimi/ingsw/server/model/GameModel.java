@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.model;
 import com.rits.cloning.Cloner;
 import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
 import it.polimi.ingsw.server.model.states.State;
+import it.polimi.ingsw.server.model.states.StatesTransitionTable;
 import it.polimi.ingsw.server.utils.Deserializator;
 import it.polimi.ingsw.server.controller.Match;
 import it.polimi.ingsw.server.model.cards.*;
@@ -84,7 +85,7 @@ public class GameModel {
      * @throws IOException
      */
     private void initializeLeadersList() throws IOException {
-       leaders = Deserializator.leadersCardMapBuilder();
+       leaders = Deserializator.leadersCardMapDeserialization();
     }
 
     /**
@@ -112,6 +113,7 @@ public class GameModel {
             resourcesMarket = MarketBoard.initializeMarketBoard();
             cardShop = CardShop.initializeCardShop();
             initializeLeadersList();
+            devCardsMap = Deserializator.devCardsMap();
 
         } catch (IOException e) {
             System.out.println("Error while class initialization from config file");
@@ -144,11 +146,7 @@ public class GameModel {
 
         players.values().forEach((p)->
                 {
-                 /*  try {
-                        p.setStatesTransitionTable(StatesTransitionTable.fromIsSinglePlayer(isSinglePlayer));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } */
+                    p.setStatesTransitionTable(StatesTransitionTable.fromIsSinglePlayer(isSinglePlayer));
                 }
         );
         setCurrentPlayer(players.get(0));
@@ -170,6 +168,10 @@ public class GameModel {
 
     public boolean isGameStarted(){
         return isStarted;
+    }
+
+    public boolean isSinglePlayer(){
+        return isSinglePlayer;
     }
 
     /**

@@ -8,7 +8,6 @@ import it.polimi.ingsw.client.view.CLI.CLIelem.CLIelem;
 import it.polimi.ingsw.client.view.CLI.SetupPhase;
 import it.polimi.ingsw.client.view.CLI.textUtil.Canvas;
 import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
-import it.polimi.ingsw.network.messages.servertoclient.state.SETUP_PHASE;
 
 import java.util.*;
 
@@ -16,14 +15,13 @@ public class SpinnerBody extends CLIelem {
 
     Canvas meanwhileShow;
 
-    @Override
-    public String toString() {
-        return  meanwhileShow==null? "null": meanwhileShow.toString();
+    public void setMeanwhileShow(Canvas meanwhileShow) {
+        this.meanwhileShow = meanwhileShow;
     }
 
     @Override
-    public int horizontalSize() {
-        return -1;
+    public String toString() {
+        return  meanwhileShow==null? "no data in spinner": meanwhileShow.toString();
     }
 
 }

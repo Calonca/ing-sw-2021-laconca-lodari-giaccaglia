@@ -12,9 +12,9 @@ public class JoinMatch extends it.polimi.ingsw.client.view.abstractview.JoinMatc
     public void run() {
         getCLIView().setTitle(new Title("Joining match"));
         getClient().getServerHandler().sendCommandMessage(new JoinMatchRequest(matchId,getCommonData().getCurrentnick()));
-        getCLIView().resetCLI();
+        getCLIView().clearScreen();
         getCLIView().setBody(WaitingForMatchToStart.test(getClient()));
-        getCLIView().refreshCLI();
+        getCLIView().show();
     }
 
     @Override

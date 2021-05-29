@@ -1,0 +1,474 @@
+{
+  "c68ed1339b283c349fa1185d47295834": {
+    "type": "it.polimi.ingsw.server.model.player.leaders.ProductionLeader",
+    "production": {
+      "input": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1
+      ],
+      "restoreoutput": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1
+      ]
+    },
+    "state": "INACTIVE",
+    "victoryPoints": 4,
+    "requirementsResources": [],
+    "requirementsCards": [
+      {
+        "key": "GREEN",
+        "value": 1
+      }
+    ],
+    "requirementsCardsLevel": 2
+  },
+  "3a26e1c113ef3a5b91c06d481c7ea027": {
+    "type": "it.polimi.ingsw.server.model.player.leaders.MarketLeader",
+    "bonus": "STONE",
+    "state": "INACTIVE",
+    "victoryPoints": 5,
+    "requirementsResources": [],
+    "requirementsCards": [
+      {
+        "key": "BLUE",
+        "value": 2
+      },
+      {
+        "key": "YELLOW",
+        "value": 1
+      }
+    ],
+    "requirementsCardsLevel": 1
+  },
+  "1add81481e8d34eeb7d25f7c2d9ad746": {
+    "type": "it.polimi.ingsw.server.model.player.leaders.MarketLeader",
+    "bonus": "SHIELD",
+    "state": "INACTIVE",
+    "victoryPoints": 5,
+    "requirementsResources": [],
+    "requirementsCards": [
+      {
+        "key": "GREEN",
+        "value": 2
+      },
+      {
+        "key": "PURPLE",
+        "value": 1
+      }
+    ],
+    "requirementsCardsLevel": 1
+  },
+  "d44c55711e1e3092b948e8a1b9e527fb": {
+    "type": "it.polimi.ingsw.server.model.player.leaders.ProductionLeader",
+    "production": {
+      "input": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1
+      ],
+      "restoreoutput": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1
+      ]
+    },
+    "state": "INACTIVE",
+    "victoryPoints": 4,
+    "requirementsResources": [],
+    "requirementsCards": [
+      {
+        "key": "PURPLE",
+        "value": 1
+      }
+    ],
+    "requirementsCardsLevel": 2
+  },
+  "8c9c8fc5312435e7aae35263e4b8274b": {
+    "type": "it.polimi.ingsw.server.model.player.leaders.ProductionLeader",
+    "production": {
+      "input": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1
+      ],
+      "restoreoutput": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1
+      ]
+    },
+    "state": "INACTIVE",
+    "victoryPoints": 4,
+    "requirementsResources": [],
+    "requirementsCards": [
+      {
+        "key": "BLUE",
+        "value": 1
+      }
+    ],
+    "requirementsCardsLevel": 2
+  },
+  "68f98e0df3b23de48e3e025de26e0766": {
+    "type": "it.polimi.ingsw.server.model.player.leaders.MarketLeader",
+    "bonus": "GOLD",
+    "state": "INACTIVE",
+    "victoryPoints": 5,
+    "requirementsResources": [],
+    "requirementsCards": [
+      {
+        "key": "PURPLE",
+        "value": 2
+      },
+      {
+        "key": "GREEN",
+        "value": 1
+      }
+    ],
+    "requirementsCardsLevel": 1
+  },
+  "063171604d923ff7869c27793c0ad5d1": {
+    "type": "it.polimi.ingsw.server.model.player.leaders.DepositLeader",
+    "leaderdepot": {
+      "res_sel": [
+        {
+          "key": "EMPTY",
+          "value": false
+        },
+        {
+          "key": "EMPTY",
+          "value": false
+        }
+      ],
+      "globalPositionOfFirstElement": 0,
+      "numberOfOccupiedSpots": 0,
+      "type": "SHIELD"
+    },
+    "state": "INACTIVE",
+    "victoryPoints": 3,
+    "requirementsResources": [
+      {
+        "key": "SERVANT",
+        "value": 5
+      }
+    ],
+    "requirementsCards": [],
+    "requirementsCardsLevel": 1
+  },
+  "2a1b9b8a8fdf37c7baf97b81b5af2392": {
+    "type": "it.polimi.ingsw.server.model.player.leaders.ProductionLeader",
+    "production": {
+      "input": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1
+      ],
+      "restoreoutput": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1
+      ]
+    },
+    "state": "INACTIVE",
+    "victoryPoints": 4,
+    "requirementsResources": [],
+    "requirementsCards": [
+      {
+        "key": "YELLOW",
+        "value": 1
+      }
+    ],
+    "requirementsCardsLevel": 2
+  },
+  "8f00ca10c8b03f69acce5227da01b9cc": {
+    "type": "it.polimi.ingsw.server.model.player.leaders.DevelopmentDiscountLeader",
+    "discount": {
+      "key": "SERVANT",
+      "value": 1
+    },
+    "state": "INACTIVE",
+    "victoryPoints": 2,
+    "requirementsResources": [],
+    "requirementsCards": [
+      {
+        "key": "YELLOW",
+        "value": 1
+      },
+      {
+        "key": "GREEN",
+        "value": 1
+      }
+    ],
+    "requirementsCardsLevel": 1
+  },
+  "f5aa23cf5bb53c5bb5aeed2aafd42008": {
+    "type": "it.polimi.ingsw.server.model.player.leaders.MarketLeader",
+    "bonus": "SERVANT",
+    "state": "INACTIVE",
+    "victoryPoints": 5,
+    "requirementsResources": [],
+    "requirementsCards": [
+      {
+        "key": "YELLOW",
+        "value": 2
+      },
+      {
+        "key": "BLUE",
+        "value": 1
+      }
+    ],
+    "requirementsCardsLevel": 1
+  },
+  "8ae6ef566d443c4ba63f031e1116987b": {
+    "type": "it.polimi.ingsw.server.model.player.leaders.DevelopmentDiscountLeader",
+    "discount": {
+      "key": "STONE",
+      "value": 1
+    },
+    "state": "INACTIVE",
+    "victoryPoints": 2,
+    "requirementsResources": [],
+    "requirementsCards": [
+      {
+        "key": "GREEN",
+        "value": 1
+      },
+      {
+        "key": "BLUE",
+        "value": 1
+      }
+    ],
+    "requirementsCardsLevel": 1
+  },
+  "6e7d82d9f539350ba51958b3a625ed00": {
+    "type": "it.polimi.ingsw.server.model.player.leaders.DepositLeader",
+    "leaderdepot": {
+      "res_sel": [
+        {
+          "key": "EMPTY",
+          "value": false
+        },
+        {
+          "key": "EMPTY",
+          "value": false
+        }
+      ],
+      "globalPositionOfFirstElement": 0,
+      "numberOfOccupiedSpots": 0,
+      "type": "STONE"
+    },
+    "state": "INACTIVE",
+    "victoryPoints": 3,
+    "requirementsResources": [
+      {
+        "key": "GOLD",
+        "value": 5
+      }
+    ],
+    "requirementsCards": [],
+    "requirementsCardsLevel": 1
+  },
+  "bc1355ffa52f35f2ab387754271dff59": {
+    "type": "it.polimi.ingsw.server.model.player.leaders.DevelopmentDiscountLeader",
+    "discount": {
+      "key": "GOLD",
+      "value": 1
+    },
+    "state": "INACTIVE",
+    "victoryPoints": 2,
+    "requirementsResources": [],
+    "requirementsCards": [
+      {
+        "key": "YELLOW",
+        "value": 1
+      },
+      {
+        "key": "PURPLE",
+        "value": 1
+      }
+    ],
+    "requirementsCardsLevel": 1
+  },
+  "cebe561bb6733440883f99124a8bf00a": {
+    "type": "it.polimi.ingsw.server.model.player.leaders.DevelopmentDiscountLeader",
+    "discount": {
+      "key": "SHIELD",
+      "value": 1
+    },
+    "state": "INACTIVE",
+    "victoryPoints": 2,
+    "requirementsResources": [],
+    "requirementsCards": [
+      {
+        "key": "PURPLE",
+        "value": 1
+      },
+      {
+        "key": "BLUE",
+        "value": 1
+      }
+    ],
+    "requirementsCardsLevel": 1
+  },
+  "0fbaecad11ec3212834333407aadd7fa": {
+    "type": "it.polimi.ingsw.server.model.player.leaders.DepositLeader",
+    "leaderdepot": {
+      "res_sel": [
+        {
+          "key": "EMPTY",
+          "value": false
+        },
+        {
+          "key": "EMPTY",
+          "value": false
+        }
+      ],
+      "globalPositionOfFirstElement": 0,
+      "numberOfOccupiedSpots": 0,
+      "type": "GOLD"
+    },
+    "state": "INACTIVE",
+    "victoryPoints": 3,
+    "requirementsResources": [
+      {
+        "key": "SHIELD",
+        "value": 5
+      }
+    ],
+    "requirementsCards": [],
+    "requirementsCardsLevel": 1
+  },
+  "a7b2501e50e333a3974e1f57cdf1ac3a": {
+    "type": "it.polimi.ingsw.server.model.player.leaders.DepositLeader",
+    "leaderdepot": {
+      "res_sel": [
+        {
+          "key": "EMPTY",
+          "value": false
+        },
+        {
+          "key": "EMPTY",
+          "value": false
+        }
+      ],
+      "globalPositionOfFirstElement": 0,
+      "numberOfOccupiedSpots": 0,
+      "type": "SERVANT"
+    },
+    "state": "INACTIVE",
+    "victoryPoints": 3,
+    "requirementsResources": [
+      {
+        "key": "STONE",
+        "value": 5
+      }
+    ],
+    "requirementsCards": [],
+    "requirementsCardsLevel": 1
+  }
+}

@@ -39,18 +39,22 @@ public class SetupPhaseEventTest {
 
     @Test
     public void validationOkTest(){
+
        validTestInitialization();
        serializedEvent = serialize(clientEventTest);
        serverEventTest = deserializeFromString(serializedEvent, it.polimi.ingsw.server.messages.clienttoserver.events.setupphaseevent.SetupPhaseEvent.class , gson);
        assertTrue(serverEventTest.validate(gameModelTest));
+
     }
 
     @Test
     public void anotherValidationOkTest(){
+
         anotherValidTestInitialization();
         serializedEvent = serialize(clientEventTest);
         serverEventTest = deserializeFromString(serializedEvent, it.polimi.ingsw.server.messages.clienttoserver.events.setupphaseevent.SetupPhaseEvent.class , gson);
         assertTrue(serverEventTest.validate(gameModelTest));
+
     }
 
     @Test
@@ -82,7 +86,7 @@ public class SetupPhaseEventTest {
         initialDiscardedLeaders.add(playerLeadersUUIDs.get(2));
         initialDiscardedLeaders.add(playerLeadersUUIDs.get(3));
 
-        initializeEvent(3,initialResources,initialDiscardedLeaders);
+        initializeEvent(2,initialResources,initialDiscardedLeaders);
     }
 
 
@@ -96,7 +100,7 @@ public class SetupPhaseEventTest {
         initialDiscardedLeaders.add(playerLeadersUUIDs.get(2));
         initialDiscardedLeaders.add(playerLeadersUUIDs.get(3));
 
-        initializeEvent(3,initialResources,initialDiscardedLeaders);
+        initializeEvent(2,initialResources,initialDiscardedLeaders);
 
     }
 

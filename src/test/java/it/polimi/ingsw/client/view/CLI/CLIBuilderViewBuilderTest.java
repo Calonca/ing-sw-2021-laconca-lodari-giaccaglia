@@ -29,7 +29,7 @@ public class CLIBuilderViewBuilderTest {
         VerticalListBody optionList1 = new VerticalListBody();
         VerticalListBody optionList2 = new VerticalListBody();
 
-        o1.getPerformer().run();
+        o1.perform();
         assertEquals(1,test.get());
 
         optionList1.addOption(o1);

@@ -1,9 +1,11 @@
 package it.polimi.ingsw.client.view.CLI.textUtil;
 
-import it.polimi.ingsw.client.view.CLI.CLI;
+import javafx.util.Pair;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
@@ -11,6 +13,9 @@ import java.util.stream.Stream;
  */
 public class Canvas {
     String[][] matrix;
+    UUID[][] pointTracing;
+    Map<UUID, Drawable> lists;
+    boolean isDebugging=false;
 
     int width,height;
     public static Canvas withBorder(int width, int height){
@@ -18,17 +23,27 @@ public class Canvas {
         printer.height = height;
         printer.width = width;
 
-        String lineChars = Characters.VERT_DIVIDER.getString()+" ".repeat(width)+Characters.VERT_DIVIDER.getString();
-        printer.matrix = Stream.generate(()-> generateLine(lineChars)).limit(height).toArray(String[][]::new);
+        printer.resetDrawing();
+        printer.lists=new HashMap<>();
 
         return printer;
+    }
+
+    public void resetDrawing(){
+        String lineChars = Characters.VERT_DIVIDER.getString()+" ".repeat(width)+Characters.VERT_DIVIDER.getString();
+        matrix = Stream.generate(()-> generateLine(lineChars)).limit(height).toArray(String[][]::new);
+
+        pointTracing = new UUID[height][width];
+
     }
 
     public static Canvas fromText(int width, int height,String s){
         Canvas printer = Canvas.withBorder(width,height);
         int x = StringUtil.startCenterWritingX(s, width);
         int y = StringUtil.startCenterWritingY(s, height);
-        printer.drawWithDefaultColor(x,y,s);
+        Drawable dwl = new Drawable();
+        dwl.add(new DrawableLine(x,y,s));
+        printer.addDrawableList(dwl);
         return printer;
     }
 
@@ -37,19 +52,28 @@ public class Canvas {
         return lineChars.chars().mapToObj(c->String.valueOf((char) c)).toArray(String[]::new);
     }
 
+    public void addDrawableList(Drawable dwl){
+        lists.put(dwl.getId(),dwl);
+    }
 
-    public void drawWithDefaultColor(int x, int y, String s){
-        draw(x,y,s,Color.DEFAULT,Background.DEFAULT);
+    private void draw(){
+        lists.values().forEach(this::drawList);
+    }
+
+    private void drawList(Drawable dwl){
+        dwl.get().forEach(d-> draw(d,dwl));
     }
 
     /**
      * Draws the string in the canvas at the given position,
      * the output in the CLI is similar to that of System.out.print(s) but with the text starting form the given x,y position.
      */
-    public void draw(int x, int y, String s, Color c, Background b){
-        int matX = x;
-        int matY = y;
-        char[] chars = s.toCharArray();
+    private void draw(DrawableLine d, Drawable dwl){
+        int matX = d.getXPos();
+        int matY = d.getYPos();
+        Color c = d.getColor();
+        Background b = d.getBackground();
+        char[] chars = d.getString().toCharArray();
         for (int i=0;i<chars.length;i++) {
             char aChar = chars[i];
             boolean defaultColorAndBack = !(c.equals(Color.DEFAULT) && b.equals(Background.DEFAULT));
@@ -58,17 +82,19 @@ public class Canvas {
             {
                 lastLineWidth = matX-1;
                 matY+=1;
-                matX = x;
+                matX = d.getXPos();
             } else {
                 char toPrint;
                 if (matrix[matY][matX].isBlank())//Check if writing on non-empty space, for debugging
                     toPrint = aChar;
                 else
                     toPrint = '*';
-                if (matX==x && defaultColorAndBack)//Start of the printed line
+                //Drawing
+                if (matX==d.getXPos() && defaultColorAndBack)//Start of the printed line
                     matrix[matY][matX] = Color.startColorStringBackground(String.valueOf(toPrint),c,b);
                 else
                     matrix[matY][matX] = String.valueOf(toPrint);
+                pointTracing[matY][matX]=dwl.getId();
                 matX += 1;
             }
             if (defaultColorAndBack)//Resets color
@@ -81,12 +107,48 @@ public class Canvas {
         }
     }
 
+    public void setDebugging(boolean debugging) {
+        isDebugging = debugging;
+    }
+
     private boolean isLineEnd(int x){
         return x>=width;
     }
 
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public List<Drawable> getLists(List<Pair<Integer,Integer>> cordYX){
+        return cordYX.stream().map(yx->pointTracing[yx.getKey()][yx.getValue()]).distinct().filter(Objects::nonNull)
+                .map(id->lists.get(id)).collect(Collectors.toList());
+    }
+
+    public List<Drawable> getListsInRow(int y){
+        List<Pair<Integer,Integer>> cordYX = IntStream.range(1,width-1)
+                .mapToObj(x->new Pair<>(y,x)).collect(Collectors.toList());
+        return getLists(cordYX);
+    }
+
     @Override
     public String toString() {
-        return Arrays.stream(matrix).map(line-> Arrays.stream(line).reduce("",(a, b)->a+b)).reduce("",(a, b)->a+b+"\n");
+        resetDrawing();
+        draw();
+        if (!isDebugging)
+            return Arrays.stream(matrix).map(line-> Arrays.stream(line).reduce("",(a, b)->a+b)).reduce("",(a, b)->a+b+"\n");
+        else return Arrays.stream(pointTracing).map(line-> Arrays.stream(line).map(this::idToString)
+                .reduce("",(a, b)->a+b))
+            .reduce("",(a, b)->a +b+"\n");
+    }
+
+    private String idToString(UUID id)
+    {
+        if (id==null)
+            return "░";
+        else return "█";
     }
 }

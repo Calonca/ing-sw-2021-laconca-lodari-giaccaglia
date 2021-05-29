@@ -1,19 +1,19 @@
 package it.polimi.ingsw.server.model.states;
 import it.polimi.ingsw.network.messages.servertoclient.state.*;
-import it.polimi.ingsw.server.messages.messagebuilders.*;
+import it.polimi.ingsw.server.messages.messagebuilders.Element;
+import it.polimi.ingsw.network.simplemodel.SimpleModelElement;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.cards.*;
-import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.player.leaders.Leader;
 import it.polimi.ingsw.server.model.market.Marble;
 import it.polimi.ingsw.server.model.market.MarketBoard;
 import it.polimi.ingsw.server.model.market.MarketLine;
 import it.polimi.ingsw.server.model.player.board.*;
-import it.polimi.ingsw.server.utils.Util;
 
-import java.nio.charset.StandardCharsets;
-import java.util.UUID;
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  *  <p>Enum class for player turn phases represented as FSM States. Game turn is divided in three macro phases.<br>
  *  Execution of {@link #INITIAL_PHASE} and {@link #FINAL_PHASE} are up to player decision,
@@ -23,33 +23,29 @@ import java.util.UUID;
  *
  *  <li>{@link #SETUP_PHASE}</li> <br>
  *
- *  <li>{@link #INITIAL_PHASE}
- *      <ul>
- *          <li>{@link #SHOWING_LEADERS_INITIAL}  <em>"Leader action"</em>
- *      </ul>
+ *  <li>{@link #INITIAL_PHASE}</li>  <br>
+ *
  *  <li>{@link #MIDDLE_PHASE} <em>"Normal actions"</em>
  *      <ul>
  *          <li><em>Activate the Production :</em>
- *          <li>{@link #CHOOSING_CARD_FOR_PRODUCTION}
+ *          <li>{@link #CHOOSING_PRODUCTION}
  *          <li>{@link #CHOOSING_RESOURCE_FOR_PRODUCTION}
  *
  *          <li><em>Take Resources from Market :</em>
- *          <li>{@link #SHOWING_MARKET_RESOURCES}
+ *          <li>{@link #CHOOSING_MARKET_LINE}
  *          <li>{@link #CHOOSING_WHITEMARBLE_CONVERSION}
  *          <li>{@link #CHOOSING_POSITION_FOR_RESOURCES}
  *
  *          <li><em>Buy one Development Card :</em>
- *          <li>{@link #SHOWING_CARD_SHOP}
  *          <li>{@link #CHOOSING_DEVELOPMENT_CARD}
  *          <li>{@link #CHOOSING_RESOURCES_FOR_DEVCARD}
+ *          <li>{@link #CHOOSING_POSITION_FOR_DEVCARD}</li>
  *      </ul>
- *  <li>{@link #FINAL_PHASE}
- *      <ul>
- *          <li> {@link #SHOWING_LEADERS_FINAL} <em>"Leader action"</em>
- *          <li>{@link #IDLE}
- *          <li>{@link #WINNING_STATE}
- *          <li>{@link #LOSING_STATE}
- *      </ul>
+ *  <li> {@link #FINAL_PHASE} <em>"Leader action"</em> </li><br>
+ *  <li>{@link #IDLE}</li><br>
+ *  <li>{@link #END_PHASE}</li><br>
+ *
+ *
  * </ol>
  */
 public enum State {
@@ -58,256 +54,102 @@ public enum State {
      * Initial game phase where each player receives two {@link Leader LeaderCards}, faithPoints and {@link Resource Resources}
      * according to players' numbering.
      */
-    SETUP_PHASE{
-        @Override
-        public StateInNetwork toStateMessage(GameModel gameModel) {
-            return new SETUP_PHASE(
-
-                    gameModel.getPlayerIndex(gameModel.getCurrentPlayer()),
-
-                    gameModel.getCurrentPlayer().getLeadersUUIDs(),
-
-                    Util.resourcesToChooseOnSetup(gameModel.getPlayerIndex(gameModel.getCurrentPlayer())),
-
-                    gameModel.getMatchID(),
-
-                    gameModel.getOnlinePlayers().values().stream().map(Player::getNickName).toArray(String[]::new)
-                    );
-
-        }
-    },
+    SETUP_PHASE,
 
     /**
      * Initial turn phase where player can either perform a <em>"Leader action"</em> or skip to {@link State#MIDDLE_PHASE}
      * for <em>Normal Action</em> performance, since <em>Leader actions</em> are optional.
      */
-    INITIAL_PHASE{
-        @Override
-        public StateInNetwork toStateMessage(GameModel gameModel) {
-            return new INITIAL_PHASE(
-
-                    SimpleDepotsMessageBuilder.getSimpleWarehouseLeadersDepots(gameModel.getCurrentPlayer().getPersonalBoard().getSimpleWarehouseLeadersDepots()),
-
-                    SimpleDepotsMessageBuilder.getSimpleStrongBox(gameModel.getCurrentPlayer().getPersonalBoard().getSimpleStrongBox()),
-
-                    SimpleCardsCellsMessageBuilder.cardCellsAdapter(gameModel.getCurrentPlayer().getPersonalBoard().getVisibleCardsOnCells()),
-
-                    gameModel.getCurrentPlayer().getSerializedFaithTrack()
-
-            );
-        }
-    },
-
-    /**
-     * Optional beginning turn phase to show player's current available {@link Leader Leaders}
-     * for <em>Leader Action</em> performance.
-     */
-    SHOWING_LEADERS_INITIAL {
-        @Override
-        public StateInNetwork toStateMessage(GameModel gameModel) {
-            return new SHOWING_LEADERS_INITIAL(LeadersPhaseMessageBuilder.playerLeaders(gameModel));
-        }
-    },
+    INITIAL_PHASE,
 
     /**
      * Core turn phase where player perform a <em>Normal Action</em>.
      */
-    MIDDLE_PHASE {
-        @Override
-        public StateInNetwork toStateMessage(GameModel gameModel) {
-
-            return new MIDDLE_PHASE(
-
-                            SimpleDepotsMessageBuilder.getSimpleWarehouseLeadersDepots(gameModel.getCurrentPlayer().getPersonalBoard().getSimpleWarehouseLeadersDepots()),
-
-                            SimpleDepotsMessageBuilder.getSimpleStrongBox(gameModel.getCurrentPlayer().getPersonalBoard().getSimpleStrongBox()),
-
-                            SimpleCardsCellsMessageBuilder.cardCellsAdapter(gameModel.getCurrentPlayer().getPersonalBoard().getVisibleCardsOnCells())
-
-            );
-        }
-
-    },
+    MIDDLE_PHASE,
 
     /**
      * <em>Normal Action</em> phase to choose a {@link DevelopmentCard} from {@link PersonalBoard}
      * to activate the <em>Production</em>
      */
-    CHOOSING_CARD_FOR_PRODUCTION {
-        @Override
-        public StateInNetwork toStateMessage(GameModel gameModel) {
-            return null;
-        }
-    },
+    CHOOSING_PRODUCTION,
 
     /**
-     * <em>Normal Action</em> phase following {@link State#CHOOSING_CARD_FOR_PRODUCTION}, where player chooses
+     * <em>Normal Action</em> phase following {@link State#CHOOSING_PRODUCTION}, where player chooses
      * {@link Resource Resources} stored in any available type of {@link Box}, to complete the production process.
      */
-    CHOOSING_RESOURCE_FOR_PRODUCTION {
-        @Override
-        public StateInNetwork toStateMessage(GameModel gameModel) {
-            return null;
-        }
-    },
+    CHOOSING_RESOURCE_FOR_PRODUCTION,
 
     /**
      * <em>Normal Action</em> phase to show {@link MarketBoard} and let player choose a
      * {@link MarketLine line}(row or column) to pick {@link Marble Marbles} from.
      */
-    SHOWING_MARKET_RESOURCES {
-        @Override
-        public StateInNetwork toStateMessage(GameModel gameModel) {
-            return new SHOWING_MARKET_RESOURCES(
-
-                    gameModel.getPlayerIndex(gameModel.getCurrentPlayer()),
-
-                    MarketBoardMessageBuilder.marketBoardAdapter(gameModel.getMarketMarbles(), gameModel.getMarketBoardRows(), gameModel.getMarketBoardColumns()),
-
-                    UUID.nameUUIDFromBytes(gameModel.getSlideMarble().toString().getBytes(StandardCharsets.UTF_8)),
-
-                    gameModel.getMarketBoardRows(),
-
-                    gameModel.getMarketBoardColumns());
-
-        }
-    },
+    CHOOSING_MARKET_LINE,
 
     /**
      * <em>Normal Action</em> phase to choose the corresponding {@link Marble#WHITE} Marble's {@link Resource}
      * when two <em>Production</em> {@link Leader Leaders} have been previously played.
      */
-    CHOOSING_WHITEMARBLE_CONVERSION {
-        @Override
-        public StateInNetwork toStateMessage(GameModel gameModel) {
-            return null;
-        }
-    },
+    CHOOSING_WHITEMARBLE_CONVERSION,
 
     /**
      * <em>Normal Action</em> phase to place the {@link Resource Resources} taken from the {@link MarketBoard} in the
      * <em>Wharehouse</em> depot.
      */
-    CHOOSING_POSITION_FOR_RESOURCES {
-        @Override
-        public StateInNetwork toStateMessage(GameModel gameModel) {
-            return null;
-        }
-    },
+    CHOOSING_POSITION_FOR_RESOURCES,
 
     /**
-     * <em>Normal Action</em> phase to show {@link DevelopmentCard DevelopmentCards} from {@link CardShop},
+     * <em>Normal Action</em> phase following {@link #MIDDLE_PHASE}
+     * where player chooses one {@link DevelopmentCard DevelopmentCard} to purchase.
      */
-    SHOWING_CARD_SHOP {
-        @Override
-        public StateInNetwork toStateMessage(GameModel gameModel) {
-            return new SHOWING_CARD_SHOP(
-                    gameModel.getPlayerIndex(gameModel.getCurrentPlayer()),
-                    CardShopMessageBuilder.cardShopAdapter(gameModel));
-        }
-    },
+    CHOOSING_DEVELOPMENT_CARD,
 
     /**
-     * <em>Normal Action</em> phase following {@link State#SHOWING_CARD_SHOP}
-     * where player chooses one {@link DevelopmentCard NetworkDevelopmentCard} to purchase.
-     */
-    CHOOSING_DEVELOPMENT_CARD {
-        @Override
-        public StateInNetwork toStateMessage(GameModel gameModel) {
-            return null;
-        }
-    },
-
-    /**
-     * <em>Normal Action</em> phase following {@link State#CHOOSING_DEVELOPMENT_CARD} where player chooses resources
+     * <em>Normal Action</em> phase following {@link #CHOOSING_DEVELOPMENT_CARD} where player chooses resources
      * among available ones in {@link PersonalBoard}.
      */
-    CHOOSING_RESOURCES_FOR_DEVCARD{
-        @Override
-        public StateInNetwork toStateMessage(GameModel gameModel) {
-            return null;
-        }
-    },
-    /**
-     * Performed after correctly choosing the resources
-     */
-    CHOOSING_POSITION_FOR_DEVCARD {
-        @Override
-        public StateInNetwork toStateMessage(GameModel gameModel) {
-            return null;
-        }
-    },
+    CHOOSING_RESOURCES_FOR_DEVCARD,
 
     /**
-     * Final turn phase where player can either perform a <em>"Leader action"</em> or finish his turn,
-     * since <em>Leader actions</em> are optional.
-     * {@link #IDLE} is the default state during other player's turn, whereas {@link State#WINNING_STATE} and
-     * {@link State#LOSING_STATE} are the game ending phases.
+     * Normal action phase following {@link State#CHOOSING_RESOURCES_FOR_DEVCARD} performed after correctly choosing the resources.
+     * In this phase player chooses a position among ones in {@link PersonalBoard} to place purchased {@link DevelopmentCard}
      */
-    FINAL_PHASE {
-        @Override
-        public StateInNetwork toStateMessage(GameModel gameModel) {
-            return null;
-        }
-    },
+    CHOOSING_POSITION_FOR_DEVCARD,
 
     /**
-     * Optional ending turn phase to show player's current available {@link Leader Leaders}
-     * for <em>Leader Action</em> performance.
+     * Final turn phase where player can perform a <em>"Leader action"</em>
      */
-    SHOWING_LEADERS_FINAL {
-        @Override
-        public StateInNetwork toStateMessage(GameModel gameModel) {
-            return new SHOWING_LEADERS_FINAL(LeadersPhaseMessageBuilder.playerLeaders(gameModel));
-        }
-    },
+    FINAL_PHASE,
 
     /**
      * When a Leader Turn ends, this state decides if it's a leader action before or after middle phase,
      * returning the correct next state as the game rules.
      */
-    LEADER_END {
-        @Override
-        public StateInNetwork toStateMessage(GameModel gameModel) {
-            return null;
-        }
-    },
+    LEADER_END,
 
     /**
      * Default player state during others' turn.
      */
-    IDLE {
-        @Override
-        public StateInNetwork toStateMessage(GameModel gameModel) {
-            return null;
-        }
-    },
+    IDLE,
 
     /**
-     * Winning player phase when game ends, after <em>Victory Points</em> calculation.
+     * Ending game phase, after <em>Victory Points</em> calculation.
      */
-    WINNING_STATE {
-        @Override
-        public StateInNetwork toStateMessage(GameModel gameModel) {
-            return null;
-        }
-    },
+    END_PHASE;
 
-    /**
-     * Losing players phase when game ends, after <em>Victory Points</em> calculation.
-     */
-    LOSING_STATE {
-        @Override
-        public StateInNetwork toStateMessage(GameModel gameModel) {
-            return null;
-        }
-    };
 
     /**
      * Serializes objects useful for the view corresponding to that state in json
      * @param gameModel the {@link GameModel gamemodel} of the curent game
      * @return a String in json format
      */
-    public abstract StateInNetwork toStateMessage(GameModel gameModel);
+    public StateInNetwork toStateMessage(GameModel gameModel, List<Element> elementsToUpdate) {
+        List<SimpleModelElement> playerSimpleModelElements = elementsToUpdate.stream().filter(element -> !element.isCommonElement()).map(element -> element.buildSimpleModelElement(gameModel)).collect(Collectors.toList());
+        List<SimpleModelElement> commonSimpleModelElements = elementsToUpdate.stream().filter(Element::isCommonElement).map(element -> element.buildSimpleModelElement(gameModel)).collect(Collectors.toList());
+
+        return new StateInNetwork(
+                gameModel.getPlayerIndex(gameModel.getCurrentPlayer()),
+                this.toString(), playerSimpleModelElements,
+                commonSimpleModelElements);
+    }
 
 }

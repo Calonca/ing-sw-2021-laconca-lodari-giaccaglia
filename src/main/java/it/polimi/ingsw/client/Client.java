@@ -1,11 +1,14 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.client.messages.servertoclient.StateInNetwork;
+import it.polimi.ingsw.client.simplemodel.SimpleModel;
+import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.CLI.CLI;
-import it.polimi.ingsw.client.view.GUI.SetupPhase;
+import it.polimi.ingsw.client.view.CLI.CLIelem.CLIelem;
 import it.polimi.ingsw.client.view.abstractview.ConnectToServerViewBuilder;
+import it.polimi.ingsw.client.view.abstractview.SetupPhaseViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
-import it.polimi.ingsw.network.messages.servertoclient.state.SETUP_PHASE;
-import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
+import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 
@@ -13,8 +16,6 @@ import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 
 /**
@@ -26,9 +27,8 @@ public class Client implements Runnable
     private ViewBuilder currentViewBuilder;
     private String ip;
     private int port;
-    private List<PlayerCache> playersCache=new ArrayList<>();
     private final CommonData commonData = new CommonData();
-    private CLI cli;
+    private SimpleModel simpleModel;
     private Stage stage;
     private boolean isCLI;
 
@@ -52,8 +52,13 @@ public class Client implements Runnable
 
     public void setCLIOrGUI(boolean isCli){
         this.isCLI = isCli;
-        if(isCli)
-            cli = new CLI(this);
+        ViewBuilder.setCommonData(commonData);
+        ViewBuilder.setClient(this);
+        CLI cli = new CLI(this);
+        if(isCli) {
+            ViewBuilder.setCLIView(cli);
+            CLIelem.setCli(cli);
+        }
     }
 
     public String getIp() {
@@ -85,6 +90,7 @@ public class Client implements Runnable
          * communication. */
         if (ip==null||commonData.getCurrentnick()==null){
             changeViewBuilder(ConnectToServerViewBuilder.getBuilder(isCLI));
+            //changeViewBuilder(new MiddlePhaseCLI());
             return;}
         Socket server;
         try {
@@ -116,19 +122,14 @@ public class Client implements Runnable
      */
     public synchronized void changeViewBuilder(ViewBuilder newViewBuilder)
     {
-
         if (newViewBuilder!=null) {
-            removeFromPublishers(currentViewBuilder);
-            addToPublishers(newViewBuilder);
+            removeFromListeners(currentViewBuilder);
+            addToListeners(newViewBuilder);
 
             if (isCLI)
-                cli.resetCLI();
+                ViewBuilder.getCLIView().clearScreen();
 
             currentViewBuilder = newViewBuilder;
-            currentViewBuilder.setClient(this);
-            currentViewBuilder.setCommonData(commonData);
-            if (isCLI)
-                currentViewBuilder.setCLIView(cli);
             if (isCLI)
                 newViewBuilder.run();
             else
@@ -136,15 +137,21 @@ public class Client implements Runnable
         }else System.out.println("ViewBuilder was null");
     }
 
-    public void addToPublishers(PropertyChangeListener obj){
-        removeFromPublishers(obj);//Added so that if the method is is called more than once it won't register two listeners.
+    public void addToListeners(PropertyChangeListener obj){
+        removeFromListeners(obj);//Added so that if the method is is called more than once it won't register two listeners.
         getCommonData().addPropertyChangeListener(obj);
-        currentPlayerCache().ifPresent(playerCache -> playerCache.addPropertyChangeListener(obj));
+        if (simpleModel!=null){
+            simpleModel.addPropertyChangeListener(obj);
+            simpleModel.getPlayerCache(commonData.getThisPlayerIndex()).addPropertyChangeListener(obj);
+        }
     }
 
-    public void removeFromPublishers(PropertyChangeListener obj){
+    public void removeFromListeners(PropertyChangeListener obj){
         getCommonData().removePropertyChangeListener(obj);
-        currentPlayerCache().ifPresent(playerCache -> playerCache.removePropertyChangeListener(obj));
+        if (simpleModel!=null){
+            simpleModel.removePropertyChangeListener(obj);
+            simpleModel.getPlayerCache(commonData.getThisPlayerIndex()).removePropertyChangeListener(obj);
+        }
     }
 
     public CommonData getCommonData() {
@@ -156,46 +163,31 @@ public class Client implements Runnable
      */
     public synchronized void terminate()
     {
-        if (cli.stopASAP.get()) {
-            cli.resetCLI();
+        if (ViewBuilder.getCLIView().stopASAP.get()) {
+            ViewBuilder.getCLIView().clearScreen();
         }
     }
 
-    /**
-     * Returns the player cache for the current player
-     */
-    public Optional<PlayerCache> currentPlayerCache(){
-        if (playersCache.size()==0)
-            return Optional.empty();
-        else return Optional.of(playersCache.get(commonData.getCurrentPlayerIndex()));
+    public SimpleModel getSimpleModel() {
+        return simpleModel;
     }
 
-    public <T extends StateInNetwork> Optional<T> getState(String state){
-        Optional<StateInNetwork> o = currentPlayerCache().flatMap(cache->cache.getDataFromState(state));
-        try {
-            return (Optional<T>) o;
-        } catch (Exception ignored){
-            return Optional.empty();
+    public void setState(StateInNetwork stateInNetwork){
+        System.out.println("Client " +commonData.getThisPlayerIndex()+" received: "+JsonUtility.serialize(stateInNetwork));
+        commonData.setCurrentPlayer(stateInNetwork.getPlayerNumber());
+        if (simpleModel==null){
+            try {
+                int numOfPlayers = getCommonData().playersOfMatch().map(o->o.length).orElse(0);
+                simpleModel = new SimpleModel(numOfPlayers);
+            }catch (NoSuchElementException e){
+                System.out.println("Received a state before entering a match");
+            }
+            ViewBuilder.setSimpleModel(simpleModel);
         }
-
+        simpleModel.updateSimpleModel(stateInNetwork);
+        if(stateInNetwork.getPlayerNumber()==commonData.getThisPlayerIndex()
+        && stateInNetwork.getState().equals(State.SETUP_PHASE.name()))
+            changeViewBuilder(SetupPhaseViewBuilder.getBuilder(isCLI));
     }
 
-    public void setState(int thisPlayerIndex, String state, StateInNetwork serializedObject){
-        if (playersCache.size()==0){
-            SETUP_PHASE setup_phase = (SETUP_PHASE) serializedObject;
-            commonData.setStartData(setup_phase.getMatchID(),thisPlayerIndex);
-            commonData.setCurrentPlayer(0);
-            initializePlayerCache(setup_phase.getNickNames().length);
-            if (isCLI)
-                cli.updateListeners();
-        }
-        playersCache.get(thisPlayerIndex).update(state,serializedObject);
-        if (!isCLI)
-            changeViewBuilder(new SetupPhase());
-    }
-
-    public void initializePlayerCache(int numberOfPlayers){
-        playersCache = IntStream.range(0,numberOfPlayers)
-                .mapToObj((i)->new PlayerCache(i,numberOfPlayers,this)).collect(Collectors.toList());
-    }
 }

@@ -22,7 +22,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         spinnerBody.performWhenReceiving(CommonData.matchesDataString);
         spinnerBody.setPerformer(()->
                 {
-                    getCLIView().resetCLI();
+                    getCLIView().clearScreen();
                     getCLIView().setTitle(new Title("Hey "+getCommonData().getCurrentnick()+", what do you want to do?"));
                     //Initial options
                     Stream<Option> optionsToAdd = getNewOptionList(getClient().getCommonData().getMatchesData());
@@ -34,18 +34,18 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
                         Optional<Map<UUID,String[]>> list = (Optional<Map<UUID, String[]>>) optionList.getEvt().getNewValue();
                         optionList.updateOptions(getNewOptionList(list),getClient());
                         getCLIView().setBody(optionList);
-                        getCLIView().refreshCLI();
+                        getCLIView().show();
                     };
                     optionList.setPerformer(performer);
 
                     getCLIView().setBody(optionList);
-                    getCLIView().refreshCLI();
+                    getCLIView().show();
                     getCLIView().performLastChoice();
 
                 }
         );
         getCLIView().setBody(spinnerBody);
-        getCLIView().refreshCLI();
+        getCLIView().show();
     }
 
     private Option getOption(Map.Entry<UUID, String[]> uuidPair) {

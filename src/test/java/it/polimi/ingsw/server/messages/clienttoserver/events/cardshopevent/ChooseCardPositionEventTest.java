@@ -41,7 +41,7 @@ public class ChooseCardPositionEventTest {
 
     @Test
     public void validationNotOkTest(){
-        DevelopmentCard testCard = gameModelTest.getCardShop().getCardCopy(DevelopmentCardColor.fromInt(2), 1);
+        DevelopmentCard testCard = gameModelTest.getCardShop().getCopyOfCardOnTop(DevelopmentCardColor.fromInt(2), 1);
         gameModelTest.getCurrentPlayer().getPersonalBoard().addDevelopmentCardToCell(testCard, 1);
         clientEventTest = new ChooseCardPositionEvent(1);
         serializedEvent = serialize(clientEventTest);

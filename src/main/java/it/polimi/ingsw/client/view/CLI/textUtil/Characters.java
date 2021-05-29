@@ -3,8 +3,12 @@ package it.polimi.ingsw.client.view.CLI.textUtil;
 
 public enum Characters {
 
-    VERT_DIVIDER('|'),
-    HOR_DIVIDER('-');
+    VERT_DIVIDER('║'),
+    BOTTOM_LEFT_DIV('╚'),
+    BOTTOM_RIGHT_DIV('╝'),
+    TOP_LEFT_DIV('╔'),
+    TOP_RIGHT_DIV('╗'),
+    HOR_DIVIDER('═');
 
 
     private final char escape;

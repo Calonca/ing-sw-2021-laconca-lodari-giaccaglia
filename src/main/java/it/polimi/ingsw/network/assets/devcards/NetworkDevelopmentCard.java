@@ -15,12 +15,12 @@ public class NetworkDevelopmentCard {
     private int victoryPoints;
     private int level;
     private UUID cardId;
-    private boolean purchasable;
+    private boolean selectable;
 
     public NetworkDevelopmentCard(){}
 
-    public void setPurchasable(boolean isPurchasable){
-        this.purchasable = isPurchasable;
+    public void setSelectable(boolean isSelectable){
+        this.selectable = isSelectable;
     }
 
     public UUID getCardId(){
@@ -31,6 +31,9 @@ public class NetworkDevelopmentCard {
         return level;
     }
 
+    public boolean isSelectable(){
+        return selectable;
+    }
     public NetworkDevelopmentCardColor getCardType() {
         return cardType;
     }
@@ -39,8 +42,11 @@ public class NetworkDevelopmentCard {
         return costList;
     }
 
-    public boolean isPurchasable(){
-        return purchasable;
+    public int getVictoryPoints() {
+        return victoryPoints;
     }
+
+
+
 
 }

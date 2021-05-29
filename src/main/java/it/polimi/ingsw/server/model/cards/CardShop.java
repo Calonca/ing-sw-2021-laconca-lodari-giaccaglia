@@ -25,7 +25,7 @@ public class CardShop {
     /**
      * Temporary variable to store purchased {@link DevelopmentCard} during {@link State}
      */
-    private DevelopmentCard purchasedCard;
+    private DevelopmentCard purchasedCard = null;
 
     public CardShop(Map<DevelopmentCardColor, Map<Integer, DevelopmentCardDeck>> devDecks) {
         this.maxLevel = 4;
@@ -88,7 +88,7 @@ public class CardShop {
         purchasedCard = devDecks.get(color).get(level).getCard();
     }
 
-    public DevelopmentCard getCardCopy(DevelopmentCardColor color, int level){
+    public DevelopmentCard getCopyOfCardOnTop(DevelopmentCardColor color, int level){
         return devDecks.get(color).get(level).getCardCopyOnTop();
     }
 

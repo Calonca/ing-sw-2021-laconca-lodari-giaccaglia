@@ -1,87 +1,94 @@
 {
   "table": {
-    "SHOWING_LEADERS_INITIAL": {
+    "MIDDLE_PHASE": {
+      "MiddlePhaseEvent": {
+        "type": "Middle",
+        "elementsToUpdate": []
+      }
+    },
+    "FINAL_PHASE": {
       "SkipLeaderEvent": {
-        "type": "EndingLeaderPhase"
+        "type": "EndingLeaderPhase",
+        "elementsToUpdate": []
       },
       "DiscardLeaderEvent": {
-        "type": "DiscardingLeader"
+        "type": "DiscardingLeader",
+        "elementsToUpdate": []
+      },
+      "InitialOrFinalPhaseEvent": {
+        "type": "Final",
+        "elementsToUpdate": []
       },
       "PlayLeaderEvent": {
-        "type": "ActivatingLeader"
-      }
-    },
-    "CHOOSING_WHITEMARBLE_CONVERSION": {
-      "ChooseWhiteMarbleConversionEvent": {
-        "type": "ChoosingMarketBonus"
-      }
-    },
-    "SETUP_PHASE": {
-      "SetupPhaseEvent": {
-        "type": "ChooseInitialResource"
-      }
-    },
-    "MIDDLE_PHASE": {
-      "CardShopEvent": {
-        "type": "ShowingDevelopmentCardsMarket"
-      },
-      "MarketBoardEvent": {
-        "type": "ShowingResourceMarket"
-      },
-      "ProductionEvent": {
-        "type": "ShowingProductionCards"
+        "type": "ActivatingLeader",
+        "elementsToUpdate": []
       }
     },
     "CHOOSING_RESOURCES_FOR_DEVCARD": {
       "ChooseResourceForCardShopEvent": {
-        "type": "PayingResourcesForDevelopmentCard"
+        "type": "PayingResourcesForDevelopmentCard",
+        "elementsToUpdate": []
       }
     },
-    "CHOOSING_CARD_FOR_PRODUCTION": {
-      "FinalProductionPhase": {
-        "type": "TogglingForProduction"
-      },
+    "CHOOSING_PRODUCTION": {
       "ChooseProductionAtPositionEvent": {
-        "type": "TogglingForProduction"
+        "type": "TogglingForProduction",
+        "elementsToUpdate": []
+      }
+    },
+    "CHOOSING_MARKET_LINE": {
+      "ChooseLineEvent": {
+        "type": "PuttingBallOnLine",
+        "elementsToUpdate": []
+      }
+    },
+    "CHOOSING_POSITION_FOR_RESOURCES": {
+      "ChooseCardPositionEvent": {
+        "type": "ChoosingSpaceForDevelopmentCard",
+        "elementsToUpdate": []
+      }
+    },
+    "INITIAL_PHASE": {
+      "SkipLeaderEvent": {
+        "type": "EndingLeaderPhase",
+        "elementsToUpdate": []
+      },
+      "DiscardLeaderEvent": {
+        "type": "DiscardingLeader",
+        "elementsToUpdate": []
+      },
+      "InitialOrFinalPhaseEvent": {
+        "type": "Initial",
+        "elementsToUpdate": []
+      },
+      "PlayLeaderEvent": {
+        "type": "ActivatingLeader",
+        "elementsToUpdate": []
+      }
+    },
+    "CHOOSING_DEVELOPMENT_CARD": {
+      "ChooseCardEvent": {
+        "type": "AcquiringDevelopmentCard",
+        "elementsToUpdate": []
       }
     },
     "CHOOSING_RESOURCE_FOR_PRODUCTION": {
       "ChooseResourcesForProductionEvent": {
-        "type": "ChoosingResourceForProduction"
+        "type": "ChoosingResourceForProduction",
+        "elementsToUpdate": []
       }
     },
-    "SHOWING_LEADERS_FINAL": {
-      "SkipLeaderEvent": {
-        "type": "EndingLeaderPhase"
-      },
-      "DiscardLeaderEvent": {
-        "type": "DiscardingLeader"
-      },
-      "PlayLeaderEvent": {
-        "type": "ActivatingLeader"
+    "CHOOSING_WHITEMARBLE_CONVERSION": {
+      "ChooseWhiteMarbleConversionEvent": {
+        "type": "TogglingForProduction",
+        "elementsToUpdate": []
       }
     },
-    "CHOOSING_POSITION_FOR_RESOURCES": {
-      "MoveResourceEvent": {
-        "type": "AddingResourcesFromMarket"
-      },
-      "DiscardResourcesEvent": {
-        "type": "DiscardingResources"
-      }
-    },
-    "SHOWING_MARKET_RESOURCES": {
-      "ChooseLineEvent": {
-        "type": "PuttingBallOnLine"
-      }
-    },
-    "SHOWING_CARD_SHOP": {
-      "ChooseCardEvent": {
-        "type": "AcquiringDevelopmentCard"
-      }
-    },
-    "CHOOSING_POSITION_FOR_DEVCARD": {
-      "ChooseCardPositionEvent": {
-        "type": "ChoosingSpaceForDevelopmentCard"
+    "SETUP_PHASE": {
+      "SetupPhaseEvent": {
+        "type": "Setup",
+        "elementsToUpdate": [],
+        "currentPlayerNumber": 0
       }
     }
   }

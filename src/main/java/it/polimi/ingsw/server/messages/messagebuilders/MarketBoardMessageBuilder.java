@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.messages.messagebuilders;
 
+import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.market.Marble;
 import javafx.util.Pair;
 
@@ -12,7 +13,12 @@ import static java.util.stream.Collectors.groupingBy;
 
 public class MarketBoardMessageBuilder {
 
-    public static UUID[][] marketBoardAdapter(Marble[][] marketMarbles, int marketRows, int marketColumns){
+    public static UUID[][] marketBoardAdapter(GameModel gameModel){
+
+        Marble[][] marketMarbles  =  gameModel.getMarketMarbles();
+        int marketRows = gameModel.getMarketBoardRows();
+        int marketColumns = gameModel.getMarketBoardColumns();
+
         List<UUID> marbles  = Arrays
                 .stream(marketMarbles)
                 .flatMap(Arrays::stream)

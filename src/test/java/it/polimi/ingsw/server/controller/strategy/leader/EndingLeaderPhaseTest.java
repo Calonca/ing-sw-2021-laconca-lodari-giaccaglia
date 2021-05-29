@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.controller.strategy.leader;
 
+import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
+import it.polimi.ingsw.server.messages.clienttoserver.events.InitialOrFinalPhaseEvent;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.states.State;
@@ -14,24 +16,18 @@ public class EndingLeaderPhaseTest {
 
     @Test
     public void execute() {
-        Validable v = gameModel -> true;
+
+        Event event = new InitialOrFinalPhaseEvent();
         List<String> nicknames = new ArrayList<>();
         nicknames.add("testPlayer");
         boolean isSinglePlayer = true;
         GameModel gamemodel = new GameModel(nicknames, isSinglePlayer,null);
-        gamemodel.getCurrentPlayer().setCurrentState(State.SHOWING_LEADERS_INITIAL);
+        gamemodel.getCurrentPlayer().setCurrentState(State.INITIAL_PHASE);
 
-        try {
-            assertEquals(State.SHOWING_LEADERS_INITIAL, new EndingLeaderPhase().execute(gamemodel, v) );
-        } catch (it.polimi.ingsw.server.controller.EventValidationFailedException e) {
-            e.printStackTrace();
-        }
+        assertEquals(State.INITIAL_PHASE, new EndingLeaderPhase().execute(gamemodel, event).getKey() );
 
-        gamemodel.getCurrentPlayer().setCurrentState(State.SHOWING_LEADERS_FINAL);
-        try {
-            assertEquals(State.SHOWING_LEADERS_FINAL,new EndingLeaderPhase().execute(gamemodel, v) );
-        } catch (it.polimi.ingsw.server.controller.EventValidationFailedException e) {
-            e.printStackTrace();
-        }
+        gamemodel.getCurrentPlayer().setCurrentState(State.FINAL_PHASE);
+
+        assertEquals(State.FINAL_PHASE,new EndingLeaderPhase().execute(gamemodel, event).getKey() );
     }
 }

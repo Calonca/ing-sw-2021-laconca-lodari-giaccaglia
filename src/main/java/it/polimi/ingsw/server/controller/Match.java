@@ -1,10 +1,13 @@
 package it.polimi.ingsw.server.controller;
 
+import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
+import it.polimi.ingsw.server.messages.messagebuilders.Element;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.states.State;
+import javafx.util.Pair;
 
 import java.util.*;
 import java.util.stream.IntStream;
@@ -12,7 +15,6 @@ import java.util.stream.Stream;
 
 public class Match {
     private UUID matchId;
-    private boolean hasStarted=false;
     private List<String> onlineUsers = new ArrayList<>();
     private List<String> offlineUsers = new ArrayList<>();
     private transient List<ClientHandler> clientHandlers = new ArrayList<>();
@@ -38,8 +40,8 @@ public class Match {
 
 
     public void startGame() {
-        hasStarted=true;
         this.game = new GameModel(onlineUsers,onlineUsers.size()==1,this);
+        game.setGameStatus(true);
         game.getCurrentPlayer().setCurrentState(State.SETUP_PHASE);
     }
 
@@ -58,9 +60,6 @@ public class Match {
                 onlineUsers.stream(),
                 Stream.generate(()-> null)).limit(maxPlayers).toArray(String[]::new);
     }
-
-    public boolean hasStarted(){return hasStarted;}
-    public boolean hasNotStarted(){return !hasStarted;}
 
     public boolean sameID(UUID uuid) {return uuid.equals(matchId);}
 
@@ -89,9 +88,11 @@ public class Match {
             throw new EventValidationFailedException();
     }
 
-    public State transitionToNextState(Validable event) throws EventValidationFailedException {
-        GameStrategy gameStrategy = game.getCurrentPlayer().getStatesTransitionTable().getStrategy(game.getCurrentPlayer().getCurrentState(), event);
-        return gameStrategy.execute(game,event);
+    public Pair<State, List<Element>> transitionToNextState(Validable event) throws EventValidationFailedException {
+        GameStrategy gameStrategy = game.getCurrentPlayer().getStatesTransitionTable().getStrategy(game.getCurrentPlayer().getCurrentState(), (Event) event);
+        if (gameStrategy==null)
+            throw new EventValidationFailedException();
+        return gameStrategy.execute(game, (Event) event);
     }
 
     public String getSaveName(){

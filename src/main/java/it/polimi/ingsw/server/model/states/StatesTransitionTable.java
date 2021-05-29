@@ -4,31 +4,19 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.RuntimeTypeAdapterFactory;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
+import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
 import it.polimi.ingsw.server.controller.strategy.*;
-import it.polimi.ingsw.server.controller.strategy.cardmarket.AcquiringDevelopmentCard;
-import it.polimi.ingsw.server.controller.strategy.cardmarket.ChoosingSpaceForDevelopmentCard;
-import it.polimi.ingsw.server.controller.strategy.cardmarket.PayingResourcesForDevelopmentCard;
-import it.polimi.ingsw.server.controller.strategy.cardmarket.ShowingDevelopmentCardsMarket;
-import it.polimi.ingsw.server.controller.strategy.leader.ActivatingLeader;
-import it.polimi.ingsw.server.controller.strategy.leader.DiscardingLeader;
-import it.polimi.ingsw.server.controller.strategy.leader.EndingLeaderPhase;
-import it.polimi.ingsw.server.controller.strategy.production.ChoosingResourceForProduction;
-import it.polimi.ingsw.server.controller.strategy.production.ShowingProductionCards;
-import it.polimi.ingsw.server.controller.strategy.production.TogglingForProduction;
+import it.polimi.ingsw.server.controller.strategy.cardmarket.*;
+import it.polimi.ingsw.server.controller.strategy.leader.*;
+import it.polimi.ingsw.server.controller.strategy.production.*;
 import it.polimi.ingsw.server.controller.strategy.resourcemarket.*;
+import it.polimi.ingsw.server.messages.clienttoserver.events.InitialOrFinalPhaseEvent;
+import it.polimi.ingsw.server.messages.clienttoserver.events.MiddlePhaseEvent;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
-import it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent.CardShopEvent;
-import it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent.ChooseCardEvent;
-import it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent.ChooseCardPositionEvent;
-import it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent.ChooseResourceForCardShopEvent;
-import it.polimi.ingsw.server.messages.clienttoserver.events.leaderphaseevent.DiscardLeaderEvent;
-import it.polimi.ingsw.server.messages.clienttoserver.events.leaderphaseevent.PlayLeaderEvent;
-import it.polimi.ingsw.server.messages.clienttoserver.events.leaderphaseevent.SkipLeaderEvent;
+import it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent.*;
+import it.polimi.ingsw.server.messages.clienttoserver.events.leaderphaseevent.*;
 import it.polimi.ingsw.server.messages.clienttoserver.events.marketboardevent.*;
-import it.polimi.ingsw.server.messages.clienttoserver.events.productionevent.ChooseProductionAtPositionEvent;
-import it.polimi.ingsw.server.messages.clienttoserver.events.productionevent.ChooseResourcesForProductionEvent;
-import it.polimi.ingsw.server.messages.clienttoserver.events.productionevent.FinalProductionPhase;
-import it.polimi.ingsw.server.messages.clienttoserver.events.productionevent.ProductionEvent;
+import it.polimi.ingsw.server.messages.clienttoserver.events.productionevent.*;
 import it.polimi.ingsw.server.messages.clienttoserver.events.setupphaseevent.SetupPhaseEvent;
 
 import java.util.HashMap;
@@ -36,6 +24,7 @@ import java.util.Map;
 
 
 public class StatesTransitionTable {
+
     /**
      * The String is the name of the {@link Validable}
      */
@@ -52,7 +41,7 @@ public class StatesTransitionTable {
 
     public static StatesTransitionTable singlePlayer() {
         return JsonUtility.deserialize(
-                JsonUtility.configPathString+ singlePLayerTableFile,
+                JsonUtility.configPathString + singlePLayerTableFile,
                 StatesTransitionTable.class,
                 jsonWithAdapter()
         );
@@ -60,7 +49,7 @@ public class StatesTransitionTable {
 
     public static StatesTransitionTable multiPlayer() {
         return JsonUtility.deserialize(
-                JsonUtility.configPathString+ multiPLayerTableFile,
+                JsonUtility.configPathString + multiPLayerTableFile,
                 StatesTransitionTable.class,
                 jsonWithAdapter()
         );
@@ -69,7 +58,7 @@ public class StatesTransitionTable {
     /**
      * Returns the {@link GameStrategy} to use at the given {@link State} after the given {@link Validable event}.
      */
-    public GameStrategy getStrategy(State state, Validable event){
+    public GameStrategy getStrategy(State state, Event event){
         return table.get(state).get(name(event.getClass()));
     }
 
@@ -86,108 +75,127 @@ public class StatesTransitionTable {
         saveSinglePlayerStatesTransitionTable();
     }
 
-    private static void saveSinglePlayerStatesTransitionTable () {
+    private static StatesTransitionTable setupCommonStatesTransitionTable(){
+
         StatesTransitionTable statesTransitionTable = new StatesTransitionTable();
         statesTransitionTable.table = new HashMap<>();
-
         HashMap<String, GameStrategy> eventsAndStrategy = new HashMap<>();
-        eventsAndStrategy.put(name(SetupPhaseEvent.class),new ChooseInitialResource());
-        statesTransitionTable.table.put(State.SETUP_PHASE,eventsAndStrategy);
 
+        // just an idea : player can freely move warehouse resources during idle phase
+        //Idle Phase
+        //  eventsAndStrategy.put(name(IdleActionEvent.class), new MoveResourcesInWarehouse());
+        //  statesTransitionTable.table.put(State.IDLE, eventsAndStrategy);
+        //  eventsAndStrategy.clear();
+
+
+        //Setup Phase
+        eventsAndStrategy.put(name(SetupPhaseEvent.class), new Setup());
+        statesTransitionTable.table.put(State.SETUP_PHASE, eventsAndStrategy);
         eventsAndStrategy = new HashMap<>();
-        eventsAndStrategy.put(name(SkipLeaderEvent.class),new EndingLeaderPhase());
-        eventsAndStrategy.put(name(PlayLeaderEvent.class),new ActivatingLeader());
-        eventsAndStrategy.put(name(DiscardLeaderEvent.class),new DiscardingLeader());
-        statesTransitionTable.table.put(State.SHOWING_LEADERS_INITIAL,eventsAndStrategy);
-        //Todo add other states
-
-        JsonUtility.serialize(JsonUtility.configPathString+singlePLayerTableFile,
-                statesTransitionTable,
-                StatesTransitionTable.class,
-                jsonWithAdapter());
-    }
-
-    private static void saveMultiPlayerStatesTransitionTable() {
-        StatesTransitionTable statesTransitionTable = new StatesTransitionTable();
-        statesTransitionTable.table = new HashMap<>();
-
-
-
-        HashMap<String, GameStrategy> eventsAndStrategy = new HashMap<>();
-        eventsAndStrategy.put(name(SetupPhaseEvent.class),new ChooseInitialResource());
-        statesTransitionTable.table.put(State.SETUP_PHASE,eventsAndStrategy);
 
 
         //Middle Phase
+        eventsAndStrategy.put(name(MiddlePhaseEvent.class), new Middle());
+        statesTransitionTable.table.put(State.MIDDLE_PHASE, eventsAndStrategy);
         eventsAndStrategy = new HashMap<>();
-        eventsAndStrategy.put(name(CardShopEvent.class),new ShowingDevelopmentCardsMarket());
-        eventsAndStrategy.put(name(ProductionEvent.class),new ShowingProductionCards());
-        eventsAndStrategy.put(name(MarketBoardEvent.class),new ShowingResourceMarket());
-        statesTransitionTable.table.put(State.MIDDLE_PHASE,eventsAndStrategy);
 
-        //CARDSHOP
+
+        //--- Activate the Production --//
+
+        //Choosing Card For Production
+        eventsAndStrategy.put(name(ChooseProductionAtPositionEvent.class), new TogglingForProduction());
+        statesTransitionTable.table.put(State.CHOOSING_PRODUCTION, eventsAndStrategy);
         eventsAndStrategy = new HashMap<>();
-        eventsAndStrategy.put(name(ChooseCardEvent.class),new AcquiringDevelopmentCard());
-        statesTransitionTable.table.put(State.SHOWING_CARD_SHOP,eventsAndStrategy);
 
-
+        //Choosing Resource For Production
+        eventsAndStrategy.put(name(ChooseResourcesForProductionEvent.class), new ChoosingResourceForProduction());
+        statesTransitionTable.table.put(State.CHOOSING_RESOURCE_FOR_PRODUCTION, eventsAndStrategy);
         eventsAndStrategy = new HashMap<>();
-        eventsAndStrategy.put(name(ChooseCardPositionEvent.class),new ChoosingSpaceForDevelopmentCard());
-        statesTransitionTable.table.put(State.CHOOSING_POSITION_FOR_DEVCARD,eventsAndStrategy);
-
-        eventsAndStrategy = new HashMap<>();
-        eventsAndStrategy.put(name(ChooseResourceForCardShopEvent.class),new PayingResourcesForDevelopmentCard());
-        statesTransitionTable.table.put(State.CHOOSING_RESOURCES_FOR_DEVCARD,eventsAndStrategy);
-
-        //PRODUCTION
-        eventsAndStrategy = new HashMap<>();
-        eventsAndStrategy.put(name(ChooseProductionAtPositionEvent.class),new TogglingForProduction());
-        eventsAndStrategy.put(name(FinalProductionPhase.class),new TogglingForProduction());
-        statesTransitionTable.table.put(State.CHOOSING_CARD_FOR_PRODUCTION,eventsAndStrategy);
-
-        eventsAndStrategy = new HashMap<>();
-        eventsAndStrategy.put(name(ChooseResourcesForProductionEvent.class),new ChoosingResourceForProduction());
-        statesTransitionTable.table.put(State.CHOOSING_RESOURCE_FOR_PRODUCTION,eventsAndStrategy);
 
 
-        //manca strategy per selezionare?
-        eventsAndStrategy = new HashMap<>();
-        eventsAndStrategy.put(name(PlayLeaderEvent.class),new ActivatingLeader());
-        eventsAndStrategy.put(name(DiscardLeaderEvent.class),new DiscardingLeader());
-        eventsAndStrategy.put(name(SkipLeaderEvent.class),new EndingLeaderPhase());
-        statesTransitionTable.table.put(State.SHOWING_LEADERS_INITIAL,eventsAndStrategy);
+        //--- Take Resources from Market --//
 
-        eventsAndStrategy = new HashMap<>();
-        eventsAndStrategy.put(name(PlayLeaderEvent.class),new ActivatingLeader());
-        eventsAndStrategy.put(name(DiscardLeaderEvent.class),new DiscardingLeader());
-        eventsAndStrategy.put(name(SkipLeaderEvent.class),new EndingLeaderPhase());
-        statesTransitionTable.table.put(State.SHOWING_LEADERS_FINAL,eventsAndStrategy);
-
-        ///MARKET
-
-        eventsAndStrategy = new HashMap<>();
+        //Choosing Market Line
         eventsAndStrategy.put(name(ChooseLineEvent.class),new PuttingBallOnLine());
-        statesTransitionTable.table.put(State.SHOWING_MARKET_RESOURCES,eventsAndStrategy);
-
-
+        statesTransitionTable.table.put(State.CHOOSING_MARKET_LINE, eventsAndStrategy);
         eventsAndStrategy = new HashMap<>();
-        eventsAndStrategy.put(name(ChooseWhiteMarbleConversionEvent.class),new ChoosingMarketBonus());
-        statesTransitionTable.table.put(State.CHOOSING_WHITEMARBLE_CONVERSION,eventsAndStrategy);
 
+        //Choosing WhiteMarble Conversion
+        eventsAndStrategy.put(name(ChooseWhiteMarbleConversionEvent.class), new TogglingForProduction());
+        statesTransitionTable.table.put(State.CHOOSING_WHITEMARBLE_CONVERSION, eventsAndStrategy);
         eventsAndStrategy = new HashMap<>();
-        eventsAndStrategy.put(name(MoveResourceEvent.class),new AddingResourcesFromMarket());
-        eventsAndStrategy.put(name(DiscardResourcesEvent.class),new DiscardingResources());
-        statesTransitionTable.table.put(State.CHOOSING_POSITION_FOR_RESOURCES,eventsAndStrategy);
 
-        //Todo add other states
+        //Choosing Position For Resources
+        eventsAndStrategy.put(name(MoveResourceEvent.class), new AddingResourcesFromMarket());
+        statesTransitionTable.table.put(State.CHOOSING_POSITION_FOR_RESOURCES, eventsAndStrategy);
+        eventsAndStrategy = new HashMap<>();
 
-        JsonUtility.serialize(JsonUtility.configPathString+multiPLayerTableFile,
-                statesTransitionTable,
-                StatesTransitionTable.class,
-                jsonWithAdapter());
+
+        //--- Buy one Development Card --//
+
+        //Choosing Development Card
+        eventsAndStrategy.put(name(ChooseCardEvent.class), new AcquiringDevelopmentCard());
+        statesTransitionTable.table.put(State.CHOOSING_DEVELOPMENT_CARD, eventsAndStrategy);
+        eventsAndStrategy = new HashMap<>();
+
+        //Choosing Resources For Development Card
+        eventsAndStrategy.put(name(ChooseResourceForCardShopEvent.class), new PayingResourcesForDevelopmentCard());
+        statesTransitionTable.table.put(State.CHOOSING_RESOURCES_FOR_DEVCARD, eventsAndStrategy);
+        eventsAndStrategy = new HashMap<>();
+
+        //Choosing Position For Development Card
+        eventsAndStrategy.put(name(ChooseCardPositionEvent.class), new ChoosingSpaceForDevelopmentCard());
+        statesTransitionTable.table.put(State.CHOOSING_POSITION_FOR_RESOURCES, eventsAndStrategy);
+        eventsAndStrategy = new HashMap<>();
+
+
+        //---Initial Leader Action --//
+
+        eventsAndStrategy.put(name(InitialOrFinalPhaseEvent.class), new Initial());
+        eventsAndStrategy.put(name(PlayLeaderEvent.class),new ActivatingLeader());
+        eventsAndStrategy.put(name(DiscardLeaderEvent.class),new DiscardingLeader());
+        eventsAndStrategy.put(name(SkipLeaderEvent.class),new EndingLeaderPhase());
+        statesTransitionTable.table.put(State.INITIAL_PHASE,eventsAndStrategy);
+        eventsAndStrategy = new HashMap<>();
+
+
+        //--Final Leader Action --//
+
+        eventsAndStrategy.put(name(InitialOrFinalPhaseEvent.class), new Final());
+        eventsAndStrategy.put(name(PlayLeaderEvent.class),new ActivatingLeader());
+        eventsAndStrategy.put(name(DiscardLeaderEvent.class),new DiscardingLeader());
+        eventsAndStrategy.put(name(SkipLeaderEvent.class),new EndingLeaderPhase());
+        statesTransitionTable.table.put(State.FINAL_PHASE,eventsAndStrategy);
+
+
+        return statesTransitionTable;
+    }
+
+    private static void saveSinglePlayerStatesTransitionTable () {
+
+        JsonUtility.serialize(
+                        JsonUtility.configPathString + singlePLayerTableFile,
+                                setupCommonStatesTransitionTable(),
+                                StatesTransitionTable.class,
+                                jsonWithAdapter()
+        );
+
+    }
+
+
+    private static void saveMultiPlayerStatesTransitionTable() {
+
+        JsonUtility.serialize(
+                        JsonUtility.configPathString + multiPLayerTableFile,
+                                setupCommonStatesTransitionTable(),
+                                StatesTransitionTable.class,
+                                jsonWithAdapter()
+        );
+
     }
 
     private static Gson jsonWithAdapter(){
+
         RuntimeTypeAdapterFactory<GameStrategy> strategyAdapter = RuntimeTypeAdapterFactory.of(GameStrategy.class);
 
         strategyAdapter.registerSubtype(Initial.class);
@@ -199,16 +207,13 @@ public class StatesTransitionTable {
         strategyAdapter.registerSubtype(AcquiringDevelopmentCard.class);
         strategyAdapter.registerSubtype(ChoosingSpaceForDevelopmentCard.class);
         strategyAdapter.registerSubtype(PayingResourcesForDevelopmentCard.class);
-        strategyAdapter.registerSubtype(ShowingDevelopmentCardsMarket.class);
         strategyAdapter.registerSubtype(ChoosingResourceForProduction.class);
-        strategyAdapter.registerSubtype(ShowingProductionCards.class);
         strategyAdapter.registerSubtype(AddingResourcesFromMarket.class);
         strategyAdapter.registerSubtype(ChoosingMarketBonus.class);
         strategyAdapter.registerSubtype(DiscardingResources.class);
         strategyAdapter.registerSubtype(PuttingBallOnLine.class);
-        strategyAdapter.registerSubtype(ShowingResourceMarket.class);
         strategyAdapter.registerSubtype(TogglingForProduction.class);
-        strategyAdapter.registerSubtype(ChooseInitialResource.class);
+        strategyAdapter.registerSubtype(Setup.class);
 
         return new GsonBuilder()
                 .registerTypeAdapterFactory(strategyAdapter).setPrettyPrinting()

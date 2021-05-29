@@ -5,7 +5,7 @@ import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
-import it.polimi.ingsw.server.utils.Util;
+import it.polimi.ingsw.network.util.Util;
 import javafx.util.Pair;
 
 import java.util.Arrays;
@@ -36,7 +36,7 @@ public class SetupPhaseEvent extends it.polimi.ingsw.network.messages.clienttose
      * false.
      */
     private boolean validatePlayerNumber() {
-        return playerNumber - 1 == gamemodel.getPlayerIndex(gamemodel.getCurrentPlayer());
+        return playerNumber == gamemodel.getPlayerIndex(gamemodel.getCurrentPlayer());
     }
 
     /**
@@ -78,7 +78,7 @@ public class SetupPhaseEvent extends it.polimi.ingsw.network.messages.clienttose
     private boolean validateResourceNumber() {
         List<Integer> resourceNumbers = Arrays.stream(resources).map(Pair::getValue).collect(Collectors.toList());
         return resourceNumbers.stream()
-                .noneMatch(number -> Resource.fromInt(number)
+                .noneMatch(number -> Resource.fromIntFixed(number)
                         .equals(Resource.EMPTY));
     }
 
@@ -94,6 +94,7 @@ public class SetupPhaseEvent extends it.polimi.ingsw.network.messages.clienttose
      * @return true if chosen resources positions are available among ones in the <em>Warehouse</em>, otherwise false.
      */
     private boolean validateResourcePositions() {
+
         List<List<Integer>> availablePositionsAsList = IntStream.range(0,3)
                 .boxed().map(i ->  new int[i+1])
                 .collect(Collectors.toList())

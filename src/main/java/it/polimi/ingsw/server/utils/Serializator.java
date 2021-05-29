@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.utils;
 
 import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.RuntimeTypeAdapterFactory;
 import it.polimi.ingsw.network.assets.*;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
@@ -20,6 +21,7 @@ import it.polimi.ingsw.server.model.player.track.FaithTrack;
 import javafx.util.Pair;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.*;
@@ -49,7 +51,7 @@ public class Serializator extends JsonUtility {
     }
 
     private static Map<UUID , DevelopmentCardAsset> devCardsAssetsBuilder() {
-        Map<UUID, NetworkDevelopmentCard> cardsFromJsonHandlerMap = devCardsMap();
+        Map<UUID, NetworkDevelopmentCard> cardsFromJsonHandlerMap = networkDevCardsMap();
         return cardsFromJsonHandlerMap.keySet().stream().map(id -> {
             NetworkDevelopmentCard card = cardsFromJsonHandlerMap.get(id);
             String cardPathSuffix = card.getCardType().toString() + "_" + card.getLevel() + ".png";
@@ -61,17 +63,17 @@ public class Serializator extends JsonUtility {
         }).collect(Collectors.toMap(DevelopmentCardAsset::getCardId, Function.identity()));
     }
 
-    private static Map<UUID , LeaderCardAsset> leaderCardsAssetsMapBuilder() {
+    private static Map<UUID , LeaderCardAsset> networkLeaderCardsAssetsMapBuilder() {
 
-        return IntStream.range(0, Deserializator.networkLeaderCardsDeserialization().size()).boxed().map(index -> {
+        return Deserializator.networkLeaderCardsDeserialization().keySet().stream().collect(Collectors.toMap(index -> index , index -> {
 
             NetworkLeaderCard card = Deserializator.networkLeaderCardsDeserialization().get(index);
             String cardPathSuffix = index.toString() + ".png";
             String frontActivated = frontLeaderCardPathString + cardPathSuffix;
             String frontInactive = frontLeaderCardGrayedOutPathString + cardPathSuffix;
-            return new LeaderCardAsset(card, frontInactive, backLeaderCardGrayedOutPathString, frontActivated, backLeaderCardPathString, UUID.nameUUIDFromBytes(card.toString().getBytes(StandardCharsets.UTF_8)));
+            return new LeaderCardAsset(card, frontInactive, backLeaderCardGrayedOutPathString, frontActivated, backLeaderCardPathString, index);
 
-        }).collect(Collectors.toMap(LeaderCardAsset::getCardId, Function.identity()));
+        }));
 
     }
 
@@ -81,9 +83,9 @@ public class Serializator extends JsonUtility {
         serialize(configPathString + "DevCardsAssetsMapConfig.json", devCardsAssetsBuilder(), Map.class, customGson);
     }
 
-    public static void leaderCardsAssetsSerialization(){
+    public static void networkLeaderCardsAssetsSerialization(){
         Gson customGson = gsonBuilder.enableComplexMapKeySerialization().registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).registerTypeHierarchyAdapter(Path.class, new PathConverter()).setPrettyPrinting().create();
-        serialize(configPathString + "leaderCardsAssetsMap.json", leaderCardsAssetsMapBuilder(), Map.class, customGson);
+        serialize(configPathString + "NetworkLeaderCardsAssetsMap.json", networkLeaderCardsAssetsMapBuilder(), Map.class, customGson);
     }
 
     public static void leaderCardsArraySerialization() {
@@ -1134,17 +1136,17 @@ public class Serializator extends JsonUtility {
         series2.add(new DevelopmentDiscountLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,costTest));
 
 
-        RuntimeTypeAdapterFactory<Leader> shapeAdapterFactory = RuntimeTypeAdapterFactory.of(Leader.class);
+        RuntimeTypeAdapterFactory<Leader> jsonToLeaderListAdapter = RuntimeTypeAdapterFactory.of(Leader.class, "type");
 
-
-        shapeAdapterFactory.registerSubtype(DepositLeader.class);
-        shapeAdapterFactory.registerSubtype(MarketLeader.class);
-        shapeAdapterFactory.registerSubtype(ProductionLeader.class);
-        shapeAdapterFactory.registerSubtype(DevelopmentDiscountLeader.class);
+        //Register here all the Leader types
+        jsonToLeaderListAdapter.registerSubtype(DepositLeader.class , DepositLeader.class.getName());
+        jsonToLeaderListAdapter.registerSubtype(MarketLeader.class, MarketLeader.class.getName());
+        jsonToLeaderListAdapter.registerSubtype(ProductionLeader.class, ProductionLeader.class.getName());
+        jsonToLeaderListAdapter.registerSubtype(DevelopmentDiscountLeader.class, DevelopmentDiscountLeader.class.getName());
 
 
         Gson gson1 = gsonBuilder
-                .registerTypeAdapterFactory(shapeAdapterFactory).setPrettyPrinting()
+                .registerTypeAdapterFactory(jsonToLeaderListAdapter).setPrettyPrinting()
                 .create();
 
         serialize(configPathString+"LeadersConfig.json", series2.toArray(Leader[]::new), Leader[].class, gson1);
@@ -1156,6 +1158,28 @@ public class Serializator extends JsonUtility {
 
 
         //   Leader[] cards.leaders = deserialize("src/main/resources/config/LeadersConfig.json" , Leader[].class);
+    }
+
+    public static void leaderCardsMapSerialization(){
+        RuntimeTypeAdapterFactory<Leader> jsonToLeaderListAdapter = RuntimeTypeAdapterFactory.of(Leader.class, "type");
+
+        //Register here all the Leader types
+        jsonToLeaderListAdapter.registerSubtype(DepositLeader.class , DepositLeader.class.getName());
+        jsonToLeaderListAdapter.registerSubtype(MarketLeader.class, MarketLeader.class.getName());
+        jsonToLeaderListAdapter.registerSubtype(ProductionLeader.class, ProductionLeader.class.getName());
+        jsonToLeaderListAdapter.registerSubtype(DevelopmentDiscountLeader.class, DevelopmentDiscountLeader.class.getName());
+
+
+        Gson customGson = new GsonBuilder().enableComplexMapKeySerialization()
+                .registerTypeAdapterFactory(jsonToLeaderListAdapter)
+                .registerTypeAdapter(UUID.class, new UUIDTypeAdapter())
+                .registerTypeHierarchyAdapter(Path.class, new PathConverter())
+                .enableComplexMapKeySerialization()
+                .setPrettyPrinting().create();
+
+        Type type = (new TypeToken<Map<UUID, Leader>>() {}).getType();
+
+        serialize("src/main/resources/config/LeadersCardMapConfig.json", Deserializator.leadersCardMapBuilder(), type, customGson);
     }
 
     public static void serializeMarbles(){
@@ -1191,11 +1215,16 @@ public class Serializator extends JsonUtility {
         MarbleAsset.initializeMarblesFromConfig("src/main/resources/clientconfig/MarblesAssetsConfig.json");
         MarbleAsset.initializeMarblesFromConfig("src/main/resources/clientconfig/MarblesAssetsConfig.json");
         Marble.values();
-        serializeResources();
+
+               networkLeaderCardsAssetsSerialization();
         ResourceAsset.initializeResourcesFromConfig("src/main/resources/clientconfig/ResourcesAssetsConfig.json");
         ResourceAsset[] value = ResourceAsset.values();
 
    */
+        serializeResources();
+       // Map<UUID, Leader> leadersCardMap = leadersCardMapDeserialization();
+
+        
 
     }
 

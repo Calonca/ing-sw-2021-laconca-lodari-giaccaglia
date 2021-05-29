@@ -5,9 +5,8 @@ import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.network.messages.NetworkMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
 import it.polimi.ingsw.RuntimeTypeAdapterFactory;
-import it.polimi.ingsw.network.messages.servertoclient.state.SETUP_PHASE;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
-import it.polimi.ingsw.network.messages.servertoclient.state.StateMessage;
+import it.polimi.ingsw.network.simplemodel.*;
 
 import java.util.UUID;
 
@@ -25,7 +24,7 @@ import static it.polimi.ingsw.network.jsonUtils.JsonUtility.serialize;
  */
 public abstract class ServerToClientMessage extends NetworkMessage
 {
-    UUID parentIdentifier;
+    public UUID parentIdentifier;
 
     /**
      * Initializes a message answering a command.
@@ -39,10 +38,7 @@ public abstract class ServerToClientMessage extends NetworkMessage
     /**
      * Initializes a ServerToClientMessage that doesn't answer to any commands.
      */
-    public ServerToClientMessage()
-    {
-        this.parentIdentifier = null;
-    }
+    public ServerToClientMessage() {}
 
 
     /**
@@ -67,25 +63,34 @@ public abstract class ServerToClientMessage extends NetworkMessage
         s2cAdapter.registerSubtype(CreatedMatchStatus.class);
         s2cAdapter.registerSubtype(JoinStatus.class);
         s2cAdapter.registerSubtype(MatchesData.class);
-        s2cAdapter.registerSubtype(StateMessage.class);
         s2cAdapter.registerSubtype(EventNotValid.class);
-
+        s2cAdapter.registerSubtype(StateInNetwork.class);
 
         Gson gson1 = new GsonBuilder()
                 .registerTypeAdapterFactory(s2cAdapter)
-                .registerTypeAdapterFactory(stateMessageAdapter())
+                .registerTypeAdapterFactory(elementAdapter())
                 .create();
 
         return serialize(this, ServerToClientMessage.class, gson1);
 
     }
 
-    public static RuntimeTypeAdapterFactory<StateInNetwork> stateMessageAdapter(){
-        RuntimeTypeAdapterFactory<StateInNetwork> stateMessageAdapter = RuntimeTypeAdapterFactory.of(StateInNetwork.class);
 
-        //Todo Register here all the states message types
-        stateMessageAdapter.registerSubtype(SETUP_PHASE.class);
-        return stateMessageAdapter;
+    public static RuntimeTypeAdapterFactory<SimpleModelElement> elementAdapter(){
+        RuntimeTypeAdapterFactory<SimpleModelElement> elemAdapter = RuntimeTypeAdapterFactory.of(SimpleModelElement.class);
+
+        elemAdapter.registerSubtype(SimplePlayerLeaders.class);
+        elemAdapter.registerSubtype(SimpleCardShop.class);
+        elemAdapter.registerSubtype(SimpleCardCells.class);
+        elemAdapter.registerSubtype(SimpleFaithTrack.class);
+        elemAdapter.registerSubtype(SimpleMarketBoard.class);
+        elemAdapter.registerSubtype(SimpleStrongBox.class);
+        elemAdapter.registerSubtype(SimpleDiscardBox.class);
+        elemAdapter.registerSubtype(SimpleWarehouseLeadersDepot.class);
+
+        return elemAdapter;
     }
+
+
 
 }

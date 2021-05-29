@@ -8,6 +8,8 @@ import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
 import it.polimi.ingsw.network.assets.leaders.NetworkLeaderCard;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
+import it.polimi.ingsw.server.model.player.leaders.Leader;
+
 import java.lang.reflect.Type;
 import java.nio.file.Path;
 import java.util.*;
@@ -33,17 +35,18 @@ public class Deserializator extends JsonUtility {
         return devCardsListDeserialization().stream().collect(Collectors.toMap(x -> UUID.randomUUID(), Function.identity()));
     }
 
-    public static Map<UUID, DevelopmentCardAsset> devCardsAssetsDeserialization() {
+    public static Map<UUID, DevelopmentCardAsset> networkDevCardsAssetsDeserialization() {
         Type type = new TypeToken<Map<UUID, DevelopmentCardAsset> >(){}.getType();
         Gson customGson = new GsonBuilder().enableComplexMapKeySerialization().registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).registerTypeHierarchyAdapter(Path.class, new PathConverter()).setPrettyPrinting().create();
         return deserialize(clientConfigPathString + "DevCardsAssetsMapConfig.json", type ,customGson);
 
     }
 
-    public static Map<UUID, LeaderCardAsset> leaderCardsAssetsMapDeserialization() {
+    public static Map<UUID, LeaderCardAsset> networkLeaderCardsAssetsMapDeserialization() {
         Gson customGson = new GsonBuilder().enableComplexMapKeySerialization().registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).registerTypeHierarchyAdapter(Path.class, new PathConverter()).setPrettyPrinting().create();
         Type type = new TypeToken<Map<UUID, LeaderCardAsset> >(){}.getType();
-        return deserialize(clientConfigPathString + "leaderCardsAssetsMap.json", type ,customGson);
+        return deserialize(clientConfigPathString + "NetworkLeaderCardsAssetsMap.json", type ,customGson);
     }
 
 }
+

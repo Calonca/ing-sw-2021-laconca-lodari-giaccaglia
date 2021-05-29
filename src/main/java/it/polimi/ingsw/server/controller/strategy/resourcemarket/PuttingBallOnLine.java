@@ -1,13 +1,18 @@
 package it.polimi.ingsw.server.controller.strategy.resourcemarket;
 
+import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
 import it.polimi.ingsw.server.controller.EventValidationFailedException;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
-import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.messages.clienttoserver.events.marketboardevent.ChooseLineEvent;
+import it.polimi.ingsw.server.messages.messagebuilders.Element;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.market.MarketLine;
 import it.polimi.ingsw.server.model.states.State;
+import javafx.util.Pair;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This implementation allows the user to choose a line, sliding in the remaining marble. If the player has
@@ -17,12 +22,11 @@ import it.polimi.ingsw.server.model.states.State;
  */
 public class PuttingBallOnLine implements GameStrategy {
 
-    public State execute(GameModel gamemodel, Validable event) throws EventValidationFailedException
-    {
-        //ON EVENT CHOOSEROWEVENT
-        //MESSAGE IS MarketLine.FIRST_COLUMN
+    List<Element> elementsToUpdate = new ArrayList<>();
 
-        event.validate(gamemodel);
+    public Pair<State, List<Element>> execute(GameModel gamemodel, Event event)
+    {
+
         gamemodel.chooseLineFromMarketBoard(MarketLine.fromInt(((ChooseLineEvent) event).getChosenRow()));
         gamemodel.updateMatrixAfterTakingResources();
 
@@ -41,7 +45,7 @@ public class PuttingBallOnLine implements GameStrategy {
                {
                    gamemodel.convertWhiteMarbleInPickedLine(Resource.fromInt(gamemodel.getCurrentPlayer().getSingleMarketBonus()));
                }
-           else return State.CHOOSING_WHITEMARBLE_CONVERSION;
-        return State.CHOOSING_POSITION_FOR_RESOURCES;
+           else return new Pair<>(State.CHOOSING_WHITEMARBLE_CONVERSION, elementsToUpdate);
+        return new Pair<>(State.CHOOSING_POSITION_FOR_RESOURCES, elementsToUpdate);
     }
 }

@@ -17,11 +17,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.CycleMethod;
-import javafx.scene.paint.RadialGradient;
-import javafx.scene.paint.Stop;
 import javafx.scene.text.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -41,6 +38,7 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
     @FXML
     private StackPane connectionPane;
 
+    private StackPane single_instance = null;
 
     private TextField addressText;
     private TextField portText;
@@ -48,6 +46,23 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
 
     @Override
     public void run() {
+
+        single_instance = new StackPane();
+        single_instance.setPrefWidth(1000);
+        single_instance.setPrefHeight(700);
+        single_instance.getChildren().add(getRoot());
+
+        Scene scene = new Scene(single_instance);
+
+        getClient().getStage().setScene(scene);
+        getClient().getStage().show();
+        System.out.println(((Pane)Client.getInstance().getStage().getScene().getRoot()).getChildren());
+
+    }
+
+
+
+    public Parent getRoot() {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/ConnectToServerScene.fxml"));
         Parent root = null;
@@ -58,20 +73,9 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
             e.printStackTrace();
         }
 
+        return root;
 
-
-        Scene scene = new Scene(root);
-        scene.setFill(new RadialGradient(
-                0, 0, 0, 0, 1, true,                  //sizing
-                CycleMethod.NO_CYCLE,                 //cycling
-                new Stop(0, Color.web("#0099FF")),    //colors
-                new Stop(1, Color.web("#DEB887")))
-        );
-        getClient().getStage().setScene(scene);
-
-        getClient().getStage().show();
     }
-
     //Add buttons here that call client.changeViewBuilder(new *****, this);
 
     public void handleButton()
@@ -143,8 +147,9 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(CommonData.matchesDataString))
             Platform.runLater(()->
-                Client.getInstance().changeViewBuilder(new CreateJoinLoadMatch())
-            );
+            {
+                Client.getInstance().changeViewBuilder(new CreateJoinLoadMatch());
+            });
 
     }
 }

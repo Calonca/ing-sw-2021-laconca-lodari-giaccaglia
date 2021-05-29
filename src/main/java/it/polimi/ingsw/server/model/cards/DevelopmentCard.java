@@ -80,6 +80,7 @@ public class DevelopmentCard
     }
 
     public Production getProduction(){return production;}
+
     public int[] getCostAsArray() {
         int[] toar = new int[4];
         for (Pair<Resource, Integer> resourceIntegerPair : costList)

@@ -8,7 +8,7 @@ import it.polimi.ingsw.server.model.states.State;
 public class ChooseProductionAtPositionEvent extends it.polimi.ingsw.network.messages.clienttoserver.events.productionevent.ChooseProductionAtPositionEvent implements Validable {
 
 
-    private PersonalBoard currentPlayerPersonalBoard;
+    private transient PersonalBoard currentPlayerPersonalBoard;
 
     /**
      * Server-side initializer to setup common attributes among {@link State#MIDDLE_PHASE MIDDLE_PHASE}
@@ -27,15 +27,15 @@ public class ChooseProductionAtPositionEvent extends it.polimi.ingsw.network.mes
     }
 
     private boolean validateProductionPosition(){
-            return (currentPlayerPersonalBoard.getAvailableProductions().length > productionPosition && productionPosition>=0);
+            return (currentPlayerPersonalBoard.getAvailableProductions().length > cardPosition && cardPosition>=0 && cardPosition <= 3);
     }
 
     private boolean validateProductionRequirements(){
-            return currentPlayerPersonalBoard.getAvailableProductions()[productionPosition];
+            return currentPlayerPersonalBoard.getAvailableProductions()[cardPosition+1];
     }
 
     public int getProductionPosition(){
-        return productionPosition;
+        return cardPosition;
     }
 
 }

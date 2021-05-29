@@ -26,6 +26,8 @@ public enum ResourceAsset
     SHIELD(2, Paths.get("src/main/resources/assets/resources/SHIELD.png")),
     STONE(3, Paths.get("src/main/resources/assets/resources/STONE.png")),
     FAITH(4, Paths.get("src/main/resources/assets/resources/FAITH.png")),
+    BADFAITH(5,Paths.get("src/main/resources/assets/resources/FAITH.png")),
+    TOCHOOSE(6, Paths.get("src/main/resources/assets/resources/DUMMY_PATH")),
     EMPTY(7, Paths.get("src/main/resources/assets/resources/EMPTY.png"));
 
     private int resourceNumber;

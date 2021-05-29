@@ -8,14 +8,13 @@ import it.polimi.ingsw.server.model.cards.production.ProductionCardCell;
 import it.polimi.ingsw.server.model.player.leaders.Leader;
 import it.polimi.ingsw.server.model.player.leaders.ProductionLeader;
 import it.polimi.ingsw.server.model.player.track.FaithTrack;
-import it.polimi.ingsw.server.utils.Util;
+import it.polimi.ingsw.network.util.Util;
 import javafx.util.Pair;
 
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
-import java.util.Collections;
 
 
 /**
@@ -45,7 +44,7 @@ public class PersonalBoard {
      * that are initialized to Optional.empty() before being set
      * and then the ones from {@link ProductionLeader cards.leaders}
      */
-    private  List<Optional<Production>> productions;
+    private List<Optional<Production>> productions;
     /**
      * An array of the spots where the player can place cards
      */
@@ -89,6 +88,10 @@ public class PersonalBoard {
      */
     public List<ProductionCardCell> getCardCells() {
         return Arrays.stream(cardCells).collect(Collectors.toList());
+    }
+
+    public Optional<Production> getProductionFromCardPosition(int position){
+        return productions.get(position+1);
     }
 
     public Map<Integer, List<DevelopmentCard>> getVisibleCardsOnCells(){
@@ -205,7 +208,7 @@ public class PersonalBoard {
     /**
      * Resets the {@link Resource resources} chosen to {@link Resource#TOCHOOSE} for all the {@link Production productions} that have choices
      */
-    void resetSelectedProductions(){
+    public void resetSelectedProductions(){
         IntStream.range(0,prodsSelected.size())
                 .filter((pos)->prodsSelected.get(pos).isPresent())
                 .forEach((pos)->prodsSelected.set(pos,Optional.of(false)));
@@ -324,8 +327,12 @@ public class PersonalBoard {
         return warehouseLeadersDepots.getSimpleWarehouseLeadersDepots();
     }
 
-    public Map<Integer, Integer> getSimpleStrongBox(){
+    public Map<Integer, Pair<Integer, Integer>> getSimpleStrongBox(){
         return strongBox.getSimpleBox();
+    }
+
+    public Map<Integer, Pair<Integer, Integer>> getSimpleDiscardBox(){
+        return discardBox.getSimpleBox();
     }
 
     /**
@@ -431,12 +438,12 @@ public class PersonalBoard {
 
     /**
      * This method combines two methods to complete the requirements for developmentcards
-     * @param developmentCard is not NULL
+     * @param developmentCard if NULL -> return false
      * @return is true if both conditions are true
      */
      public boolean isDevelopmentCardAvailable(DevelopmentCard developmentCard)
      {
-        return isDevCardLevelSatisfied(developmentCard) && hasResources(developmentCard.getCostAsArray());
+        return developmentCard != null && isDevCardLevelSatisfied(developmentCard) && hasResources(developmentCard.getCostAsArray());
      }
 
     /**
@@ -488,6 +495,16 @@ public class PersonalBoard {
      */
     public IntStream availableMovingPositionsForResourceAt(int position){
         return availableMovingPositionsForResource(storageUnitFromPos(position).getResourceAt(position)).filter((i)->i!=position);
+    }
+
+    /**
+     * Returns the resource at a given position in the {{@link PersonalBoard#warehouseLeadersDepots} or {@link PersonalBoard#strongBox}
+     * @return the resource at the given position, if present, otherwise returns {@link Resource#EMPTY EMPTY}
+     */
+    public Resource getResourceAtPosition(int position){
+        return warehouseLeadersDepots.getResourceAt(position).equals(Resource.EMPTY) ?
+                strongBox.getResourceAt(position) :
+                warehouseLeadersDepots.getResourceAt(position);
     }
 
 }

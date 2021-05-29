@@ -7,7 +7,6 @@ import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Arrays;
 
 /**
  * An element of a CLIView, for example an option or a Text
@@ -17,18 +16,14 @@ public abstract class CLIelem implements PropertyChangeListener {
      * The updater updates the properties for the toString to work
      */
     private Runnable updater,performer;
-    protected CLI cli;
+    protected static CLI cli;
     private PropertyChangeEvent evt;
 
-    public Runnable getUpdater() {
-        return updater;
-    }
-
-    public Runnable getPerformer() {
-        return performer;
-    }
-
     public CLIelem(){
+    }
+
+    public static void setCli(CLI cli) {
+        CLIelem.cli = cli;
     }
 
     public void setUpdater(Runnable updater) {
@@ -70,7 +65,6 @@ public abstract class CLIelem implements PropertyChangeListener {
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        System.out.println(evt.getPropertyName());
         this.evt=evt;
         if (updater!=null) {
             updater.run();
@@ -82,19 +76,12 @@ public abstract class CLIelem implements PropertyChangeListener {
         return new Gson().toJson(this);
     }
 
-    public abstract int horizontalSize();
-
-    public void setCLIAndUpdateSubscriptions(CLI cli, Client client){
-        this.cli = cli;
-        addToPublishers(client);
+    public void addToListeners(Client client){
+        client.addToListeners(this);
     }
 
-    private void addToPublishers(Client client){
-        client.addToPublishers(this);
-    }
-
-    public void removeFromPublishers(Client client){
-        client.removeFromPublishers(this);
+    public void removeFromListeners(Client client){
+        client.removeFromListeners(this);
     }
 
 }

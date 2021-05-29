@@ -33,6 +33,4 @@ public class ChooseCardPositionEvent extends CardShopEvent {
      * server side equivalent inherited Event handler
      */
     public ChooseCardPositionEvent(){}
-
-
 }
