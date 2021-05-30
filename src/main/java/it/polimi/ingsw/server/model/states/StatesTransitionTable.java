@@ -148,23 +148,21 @@ public class StatesTransitionTable {
         eventsAndStrategy = new HashMap<>();
 
 
-        //---Initial Leader Action --//
+        //---InitialOrFinalStrategy Leader Action --//
 
-        eventsAndStrategy.put(name(InitialOrFinalPhaseEvent.class), new IDLE());
+        eventsAndStrategy.put(name(InitialOrFinalPhaseEvent.class), new InitialOrFinalStrategy());
         eventsAndStrategy.put(name(PlayLeaderEvent.class),new ActivatingLeader());
         eventsAndStrategy.put(name(DiscardLeaderEvent.class),new DiscardingLeader());
-        eventsAndStrategy.put(name(SkipLeaderEvent.class),new EndingLeaderPhase());
-        statesTransitionTable.table.put(State.INITIAL_PHASE,eventsAndStrategy);
+        statesTransitionTable.table.put(State.INITIAL_PHASE, eventsAndStrategy);
         eventsAndStrategy = new HashMap<>();
 
 
         //--Final Leader Action --//
 
-        eventsAndStrategy.put(name(InitialOrFinalPhaseEvent.class), new Final());
+        eventsAndStrategy.put(name(InitialOrFinalPhaseEvent.class), new InitialOrFinalStrategy());
         eventsAndStrategy.put(name(PlayLeaderEvent.class),new ActivatingLeader());
         eventsAndStrategy.put(name(DiscardLeaderEvent.class),new DiscardingLeader());
-        eventsAndStrategy.put(name(SkipLeaderEvent.class),new EndingLeaderPhase());
-        statesTransitionTable.table.put(State.FINAL_PHASE,eventsAndStrategy);
+        statesTransitionTable.table.put(State.FINAL_PHASE, eventsAndStrategy);
 
 
         return statesTransitionTable;
@@ -198,12 +196,10 @@ public class StatesTransitionTable {
         RuntimeTypeAdapterFactory<GameStrategy> strategyAdapter = RuntimeTypeAdapterFactory.of(GameStrategy.class);
 
         strategyAdapter.registerSubtype(IDLE.class);
-        strategyAdapter.registerSubtype(Initial.class);
+        strategyAdapter.registerSubtype(InitialOrFinalStrategy.class);
         strategyAdapter.registerSubtype(Middle.class);
-        strategyAdapter.registerSubtype(Final.class);
         strategyAdapter.registerSubtype(ActivatingLeader.class);
         strategyAdapter.registerSubtype(DiscardingLeader.class);
-        strategyAdapter.registerSubtype(EndingLeaderPhase.class);
         strategyAdapter.registerSubtype(AcquiringDevelopmentCard.class);
         strategyAdapter.registerSubtype(ChoosingSpaceForDevelopmentCard.class);
         strategyAdapter.registerSubtype(PayingResourcesForDevelopmentCard.class);

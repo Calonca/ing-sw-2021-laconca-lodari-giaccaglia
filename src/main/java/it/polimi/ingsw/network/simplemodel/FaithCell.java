@@ -17,6 +17,10 @@ public class FaithCell {
      */
     private boolean popeSpace;
 
+    private int x_pos;
+
+    private int y_pos;
+
     /**
      * @return The <em>Victory Points</em> associated with this cell.
      */
@@ -36,6 +40,14 @@ public class FaithCell {
      */
     public FaithZone getZone() {
         return zone;
+    }
+
+    public int getX_pos(){
+        return x_pos;
+    }
+
+    public int getY_pos(){
+        return y_pos;
     }
 
 }

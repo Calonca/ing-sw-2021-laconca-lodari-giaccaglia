@@ -20,7 +20,7 @@ public enum TileState {
     ACTIVE,
 
     /**
-     *Initial <em>Tile state</em> corresponding to the <em>"non active"</em> side (the side with a red X) up of the
+     *InitialOrFinalStrategy <em>Tile state</em> corresponding to the <em>"non active"</em> side (the side with a red X) up of the
      * {@link PopeFavourTile}.
      */
     INACTIVE,

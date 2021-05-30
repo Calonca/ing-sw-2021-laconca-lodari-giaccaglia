@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.controller.strategy.production;
 
-import it.polimi.ingsw.server.controller.strategy.Final;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.messages.clienttoserver.events.productionevent.ChooseProductionAtPositionEvent;
@@ -30,7 +29,7 @@ public class TogglingForProduction implements GameStrategy {
         if (eventCasted.getProductionPosition()==-1)
         {
             gamemodel.getCurrentPlayer().getPersonalBoard().produce();
-            return new Final().execute(gamemodel, event);
+            return new Pair<>(State.FINAL_PHASE, elementsToUpdate);
 
         }
         gamemodel.getCurrentPlayer().getPersonalBoard().toggleSelectProductionAt(((ChooseProductionAtPositionEvent) event).getProductionPosition());
@@ -40,4 +39,5 @@ public class TogglingForProduction implements GameStrategy {
 
         return new Pair<>(State.CHOOSING_PRODUCTION, elementsToUpdate);
     }
+
 }

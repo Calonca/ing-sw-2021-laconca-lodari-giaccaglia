@@ -16,4 +16,7 @@ public class InitialOrFinalPhaseEvent extends it.polimi.ingsw.network.messages.c
         return isGameStarted(gameModel);
     }
 
+    public int getChoice(){
+        return choice;
+    }
 }

@@ -16,7 +16,7 @@ public class InitialOrFinalPhaseCLI extends InitialOrFinalPhaseViewBuilder imple
     public void run() {
         SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).orElseThrow();
 
-        String initial = "Initial";
+        String initial = "InitialOrFinalStrategy";
         String end = "Final";
         getCLIView().setTitle(InitialOrFinalPhaseCLI.isInitial?initial:end+" phase");
         getCLIView().setBody(new LeaderActionBody(simplePlayerLeaders.getPlayerLeaders(),getClient()));

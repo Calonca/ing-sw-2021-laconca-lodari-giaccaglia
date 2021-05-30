@@ -20,6 +20,10 @@ public class FaithCell {
      */
     private boolean popeSpace;
 
+    private int x_pos;
+
+    private int y_pos;
+
    /* /**
      * This constructor creates a FaithCell when the {@link FaithTrack} is populated during game setup.
 
@@ -49,5 +53,6 @@ public class FaithCell {
     public FaithZone getZone() {
         return zone;
     }
+
 
 }

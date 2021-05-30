@@ -46,13 +46,13 @@ import it.polimi.ingsw.server.model.player.board.*;
 public enum State {
 
     /**
-     * Initial game phase where each player receives two {@link Leader LeaderCards}, faithPoints and {@link Resource Resources}
+     * InitialOrFinalStrategy game phase where each player receives two {@link Leader LeaderCards}, faithPoints and {@link Resource Resources}
      * according to players' numbering.
      */
     SETUP_PHASE,
 
     /**
-     * Initial turn phase where player can either perform a <em>"Leader action"</em> or skip to {@link it.polimi.ingsw.server.model.states.State#MIDDLE_PHASE}
+     * InitialOrFinalStrategy turn phase where player can either perform a <em>"Leader action"</em> or skip to {@link it.polimi.ingsw.server.model.states.State#MIDDLE_PHASE}
      * for <em>Normal Action</em> performance, since <em>Leader actions</em> are optional.
      */
     INITIAL_PHASE,

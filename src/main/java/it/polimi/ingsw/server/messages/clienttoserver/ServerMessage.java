@@ -67,7 +67,6 @@ public interface ServerMessage {
         eventMessageAdapter.registerSubtype(MarketBoardEvent.class);
         eventMessageAdapter.registerSubtype(MoveResourceEvent.class);
 
-        eventMessageAdapter.registerSubtype(ChooseLeaderEvent.class);
         eventMessageAdapter.registerSubtype(DiscardLeaderEvent.class);
         eventMessageAdapter.registerSubtype(PlayLeaderEvent.class);
         eventMessageAdapter.registerSubtype(SkipLeaderEvent.class);

@@ -20,6 +20,11 @@ public class PopeFavourTile {
      */
     private FaithZone zone;
 
+    private int x_pos;
+
+    private int y_pos;
+
+
     /*
     /**
      * This constructor creates a <em>PopeFavourTile</em> when the {@link FaithTrack} is populated during game setup.

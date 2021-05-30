@@ -24,7 +24,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
                 {
                     getCLIView().clearScreen();
                     getCLIView().setTitle(new Title("Hey "+getCommonData().getCurrentnick()+", what do you want to do?"));
-                    //Initial options
+                    //InitialOrFinalStrategy options
                     Stream<Option> optionsToAdd = getNewOptionList(getClient().getCommonData().getMatchesData());
 
                     VerticalListBody optionList = new VerticalListBody(optionsToAdd);

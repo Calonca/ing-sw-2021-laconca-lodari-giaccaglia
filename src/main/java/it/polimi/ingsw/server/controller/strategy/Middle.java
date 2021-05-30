@@ -22,13 +22,17 @@ public class Middle implements GameStrategy {
 
     public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event)
     {
+
         //MESSAGE IS MARKET, SHOP, PRODUCTION (0,1,2)
         MiddlePhaseEvent middlePhaseEvent = (MiddlePhaseEvent) event;
         int msg=middlePhaseEvent.getChoice();
+
         if(msg==0)
             return new Pair<>(State.CHOOSING_MARKET_LINE, elementsToUpdate);
+
         else if(msg==1)
             return new Pair<>(State.CHOOSING_DEVELOPMENT_CARD, elementsToUpdate);
+
         else
             return new Pair<>(State.CHOOSING_PRODUCTION, elementsToUpdate);
     }
