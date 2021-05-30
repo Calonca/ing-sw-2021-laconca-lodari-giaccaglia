@@ -1,11 +1,9 @@
 package it.polimi.ingsw.client.simplemodel;
 
-import com.google.gson.JsonArray;
 import it.polimi.ingsw.network.simplemodel.*;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,8 +51,8 @@ public class PlayerCache {
         }
     }
 
-    public PlayerCache(PropertyChangeSupport support){
-        this.support = support;
+    public PlayerCache(){
+        this.support = new PropertyChangeSupport(this);;
 
         playerSimpleModelElementsMap.put(SimplePlayerLeaders.class.getSimpleName(), new SimplePlayerLeaders());
         playerSimpleModelElementsMap.put(SimpleFaithTrack.class.getSimpleName(), new SimpleFaithTrack());
