@@ -5,7 +5,10 @@ import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.simplemodel.PlayerCache;
 import it.polimi.ingsw.client.simplemodel.SimpleModel;
 import it.polimi.ingsw.client.view.CLI.CLI;
+import it.polimi.ingsw.client.view.CLI.textUtil.Color;
+import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 
@@ -70,4 +73,10 @@ public abstract class ViewBuilder implements Runnable, PropertyChangeListener
      * Adds view elements to the CLIView
      */
     abstract public void run();
+
+    public static void printWrongStateReceived(PropertyChangeEvent evt){
+        String s = getThisPlayerCache().getCurrentState()+" received: " + evt.getPropertyName() + JsonUtility.serialize(evt.getNewValue());
+        System.out.println(Color.colorString(s,Color.RED));
+    }
+
 }

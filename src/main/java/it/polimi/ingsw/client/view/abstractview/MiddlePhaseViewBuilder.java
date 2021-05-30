@@ -9,6 +9,7 @@ import it.polimi.ingsw.network.messages.clienttoserver.events.MiddlePhaseEvent;
 
 import java.beans.PropertyChangeEvent;
 
+import static it.polimi.ingsw.client.simplemodel.State.CHOOSING_MARKET_LINE;
 import static it.polimi.ingsw.client.simplemodel.State.IDLE;
 
 public abstract class MiddlePhaseViewBuilder extends ViewBuilder {
@@ -37,6 +38,14 @@ public abstract class MiddlePhaseViewBuilder extends ViewBuilder {
         c.getR().run();
     }
 
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        String propertyName = evt.getPropertyName();
+        if (CHOOSING_MARKET_LINE.name().equals(propertyName)) {
+            getClient().changeViewBuilder(ResourceMarketViewBuilder.getBuilder(getClient().isCLI()));
+        }else ViewBuilder.printWrongStateReceived(evt);
+    }
+
     public static void middlePhaseCommonTransition(PropertyChangeEvent evt){
         String propertyName = evt.getPropertyName();
         if (IDLE.name().equals(propertyName)) {
@@ -45,8 +54,6 @@ public abstract class MiddlePhaseViewBuilder extends ViewBuilder {
             getClient().changeViewBuilder(InitialOrFinalPhaseViewBuilder.getBuilder(getClient().isCLI(), false));
         }else if (State.END_PHASE.name().equals(propertyName)) {
             getClient().changeViewBuilder(WinLooseBuilder.getBuilder(getClient().isCLI()));
-        }else
-            System.out.println(getThisPlayerCache().getCurrentState()+" received: " + evt.getPropertyName() + JsonUtility.serialize(evt.getNewValue()));
-
+        }else ViewBuilder.printWrongStateReceived(evt);
     }
 }

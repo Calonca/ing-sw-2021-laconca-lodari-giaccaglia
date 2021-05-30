@@ -40,10 +40,5 @@ public class MiddlePhaseCLI extends MiddlePhaseViewBuilder implements CLIBuilder
         getCLIView().show();
     }
 
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-
-    }
-
 
 }
