@@ -2,10 +2,12 @@ package it.polimi.ingsw.client.view.abstractview;
 
 import it.polimi.ingsw.client.view.CLI.ResourceMarketCLI;
 import it.polimi.ingsw.client.view.GUI.ResourceMarketGUI;
+import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
 import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.events.marketboardevent.ChooseLineEvent;
 import it.polimi.ingsw.network.messages.clienttoserver.events.marketboardevent.DiscardResourcesEvent;
 import it.polimi.ingsw.network.messages.clienttoserver.events.marketboardevent.MoveResourceEvent;
+import it.polimi.ingsw.network.simplemodel.SimpleMarketBoard;
 
 import java.beans.PropertyChangeEvent;
 
@@ -42,6 +44,9 @@ public abstract class ResourceMarketViewBuilder extends ViewBuilder{
      */
     public abstract void choosePositions();
 
+    public MarbleAsset[][] getMarketMatrix(){
+        return getThisPlayerCache().getElem(SimpleMarketBoard.class).orElseThrow().getMarbleMatrix();
+    }
 
 
     @Override
