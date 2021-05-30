@@ -27,7 +27,7 @@ public class LeaderActionBody extends CLIelem {
     @Override
     public String toString() {
         HorizontalList leadersList = new HorizontalList(cli.getMaxBodyHeight());
-        leadersList.setShowOptions(false);
+        leadersList.setShowNumber(false);
 
         HorizontalList hiddenOptionList = new HorizontalList(cli.getMaxBodyHeight());
 

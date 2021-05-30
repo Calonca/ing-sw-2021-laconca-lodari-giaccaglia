@@ -12,9 +12,14 @@ import java.util.stream.Stream;
 public abstract class OptionList {
     protected List<Option> options;
     Option lastSelectedOption;
+    private int optStartIndex;
 
     public OptionList(){
         options = new ArrayList<>();
+    }
+
+    public void setStartIndex(int optStartIndex) {
+        this.optStartIndex = optStartIndex;
     }
 
     public void performLastChoice(){
@@ -38,23 +43,19 @@ public abstract class OptionList {
         lastSelectedOption = options.get(numberInList);
         lastSelectedOption.setSelected(!lastSelectedOption.isSelected());
     }
-    public void selectOption(CLI cli)
-    {
-        Runnable r = ()->{
-            int choice = cli.getLastInt();
-            selectOptionAtPosition(choice);
-        };
-        cli.runOnIntInput("Select a choice:","Select a valid choice",0,options.size()-1,r);
+
+    protected int globalPos(int i) {
+        return i+optStartIndex;
     }
 
     public void selectAndRunOption(CLI cli)
     {
         Runnable r = ()->{
-            int choice = cli.getLastInt();
+            int choice = cli.getLastInt()-optStartIndex;
             selectOptionAtPosition(choice);
             performLastChoice();
         };
-        cli.runOnIntInput("Select a choice:","Select a valid choice",0,options.size()-1,r);
+        cli.runOnIntInput("Select a choice:","Select a valid choice",optStartIndex,optStartIndex+options.size()-1,r);
     }
 
 }

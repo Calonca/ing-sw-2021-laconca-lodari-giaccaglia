@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.simplemodel.SimpleModel;
 import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.CLI.CLI;
 import it.polimi.ingsw.client.view.CLI.CLIelem.CLIelem;
+import it.polimi.ingsw.client.view.CLI.TestGridBody;
 import it.polimi.ingsw.client.view.abstractview.ConnectToServerViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.SetupPhaseViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
@@ -80,7 +81,7 @@ public class Client implements Runnable
          * communication. */
         if (ip==null||commonData.getCurrentnick()==null){
             changeViewBuilder(ConnectToServerViewBuilder.getBuilder(isCLI));
-            //changeViewBuilder(new MiddlePhaseCLI());
+            //changeViewBuilder(new TestGridBody());
             return;}
         Socket server;
         try {

@@ -49,7 +49,10 @@ public class HorizontalList extends OptionList {
         this.mode = mode;
     }
 
-    public void setShowOptions(boolean showOptions) {
+    /**
+     * Sets whether showing the number under each option or not
+     */
+    public void setShowNumber(boolean showOptions) {
         this.showOptions = showOptions;
     }
 
@@ -95,7 +98,7 @@ public class HorizontalList extends OptionList {
         return IntStream.range(0,options.size())
                 .mapToObj(i->{
                     Drawable drawable = new Drawable();
-                    drawable.add(new DrawableLine(spaces,0, i+":", Color.BRIGHT_BLUE,Background.DEFAULT));
+                    drawable.add(new DrawableLine(spaces,0, globalPos(i)+":", Color.BRIGHT_BLUE,Background.DEFAULT));
                     Drawable drawableOptions = Drawable.copyShifted(0,1,options.get(i).toDrawableList());
                     drawable.add(drawableOptions);
                     return drawable;});
@@ -110,7 +113,7 @@ public class HorizontalList extends OptionList {
                 .mapToObj(i->{
                     Drawable drawable = new Drawable();
                     drawable.add(options.get(i).toDrawableList());
-                    drawable.add(spaces, i+":", Color.BRIGHT_BLUE,Background.DEFAULT);
+                    drawable.add(spaces, globalPos(i)+":", Color.BRIGHT_BLUE,Background.DEFAULT);
                     return drawable;});
     }
 

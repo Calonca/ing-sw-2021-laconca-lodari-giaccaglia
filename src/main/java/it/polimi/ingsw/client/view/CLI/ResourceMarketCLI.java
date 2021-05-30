@@ -7,7 +7,8 @@ import java.beans.PropertyChangeEvent;
 public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIBuilder {
     @Override
     public void run() {
-
+        getCLIView().setTitle("Take you pick");
+        getCLIView().show();
     }
 
     @Override
