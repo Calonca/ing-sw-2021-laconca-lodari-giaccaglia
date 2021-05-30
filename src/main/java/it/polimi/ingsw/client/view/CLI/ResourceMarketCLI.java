@@ -30,14 +30,14 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
             grid.addRow(horizontalList);
         }
 
-        HorizontalList lastLine = new HorizontalList(buildColumnsStream(rows, rows+columns),1);
-        lastLine.addOption(Option.from(""));
+        HorizontalList lastLine = new HorizontalList(buildColumnsStream(rows, rows+columns),MarbleCLI.height());
+        lastLine.addOption(buildResourceOption(getSimpleMarketBoard().getSlideMarble()));
         grid.addRow(lastLine);
 
         grid.setShowNumbers(false);
         getCLIView().setBody(new GridBody(grid));
 
-        getCLIView().runOnIntInput("Select a row or column","Incorrect line",0,rows+columns,
+        getCLIView().runOnIntInput("Select a row or column to take resources","Incorrect line",0,rows+columns,
             ()->{
                 int line = getCLIView().getLastInt();
                 sendLine(line);

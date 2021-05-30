@@ -48,7 +48,10 @@ public abstract class ResourceMarketViewBuilder extends ViewBuilder{
     public abstract void choosePositions();
 
     public MarbleAsset[][] getMarketMatrix(){
-        return getSimpleModel().getElem(SimpleMarketBoard.class).orElseThrow().getMarbleMatrix();
+        return getSimpleMarketBoard().getMarbleMatrix();
+    }
+    public SimpleMarketBoard getSimpleMarketBoard(){
+        return getSimpleModel().getElem(SimpleMarketBoard.class).orElseThrow();
     }
 
 
