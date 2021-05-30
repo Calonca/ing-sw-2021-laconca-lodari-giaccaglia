@@ -1,8 +1,6 @@
-package it.polimi.ingsw.client.view.CLI.CLIelem.body;
+package it.polimi.ingsw.client.view.CLI.layout;
 
 import it.polimi.ingsw.client.view.CLI.CLI;
-import it.polimi.ingsw.client.view.CLI.CLIelem.Option;
-import it.polimi.ingsw.client.view.CLI.CLIelem.OptionList;
 import it.polimi.ingsw.client.view.CLI.drawables.Canvas;
 import it.polimi.ingsw.client.view.CLI.drawables.Drawable;
 import it.polimi.ingsw.client.view.CLI.drawables.DrawableLine;
@@ -13,13 +11,14 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class VerticalListBody extends OptionList {
+public class VerticalList extends OptionList {
+    int height;
 
-    public VerticalListBody() {
-    }
 
-    public VerticalListBody(Stream<Option> optionStream) {
+
+    public VerticalList(Stream<Option> optionStream,int h) {
         super(optionStream);
+        h = height;
     }
 
     public List<Drawable> toDwList() {
@@ -39,7 +38,7 @@ public class VerticalListBody extends OptionList {
     //Prints vertical list
     @Override
     public String toString() {
-        Canvas canvas = Canvas.withBorder(CLI.width,cli.getMaxBodyHeight());
+        Canvas canvas = Canvas.withBorder(CLI.width,height);
         List<Drawable> dw = toDwList();
 
 

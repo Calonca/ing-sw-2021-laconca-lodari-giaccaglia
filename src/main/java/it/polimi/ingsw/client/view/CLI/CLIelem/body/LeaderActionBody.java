@@ -3,7 +3,8 @@ package it.polimi.ingsw.client.view.CLI.CLIelem.body;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.view.CLI.CLIelem.CLIelem;
 import it.polimi.ingsw.client.view.CLI.drawables.DrawableLeader;
-import it.polimi.ingsw.client.view.CLI.CLIelem.Option;
+import it.polimi.ingsw.client.view.CLI.layout.HorizontalList;
+import it.polimi.ingsw.client.view.CLI.layout.Option;
 import it.polimi.ingsw.client.view.CLI.textUtil.Background;
 import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 import it.polimi.ingsw.client.view.CLI.drawables.Drawable;
@@ -25,10 +26,10 @@ public class LeaderActionBody extends CLIelem {
 
     @Override
     public String toString() {
-        HorizontalListBody leadersList = new HorizontalListBody(cli.getMaxBodyHeight());
+        HorizontalList leadersList = new HorizontalList(cli.getMaxBodyHeight());
         leadersList.setShowOptions(false);
 
-        HorizontalListBody hiddenOptionList = new HorizontalListBody(cli.getMaxBodyHeight());
+        HorizontalList hiddenOptionList = new HorizontalList(cli.getMaxBodyHeight());
 
         for (int i = 0, leadersSize = leaders.size(); i < leadersSize; i++) {
             LeaderCardAsset l = leaders.get(i);
@@ -60,7 +61,7 @@ public class LeaderActionBody extends CLIelem {
         hiddenOptionList.addOption(skipLeaderOpt);
         leadersList.addOption(skipLeaderOpt);
 
-        hiddenOptionList.selectOption();
+        hiddenOptionList.selectAndRunOption(cli);
 
         return leadersList.toString();
     }

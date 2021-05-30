@@ -1,10 +1,11 @@
 package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.CommonData;
-import it.polimi.ingsw.client.view.CLI.CLIelem.Option;
+import it.polimi.ingsw.client.view.CLI.CLIelem.body.HorizontalListBody;
+import it.polimi.ingsw.client.view.CLI.layout.HorizontalList;
+import it.polimi.ingsw.client.view.CLI.layout.Option;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.SpinnerBody;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Title;
-import it.polimi.ingsw.client.view.CLI.CLIelem.body.VerticalListBody;
 import it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchViewBuilder;
 
 import java.beans.PropertyChangeEvent;
@@ -17,7 +18,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
     @Override
     public void run() {
         SpinnerBody spinnerBody = new SpinnerBody();
-        getCLIView().setTitle(new Title("Waiting for matches data"));
+        getCLIView().setTitle("Waiting for matches data");
 
         spinnerBody.performWhenReceiving(CommonData.matchesDataString);
         spinnerBody.setPerformer(()->
@@ -27,21 +28,22 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
                     //InitialOrFinalStrategy options
                     Stream<Option> optionsToAdd = getNewOptionList(getClient().getCommonData().getMatchesData());
 
-                    VerticalListBody optionList = new VerticalListBody(optionsToAdd);
+                    HorizontalList optionList = new HorizontalList(optionsToAdd,getCLIView().getMaxBodyHeight());
 
-                    optionList.performWhenReceiving(CommonData.matchesDataString);
+                    HorizontalListBody horizontalListBody = new HorizontalListBody(optionList);
+
+                    horizontalListBody.performWhenReceiving(CommonData.matchesDataString);
                     Runnable performer = ()->{
-                        Optional<Map<UUID,String[]>> list = (Optional<Map<UUID, String[]>>) optionList.getEvt().getNewValue();
+                        Optional<Map<UUID,String[]>> list = (Optional<Map<UUID, String[]>>) horizontalListBody.getEvt().getNewValue();
                         optionList.updateOptions(getNewOptionList(list),getClient());
-                        getCLIView().setBody(optionList);
+                        getCLIView().setBody(horizontalListBody);
+                        optionList.selectAndRunOption(getCLIView());
                         getCLIView().show();
                     };
-                    optionList.setPerformer(performer);
-
-                    getCLIView().setBody(optionList);
+                    horizontalListBody.setPerformer(performer);
+                    getCLIView().setBody(horizontalListBody);
+                    optionList.selectAndRunOption(getCLIView());
                     getCLIView().show();
-                    getCLIView().performLastChoice();
-
                 }
         );
         getCLIView().setBody(spinnerBody);

@@ -21,7 +21,6 @@ public class CLI {
     private Optional<Title> title;
     private Optional<CLIelem> body;
     private Optional<CLIelem> bottom;
-    private Optional<Option> lastChoice=Optional.empty();
     public final AtomicBoolean stopASAP;
 
     private String inputMessage, errorMessage;
@@ -88,11 +87,6 @@ public class CLI {
         this.bottom = Optional.of(bottom);
     }
 
-
-    public void setLastChoice(Optional<Option> integerOptionPair ) {
-        this.lastChoice = integerOptionPair;
-    }
-
     public void setBody(CLIelem body){
         this.body.ifPresent(b->b.removeFromListeners(client));
         this.body = Optional.ofNullable(body);
@@ -133,10 +127,6 @@ public class CLI {
     public void show(){
         deleteText();
         display();
-    }
-
-    public void performLastChoice(){
-        lastChoice.ifPresent(Option::perform);
     }
 
     public void runOnInput(String message, Runnable r1){

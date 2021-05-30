@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.view.CLI.CLIelem;
+package it.polimi.ingsw.client.view.CLI.layout;
 
 import it.polimi.ingsw.client.view.CLI.drawables.Drawable;
 
