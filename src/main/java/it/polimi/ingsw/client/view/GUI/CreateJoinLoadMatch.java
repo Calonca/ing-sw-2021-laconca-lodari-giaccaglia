@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.view.GUI.GUIelem.MatchRow;
 import it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchViewBuilder;
+import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 import it.polimi.ingsw.network.messages.clienttoserver.CreateMatchRequest;
 import it.polimi.ingsw.network.messages.clienttoserver.JoinMatchRequest;
 import javafx.animation.Interpolator;
@@ -45,6 +46,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
     TableColumn<MatchRow,String> nicknames;
     TableColumn<MatchRow,UUID> UUIDs;
 
+    boolean selected=false;
     private Slider playerCount;
     public int tileheight=70;
 
@@ -117,7 +119,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
 
     public List<MatchRow> dataToRow() {
         List<MatchRow> templist=new ArrayList<>();
-        getCommonData().getMatchesData().ifPresent((data)->{
+        getClient().getCommonData().getMatchesData().ifPresent((data)->{
             data.forEach((key, value) -> templist.add(new MatchRow(key, Arrays.toString(value))));
         });
         return templist;
@@ -189,9 +191,8 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         but.setLayoutX(40);
         but.setOnAction( p ->
         {
-            System.out.println(matchRow.getKey()+getCommonData().getCurrentnick());
-            getClient().getServerHandler().sendCommandMessage(new JoinMatchRequest(matchRow.getKey(),getCommonData().getCurrentnick()));
-            getClient().changeViewBuilder(new CreateMatch());
+           getClient().getServerHandler().sendCommandMessage(new JoinMatchRequest(matchRow.getKey(),getClient().getCommonData().getCurrentnick()));
+           getClient().changeViewBuilder(new CreateMatch());
         });
 
         but.setGraphic(new Label("JOIN"));
@@ -258,8 +259,8 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
 
         guiMatchesData.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         guiMatchesData.getSelectionModel().setCellSelectionEnabled(true);
-        System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(
-                getCommonData().getMatchesData().orElse(null)));
+      //  System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(
+        //       getClient().getCommonData().getMatchesData().orElse(null)));
 
 
 

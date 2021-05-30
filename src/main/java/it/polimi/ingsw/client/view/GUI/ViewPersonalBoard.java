@@ -81,7 +81,7 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
         {
             ResourceButton tempbut= new ResourceButton();
             tempbut.setResource(Resource.fromInt(i));
-            tempbut.setLayoutY(200);
+            tempbut.setLayoutY(400);
             tempbut.setLayoutX(100+200*i);
             tempbut.color();
 
@@ -95,7 +95,7 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
         {
             ResourceButton tempbut= new ResourceButton();
             tempbut.setResource(Resource.EMPTY);
-            tempbut.setLayoutY(300);
+            tempbut.setLayoutY(500);
             tempbut.setLayoutX(100+200*i);
             //tempbut.setGraphic(buttonGraphic);
             menuPane.getChildren().add(tempbut);
