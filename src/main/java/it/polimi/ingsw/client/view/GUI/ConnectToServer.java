@@ -59,7 +59,7 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
 
         getClient().getStage().setScene(scene);
         getClient().getStage().show();
-        System.out.println(((Pane)Client.getInstance().getStage().getScene().getRoot()).getChildren());
+        System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
 
     }
 
@@ -88,9 +88,9 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
             if(isIPAddr(addressText.getCharacters().toString()))
                 if(Integer.parseInt(portText.getCharacters().toString())<65536)
                 {
-                    Client.getInstance().getCommonData().setCurrentnick(nickText.getCharacters().toString());
-                    Client.getInstance().setServerConnection(addressText.getCharacters().toString(),Integer.parseInt(portText.getCharacters().toString()));
-                    Client.getInstance().run();
+                    getClient().getCommonData().setCurrentnick(nickText.getCharacters().toString());
+                    getClient().setServerConnection(addressText.getCharacters().toString(),Integer.parseInt(portText.getCharacters().toString()));
+                    getClient().run();
                     return;
                 }
 
@@ -98,7 +98,7 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
         error.setOpacity(200);
 
 
-        Client.getInstance().getStage().show();
+        getClient().getStage().show();
 
     }
 
@@ -120,10 +120,10 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
         portText.setLayoutX(461);
         portText.setLayoutY(471);
         portText.setPromptText("port");
-        portText.setText(Integer.toString(Client.getInstance().getPort()));
+        portText.setText(Integer.toString(getClient().getPort()));
 
         addressText=new TextField();
-        String ip = Client.getInstance().getIp();
+        String ip = getClient().getIp();
         if (ip!=null)
             addressText.setText(ip);
         addressText.setPromptText("ip address");
@@ -145,7 +145,7 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
         if (evt.getPropertyName().equals(CommonData.matchesDataString))
             Platform.runLater(()->
             {
-                Client.getInstance().changeViewBuilder(new CreateJoinLoadMatch());
+                getClient().changeViewBuilder(new CreateJoinLoadMatch());
             });
 
     }

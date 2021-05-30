@@ -23,8 +23,8 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
 
     @Override
     public void run() {
-        ((Pane) Client.getInstance().getStage().getScene().getRoot()).getChildren().remove(0);
-        ((Pane)Client.getInstance().getStage().getScene().getRoot()).getChildren().add(getRoot());
+        ((Pane) getClient().getStage().getScene().getRoot()).getChildren().remove(0);
+        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(getRoot());
     }
 
     public Parent getRoot() {

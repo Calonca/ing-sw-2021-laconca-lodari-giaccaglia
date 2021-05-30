@@ -34,9 +34,9 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
 
     @Override
     public void run() {
-        ((Pane)Client.getInstance().getStage().getScene().getRoot()).getChildren().remove(0);
-        ((Pane)Client.getInstance().getStage().getScene().getRoot()).getChildren().add(getRoot());
-        System.out.println(((Pane)Client.getInstance().getStage().getScene().getRoot()).getChildren());
+        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(0);
+        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(getRoot());
+        System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
     }
 
     public Parent getRoot() {
@@ -110,6 +110,6 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
         selectionModel.bindToMove(selected,sceneResources);
 
 
-        Client.getInstance().getStage().show();
+        getClient().getStage().show();
     }
 }

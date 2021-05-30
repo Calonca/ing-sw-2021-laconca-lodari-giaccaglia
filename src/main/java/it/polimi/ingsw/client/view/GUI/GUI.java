@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.GUI;
 
 import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -18,7 +19,7 @@ public class GUI extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Client client = Client.getInstance();
+        Client client = ViewBuilder.getClient();
         client.setStage(stage);
         stage.setTitle("Maestri");
         stage.setResizable(false);

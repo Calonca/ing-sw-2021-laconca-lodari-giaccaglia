@@ -75,7 +75,7 @@ public class Maestri {
     }
 
     private static void initialize(boolean isCli, String[] args){
-        Client client = Client.getInstance();
+        Client client = new Client();
         client.setCLIOrGUI(isCli);
         if (args.length==4||args.length==3)
             client.setServerConnection(args[2], Integer.parseInt(args[1]));

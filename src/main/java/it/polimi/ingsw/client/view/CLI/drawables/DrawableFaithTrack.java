@@ -16,8 +16,8 @@ public class DrawableFaithTrack {
     private final SimpleFaithTrack simpleFaithTrack;
 
     public Drawable faithTile(int pos,FaithCell faithCell,boolean player,boolean lorenzo){
-        int x = pos*7;
-        int y =0;
+        int x = faithCell.getX_pos()*7;
+        int y = faithCell.getY_pos()*2;
         Background back;
         FaithZone zone = faithCell.getZone();
         if (faithCell.getPoints()>0)

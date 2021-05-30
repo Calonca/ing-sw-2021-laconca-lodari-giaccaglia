@@ -62,9 +62,9 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
 
     @Override
     public void run() {
-        ((Pane)Client.getInstance().getStage().getScene().getRoot()).getChildren().remove(0);
-        ((Pane)Client.getInstance().getStage().getScene().getRoot()).getChildren().add(getRoot());
-        System.out.println(((Pane)Client.getInstance().getStage().getScene().getRoot()).getChildren());
+        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(0);
+        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(getRoot());
+        System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
 
     }
 
@@ -118,8 +118,8 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
             for(int i=0;i<scenesLeadersToChoose.size();i++)
                 if(!selected.get(i))
                     discardedLeaders.add(leadersUUIDs.get(i));
-            SetupPhaseEvent event = new SetupPhaseEvent(selectedRes.get(0),2,Client.getInstance().getCommonData().getThisPlayerIndex());
-            Client.getInstance().getServerHandler().sendCommandMessage(new EventMessage(event));
+            SetupPhaseEvent event = new SetupPhaseEvent(selectedRes.get(0),2,getClient().getCommonData().getThisPlayerIndex());
+            getClient().getServerHandler().sendCommandMessage(new EventMessage(event));
 
 
         });
@@ -234,12 +234,12 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
                 temp.setRadius(20);
                 temp.setFill(colors.get(c.getFrom()));
                 cjlAnchor.getChildren().add(temp);
-                Client.getInstance().getStage().show();
+                getClient().getStage().show();
 
 
             }});
         cjlAnchor.getChildren().add(validationButton());
-        Client.getInstance().getStage().show();
+        getClient().getStage().show();
 
     }
 

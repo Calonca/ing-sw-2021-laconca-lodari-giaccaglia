@@ -45,9 +45,9 @@ public class CreateMatch extends CreateJoinLoadMatchViewBuilder implements GUIVi
     @Override
     public void run() {
 
-        ((Pane)Client.getInstance().getStage().getScene().getRoot()).getChildren().remove(0);
-        ((Pane)Client.getInstance().getStage().getScene().getRoot()).getChildren().add(getRoot());
-        System.out.println(((Pane)Client.getInstance().getStage().getScene().getRoot()).getChildren());
+        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(0);
+        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(getRoot());
+        System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
 
     }
 
@@ -135,7 +135,7 @@ public class CreateMatch extends CreateJoinLoadMatchViewBuilder implements GUIVi
         transition4.play();
 
         createPane.getChildren().add(circle4);
-        Client.getInstance().getStage().show();
+        getClient().getStage().show();
 
 
     }
@@ -145,7 +145,7 @@ public class CreateMatch extends CreateJoinLoadMatchViewBuilder implements GUIVi
         if (evt.getPropertyName().equals(CommonData.thisMatchData))
             Platform.runLater(()->
                     {
-                        Client.getInstance().changeViewBuilder(new SetupPhase());
+                        getClient().changeViewBuilder(new SetupPhase());
                     }
             );
 

@@ -63,9 +63,9 @@ public class MarketMatrix extends CreateJoinLoadMatchViewBuilder implements GUIV
 
     @Override
     public void run() {
-        ((Pane)Client.getInstance().getStage().getScene().getRoot()).getChildren().remove(0);
-        ((Pane)Client.getInstance().getStage().getScene().getRoot()).getChildren().add(getRoot());
-        System.out.println(((Pane)Client.getInstance().getStage().getScene().getRoot()).getChildren());
+        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(0);
+        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(getRoot());
+        System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
 
     }
 
@@ -246,7 +246,7 @@ public class MarketMatrix extends CreateJoinLoadMatchViewBuilder implements GUIV
         button.setLayoutX(900);
         button.setLayoutY(650);
 
-        button.setOnAction(p -> Client.getInstance().changeViewBuilder(new MarketMatrix()));
+        button.setOnAction(p -> getClient().changeViewBuilder(new MarketMatrix()));
 
         marketPane.getChildren().add(button);
 
@@ -255,7 +255,7 @@ public class MarketMatrix extends CreateJoinLoadMatchViewBuilder implements GUIV
         button.setLayoutX(900);
         button.setLayoutY(100);
 
-        button.setOnAction(p -> Client.getInstance().changeViewBuilder(new ViewPersonalBoard()));
+        button.setOnAction(p -> getClient().changeViewBuilder(new ViewPersonalBoard()));
 
         marketPane.getChildren().add(button);
 
@@ -296,7 +296,7 @@ public class MarketMatrix extends CreateJoinLoadMatchViewBuilder implements GUIV
         subScene.setCamera(camera);
 
         marketPane.getChildren().add(0,subScene);
-        Client.getInstance().getStage().show();
+        getClient().getStage().show();
     }
 
     @Override
@@ -304,7 +304,7 @@ public class MarketMatrix extends CreateJoinLoadMatchViewBuilder implements GUIV
         if (evt.getPropertyName().equals(CommonData.thisMatchData))
             Platform.runLater(()->
                     {
-                        Client.getInstance().changeViewBuilder(new SetupPhase());
+                        getClient().changeViewBuilder(new SetupPhase());
                     }
             );
 

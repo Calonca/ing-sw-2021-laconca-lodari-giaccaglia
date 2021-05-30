@@ -51,18 +51,18 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
     @Override
     public void run() {
 
-        ((Pane)Client.getInstance().getStage().getScene().getRoot()).getChildren().add(getRoot());
+        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(getRoot());
 
         Parent root=getRoot();
-        root.translateYProperty().set(Client.getInstance().getStage().getScene().getHeight());
+        root.translateYProperty().set(getClient().getStage().getScene().getHeight());
         Timeline timeline=new Timeline();
         KeyValue kv= new KeyValue(root.translateYProperty(),0, Interpolator.EASE_IN);
         KeyFrame kf= new KeyFrame(Duration.seconds(2),kv);
         timeline.getKeyFrames().add(kf);
         timeline.play();
-        ((Pane)Client.getInstance().getStage().getScene().getRoot()).getChildren().remove(0);
+        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(0);
 
-        System.out.println(((Pane)Client.getInstance().getStage().getScene().getRoot()).getChildren());
+        System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
 
     }
 
@@ -117,7 +117,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
 
     public List<MatchRow> dataToRow() {
         List<MatchRow> templist=new ArrayList<>();
-        Client.getInstance().getCommonData().getMatchesData().ifPresent((data)->{
+        getCommonData().getMatchesData().ifPresent((data)->{
             data.forEach((key, value) -> templist.add(new MatchRow(key, Arrays.toString(value))));
         });
         return templist;
@@ -138,10 +138,10 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         but.setOnAction( p ->
         {
             int a= (int) playerCount.getValue();
-            System.out.println(a+Client.getInstance().getCommonData().getCurrentnick());
-            Client.getInstance().getServerHandler().sendCommandMessage(new CreateMatchRequest(a,Client.getInstance().getCommonData().getCurrentnick()));
+            System.out.println(a+getCommonData().getCurrentnick());
+            getClient().getServerHandler().sendCommandMessage(new CreateMatchRequest(a,getCommonData().getCurrentnick()));
             created=true;
-            Client.getInstance().changeViewBuilder(new CreateMatch());
+            getClient().changeViewBuilder(new CreateMatch());
 
         });
 
@@ -189,9 +189,9 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         but.setLayoutX(40);
         but.setOnAction( p ->
         {
-            System.out.println(matchRow.getKey()+Client.getInstance().getCommonData().getCurrentnick());
-            Client.getInstance().getServerHandler().sendCommandMessage(new JoinMatchRequest(matchRow.getKey(),Client.getInstance().getCommonData().getCurrentnick()));
-            Client.getInstance().changeViewBuilder(new CreateMatch());
+            System.out.println(matchRow.getKey()+getCommonData().getCurrentnick());
+            getClient().getServerHandler().sendCommandMessage(new JoinMatchRequest(matchRow.getKey(),getCommonData().getCurrentnick()));
+            getClient().changeViewBuilder(new CreateMatch());
         });
 
         but.setGraphic(new Label("JOIN"));
@@ -259,7 +259,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         guiMatchesData.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         guiMatchesData.getSelectionModel().setCellSelectionEnabled(true);
         System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(
-                Client.getInstance().getCommonData().getMatchesData().orElse(null)));
+                getCommonData().getMatchesData().orElse(null)));
 
 
 

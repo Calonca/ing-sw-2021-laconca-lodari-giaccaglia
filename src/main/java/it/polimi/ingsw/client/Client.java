@@ -32,16 +32,6 @@ public class Client implements Runnable
     private Stage stage;
     private boolean isCLI;
 
-    private static Client single_instance = null;
-
-    public static Client getInstance()
-    {
-        if (single_instance == null)
-            single_instance = new Client();
-
-        return single_instance;
-    }
-
     public void setStage(Stage stage) {
         this.stage = stage;
     }

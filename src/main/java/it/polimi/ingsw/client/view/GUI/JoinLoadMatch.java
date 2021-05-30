@@ -53,7 +53,7 @@ public class JoinLoadMatch extends CreateJoinLoadMatchViewBuilder implements GUI
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(CommonData.thisMatchData))
             Platform.runLater(()->
-                    Client.getInstance().changeViewBuilder(new SetupPhase())
+                    getClient().changeViewBuilder(new SetupPhase())
             );
     }
 }
