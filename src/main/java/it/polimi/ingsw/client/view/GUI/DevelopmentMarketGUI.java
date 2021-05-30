@@ -5,8 +5,13 @@ import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.CLI.IDLEViewBuilder;
 import it.polimi.ingsw.client.view.GUI.GUIelem.ButtonSelectionModel;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.SubScene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -23,11 +28,11 @@ import java.util.*;
 public class DevelopmentMarketGUI extends  it.polimi.ingsw.client.view.abstractview.SetupPhaseViewBuilder implements GUIView {
 
 
-    public GridPane cardsGrid;
+    public AnchorPane cardsAnchor;
     int ROWS=3;
     int COLUMNS=4;
     List<UUID> cardsUUIDs=new ArrayList<>();
-
+    boolean enabled=false;
     List<Button> scenesCardsToChoose=new ArrayList<>();
 
     javafx.collections.ObservableList<Boolean> selected;
@@ -36,13 +41,21 @@ public class DevelopmentMarketGUI extends  it.polimi.ingsw.client.view.abstractv
 
     @Override
     public void run() {
-        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(0);
-        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(getRoot());
+        enabled=true;
+
+    }
+
+    public void addMarket() {
+        Node toadd=getRoot();
+        toadd.setTranslateX(-400);
+        toadd.setTranslateY(107);
+        ///metti cio che sta nel run qui cazzone
+        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(toadd);
         System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
 
     }
 
-    public Parent getRoot() {
+    public SubScene getRoot() {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/CardShop.fxml"));
         Parent root = null;
@@ -53,7 +66,7 @@ public class DevelopmentMarketGUI extends  it.polimi.ingsw.client.view.abstractv
             e.printStackTrace();
         }
 
-        return root;
+        return new SubScene(root,300,400);
 
     }
 
@@ -82,14 +95,18 @@ public class DevelopmentMarketGUI extends  it.polimi.ingsw.client.view.abstractv
     {
         Button confirm=new Button();
         confirm.setText("CONFIRM");
-        confirm.setLayoutY(800);
-        confirm.setLayoutX(450);
+        confirm.setLayoutY(350);
+        confirm.setLayoutX(150);
         confirm.setOnAction(p -> {
 
-            List<UUID> discardedLeaders=new ArrayList<>();
-            for(int i=0;i<scenesCardsToChoose.size();i++)
-                if(selected.get(i))
-                    System.out.println(scenesCardsToChoose.get(i));
+
+
+
+            //todo find solution
+
+
+
+
 
         });
         return confirm;
@@ -100,17 +117,21 @@ public class DevelopmentMarketGUI extends  it.polimi.ingsw.client.view.abstractv
     {
         ButtonSelectionModel selectionModel=new ButtonSelectionModel();
 
-
+        GridPane cardsGrid=new GridPane();
+        cardsGrid.setLayoutX(0);
+        cardsGrid.setLayoutY(0);
+        cardsGrid.setPadding(new Insets(5,5,5,5));
         Button tempbut;
         for(int i=0;i<ROWS;i++)
         {
             for(int j=0;j<COLUMNS;j++)
             {
+                //todo fix order
                 ImageView temp = new ImageView(new Image("assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_0.png", true));
 
                 tempbut= new Button();
-                temp.setFitWidth(20);
-                temp.setFitHeight(20);
+                temp.setFitWidth(50);
+                temp.setFitHeight(50);
 
                 tempbut.setGraphic(temp);
 
@@ -123,7 +144,6 @@ public class DevelopmentMarketGUI extends  it.polimi.ingsw.client.view.abstractv
         cardsGrid.setHgap(30);
         cardsGrid.setVgap(30);
 
-        cardsGrid.add(new Label("topo"),3,3);
 
 
         selected=javafx.collections.FXCollections.observableArrayList();
@@ -150,7 +170,10 @@ public class DevelopmentMarketGUI extends  it.polimi.ingsw.client.view.abstractv
 
 
 
-        cardsGrid.add(validationButton(),3,3);
+        cardsAnchor.getChildren().add(validationButton());
+        cardsAnchor.getChildren().add(cardsGrid);
+
+
         getClient().getStage().show();
 
     }

@@ -22,3 +22,9 @@ public class WinLooseGUI extends WinLooseBuilder implements GUIView {
 
     }
 }
+
+/*ObservableList<Node> workingCollection = FXCollections.observableArrayList(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
+            Collections.swap(workingCollection, 0, 1);
+            ((Pane)getClient().getStage().getScene().getRoot()).getChildren().setAll(workingCollection);
+
+ */

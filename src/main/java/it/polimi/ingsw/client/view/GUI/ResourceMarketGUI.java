@@ -33,7 +33,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
     public ResourceSphere toPut;
     public int ROWSIZE=4;
     public int ROWNUMBER=3;
-    public double ballsize=1.03;
+    public double ballsize=0.7;
 
     public AnchorPane marketPane;
 
@@ -45,13 +45,11 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
 
     @Override
     public void run() {
-        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(0);
-        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(getRoot());
-        System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
+
 
     }
 
-    public Parent getRoot() {
+    public SubScene getRoot() {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/MarketMatrix.fxml"));
         Parent root = null;
@@ -62,7 +60,17 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
             e.printStackTrace();
         }
 
-        return root;
+        return new SubScene(root,400,300);
+
+    }
+
+    public void addMatrix() {
+        Node toadd=getRoot();
+        toadd.setTranslateX(0);
+        toadd.setTranslateY(-240);
+        ///metti cio che sta nel run qui cazzone
+        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(toadd);
+        System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
 
     }
 
@@ -102,7 +110,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
         {
             int res=((int) ((Math.random() * (4)) ));
             ResourceSphere ball=new ResourceSphere(ballsize, Resource.fromInt(res) );
-            ball.translateYProperty().set(y+i*2);
+            ball.translateYProperty().set(y+i*2*ballsize);
             ball.translateXProperty().set(x);
             ball.color();
             root3D.getChildren().add(ball);
@@ -244,9 +252,9 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
 
         PerspectiveCamera camera = new PerspectiveCamera(true);
         camera.getTransforms().addAll(new Rotate(90,Rotate.Z_AXIS),new Rotate(0,Rotate.X_AXIS), new Rotate(0,Rotate.Y_AXIS), new Translate(0, 0, -20));
-        camera.translateXProperty().set(-1.0);
-        camera.translateYProperty().set(-0.5);
-        camera.setTranslateZ(-10);
+        camera.translateXProperty().set(-3.0);
+        camera.translateYProperty().set(-2.0);
+        camera.setTranslateZ(-5);
 
 
         Group root3D = new Group(camera);
@@ -260,11 +268,11 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
         root3D.getChildren().add(toPut);
 
         double x=1.5;
-        int h=175;
+        int h=300;
         for(int i=0;i<ROWNUMBER;i++)
         {
-            generateRow(root3D,x,-4.5,h);
-            x-=2;
+            generateRow(root3D,x,-10,h);
+            x-=2*ballsize;
             h+=150;
         }
 

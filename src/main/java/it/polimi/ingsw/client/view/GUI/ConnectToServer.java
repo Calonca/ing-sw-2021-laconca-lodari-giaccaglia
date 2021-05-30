@@ -36,10 +36,10 @@ import java.util.Stack;
 public class ConnectToServer extends ConnectToServerViewBuilder implements GUIView {
 
     public Text error;
+    public AnchorPane connectionPane;
     @FXML
     private AnchorPane connectionAnchor;
-    @FXML
-    private StackPane connectionPane;
+  
 
     private StackPane single_instance = null;
 
@@ -133,12 +133,13 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
 
         logoView.setFitWidth(800);
         logoView.setFitHeight(300);
+        logoView.setLayoutX(100);
 
         connectionAnchor.getChildren().add(nickText);
         connectionAnchor.getChildren().add(addressText);
         connectionAnchor.getChildren().add(portText);
 
-        connectionPane.getChildren().add(logoView);
+        connectionAnchor.getChildren().add(logoView);
     }
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
