@@ -7,7 +7,6 @@ import it.polimi.ingsw.network.simplemodel.SimpleModelElement;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +17,7 @@ public class SimpleModel {
 
     Map<String , SimpleModelElement> commonSimpleModelElementsMap = new HashMap<>();
 
-    List<PlayerCache> playersCacheList = new ArrayList<>();
+    List<PlayerCache> playersCacheList;
 
     private final PropertyChangeSupport support;
 
@@ -26,7 +25,7 @@ public class SimpleModel {
         playersCacheList = new ArrayList<>(numberOfPlayers);
         support = new PropertyChangeSupport(this);
 
-        IntStream.range(0, numberOfPlayers).forEach(i -> playersCacheList.add(new PlayerCache(support)));
+        IntStream.range(0, numberOfPlayers).forEach(i -> playersCacheList.add(new PlayerCache()));
 
         commonSimpleModelElementsMap.put(SimpleCardShop.class.getSimpleName(), new SimpleCardShop());
         commonSimpleModelElementsMap.put(SimpleMarketBoard.class.getSimpleName(), new SimpleMarketBoard());
