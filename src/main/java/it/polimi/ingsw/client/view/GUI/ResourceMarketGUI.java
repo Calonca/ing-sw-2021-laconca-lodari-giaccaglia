@@ -297,14 +297,4 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
 
     }
 
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals(CommonData.thisMatchData))
-            Platform.runLater(()->
-                    {
-                        getClient().changeViewBuilder(new SetupPhase());
-                    }
-            );
-
-    }
 }

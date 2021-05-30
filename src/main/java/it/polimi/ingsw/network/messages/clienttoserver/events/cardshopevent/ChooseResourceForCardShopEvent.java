@@ -18,7 +18,7 @@ public class ChooseResourceForCardShopEvent extends CardShopEvent {
      * Array of ints representing current player chosen {@link it.polimi.ingsw.server.model.Resource Resources} in their int encoding,
      * for DevCard purchase.
      */
-    protected Map<Integer,Integer> chosenResources;   //key = posizione nei depositi , value = numero della risorsa
+    protected Map<Integer,Integer> chosenResources;
 
     /**
      * Client side {@link Event} constructor invoked when {@link State#CHOOSING_RESOURCES_FOR_DEVCARD CHOOSING_RESOURCES_FOR_DEVCARD}

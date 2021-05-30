@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.view.CLI.drawables;
+package it.polimi.ingsw.client.view.CLI.layout.drawables;
 
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
 import it.polimi.ingsw.network.assets.leaders.NetworkLeaderCard;

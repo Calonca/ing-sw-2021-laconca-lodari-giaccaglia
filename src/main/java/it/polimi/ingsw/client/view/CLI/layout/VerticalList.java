@@ -1,11 +1,9 @@
-package it.polimi.ingsw.client.view.CLI.CLIelem.body;
+package it.polimi.ingsw.client.view.CLI.layout;
 
 import it.polimi.ingsw.client.view.CLI.CLI;
-import it.polimi.ingsw.client.view.CLI.CLIelem.Option;
-import it.polimi.ingsw.client.view.CLI.CLIelem.OptionList;
-import it.polimi.ingsw.client.view.CLI.drawables.Canvas;
-import it.polimi.ingsw.client.view.CLI.drawables.Drawable;
-import it.polimi.ingsw.client.view.CLI.drawables.DrawableLine;
+import it.polimi.ingsw.client.view.CLI.layout.drawables.Canvas;
+import it.polimi.ingsw.client.view.CLI.layout.drawables.Drawable;
+import it.polimi.ingsw.client.view.CLI.layout.drawables.DrawableLine;
 import it.polimi.ingsw.client.view.CLI.textUtil.*;
 
 import java.util.List;
@@ -13,13 +11,18 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class VerticalListBody extends OptionList {
+public class VerticalList extends OptionList {
+    private int height;
 
-    public VerticalListBody() {
+
+    public VerticalList(int h) {
+        super();
+        height = h;
     }
 
-    public VerticalListBody(Stream<Option> optionStream) {
+    public VerticalList(Stream<Option> optionStream,int h) {
         super(optionStream);
+        height = h;
     }
 
     public List<Drawable> toDwList() {
@@ -36,10 +39,18 @@ public class VerticalListBody extends OptionList {
                     return drawable;}).collect(Collectors.toList());
     }
 
+    public int getHeight() {
+        return height;
+    }
+
+    public int getOptionNumber(){
+        return options.size();
+    }
+
     //Prints vertical list
     @Override
     public String toString() {
-        Canvas canvas = Canvas.withBorder(CLI.width,cli.getMaxBodyHeight());
+        Canvas canvas = Canvas.withBorder(CLI.width,height);
         List<Drawable> dw = toDwList();
 
 

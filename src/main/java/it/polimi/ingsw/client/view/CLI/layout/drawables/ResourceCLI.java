@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.view.CLI.drawables;
+package it.polimi.ingsw.client.view.CLI.layout.drawables;
 
 import it.polimi.ingsw.client.view.CLI.textUtil.Background;
 import it.polimi.ingsw.client.view.CLI.textUtil.Color;
@@ -9,25 +9,27 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public enum ResourceCLI {
-    GOLD(ResourceAsset.GOLD,"G",       "  Gold   ", Color.GOLD, Background.ANSI_GOLD_BACKGROUND),
-    SERVANT(ResourceAsset.SERVANT, "S"," Servant ",Color.SERVANT,Background.ANSI_GOLD_BACKGROUND),
-    SHIELD(ResourceAsset.SHIELD, "H",  " Shield  ",Color.SHIELD,Background.ANSI_GOLD_BACKGROUND),
-    STONE(ResourceAsset.STONE, "T",    "  Stone  ",Color.STONE,Background.ANSI_GOLD_BACKGROUND),
-    TO_CHOSE(ResourceAsset.EMPTY, "C", "To choose",Color.RIGHT_WHITE,Background.ANSI_WHITE_BACKGROUND),
-    FAITH(ResourceAsset.FAITH, "F",    "  Faith  ",Color.DEFAULT,Background.DEFAULT),
-    EMPTY(ResourceAsset.EMPTY, "E",    "  Empty  ",Color.DEFAULT,Background.DEFAULT);
+    GOLD(ResourceAsset.GOLD,"G", "Gold", "  Gold   ", Color.GOLD, Background.ANSI_GOLD_BACKGROUND),
+    SERVANT(ResourceAsset.SERVANT, "S", "Servant", " Servant ",Color.SERVANT,Background.ANSI_GOLD_BACKGROUND),
+    SHIELD(ResourceAsset.SHIELD, "H", "Shield", " Shield  ",Color.SHIELD,Background.ANSI_GOLD_BACKGROUND),
+    STONE(ResourceAsset.STONE, "T", "Stone", "  Stone  ",Color.STONE,Background.ANSI_GOLD_BACKGROUND),
+    TO_CHOSE(ResourceAsset.EMPTY, "C", "To choose", "To choose",Color.RIGHT_WHITE,Background.ANSI_WHITE_BACKGROUND),
+    FAITH(ResourceAsset.FAITH, "F", "Faith", "  Faith  ",Color.DEFAULT,Background.DEFAULT),
+    EMPTY(ResourceAsset.EMPTY, "E", "Empty", "  Empty  ",Color.DEFAULT,Background.DEFAULT);
 
 
     private final ResourceAsset res;
-    private final String simbol;
+    private final String symbol;
+    private final String nameWithSpaces;
     private final String fullName;
     private final Color c;
     private final Background b;
 
-    ResourceCLI(ResourceAsset res, String symbol, String fullName, Color c, Background b) {
+    ResourceCLI(ResourceAsset res, String symbol, String fullName, String nameWithSpaces, Color c, Background b) {
         this.res = res;
-        this.simbol = symbol;
+        this.symbol = symbol;
         this.fullName = fullName;
+        this.nameWithSpaces = nameWithSpaces;
         this.c = c;
         this.b = b;
     }
@@ -38,10 +40,10 @@ public enum ResourceCLI {
         Drawable dwList = new Drawable();
         dwList.add(0,"-----------",cl,back);
         dwList.add(0,"|         |",cl,back);
-        dwList.add(0,"|    "+simbol+"    |",cl,back);
+        dwList.add(0,"|    "+ symbol +"    |",cl,back);
         dwList.add(0,"|         |",cl,back);
         dwList.add(0,"-----------",cl,back);
-        dwList.add(0,"|"+fullName+"|",cl,back);
+        dwList.add(0,"|"+ nameWithSpaces +"|",cl,back);
         dwList.add(0,"-----------",cl,back);
         return dwList;
     }
@@ -61,8 +63,12 @@ public enum ResourceCLI {
         return res;
     }
 
-    public String getSimbol() {
-        return simbol;
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public String getNameWithSpaces() {
+        return nameWithSpaces;
     }
 
     public String getFullName() {

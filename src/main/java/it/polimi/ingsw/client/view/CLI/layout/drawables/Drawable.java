@@ -1,10 +1,11 @@
-package it.polimi.ingsw.client.view.CLI.drawables;
+package it.polimi.ingsw.client.view.CLI.layout.drawables;
 
 import it.polimi.ingsw.client.view.CLI.textUtil.Background;
 import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 import it.polimi.ingsw.client.view.CLI.textUtil.StringUtil;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -77,12 +78,24 @@ public class Drawable {
         drawableLines.add(new DrawableLine(x, getHeight(), s,c,b));
     }
 
+    public void addRight(int y, String s,Color c, Background b){
+        DrawableLine dwLine = drawableLines.stream().filter(dwl->dwl.getYPos()<=y||y<=dwl.getYPos()+dwl.getHeight())
+                .max(Comparator.comparing(d2->d2.getXPos()+d2.getWidth())).orElse(new DrawableLine(0,0,""));
+        drawableLines.add(new DrawableLine(dwLine.getXPos()+dwLine.getWidth(), y, s,c,b));
+    }
+
+    public void addBottomRight(String s,Color c, Background b){
+        drawableLines.add(new DrawableLine(getWidth(), getHeight(), s,c,b));
+    }
+
     public List<DrawableLine> get(){
         return drawableLines;
     }
 
     public int getHeight(){
-        return drawableLines.stream().mapToInt(DrawableLine::getHeight).sum();
+        int minY = drawableLines.stream().mapToInt(DrawableLine::getYPos).min().orElse(0);
+        int maxY = drawableLines.stream().mapToInt(l->l.getYPos()+l.getHeight()).max().orElse(0);
+        return maxY-minY;
     }
 
     public int getWidth(){

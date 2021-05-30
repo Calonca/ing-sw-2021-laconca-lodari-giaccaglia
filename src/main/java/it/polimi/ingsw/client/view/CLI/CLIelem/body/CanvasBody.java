@@ -2,7 +2,7 @@ package it.polimi.ingsw.client.view.CLI.CLIelem.body;
 
 
 import it.polimi.ingsw.client.view.CLI.CLIelem.CLIelem;
-import it.polimi.ingsw.client.view.CLI.drawables.Canvas;
+import it.polimi.ingsw.client.view.CLI.layout.drawables.Canvas;
 
 public class CanvasBody extends CLIelem {
     Canvas canvas;

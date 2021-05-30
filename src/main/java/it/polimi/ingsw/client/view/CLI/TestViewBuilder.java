@@ -1,11 +1,12 @@
 package it.polimi.ingsw.client.view.CLI;
 
-import it.polimi.ingsw.client.view.CLI.CLIelem.Option;
-import it.polimi.ingsw.client.view.CLI.CLIelem.Title;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.HorizontalListBody;
-import it.polimi.ingsw.client.view.CLI.drawables.Canvas;
-import it.polimi.ingsw.client.view.CLI.drawables.Drawable;
-import it.polimi.ingsw.client.view.CLI.drawables.DrawableLine;
+import it.polimi.ingsw.client.view.CLI.layout.Option;
+import it.polimi.ingsw.client.view.CLI.CLIelem.Title;
+import it.polimi.ingsw.client.view.CLI.layout.HorizontalList;
+import it.polimi.ingsw.client.view.CLI.layout.drawables.Canvas;
+import it.polimi.ingsw.client.view.CLI.layout.drawables.Drawable;
+import it.polimi.ingsw.client.view.CLI.layout.drawables.DrawableLine;
 import it.polimi.ingsw.client.view.CLI.textUtil.*;
 
 import java.beans.PropertyChangeEvent;
@@ -22,7 +23,8 @@ public class TestViewBuilder extends it.polimi.ingsw.client.view.abstractview.Te
         getCLIView().setTitle(new Title("Testing horizontal list, to start the cli remove comments in client"));
         AtomicInteger resSelected = new AtomicInteger();
 
-        HorizontalListBody horList = new HorizontalListBody(getCLIView().getMaxBodyHeight());
+        HorizontalList horList = new HorizontalList(getCLIView().getMaxBodyHeight());
+
         horList.addOption(Option.from("12345678901234567890\nname1","subtitle1",()->{
             resSelected.getAndIncrement();
             getCLIView().setTitle(new Title("Selected res "+resSelected.get()));
@@ -60,8 +62,8 @@ public class TestViewBuilder extends it.polimi.ingsw.client.view.abstractview.Te
             getCLIView().show();
         }));
 
-        hor = horList;
-        getCLIView().setBody(horList);
+        hor = new HorizontalListBody(horList);
+        getCLIView().setBody(hor);
 
 
         String compactMessage = "Press send to compact, times left: ";
@@ -102,7 +104,7 @@ public class TestViewBuilder extends it.polimi.ingsw.client.view.abstractview.Te
                 getCLIView().setBody(hor);//To show options
                 getCLIView().show();
             } else {
-                hor.setMode(HorizontalListBody.Mode.COMPACT);
+                hor.getHorizontalList().setMode(HorizontalList.Mode.COMPACT);
                 getCLIView().runOnInput(wd, getWdCode(compactMessage, widenMessage, timesLeft - 1));
                 getCLIView().show();
             }
@@ -115,7 +117,7 @@ public class TestViewBuilder extends it.polimi.ingsw.client.view.abstractview.Te
                 getCLIView().setBody(hor);//To show options
                 getCLIView().show();
             } else {
-                hor.setMode(HorizontalListBody.Mode.WIDE);
+                hor.getHorizontalList().setMode(HorizontalList.Mode.WIDE);
                 getCLIView().runOnInput(compact+timesLeft, getCompactCode(widen, compact, timesLeft - 1));
             }
             getCLIView().show();

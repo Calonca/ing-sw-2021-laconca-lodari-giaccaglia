@@ -1,8 +1,8 @@
 package it.polimi.ingsw.client.view.CLI.CLIelem;
 
 import it.polimi.ingsw.client.view.CLI.CLI;
-import it.polimi.ingsw.client.view.CLI.drawables.Canvas;
-import it.polimi.ingsw.client.view.CLI.drawables.Drawable;
+import it.polimi.ingsw.client.view.CLI.layout.drawables.Canvas;
+import it.polimi.ingsw.client.view.CLI.layout.drawables.Drawable;
 
 public class Title extends CLIelem{
     private String title;

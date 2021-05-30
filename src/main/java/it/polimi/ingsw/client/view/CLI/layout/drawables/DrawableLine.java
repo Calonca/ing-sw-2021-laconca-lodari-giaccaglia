@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.view.CLI.drawables;
+package it.polimi.ingsw.client.view.CLI.layout.drawables;
 
 import it.polimi.ingsw.client.view.CLI.textUtil.Background;
 import it.polimi.ingsw.client.view.CLI.textUtil.Color;
