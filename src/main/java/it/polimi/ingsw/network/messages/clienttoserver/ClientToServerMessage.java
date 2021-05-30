@@ -7,9 +7,6 @@ import it.polimi.ingsw.RuntimeTypeAdapterFactory;
 import it.polimi.ingsw.network.messages.clienttoserver.events.*;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.network.messages.clienttoserver.events.cardshopevent.*;
-import it.polimi.ingsw.network.messages.clienttoserver.events.leaderphaseevent.DiscardLeaderEvent;
-import it.polimi.ingsw.network.messages.clienttoserver.events.leaderphaseevent.PlayLeaderEvent;
-import it.polimi.ingsw.network.messages.clienttoserver.events.leaderphaseevent.SkipLeaderEvent;
 import it.polimi.ingsw.network.messages.clienttoserver.events.marketboardevent.ChooseLineEvent;
 import it.polimi.ingsw.network.messages.clienttoserver.events.marketboardevent.ChooseWhiteMarbleConversionEvent;
 import it.polimi.ingsw.network.messages.clienttoserver.events.marketboardevent.DiscardResourcesEvent;
@@ -55,10 +52,6 @@ public abstract class ClientToServerMessage extends NetworkMessage
         eventMessageAdapter.registerSubtype(ChooseCardPositionEvent.class);
         eventMessageAdapter.registerSubtype(ChooseResourceForCardShopEvent.class);
         eventMessageAdapter.registerSubtype(FinalDevCardPhase.class);
-
-        eventMessageAdapter.registerSubtype(DiscardLeaderEvent.class);
-        eventMessageAdapter.registerSubtype(PlayLeaderEvent.class);
-        eventMessageAdapter.registerSubtype(SkipLeaderEvent.class);
 
         eventMessageAdapter.registerSubtype(ChooseLineEvent.class);
         eventMessageAdapter.registerSubtype(ChooseWhiteMarbleConversionEvent.class);

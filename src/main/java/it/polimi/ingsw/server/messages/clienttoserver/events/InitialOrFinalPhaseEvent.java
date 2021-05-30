@@ -3,6 +3,8 @@ package it.polimi.ingsw.server.messages.clienttoserver.events;
 import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.server.model.GameModel;
 
+import java.util.UUID;
+
 /**
  * Client side {@link it.polimi.ingsw.network.messages.clienttoserver.events.Event Event} created when a {@link State#INITIAL_PHASE INITIAL_PHASE}
  * or {@link State#FINAL_PHASE FINAL_PHASE} game turn action is performed and has
@@ -18,5 +20,9 @@ public class InitialOrFinalPhaseEvent extends it.polimi.ingsw.network.messages.c
 
     public int getChoice(){
         return choice;
+    }
+
+    public UUID getLeaderId(){
+        return leaderId;
     }
 }
