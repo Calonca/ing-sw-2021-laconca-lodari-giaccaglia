@@ -1,4 +1,8 @@
-package it.polimi.ingsw.client.view.CLI.textUtil;
+package it.polimi.ingsw.client.view.CLI.drawables;
+
+import it.polimi.ingsw.client.view.CLI.textUtil.Background;
+import it.polimi.ingsw.client.view.CLI.textUtil.Color;
+import it.polimi.ingsw.client.view.CLI.textUtil.StringUtil;
 
 public class DrawableLine {
     private Color color;

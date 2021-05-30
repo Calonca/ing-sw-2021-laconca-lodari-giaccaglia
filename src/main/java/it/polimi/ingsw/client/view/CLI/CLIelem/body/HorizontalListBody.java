@@ -3,6 +3,9 @@ package it.polimi.ingsw.client.view.CLI.CLIelem.body;
 import it.polimi.ingsw.client.view.CLI.CLI;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Option;
 import it.polimi.ingsw.client.view.CLI.CLIelem.OptionList;
+import it.polimi.ingsw.client.view.CLI.drawables.Canvas;
+import it.polimi.ingsw.client.view.CLI.drawables.Drawable;
+import it.polimi.ingsw.client.view.CLI.drawables.DrawableLine;
 import it.polimi.ingsw.client.view.CLI.textUtil.*;
 
 import java.util.concurrent.atomic.AtomicInteger;

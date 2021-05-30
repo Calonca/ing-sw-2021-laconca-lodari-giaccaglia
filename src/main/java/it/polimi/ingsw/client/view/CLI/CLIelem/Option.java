@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.view.CLI.CLIelem;
 
-import it.polimi.ingsw.client.view.CLI.textUtil.*;
+import it.polimi.ingsw.client.view.CLI.drawables.Drawable;
 
 /**
  * A selectable option in a CLIView that will execute the given code when perform is called

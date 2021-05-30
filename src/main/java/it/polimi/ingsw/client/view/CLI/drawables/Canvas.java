@@ -1,5 +1,9 @@
-package it.polimi.ingsw.client.view.CLI.textUtil;
+package it.polimi.ingsw.client.view.CLI.drawables;
 
+import it.polimi.ingsw.client.view.CLI.textUtil.Background;
+import it.polimi.ingsw.client.view.CLI.textUtil.Characters;
+import it.polimi.ingsw.client.view.CLI.textUtil.Color;
+import it.polimi.ingsw.client.view.CLI.textUtil.StringUtil;
 import javafx.util.Pair;
 import org.jetbrains.annotations.NotNull;
 

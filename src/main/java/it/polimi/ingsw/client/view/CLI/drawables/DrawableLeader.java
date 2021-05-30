@@ -1,6 +1,5 @@
-package it.polimi.ingsw.client.view.CLI.CLIelem;
+package it.polimi.ingsw.client.view.CLI.drawables;
 
-import it.polimi.ingsw.client.view.CLI.textUtil.Drawable;
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
 import it.polimi.ingsw.network.assets.leaders.NetworkLeaderCard;
 

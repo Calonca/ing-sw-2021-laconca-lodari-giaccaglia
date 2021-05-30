@@ -1,5 +1,7 @@
-package it.polimi.ingsw.client.view.CLI.textUtil;
+package it.polimi.ingsw.client.view.CLI.drawables;
 
+import it.polimi.ingsw.client.view.CLI.textUtil.Background;
+import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 
 import java.util.Arrays;
@@ -7,7 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public enum ResourceCLI {
-    GOLD(ResourceAsset.GOLD,"G",       "  Gold   ",Color.ANSI_GOLD,Background.ANSI_GOLD_BACKGROUND),
+    GOLD(ResourceAsset.GOLD,"G",       "  Gold   ", Color.ANSI_GOLD, Background.ANSI_GOLD_BACKGROUND),
     SERVANT(ResourceAsset.SERVANT, "S"," Servant ",Color.ANSI_SERVANT,Background.ANSI_GOLD_BACKGROUND),
     SHIELD(ResourceAsset.SHIELD, "H",  " Shield  ",Color.ANSI_SHIELD,Background.ANSI_GOLD_BACKGROUND),
     STONE(ResourceAsset.STONE, "T",    "  Stone  ",Color.ANSI_STONE,Background.ANSI_GOLD_BACKGROUND),

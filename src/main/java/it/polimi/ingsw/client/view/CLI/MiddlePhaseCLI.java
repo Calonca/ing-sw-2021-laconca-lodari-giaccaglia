@@ -2,7 +2,7 @@ package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.view.CLI.CLIelem.Option;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.HorizontalListBody;
-import it.polimi.ingsw.client.view.CLI.textUtil.Drawable;
+import it.polimi.ingsw.client.view.CLI.drawables.Drawable;
 import it.polimi.ingsw.client.view.abstractview.MiddlePhaseViewBuilder;
 
 import java.beans.PropertyChangeEvent;
