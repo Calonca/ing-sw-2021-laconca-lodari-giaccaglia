@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 public abstract class OptionList {
     protected List<Option> options;
-    Option lastSelectedOption;
+    private Option lastSelectedOption;
     private int optStartIndex;
 
     public OptionList(){

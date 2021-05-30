@@ -12,13 +12,17 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class VerticalList extends OptionList {
-    int height;
+    private int height;
 
 
+    public VerticalList(int h) {
+        super();
+        height = h;
+    }
 
     public VerticalList(Stream<Option> optionStream,int h) {
         super(optionStream);
-        h = height;
+        height = h;
     }
 
     public List<Drawable> toDwList() {
@@ -33,6 +37,14 @@ public class VerticalList extends OptionList {
 
 
                     return drawable;}).collect(Collectors.toList());
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getOptionNumber(){
+        return options.size();
     }
 
     //Prints vertical list

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.assets.devcards;
 
+import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.server.model.Resource;
 import javafx.util.Pair;
 import java.util.List;
@@ -11,7 +12,7 @@ public class NetworkDevelopmentCard {
      * Enum to indicate card color
      */
     private NetworkDevelopmentCardColor cardType;
-    private List<Pair<Resource,Integer>> costList;
+    private List<Pair<ResourceAsset,Integer>> costList;
     private int victoryPoints;
     private int level;
     private UUID cardId;
@@ -38,7 +39,7 @@ public class NetworkDevelopmentCard {
         return cardType;
     }
 
-    public List<Pair<Resource,Integer>> getCostList(){
+    public List<Pair<ResourceAsset,Integer>> getCostList(){
         return costList;
     }
 

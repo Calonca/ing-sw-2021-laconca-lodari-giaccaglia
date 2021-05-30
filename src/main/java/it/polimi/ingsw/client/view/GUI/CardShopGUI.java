@@ -4,6 +4,7 @@ package it.polimi.ingsw.client.view.GUI;
 import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.CLI.IDLEViewBuilder;
 import it.polimi.ingsw.client.view.GUI.GUIelem.ButtonSelectionModel;
+import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -20,7 +21,7 @@ import java.util.*;
 /**
  * The user will be asked to insert a nickname and the number of players
  */
-public class DevelopmentMarketGUI extends  it.polimi.ingsw.client.view.abstractview.SetupPhaseViewBuilder implements GUIView {
+public class CardShopGUI extends CardShopViewBuilder implements GUIView {
 
 
     public GridPane cardsGrid;
@@ -155,6 +156,22 @@ public class DevelopmentMarketGUI extends  it.polimi.ingsw.client.view.abstractv
 
     }
 
+
+    /**
+     * Get called when choosing resources to buy the card
+     */
+    @Override
+    public void choseResources() {
+
+    }
+
+    /**
+     * Gets called when the player needs to place the development card on his personal board
+     */
+    @Override
+    public void choosePositionForCard() {
+
+    }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {

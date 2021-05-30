@@ -9,8 +9,7 @@ import it.polimi.ingsw.network.messages.clienttoserver.events.MiddlePhaseEvent;
 
 import java.beans.PropertyChangeEvent;
 
-import static it.polimi.ingsw.client.simplemodel.State.CHOOSING_MARKET_LINE;
-import static it.polimi.ingsw.client.simplemodel.State.IDLE;
+import static it.polimi.ingsw.client.simplemodel.State.*;
 
 public abstract class MiddlePhaseViewBuilder extends ViewBuilder {
     //Todo should be new MiddlePhaseEvent(1),2,3
@@ -43,7 +42,10 @@ public abstract class MiddlePhaseViewBuilder extends ViewBuilder {
         String propertyName = evt.getPropertyName();
         if (CHOOSING_MARKET_LINE.name().equals(propertyName)) {
             getClient().changeViewBuilder(ResourceMarketViewBuilder.getBuilder(getClient().isCLI()));
-        }else ViewBuilder.printWrongStateReceived(evt);
+        }else if (CHOOSING_DEVELOPMENT_CARD.name().equals(propertyName)) {
+            getClient().changeViewBuilder(CardShopViewBuilder.getBuilder(getClient().isCLI()));
+        }
+        else ViewBuilder.printWrongStateReceived(evt);
     }
 
     public static void middlePhaseCommonTransition(PropertyChangeEvent evt){
