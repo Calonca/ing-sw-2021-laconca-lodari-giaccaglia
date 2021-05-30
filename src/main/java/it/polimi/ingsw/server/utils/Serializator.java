@@ -19,6 +19,7 @@ import it.polimi.ingsw.server.model.market.Marble;
 import it.polimi.ingsw.server.model.player.board.LeaderDepot;
 import it.polimi.ingsw.server.model.player.leaders.*;
 import it.polimi.ingsw.server.model.player.track.FaithTrack;
+import it.polimi.ingsw.server.model.states.StatesTransitionTable;
 import javafx.util.Pair;
 
 import java.io.IOException;
@@ -42,6 +43,7 @@ public class Serializator extends JsonUtility {
     public static final String backLeaderCardPathString = "src/main/resources/assets/leaders/raw/BACK/Masters of Renaissance__Cards_BACK.png";
     public static final String frontLeaderCardGrayedOutPathString = "src/main/resources/assets/leaders/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_0.png";
     public static final String backLeaderCardGrayedOutPathString = "src/main/resources/assets/leaders/grayed out/BACK/Masters of Renaissance__Cards_BACK.png";
+
 
     private static final GsonBuilder gsonBuilder = new GsonBuilder();
     //helper method to serialize cardshop configuration
@@ -1199,6 +1201,28 @@ public class Serializator extends JsonUtility {
         Gson customGson = gsonBuilder.enableComplexMapKeySerialization().registerTypeHierarchyAdapter(Path.class, new PathConverter()).setPrettyPrinting().create();
         String path = "src/main/resources/clientconfig/ResourcesAssetsConfig.json";
         serialize(path, resources, Map.class, customGson);
+    }
+
+    private static void serializeSinglePlayerStatesTransitionTable () {
+
+        JsonUtility.serialize(
+                JsonUtility.configPathString + StatesTransitionTable.singlePLayerTableFile,
+                StatesTransitionTable.setupCommonStatesTransitionTable(),
+                StatesTransitionTable.class,
+                StatesTransitionTable.jsonWithAdapter()
+        );
+
+    }
+
+    private static void serializeMultiPlayerStatesTransitionTable() {
+
+        JsonUtility.serialize(
+                JsonUtility.configPathString + StatesTransitionTable.multiPLayerTableFile,
+                StatesTransitionTable.setupCommonStatesTransitionTable(),
+                StatesTransitionTable.class,
+                StatesTransitionTable.jsonWithAdapter()
+        );
+
     }
 
     public static void main(String[] args) throws IOException {

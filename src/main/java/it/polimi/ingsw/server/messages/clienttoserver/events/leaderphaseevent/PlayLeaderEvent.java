@@ -13,7 +13,7 @@ import java.util.UUID;
  * {@link State#SHOWING_LEADERS_FINAL SHOWING_LEADERS_FINAL} phase by performing a
  * game turn action processed to accomplish server-side client validation.
  */
-public class PlayLeaderEvent extends it.polimi.ingsw.network.messages.clienttoserver.events.leaderphaseevent.PlayLeaderEvent implements Validable, LeaderValidation{
+public class PlayLeaderEvent extends it.polimi.ingsw.network.messages.clienttoserver.events.InitialOrFinalPhaseEvent implements Validable, LeaderValidation{
 
 
     @Override

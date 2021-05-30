@@ -10,7 +10,7 @@ import it.polimi.ingsw.server.model.GameModel;
  * {@link State#SHOWING_LEADERS_FINAL SHOWING_LEADERS_FINAL} phase by performing a
  * game turn action processed to accomplish server-side client validation.
  */
-public class SkipLeaderEvent extends it.polimi.ingsw.network.messages.clienttoserver.events.leaderphaseevent.SkipLeaderEvent implements Validable {
+public class SkipLeaderEvent extends it.polimi.ingsw.network.messages.clienttoserver.events.InitialOrFinalPhaseEvent implements Validable {
 
     @Override
     public boolean validate(GameModel gameModel) {

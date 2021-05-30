@@ -1,8 +1,8 @@
 package it.polimi.ingsw.server.controller.strategy.leader;
 
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
+import it.polimi.ingsw.server.messages.clienttoserver.events.InitialOrFinalPhaseEvent;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
-import it.polimi.ingsw.server.messages.clienttoserver.events.leaderphaseevent.DiscardLeaderEvent;
 import it.polimi.ingsw.server.messages.messagebuilders.Element;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.states.State;
@@ -23,7 +23,7 @@ public class DiscardingLeader implements GameStrategy {
         State currentState = gamemodel.getCurrentPlayer().getCurrentState();
         State nextPossibleState = currentState.equals(State.INITIAL_PHASE) ? State.MIDDLE_PHASE : State.IDLE;
 
-        gamemodel.getCurrentPlayer().getLeader(((DiscardLeaderEvent) event).getLeaderId()).get().activate(gamemodel);
+        gamemodel.getCurrentPlayer().discardLeader(((InitialOrFinalPhaseEvent) event).getLeaderId());
 
         elementsToUpdate.add(Element.SimpleFaithTrack);
         elementsToUpdate.add(Element.SimplePlayerLeaders);

@@ -3,7 +3,6 @@ package it.polimi.ingsw.server.model.states;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.RuntimeTypeAdapterFactory;
-import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.server.controller.strategy.*;
 import it.polimi.ingsw.server.controller.strategy.cardmarket.*;
 import it.polimi.ingsw.server.controller.strategy.leader.*;
@@ -17,6 +16,7 @@ import it.polimi.ingsw.server.messages.clienttoserver.events.leaderphaseevent.*;
 import it.polimi.ingsw.server.messages.clienttoserver.events.marketboardevent.*;
 import it.polimi.ingsw.server.messages.clienttoserver.events.productionevent.*;
 import it.polimi.ingsw.server.messages.clienttoserver.events.setupphaseevent.SetupPhaseEvent;
+import it.polimi.ingsw.server.utils.Deserializator;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,8 +28,9 @@ public class StatesTransitionTable {
      * The String is the name of the {@link Validable}
      */
     private Map<State, Map<String, GameStrategy>> table;
-    private transient static final String singlePLayerTableFile = "SinglePlayerStatesTransitionTable.json";
-    private transient static final String multiPLayerTableFile = "MultiPlayerStatesTransitionTable.json";
+    public static final String singlePLayerTableFile = "SinglePlayerStatesTransitionTable.json";
+    public static final String multiPLayerTableFile = "MultiPlayerStatesTransitionTable.json";
+
 
     /**
      * Returns name of a class
@@ -38,21 +39,6 @@ public class StatesTransitionTable {
         return classClass.getSimpleName();
     }
 
-    public static StatesTransitionTable singlePlayer() {
-        return JsonUtility.deserialize(
-                JsonUtility.configPathString + singlePLayerTableFile,
-                StatesTransitionTable.class,
-                jsonWithAdapter()
-        );
-    }
-
-    public static StatesTransitionTable multiPlayer() {
-        return JsonUtility.deserialize(
-                JsonUtility.configPathString + multiPLayerTableFile,
-                StatesTransitionTable.class,
-                jsonWithAdapter()
-        );
-    }
 
     /**
      * Returns the {@link GameStrategy} to use at the given {@link State} after the given {@link Validable event}.
@@ -66,15 +52,12 @@ public class StatesTransitionTable {
      * @param isSinglePlayer a boolean indicating if the game is single player.
      */
     public static StatesTransitionTable fromIsSinglePlayer(boolean isSinglePlayer) {
-        return isSinglePlayer?StatesTransitionTable.singlePlayer():StatesTransitionTable.multiPlayer();
+        return isSinglePlayer ? Deserializator.deserializeSinglePlayerStatesTransitionTable()
+                : Deserializator.deserializeMultiPlayerStatesTransitionTable();
     }
 
-    public static void saveTables(){
-        saveMultiPlayerStatesTransitionTable();
-        saveSinglePlayerStatesTransitionTable();
-    }
 
-    private static StatesTransitionTable setupCommonStatesTransitionTable(){
+    public static StatesTransitionTable setupCommonStatesTransitionTable(){
 
         StatesTransitionTable statesTransitionTable = new StatesTransitionTable();
         statesTransitionTable.table = new HashMap<>();
@@ -168,30 +151,9 @@ public class StatesTransitionTable {
         return statesTransitionTable;
     }
 
-    private static void saveSinglePlayerStatesTransitionTable () {
-
-        JsonUtility.serialize(
-                        JsonUtility.configPathString + singlePLayerTableFile,
-                                setupCommonStatesTransitionTable(),
-                                StatesTransitionTable.class,
-                                jsonWithAdapter()
-        );
-
-    }
 
 
-    private static void saveMultiPlayerStatesTransitionTable() {
-
-        JsonUtility.serialize(
-                        JsonUtility.configPathString + multiPLayerTableFile,
-                                setupCommonStatesTransitionTable(),
-                                StatesTransitionTable.class,
-                                jsonWithAdapter()
-        );
-
-    }
-
-    private static Gson jsonWithAdapter(){
+    public static Gson jsonWithAdapter(){
 
         RuntimeTypeAdapterFactory<GameStrategy> strategyAdapter = RuntimeTypeAdapterFactory.of(GameStrategy.class);
 

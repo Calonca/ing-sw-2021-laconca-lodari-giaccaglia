@@ -86,7 +86,7 @@ public class ClientHandler implements Runnable
                 command.processMessage(this);
             }
         } catch (ClassNotFoundException | ClassCastException e) {
-            System.out.println("invalid stream from client");
+            System.out.println("invalid stream from client" + e.toString());
         }
     }
 

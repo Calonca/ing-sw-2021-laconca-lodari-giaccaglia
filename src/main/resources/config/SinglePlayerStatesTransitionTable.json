@@ -6,18 +6,6 @@
         "elementsToUpdate": []
       }
     },
-    "CHOOSING_POSITION_FOR_RESOURCES": {
-      "ChooseCardPositionEvent": {
-        "type": "ChoosingSpaceForDevelopmentCard",
-        "elementsToUpdate": []
-      }
-    },
-    "CHOOSING_MARKET_LINE": {
-      "ChooseLineEvent": {
-        "type": "PuttingBallOnLine",
-        "elementsToUpdate": []
-      }
-    },
     "FINAL_PHASE": {
       "DiscardLeaderEvent": {
         "type": "DiscardingLeader",
@@ -32,15 +20,27 @@
         "elementsToUpdate": []
       }
     },
+    "CHOOSING_RESOURCES_FOR_DEVCARD": {
+      "ChooseResourceForCardShopEvent": {
+        "type": "PayingResourcesForDevelopmentCard",
+        "elementsToUpdate": []
+      }
+    },
     "CHOOSING_PRODUCTION": {
       "ChooseProductionAtPositionEvent": {
         "type": "TogglingForProduction",
         "elementsToUpdate": []
       }
     },
-    "CHOOSING_DEVELOPMENT_CARD": {
-      "ChooseCardEvent": {
-        "type": "AcquiringDevelopmentCard",
+    "CHOOSING_MARKET_LINE": {
+      "ChooseLineEvent": {
+        "type": "PuttingBallOnLine",
+        "elementsToUpdate": []
+      }
+    },
+    "CHOOSING_POSITION_FOR_RESOURCES": {
+      "ChooseCardPositionEvent": {
+        "type": "ChoosingSpaceForDevelopmentCard",
         "elementsToUpdate": []
       }
     },
@@ -58,15 +58,21 @@
         "elementsToUpdate": []
       }
     },
-    "CHOOSING_RESOURCE_FOR_PRODUCTION": {
-      "ChooseResourcesForProductionEvent": {
-        "type": "ChoosingResourceForProduction",
+    "CHOOSING_DEVELOPMENT_CARD": {
+      "ChooseCardEvent": {
+        "type": "AcquiringDevelopmentCard",
         "elementsToUpdate": []
       }
     },
     "IDLE": {
       "null": {
         "type": "IDLE",
+        "elementsToUpdate": []
+      }
+    },
+    "CHOOSING_RESOURCE_FOR_PRODUCTION": {
+      "ChooseResourcesForProductionEvent": {
+        "type": "ChoosingResourceForProduction",
         "elementsToUpdate": []
       }
     },
@@ -81,12 +87,6 @@
         "type": "Setup",
         "elementsToUpdate": [],
         "currentPlayerNumber": 0
-      }
-    },
-    "CHOOSING_RESOURCES_FOR_DEVCARD": {
-      "ChooseResourceForCardShopEvent": {
-        "type": "PayingResourcesForDevelopmentCard",
-        "elementsToUpdate": []
       }
     }
   }

@@ -12,6 +12,7 @@ import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.server.model.market.MarketBoard;
 import it.polimi.ingsw.server.model.player.leaders.*;
 import it.polimi.ingsw.server.model.player.track.FaithTrack;
+import it.polimi.ingsw.server.model.states.StatesTransitionTable;
 
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
@@ -244,6 +245,22 @@ public class Deserializator extends JsonUtility {
         Type type = new TypeToken<Map<UUID, Leader> >(){}.getType();
         return deserialize(configPathString + "LeadersCardMapConfig.json", type ,customGson);
 
+    }
+
+    public static StatesTransitionTable deserializeSinglePlayerStatesTransitionTable() {
+        return JsonUtility.deserialize(
+                JsonUtility.configPathString + StatesTransitionTable.singlePLayerTableFile,
+                StatesTransitionTable.class,
+                StatesTransitionTable.jsonWithAdapter()
+        );
+    }
+
+    public static StatesTransitionTable deserializeMultiPlayerStatesTransitionTable() {
+        return JsonUtility.deserialize(
+                JsonUtility.configPathString + StatesTransitionTable.multiPLayerTableFile,
+                StatesTransitionTable.class,
+                StatesTransitionTable.jsonWithAdapter()
+        );
     }
 
 }
