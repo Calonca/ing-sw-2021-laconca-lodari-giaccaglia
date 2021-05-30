@@ -1,16 +1,10 @@
 package it.polimi.ingsw.client.view.GUI;
 
 
-import it.polimi.ingsw.client.Client;
-
-
-import it.polimi.ingsw.client.json.Deserializator;
 import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.CLI.IDLEViewBuilder;
 import it.polimi.ingsw.client.view.GUI.GUIelem.ButtonSelectionModel;
 import it.polimi.ingsw.client.view.GUI.GUIelem.ResourceButton;
-import it.polimi.ingsw.client.view.GUI.GUIelem.ResourceSphere;
-import it.polimi.ingsw.network.assets.CardAssetsContainer;
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
@@ -54,7 +48,6 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
     List<Color> colors=new ArrayList<>();
     List<String> colorsToRes=new ArrayList<>();
 
-    int resourcesToChoose = Util.resourcesToChooseOnSetup(getCommonData().getThisPlayerIndex());
 
     @FXML
     private AnchorPane cjlAnchor;
@@ -113,8 +106,6 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         confirm.setOnAction(p -> {
 
             List<UUID> discardedLeaders=new ArrayList<>();
-            for(int i=0;i<sceneResources.size();i++)
-                System.out.println(selectedRes.get(i) + Resource.fromInt(i).toString());
             for(int i=0;i<scenesLeadersToChoose.size();i++)
                 if(!selected.get(i))
                     discardedLeaders.add(leadersUUIDs.get(i));
@@ -159,6 +150,8 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         SimplePlayerLeaders playerLeaders = new SimplePlayerLeaders();
         List<LeaderCardAsset> leaderCardAssets = playerLeaders.getPlayerLeaders();
 
+        for(LeaderCardAsset leader : leaderCardAssets)
+            System.out.println(leader.getNetworkLeaderCard().toString());
         Button tempbut;
         for(int i=0;i<LEADERNUMBER;i++)
         {
@@ -183,7 +176,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
             selected.add(false);
 
 
-        selectionModel.bindForSelection(selected,scenesLeadersToChoose,2);
+        selectionModel.cardSelector(selected,scenesLeadersToChoose,2);
 
         selected.addListener(new javafx.collections.ListChangeListener<Boolean>() {
             @Override
@@ -222,7 +215,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
 
         }
 
-        selectionModel.bindForTaking(selectedRes,sceneResources,2);
+        selectionModel.resourceSelector(selectedRes,sceneResources,2);
 
         selectedRes.addListener(new javafx.collections.ListChangeListener<Integer>() {
             @Override

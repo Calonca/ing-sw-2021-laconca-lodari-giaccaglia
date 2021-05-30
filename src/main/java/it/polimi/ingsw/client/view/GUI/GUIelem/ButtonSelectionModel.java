@@ -13,7 +13,7 @@ public class ButtonSelectionModel {
 
     boolean moving=false;
     Resource tomove;
-    public void bindForTaking(List<Integer> selected, List<Button> sceneResourcesToChoose, int maxselection)
+    public void resourceSelector(List<Integer> selected, List<Button> sceneResourcesToChoose, int maxselection)
     {
 
         //SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).get();
@@ -35,7 +35,7 @@ public class ButtonSelectionModel {
 
         }}
 
-    public void bindForSelection(List<Boolean> selected,List<Button> scenesLeadersToChoose,int maxselection)
+    public void cardSelector(List<Boolean> selected,List<Button> scenesLeadersToChoose,int maxselection)
     {
 
         //SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).get();
@@ -53,7 +53,6 @@ public class ButtonSelectionModel {
                     if (aBoolean)
                         booleanCount++;
                 {
-
 
                     if(!selected.get(scenesLeadersToChoose.indexOf(sceneButton)))
                     {
