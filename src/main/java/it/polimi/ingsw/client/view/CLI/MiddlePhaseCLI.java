@@ -45,16 +45,5 @@ public class MiddlePhaseCLI extends MiddlePhaseViewBuilder implements CLIBuilder
 
     }
 
-    public static void middlePhaseCommonTransition(PropertyChangeEvent evt){
-        String propertyName = evt.getPropertyName();
-        if (IDLE.name().equals(propertyName)) {
-            getClient().changeViewBuilder(IDLEViewBuilder.getBuilder(getClient().isCLI()));
-        }else if (State.FINAL_PHASE.name().equals(propertyName)) {
-            getClient().changeViewBuilder(InitialOrFinalPhaseViewBuilder.getBuilder(getClient().isCLI(), false));
-        }else if (State.END_PHASE.name().equals(propertyName)) {
-            getClient().changeViewBuilder(WinLooseBuilder.getBuilder(getClient().isCLI()));
-        }else
-            System.out.println(getThisPlayerCache().getCurrentState()+" received: " + evt.getPropertyName() + JsonUtility.serialize(evt.getNewValue()));
 
-    }
 }

@@ -10,7 +10,6 @@ import it.polimi.ingsw.network.messages.clienttoserver.events.marketboardevent.M
 import java.beans.PropertyChangeEvent;
 
 import static it.polimi.ingsw.client.simplemodel.State.*;
-import static it.polimi.ingsw.client.view.CLI.MiddlePhaseCLI.middlePhaseCommonTransition;
 
 /**
  * Used to take the resources from the market and place them in the personalBoard
@@ -50,6 +49,6 @@ public abstract class ResourceMarketViewBuilder extends ViewBuilder{
         String propertyName = evt.getPropertyName();
         if (CHOOSING_RESOURCE_FOR_PRODUCTION.name().equals(propertyName)) {
             choosePositions();
-        } else middlePhaseCommonTransition(evt);
+        } else MiddlePhaseViewBuilder.middlePhaseCommonTransition(evt);
     }
 }
