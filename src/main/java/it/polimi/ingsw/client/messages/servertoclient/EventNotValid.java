@@ -19,7 +19,8 @@ public class EventNotValid extends it.polimi.ingsw.network.messages.servertoclie
     public void processMessage(ServerHandler serverHandler) throws IOException {
         int playerI = serverHandler.getClient().getCommonData().getThisPlayerIndex();
         String state = serverHandler.getClient().getSimpleModel().getPlayerCache(playerI).getCurrentState();
-        serverHandler.getClient().setState(new StateInNetwork(playerI,state+"_noVal",new ArrayList<>(),new ArrayList<>()));
+        serverHandler.getClient().setState(new StateInNetwork(playerI,state,new ArrayList<>(),new ArrayList<>()));
+        serverHandler.getClient().changeViewBuilder(serverHandler.getClient().getCurrentViewBuilder());
         //Todo better handling
     }
 }
