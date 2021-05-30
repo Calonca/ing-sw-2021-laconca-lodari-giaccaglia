@@ -1,35 +1,18 @@
 package it.polimi.ingsw.client.view.GUI;
 
-import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.view.GUI.GUIelem.ResourceSphere;
-import it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchViewBuilder;
+import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
 import it.polimi.ingsw.server.model.Resource;
 import javafx.animation.*;
 import javafx.application.Platform;
-import javafx.beans.property.ObjectProperty;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Material;
 import javafx.scene.paint.PhongMaterial;
-import javafx.scene.shape.Box;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Sphere;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 import javafx.util.Duration;
@@ -38,14 +21,13 @@ import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
 /**
  * The user will be asked to insert a nickname and the number of players
  */
-public class MarketMatrix extends CreateJoinLoadMatchViewBuilder implements GUIView {
+public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIView {
 
     boolean selected=false;
     public ResourceSphere toPut;
@@ -246,7 +228,7 @@ public class MarketMatrix extends CreateJoinLoadMatchViewBuilder implements GUIV
         button.setLayoutX(900);
         button.setLayoutY(650);
 
-        button.setOnAction(p -> getClient().changeViewBuilder(new MarketMatrix()));
+        button.setOnAction(p -> getClient().changeViewBuilder(new ResourceMarketGUI()));
 
         marketPane.getChildren().add(button);
 
@@ -297,6 +279,14 @@ public class MarketMatrix extends CreateJoinLoadMatchViewBuilder implements GUIV
 
         marketPane.getChildren().add(0,subScene);
         getClient().getStage().show();
+    }
+
+    /**
+     * Called every time a resource is moved in the personalBoard or when the discardBox is received
+     */
+    @Override
+    public void choosePositions() {
+
     }
 
     @Override

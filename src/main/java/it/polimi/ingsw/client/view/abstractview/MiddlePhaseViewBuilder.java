@@ -4,7 +4,6 @@ import it.polimi.ingsw.client.view.CLI.MiddlePhaseCLI;
 import it.polimi.ingsw.client.view.GUI.MiddlePhaseGUI;
 import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.events.MiddlePhaseEvent;
-import it.polimi.ingsw.network.messages.clienttoserver.events.cardshopevent.CardShopEvent;
 
 public abstract class MiddlePhaseViewBuilder extends ViewBuilder {
     //Todo should be new MiddlePhaseEvent(1),2,3
@@ -28,7 +27,7 @@ public abstract class MiddlePhaseViewBuilder extends ViewBuilder {
         else return new MiddlePhaseGUI();
     }
 
-    public static void sendMessage(Choice c){
+    public void sendMessage(Choice c){
         c.getR().run();
     }
 }

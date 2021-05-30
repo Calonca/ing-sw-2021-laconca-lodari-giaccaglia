@@ -53,9 +53,9 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
         // MiddlePhaseViewBuilder.sendMessage(Choice.RESOURCE_MARKET);
         // MiddlePhaseViewBuilder.sendMessage(Choice.CARD_SHOP);
         // to send the messages to the client
-        cardButton.setOnAction( e -> MiddlePhaseViewBuilder.sendMessage(Choice.CARD_SHOP));
-        productionButton.setOnAction( e -> MiddlePhaseViewBuilder.sendMessage(Choice.PRODUCTION));
-        resourceMarketButton.setOnAction( e -> MiddlePhaseViewBuilder.sendMessage(Choice.RESOURCE_MARKET));
+        cardButton.setOnAction( e -> sendMessage(Choice.CARD_SHOP));
+        productionButton.setOnAction( e -> sendMessage(Choice.PRODUCTION));
+        resourceMarketButton.setOnAction( e -> sendMessage(Choice.RESOURCE_MARKET));
         ImageView temp = new ImageView(new Image("assets/punchboard/MarketBoard.png", true));
         temp.setFitWidth(100);
         resourceMarketButton.setGraphic(temp);
