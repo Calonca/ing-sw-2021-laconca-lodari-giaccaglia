@@ -20,21 +20,24 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
         Grid grid = new Grid();
 
         MarbleAsset[][] marketMatrix = getMarketMatrix();
-        for (int i = 0, marketMatrixLength = marketMatrix.length; i < marketMatrixLength; i++) {
+        int rows = marketMatrix.length;
+        int columns = marketMatrix.length>0?marketMatrix[0].length:0;
+
+        for (int i = 0; i < rows; i++) {
             MarbleAsset[] assetRow = marketMatrix[i];
             HorizontalList horizontalList = new HorizontalList(buildResourceOptionStream(assetRow), MarbleCLI.height());
-            horizontalList.addOption(Option.activeFrom("\n\nRow "+i+StringUtil.spaces(MarbleCLI.width()-5)));
+            horizontalList.addOption(Option.activeFrom("\n\nLine "+i+StringUtil.spaces(MarbleCLI.width()-6)));
             grid.addRow(horizontalList);
         }
 
-        HorizontalList lastLine = new HorizontalList(buildColumnsStream(marketMatrix.length, marketMatrix.length+marketMatrix[0].length),1);
+        HorizontalList lastLine = new HorizontalList(buildColumnsStream(rows, rows+columns),1);
         lastLine.addOption(Option.from(""));
         grid.addRow(lastLine);
 
         grid.setShowNumbers(false);
         getCLIView().setBody(new GridBody(grid));
 
-        getCLIView().runOnIntInput("Select a row or column","Incorrect line",0,6,
+        getCLIView().runOnIntInput("Select a row or column","Incorrect line",0,rows+columns,
             ()->{
                 int line = getCLIView().getLastInt();
                 sendLine(line);
@@ -44,7 +47,7 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
     }
 
     private Stream<Option> buildColumnsStream(int start, int stop){
-        return IntStream.range(start,stop).mapToObj(i->Option.activeFrom(StringUtil.stringUntilReachingSize("Column "+i,MarbleCLI.width())));
+        return IntStream.range(start,stop).mapToObj(i->Option.activeFrom(StringUtil.stringUntilReachingSize(" Line "+i,MarbleCLI.width())));
     }
 
     private Stream<Option> buildResourceOptionStream(MarbleAsset[] res){
