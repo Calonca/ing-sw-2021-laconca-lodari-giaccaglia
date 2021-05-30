@@ -184,10 +184,6 @@ public class Player {
         return currentlyOnline;
     }
 
-    public boolean areLeaderActionsAvailable(){
-        return false;
-    }
-
     /**
      * Method to get Player nickname , declared at client side game setup
      * @return Player nickname
@@ -288,6 +284,10 @@ public class Player {
             trueCount++;
         }
         return 0;
+    }
+
+    public boolean hasReachedTrackEnd(){
+        return faithTrack.hasReachedLastSpace(faithTrack.getPlayerPiece());
     }
 
    /* public State getMacroState() {

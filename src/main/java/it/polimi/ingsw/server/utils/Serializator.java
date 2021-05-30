@@ -9,6 +9,7 @@ import it.polimi.ingsw.network.assets.leaders.NetworkLeaderCard;
 import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.jsonUtils.UUIDTypeAdapter;
+import it.polimi.ingsw.network.simplemodel.SimpleFaithTrack;
 import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.server.model.Resource;
@@ -1208,7 +1209,7 @@ public class Serializator extends JsonUtility {
         leaderCardsArraySerialization();
         MarketBoard test = marketBoardDeserialization();
         serialize(configPathString + "MarketBoardConfig.json", test, MarketBoard.class);
-        faithTrackDeserialization();
+
         devCardsAssetsSerialization();
         leaderCardsAssetsSerialization();
         serializeMarbles();
@@ -1221,7 +1222,7 @@ public class Serializator extends JsonUtility {
         ResourceAsset[] value = ResourceAsset.values();
 
    */
-        serializeResources();
+      //  serializeResources();
        // Map<UUID, Leader> leadersCardMap = leadersCardMapDeserialization();
 
         

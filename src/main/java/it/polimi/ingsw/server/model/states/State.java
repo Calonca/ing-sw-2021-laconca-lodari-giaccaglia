@@ -25,6 +25,8 @@ import java.util.stream.Collectors;
  *
  *  <li>{@link #INITIAL_PHASE}</li>  <br>
  *
+ *  <li>{@link #LEADER_END}</li>    <br>
+ *
  *  <li>{@link #MIDDLE_PHASE} <em>"Normal actions"</em>
  *      <ul>
  *          <li><em>Activate the Production :</em>
@@ -42,6 +44,7 @@ import java.util.stream.Collectors;
  *          <li>{@link #CHOOSING_POSITION_FOR_DEVCARD}</li>
  *      </ul>
  *  <li> {@link #FINAL_PHASE} <em>"Leader action"</em> </li><br>
+ *  <li> {@link #LEADER_END}</li><br>
  *  <li>{@link #IDLE}</li><br>
  *  <li>{@link #END_PHASE}</li><br>
  *
@@ -51,13 +54,13 @@ import java.util.stream.Collectors;
 public enum State {
 
     /**
-     * Initial game phase where each player receives two {@link Leader LeaderCards}, faithPoints and {@link Resource Resources}
+     * InitialOrFinalStrategy game phase where each player receives two {@link Leader LeaderCards}, faithPoints and {@link Resource Resources}
      * according to players' numbering.
      */
     SETUP_PHASE,
 
     /**
-     * Initial turn phase where player can either perform a <em>"Leader action"</em> or skip to {@link State#MIDDLE_PHASE}
+     * InitialOrFinalStrategy turn phase where player can either perform a <em>"Leader action"</em> or skip to {@link State#MIDDLE_PHASE}
      * for <em>Normal Action</em> performance, since <em>Leader actions</em> are optional.
      */
     INITIAL_PHASE,

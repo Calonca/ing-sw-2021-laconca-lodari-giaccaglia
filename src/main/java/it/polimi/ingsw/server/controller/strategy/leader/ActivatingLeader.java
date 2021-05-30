@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.controller.strategy.leader;
 
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
+import it.polimi.ingsw.server.messages.clienttoserver.events.leaderphaseevent.DiscardLeaderEvent;
 import it.polimi.ingsw.server.messages.clienttoserver.events.leaderphaseevent.PlayLeaderEvent;
 import it.polimi.ingsw.server.messages.messagebuilders.Element;
 import it.polimi.ingsw.server.model.GameModel;
@@ -20,18 +21,19 @@ public class ActivatingLeader implements GameStrategy {
 
     public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event)
     {
-        //ON EVENT PLAYLEADEREVENT
-        //MESSAGE IS INT 2
-    //    if(gamemodel.getCurrentPlayer().getPersonalBoard().isLeaderRequirementsSatisfied(gamemodel.getCurrentPlayer().getLeaders().get(2))&&
-    //        gamemodel.getCurrentPlayer().getLeaders().get(2).getState()== NetworkLeaderState.INACTIVE)
 
-        gamemodel.getCurrentPlayer().getLeader(((PlayLeaderEvent) event).getLeaderId()).get().activate(gamemodel);
+        State currentState = gamemodel.getGamePhase();
+        State nextPossibleState = currentState.equals(State.INITIAL_PHASE) ? State.MIDDLE_PHASE : State.IDLE;
+
+        gamemodel.getCurrentPlayer().getLeader(((DiscardLeaderEvent) event).getLeaderId()).get().activate(gamemodel);
 
         elementsToUpdate.add(Element.SimpleWareHouseLeadersDepot);
         elementsToUpdate.add(Element.SimplePlayerLeaders);
-        elementsToUpdate.add(Element.SimpleFaithTrack);
 
-        return new Pair<>(State.LEADER_END, elementsToUpdate);
+        return gamemodel.getCurrentPlayer().anyLeaderPlayable()
+                ? new Pair<>(currentState, elementsToUpdate)
+                : new Pair<>(nextPossibleState, elementsToUpdate);
 
     }
+
 }

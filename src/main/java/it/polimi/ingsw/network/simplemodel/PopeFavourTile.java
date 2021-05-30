@@ -27,6 +27,10 @@ public class PopeFavourTile {
      */
     private FaithZone zone;
 
+    private int x_pos;
+
+    private int y_pos;
+
     public Path getFavourTileAssetPath(){
 
         if(state.equals(TileState.ACTIVE))
@@ -57,6 +61,14 @@ public class PopeFavourTile {
      */
     public void setTileState(TileState tileState) {
         this.state = tileState;
+    }
+
+    public int getX_pos(){
+        return x_pos;
+    }
+
+    public int getY_pos(){
+        return y_pos;
     }
 
 }

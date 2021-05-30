@@ -14,6 +14,6 @@ public class SkipLeaderEvent extends it.polimi.ingsw.network.messages.clienttose
 
     @Override
     public boolean validate(GameModel gameModel) {
-        return isGameStarted(gameModel);
+        return isGameStarted(gameModel) && (choice == 2);
     }
 }

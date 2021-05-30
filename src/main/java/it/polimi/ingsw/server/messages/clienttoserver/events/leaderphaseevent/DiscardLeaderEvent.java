@@ -19,7 +19,9 @@ public class DiscardLeaderEvent extends it.polimi.ingsw.network.messages.clientt
 
     @Override
     public boolean validate(GameModel model) {
-        return  isGameStarted(model)  && validateLeaderNumber(model, leaderId)
+        return  isGameStarted(model)
+                && choice==0
+                && validateLeaderNumber(model, leaderId)
                 && validateLeaderAvailability(model, leaderId);
     }
 

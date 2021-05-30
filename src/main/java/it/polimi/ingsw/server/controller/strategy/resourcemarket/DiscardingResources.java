@@ -1,15 +1,14 @@
 package it.polimi.ingsw.server.controller.strategy.resourcemarket;
 
-import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
-import it.polimi.ingsw.server.controller.EventValidationFailedException;
-import it.polimi.ingsw.server.controller.strategy.Final;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
+import it.polimi.ingsw.server.controller.strategy.InitialOrFinalStrategy;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.messages.messagebuilders.Element;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.states.State;
 import javafx.util.Pair;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,6 +16,9 @@ import java.util.List;
  * discardbox.
  */
 public class DiscardingResources implements GameStrategy {
+
+    List<Element> elementsToUpdate = new ArrayList<>();
+
     public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event)
     {
 
@@ -39,7 +41,11 @@ public class DiscardingResources implements GameStrategy {
             //gamemodel.haswon;
         }
 
-        return new Final().execute(gamemodel, event);
+         //TODO HANDLE LOGIC FOR VATICAN REPORT
+
+        elementsToUpdate.add(Element.SimpleDiscardBox);
+
+        return new Pair<>(State.FINAL_PHASE, elementsToUpdate);
 
     }
 

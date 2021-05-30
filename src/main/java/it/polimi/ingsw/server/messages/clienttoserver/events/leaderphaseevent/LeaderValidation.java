@@ -28,7 +28,7 @@ public interface LeaderValidation {
      * map key values, otherwise false.
      */
     private boolean validateLeaderId(GameModel gameModel, UUID leaderNumber){
-        return (gameModel.getCurrentPlayer().getLeader(leaderNumber).isPresent()) && validateLeaderRequirements(gameModel, leaderNumber);
+        return (gameModel.getCurrentPlayer().getLeader(leaderNumber).isPresent());
     }
 
     /**

@@ -18,8 +18,10 @@ public class PlayLeaderEvent extends it.polimi.ingsw.network.messages.clienttose
 
     @Override
     public boolean validate(GameModel gameModel) {
-        return  isGameStarted(gameModel) && validateLeaderAvailability(gameModel, leaderId)
-                && validateLeaderNumber(gameModel, leaderId) && validateLeaderRequirements(gameModel, leaderId);
+        return  isGameStarted(gameModel)
+                && validateLeaderAvailability(gameModel, leaderId)
+                && validateLeaderNumber(gameModel, leaderId)
+                && validateLeaderRequirements(gameModel, leaderId);
     }
 
     public UUID getLeaderId(){

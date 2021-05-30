@@ -1,72 +1,5 @@
 {
   "table": {
-    "SETUP_PHASE": {
-      "SetupPhaseEvent": {
-        "type": "Setup",
-        "elementsToUpdate": [],
-        "currentPlayerNumber": 0
-      }
-    },
-    "CHOOSING_MARKET_LINE": {
-      "ChooseLineEvent": {
-        "type": "PuttingBallOnLine",
-        "elementsToUpdate": []
-      }
-    },
-    "CHOOSING_WHITEMARBLE_CONVERSION": {
-      "ChooseWhiteMarbleConversionEvent": {
-        "type": "TogglingForProduction",
-        "elementsToUpdate": []
-      }
-    },
-    "MIDDLE_PHASE": {
-      "MiddlePhaseEvent": {
-        "type": "Middle",
-        "elementsToUpdate": []
-      }
-    },
-    "CHOOSING_POSITION_FOR_RESOURCES": {
-      "ChooseCardPositionEvent": {
-        "type": "ChoosingSpaceForDevelopmentCard",
-        "elementsToUpdate": []
-      }
-    },
-    "CHOOSING_PRODUCTION": {
-      "ChooseProductionAtPositionEvent": {
-        "type": "TogglingForProduction",
-        "elementsToUpdate": []
-      }
-    },
-    "CHOOSING_RESOURCE_FOR_PRODUCTION": {
-      "ChooseResourcesForProductionEvent": {
-        "type": "ChoosingResourceForProduction",
-        "elementsToUpdate": []
-      }
-    },
-    "CHOOSING_RESOURCES_FOR_DEVCARD": {
-      "ChooseResourceForCardShopEvent": {
-        "type": "PayingResourcesForDevelopmentCard",
-        "elementsToUpdate": []
-      }
-    },
-    "FINAL_PHASE": {
-      "SkipLeaderEvent": {
-        "type": "EndingLeaderPhase",
-        "elementsToUpdate": []
-      },
-      "DiscardLeaderEvent": {
-        "type": "DiscardingLeader",
-        "elementsToUpdate": []
-      },
-      "InitialOrFinalPhaseEvent": {
-        "type": "Final",
-        "elementsToUpdate": []
-      },
-      "PlayLeaderEvent": {
-        "type": "ActivatingLeader",
-        "elementsToUpdate": []
-      }
-    },
     "IDLE": {
       "null": {
         "type": "IDLE",
@@ -79,21 +12,80 @@
         "elementsToUpdate": []
       }
     },
-    "INITIAL_PHASE": {
-      "SkipLeaderEvent": {
-        "type": "EndingLeaderPhase",
+    "CHOOSING_WHITEMARBLE_CONVERSION": {
+      "ChooseWhiteMarbleConversionEvent": {
+        "type": "TogglingForProduction",
         "elementsToUpdate": []
-      },
+      }
+    },
+    "FINAL_PHASE": {
       "DiscardLeaderEvent": {
         "type": "DiscardingLeader",
         "elementsToUpdate": []
       },
       "InitialOrFinalPhaseEvent": {
-        "type": "IDLE",
+        "type": "InitialOrFinalStrategy",
         "elementsToUpdate": []
       },
       "PlayLeaderEvent": {
         "type": "ActivatingLeader",
+        "elementsToUpdate": []
+      }
+    },
+    "CHOOSING_RESOURCES_FOR_DEVCARD": {
+      "ChooseResourceForCardShopEvent": {
+        "type": "PayingResourcesForDevelopmentCard",
+        "elementsToUpdate": []
+      }
+    },
+    "SETUP_PHASE": {
+      "SetupPhaseEvent": {
+        "type": "Setup",
+        "elementsToUpdate": [],
+        "currentPlayerNumber": 0
+      }
+    },
+    "CHOOSING_POSITION_FOR_RESOURCES": {
+      "ChooseCardPositionEvent": {
+        "type": "ChoosingSpaceForDevelopmentCard",
+        "elementsToUpdate": []
+      }
+    },
+    "MIDDLE_PHASE": {
+      "MiddlePhaseEvent": {
+        "type": "Middle",
+        "elementsToUpdate": []
+      }
+    },
+    "CHOOSING_RESOURCE_FOR_PRODUCTION": {
+      "ChooseResourcesForProductionEvent": {
+        "type": "ChoosingResourceForProduction",
+        "elementsToUpdate": []
+      }
+    },
+    "CHOOSING_MARKET_LINE": {
+      "ChooseLineEvent": {
+        "type": "PuttingBallOnLine",
+        "elementsToUpdate": []
+      }
+    },
+    "INITIAL_PHASE": {
+      "DiscardLeaderEvent": {
+        "type": "DiscardingLeader",
+        "elementsToUpdate": []
+      },
+      "InitialOrFinalPhaseEvent": {
+        "type": "InitialOrFinalStrategy",
+        "elementsToUpdate": []
+      },
+      "PlayLeaderEvent": {
+        "type": "ActivatingLeader",
+        "elementsToUpdate": []
+      }
+    },
+    "CHOOSING_PRODUCTION": {
+      "ChooseProductionAtPositionEvent": {
+        "type": "TogglingForProduction",
         "elementsToUpdate": []
       }
     }

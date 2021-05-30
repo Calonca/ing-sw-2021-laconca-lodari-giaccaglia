@@ -9,6 +9,7 @@ import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 import it.polimi.ingsw.client.view.CLI.drawables.Drawable;
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
 import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
+import it.polimi.ingsw.network.messages.clienttoserver.events.InitialOrFinalPhaseEvent;
 import it.polimi.ingsw.network.messages.clienttoserver.events.leaderphaseevent.DiscardLeaderEvent;
 import it.polimi.ingsw.network.messages.clienttoserver.events.leaderphaseevent.PlayLeaderEvent;
 import it.polimi.ingsw.network.messages.clienttoserver.events.leaderphaseevent.SkipLeaderEvent;
@@ -35,11 +36,11 @@ public class LeaderActionBody extends CLIelem {
             LeaderCardAsset l = leaders.get(i);
 
             Option activateOption = Option.from("",()-> {
-                PlayLeaderEvent activate = new PlayLeaderEvent(l.getCardId());
+                InitialOrFinalPhaseEvent activate = new InitialOrFinalPhaseEvent(1, l.getCardId());
                 client.getServerHandler().sendCommandMessage(new EventMessage(activate));
             });
             Option discardOption = Option.from("",()-> {
-                DiscardLeaderEvent discard = new DiscardLeaderEvent(l.getCardId());
+                InitialOrFinalPhaseEvent discard = new InitialOrFinalPhaseEvent(0, l.getCardId());
                 client.getServerHandler().sendCommandMessage(new EventMessage(discard));
             });
             hiddenOptionList.addOption(activateOption);
@@ -56,7 +57,7 @@ public class LeaderActionBody extends CLIelem {
         skipLeadersDw.add(0, leaders.size()*2+": Skip",Color.BRIGHT_BLUE,Background.DEFAULT);
         skipLeadersDw.shift(0,DrawableLeader.height());
         Option skipLeaderOpt = Option.from(skipLeadersDw,()->{
-            client.getServerHandler().sendCommandMessage(new EventMessage(new SkipLeaderEvent()));
+            client.getServerHandler().sendCommandMessage(new EventMessage(new InitialOrFinalPhaseEvent(2)));
         });
         hiddenOptionList.addOption(skipLeaderOpt);
         leadersList.addOption(skipLeaderOpt);
@@ -65,4 +66,5 @@ public class LeaderActionBody extends CLIelem {
 
         return leadersList.toString();
     }
+
 }
