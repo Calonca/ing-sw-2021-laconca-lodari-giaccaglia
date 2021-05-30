@@ -1,26 +1,21 @@
 {
   "table": {
-    "CHOOSING_RESOURCE_FOR_PRODUCTION": {
-      "ChooseResourcesForProductionEvent": {
-        "type": "ChoosingResourceForProduction",
+    "SETUP_PHASE": {
+      "SetupPhaseEvent": {
+        "type": "Setup",
+        "elementsToUpdate": [],
+        "currentPlayerNumber": 0
+      }
+    },
+    "CHOOSING_MARKET_LINE": {
+      "ChooseLineEvent": {
+        "type": "PuttingBallOnLine",
         "elementsToUpdate": []
       }
     },
-    "INITIAL_PHASE": {
-      "SkipLeaderEvent": {
-        "type": "EndingLeaderPhase",
-        "elementsToUpdate": []
-      },
-      "DiscardLeaderEvent": {
-        "type": "DiscardingLeader",
-        "elementsToUpdate": []
-      },
-      "InitialOrFinalPhaseEvent": {
-        "type": "IDLE",
-        "elementsToUpdate": []
-      },
-      "PlayLeaderEvent": {
-        "type": "ActivatingLeader",
+    "CHOOSING_WHITEMARBLE_CONVERSION": {
+      "ChooseWhiteMarbleConversionEvent": {
+        "type": "TogglingForProduction",
         "elementsToUpdate": []
       }
     },
@@ -30,9 +25,9 @@
         "elementsToUpdate": []
       }
     },
-    "IDLE": {
-      "null": {
-        "type": "IDLE",
+    "CHOOSING_POSITION_FOR_RESOURCES": {
+      "ChooseCardPositionEvent": {
+        "type": "ChoosingSpaceForDevelopmentCard",
         "elementsToUpdate": []
       }
     },
@@ -42,40 +37,15 @@
         "elementsToUpdate": []
       }
     },
-    "CHOOSING_DEVELOPMENT_CARD": {
-      "ChooseCardEvent": {
-        "type": "AcquiringDevelopmentCard",
-        "elementsToUpdate": []
-      }
-    },
-    "SETUP_PHASE": {
-      "SetupPhaseEvent": {
-        "type": "Setup",
-        "elementsToUpdate": [],
-        "currentPlayerNumber": 0
-      }
-    },
-    "CHOOSING_POSITION_FOR_RESOURCES": {
-      "ChooseCardPositionEvent": {
-        "type": "ChoosingSpaceForDevelopmentCard",
-        "elementsToUpdate": []
-      }
-    },
-    "CHOOSING_MARKET_LINE": {
-      "ChooseLineEvent": {
-        "type": "PuttingBallOnLine",
+    "CHOOSING_RESOURCE_FOR_PRODUCTION": {
+      "ChooseResourcesForProductionEvent": {
+        "type": "ChoosingResourceForProduction",
         "elementsToUpdate": []
       }
     },
     "CHOOSING_RESOURCES_FOR_DEVCARD": {
       "ChooseResourceForCardShopEvent": {
         "type": "PayingResourcesForDevelopmentCard",
-        "elementsToUpdate": []
-      }
-    },
-    "CHOOSING_WHITEMARBLE_CONVERSION": {
-      "ChooseWhiteMarbleConversionEvent": {
-        "type": "TogglingForProduction",
         "elementsToUpdate": []
       }
     },
@@ -90,6 +60,36 @@
       },
       "InitialOrFinalPhaseEvent": {
         "type": "Final",
+        "elementsToUpdate": []
+      },
+      "PlayLeaderEvent": {
+        "type": "ActivatingLeader",
+        "elementsToUpdate": []
+      }
+    },
+    "IDLE": {
+      "null": {
+        "type": "IDLE",
+        "elementsToUpdate": []
+      }
+    },
+    "CHOOSING_DEVELOPMENT_CARD": {
+      "ChooseCardEvent": {
+        "type": "AcquiringDevelopmentCard",
+        "elementsToUpdate": []
+      }
+    },
+    "INITIAL_PHASE": {
+      "SkipLeaderEvent": {
+        "type": "EndingLeaderPhase",
+        "elementsToUpdate": []
+      },
+      "DiscardLeaderEvent": {
+        "type": "DiscardingLeader",
+        "elementsToUpdate": []
+      },
+      "InitialOrFinalPhaseEvent": {
+        "type": "IDLE",
         "elementsToUpdate": []
       },
       "PlayLeaderEvent": {

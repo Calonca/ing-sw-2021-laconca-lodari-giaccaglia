@@ -4,7 +4,7 @@ package it.polimi.ingsw.client.view.CLI.textUtil;
 public enum Background {
 
     DEFAULT(""),
-    ANSI_ULTRA_WHITE_BACKGROUND("\u001B[7m"),
+    ANSI_ULTRA_BLACK_BACKGROUND("\u001B[7m"),
     ANSI_BLACK_BACKGROUND("\u001B[40m"),
     ANSI_RED_BACKGROUND("\u001B[41m"),
     ANSI_GREEN_BACKGROUND("\u001B[42m"),

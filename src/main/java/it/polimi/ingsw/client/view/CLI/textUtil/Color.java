@@ -6,6 +6,7 @@ public enum Color {
     DEFAULT(""),
     BACKSPACE("\010"),
     ANSI_RESET("\u001B[0m"),
+    DISABLED("\u001B[2m"),
 
     BLACK("\u001B[30m"),
     RED("\u001B[31m"),

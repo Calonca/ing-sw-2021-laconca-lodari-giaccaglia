@@ -39,10 +39,10 @@ public class EndingLeaderPhaseTest {
         GameModel gamemodel = new GameModel(nicknames, isSinglePlayer,null);
         gamemodel.getCurrentPlayer().setCurrentState(State.INITIAL_PHASE);
 
-        assertEquals(State.INITIAL_PHASE, new EndingLeaderPhase().execute(gamemodel, serverEvent).getKey() );
+        assertEquals(State.MIDDLE_PHASE, new EndingLeaderPhase().execute(gamemodel, serverEvent).getKey() );
 
         gamemodel.getCurrentPlayer().setCurrentState(State.FINAL_PHASE);
 
-        assertEquals(State.FINAL_PHASE,new EndingLeaderPhase().execute(gamemodel,serverEvent).getKey() );
+        assertEquals(State.IDLE,new EndingLeaderPhase().execute(gamemodel,serverEvent).getKey() );
     }
 }
