@@ -5,11 +5,16 @@ import it.polimi.ingsw.client.Client;
 
 
 import it.polimi.ingsw.client.json.Deserializator;
+import it.polimi.ingsw.client.simplemodel.State;
+import it.polimi.ingsw.client.view.CLI.IDLEViewBuilder;
 import it.polimi.ingsw.client.view.GUI.GUIelem.ButtonSelectionModel;
 import it.polimi.ingsw.client.view.GUI.GUIelem.ResourceButton;
 import it.polimi.ingsw.client.view.GUI.GUIelem.ResourceSphere;
 import it.polimi.ingsw.network.assets.CardAssetsContainer;
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
+import it.polimi.ingsw.network.jsonUtils.JsonUtility;
+import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
+import it.polimi.ingsw.network.messages.clienttoserver.events.setupphaseevent.SetupPhaseEvent;
 import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
 import it.polimi.ingsw.network.util.Util;
 import it.polimi.ingsw.server.model.Resource;
@@ -37,6 +42,8 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
      * By changin LEADERNUMBER the number of received leaders to show can be easily changed
      */
     private final int LEADERNUMBER=4;
+
+    List<UUID> leadersUUIDs=new ArrayList<>();
 
     List<Button> scenesLeadersToChoose=new ArrayList<>();
     List<Button> sceneResources=new ArrayList<>();
@@ -105,11 +112,15 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         confirm.setLayoutX(450);
         confirm.setOnAction(p -> {
 
+            List<UUID> discardedLeaders=new ArrayList<>();
             for(int i=0;i<sceneResources.size();i++)
                 System.out.println(selectedRes.get(i) + Resource.fromInt(i).toString());
             for(int i=0;i<scenesLeadersToChoose.size();i++)
-                System.out.println((selected.get(i)+ scenesLeadersToChoose.get(i).toString()));
-            Client.getInstance().changeViewBuilder(new MarketMatrix());
+                if(!selected.get(i))
+                    discardedLeaders.add(leadersUUIDs.get(i));
+            SetupPhaseEvent event = new SetupPhaseEvent(selectedRes.get(0),2,Client.getInstance().getCommonData().getThisPlayerIndex());
+            Client.getInstance().getServerHandler().sendCommandMessage(new EventMessage(event));
+
 
         });
         return confirm;
@@ -143,13 +154,15 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
          * Buttons are built according to leadernumber parameter
          */
 
-        CardAssetsContainer.setCardAssetsContainer(Deserializator.networkDevCardsAssetsDeserialization());
-        SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).get();
-        List<LeaderCardAsset> leaderpics=simplePlayerLeaders.getPlayerLeaders();
+        SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).orElseThrow();
+
+        SimplePlayerLeaders playerLeaders = new SimplePlayerLeaders();
+        List<LeaderCardAsset> leaderCardAssets = playerLeaders.getPlayerLeaders();
 
         Button tempbut;
         for(int i=0;i<LEADERNUMBER;i++)
         {
+            leadersUUIDs.add(UUID.randomUUID());
             ImageView temp = new ImageView(new Image("assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_0.png", true));
 
             tempbut= new Button();
@@ -209,7 +222,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
 
         }
 
-        selectionModel.bindForTaking(selectedRes,sceneResources,4);
+        selectionModel.bindForTaking(selectedRes,sceneResources,2);
 
         selectedRes.addListener(new javafx.collections.ListChangeListener<Integer>() {
             @Override
@@ -233,6 +246,10 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
+        if (evt.getPropertyName().equals(State.IDLE.name()))
+            getClient().changeViewBuilder(new IDLEViewBuilder());
+        else{
+            System.out.println("Setup received: "+evt.getPropertyName()+ JsonUtility.serialize(evt.getNewValue()));
+        }
     }
 }

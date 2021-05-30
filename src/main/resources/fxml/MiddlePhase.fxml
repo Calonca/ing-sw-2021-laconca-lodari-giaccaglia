@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.GUI.MiddlePhaseGUI">
+    <AnchorPane fx:id="mfAnchor" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #006994;" StackPane.alignment="BOTTOM_LEFT">
+      <children>
+         <Button fx:id="cardButton" layoutX="89.0" layoutY="350.0" mnemonicParsing="false" />
+         <Button fx:id="productionButton" layoutX="474.0" layoutY="344.0" mnemonicParsing="false"  />
+         <Button fx:id="resourceMarketButton" layoutX="824.0" layoutY="350.0" mnemonicParsing="false" />
+      </children></AnchorPane>
+    <cursor>
+        <Cursor fx:constant="OPEN_HAND" />
+    </cursor>
+</StackPane>
