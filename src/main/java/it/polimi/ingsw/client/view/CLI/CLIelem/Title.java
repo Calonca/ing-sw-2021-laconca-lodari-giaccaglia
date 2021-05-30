@@ -24,7 +24,7 @@ public class Title extends CLIelem{
         Canvas canvas = Canvas.withBorder(CLI.width,1);
         Drawable dwl = new Drawable();
         dwl.addToCenter(CLI.width,title);
-        canvas.addDrawableList(dwl);
+        canvas.addDrawable(dwl);
         return canvas.toString();
     }
 

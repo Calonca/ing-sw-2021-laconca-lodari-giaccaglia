@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public enum ResourceCLI {
-    GOLD(ResourceAsset.GOLD,"G",       "  Gold   ", Color.ANSI_GOLD, Background.ANSI_GOLD_BACKGROUND),
-    SERVANT(ResourceAsset.SERVANT, "S"," Servant ",Color.ANSI_SERVANT,Background.ANSI_GOLD_BACKGROUND),
-    SHIELD(ResourceAsset.SHIELD, "H",  " Shield  ",Color.ANSI_SHIELD,Background.ANSI_GOLD_BACKGROUND),
-    STONE(ResourceAsset.STONE, "T",    "  Stone  ",Color.ANSI_STONE,Background.ANSI_GOLD_BACKGROUND),
-    TO_CHOSE(ResourceAsset.EMPTY, "C", "To choose",Color.ANSI_WHITE,Background.ANSI_WHITE_BACKGROUND),
+    GOLD(ResourceAsset.GOLD,"G",       "  Gold   ", Color.GOLD, Background.ANSI_GOLD_BACKGROUND),
+    SERVANT(ResourceAsset.SERVANT, "S"," Servant ",Color.SERVANT,Background.ANSI_GOLD_BACKGROUND),
+    SHIELD(ResourceAsset.SHIELD, "H",  " Shield  ",Color.SHIELD,Background.ANSI_GOLD_BACKGROUND),
+    STONE(ResourceAsset.STONE, "T",    "  Stone  ",Color.STONE,Background.ANSI_GOLD_BACKGROUND),
+    TO_CHOSE(ResourceAsset.EMPTY, "C", "To choose",Color.RIGHT_WHITE,Background.ANSI_WHITE_BACKGROUND),
     FAITH(ResourceAsset.FAITH, "F",    "  Faith  ",Color.DEFAULT,Background.DEFAULT),
     EMPTY(ResourceAsset.EMPTY, "E",    "  Empty  ",Color.DEFAULT,Background.DEFAULT);
 
@@ -34,7 +34,7 @@ public enum ResourceCLI {
 
     public Drawable toBigDrawableList(boolean isSelected){
         Background back = isSelected?b:Background.DEFAULT;
-        Color cl = isSelected?Color.ANSI_BLACK:c;
+        Color cl = isSelected?Color.BLACK :c;
         Drawable dwList = new Drawable();
         dwList.add(0,"-----------",cl,back);
         dwList.add(0,"|         |",cl,back);

@@ -48,14 +48,14 @@ public class SetupBody extends CLIelem {
         {
             Drawable dl = ResourceCLI.fromAsset(resAsset).toBigDrawableList(false);
             dl.shift(posX,0);
-            canvas.addDrawableList(dl);
+            canvas.addDrawable(dl);
             posX+=ResourceCLI.width();
         }
         for (int i =0;i<resToChoose;i++)
         {
             Drawable dl = ResourceCLI.TO_CHOSE.toBigDrawableList(i==0);
             dl.shift(posX,0);
-            canvas.addDrawableList(dl);
+            canvas.addDrawable(dl);
             posX+=ResourceCLI.width();
         }
 
@@ -66,7 +66,7 @@ public class SetupBody extends CLIelem {
             HorizontalListBody resToChooseFrom = new HorizontalListBody(7);
             Drawable dwl1 = new Drawable();
             dwl1.add(StartPositionX-s.length(),s);
-            canvas.addDrawableList(dwl1);
+            canvas.addDrawable(dwl1);
 
             Drawable dwl = new Drawable();
             dwl.addToCenter(CLI.width,"^");
@@ -74,7 +74,7 @@ public class SetupBody extends CLIelem {
             dwl.addToCenter(CLI.width,"|");
             dwl.addToCenter(CLI.width,"|"+"-".repeat(1+(ResourceCLI.width()+6)*4)+"|");
             dwl.shift(0,7);
-            canvas.addDrawableList(dwl);
+            canvas.addDrawable(dwl);
 
             List<Drawable> optionsDwList = ResourceCLI.toList();
             for (int i=0;i<optionsDwList.size();i++){
@@ -93,7 +93,7 @@ public class SetupBody extends CLIelem {
             Drawable dwl = new Drawable();
             dwl.addToCenter(CLI.width,s1);
             dwl.shift(4,ResourceCLI.height()-2);
-            canvas.addDrawableList(dwl);
+            canvas.addDrawable(dwl);
             //Add leaders list
             HorizontalListBody leadersToChooseFrom = new HorizontalListBody(9);
             for (int i=0;i<leadersToChoose.size();i++){

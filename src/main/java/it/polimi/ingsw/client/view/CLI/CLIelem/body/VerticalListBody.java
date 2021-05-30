@@ -26,7 +26,7 @@ public class VerticalListBody extends OptionList {
         return IntStream.range(0,options.size())
                 .mapToObj(i->{
                     Drawable drawable = new Drawable();
-                    DrawableLine number = new DrawableLine(0,0, i+": ", Color.ANSI_BLUE,Background.DEFAULT);
+                    DrawableLine number = new DrawableLine(0,0, i+": ", Color.BRIGHT_BLUE,Background.DEFAULT);
                     drawable.add(number);
 
                     Drawable drawableOptions = Drawable.copyShifted(number.getWidth(),0,options.get(i).toDrawableList());
@@ -55,7 +55,7 @@ public class VerticalListBody extends OptionList {
         int writingY= (CLI.height-toDraw.getHeight())/2;
 
         toDraw.shift(writingX,writingY);
-        canvas.addDrawableList(toDraw);
+        canvas.addDrawable(toDraw);
 
         return canvas.toString();
     }

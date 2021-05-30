@@ -187,7 +187,7 @@ public class CLI {
     }
 
     private void printError(String error){
-        print(Color.colorString(error,Color.ANSI_RED));
+        print(Color.colorString(error,Color.RED));
     }
 
     /**
@@ -204,7 +204,7 @@ public class CLI {
         putEndDiv();
         if (errorMessage!=null)
             printError(errorMessage+" ");
-        printLine(Color.colorString(inputMessage,Color.ANSI_GREEN));
+        printLine(Color.colorString(inputMessage,Color.GREEN));
     }
 
     static void cleanConsole() {

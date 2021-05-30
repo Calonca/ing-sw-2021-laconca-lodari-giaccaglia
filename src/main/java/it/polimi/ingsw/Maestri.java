@@ -2,13 +2,10 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.view.CLI.CLI;
-import it.polimi.ingsw.client.view.CLI.CreateJoinLoadMatch;
 import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 import it.polimi.ingsw.client.view.GUI.GUI;
-import it.polimi.ingsw.client.view.abstractview.ConnectToServerViewBuilder;
 import it.polimi.ingsw.server.Server;
 import org.apache.commons.cli.*;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.PrintWriter;
 
@@ -90,7 +87,7 @@ public class Maestri {
     }
 
     private static void printErrorAndClose(String error,Options options){
-        System.out.println(Color.colorString(error, Color.ANSI_RED));
+        System.out.println(Color.colorString(error, Color.RED));
         displayHelpMessage(options);
         System.exit(-1);
     }

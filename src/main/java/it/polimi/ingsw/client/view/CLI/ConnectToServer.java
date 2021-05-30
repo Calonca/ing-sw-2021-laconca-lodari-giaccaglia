@@ -39,7 +39,7 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements CLIBu
         dwl.addToCenter(CLI.width,title1);
         dwl.addEmptyLine();
         dwl.addToCenter(CLI.width,title1line2);
-        canvas.addDrawableList(dwl);
+        canvas.addDrawable(dwl);
         return canvas;
     }
 

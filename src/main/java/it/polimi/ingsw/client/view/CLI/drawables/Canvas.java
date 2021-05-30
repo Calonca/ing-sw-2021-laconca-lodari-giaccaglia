@@ -47,7 +47,7 @@ public class Canvas {
         int y = StringUtil.startCenterWritingY(s, height);
         Drawable dwl = new Drawable();
         dwl.add(new DrawableLine(x,y,s));
-        printer.addDrawableList(dwl);
+        printer.addDrawable(dwl);
         return printer;
     }
 
@@ -56,7 +56,7 @@ public class Canvas {
         return lineChars.chars().mapToObj(c->String.valueOf((char) c)).toArray(String[]::new);
     }
 
-    public void addDrawableList(Drawable dwl){
+    public void addDrawable(Drawable dwl){
         lists.put(dwl.getId(),dwl);
     }
 

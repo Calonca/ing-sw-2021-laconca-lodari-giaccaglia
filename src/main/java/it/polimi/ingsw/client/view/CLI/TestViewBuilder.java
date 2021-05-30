@@ -31,8 +31,8 @@ public class TestViewBuilder extends it.polimi.ingsw.client.view.abstractview.Te
         }));
 
         Drawable d = new Drawable();
-        d.add(new DrawableLine(0,0,"I'm a black title", Color.ANSI_WHITE, Background.ANSI_BLACK_BACKGROUND));
-        d.add(new DrawableLine(3,1,"I'm a red body of text\nshifted to the left", Color.ANSI_RED, Background.DEFAULT));
+        d.add(new DrawableLine(0,0,"I'm a black title", Color.RIGHT_WHITE, Background.ANSI_BLACK_BACKGROUND));
+        d.add(new DrawableLine(3,1,"I'm a red body of text\nshifted to the left", Color.RED, Background.DEFAULT));
         horList.addOption(Option.from(d,()->{
             resSelected.getAndIncrement();
             getCLIView().setTitle(new Title("Selected res "+resSelected.get()));
@@ -41,16 +41,16 @@ public class TestViewBuilder extends it.polimi.ingsw.client.view.abstractview.Te
         }));
 
         Drawable d2 = new Drawable();
-        d2.add(new DrawableLine(0,0,"I'm a square", Color.ANSI_BLACK, Background.ANSI_YELLOW_BACKGROUND));
+        d2.add(new DrawableLine(0,0,"I'm a square", Color.BLACK, Background.ANSI_YELLOW_BACKGROUND));
         d2.addEmptyLine();
         d2.add(0,"hi");
         d2.shift(4,0);
 
         Drawable d3 = new Drawable();
-        d3.add(new DrawableLine(0,0,"+--------+", Color.ANSI_BLACK, Background.ANSI_CYAN_BACKGROUND));
-        d3.add(0,"|        |",Color.ANSI_BLACK, Background.ANSI_CYAN_BACKGROUND);
-        d3.add(0,"|   hi   |",Color.ANSI_BLACK, Background.ANSI_CYAN_BACKGROUND);
-        d3.add(0,"|________|",Color.ANSI_BLACK, Background.ANSI_CYAN_BACKGROUND);
+        d3.add(new DrawableLine(0,0,"+--------+", Color.BLACK, Background.ANSI_CYAN_BACKGROUND));
+        d3.add(0,"|        |",Color.BLACK, Background.ANSI_CYAN_BACKGROUND);
+        d3.add(0,"|   hi   |",Color.BLACK, Background.ANSI_CYAN_BACKGROUND);
+        d3.add(0,"|________|",Color.BLACK, Background.ANSI_CYAN_BACKGROUND);
         d3 = Drawable.copyShifted(5,3,d3);
 
         horList.addOption(Option.from(new Drawable(d2,d3),()->{

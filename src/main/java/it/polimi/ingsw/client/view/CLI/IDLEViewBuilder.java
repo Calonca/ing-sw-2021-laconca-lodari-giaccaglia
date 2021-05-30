@@ -18,7 +18,7 @@ public class IDLEViewBuilder extends it.polimi.ingsw.client.view.abstractview.ID
         Canvas canvas = Canvas.withBorder(CLI.width,getCLIView().getMaxBodyHeight());
         Drawable dwl = new Drawable();
         dwl.add(0,"Waiting for initial phase state");
-        canvas.addDrawableList(dwl);
+        canvas.addDrawable(dwl);
         spinnerBody.setMeanwhileShow(canvas);
         spinnerBody.switchToStateWhenReceiving(State.INITIAL_PHASE.name(),new InitialOrFinalPhaseCLI(true),getClient());
 

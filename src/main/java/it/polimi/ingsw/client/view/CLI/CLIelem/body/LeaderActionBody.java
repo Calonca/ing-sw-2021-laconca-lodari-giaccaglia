@@ -46,14 +46,14 @@ public class LeaderActionBody extends CLIelem {
             hiddenOptionList.addOption(discardOption);
 
             Drawable listEntry = DrawableLeader.fromAsset(l,false);
-            listEntry.add(0,i*2+": Activate "+(1+i*2)+": Discard", Color.ANSI_BLUE, Background.DEFAULT);
+            listEntry.add(0,i*2+": Activate "+(1+i*2)+": Discard", Color.BRIGHT_BLUE, Background.DEFAULT);
             Option visOpt = Option.from(listEntry,()->{});
             leadersList.addOption(visOpt);
 
         }
 
         Drawable skipLeadersDw = new Drawable();
-        skipLeadersDw.add(0, leaders.size()*2+": Skip",Color.ANSI_BLUE,Background.DEFAULT);
+        skipLeadersDw.add(0, leaders.size()*2+": Skip",Color.BRIGHT_BLUE,Background.DEFAULT);
         skipLeadersDw.shift(0,DrawableLeader.height());
         Option skipLeaderOpt = Option.from(skipLeadersDw,()->{
             client.getServerHandler().sendCommandMessage(new EventMessage(new SkipLeaderEvent()));

@@ -35,7 +35,7 @@ public class Drawable {
 
     public static Drawable selectedDrawableList(Drawable drawable){
         Drawable dList = Drawable.copyShifted(0,0, drawable);
-        dList.get().forEach(e->e.setColor(Color.ANSI_BLACK));
+        dList.get().forEach(e->e.setColor(Color.BLACK));
         dList.get().forEach(e->e.setBackground(Background.ANSI_WHITE_BACKGROUND));
         return dList;
     }

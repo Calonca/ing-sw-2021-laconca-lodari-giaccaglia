@@ -62,7 +62,7 @@ public class HorizontalListBody extends OptionList {
         Canvas ca = Canvas.withBorder(CLI.width,height+1);
         toStringStream().map(l-> Drawable.copyShifted(startX.get(),(height-optMaxHeight())/2,l))
                 .forEach(o->{
-            ca.addDrawableList(o);
+            ca.addDrawable(o);
             startX.addAndGet(optWidth);
         });
         this.canvas = ca;
@@ -76,7 +76,7 @@ public class HorizontalListBody extends OptionList {
         Canvas canvas = Canvas.withBorder(CLI.width,height+1);
         toBelowStringStream().map(l-> Drawable.copyShifted(startX.get()+optWidth/4,(height-optMaxHeight())/2,l))
                 .forEach(o->{
-            canvas.addDrawableList(o);
+            canvas.addDrawable(o);
             startX.addAndGet(optWidth);
         });
         this.canvas = canvas;
@@ -91,7 +91,7 @@ public class HorizontalListBody extends OptionList {
         return IntStream.range(0,options.size())
                 .mapToObj(i->{
                     Drawable drawable = new Drawable();
-                    drawable.add(new DrawableLine(spaces,0, i+":", Color.ANSI_BLUE,Background.DEFAULT));
+                    drawable.add(new DrawableLine(spaces,0, i+":", Color.BRIGHT_BLUE,Background.DEFAULT));
                     Drawable drawableOptions = Drawable.copyShifted(0,1,options.get(i).toDrawableList());
                     drawable.add(drawableOptions);
                     return drawable;});
@@ -106,7 +106,7 @@ public class HorizontalListBody extends OptionList {
                 .mapToObj(i->{
                     Drawable drawable = new Drawable();
                     drawable.add(options.get(i).toDrawableList());
-                    drawable.add(spaces, i+":", Color.ANSI_BLUE,Background.DEFAULT);
+                    drawable.add(spaces, i+":", Color.BRIGHT_BLUE,Background.DEFAULT);
                     return drawable;});
     }
 

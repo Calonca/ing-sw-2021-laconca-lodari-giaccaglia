@@ -2,9 +2,11 @@ package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Title;
+import it.polimi.ingsw.client.view.CLI.CLIelem.body.PersonalBoardBody;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.SetupBody;
 import it.polimi.ingsw.client.view.abstractview.SetupPhaseViewBuilder;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
+import it.polimi.ingsw.network.simplemodel.SimpleFaithTrack;
 import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
 import it.polimi.ingsw.network.util.Util;
 
@@ -19,8 +21,9 @@ public class SetupPhase extends SetupPhaseViewBuilder implements CLIBuilder {
         int resourcesToChoose = Util.resourcesToChooseOnSetup(getCommonData().getThisPlayerIndex());
         getCLIView().setTitle(new Title(title));
         SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).orElseThrow();
-        getCLIView().setBody(new SetupBody(simplePlayerLeaders.getPlayerLeaders(),resourcesToChoose,getClient()));
-
+        SimpleFaithTrack simpleTrack = getThisPlayerCache().getElem(SimpleFaithTrack.class).orElseThrow();
+        //getCLIView().setBody(new SetupBody(simplePlayerLeaders.getPlayerLeaders(),resourcesToChoose,getClient()));
+        getCLIView().setBody(new PersonalBoardBody(simpleTrack));
         getCLIView().show();
     }
 
