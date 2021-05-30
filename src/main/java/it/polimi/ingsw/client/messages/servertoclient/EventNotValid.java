@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.messages.servertoclient;
 
 import it.polimi.ingsw.client.ServerHandler;
+import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
 import it.polimi.ingsw.network.simplemodel.SimpleModelElement;
 
@@ -21,7 +22,7 @@ public class EventNotValid extends it.polimi.ingsw.network.messages.servertoclie
         String state = serverHandler.getClient().getSimpleModel().getPlayerCache(playerI).getCurrentState();
         serverHandler.getClient().setState(new StateInNetwork(playerI,state,new ArrayList<>(),new ArrayList<>()));
         serverHandler.getClient().changeViewBuilder(serverHandler.getClient().getCurrentViewBuilder());
-        System.out.println("Event not valid");
+        System.out.println(Color.colorString("The last event send was not valid, going back to the last valid state",Color.RED));
         //Todo better handling
     }
 }
