@@ -31,14 +31,20 @@ public class SimpleFaithTrack extends SimpleModelElement {
 
     private String config;
 
-    private final MutablePair<Piece, Integer> playerPiece = new MutablePair<>(Piece.PLAYER, 0);
-    private final MutablePair<Piece, Integer> lorenzoPiece = new MutablePair<>(Piece.LORENZO, 0);
+    private MutablePair<Piece, Integer> playerPiece = new MutablePair<>(Piece.PLAYER, 0);
+    private MutablePair<Piece, Integer> lorenzoPiece = new MutablePair<>(Piece.LORENZO, 0);
 
     @Override
     public void update(SimpleModelElement element){
         SimpleFaithTrack serverFaithTrack = (SimpleFaithTrack) element;
         String config = serverFaithTrack.config;
-        updateTrack(config);
+        //serverFaithTrack = updateTrack(config);
+
+        config = serverFaithTrack.config;
+        playerPiece = serverFaithTrack.playerPiece;
+        lorenzoPiece = serverFaithTrack.lorenzoPiece;
+        track = serverFaithTrack.track;
+        tiles = serverFaithTrack.tiles;
 
     }
 
@@ -56,6 +62,10 @@ public class SimpleFaithTrack extends SimpleModelElement {
      * The default number of elements is 25, which is set on the game setup.
      */
     private List<FaithCell> track;
+
+    public List<FaithCell> getTrack() {
+        return track;
+    }
 
     /**
      * <p>{@link List} of {@link PopeFavourTile PopeFavourTiles} objects of the <em>FaithTrack</em>.<br>
