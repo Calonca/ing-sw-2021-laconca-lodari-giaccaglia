@@ -21,6 +21,7 @@ public class EventNotValid extends it.polimi.ingsw.network.messages.servertoclie
         String state = serverHandler.getClient().getSimpleModel().getPlayerCache(playerI).getCurrentState();
         serverHandler.getClient().setState(new StateInNetwork(playerI,state,new ArrayList<>(),new ArrayList<>()));
         serverHandler.getClient().changeViewBuilder(serverHandler.getClient().getCurrentViewBuilder());
+        System.out.println("Event not valid");
         //Todo better handling
     }
 }
