@@ -7,10 +7,7 @@ import it.polimi.ingsw.network.simplemodel.SimpleModelElement;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.IntStream;
 
 public class SimpleModel {
@@ -47,7 +44,16 @@ public class SimpleModel {
         //Todo notify
     }
 
-    public SimpleModelElement getElem(String name){
+    public <T extends SimpleModelElement> Optional<T> getElem(Class<T> s){
+        Optional<SimpleModelElement> notCasted= Optional.ofNullable(commonSimpleModelElementsMap.getOrDefault(s.getSimpleName(),null));
+        try {
+            return (Optional<T>) notCasted;
+        } catch (Exception e){
+            return Optional.empty();
+        }
+    }
+
+    private SimpleModelElement getElem(String name){
         return commonSimpleModelElementsMap.get(name);
     }
 

@@ -2,8 +2,8 @@ package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.SpinnerBody;
-import it.polimi.ingsw.client.view.CLI.drawables.Canvas;
-import it.polimi.ingsw.client.view.CLI.drawables.Drawable;
+import it.polimi.ingsw.client.view.CLI.layout.drawables.Canvas;
+import it.polimi.ingsw.client.view.CLI.layout.drawables.Drawable;
 
 import java.beans.PropertyChangeEvent;
 

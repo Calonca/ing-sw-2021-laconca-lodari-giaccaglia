@@ -33,8 +33,8 @@ public class TestGridBody extends ViewBuilder {
         hiddenOptionList.addOption(Option.from("R2 O2",buildTestRunnable(5)));
         hiddenOptionList.addOption(Option.from("R2 O3",buildTestRunnable(6)));
 
-        grid.addLine(hor1);
-        grid.addLine(hor2);
+        grid.addRow(hor1);
+        grid.addRow(hor2);
 
         grid.setShowNumbers(true);
 

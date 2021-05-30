@@ -1,8 +1,8 @@
 package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
-import it.polimi.ingsw.client.view.CLI.drawables.Canvas;
-import it.polimi.ingsw.client.view.CLI.drawables.Drawable;
+import it.polimi.ingsw.client.view.CLI.layout.drawables.Canvas;
+import it.polimi.ingsw.client.view.CLI.layout.drawables.Drawable;
 import it.polimi.ingsw.client.view.abstractview.ConnectToServerViewBuilder;
 
 import java.beans.PropertyChangeEvent;

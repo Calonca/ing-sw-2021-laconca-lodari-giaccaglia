@@ -3,7 +3,7 @@ package it.polimi.ingsw.client.view.CLI;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.HorizontalListBody;
 import it.polimi.ingsw.client.view.CLI.layout.Option;
 import it.polimi.ingsw.client.view.CLI.layout.HorizontalList;
-import it.polimi.ingsw.client.view.CLI.drawables.Drawable;
+import it.polimi.ingsw.client.view.CLI.layout.drawables.Drawable;
 import it.polimi.ingsw.client.view.abstractview.MiddlePhaseViewBuilder;
 
 public class MiddlePhaseCLI extends MiddlePhaseViewBuilder implements CLIBuilder {

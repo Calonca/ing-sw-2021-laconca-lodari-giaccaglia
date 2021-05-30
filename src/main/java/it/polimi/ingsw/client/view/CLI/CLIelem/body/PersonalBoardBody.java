@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.view.CLI.CLIelem.body;
 
 import it.polimi.ingsw.client.view.CLI.CLIelem.CLIelem;
-import it.polimi.ingsw.client.view.CLI.drawables.DrawableFaithTrack;
+import it.polimi.ingsw.client.view.CLI.layout.drawables.DrawableFaithTrack;
 import it.polimi.ingsw.network.simplemodel.SimpleFaithTrack;
 
 public class PersonalBoardBody extends CLIelem {

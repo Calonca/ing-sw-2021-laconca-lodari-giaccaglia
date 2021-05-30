@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.view.CLI.layout;
 
-import it.polimi.ingsw.client.view.CLI.drawables.Drawable;
+import it.polimi.ingsw.client.view.CLI.layout.drawables.Drawable;
 
 /**
  * A selectable option in a CLIView that will execute the given code when perform is called
@@ -15,6 +15,14 @@ public class Option {
         Option option = new Option(name,subtitle);
         option.setPerformer(performer);
         return option;
+    }
+
+    public static Option from(String name){
+        return new Option(name,"");
+    }
+
+    public static Option activeFrom(String name){
+        return new Option(name,"");
     }
 
     public static Option from(String name, Runnable performer){
@@ -53,7 +61,8 @@ public class Option {
     private Option(String name, String subtitle){
         drawable = new Drawable();
         drawable.add(0, name);
-        drawable.add(3,subtitle);
+        if (!subtitle.equals(""))
+            drawable.add(3,subtitle);
         this.selected = false;
         selectedDrawable = Drawable.selectedDrawableList(drawable);
     }

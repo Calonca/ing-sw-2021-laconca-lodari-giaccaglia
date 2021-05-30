@@ -23,6 +23,9 @@ public abstract class ResourceMarketViewBuilder extends ViewBuilder{
         else return new ResourceMarketGUI();
     }
 
+    /**
+     * @param line 0 to 2 for rows and 3 to 6 for columns
+     */
     protected void sendLine(int line){
         getClient().getServerHandler().sendCommandMessage(new EventMessage(new ChooseLineEvent(line)));
     }
@@ -45,14 +48,14 @@ public abstract class ResourceMarketViewBuilder extends ViewBuilder{
     public abstract void choosePositions();
 
     public MarbleAsset[][] getMarketMatrix(){
-        return getThisPlayerCache().getElem(SimpleMarketBoard.class).orElseThrow().getMarbleMatrix();
+        return getSimpleModel().getElem(SimpleMarketBoard.class).orElseThrow().getMarbleMatrix();
     }
 
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         String propertyName = evt.getPropertyName();
-        if (CHOOSING_RESOURCE_FOR_PRODUCTION.name().equals(propertyName)) {
+        if (CHOOSING_POSITION_FOR_RESOURCES.name().equals(propertyName)) {
             choosePositions();
         } else MiddlePhaseViewBuilder.middlePhaseCommonTransition(evt);
     }

@@ -20,7 +20,7 @@ public class Grid {
         lists.forEach(l->l.setShowNumber(showNumbers));
     }
 
-    public void addLine(HorizontalList toAdd){
+    public void addRow(HorizontalList toAdd){
         toAdd.setStartIndex(lastIndex);
         lists.add(toAdd);
         lastIndex+=toAdd.options.size();
