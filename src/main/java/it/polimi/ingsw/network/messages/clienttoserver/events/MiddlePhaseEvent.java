@@ -10,5 +10,12 @@ import it.polimi.ingsw.server.model.player.board.PersonalBoard;
  */
 public class MiddlePhaseEvent extends Event {
 
+    protected int choice;
 
+    public MiddlePhaseEvent() {
+    }
+
+    public MiddlePhaseEvent(int choice) {
+        this.choice = choice;
+    }
 }

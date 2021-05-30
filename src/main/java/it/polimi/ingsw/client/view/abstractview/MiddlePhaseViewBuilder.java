@@ -4,13 +4,14 @@ import it.polimi.ingsw.client.view.CLI.MiddlePhaseCLI;
 import it.polimi.ingsw.client.view.GUI.MiddlePhaseGUI;
 import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.events.MiddlePhaseEvent;
+import it.polimi.ingsw.network.messages.clienttoserver.events.cardshopevent.CardShopEvent;
 
 public abstract class MiddlePhaseViewBuilder extends ViewBuilder {
     //Todo should be new MiddlePhaseEvent(1),2,3
     public enum Choice{
-        PRODUCTION(()->getClient().getServerHandler().sendCommandMessage(new EventMessage(new MiddlePhaseEvent()))),
-        RESOURCE_MARKET(()->getClient().getServerHandler().sendCommandMessage(new EventMessage(new MiddlePhaseEvent()))),
-        CARD_SHOP(()->getClient().getServerHandler().sendCommandMessage(new EventMessage(new MiddlePhaseEvent())));
+        RESOURCE_MARKET(()->getClient().getServerHandler().sendCommandMessage(new EventMessage(new MiddlePhaseEvent(0)))),
+        CARD_SHOP(()->getClient().getServerHandler().sendCommandMessage(new EventMessage(new MiddlePhaseEvent(1)))),
+        PRODUCTION(()->getClient().getServerHandler().sendCommandMessage(new EventMessage(new MiddlePhaseEvent(2))));
         Runnable r;
 
         public Runnable getR() {

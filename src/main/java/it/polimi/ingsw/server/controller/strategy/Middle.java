@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.controller.strategy;
 
 import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
 import it.polimi.ingsw.server.controller.EventValidationFailedException;
+import it.polimi.ingsw.server.messages.clienttoserver.events.MiddlePhaseEvent;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.messages.messagebuilders.Element;
 import it.polimi.ingsw.server.model.GameModel;
@@ -22,7 +23,8 @@ public class Middle implements GameStrategy {
     public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event)
     {
         //MESSAGE IS MARKET, SHOP, PRODUCTION (0,1,2)
-        int msg=0;
+        MiddlePhaseEvent middlePhaseEvent = (MiddlePhaseEvent) event;
+        int msg=middlePhaseEvent.getChoice();
         if(msg==0)
             return new Pair<>(State.CHOOSING_MARKET_LINE, elementsToUpdate);
         else if(msg==1)

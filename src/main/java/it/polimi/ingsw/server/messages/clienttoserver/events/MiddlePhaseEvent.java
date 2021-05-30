@@ -9,6 +9,13 @@ import it.polimi.ingsw.server.model.GameModel;
  */
 public class MiddlePhaseEvent extends it.polimi.ingsw.network.messages.clienttoserver.events.MiddlePhaseEvent implements Validable {
 
+    public int getChoice() {
+        return choice;
+    }
+
+    public MiddlePhaseEvent(int choice) {
+        super(choice);
+    }
 
     /**
      * @param gameModel {@link GameModel} of the event's current game on which event validation has to be performed.
