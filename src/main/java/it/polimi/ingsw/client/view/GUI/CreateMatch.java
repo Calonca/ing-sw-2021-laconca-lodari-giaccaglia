@@ -28,7 +28,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * The user will be asked to insert a nickname and the number of players
+ * Waiting screen
  */
 public class CreateMatch extends CreateJoinLoadMatchViewBuilder implements GUIView {
 

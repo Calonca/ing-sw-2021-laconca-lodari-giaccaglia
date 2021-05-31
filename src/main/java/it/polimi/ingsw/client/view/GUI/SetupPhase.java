@@ -29,7 +29,7 @@ import java.net.URL;
 import java.util.*;
 
 /**
- * The user will be asked to insert a nickname and the number of players
+ * This scene is composed by a small card selector (2max), a resource selector and a confirmation button
  */
 public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupPhaseViewBuilder implements GUIView {
 

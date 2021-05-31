@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 /**
- * The user will be asked to insert a nickname and the number of players
+ * The market is generated via a subscene that is attached to the main scene
  */
 public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIView {
 

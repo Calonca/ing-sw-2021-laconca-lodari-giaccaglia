@@ -24,7 +24,8 @@ import java.net.URL;
 import java.util.*;
 
 /**
- * The user will be asked to insert a nickname and the number of players
+ * The CardShop is generated via a method that passes its subscene. It's composed of a small single card
+ * selector and a confirmation button
  */
 public class CardShopGUI extends CardShopViewBuilder implements GUIView {
 
@@ -50,7 +51,6 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
         Node toadd=getRoot();
         toadd.setTranslateX(-400);
         toadd.setTranslateY(107);
-        ///metti cio che sta nel run qui cazzone
         ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(toadd);
         System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
 

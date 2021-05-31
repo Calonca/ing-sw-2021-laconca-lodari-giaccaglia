@@ -31,7 +31,8 @@ import java.util.ResourceBundle;
 import java.util.Stack;
 
 /**
- * During this phase, the initial pane will be created. All following scenes will attach themselves to the connectionPane
+ * During this phase, the player will be asked to connect to a game server. It's composed by three text forms
+ * and a confirmation button
  */
 public class ConnectToServer extends ConnectToServerViewBuilder implements GUIView {
 
