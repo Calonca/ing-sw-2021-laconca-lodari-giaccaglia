@@ -15,6 +15,7 @@ import it.polimi.ingsw.server.model.Resource;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.SubScene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -28,7 +29,7 @@ import java.net.URL;
 import java.util.*;
 
 /**
- * The user will be asked to insert a nickname and the number of players
+ * This scene is composed by a small card selector (2max), a resource selector and a confirmation button
  */
 public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupPhaseViewBuilder implements GUIView {
 
@@ -61,7 +62,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
 
     }
 
-    public Parent getRoot() {
+    public SubScene getRoot() {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/SetupMenu.fxml"));
         Parent root = null;
@@ -72,7 +73,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
             e.printStackTrace();
         }
 
-        return root;
+        return new SubScene(root,1000,700);
 
     }
 

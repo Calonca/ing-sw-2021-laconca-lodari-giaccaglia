@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<StackPane fx:id="connectionPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700" prefWidth="1000" style="-fx-background-color: #006994;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.GUI.ConnectToServer">
+<AnchorPane fx:id="connectionPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700" prefWidth="1000" style="-fx-background-color: #006994;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.GUI.ConnectToServer">
    <AnchorPane fx:id="connectionAnchor" prefHeight="200.0" prefWidth="200.0">
       <Button layoutX="500.0" layoutY="500.0" mnemonicParsing="false" onAction="#handleButton" text="CONNECT" />
       <Text fx:id="error" layoutX="462.0" layoutY="408.0" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="INSERT CORRECT DATA!" />
@@ -13,4 +13,4 @@
    <cursor>
       <Cursor fx:constant="TEXT" />
    </cursor>
-</StackPane>
+</AnchorPane>

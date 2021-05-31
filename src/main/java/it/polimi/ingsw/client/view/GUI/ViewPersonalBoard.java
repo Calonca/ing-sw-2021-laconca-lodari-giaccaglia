@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -34,12 +35,22 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
 
     @Override
     public void run() {
+        getClient().getStage().setResizable(true);
+
         ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(0);
         ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(getRoot());
+        getClient().getStage().setHeight(800);
+        getClient().getStage().setWidth(1200);
+        getClient().getStage().setResizable(false);
+
         System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
+        CardShopGUI cardshop=new CardShopGUI();
+        cardshop.addMarket();
+        ResourceMarketGUI market=new ResourceMarketGUI();
+        market.addMatrix();
     }
 
-    public Parent getRoot() {
+    public SubScene getRoot() {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/ViewPersonalBoard.fxml"));
         Parent root = null;
@@ -50,7 +61,8 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
             e.printStackTrace();
         }
 
-        return root;
+        return new SubScene(root,1200,800);
+
 
     }
 
@@ -82,7 +94,7 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
             ResourceButton tempbut= new ResourceButton();
             tempbut.setResource(Resource.fromInt(i));
             tempbut.setLayoutY(400);
-            tempbut.setLayoutX(100+200*i);
+            tempbut.setLayoutX(400+200*i);
             tempbut.color();
 
             //tempbut.setGraphic(buttonGraphic);
@@ -96,7 +108,7 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
             ResourceButton tempbut= new ResourceButton();
             tempbut.setResource(Resource.EMPTY);
             tempbut.setLayoutY(500);
-            tempbut.setLayoutX(100+200*i);
+            tempbut.setLayoutX(400+200*i);
             //tempbut.setGraphic(buttonGraphic);
             menuPane.getChildren().add(tempbut);
             sceneResources.add(tempbut);

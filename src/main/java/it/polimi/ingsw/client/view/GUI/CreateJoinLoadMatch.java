@@ -18,8 +18,10 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.SubScene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
@@ -55,7 +57,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
 
         ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(getRoot());
 
-        Parent root=getRoot();
+        SubScene root=getRoot();
         root.translateYProperty().set(getClient().getStage().getScene().getHeight());
         Timeline timeline=new Timeline();
         KeyValue kv= new KeyValue(root.translateYProperty(),0, Interpolator.EASE_IN);
@@ -69,7 +71,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
     }
 
 
-    public Parent getRoot() {
+    public SubScene getRoot() {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/CreateJoinLoadMatch.fxml"));
         Parent root = null;
@@ -80,7 +82,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
             e.printStackTrace();
         }
 
-        return root;
+        return new SubScene(root,1000,700);
 
     }
 
@@ -95,7 +97,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         if (evt.getPropertyName().equals(CommonData.matchesDataString))
             Platform.runLater(()->
             {
-
+            /*
                 if(!created)
                 {
                 //todo clean this up
@@ -112,7 +114,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
 
                 getClient().getStage().setScene(scene);
                 getClient().getStage().show();
-                }
+                }*/
             });
 
     }
@@ -257,6 +259,10 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         cjlPane.getChildren().remove(guiMatchesData);
         cjlPane.getChildren().add(scrollPane);
 
+        Button test=new Button();
+        test.setGraphic(new Label("PERSONAL BOARD"));
+        test.setOnAction( t -> getClient().changeViewBuilder(new ViewPersonalBoard()));
+        grid.add(test,2,2);
         guiMatchesData.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         guiMatchesData.getSelectionModel().setCellSelectionEnabled(true);
       //  System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(
