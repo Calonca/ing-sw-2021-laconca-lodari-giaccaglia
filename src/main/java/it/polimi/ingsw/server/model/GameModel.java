@@ -463,13 +463,21 @@ public class GameModel {
         return new Cloner().deepClone(resourcesMarket.getSlideMarble());
     }
 
+    public Marble[] getPickedMarbles(){
+        return resourcesMarket.getPickedMarbles();
+    }
+
+    public int getFaithPointsFromMarketPickedMarbles(){
+        return resourcesMarket.getFaithPointsFromMarbles();
+    }
+
     /**
      * Puts a marble in the selected {@link MarketLine line} of the {@link MarketBoard}
      * to get the resources in that line.
      * @param line an enum indicating the row or column.
      */
-    public Marble[] chooseLineFromMarketBoard(MarketLine line){
-        return resourcesMarket.chooseMarketLine(line);
+    public void chooseLineFromMarketBoard(MarketLine line){
+        resourcesMarket.chooseMarketLine(line);
     }
 
     /**
@@ -501,7 +509,7 @@ public class GameModel {
      * The resources and faith points position ordering is the same as their ordering in the {@link Resource resource enum}
      * @return a {@link Box} containing the resources and the faith points taken from the market.
      */
-    public Box getBoxResourcesFromMarketBoard(){
+    public Box getBoxOfResourcesFromMarketBoard(){
         return resourcesMarket.getMappedResourcesBox();
     }
 

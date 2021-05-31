@@ -69,7 +69,9 @@ public class MarketBoard {
     private MarketLine line;
 
     public static MarketBoard initializeMarketBoard() throws IOException {
+
         MarketBoard marketBoard = Deserializator.marketBoardDeserialization();
+
         List<Marble> marbles  = Arrays
                 .stream(marketBoard.marbleMatrix)
                 .flatMap(Arrays::stream).collect(Collectors.toList());
@@ -102,6 +104,10 @@ public class MarketBoard {
         return slideMarble;
     }
 
+    public Marble[] getPickedMarbles(){
+        return pickedMarbles;
+    }
+
     public int getRows(){
         return rows;
     }
@@ -120,7 +126,7 @@ public class MarketBoard {
      * @param line {@link MarketLine} corresponding to the row or column to get.
      *
      */
-    public Marble[] chooseMarketLine(MarketLine line){
+    public void chooseMarketLine(MarketLine line){
 
         this.line = line;
         int lineNumber = line.getLineNumber();
@@ -132,16 +138,16 @@ public class MarketBoard {
 
        calculateFaithPointsFromMarbles();
 
-     //  removeFaithPointMarble();
-
        Map<Marble, Long> resourceOccurrences = getResourcesOccurrences(pickedMarbles);
 
        mapMarblesToResources(resourceOccurrences);
 
        countNumberOfWhiteMarbles(resourceOccurrences);
 
-       return pickedMarbles;
+    }
 
+    public int getFaithPointsFromMarbles(){
+        return faithPointsFromMarbles;
     }
 
     private void calculateFaithPointsFromMarbles(){
@@ -152,12 +158,6 @@ public class MarketBoard {
 
     }
 
-  /*  private void removeFaithPointMarble(){
-
-        pickedMarbles = Arrays.stream(pickedMarbles)
-                .filter(marble -> !marble.equals(Marble.RED)).toArray(Marble[]::new);
-
-    } */
 
     private void mapMarblesToResources(Map<Marble, Long> resourceOccurrences){
 

@@ -323,16 +323,8 @@ public class PersonalBoard {
         return warehouseLeadersDepots;
     }
 
-    public Map<Integer, List<Integer>> getSimpleWarehouseLeadersDepots(){
+    public Map<Integer, List<Pair<Resource, Boolean>>> getSimpleWarehouseLeadersDepots(){
         return warehouseLeadersDepots.getSimpleWarehouseLeadersDepots();
-    }
-
-    public Map<Integer, Pair<Integer, Integer>> getSimpleStrongBox(){
-        return strongBox.getSimpleBox();
-    }
-
-    public Map<Integer, Pair<Integer, Integer>> getSimpleDiscardBox(){
-        return discardBox.getSimpleBox();
     }
 
     /**
@@ -506,5 +498,46 @@ public class PersonalBoard {
                 strongBox.getResourceAt(position) :
                 warehouseLeadersDepots.getResourceAt(position);
     }
+
+    /**
+     * Return a reduced representation of a {@link Box} as a Map where : <br>
+     *
+     * - key -> Resource <em>global position</em> in this {@link Box} <br>
+     * - value -> Pair where : <br> <br>
+     *                      - key -> {@link Resource} int value <br>
+     *                      - value -> Map where : <br>
+     *
+     *                                      -   key ->  {@link Resource} current amount in this Box. <br>
+     *                                      -   value -> currently selected resources for production <br> <br>
+     *
+     *
+     *
+     * @return reduced representation of a {@link Box}
+     */
+    public Map<Integer, Pair<Integer, Pair<Integer, Integer>>> getSimpleStrongBox() {
+
+        return IntStream.range(0, strongBox.getNumOfResourcesTypes()).boxed().collect(Collectors.toMap(
+                i -> strongBox.globalPositionOfRes(Resource.fromIntFixed(i)),
+                i -> new Pair<>(i,  new Pair<>(strongBox.getNumberOf(Resource.fromIntFixed(i)), strongBox.getNSelected(Resource.fromIntFixed(i))))));
+
+    }
+
+    /**
+     * Return a reduced representation of a {@link Box} as a Map where :
+     *
+     * - key -> Resource <em>global position</em> in this {@link Box}
+     * - value -> Pair where :
+     *                      - key -> {@link Resource} int value
+     *                      - value -> {@link Resource} current amount in this Box.
+     * @return reduced representation of a {@link Box}
+     */
+    public Map<Integer, Pair<Integer, Integer>> getSimpleDiscardBox() {
+
+        return IntStream.range(0, discardBox.getNumOfResourcesTypes()).boxed().collect(Collectors.toMap(
+                i -> discardBox.globalPositionOfRes(Resource.fromIntFixed(i)),
+                i -> new Pair<>(i, discardBox.getNumberOf(Resource.fromIntFixed(i)))));
+
+    }
+
 
 }

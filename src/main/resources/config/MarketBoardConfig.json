@@ -22,5 +22,6 @@
   "whiteMarblesQuantity": 0,
   "faithPointsFromMarbles": 0,
   "rows": 3,
-  "columns": 4
+  "columns": 4,
+  "pickedMarbles" : []
 }

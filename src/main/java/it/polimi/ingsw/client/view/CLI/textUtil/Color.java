@@ -15,7 +15,9 @@ public enum Color {
     BLUE("\u001B[34m"),
     PURPLE("\u001B[35m"),
     CYAN("\u001B[36m"),
-    WHITE("\u001B[37m"),
+    WHITE("\u001B[97m"),
+
+
 
     BRIGHT_BLACK("\u001B[90m"),
     BRIGHT_RED("\u001B[91m"),
@@ -30,7 +32,7 @@ public enum Color {
     GOLD("\u001B[33m"),
     SERVANT("\u001B[35m"),
     SHIELD("\u001B[96m"),
-    STONE("\u001B[97m");
+    STONE("\u001B[37m");
 
 
     public static final String RESET = "\u001B[0m";

@@ -69,7 +69,8 @@ public class ChooseWhiteMarbleConversionEventTest {
         for(MarketLine  line : MarketLine.values()) {
             if (!line.equals(MarketLine.INVALID_LINE)) {
                 Marble[] pickedMarbles;
-                pickedMarbles = gameModelTest.chooseLineFromMarketBoard(line);
+                gameModelTest.chooseLineFromMarketBoard(line);
+                pickedMarbles = gameModelTest.getPickedMarbles();
                 if(Arrays.asList(pickedMarbles).contains(Marble.WHITE))
                     break;
             }

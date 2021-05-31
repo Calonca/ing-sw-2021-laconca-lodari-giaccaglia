@@ -1,7 +1,5 @@
 package it.polimi.ingsw.server.controller.strategy.resourcemarket;
 
-import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
-import it.polimi.ingsw.server.controller.EventValidationFailedException;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.messages.clienttoserver.events.marketboardevent.ChooseLineEvent;
@@ -9,6 +7,7 @@ import it.polimi.ingsw.server.messages.messagebuilders.Element;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.market.MarketLine;
+import it.polimi.ingsw.server.model.player.board.Box;
 import it.polimi.ingsw.server.model.states.State;
 import javafx.util.Pair;
 
@@ -25,28 +24,30 @@ public class PuttingBallOnLine implements GameStrategy {
 
     List<Element> elementsToUpdate = new ArrayList<>();
 
-    public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event)
-    {
+    public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event) {
 
         gamemodel.chooseLineFromMarketBoard(MarketLine.fromInt(((ChooseLineEvent) event).getChosenRow()));
+        gamemodel.getCurrentPlayer().getPersonalBoard().setMarketBox(gamemodel.getBoxOfResourcesFromMarketBoard());
         gamemodel.updateMatrixAfterTakingResources();
 
-        gamemodel.getCurrentPlayer().getPersonalBoard().setMarketBox(gamemodel.getBoxResourcesFromMarketBoard());
+        elementsToUpdate.add(Element.SimpleMarketBoard);
 
+        if (gamemodel.areThereWhiteMarblesInPickedLine()){
+            if (!gamemodel.getCurrentPlayer().moreThanOneMarketBonus() && (gamemodel.getCurrentPlayer().getSingleMarketBonus()>-1)) {
+                for (int i = 0; i < gamemodel.getNumberOfWhiteMarblesInPickedLine(); i++) {
+                    gamemodel.convertWhiteMarbleInPickedLine(Resource.fromInt(gamemodel.getCurrentPlayer().getSingleMarketBonus()));
+                }
+            }
+            else if (gamemodel.getCurrentPlayer().moreThanOneMarketBonus())
+                return new Pair<>(State.CHOOSING_WHITEMARBLE_CONVERSION, elementsToUpdate);
+        }
 
-        // gamemodel.getBoxResourcesFromMarketBoard().removeResources(new int[]{0,0,0,0,faithnum,0,0});
-        //gamemodel.getBoxResourcesFromMarketBoard().selectN(faithnum,Resource.FAITH);
-        //gamemodel.getBoxResourcesFromMarketBoard().removeSelected();
+        Box marketBox = gamemodel.getBoxOfResourcesFromMarketBoard();
+        gamemodel.getCurrentPlayer().getPersonalBoard().setMarketBox(marketBox);
 
+        elementsToUpdate.add(Element.SimpleDiscardBox);
 
-        //if (gamemodel.getBoxResourcesFromMarketBoard().getNumberOf(Resource.TOCHOOSE)>0)
-        if (gamemodel.areThereWhiteMarblesInPickedLine())
-           if(!gamemodel.getCurrentPlayer().moreThanOneMarketBonus())
-               for(int i=0;i<gamemodel.getNumberOfWhiteMarblesInPickedLine();i++)
-               {
-                   gamemodel.convertWhiteMarbleInPickedLine(Resource.fromInt(gamemodel.getCurrentPlayer().getSingleMarketBonus()));
-               }
-           else return new Pair<>(State.CHOOSING_WHITEMARBLE_CONVERSION, elementsToUpdate);
         return new Pair<>(State.CHOOSING_POSITION_FOR_RESOURCES, elementsToUpdate);
+
     }
 }

@@ -1,17 +1,18 @@
 package it.polimi.ingsw.network.simplemodel;
 
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
+import javafx.util.Pair;
 
 import java.util.List;
 import java.util.Map;
 
 public class SimpleWarehouseLeadersDepot extends SimpleModelElement{
 
-    Map<Integer, List<ResourceAsset>> simpleWarehouseLeadersDepot;
+    Map<Integer, List<Pair<ResourceAsset, Boolean>>> simpleWarehouseLeadersDepot;
 
     public SimpleWarehouseLeadersDepot(){}
 
-    public SimpleWarehouseLeadersDepot(Map<Integer, List<ResourceAsset>> simpleWarehouseLeadersDepot){
+    public SimpleWarehouseLeadersDepot(Map<Integer, List<Pair<ResourceAsset, Boolean>>> simpleWarehouseLeadersDepot){
         this.simpleWarehouseLeadersDepot = simpleWarehouseLeadersDepot;
     }
 

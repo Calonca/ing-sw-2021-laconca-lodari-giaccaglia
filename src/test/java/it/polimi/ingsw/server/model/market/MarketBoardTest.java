@@ -3,14 +3,11 @@ package it.polimi.ingsw.server.model.market;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.player.board.Box;
-import it.polimi.ingsw.server.model.player.track.PopeFavourTile;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -58,7 +55,7 @@ public class MarketBoardTest {
         for (int i = 0; i < numberOfWhiteMarbles; i++)
             gameModelTest.convertWhiteMarbleInPickedLine(mappedResource.get(i));
 
-        mappedResources = gameModelTest.getBoxResourcesFromMarketBoard();
+        mappedResources = gameModelTest.getBoxOfResourcesFromMarketBoard();
         gameModelTest.updateMatrixAfterTakingResources();
 
 
@@ -77,7 +74,8 @@ public class MarketBoardTest {
     private void testWhiteMarble(MarketLine testLine) {
 
         Marble[] pickedMarbles;
-        pickedMarbles = gameModelTest.chooseLineFromMarketBoard(testLine);
+        gameModelTest.chooseLineFromMarketBoard(testLine);
+        pickedMarbles = gameModelTest.getPickedMarbles();
         System.out.println(Arrays.toString(pickedMarbles));
         boolean areThereWhiteMarbles = Arrays.asList(pickedMarbles).contains(Marble.WHITE);
         assertEquals(areThereWhiteMarbles, gameModelTest.areThereWhiteMarblesInPickedLine());
@@ -94,7 +92,8 @@ public class MarketBoardTest {
 
     private void testNumberOfWhiteMarbles(MarketLine testLine) {
         List<Marble> pickedMarbles;
-        pickedMarbles = Arrays.asList(gameModelTest.chooseLineFromMarketBoard(testLine));
+        gameModelTest.chooseLineFromMarketBoard(testLine);
+        pickedMarbles = Arrays.asList(gameModelTest.getPickedMarbles());
         System.out.println(pickedMarbles);
         int occurrences = pickedMarbles.stream().filter(marble -> marble == (Marble.WHITE)).mapToInt(i -> 1).sum();
         System.out.println(occurrences);
@@ -127,7 +126,8 @@ public class MarketBoardTest {
 
         List<Marble> pickedMarbles;
         int whiteMarblesQuantity = 0;
-        pickedMarbles = Arrays.asList(gameModelTest.chooseLineFromMarketBoard(testLine));
+        gameModelTest.chooseLineFromMarketBoard(testLine);
+        pickedMarbles = Arrays.asList(gameModelTest.getPickedMarbles());
         System.out.println(pickedMarbles);
         if (gameModelTest.areThereWhiteMarblesInPickedLine())
             whiteMarblesQuantity = gameModelTest.getNumberOfWhiteMarblesInPickedLine();
@@ -136,7 +136,7 @@ public class MarketBoardTest {
                 gameModelTest.convertWhiteMarbleInPickedLine(mappedResource);
 
 
-        Box mappedResources = gameModelTest.getBoxResourcesFromMarketBoard();
+        Box mappedResources = gameModelTest.getBoxOfResourcesFromMarketBoard();
         List<Marble> marbles = new ArrayList<>();
 
 

@@ -133,6 +133,10 @@ public class Box implements StorageUnit {
         return nSel[toGet.getResourceNumber()];
     }
 
+    public int getNumOfResourcesTypes(){
+        return nResAtPos.length;
+    }
+
     /**
      * Marks n resources as selected for an action
      * @param nToSel number of resources to select
@@ -182,22 +186,7 @@ public class Box implements StorageUnit {
         return nResAtPos[type.getResourceNumber()];
     }
 
-    /**
-     * Return a reduced representation of a {@link Box} as a Map where :
-     *
-     * - key -> Resource <em>global position</em> in this {@link Box}
-     * - value -> Pair where :
-     *                      - key -> {@link Resource} int value
-     *                      - value -> {@link Resource} current amount in this Box.
-     * @return reduced representation of a {@link Box}
-     */
-    public Map<Integer, Pair<Integer, Integer>> getSimpleBox() {
 
-        return IntStream.range(0, nResAtPos.length).boxed().collect(Collectors.toMap(
-                i -> globalPositionOfRes(Resource.fromIntFixed(i)),
-                i -> new Pair<>(i, getNumberOf(Resource.fromIntFixed(i)))));
-
-    }
 
 
     /**

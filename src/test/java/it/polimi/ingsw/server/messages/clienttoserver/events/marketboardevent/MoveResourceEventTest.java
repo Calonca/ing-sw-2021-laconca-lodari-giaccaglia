@@ -69,7 +69,7 @@ public class MoveResourceEventTest {
             }
         }
 
-        Box discardBox = gameModelTest.getBoxResourcesFromMarketBoard();
+        Box discardBox = gameModelTest.getBoxOfResourcesFromMarketBoard();
 
         for(Resource resource : Resource.values()){
             if( resource.getResourceNumber() < 4 && discardBox.getNumberOf(resource) == 0) {
@@ -95,7 +95,7 @@ public class MoveResourceEventTest {
            }
        }
 
-        Box discardBox = gameModelTest.getBoxResourcesFromMarketBoard();
+        Box discardBox = gameModelTest.getBoxOfResourcesFromMarketBoard();
 
         for(Resource resource : Resource.values()){
             if( resource.getResourceNumber() < 4 && discardBox.getNumberOf(resource) != 0) {

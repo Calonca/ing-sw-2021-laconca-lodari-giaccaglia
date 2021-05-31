@@ -3,9 +3,9 @@
     "key": 0,
     "value": "src/main/resources/assets/resources/GOLD.png"
   },
-  "TOCHOOSE": {
-    "key": 6,
-    "value": "src/main/resources/assets/resources/DUMMY_PATH"
+  "BADFAITH": {
+    "key": 5,
+    "value": "src/main/resources/assets/resources/FAITH.png"
   },
   "FAITH": {
     "key": 4,
@@ -22,6 +22,10 @@
   "SHIELD": {
     "key": 2,
     "value": "src/main/resources/assets/resources/SHIELD.png"
+  },
+  "TOCHOOSE": {
+    "key": 6,
+    "value": "src/main/resources/assets/resources/DUMMY_PATH"
   },
   "EMPTY": {
     "key": 7,

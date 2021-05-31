@@ -19,24 +19,22 @@ public class MarketBoardMessageBuilder {
         int marketRows = gameModel.getMarketBoardRows();
         int marketColumns = gameModel.getMarketBoardColumns();
 
-        List<UUID> marbles  = Arrays
-                .stream(marketMarbles)
-                .flatMap(Arrays::stream)
-                .map(marble ->
-                        UUID.nameUUIDFromBytes(marble.toString().getBytes(StandardCharsets.UTF_8)))
-                .collect(Collectors.toList());
+        UUID[][] uuidMarblesMatrix = new UUID[marketRows][marketColumns];
 
-        return IntStream.range(0, marketColumns*marketRows)
-                .mapToObj((pos)->new Pair<>(pos, marbles.get(pos)))
-                .collect(groupingBy((e)->e.getKey()% marketRows))
-                .values()
-                .stream()
-                .map(MarketBoardMessageBuilder::pairToValue)
-                .toArray(UUID[][]::new);
+        for(int i=0; i<marketRows; i++){
+            for(int j=0; j<marketColumns; j++){
+                uuidMarblesMatrix[i][j] = UUID.nameUUIDFromBytes(marketMarbles[i][j].toString().getBytes(StandardCharsets.UTF_8));
+            }
+        }
+
+        return uuidMarblesMatrix;
     }
 
-    private static UUID[] pairToValue(List<Pair<Integer, UUID>> pos_marArray){
-        return pos_marArray.stream().map(Pair::getValue).toArray(UUID[]::new);
+    public static List<UUID> pickedMarblesAdapter(GameModel gameModel){
+
+        Marble [] pickedMarbles = gameModel.getPickedMarbles();
+        return Arrays.stream(pickedMarbles).map(marble -> UUID.nameUUIDFromBytes(marble.toString().getBytes(StandardCharsets.UTF_8))).collect(Collectors.toList());
+
     }
 
 

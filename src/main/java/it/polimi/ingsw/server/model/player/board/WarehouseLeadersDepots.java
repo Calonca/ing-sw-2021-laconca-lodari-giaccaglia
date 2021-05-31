@@ -194,11 +194,17 @@ public class WarehouseLeadersDepots implements StorageUnit {
      * "3":[{key:EMPTY,value:false},{key:GOLD,value:false}]}
      */
     public String structuredTableJson(){
+
+       return serialize(getSimpleWarehouseLeadersDepots());
+    }
+
+    public  Map<Integer, List<Pair<Resource, Boolean>>> getSimpleWarehouseLeadersDepots(){
+
         Map<Integer, List<Pair<Integer, Pair<Resource, Boolean>>>> a = IntStream.range(0, depotAtPosition.size())
                 .mapToObj((pos)->new Pair<>(pos,getResourceAndSelectedAt(pos)))
                 .collect(Collectors.groupingBy(
                         (p)->depotAtPosition.get(p.getKey())
-                )
+                        )
                 );
 
         Map<Integer, List<Pair<Resource, Boolean>>> b = a.entrySet().stream().map((entry)->
@@ -207,25 +213,11 @@ public class WarehouseLeadersDepots implements StorageUnit {
             return new Pair<>(entry.getKey(),test);
         }).collect(Collectors.toMap(Pair::getKey,Pair::getValue));
 
-        return serialize(b);
-    }
-
-    public Map<Integer, List<Integer>> getSimpleWarehouseLeadersDepots(){
-
-        Map<Integer, List<Pair<Integer, Integer>>> a = IntStream.range(0, depotAtPosition.size())
-                .mapToObj((pos)->new Pair<>(pos, getResourceAndSelectedAt(pos).getKey().getResourceNumber()))
-                .collect(Collectors.groupingBy(
-                        p ->depotAtPosition.get(p.getKey())
-                        )
-                );
-
-        return a.entrySet().stream().map((entry)->
-        {
-            List<Integer> test = entry.getValue().stream().map(Pair::getValue).collect(Collectors.toList());
-            return new Pair<>(entry.getKey(),test);
-        }).collect(Collectors.toMap(Pair::getKey,Pair::getValue));
+        return b;
 
     }
+
+
 
 
 

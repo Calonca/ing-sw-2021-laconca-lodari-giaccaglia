@@ -109,6 +109,7 @@ public class StatesTransitionTable {
 
         //Choosing Position For Resources
         eventsAndStrategy.put(name(MoveResourceEvent.class), new AddingResourcesFromMarket());
+        eventsAndStrategy.put(name(DiscardResourcesEvent.class), new DiscardingResources());
         statesTransitionTable.table.put(State.CHOOSING_POSITION_FOR_RESOURCES, eventsAndStrategy);
         eventsAndStrategy = new HashMap<>();
 
@@ -127,7 +128,7 @@ public class StatesTransitionTable {
 
         //Choosing Position For Development Card
         eventsAndStrategy.put(name(ChooseCardPositionEvent.class), new ChoosingSpaceForDevelopmentCard());
-        statesTransitionTable.table.put(State.CHOOSING_POSITION_FOR_RESOURCES, eventsAndStrategy);
+        statesTransitionTable.table.put(State.CHOOSING_POSITION_FOR_DEVCARD, eventsAndStrategy);
         eventsAndStrategy = new HashMap<>();
 
 

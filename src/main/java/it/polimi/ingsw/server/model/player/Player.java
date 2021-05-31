@@ -283,7 +283,7 @@ public class Player {
             }
             trueCount++;
         }
-        return 0;
+        return -1;
     }
 
     public boolean hasReachedTrackEnd(){
