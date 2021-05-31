@@ -38,7 +38,7 @@ public abstract class ResourceMarketViewBuilder extends ViewBuilder{
         getClient().getServerHandler().sendCommandMessage(new EventMessage(new MoveResourceEvent(startPos, endPos)));
     }
 
-    protected void sendDiscard(){
+    public static void sendDiscard(){
         getClient().getServerHandler().sendCommandMessage(new EventMessage(new DiscardResourcesEvent()));
     }
 

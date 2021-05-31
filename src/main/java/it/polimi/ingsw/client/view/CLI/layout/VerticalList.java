@@ -12,24 +12,28 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class VerticalList extends OptionList {
-    private int height;
-
+    private int maxHeight;
 
     public VerticalList(int h) {
         super();
-        height = h;
+        maxHeight = h;
     }
 
     public VerticalList(Stream<Option> optionStream,int h) {
         super(optionStream);
-        height = h;
+        maxHeight = h;
+    }
+
+    @Override
+    public void addOption(Option o) {
+        super.addOption(o);
     }
 
     public List<Drawable> toDwList() {
         return IntStream.range(0,options.size())
                 .mapToObj(i->{
                     Drawable drawable = new Drawable();
-                    DrawableLine number = new DrawableLine(0,0, i+": ", Color.BRIGHT_BLUE,Background.DEFAULT);
+                    DrawableLine number = new DrawableLine(0,0, i+": ", Color.OPTION,Background.DEFAULT);
                     drawable.add(number);
 
                     Drawable drawableOptions = Drawable.copyShifted(number.getWidth(),0,options.get(i).toDrawableList());
@@ -39,8 +43,8 @@ public class VerticalList extends OptionList {
                     return drawable;}).collect(Collectors.toList());
     }
 
-    public int getHeight() {
-        return height;
+    public int getMaxHeight() {
+        return maxHeight;
     }
 
     public int getOptionNumber(){
@@ -50,23 +54,16 @@ public class VerticalList extends OptionList {
     //Prints vertical list
     @Override
     public String toString() {
-        Canvas canvas = Canvas.withBorder(CLI.width,height);
+        Canvas canvas = Canvas.withBorder(CLI.width, maxHeight);
         List<Drawable> dw = toDwList();
 
+        int height =0;
+        for (Drawable drawable : dw) {
+            drawable.shift(1, height);
+            height += drawable.getHeight();
+        }
 
-
-        //Shifting
-        int shift =0;
-        for (Drawable dl:dw){
-            dl.shift(0,shift);
-            shift = dl.getHeight();}
-
-        Drawable toDraw = new Drawable(dw.stream().flatMap(l->l.get().stream()).collect(Collectors.toList()));
-        int writingX= (CLI.width-toDraw.getWidth())/2;
-        int writingY= (CLI.height-toDraw.getHeight())/2;
-
-        toDraw.shift(writingX,writingY);
-        canvas.addDrawable(toDraw);
+        dw.forEach(canvas::addDrawable);
 
         return canvas.toString();
     }

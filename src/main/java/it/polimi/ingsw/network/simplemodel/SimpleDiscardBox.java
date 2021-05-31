@@ -15,6 +15,10 @@ public class SimpleDiscardBox extends SimpleModelElement{
         this.simpleDiscardBox = simpleStrongBox;
     }
 
+    public Map<Integer, Pair<ResourceAsset, Integer>> getResourceMap() {
+        return simpleDiscardBox;
+    }
+
     @Override
     public void update(SimpleModelElement element) {
         SimpleDiscardBox serverDiscardBox = (SimpleDiscardBox) element;

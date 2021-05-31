@@ -32,7 +32,7 @@ public class Grid {
 
     public void addColumn(VerticalList toAdd){
         //Extending existing lines
-        lists = Stream.concat(lists.stream(),Stream.generate(()->new HorizontalList(toAdd.getHeight())))
+        lists = Stream.concat(lists.stream(),Stream.generate(()->new HorizontalList(toAdd.getMaxHeight())))
                 .limit(Math.max(lists.size(),toAdd.getOptionNumber()))
                 .collect(Collectors.toList());
         lists = IntStream.range(0,toAdd.getOptionNumber()).mapToObj(i-> {

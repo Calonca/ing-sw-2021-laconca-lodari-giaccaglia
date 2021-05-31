@@ -26,6 +26,7 @@ public enum Color {
     BRIGHT_CYAN("\u001B[96m"),
     BRIGHT_WHITE("\u001B[97m"),
 
+    OPTION("\u001B[94m"),
     GOLD("\u001B[33m"),
     SERVANT("\u001B[35m"),
     SHIELD("\u001B[96m"),

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.GridBody;
+import it.polimi.ingsw.client.view.CLI.CLIelem.body.PersonalBoardBody;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.MarbleCLI;
 import it.polimi.ingsw.client.view.CLI.layout.Grid;
 import it.polimi.ingsw.client.view.CLI.layout.HorizontalList;
@@ -8,6 +9,7 @@ import it.polimi.ingsw.client.view.CLI.layout.Option;
 import it.polimi.ingsw.client.view.CLI.textUtil.StringUtil;
 import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
 import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
+import it.polimi.ingsw.network.simplemodel.SimpleFaithTrack;
 
 import java.util.Arrays;
 import java.util.stream.IntStream;
@@ -46,6 +48,14 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
         getCLIView().show();
     }
 
+    @Override
+    public void choosePositions() {
+        PersonalBoardBody personalBoard = new PersonalBoardBody(getThisPlayerCache(),true,true);
+        getCLIView().setBody(personalBoard);
+        personalBoard.selectInDiscardBox();
+        getCLIView().show();
+    }
+
     private Stream<Option> buildColumnsStream(int start, int stop){
         return IntStream.range(start,stop).mapToObj(i->Option.activeFrom(StringUtil.stringUntilReachingSize(" Line "+i,MarbleCLI.width())));
     }
@@ -56,11 +66,6 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
 
     private Option buildResourceOption(MarbleAsset res){
         return Option.from(MarbleCLI.fromAsset(res).toBigDrawableList(),()->{});
-    }
-
-    @Override
-    public void choosePositions() {
-        System.out.println("Insert code here to move your resources");
     }
 
 }

@@ -17,6 +17,14 @@ public class Option {
         return option;
     }
 
+    public Drawable getDrawable() {
+        return drawable;
+    }
+
+    public Drawable getSelectedDrawable() {
+        return selectedDrawable;
+    }
+
     public static Option from(String name){
         return new Option(name,"");
     }
