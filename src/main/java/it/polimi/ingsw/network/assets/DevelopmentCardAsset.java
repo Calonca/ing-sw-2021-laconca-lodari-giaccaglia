@@ -18,6 +18,18 @@ public class DevelopmentCardAsset extends CardAsset{
         this.networkDevelopmentCard = networkDevelopmentCard;
     }
 
+    public DevelopmentCardAsset(DevelopmentCardAsset toClone){
+        super(
+                toClone.getActiveCardPaths().getKey().toString(),
+                toClone.getActiveCardPaths().getValue().toString(),
+                toClone.getInactiveCardPaths().getKey().toString(),
+                toClone.getInactiveCardPaths().getValue().toString(),
+                toClone.getCardId()
+        );
+
+        this.networkDevelopmentCard = toClone.getDevelopmentCard();
+    }
+
     public NetworkDevelopmentCard getDevelopmentCard() {
         return networkDevelopmentCard;
     }

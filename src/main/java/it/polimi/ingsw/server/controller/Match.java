@@ -1,7 +1,5 @@
 package it.polimi.ingsw.server.controller;
 
-import it.polimi.ingsw.client.json.Deserializator;
-import it.polimi.ingsw.network.assets.CardAssetsContainer;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
@@ -56,7 +54,6 @@ public class Match {
 
         this.game = new GameModel(onlineUsers.stream().map(u->u.nickname).collect(Collectors.toList()), onlineUsers.size()==1,this);
         game.setGameStatus(true);
-        CardAssetsContainer.setCardAssetsContainer(Deserializator.networkDevCardsAssetsDeserialization());
         game.getCurrentPlayer().setCurrentState(State.SETUP_PHASE);
         List<Element> elems = new ArrayList<>(Arrays.asList(Element.values()));
         notifyStateToAllPlayers(elems);

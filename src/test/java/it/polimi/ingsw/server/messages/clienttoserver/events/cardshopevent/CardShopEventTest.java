@@ -51,6 +51,7 @@ public class CardShopEventTest {
         for(int level=1; level<=3; level++){
             for(int i=0; i<4; i++){
                 gameModelTest.purchaseCardFromCardShop(DevelopmentCardColor.YELLOW, level);
+                gameModelTest.getPurchasedCard();
             }
         }
     }

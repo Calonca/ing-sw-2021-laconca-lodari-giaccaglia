@@ -13,8 +13,10 @@ public class NetworkLeaderCard {
     protected List<Pair<NetworkDevelopmentCardColor, Integer>> requirementsCards;
     protected int requirementsCardsLevel=1;
     protected boolean isActive;
+    protected boolean isPlayable;
 
     public NetworkLeaderCard(){}
+
 
     public List<Pair<ResourceAsset, Integer>> getRequirementsResources() {
         return requirementsResources;
@@ -38,6 +40,14 @@ public class NetworkLeaderCard {
 
     public void setLeaderState(boolean state){
         this.isActive = state;
+    }
+
+    public void setPlayableLeader(boolean isPlayable){
+        this.isPlayable = isPlayable;
+    }
+
+    public boolean isPlayable(){
+        return isPlayable;
     }
 
 

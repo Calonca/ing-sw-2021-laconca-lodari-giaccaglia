@@ -23,7 +23,7 @@ public class SimpleCardCells extends SimpleModelElement{
                 position -> position,
                 position -> cards.get(position).stream().map(cardPair -> {
 
-                DevelopmentCardAsset card = Cards.getDevelopmentCardAsset(cardPair.getKey());
+                DevelopmentCardAsset card = Cards.getDevelopmentCardAsset(cardPair.getKey()).get();
                 card.getDevelopmentCard().setSelectable(cardPair.getValue());
                 return card;
 

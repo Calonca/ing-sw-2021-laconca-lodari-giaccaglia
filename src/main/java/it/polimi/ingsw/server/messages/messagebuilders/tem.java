@@ -1,12 +1,8 @@
 package it.polimi.ingsw.server.messages.messagebuilders;
 
 import com.google.gson.GsonBuilder;
-import it.polimi.ingsw.RuntimeTypeAdapterFactory;
-import it.polimi.ingsw.client.json.Deserializator;
 import it.polimi.ingsw.client.simplemodel.SimpleModel;
-import it.polimi.ingsw.network.assets.CardAssetsContainer;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
-import it.polimi.ingsw.network.messages.servertoclient.ServerToClientMessage;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
 import it.polimi.ingsw.network.simplemodel.*;
 import it.polimi.ingsw.server.controller.Match;
@@ -14,11 +10,7 @@ import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.states.State;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.network.messages.servertoclient.ServerToClientMessage.elementAdapter;
 
@@ -35,7 +27,7 @@ public class tem {
         players.add("player1");
         players.add("player2");
         GameModel model = new GameModel(players, false, new Match(2));
-        CardAssetsContainer.setCardAssetsContainer(Deserializator.networkDevCardsAssetsDeserialization());
+      //  CardAssetsContainer.setCardAssetsContainer(Deserializator.networkDevCardsAssetsDeserialization());
         elements.add(Element.SimplePlayerLeaders);
         //elements.add(Element.TestElem);
          elements.add(Element.SimpleCardShop);

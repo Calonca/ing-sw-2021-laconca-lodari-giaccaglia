@@ -26,9 +26,12 @@ public class AcquiringDevelopmentCard implements GameStrategy {
     public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event)
 
     {
-        int level=((ChooseCardEvent) event).getCardLevel();
-        int color=((ChooseCardEvent) event).getCardColorNumber();
+        int level = ((ChooseCardEvent) event).getCardLevel();
+        int color = ((ChooseCardEvent) event).getCardColorNumber();
+
         gamemodel.purchaseCardFromCardShop(DevelopmentCardColor.fromInt(color),level);
+
+        elementsToUpdate.add(Element.SimpleCardShop);
 
         return new Pair<>(State.CHOOSING_RESOURCES_FOR_DEVCARD, elementsToUpdate);
     }

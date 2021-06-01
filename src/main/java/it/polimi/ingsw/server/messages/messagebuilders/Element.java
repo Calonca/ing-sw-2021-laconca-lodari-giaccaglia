@@ -5,7 +5,6 @@ import it.polimi.ingsw.server.model.GameModel;
 
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public enum Element {
 
@@ -14,7 +13,7 @@ public enum Element {
     SimpleCardShop(true) {
         @Override
         public SimpleModelElement buildSimpleModelElement(GameModel gameModel) {
-            return new SimpleCardShop(CardShopMessageBuilder.cardShopAdapter(gameModel));
+            return new SimpleCardShop(CardShopMessageBuilder.cardShopAdapter(gameModel), CardShopMessageBuilder.purchasedCardAdapter(gameModel));
         }
 
 
