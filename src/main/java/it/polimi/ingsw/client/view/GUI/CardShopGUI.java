@@ -151,6 +151,7 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
         for (int i=0;i<ROWS*COLUMNS;i++)
             selected.add(false);
 
+        selectionModel.dehighlightTrue(selected,scenesCardsToChoose);
 
         selectionModel.cardSelector(selected,scenesCardsToChoose,1);
 
@@ -159,9 +160,9 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
             public void onChanged(Change<? extends Boolean> c) {
                 c.next();
                 if(c.getAddedSubList().get(0))
-                    scenesCardsToChoose.get(c.getFrom()).setLayoutY(scenesCardsToChoose.get(c.getFrom()).getLayoutY()-30);
+                    selectionModel.highlightTrue(selected,scenesCardsToChoose);
                 else
-                    scenesCardsToChoose.get(c.getFrom()).setLayoutY(scenesCardsToChoose.get(c.getFrom()).getLayoutY()+30);
+                    selectionModel.dehighlightTrue(selected,scenesCardsToChoose);
 
 
             }});

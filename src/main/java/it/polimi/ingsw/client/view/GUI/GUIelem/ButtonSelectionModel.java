@@ -160,6 +160,47 @@ public class ButtonSelectionModel {
 
     }
 
+
+    public void highlightTrue(List<Boolean> selected,List<Button> resourcesToMove)
+    {
+
+        //SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).get();
+        //List<LeaderCardAsset> leaderpics=simplePlayerLeaders.getPlayerLeaders();
+
+
+        for (Button sceneButton : resourcesToMove) {
+
+
+            if(selected.get(resourcesToMove.indexOf(sceneButton)))
+            {
+                resourcesToMove.get(resourcesToMove.indexOf(sceneButton)).setStyle(" -fx-background-color: #f2f735");
+            }
+
+
+        };
+
+    }
+
+    public void dehighlightTrue(List<Boolean> selected,List<Button> resourcesToMove)
+    {
+
+        //SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).get();
+        //List<LeaderCardAsset> leaderpics=simplePlayerLeaders.getPlayerLeaders();
+
+
+        for (Button sceneButton : resourcesToMove) {
+
+
+            if(!selected.get(resourcesToMove.indexOf(sceneButton)))
+            {
+                resourcesToMove.get(resourcesToMove.indexOf(sceneButton)).setStyle(" -fx-background-color: #ffffff");
+            }
+
+
+        };
+
+    }
+
     public void deHighlightFalse(List<Boolean> selected,List<ResourceButton> resourcesToMove)
     {
 

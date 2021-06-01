@@ -9,6 +9,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -29,11 +30,18 @@ import java.util.ResourceBundle;
  */
 public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIView {
 
+
+
+    double toPutStartingX;
+    double toPutStartingY;
     boolean selected=false;
     public ResourceSphere toPut;
     public int ROWSIZE=4;
     public int ROWNUMBER=3;
-    public double ballsize=0.7;
+    public double ballsize=0.75;
+
+    public double width=400;
+    public double len;
 
     public AnchorPane marketPane;
 
@@ -68,7 +76,6 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
         Node toadd=getRoot();
         toadd.setTranslateX(0);
         toadd.setTranslateY(-240);
-        ///metti cio che sta nel run qui cazzone
         ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(toadd);
         System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
 
@@ -118,21 +125,22 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
 
         }
         Button button=new Button();
-        button.setLayoutX(900);
+        button.setLayoutX(width-30);
         button.setLayoutY(h);
         button.setOnAction( p-> {
 
             if(selected)
                 return;
+
             selected=true;
 
             moveX(toPut,x,new Duration(0));
-            moveY(toPut,toPut.getTranslateY()-2,new Duration(700));
+            moveY(toPut,toPut.getTranslateY()-2*ballsize,new Duration(700));
 
 
             for (ResourceSphere circle : row) {
 
-                moveY(circle,circle.getTranslateY()-2,new Duration(700));
+                moveY(circle,circle.getTranslateY()-ballsize*2,new Duration(700));
                 System.out.println("you will get a " + circle.getResource().toString());
 
 
@@ -141,12 +149,12 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
             row.remove(0);
             row.add(toPut);
             toPut=toswap;
-            toPut.setMaterial(new PhongMaterial(Color.BLANCHEDALMOND));
 
-            moveX(toPut,3.5,new Duration(1700));
+            moveX(toPut,4*ballsize,new Duration(1700));
 
-            moveY(toPut,LOWER_CORNER_Y,new Duration(3000));
+            moveY(toPut,toPutStartingY,new Duration(3000));
 
+            moveX(toPut,toPutStartingX,new Duration(3700));
 
 
 
@@ -166,22 +174,22 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
      */
     public void generateColumns(List<List<ResourceSphere>> rows,int h){
 
-        double y=-4.5;
+
+        double y=-ballsize*2;
 
         for(int i=0;i<rows.get(0).size();i++)
         {
 
 
 
+
             Button button=new Button();
             button.setLayoutX(h);
-            h+=125;
-            button.setLayoutY(650);
+            h+=75;
+            button.setLayoutY(250);
 
             setBut(button,y,i);
-
             marketPane.getChildren().add(button);
-            y+=2;
 
         }
 
@@ -197,8 +205,8 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
             selected=true;
 
 
-            moveY(toPut,y,new Duration(0));
-            moveX(toPut,-2.5,new Duration(700));
+            moveY(toPut,toPut.getTranslateY()-(ROWSIZE-i)*ballsize*2,new Duration(0));
+            moveX(toPut,toPut.getTranslateX()+2*ballsize,new Duration(700));
 
 
             ArrayList<ResourceSphere> column= new ArrayList<>();
@@ -207,7 +215,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
             for (ResourceSphere circle : column) {
 
 
-                moveX(circle,circle.getTranslateX()+2,new Duration(700));
+                moveX(circle,circle.getTranslateX()+ballsize*2,new Duration(700));
 
                 System.out.println("you will get a " + circle.getResource().toString());
 
@@ -217,9 +225,10 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
             column.remove(0);
             column.add(toPut);
             toPut=temp;
-            toPut.setMaterial(new PhongMaterial(Color.BLANCHEDALMOND));
-            moveX(toPut,LOWER_CORNER_X,new Duration(1000));
-            moveY(toPut,LOWER_CORNER_Y,new Duration(1000));
+            moveY(toPut,toPutStartingY,new Duration(1400));
+            moveX(toPut,toPutStartingX,new Duration(2200));
+
+
 
 
 
@@ -231,60 +240,66 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
 
-
-        Button button=new Button();
-        button.setLayoutX(900);
-        button.setLayoutY(650);
-
-        button.setOnAction(p -> getClient().changeViewBuilder(new ResourceMarketGUI()));
-
-        marketPane.getChildren().add(button);
-
-
+        Button button;
         button=new Button();
-        button.setLayoutX(900);
-        button.setLayoutY(100);
+        button.setLayoutX(350);
+        button.setLayoutY(200);
+        button.setGraphic(new Label("test"));
 
-        button.setOnAction(p -> getClient().changeViewBuilder(new ViewPersonalBoard()));
 
         marketPane.getChildren().add(button);
 
 
         PerspectiveCamera camera = new PerspectiveCamera(true);
         camera.getTransforms().addAll(new Rotate(90,Rotate.Z_AXIS),new Rotate(0,Rotate.X_AXIS), new Rotate(0,Rotate.Y_AXIS), new Translate(0, 0, -20));
-        camera.translateXProperty().set(-3.0);
+        camera.translateXProperty().set(1);
         camera.translateYProperty().set(-2.0);
-        camera.setTranslateZ(-5);
+        camera.setTranslateZ(4);
+
 
 
         Group root3D = new Group(camera);
 
 
 
+
+
+        double x=1.5;
+        int h=50;
+        for(int i=0;i<ROWNUMBER;i++)
+        {
+            generateRow(root3D,x,-5,h);
+            x-=2*ballsize;
+            h+=100;
+        }
+
+        toPutStartingX=x;
+        toPutStartingY=-5+ROWSIZE*ballsize*2;
+        System.out.println(toPutStartingY);
         toPut=new ResourceSphere(ballsize,Resource.SERVANT);
-        toPut.translateYProperty().set(LOWER_CORNER_Y);
-        toPut.translateXProperty().set(LOWER_CORNER_X);
+        toPut.translateYProperty().set(toPutStartingY);
+        toPut.translateXProperty().set(toPutStartingX);
         toPut.setMaterial(new PhongMaterial(Color.GOLD));
         root3D.getChildren().add(toPut);
 
-        double x=1.5;
-        int h=300;
-        for(int i=0;i<ROWNUMBER;i++)
-        {
-            generateRow(root3D,x,-10,h);
-            x-=2*ballsize;
-            h+=150;
-        }
 
 
+        generateColumns(rows,50);
 
-        generateColumns(rows,225);
 
-
-        SubScene subScene = new SubScene(root3D, 1000, 700, true, SceneAntialiasing.BALANCED);
+        SubScene subScene = new SubScene(root3D, 300, 200, true, SceneAntialiasing.BALANCED);
         subScene.setFill(Color.AQUAMARINE);
         subScene.setCamera(camera);
 
+        button.setOnAction(p ->
+                {
+
+
+
+
+                    getClient().changeViewBuilder(new ViewPersonalBoard());
+                }
+        );
         marketPane.getChildren().add(0,subScene);
         getClient().getStage().show();
     }
