@@ -16,6 +16,18 @@ public class LeaderCardAsset extends CardAsset{
         this.networkLeaderCard = networkLeaderCard;
     }
 
+    public LeaderCardAsset(LeaderCardAsset toClone){
+        super(
+                toClone.getActiveCardPaths().getKey().toString(),
+                toClone.getActiveCardPaths().getValue().toString(),
+                toClone.getInactiveCardPaths().getKey().toString(),
+                toClone.getInactiveCardPaths().getValue().toString(),
+                toClone.getCardId()
+                );
+
+        this.networkLeaderCard = toClone.getNetworkLeaderCard();
+    }
+
     public NetworkLeaderCard getNetworkLeaderCard() {
         return networkLeaderCard;
     }

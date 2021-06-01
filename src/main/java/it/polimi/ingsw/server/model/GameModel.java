@@ -332,7 +332,7 @@ public class GameModel {
     }
 
     public DevelopmentCard getPurchasedCard(){
-        return cardShop.getPurchasedCard();
+        return cardShop.takePurchasedCard();
     }
 
     public boolean isCardColorOutOfStock(DevelopmentCardColor color){

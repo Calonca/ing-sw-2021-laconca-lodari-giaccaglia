@@ -85,8 +85,10 @@ public class CardShop {
      * Has to be lower than the {@link CardShop#maxLevel} of this CardShop.
      */
     public void purchaseCard(DevelopmentCardColor color, int level){
-        purchasedCard = devDecks.get(color).get(level).getCard();
+        purchasedCard = devDecks.get(color).get(level).getCardCopyOnTop();
     }
+
+
 
     public DevelopmentCard getCopyOfCardOnTop(DevelopmentCardColor color, int level){
         return devDecks.get(color).get(level).getCardCopyOnTop();
@@ -106,9 +108,14 @@ public class CardShop {
      * @return purchased {@link DevelopmentCard}
      */
 
-    public DevelopmentCard getPurchasedCard(){
+    public DevelopmentCard takePurchasedCard(){
+        return new DevelopmentCard(devDecks.get(purchasedCard.getCardType()).get(purchasedCard.getLevel()).getCard());
+    }
+
+    public DevelopmentCard getCopyOfPurchasedCard(){
         return new DevelopmentCard(purchasedCard);
     }
+
 
     /**
      * <p>Checks if one type of {@link DevelopmentCardColor} is no longer available in

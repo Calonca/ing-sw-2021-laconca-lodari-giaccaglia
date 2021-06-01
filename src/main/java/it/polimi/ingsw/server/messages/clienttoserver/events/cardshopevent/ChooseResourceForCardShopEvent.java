@@ -25,8 +25,7 @@ import java.util.stream.Collectors;
 public class ChooseResourceForCardShopEvent extends it.polimi.ingsw.network.messages.clienttoserver.events.cardshopevent.ChooseResourceForCardShopEvent implements Validable {
 
     private transient PersonalBoard currentPlayerPersonalBoard;
-    List<Integer> resourcePositions;
-    private int[] chosenResourcesArray = new int[4];
+    private final int[] chosenResourcesArray = new int[4];
 
     /**
      * Server-side initializer to setup common attributes among {@link State#MIDDLE_PHASE MIDDLE_PHASE}
@@ -55,7 +54,6 @@ public class ChooseResourceForCardShopEvent extends it.polimi.ingsw.network.mess
 
         initializeMiddlePhaseEventValidation(gameModel);
         buildResourcesArray();
-        resourcePositions = new ArrayList<>(chosenResources.keySet());
 
         return isGameStarted(gameModel)
                 && checkResourcesType()
@@ -77,22 +75,22 @@ public class ChooseResourceForCardShopEvent extends it.polimi.ingsw.network.mess
     }
 
     private boolean checkResourcesType(){
-        return chosenResources.values().stream().noneMatch(resource -> Resource.fromIntFixed(resource).equals(Resource.EMPTY));
+        return chosenResourcesPositions.stream().noneMatch(resource -> Resource.fromIntFixed(resource).equals(Resource.EMPTY));
     }
 
     private boolean checkResourcesPositions(){
-       return chosenResources.keySet().stream()
+       return chosenResourcesPositions.stream()
                .anyMatch(position ->
-                       !currentPlayerPersonalBoard.getResourceAtPosition(position).equals(Resource.fromIntFixed(chosenResources.get(position))));
+                       !currentPlayerPersonalBoard.getResourceAtPosition(position).equals(Resource.fromIntFixed(position)));
     }
 
     private boolean checkResourcesPositionIndexes(){
-        return resourcePositions.stream().anyMatch(i -> ( i<-8 || (i>-5 && i<0) ));
+        return chosenResourcesPositions.stream().anyMatch(i -> ( i<-8 || (i>-5 && i<0) ));
     }
 
     private boolean checkResourcePositionUniqueness(){
-        return resourcePositions.stream().distinct()
-                .count() == resourcePositions.size();
+        return chosenResourcesPositions.stream().distinct()
+                .count() == chosenResourcesPositions.size();
     }
 
     private boolean checkResourceValidity(DevelopmentCard card){
@@ -101,7 +99,7 @@ public class ChooseResourceForCardShopEvent extends it.polimi.ingsw.network.mess
     
     private void buildResourcesArray(){
 
-        Map<Integer, List<Integer>> tempMap = chosenResources.values().stream()
+        Map<Integer, List<Integer>> tempMap = chosenResourcesPositions.stream()
                 .collect(Collectors.groupingBy(value -> value,
                         Collectors.mapping(Function.identity(), Collectors.toList())));
 
@@ -117,8 +115,8 @@ public class ChooseResourceForCardShopEvent extends it.polimi.ingsw.network.mess
         
     }
 
-    public Map<Integer, Integer> getChosenResources(){
-        return chosenResources;
+    public List<Integer> getChosenResources(){
+        return chosenResourcesPositions;
     }
 
     public int[] getChosenResourcesArray() {

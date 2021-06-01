@@ -94,6 +94,7 @@ public class GameModelTest {
             for (int i = 0; i < 4; i++) {
 
                 assertTrue(gameModelTest.purchaseCardFromCardShop(color, level));
+
                 purchaseCardTest = gameModelTest.getPurchasedCard();
 
                 assertEquals(color, purchaseCardTest.getCardType());
