@@ -113,7 +113,7 @@ public class CardShop {
     }
 
     public DevelopmentCard getCopyOfPurchasedCard(){
-        return new DevelopmentCard(purchasedCard);
+        return purchasedCard != null ? (new DevelopmentCard(purchasedCard)) : null;
     }
 
 

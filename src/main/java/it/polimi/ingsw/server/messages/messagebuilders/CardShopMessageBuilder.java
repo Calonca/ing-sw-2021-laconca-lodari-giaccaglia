@@ -58,7 +58,7 @@ public class CardShopMessageBuilder {
 
         DevelopmentCard purchasedCard = gameModel.getCardShop().getCopyOfPurchasedCard();
 
-        return (DevelopmentCardAsset) Cards.getCardAsset(purchasedCard.getCardId()).orElse(null);
+        return purchasedCard!= null ? (DevelopmentCardAsset) Cards.getCardAsset(purchasedCard.getCardId()).orElse(null) : null;
     }
 
     private static boolean checkCardRequirements(GameModel gameModel, DevelopmentCard card){

@@ -1,6 +1,9 @@
 package it.polimi.ingsw.client.json;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
+import it.polimi.ingsw.RuntimeTypeAdapterFactory;
+import it.polimi.ingsw.client.messages.servertoclient.ClientMessage;
+import it.polimi.ingsw.network.assets.CardAsset;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
 import it.polimi.ingsw.network.jsonUtils.UUIDTypeAdapter;
@@ -36,6 +39,7 @@ public class Deserializator extends JsonUtility {
     }
 
     public static Map<UUID, DevelopmentCardAsset> networkDevCardsAssetsDeserialization() {
+
         Type type = new TypeToken<Map<UUID, DevelopmentCardAsset> >(){}.getType();
         Gson customGson = new GsonBuilder().enableComplexMapKeySerialization().registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).registerTypeHierarchyAdapter(Path.class, new PathConverter()).setPrettyPrinting().create();
         return deserialize(clientConfigPathString + "DevCardsAssetsMapConfig.json", type ,customGson);
@@ -43,9 +47,11 @@ public class Deserializator extends JsonUtility {
     }
 
     public static Map<UUID, LeaderCardAsset> networkLeaderCardsAssetsMapDeserialization() {
+
         Gson customGson = new GsonBuilder().enableComplexMapKeySerialization().registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).registerTypeHierarchyAdapter(Path.class, new PathConverter()).setPrettyPrinting().create();
         Type type = new TypeToken<Map<UUID, LeaderCardAsset> >(){}.getType();
         return deserialize(clientConfigPathString + "NetworkLeaderCardsAssetsMap.json", type ,customGson);
+
     }
 
 }
