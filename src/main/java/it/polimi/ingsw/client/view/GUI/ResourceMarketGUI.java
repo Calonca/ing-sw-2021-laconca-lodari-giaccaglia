@@ -72,6 +72,22 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
 
     }
 
+    public SubScene getDiscardRoot()
+    {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/DiscardBox.fxml"));
+        Parent root = null;
+        try {
+            root = loader.load();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return new SubScene(root,200,200);
+
+    }
+
     public void addMatrix() {
         Node toadd=getRoot();
         toadd.setTranslateX(0);
@@ -155,6 +171,9 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
             moveY(toPut,toPutStartingY,new Duration(3000));
 
             moveX(toPut,toPutStartingX,new Duration(3700));
+
+            DiscardBoxInitializer discard=new DiscardBoxInitializer();
+            discard.fillDiscardBox();
 
 
 

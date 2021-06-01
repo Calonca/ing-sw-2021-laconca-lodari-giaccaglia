@@ -56,6 +56,15 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
 
     }
 
+    public void addDiscardBox() {
+        Node toadd=getRoot();
+        toadd.setTranslateX(-150);
+        toadd.setTranslateY(107);
+        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(toadd);
+        System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
+
+    }
+
     public SubScene getRoot() {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/CardShop.fxml"));
