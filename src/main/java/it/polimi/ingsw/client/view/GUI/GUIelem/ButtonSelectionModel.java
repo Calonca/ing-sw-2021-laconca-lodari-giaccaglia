@@ -12,7 +12,16 @@ import java.util.List;
 public class ButtonSelectionModel {
 
     boolean moving=false;
+    boolean transferring=false;
     Resource tomove;
+    Resource totransfer;
+
+    boolean isTransferring()
+    {
+        return transferring;
+    }
+
+
     public void resourceSelector(List<Integer> selected, List<Button> sceneResourcesToChoose, int maxselection)
     {
 
@@ -82,7 +91,18 @@ public class ButtonSelectionModel {
             sceneButton.setOnAction(e ->
             {
                 {
-
+                    System.out.println(isTransferring());
+                    if(isTransferring())
+                    {
+                        transferring=false;
+                        //disableFalseEnableTrue(selected,resourcesToMove);
+                        selected.set(resourcesToMove.indexOf(sceneButton),true);
+                        //disableFalseEnableTrue(selected,resourcesToMove);
+                        sceneButton.setResource(totransfer);
+                        totransfer=Resource.EMPTY;
+                        sceneButton.color();
+                    }
+                    else
                     if(sceneButton.getResource()!=Resource.EMPTY)
                         if(!moving)
                         {
@@ -110,6 +130,53 @@ public class ButtonSelectionModel {
                             tomove=Resource.EMPTY;
                             sceneButton.color();
                         }
+
+
+                }
+            });
+
+        }}
+
+    public void bindToTransfer(List<ResourceButton> resourcesToTransfer)
+    {
+
+        //SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).get();
+        //List<LeaderCardAsset> leaderpics=simplePlayerLeaders.getPlayerLeaders();
+
+
+        for (ResourceButton sceneButton : resourcesToTransfer) {
+
+
+            //sceneButton.setGraphic(temp);
+            sceneButton.setOnAction(e ->
+            {
+                {
+
+                    if(moving)
+                        return;
+                    if(sceneButton.getResource()!=Resource.EMPTY)
+                        if(!transferring)
+                        {
+                            transferring=true;
+                            System.out.println("transferring"+transferring);
+                            totransfer=sceneButton.getResource();
+                            sceneButton.setResource(Resource.EMPTY);
+                            sceneButton.color();
+                        }
+                        else
+                            System.out.println("YOU ALREADY TRANSFERRING!!");
+                    else
+                    if(!transferring)
+                        System.out.println("DONT SELECT AN EMPTY CELL!");
+                    else
+                    {
+                        transferring=false;
+                        //disableFalseEnableTrue(selected,resourcesToMove);
+                        //disableFalseEnableTrue(selected,resourcesToMove);
+                        sceneButton.setResource(totransfer);
+                        totransfer=Resource.EMPTY;
+                        sceneButton.color();
+                    }
 
 
                 }

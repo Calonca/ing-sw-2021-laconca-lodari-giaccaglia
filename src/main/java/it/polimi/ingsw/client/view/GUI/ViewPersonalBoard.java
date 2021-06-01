@@ -33,6 +33,13 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
     List<Boolean> selected=new ArrayList<>();
 
 
+    private static ButtonSelectionModel boardController=new ButtonSelectionModel();
+
+
+    public static ButtonSelectionModel getController()
+    {
+        return boardController;
+    }
     @Override
     public void run() {
         getClient().getStage().setResizable(true);
@@ -71,6 +78,9 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
 
     }
 
+    public ButtonSelectionModel getBoardController() {
+        return boardController;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -116,10 +126,9 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
         }
         for(int i=0;i<sceneResources.size();i++)
             selected.add(false);
-        ButtonSelectionModel selectionModel=new ButtonSelectionModel();
-        selectionModel.initializeFalseOnEmpty(selected,sceneResources);
-        //selectionModel.disableFalseEnableTrue(selected,sceneResources);
-        selectionModel.bindToMove(selected,sceneResources);
+        boardController.initializeFalseOnEmpty(selected,sceneResources);
+        //boardController.disableFalseEnableTrue(selected,sceneResources);
+        boardController.bindToMove(selected,sceneResources);
 
 
         getClient().getStage().show();
