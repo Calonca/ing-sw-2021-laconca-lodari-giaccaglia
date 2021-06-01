@@ -12,7 +12,6 @@ import it.polimi.ingsw.server.messages.clienttoserver.events.InitialOrFinalPhase
 import it.polimi.ingsw.server.messages.clienttoserver.events.MiddlePhaseEvent;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent.*;
-import it.polimi.ingsw.server.messages.clienttoserver.events.leaderphaseevent.*;
 import it.polimi.ingsw.server.messages.clienttoserver.events.marketboardevent.*;
 import it.polimi.ingsw.server.messages.clienttoserver.events.productionevent.*;
 import it.polimi.ingsw.server.messages.clienttoserver.events.setupphaseevent.SetupPhaseEvent;
@@ -135,8 +134,6 @@ public class StatesTransitionTable {
         //---InitialOrFinalStrategy Leader Action --//
 
         eventsAndStrategy.put(name(InitialOrFinalPhaseEvent.class), new InitialOrFinalStrategy());
-        eventsAndStrategy.put(name(PlayLeaderEvent.class),new ActivatingLeader());
-        eventsAndStrategy.put(name(DiscardLeaderEvent.class),new DiscardingLeader());
         statesTransitionTable.table.put(State.INITIAL_PHASE, eventsAndStrategy);
         eventsAndStrategy = new HashMap<>();
 
@@ -144,8 +141,6 @@ public class StatesTransitionTable {
         //--Final Leader Action --//
 
         eventsAndStrategy.put(name(InitialOrFinalPhaseEvent.class), new InitialOrFinalStrategy());
-        eventsAndStrategy.put(name(PlayLeaderEvent.class),new ActivatingLeader());
-        eventsAndStrategy.put(name(DiscardLeaderEvent.class),new DiscardingLeader());
         statesTransitionTable.table.put(State.FINAL_PHASE, eventsAndStrategy);
 
 
