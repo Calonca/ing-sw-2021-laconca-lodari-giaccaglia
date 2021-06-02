@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -37,6 +38,8 @@ public class DiscardBoxInitializer extends ResourceMarketViewBuilder implements 
     ResourceButton button2=new ResourceButton();
     ResourceButton button3=new ResourceButton();
     ResourceButton button4=new ResourceButton();
+    javafx.collections.ObservableList<Boolean> selected;
+
     List<Resource> resourcesToBind=new ArrayList<>();
     List<ResourceButton> sceneButtons=new ArrayList<>();
     public AnchorPane discardPane;
@@ -120,9 +123,41 @@ public class DiscardBoxInitializer extends ResourceMarketViewBuilder implements 
         button3.color();
         button4.color();
 
+        List<Resource> dispensed=new ArrayList<>();
+        dispensed.add(Resource.GOLD);
+        dispensed.add(Resource.STONE);
+        dispensed.add(Resource.SERVANT);
+        dispensed.add(Resource.SHIELD);
+
+        selected=javafx.collections.FXCollections.observableArrayList();
+
+        for(ResourceButton res : sceneButtons)
+            selected.add(true);
+        for(int i=0;i<sceneButtons.size();i++)
+        {
+            sceneButtons.get(i).setResource(dispensed.get(i));
+            sceneButtons.get(i).color();
+
+        }
+        ViewPersonalBoard.getController().setAllowedRes(new int[]{1,0,1,0});
+        ViewPersonalBoard.getController().bindDispenser(selected,sceneButtons);
+
+        List<Image> res=new ArrayList<>();
+        res.add(new Image("assets/resources/GOLD.png"));
+        res.add(new Image("assets/resources/SERVANT.png"));
+        res.add(new Image("assets/resources/SHIELD.png"));
+        res.add(new Image("assets/resources/STONE.png"));
+        selected.addListener(new javafx.collections.ListChangeListener<Boolean>() {
+            @Override
+            public void onChanged(Change<? extends Boolean> c) {
+                c.next();
+                if(!c.getAddedSubList().get(0))
+                    getClient().getStage().getScene().setCursor(new ImageCursor(res.get(sceneButtons.get(c.getFrom()).getResource().getResourceNumber())));
+                else
+                    getClient().getStage().getScene().setCursor(ImageCursor.HAND);
 
 
-        ViewPersonalBoard.getController().bindToTransfer(sceneButtons);
+            }});
 
 
 

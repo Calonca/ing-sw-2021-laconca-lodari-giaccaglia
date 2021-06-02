@@ -1,22 +1,21 @@
 package it.polimi.ingsw.client.view.GUI;
 
-import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.view.GUI.GUIelem.ButtonSelectionModel;
 import it.polimi.ingsw.client.view.GUI.GUIelem.ResourceButton;
 import it.polimi.ingsw.server.model.Resource;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 import java.beans.PropertyChangeEvent;
@@ -31,13 +30,26 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
     public AnchorPane menuPane;
     Text error=new Text("NOT ALLOWED RIGHT NOW");
     Text errorChoice=new Text("SELECT AT LEAST ONE PRODUCTION");
-
-    Button faithbut;
-    int tempfaith=0;
+    GridPane wareHouseGrid=new GridPane();
+    Button faithBut;
+    int tempFaith =0;
     List<ResourceButton> sceneResources=new ArrayList<>();
+    List<Integer[]> sceneProductionCosts=new ArrayList<>();
+
+    List<ResourceButton> standardProductionButtons=new ArrayList<>();
+    List<ResourceButton> standardProductionButtonsOut=new ArrayList<>();
+    List<ResourceButton> wareHouseButtons=new ArrayList<>();
+
+
+
     List<Button> productions=new ArrayList<>();
+    int[] productionIn=new int[]{1,0,1,0,0,0,1};
+    int[] productionOut=new int[]{1,0,1,0,0,0,1};
+
     javafx.collections.ObservableList<Boolean> productionSelection;
-    List<Boolean> selected=new ArrayList<>();
+    javafx.collections.ObservableList<Boolean> selectedStandardProductions;
+    javafx.collections.ObservableList<Boolean> selectedStandardProductionsOut;
+    javafx.collections.ObservableList<Boolean> selectedResources;
 
 
 
@@ -94,49 +106,49 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
 
     public void moveFaithX(boolean foward){
         if(foward)
-            faithbut.setLayoutX(faithbut.getLayoutX()+41.5);
+            faithBut.setLayoutX(faithBut.getLayoutX()+41.5);
         else
-            faithbut.setLayoutX(faithbut.getLayoutX()-40);
+            faithBut.setLayoutX(faithBut.getLayoutX()-40);
     }
 
     public void moveFaithY(boolean downward){
         if(downward)
-            faithbut.setLayoutY(faithbut.getLayoutY()+35);
+            faithBut.setLayoutY(faithBut.getLayoutY()+35);
         else
-            faithbut.setLayoutY(faithbut.getLayoutY()-35);
+            faithBut.setLayoutY(faithBut.getLayoutY()-35);
 
 
     }
 
     public void moveFaith() {
-        if (tempfaith<2)
+        if (tempFaith <2)
         {
-            tempfaith++;
+            tempFaith++;
             moveFaithX(true);
         } else
-        if (tempfaith<4)
+        if (tempFaith <4)
         {
-            tempfaith++;
+            tempFaith++;
             moveFaithY(false);
         }
-        else if (tempfaith < 9)
+        else if (tempFaith < 9)
             {
-                tempfaith++;
+                tempFaith++;
                 moveFaithX(true);
             }
-        else if (tempfaith < 11)
+        else if (tempFaith < 11)
         {
-            tempfaith++;
+            tempFaith++;
             moveFaithY(true);
         }
-        else if (tempfaith< 16)
+        else if (tempFaith < 16)
         {
-            tempfaith++;
+            tempFaith++;
             moveFaithX(true);
         }
-        else if (tempfaith<18)
+        else if (tempFaith <18)
         {
-            tempfaith++;
+            tempFaith++;
             moveFaithY(false);
         } else
             moveFaithX(true);
@@ -185,10 +197,10 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
 
     public void initializeFaithTrack()
     {
-        faithbut=new Button();
-        faithbut.setLayoutX(380);
-        faithbut.setLayoutY(380);
-        faithbut.setOnAction( p ->
+        faithBut =new Button();
+        faithBut.setLayoutX(380);
+        faithBut.setLayoutY(380);
+        faithBut.setOnAction(p ->
         {
             moveFaith();
         });
@@ -197,8 +209,8 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
         tempImageView.setFitHeight(20);
         tempImageView.setFitWidth(20);
 
-        faithbut.setGraphic(tempImageView);
-        menuPane.getChildren().add(faithbut);
+        faithBut.setGraphic(tempImageView);
+        menuPane.getChildren().add(faithBut);
         }
 
     public void validationButton()
@@ -209,95 +221,123 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
         coverCardShop.setGraphic(new Label("PRODUCE"));
         coverCardShop.setOnAction(p ->
         {
-            if(!ViewPersonalBoard.getController().isProduction())
-            {
-                error.setOpacity(1);
-                return;
 
-            }
-            int prodcount=0;
-            for(Boolean prod : productionSelection)
-            {
-                if(prod)
-                {
-                        prodcount++;
-                }
-
-            }
-            if(prodcount==0)
-            {
-                ;
-                errorChoice.setOpacity(1);
-                return;
-
-            }
             error.setOpacity(0);
             errorChoice.setOpacity(0);
+
+            for(ResourceButton but : standardProductionButtons)
+                if(but.getResource()==Resource.TOCHOOSE)
+                    return;
+            stockWareHouse();
         });
         menuPane.getChildren().add(coverCardShop);
 
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        ImageView tempImageView;
-        tempImageView=new ImageView(new Image("assets/board/smallerboard.png", true));
-
-        tempImageView.setFitHeight(500);
-        tempImageView.setFitWidth(850);
-        tempImageView.setLayoutX(345);
-        tempImageView.setLayoutY(280);
-
-        menuPane.getChildren().add(tempImageView);
-        StackPane.setAlignment(tempImageView, Pos.BOTTOM_CENTER);
-
-        initializeDeposit();
-
-        initializeFaithTrack();
-
-        validationButton();
-        for(int i=0;i<sceneResources.size();i++)
-            selected.add(false);
-        boardController.initializeFalseOnEmpty(selected,sceneResources);
-        //boardController.disableFalseEnableTrue(selected,sceneResources);
-        boardController.bindToMove(selected,sceneResources);
-
-
-
-
-
-
-
-        Button productionButton;
-
-        for(int i=0;i<3;i++)
+    public void stockWareHouse()
+    {
+        List<Resource> temp=new ArrayList<>();
+        temp.add(standardProductionButtonsOut.get(0).getResource());
+        while(temp!=null)
         {
-        productionButton=new Button();
-        productionButton.setLayoutX(695+168*i);
-        productionButton.setLayoutY(550);
-        ImageView topo=new ImageView(new Image("assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_2.png", true));
-        topo.setFitWidth(100);
-        topo.setFitHeight(100);
-        productionButton.setGraphic(topo);
-        menuPane.getChildren().add(productionButton);
-        productions.add(productionButton);
+            for(int i=0;i<wareHouseButtons.size();i++)
+            {
+                if(wareHouseButtons.get(i).getResource()==Resource.EMPTY)
+                {
+                    wareHouseButtons.get(i).setResource(temp.get(0));
+                    wareHouseButtons.get(i).color();
+                    temp.remove(0);
+                }
+            }
         }
+    }
 
-
+    public void bindForStandardProduction()
+    {
 
         Button button=new Button();
         button.setGraphic(new Label("PRODUCTION"));
         button.setLayoutX(800);
         button.setLayoutY(100);
         button.setOnAction(p -> getController().setProduction(true));
-
         menuPane.getChildren().add(button);
+
+        selectedStandardProductions=javafx.collections.FXCollections.observableArrayList();
+        selectedStandardProductionsOut=javafx.collections.FXCollections.observableArrayList();
+
+        ResourceButton prodBut=new ResourceButton();
+        prodBut.setResource(Resource.TOCHOOSE);
+        prodBut.setLayoutX(575);
+        prodBut.setLayoutY(650);
+        prodBut.color();
+        standardProductionButtons.add(prodBut);
+        selectedStandardProductions.add(false);
+        menuPane.getChildren().add(prodBut);
+
+        prodBut=new ResourceButton();
+        prodBut.setResource(Resource.TOCHOOSE);
+        prodBut.color();
+        prodBut.setLayoutX(575);
+        prodBut.setLayoutY(630);
+        standardProductionButtons.add(prodBut);
+        menuPane.getChildren().add(prodBut);
+        selectedStandardProductions.add(false);
+
+
+        prodBut=new ResourceButton();
+        prodBut.setResource(Resource.TOCHOOSE);
+        prodBut.color();
+        prodBut.setLayoutX(605);
+        prodBut.setLayoutY(640);
+        standardProductionButtonsOut.add(prodBut);
+        selectedStandardProductionsOut.add(false);
+        menuPane.getChildren().add(prodBut);
+
+
+        getController().setProductionIn(selectedStandardProductions,standardProductionButtons);
+        getController().selectChoiceFromDispenser(standardProductionButtonsOut,selectedStandardProductionsOut);
+
+        selectedStandardProductions.addListener(new javafx.collections.ListChangeListener<Boolean>() {
+            @Override
+            public void onChanged(Change<? extends Boolean> c) {
+                c.next();
+                if(!c.getAddedSubList().get(0))
+                {
+
+                }
+                else
+                {
+                    getClient().getStage().getScene().setCursor(ImageCursor.HAND);
+
+                    getController().deHighlightFalse(selectedResources,sceneResources);
+                }
+
+
+            }});
+
+        selectedStandardProductionsOut.addListener(new javafx.collections.ListChangeListener<Boolean>() {
+            @Override
+            public void onChanged(Change<? extends Boolean> c) {
+                c.next();
+                if(!c.getAddedSubList().get(0))
+                {
+
+                }
+                else
+                {
+                    getClient().getStage().getScene().setCursor(ImageCursor.HAND);
+
+                    getController().deHighlightFalse(selectedResources,sceneResources);
+                }
+
+
+            }});
+
         button=new Button();
         button.setGraphic(new Label("DEVELOP"));
         button.setLayoutX(900);
         button.setLayoutY(150);
-        button.setOnAction(p -> getController().setDevelop(true));
+        button.setOnAction(p -> getController().isCardShopOpen(true));
 
         menuPane.getChildren().add(button);
         button=new Button();
@@ -330,12 +370,112 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
             public void onChanged(Change<? extends Boolean> c) {
                 c.next();
                 if(c.getAddedSubList().get(0))
+                {
+                    if(ViewPersonalBoard.getController().isMoving())
+                    {
+                            getClient().getStage().getScene().setCursor(ImageCursor.HAND);
+                            ViewPersonalBoard.getController().setMoving(false);
+                            productionSelection.set(c.getFrom(),false);
+                    }
                     ViewPersonalBoard.getController().highlightTrue(productionSelection,productions);
+
+                }
                 else
+                {
                     ViewPersonalBoard.getController().dehighlightTrue(productionSelection,productions);
+
+                }
+
+            }});
+
+
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        ImageView tempImageView;
+        tempImageView=new ImageView(new Image("assets/board/smallerboard.png", true));
+
+        tempImageView.setFitHeight(500);
+        tempImageView.setFitWidth(850);
+        tempImageView.setLayoutX(345);
+        tempImageView.setLayoutY(280);
+
+        menuPane.getChildren().add(tempImageView);
+        StackPane.setAlignment(tempImageView, Pos.BOTTOM_CENTER);
+
+        initializeDeposit();
+
+        initializeFaithTrack();
+
+        validationButton();
+
+        selectedResources =javafx.collections.FXCollections.observableArrayList();
+
+        for(int i=0;i<sceneResources.size();i++)
+            selectedResources.add(false);
+
+
+        boardController.initializeFalseOnEmpty(selectedResources,sceneResources);
+        //boardController.disableFalseEnableTrue(selected,sceneResources);
+        boardController.bindToMove(selectedResources,sceneResources);
+
+
+
+        List<Image> res=new ArrayList<>();
+        res.add(new Image("assets/resources/GOLD.png"));
+        res.add(new Image("assets/resources/SERVANT.png"));
+        res.add(new Image("assets/resources/SHIELD.png"));
+        res.add(new Image("assets/resources/STONE.png"));
+        selectedResources.addListener(new javafx.collections.ListChangeListener<Boolean>() {
+            @Override
+            public void onChanged(Change<? extends Boolean> c) {
+                c.next();
+                if(!c.getAddedSubList().get(0))
+                    getClient().getStage().getScene().setCursor(new ImageCursor(res.get(sceneResources.get(c.getFrom()).getResource().getResourceNumber())));
+                else
+                    getClient().getStage().getScene().setCursor(ImageCursor.HAND);
 
 
             }});
+
+
+
+
+        Button productionButton;
+
+        for(int i=0;i<3;i++)
+        {
+        productionButton=new Button();
+        productionButton.setLayoutX(695+168*i);
+        productionButton.setLayoutY(550);
+        ImageView devCardImage=new ImageView(new Image("assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_2.png", true));
+        devCardImage.setFitWidth(100);
+        devCardImage.setFitHeight(100);
+        productionButton.setGraphic(devCardImage);
+        menuPane.getChildren().add(productionButton);
+        productions.add(productionButton);
+        }
+        int row;
+        for(int i=0;i<5;i++)
+        {
+            ResourceButton wareHouseButton=new ResourceButton();
+            wareHouseButton.setResource(Resource.EMPTY);
+            wareHouseGrid.add(wareHouseButton,i,0);
+
+            wareHouseButtons.add(wareHouseButton);
+        }
+
+        wareHouseGrid.setMaxHeight(100);
+        wareHouseGrid.setMaxWidth(100);
+        wareHouseGrid.setLayoutX(380);
+        wareHouseGrid.setLayoutY(650);
+        menuPane.getChildren().add(wareHouseGrid);
+
+
+
+        bindForStandardProduction();
         getClient().getStage().show();
     }
 }

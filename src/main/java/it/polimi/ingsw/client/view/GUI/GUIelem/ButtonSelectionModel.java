@@ -2,28 +2,51 @@ package it.polimi.ingsw.client.view.GUI.GUIelem;
 
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.server.model.Resource;
+import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableCell;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 
 import java.awt.*;
 import java.util.List;
 
 public class ButtonSelectionModel {
 
+    public void setMoving(boolean moving) {
+        this.moving = moving;
+    }
+
+    public boolean isMoving() {
+        return moving;
+    }
+
     boolean moving=false;
-    boolean transferring=false;    boolean isLeader=false;
+    boolean transferring=false;
+    boolean movingCard=false;
+
+    int[] allowedRes=new int[]{1,0,1,0};
+
+    boolean isLeader=false;
     boolean isMarket=false;
     boolean isDevelop=false;
+    int remainingBonus=0;
     boolean isProduction=false;
+
     Resource tomove;
-    Resource totransfer;
+    Resource totransfer;DevelopmentCard bought;
 
     boolean isTransferring()
     {
         return transferring;
     }
+
+    public void setAllowedRes(int[] allowedRes) {
+        this.allowedRes = allowedRes;
+    }
+
 
 
     public void resourceSelector(List<Integer> selected, List<Button> sceneResourcesToChoose, int maxselection)
@@ -48,6 +71,43 @@ public class ButtonSelectionModel {
 
         }}
 
+
+    public void bindForPayment(List<ResourceButton> scenePaymentButtons,List<Boolean> scenePaidButtons)
+    {
+
+        //SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).get();
+        //List<LeaderCardAsset> leaderpics=simplePlayerLeaders.getPlayerLeaders();
+
+        for (ResourceButton pay : scenePaymentButtons) {
+
+            if(pay.getResource()==Resource.EMPTY)
+            {
+                scenePaidButtons.set(scenePaymentButtons.indexOf(pay),false);
+                pay.setDisable(true);
+            }
+            pay.color();
+            pay.setOnAction(e ->
+            {
+
+                if (moving)
+                {
+                    moving=false;
+                    tomove=Resource.EMPTY;
+                    scenePaidButtons.set(scenePaymentButtons.indexOf(pay),false);
+                    pay.setDisable(true);
+
+                }
+                for (ResourceButton pay2 : scenePaymentButtons)
+                    if(!pay2.isDisabled())
+                        return;
+                movingCard=true;
+
+
+            });
+
+        }
+    }
+
     public void cardSelector(List<Boolean> selected,List<Button> scenesLeadersToChoose,int maxselection)
     {
 
@@ -66,7 +126,10 @@ public class ButtonSelectionModel {
                     if (aBoolean)
                         booleanCount++;
                 {
-
+                    if(movingCard)
+                    {
+                        //todo get observer on productionboard to update board
+                    }
                     if(!selected.get(scenesLeadersToChoose.indexOf(sceneButton)))
                     {
                         if(booleanCount<maxselection)
@@ -112,7 +175,7 @@ public class ButtonSelectionModel {
                             moving=true;
                             selected.set(resourcesToMove.indexOf(sceneButton),false);
                             //disableTrueEnableFalse(selected,resourcesToMove);
-                            highlightFalse(selected,resourcesToMove);
+                            //highlightFalse(selected,resourcesToMove);
                             tomove=sceneButton.getResource();
                             sceneButton.setResource(Resource.EMPTY);
                             sceneButton.color();
@@ -208,6 +271,136 @@ public class ButtonSelectionModel {
             };
 
         }
+
+    public void bindDispenser(List<Boolean> control,List<ResourceButton> selected)
+    {
+
+        //SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).get();
+        //List<LeaderCardAsset> leaderpics=simplePlayerLeaders.getPlayerLeaders();
+        Button temp;
+
+
+        for (int i=0; i<selected.size();i++)
+        {
+
+            selected.get(i).setDisable(false);
+
+            int finalI = i;
+            selected.get(i).setOnAction(p ->
+                {
+
+                    if(allowedRes[finalI]==0)
+                    {
+                        selected.get(finalI).setDisable(true);
+                        return;
+                    }
+                    else
+                        allowedRes[finalI]--;
+
+                    if(!moving)
+                    {
+                        transferring=true;
+                        control.set(finalI,!control.get(finalI));
+                        totransfer=selected.get(finalI).getResource();
+                    }
+                    else
+                    {
+                        System.out.println("PUT YOUR RESOURCE BACK FIRST!");
+                    }
+                });
+        }
+    }
+
+    public void setProductionIn(List<Boolean> selected,List<ResourceButton> toggled)
+    {
+
+        //SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).get();
+        //List<LeaderCardAsset> leaderpics=simplePlayerLeaders.getPlayerLeaders();
+        for(ResourceButton tog : toggled)
+        {
+
+            tog.setOnAction(p ->
+            {
+
+                if(moving)
+                {
+                    if(tog.getResource()==Resource.TOCHOOSE)
+                    {
+                    moving=false;
+                    //disableFalseEnableTrue(selected,resourcesToMove);
+                    selected.set(toggled.indexOf(tog),true);
+                    //disableFalseEnableTrue(selected,resourcesToMove);
+                    tog.setResource(tomove);
+                    tomove=Resource.EMPTY;
+                    tog.color();
+                    }
+                    else
+                        if(tog.getResource()==tomove)
+                        {
+                            moving=false;
+                            //disableFalseEnableTrue(selected,resourcesToMove);
+                            selected.set(toggled.indexOf(tog),true);
+                            //disableFalseEnableTrue(selected,resourcesToMove);
+                            tog.setResource(tomove);
+                            tomove=Resource.EMPTY;
+                            tog.color();
+                        }
+                }
+
+            });
+        }
+
+
+    }
+
+
+    public void selectChoiceFromDispenser(List<ResourceButton> toggled, List<Boolean> selected)
+    {
+
+        //SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).get();
+        //List<LeaderCardAsset> leaderpics=simplePlayerLeaders.getPlayerLeaders();
+        for(ResourceButton tog : toggled)
+        {
+
+            tog.setOnAction(p ->
+            {
+
+                if(tog.getResource()==Resource.TOCHOOSE)
+                {
+
+                    if(transferring)
+                    {
+                        transferring=false;
+                        //disableFalseEnableTrue(selected,resourcesToMove);
+                        //disableFalseEnableTrue(selected,resourcesToMove);
+                        selected.set(toggled.indexOf(tog),true);
+                        tog.setResource(totransfer);
+                        tomove=Resource.EMPTY;
+                        tog.color();
+                    }
+
+                }
+                else
+                if(transferring)
+                    if(totransfer==tog.getResource())
+                {
+                    tog.setGraphic(new Text(tog.getResource().toString()));
+                    transferring=false;
+                    //disableFalseEnableTrue(selected,resourcesToMove);
+                    //disableFalseEnableTrue(selected,resourcesToMove);
+                    selected.set(toggled.indexOf(tog),true);
+                    tog.setResource(totransfer);
+                    tomove=Resource.EMPTY;
+                    tog.color();
+                }
+
+
+            });
+        }
+
+
+    }
+
 
     public void highlightFalse(List<Boolean> selected,List<ResourceButton> resourcesToMove)
     {
@@ -345,7 +538,7 @@ public class ButtonSelectionModel {
         isMarket = market;
     }
 
-    public void setDevelop(boolean develop) {
+    public void isCardShopOpen(boolean develop) {
         isDevelop = develop;
     }
 
@@ -367,9 +560,21 @@ public class ButtonSelectionModel {
         return isMarket;
     }
 
-    public boolean isDevelop() {
+    public boolean isCardShopOpen() {
         return isDevelop;
     }
+
+
+
+    public DevelopmentCard getBought() {
+        return bought;
+    }
+
+    public void setBought(DevelopmentCard bought) {
+        this.bought = bought;
+    }
+
+
 
 
 
