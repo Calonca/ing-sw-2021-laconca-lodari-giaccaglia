@@ -68,9 +68,11 @@ public class PersonalBoard {
      * Initializes the personalBoard like in a standard game of Maestri del Rinascimento
      */
     public PersonalBoard(){
+
         warehouseLeadersDepots = new WarehouseLeadersDepots();
         strongBox = Box.strongBox();
         discardBox = Box.discardBox();
+        discardBox.addResources(new int[]{3,3,3,3});  //setup phase DiscardBox
         productions = Stream.of(Optional.of(Production.basicProduction())).collect(Collectors.toList());
         productions.add(Optional.empty());
         productions.add(Optional.empty());
@@ -80,6 +82,7 @@ public class PersonalBoard {
         prodsSelected.add(Optional.empty());
         prodsSelected.add(Optional.empty());
         prodsSelected.add(Optional.empty());
+        
     }
 
     /**
@@ -260,6 +263,8 @@ public class PersonalBoard {
         cardCells[pos].addToTop(card);
     }
 
+
+    //todo send warning message when player has 6 cards!
     /**
      * Returns true if the player has bought six or more cards at the development market
      * @return true if the player has bought six or more cards at the development market
@@ -268,6 +273,12 @@ public class PersonalBoard {
         return Arrays.stream(cardCells).map((p)->p.getStackedCards().size())
                 .reduce(0, Integer::sum)>=6;
     }
+
+    public boolean playerHasSevenCards(){
+        return Arrays.stream(cardCells).map((p)->p.getStackedCards().size())
+                .reduce(0, Integer::sum)==7;
+    }
+
 
     /**
      * Returns how many of the given {@link Resource resource} the player has in all the {@link StorageUnit deposits}
@@ -334,6 +345,10 @@ public class PersonalBoard {
     public void discardResources(){
         badFaithToAdd += Resource.getStream(Resource.nRes).map(discardBox::getNumberOf).reduce(0,Integer::sum);
         faithPointsToAdd += discardBox.getNumberOf(Resource.FAITH);
+        discardBox = Box.discardBox();
+    }
+
+    public void resetDiscardBox(){
         discardBox = Box.discardBox();
     }
 

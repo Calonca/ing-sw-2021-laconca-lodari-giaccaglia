@@ -60,7 +60,7 @@ public class PersonalBoardTest {
         assertEquals(Optional.empty(),emptyBoard.firstProductionSelectedWithChoice());
         //Test storage units setup
         assertArrayEquals(new int[]{0,0,0,0},Resource.getStream(4).mapToInt((a)->emptyBoard.getStrongBox().getNumberOf(a)).toArray());
-        assertArrayEquals(new int[]{0,0,0,0},Resource.getStream(4).mapToInt((a)->emptyBoard.getDiscardBox().getNumberOf(a)).toArray());
+        assertArrayEquals(new int[]{3,3,3,3},Resource.getStream(4).mapToInt((a)->emptyBoard.getDiscardBox().getNumberOf(a)).toArray());
         assertArrayEquals(new int[]{0,0,0,0},Resource.getStream(4).mapToInt(emptyBoard::getNumberOf).toArray());
         assertEquals(0,emptyBoard.numOfResources());
         assertEquals(
@@ -82,7 +82,7 @@ public class PersonalBoardTest {
         assertEquals(Optional.empty(),board.firstProductionSelectedWithChoice());
         //Test depot setup
         assertArrayEquals(new int[]{5,15,2,0},Resource.getStream(4).mapToInt((a)->board.getStrongBox().getNumberOf(a)).toArray());
-        assertArrayEquals(new int[]{3,2,1,3},Resource.getStream(4).mapToInt((a)->board.getDiscardBox().getNumberOf(a)).toArray());
+        assertArrayEquals(new int[]{6,5,4,6},Resource.getStream(4).mapToInt((a)->board.getDiscardBox().getNumberOf(a)).toArray());
         assertArrayEquals(new int[]{6,16,3,0},Resource.getStream(4).mapToInt(board::getNumberOf).toArray());
         assertEquals(25,board.numOfResources());
         assertEquals(JsonUtility.toPrettyFormat(
@@ -202,7 +202,7 @@ public class PersonalBoardTest {
         assertEquals(0,board.getBadFaithToAdd());
         assertNotEquals(Optional.empty(),board.firstProductionSelectedWithChoice());
         assertArrayEquals(new int[]{5,15,2,0},Resource.getStream(4).mapToInt((a)->board.getStrongBox().getNumberOf(a)).toArray());
-        assertArrayEquals(new int[]{3,2,1,3},Resource.getStream(4).mapToInt((a)->board.getDiscardBox().getNumberOf(a)).toArray());
+        assertArrayEquals(new int[]{6,5,4,6},Resource.getStream(4).mapToInt((a)->board.getDiscardBox().getNumberOf(a)).toArray());
         assertArrayEquals(new int[]{6,16,3,0},Resource.getStream(4).mapToInt(board::getNumberOf).toArray());
         assertEquals(25,board.numOfResources());
         assertArrayEquals(new int[]{0,1,0,0},Resource.getStream(4).mapToInt((a)->board.getStrongBox().getNSelected(a)).toArray());
@@ -222,7 +222,7 @@ public class PersonalBoardTest {
         assertEquals(0,board.getBadFaithToAdd());
         assertNotEquals(Optional.empty(),board.firstProductionSelectedWithChoice());
         assertArrayEquals(new int[]{5,15,2,0},Resource.getStream(4).mapToInt((a)->board.getStrongBox().getNumberOf(a)).toArray());
-        assertArrayEquals(new int[]{3,2,1,3},Resource.getStream(4).mapToInt((a)->board.getDiscardBox().getNumberOf(a)).toArray());
+        assertArrayEquals(new int[]{6,5,4,6},Resource.getStream(4).mapToInt((a)->board.getDiscardBox().getNumberOf(a)).toArray());
         assertArrayEquals(new int[]{6,16,3,0},Resource.getStream(4).mapToInt(board::getNumberOf).toArray());
         assertEquals(25,board.numOfResources());
         assertArrayEquals(new int[]{0,1,0,0},Resource.getStream(4).mapToInt((a)->board.getStrongBox().getNSelected(a)).toArray());
@@ -244,7 +244,7 @@ public class PersonalBoardTest {
         board.selectProductionAt(2);
         assertNotEquals(Optional.empty(),board.firstProductionSelectedWithChoice());
         assertArrayEquals(new int[]{5,15,2,0},Resource.getStream(4).mapToInt((a)->board.getStrongBox().getNumberOf(a)).toArray());
-        assertArrayEquals(new int[]{3,2,1,3},Resource.getStream(4).mapToInt((a)->board.getDiscardBox().getNumberOf(a)).toArray());
+        assertArrayEquals(new int[]{6,5,4,6},Resource.getStream(4).mapToInt((a)->board.getDiscardBox().getNumberOf(a)).toArray());
         assertArrayEquals(new int[]{6,16,3,0},Resource.getStream(4).mapToInt(board::getNumberOf).toArray());
         assertEquals(25,board.numOfResources());
         assertArrayEquals(new int[]{0,1,0,0},Resource.getStream(4).mapToInt((a)->board.getStrongBox().getNSelected(a)).toArray());
@@ -264,7 +264,7 @@ public class PersonalBoardTest {
         assertEquals(0,board.getBadFaithToAdd());
         assertEquals(Optional.empty(),board.firstProductionSelectedWithChoice());
         assertArrayEquals(new int[]{5,15,2,0},Resource.getStream(4).mapToInt((a)->board.getStrongBox().getNumberOf(a)).toArray());
-        assertArrayEquals(new int[]{3,2,1,3},Resource.getStream(4).mapToInt((a)->board.getDiscardBox().getNumberOf(a)).toArray());
+        assertArrayEquals(new int[]{6,5,4,6},Resource.getStream(4).mapToInt((a)->board.getDiscardBox().getNumberOf(a)).toArray());
         assertArrayEquals(new int[]{6,16,3,0},Resource.getStream(4).mapToInt(board::getNumberOf).toArray());
         assertEquals(25,board.numOfResources());
         assertArrayEquals(new int[]{0,1,0,0},Resource.getStream(4).mapToInt((a)->board.getStrongBox().getNSelected(a)).toArray());
@@ -425,7 +425,7 @@ public class PersonalBoardTest {
         //From box to warehouse
         board.move(-4,1);
         assertArrayEquals(new int[]{7,16,3,0},Resource.getStream(4).mapToInt(board::getNumberOf).toArray());
-        assertArrayEquals(new int[]{2,2,1,3},Resource.getStream(4).mapToInt((a)->board.getDiscardBox().getNumberOf(a)).toArray());
+        assertArrayEquals(new int[]{5,5,4,6},Resource.getStream(4).mapToInt((a)->board.getDiscardBox().getNumberOf(a)).toArray());
         assertEquals(JsonUtility.toPrettyFormat(
                 "{0:[{key:SERVANT,value:false}]," +
                         "1:[{key:GOLD,value:false},{key:GOLD,value:false}]," +
@@ -435,7 +435,7 @@ public class PersonalBoardTest {
         //From warehouse to box
         board.move(0,-3);
         assertArrayEquals(new int[]{7,15,3,0},Resource.getStream(4).mapToInt(board::getNumberOf).toArray());
-        assertArrayEquals(new int[]{2,3,1,3},Resource.getStream(4).mapToInt((a)->board.getDiscardBox().getNumberOf(a)).toArray());
+        assertArrayEquals(new int[]{5,6,4,6},Resource.getStream(4).mapToInt((a)->board.getDiscardBox().getNumberOf(a)).toArray());
         assertEquals(JsonUtility.toPrettyFormat(
                 "{0:[{key:EMPTY,value:false}]," +
                         "1:[{key:GOLD,value:false},{key:GOLD,value:false}]," +
@@ -445,7 +445,7 @@ public class PersonalBoardTest {
         //Between Warehouse
         board.move(5,0);
         assertArrayEquals(new int[]{7,15,3,0},Resource.getStream(4).mapToInt(board::getNumberOf).toArray());
-        assertArrayEquals(new int[]{2,3,1,3},Resource.getStream(4).mapToInt((a)->board.getDiscardBox().getNumberOf(a)).toArray());
+        assertArrayEquals(new int[]{5,6,4,6},Resource.getStream(4).mapToInt((a)->board.getDiscardBox().getNumberOf(a)).toArray());
         assertEquals(JsonUtility.toPrettyFormat(
                 "{0:[{key:SHIELD,value:false}]," +
                         "1:[{key:GOLD,value:false},{key:GOLD,value:false}]," +

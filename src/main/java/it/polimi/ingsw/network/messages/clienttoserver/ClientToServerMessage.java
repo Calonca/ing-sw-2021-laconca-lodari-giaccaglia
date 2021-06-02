@@ -47,7 +47,6 @@ public abstract class ClientToServerMessage extends NetworkMessage
 
         RuntimeTypeAdapterFactory<Event> eventMessageAdapter = RuntimeTypeAdapterFactory.of(Event.class);
 
-        eventMessageAdapter.registerSubtype(CardShopEvent.class);
         eventMessageAdapter.registerSubtype(ChooseCardEvent.class);
         eventMessageAdapter.registerSubtype(ChooseCardPositionEvent.class);
         eventMessageAdapter.registerSubtype(ChooseResourceForCardShopEvent.class);

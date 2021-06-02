@@ -217,10 +217,6 @@ public class WarehouseLeadersDepots implements StorageUnit {
 
     }
 
-
-
-
-
     /**
      * Adds a new depot at the end of the list of depots
      * @param depot the depot that will be added to the list

@@ -24,9 +24,10 @@ public class AddingResourcesFromMarket implements GameStrategy {
     public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event)
     {
 
-        //ON EVENT MOVERESOURCEEVENT
-        //MESSAGE IS TWO INT, STARTING POSITION AND ENDING POSITION. 0,0 IS FOR TERMINATION
-        gamemodel.getCurrentPlayer().getPersonalBoard().move(((MoveResourceEvent) event).getStartPos(),((MoveResourceEvent) event).getEndPos());
+        int startPos = ((MoveResourceEvent) event).getStartPos();
+        int endPos = ((MoveResourceEvent) event).getEndPos();
+
+        gamemodel.getCurrentPlayer().getPersonalBoard().move(startPos, endPos);
 
         return new Pair<>(State.CHOOSING_POSITION_FOR_RESOURCES, elementsToUpdate);
 

@@ -95,7 +95,7 @@ public class GameModelTest {
 
                 assertTrue(gameModelTest.purchaseCardFromCardShop(color, level));
 
-                purchaseCardTest = gameModelTest.getPurchasedCard();
+                purchaseCardTest = gameModelTest.takePurchasedCardFromShop();
 
                 assertEquals(color, purchaseCardTest.getCardType());
                 assertEquals(level, purchaseCardTest.getLevel());

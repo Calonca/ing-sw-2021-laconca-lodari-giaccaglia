@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.messages.clienttoserver.events.cardshopevent;
 
 import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
+import it.polimi.ingsw.network.messages.clienttoserver.events.MiddlePhaseEvent;
 import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.server.model.GameModel;
 
@@ -10,7 +11,7 @@ import it.polimi.ingsw.server.model.GameModel;
  * {@link State#CHOOSING_POSITION_FOR_DEVCARD CHOOSING_POSITION_FOR_DEVCARD} phase by performing a
  * game turn action processed to accomplish server-side client validation.
  */
-public class ChooseCardPositionEvent extends CardShopEvent {
+public class ChooseCardPositionEvent extends MiddlePhaseEvent {
 
     /**
      *  Represents a position of a {@link it.polimi.ingsw.server.model.cards.production.ProductionCardCell ProductionCardCell} inside
