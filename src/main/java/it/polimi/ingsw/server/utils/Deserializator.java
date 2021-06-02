@@ -29,7 +29,7 @@ public class Deserializator extends JsonUtility {
     public static final Gson gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).create();
 
     public static MarketBoard marketBoardDeserialization(){
-        return deserialize(configPathString + "MarketBoardConfig.json", MarketBoard.class);
+        return deserialize(configPathString  + "MarketBoardConfig.json", MarketBoard.class);
     }
 
     public static CardShop cardShopDeserialization(){

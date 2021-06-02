@@ -1,6 +1,10 @@
 package it.polimi.ingsw.network.jsonUtils;
 
 import com.google.gson.*;
+import com.google.gson.stream.JsonReader;
+import it.polimi.ingsw.server.model.GameModel;
+import it.polimi.ingsw.server.model.market.MarketBoard;
+import org.apache.commons.io.IOUtils;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -12,7 +16,7 @@ import java.util.stream.*;
 public class JsonUtility {
 
  //   private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    public static final String configPathString = "src/main/resources/config/";
+    public static final String configPathString = "/config/";
     public static String serializeVarArgs(Object... o) {
         return serialize(Arrays.stream(o).collect(Collectors.toList()));
     }
@@ -28,23 +32,30 @@ public class JsonUtility {
     }
 
     public static <T> T deserialize(String jsonPath, Type destinationType, Gson customGson){
-        String jsonString = null;
+
+        InputStreamReader reader = new InputStreamReader(JsonUtility.class.getResourceAsStream(jsonPath));
+
+        String result = null;
         try {
-            jsonString = Files.readString(Path.of(jsonPath), StandardCharsets.US_ASCII);
+            result = IOUtils.toString(reader);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return customGson.fromJson(jsonString, destinationType);
+        return customGson.fromJson(result, destinationType);
     }
 
     public static <T> T deserialize(String jsonPath, Class<T> destinationClass, Gson customGson) {
-        String jsonString = null;
+
+        InputStreamReader reader = new InputStreamReader(JsonUtility.class.getResourceAsStream(jsonPath));
+
+        String result = null;
         try {
-            jsonString = Files.readString(Path.of(jsonPath).toAbsolutePath(), StandardCharsets.US_ASCII);
+            result = IOUtils.toString(reader);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return deserializeFromString(jsonString, destinationClass, customGson);
+
+        return deserializeFromString(result, destinationClass, customGson);
     }
 
     public static <T> T deserializeFromString(String jsonString, Class<T> destinationClass, Gson customGson){
@@ -70,6 +81,7 @@ public class JsonUtility {
     }
 
     public static <T> void serialize(String jsonPath, T Object , Type destinationType, Gson customGson) {
+
         String jsonString = serialize(Object, destinationType, customGson);
 
         try {
