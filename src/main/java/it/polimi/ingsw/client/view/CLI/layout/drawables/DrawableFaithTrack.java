@@ -9,11 +9,13 @@ import it.polimi.ingsw.network.simplemodel.FaithCell;
 import it.polimi.ingsw.network.simplemodel.FaithZone;
 import it.polimi.ingsw.network.simplemodel.SimpleFaithTrack;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class DrawableFaithTrack {
     private final Canvas canvas =Canvas.withBorder(CLI.width,6);
     private final SimpleFaithTrack simpleFaithTrack;
+    private final String allPlayers;
 
     public Drawable faithTile(int pos,FaithCell faithCell,boolean player,boolean lorenzo){
         int x = faithCell.getX_pos()*7;
@@ -38,13 +40,12 @@ public class DrawableFaithTrack {
         tile.add(0, Characters.BOTTOM_LEFT_DIV.getString()+Characters.HOR_DIVIDER.getString().repeat(6), zoneColor,back);
         tile.add(fp);
 
-
-        tile.shift(x+1,y);
-        return tile;
+        return Drawable.copyShifted(x+1,y,tile);
     }
 
-    public DrawableFaithTrack(SimpleFaithTrack simpleFaithTrack){
-        this.simpleFaithTrack = simpleFaithTrack;
+    public DrawableFaithTrack(SimpleFaithTrack player,SimpleFaithTrack[] simpleFaithTrack){
+        this.simpleFaithTrack = player;
+        allPlayers = Arrays.stream(simpleFaithTrack).map(t->String.valueOf(t.getPlayerPosition())).reduce(",",(a,b)->a+b);
     }
 
     @Override
@@ -54,6 +55,6 @@ public class DrawableFaithTrack {
             FaithCell c = track.get(i);
             canvas.addDrawable(faithTile(i,c,simpleFaithTrack.getPlayerPosition()==i,simpleFaithTrack.getLorenzoPosition()==i));
         }
-        return canvas.toString();
+        return canvas.toString()+"\n"+ allPlayers;
     }
 }

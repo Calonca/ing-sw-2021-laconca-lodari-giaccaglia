@@ -28,6 +28,10 @@ public class SimpleModel {
         commonSimpleModelElementsMap.put(SimpleMarketBoard.class.getSimpleName(), new SimpleMarketBoard());
     }
 
+    public PlayerCache[] getPlayersCaches() {
+        return playersCacheList.toArray(PlayerCache[]::new);
+    }
+
     public PlayerCache getPlayerCache(int playerNumber){
         return playersCacheList.get(playerNumber);
     }
@@ -41,7 +45,6 @@ public class SimpleModel {
 
     public void updateSimpleModelElement(String name, SimpleModelElement element){
         commonSimpleModelElementsMap.get(name).update(element);
-        //Todo notify
     }
 
     public <T extends SimpleModelElement> Optional<T> getElem(Class<T> s){
@@ -62,8 +65,7 @@ public class SimpleModel {
         for(SimpleModelElement element : stateInNetwork.getCommonSimpleModelElements()){
             String elemName = element.getClass().getSimpleName();
             updateSimpleModelElement(elemName, element);
-            support.firePropertyChange(elemName,getElem(elemName),getElem(elemName));
-            //Todo old value is the same as new value
+            support.firePropertyChange(elemName,null,getElem(elemName));
         }
 
         getPlayerCache(stateInNetwork.getPlayerNumber()).updateState(stateInNetwork.getState(),stateInNetwork.getPlayerSimpleModelElements());

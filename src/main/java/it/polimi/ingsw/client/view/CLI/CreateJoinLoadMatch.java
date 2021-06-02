@@ -1,11 +1,12 @@
 package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.CommonData;
-import it.polimi.ingsw.client.view.CLI.CLIelem.body.HorizontalListBody;
-import it.polimi.ingsw.client.view.CLI.layout.HorizontalList;
+
+import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
 import it.polimi.ingsw.client.view.CLI.layout.Option;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.SpinnerBody;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Title;
+import it.polimi.ingsw.client.view.CLI.layout.Row;
 import it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchViewBuilder;
 
 import java.beans.PropertyChangeEvent;
@@ -27,22 +28,21 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
                     getCLIView().setTitle(new Title("Hey "+getCommonData().getCurrentnick()+", what do you want to do?"));
                     //InitialOrFinalStrategy options
                     Stream<Option> optionsToAdd = getNewOptionList(getClient().getCommonData().getMatchesData());
+                    Row initialRow = new Row(optionsToAdd);
 
-                    HorizontalList optionList = new HorizontalList(optionsToAdd,getCLIView().getMaxBodyHeight());
-
-                    HorizontalListBody horizontalListBody = new HorizontalListBody(optionList);
+                    CanvasBody horizontalListBody = CanvasBody.centered(initialRow);
 
                     horizontalListBody.performWhenReceiving(CommonData.matchesDataString);
                     Runnable performer = ()->{
                         Optional<Map<UUID,String[]>> list = (Optional<Map<UUID, String[]>>) horizontalListBody.getEvt().getNewValue();
-                        optionList.updateOptions(getNewOptionList(list),getClient());
-                        getCLIView().setBody(horizontalListBody);
-                        optionList.selectAndRunOption(getCLIView());
+                        Row updatedRow = new Row(getNewOptionList(list));
+                        getCLIView().setBody(CanvasBody.centered(updatedRow));
+                        updatedRow.selectAndRunOption(getCLIView());
                         getCLIView().show();
                     };
                     horizontalListBody.setPerformer(performer);
                     getCLIView().setBody(horizontalListBody);
-                    optionList.selectAndRunOption(getCLIView());
+                    initialRow.selectAndRunOption(getCLIView());
                     getCLIView().show();
                 }
         );
@@ -55,7 +55,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         joinMatch.setMatchId(uuidPair.getKey());
         Runnable r = () -> getClient().changeViewBuilder(joinMatch);
         return Option.from(
-                    uuidPair.getKey().toString(),
+                    uuidPair.getKey().toString()+" ",
                     Arrays.toString(uuidPair.getValue()),
                     r);
 
