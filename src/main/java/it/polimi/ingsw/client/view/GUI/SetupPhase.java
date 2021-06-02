@@ -40,11 +40,11 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
 
     List<UUID> leadersUUIDs=new ArrayList<>();
 
-    List<Button> scenesLeadersToChoose=new ArrayList<>();
+    List<Button> sceneLeaders =new ArrayList<>();
     List<Button> sceneResources=new ArrayList<>();
 
-    javafx.collections.ObservableList<Boolean> selected;
-    javafx.collections.ObservableList<Integer> selectedRes;
+    javafx.collections.ObservableList<Boolean> selectedLeaders;
+    javafx.collections.ObservableList<Integer> selectedResources;
 
     List<Color> colors=new ArrayList<>();
     List<String> colorsToRes=new ArrayList<>();
@@ -107,11 +107,14 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         confirm.setOnAction(p -> {
 
             List<UUID> discardedLeaders=new ArrayList<>();
-            for(int i=0;i<scenesLeadersToChoose.size();i++)
-                if(!selected.get(i))
+            for(int i = 0; i< sceneLeaders.size(); i++)
+                if(!selectedLeaders.get(i))
                     discardedLeaders.add(leadersUUIDs.get(i));
-            SetupPhaseEvent event = new SetupPhaseEvent(selectedRes.get(0),2,getClient().getCommonData().getThisPlayerIndex());
+                int look= getClient().getCommonData().getThisPlayerIndex();
+                int watch = Util.resourcesToChooseOnSetup(getCommonData().getThisPlayerIndex());
+            SetupPhaseEvent event = new SetupPhaseEvent(Util.resourcesToChooseOnSetup(getCommonData().getThisPlayerIndex()),2,getClient().getCommonData().getThisPlayerIndex());
             getClient().getServerHandler().sendCommandMessage(new EventMessage(event));
+
 
 
         });
@@ -167,33 +170,33 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
             temp.setFitHeight(200);
             temp.setFitWidth(200);
             cjlAnchor.getChildren().add(tempbut);
-            scenesLeadersToChoose.add(tempbut);
+            sceneLeaders.add(tempbut);
 
         }
 
 
-        selected=javafx.collections.FXCollections.observableArrayList();
+        selectedLeaders=javafx.collections.FXCollections.observableArrayList();
         for (int i=0;i<LEADERNUMBER;i++)
-            selected.add(false);
+            selectedLeaders.add(false);
 
 
-        selectionModel.cardSelector(selected,scenesLeadersToChoose,2);
+        selectionModel.cardSelector(selectedLeaders, sceneLeaders,2);
 
-        selected.addListener(new javafx.collections.ListChangeListener<Boolean>() {
+        selectedLeaders.addListener(new javafx.collections.ListChangeListener<Boolean>() {
             @Override
             public void onChanged(Change<? extends Boolean> c) {
                 c.next();
                 if(c.getAddedSubList().get(0))
-                    scenesLeadersToChoose.get(c.getFrom()).setLayoutY(scenesLeadersToChoose.get(c.getFrom()).getLayoutY()-30);
+                    sceneLeaders.get(c.getFrom()).setLayoutY(sceneLeaders.get(c.getFrom()).getLayoutY()-30);
                 else
-                    scenesLeadersToChoose.get(c.getFrom()).setLayoutY(scenesLeadersToChoose.get(c.getFrom()).getLayoutY()+30);
+                    sceneLeaders.get(c.getFrom()).setLayoutY(sceneLeaders.get(c.getFrom()).getLayoutY()+30);
 
 
             }});
 
-        selectedRes=javafx.collections.FXCollections.observableArrayList();
+        selectedResources =javafx.collections.FXCollections.observableArrayList();
         for (int i=0;i<4;i++)
-            selectedRes.add(0);
+            selectedResources.add(0);
 
 
         colors.add(Color.GOLD);
@@ -216,14 +219,14 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
 
         }
 
-        selectionModel.resourceSelector(selectedRes,sceneResources,2);
+        selectionModel.resourceSelector(selectedResources,sceneResources,2);
 
-        selectedRes.addListener(new javafx.collections.ListChangeListener<Integer>() {
+        selectedResources.addListener(new javafx.collections.ListChangeListener<Integer>() {
             @Override
             public void onChanged(Change<? extends Integer> c) {
                 c.next();
                 Circle temp=new Circle();
-                temp.setLayoutX(430+25*selectedRes.stream().mapToInt(i -> i).sum());
+                temp.setLayoutX(430+25* selectedResources.stream().mapToInt(i -> i).sum());
                 temp.setLayoutY(400);
                 temp.setRadius(20);
                 temp.setFill(colors.get(c.getFrom()));

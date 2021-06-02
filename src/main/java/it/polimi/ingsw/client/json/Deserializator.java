@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 public class Deserializator extends JsonUtility {
 
-    public static final String clientConfigPathString = "src/main/resources/clientconfig/";
+    public static final String clientConfigPathString = "/clientconfig/";
 
     //helper method to initialize gameModel list of 16 cards.leaders
     public static List<NetworkLeaderCard> leaderCardsDeserialization() {

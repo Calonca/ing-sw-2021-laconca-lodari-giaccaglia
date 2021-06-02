@@ -19,7 +19,7 @@ public class PopeFavourTileTest {
 
     @Before
     public void setUp() throws Exception {
-        JsonObject jsonFaithTrackClass = deserialize("src/main/resources/config/FaithTrackConfig.json", JsonObject.class);
+        JsonObject jsonFaithTrackClass = deserialize("/config/FaithTrackConfig.json", JsonObject.class);
         JsonElement jsonFaithTrackList = jsonFaithTrackClass.get("tiles");
         Type myListType = new TypeToken<List<PopeFavourTile>>(){}.getType();
         favourTiles = deserialize(jsonFaithTrackList, myListType);

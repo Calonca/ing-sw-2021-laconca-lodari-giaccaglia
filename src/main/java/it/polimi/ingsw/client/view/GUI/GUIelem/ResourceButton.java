@@ -27,7 +27,7 @@ public class ResourceButton extends Button {
         add(" -fx-background-color: #DEB887");
         add(" -fx-background-color: #ffffff");
         add(" -fx-background-color: #ffffff");
-        add(" -fx-background-color: #ffffff");
+        add(" -fx-background-color: #000000");
         add(" -fx-background-color: #ffffff");
     }};
 }
