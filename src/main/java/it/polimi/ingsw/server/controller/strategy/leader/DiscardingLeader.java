@@ -24,7 +24,8 @@ public class DiscardingLeader implements GameStrategy {
         State nextPossibleState = currentState.equals(State.INITIAL_PHASE) ? State.MIDDLE_PHASE : State.IDLE;
 
         gamemodel.getCurrentPlayer().discardLeader(((InitialOrFinalPhaseEvent) event).getLeaderId());
-
+        gamemodel.getCurrentPlayer().moveOnePosition();
+        
         elementsToUpdate.add(Element.SimpleFaithTrack);
         elementsToUpdate.add(Element.SimplePlayerLeaders);
 

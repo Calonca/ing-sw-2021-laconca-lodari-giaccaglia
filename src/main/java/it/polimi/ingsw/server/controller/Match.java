@@ -57,19 +57,22 @@ public class Match {
         game.getCurrentPlayer().setCurrentState(State.SETUP_PHASE);
         List<Element> elems = new ArrayList<>(Arrays.asList(Element.values()));
         notifyStateToAllPlayers(elems);
+
     }
 
     private Optional<User> currentUser(){
+
         String nickname = game.getCurrentPlayer().getNickName();
-        return onlineUsers.stream().filter(u->u.nickname.equals(nickname)).findFirst();
+        return onlineUsers.stream().filter(user->user.nickname.equals(nickname)).findFirst();
     }
 
     public ClientHandler currentPlayerClientHandler(){
-        return currentUser().map(u->u.clientHandler).orElse(onlineUsers.get(0).clientHandler);
+
+        return currentUser().map(user->user.clientHandler).orElse(onlineUsers.get(0).clientHandler);
     }
 
     boolean isSetupPhase(){
-        return game.getOnlinePlayers().values().stream().map(Player::getCurrentState).anyMatch(s -> s.equals(State.SETUP_PHASE));
+        return game.getOnlinePlayers().values().stream().map(Player::getCurrentState).anyMatch(state -> state.equals(State.SETUP_PHASE));
     }
 
     public UUID getMatchId() {
@@ -77,9 +80,11 @@ public class Match {
     }
 
     public String[] getOnlinePlayers(){
+
         return Stream.concat(
-                onlineUsers.stream().map(u->u.nickname),
+                onlineUsers.stream().map(user->user.nickname),
                 Stream.generate(()-> null)).limit(maxPlayers).toArray(String[]::new);
+
     }
 
     public boolean sameID(UUID uuid) {return uuid.equals(matchId);}
@@ -135,19 +140,23 @@ public class Match {
     }
 
     public void notifyStateToAllPlayers(List<Element> elems){
+
         State state = getGame().getCurrentPlayer().getCurrentState();
         clientsStream().forEach(clientHandler -> {
+
             StateInNetwork stateInNetwork = state.toStateMessage(getGame(), elems);
+
             try {
                 clientHandler.sendAnswerMessage(stateInNetwork);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
+
     }
 
     public String getSaveName(){
-        return onlineUsers.stream().map(u->u.nickname).reduce("", String::concat).concat("|").concat(matchId.toString());
+        return onlineUsers.stream().map(user->user.nickname).reduce("", String::concat).concat("|").concat(matchId.toString());
     }
 
     public int getLastPos() {

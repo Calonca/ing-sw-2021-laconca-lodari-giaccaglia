@@ -169,7 +169,7 @@ public class Client implements Runnable
 
     public void setState(StateInNetwork stateInNetwork){
         System.out.println("Client " +commonData.getThisPlayerIndex()+" received: "+"client "+stateInNetwork.getPlayerNumber()+" "+stateInNetwork.getState());
-        Gson gson = new GsonBuilder().registerTypeHierarchyAdapter(Path.class, new JsonUtility.PathConverter()).create();
+        Gson gson = new GsonBuilder().registerTypeHierarchyAdapter(Path.class, new JsonUtility.PathConverter()).setPrettyPrinting().create();
         System.out.println(JsonUtility.serialize(stateInNetwork, StateInNetwork.class, gson));
         commonData.setCurrentPlayer(stateInNetwork.getPlayerNumber());
         if (simpleModel==null){

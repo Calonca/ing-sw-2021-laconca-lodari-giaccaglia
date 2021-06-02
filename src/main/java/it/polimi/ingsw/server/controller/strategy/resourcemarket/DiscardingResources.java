@@ -5,6 +5,7 @@ import it.polimi.ingsw.server.controller.strategy.InitialOrFinalStrategy;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.messages.messagebuilders.Element;
 import it.polimi.ingsw.server.model.GameModel;
+import it.polimi.ingsw.server.model.player.board.PersonalBoard;
 import it.polimi.ingsw.server.model.states.State;
 import javafx.util.Pair;
 
@@ -21,27 +22,26 @@ public class DiscardingResources implements GameStrategy {
 
     public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event)
     {
+        int positionsToAdd;
+        PersonalBoard currentBoard = gamemodel.getCurrentPlayer().getPersonalBoard();
 
-        //TODO
-        gamemodel.getCurrentPlayer().getPersonalBoard().discardResources();
-        int temp=gamemodel.getCurrentPlayer().getPersonalBoard().getBadFaithToAdd();
-        for(int i=0;i<temp;i++)
+        positionsToAdd = currentBoard.getFaithToAdd();
+
+        for(int i=0;i<positionsToAdd;i++)
         {
-            gamemodel.addFaithPointToOtherPlayers();
-            //check vatican report
-            //gamemodel.haswon;
-            //if someone won, set state
+            gamemodel.getCurrentPlayer().moveOnePosition();  //TODO HANDLE VATICAN REPORT
         }
 
-        temp=gamemodel.getCurrentPlayer().getPersonalBoard().getFaithToAdd();
-        for(int i=0;i<temp;i++)
+        currentBoard.discardResources();
+        positionsToAdd = currentBoard.getBadFaithToAdd();
+
+
+        for(int i=0;i<positionsToAdd;i++)
         {
-            gamemodel.getCurrentPlayer().moveOnePosition();
-            //check vatican report
-            //gamemodel.haswon;
+            gamemodel.addFaithPointToOtherPlayers();  //TODO HANDLE VATICAN REPORT
         }
 
-         //TODO HANDLE LOGIC FOR VATICAN REPORT
+
 
         elementsToUpdate.add(Element.SimpleDiscardBox);
 

@@ -69,8 +69,9 @@ public class JsonUtility {
         serialize(jsonPath, Object, classToSerialize, gson);
     }
 
-    public static <T> void serialize(String jsonPath, T Object ,Type destinationType, Gson customGson) {
+    public static <T> void serialize(String jsonPath, T Object , Type destinationType, Gson customGson) {
         String jsonString = serialize(Object, destinationType, customGson);
+
         try {
             Writer writer = new FileWriter(jsonPath);
             writer.write(jsonString);
@@ -83,6 +84,7 @@ public class JsonUtility {
 
     public static <T> void serialize(String jsonPath, T Object , Class<T> classToSerialize, Gson customGson) {
         String jsonString = serialize(Object, classToSerialize, customGson);
+
         try {
             Writer writer = new FileWriter(jsonPath);
             writer.write(jsonString);

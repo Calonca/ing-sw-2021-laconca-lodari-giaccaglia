@@ -5,6 +5,7 @@ import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.messages.clienttoserver.events.setupphaseevent.SetupPhaseEvent;
 import it.polimi.ingsw.server.messages.messagebuilders.Element;
 import it.polimi.ingsw.server.model.GameModel;
+import it.polimi.ingsw.server.model.player.board.Box;
 import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.network.util.Util;
 import javafx.util.Pair;
@@ -41,10 +42,13 @@ public class Setup implements GameStrategy {
 
         gamemodel.discardLeadersOnSetupPhase(currentPlayerNumber, toDiscard);
         gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().addResources(toadd);
+        gamemodel.getCurrentPlayer().getPersonalBoard().resetDiscardBox();
 
         IntStream.range(0, Util.initialFaithPoints(currentPlayerNumber)).forEach(i -> gamemodel.getCurrentPlayer().moveOnePosition());
 
         buildElementsList();
+
+
 
         return new Pair<>(State.IDLE, elementsToUpdate);
 

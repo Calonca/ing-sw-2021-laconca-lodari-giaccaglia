@@ -28,6 +28,7 @@ public class ActivatingLeader implements GameStrategy {
 
         elementsToUpdate.add(Element.SimpleWareHouseLeadersDepot);
         elementsToUpdate.add(Element.SimplePlayerLeaders);
+        //todo send updated "SimplePersonalBoard"
 
         return gamemodel.getCurrentPlayer().anyLeaderPlayable()
                 ? new Pair<>(currentState, elementsToUpdate)

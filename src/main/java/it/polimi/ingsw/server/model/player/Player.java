@@ -73,6 +73,7 @@ public class Player {
         marketBonus=new boolean[4];
         this.nickName = nickName;
         initializeFaithTrack();
+
     }
 
     public Optional<Leader> getLeader(UUID leaderId){

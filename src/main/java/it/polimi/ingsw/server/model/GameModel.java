@@ -144,11 +144,9 @@ public class GameModel {
                 .boxed()
                 .collect(Collectors.toMap(Function.identity(), i -> players.get(i)));
 
-        players.values().forEach((p)->
-                {
-                    p.setStatesTransitionTable(StatesTransitionTable.fromIsSinglePlayer(isSinglePlayer));
-                }
+        players.values().forEach((player)-> player.setStatesTransitionTable(StatesTransitionTable.fromIsSinglePlayer(isSinglePlayer))
         );
+
         setCurrentPlayer(players.get(0));
     }
 
@@ -251,7 +249,7 @@ public class GameModel {
     }
 
     public void discardLeadersOnSetupPhase(int playerNumber, List<UUID> leadersToDiscard){
-        leadersToDiscard.stream().forEach(leader -> players.get(playerNumber).discardLeader(leader));
+        leadersToDiscard.forEach(leader -> players.get(playerNumber).discardLeader(leader));
     }
 
     public void setOfflinePlayer(Player player){
@@ -331,7 +329,7 @@ public class GameModel {
         return true;
     }
 
-    public DevelopmentCard getPurchasedCard(){
+    public DevelopmentCard takePurchasedCardFromShop(){
         return cardShop.takePurchasedCard();
     }
 

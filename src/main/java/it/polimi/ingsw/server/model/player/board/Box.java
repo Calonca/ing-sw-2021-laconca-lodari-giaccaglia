@@ -176,8 +176,6 @@ public class Box implements StorageUnit {
         deselectN(1,Resource.fromInt(globalPos-globalPosition));
     }
 
-
-
     /** Returns how many {@link Resource resources} of the given type there are
      * @param type is a {@link Resource}
      * @return number of {@link Resource resources} of the given type in the deposit
@@ -185,8 +183,6 @@ public class Box implements StorageUnit {
     public int getNumberOf(Resource type){
         return nResAtPos[type.getResourceNumber()];
     }
-
-
 
 
     /**

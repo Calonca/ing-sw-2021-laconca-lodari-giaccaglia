@@ -30,7 +30,7 @@ public class ChooseCardPositionEvent extends it.polimi.ingsw.network.messages.cl
     @Override
     public boolean validate(GameModel gameModel) {
         initializeMiddlePhaseEventValidation(gameModel);
-        this.chosenCard = gameModel.getPurchasedCard();
+        this.chosenCard = gameModel.takePurchasedCardFromShop();
         return isGameStarted(gameModel) && checkCardPosition() && checkSpotAvailability();
     }
 

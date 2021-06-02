@@ -34,7 +34,7 @@ public class MoveResourceEvent extends it.polimi.ingsw.network.messages.clientto
     @Override
     public boolean validate(GameModel model) {
         initializeMiddlePhaseEventValidation(model);
-        return isGameStarted(model) && checkResourceAvailability() && validatePositions();
+        return isGameStarted(model) && checkResourceAvailability() && validateResourceToMove(startPos, endPos);
     }
 
     /*
@@ -70,16 +70,12 @@ public class MoveResourceEvent extends it.polimi.ingsw.network.messages.clientto
         return endPos >= 0 && currentPlayerPersonalBoard.availableMovingPositionsForResourceAt(startPos)
                 .anyMatch(position -> position == endPos);
     }
-
-    /**
-     * @return true if given initial and final positions are valid ones, otherwise false.
-     */
-    private boolean validatePositions(){
-        return validateResourceToMove(startPos, endPos);
-    }
-
     private boolean checkResourceAvailability(){
-        return startPos >= -4 && startPos < 0 && gameModel.getCurrentPlayer().getPersonalBoard().getDiscardBox().getNumberOf(Resource.fromIntFixed(startPos + 4)) > 0;
+
+        if(startPos<0)
+            return startPos >= -4 && gameModel.getCurrentPlayer().getPersonalBoard().getDiscardBox().getNumberOf(Resource.fromIntFixed(startPos + 4)) > 0;
+        else
+            return !gameModel.getCurrentPlayer().getPersonalBoard().getResourceAtPosition(startPos).equals(Resource.EMPTY);
     }
 
     public int getStartPos(){

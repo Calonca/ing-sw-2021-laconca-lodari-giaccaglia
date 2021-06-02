@@ -14,6 +14,6 @@ public class DiscardResourcesEvent extends it.polimi.ingsw.network.messages.clie
 
     @Override
     public boolean validate(GameModel model) {
-        return isGameStarted(model);
+        return isGameStarted(model) && model.getCurrentPlayer().getCurrentState().equals(State.CHOOSING_POSITION_FOR_RESOURCES);
     }
 }

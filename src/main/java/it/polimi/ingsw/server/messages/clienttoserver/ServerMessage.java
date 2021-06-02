@@ -2,15 +2,12 @@ package it.polimi.ingsw.server.messages.clienttoserver;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.RuntimeTypeAdapterFactory;
 import it.polimi.ingsw.server.messages.clienttoserver.events.*;
-import it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent.CardShopEvent;
 import it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent.ChooseCardEvent;
 import it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent.ChooseCardPositionEvent;
 import it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent.ChooseResourceForCardShopEvent;
-import it.polimi.ingsw.server.messages.clienttoserver.events.leaderphaseevent.*;
 import it.polimi.ingsw.server.messages.clienttoserver.events.marketboardevent.*;
 import it.polimi.ingsw.server.messages.clienttoserver.events.productionevent.ChooseResourcesForProductionEvent;
 import it.polimi.ingsw.server.messages.clienttoserver.events.productionevent.FinalProductionPhase;
@@ -67,7 +64,6 @@ public interface ServerMessage {
         eventMessageAdapter.registerSubtype(MarketBoardEvent.class);
         eventMessageAdapter.registerSubtype(MoveResourceEvent.class);
 
-        eventMessageAdapter.registerSubtype(CardShopEvent.class);
         eventMessageAdapter.registerSubtype(ChooseCardEvent.class);
         eventMessageAdapter.registerSubtype(ChooseResourceForCardShopEvent.class);
 
