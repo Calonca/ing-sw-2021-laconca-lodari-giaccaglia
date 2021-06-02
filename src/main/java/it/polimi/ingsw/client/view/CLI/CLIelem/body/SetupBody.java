@@ -55,14 +55,14 @@ public class SetupBody extends CLIelem {
             selectingLeaderRow.setFirstIdx(0);
             selectingLeaderRow.selectAndRunOption(cli);
         }else {
-                    SetupPhaseEvent event = new SetupPhaseEvent(chosenRes.size(),2,client.getCommonData().getThisPlayerIndex());
-                    selected.stream().filter(p->p.left.equals(true)).forEach(p->event.addDiscardedLeader(p.right));
-                    if (chosenRes.size()>0)
-                        event.addResource(new Pair<>(0,chosenRes.get(0).getResourceNumber()));
-                    if (chosenRes.size()>1)
-                        event.addResource(new Pair<>(1,chosenRes.get(1).getResourceNumber()));
+             SetupPhaseEvent event = new SetupPhaseEvent(chosenRes.size(),2,client.getCommonData().getThisPlayerIndex());
+             selected.stream().filter(p->p.left.equals(true)).forEach(p->event.addDiscardedLeader(p.right));
+             if (chosenRes.size()>0)
+                 event.addResource(new Pair<>(0,chosenRes.get(0).getResourceNumber()));
+             if (chosenRes.size()>1)
+                 event.addResource(new Pair<>(1,chosenRes.get(1).getResourceNumber()));
 
-                    client.getServerHandler().sendCommandMessage(new EventMessage(event));
+             client.getServerHandler().sendCommandMessage(new EventMessage(event));
         };
         return CanvasBody.fromGrid(layout).toString();
     }

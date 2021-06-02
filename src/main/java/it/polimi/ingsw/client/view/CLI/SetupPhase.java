@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client.view.CLI;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Title;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.SetupBody;
@@ -10,6 +12,7 @@ import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
 import it.polimi.ingsw.network.util.Util;
 
 import java.beans.PropertyChangeEvent;
+import java.nio.file.Path;
 
 public class SetupPhase extends SetupPhaseViewBuilder implements CLIBuilder {
 
@@ -31,7 +34,8 @@ public class SetupPhase extends SetupPhaseViewBuilder implements CLIBuilder {
         if (evt.getPropertyName().equals(State.IDLE.name()))
             getClient().changeViewBuilder(new IDLEViewBuilder());
         else{
-            System.out.println("Setup received: "+evt.getPropertyName()+ JsonUtility.serialize(evt.getNewValue()));
+            Gson builder = new GsonBuilder().registerTypeHierarchyAdapter(Path.class, new JsonUtility.PathConverter()).setPrettyPrinting().create();
+            System.out.println("Setup received: "+evt.getPropertyName()+builder.toJson(evt.getNewValue()));
         }
     }
 }

@@ -38,8 +38,7 @@ public class PlayerCache {
     public void updateSimpleModelElement(SimpleModelElement element){
         String elemName = element.getClass().getSimpleName();
         playerSimpleModelElementsMap.get(elemName).update(element);
-        support.firePropertyChange(elemName,getElem(elemName),getElem(elemName));
-        //Todo old value is the same as new value
+        support.firePropertyChange(elemName,null,getElem(elemName));
     }
 
     public <T extends SimpleModelElement> Optional<T> getElem(Class<T> s){
