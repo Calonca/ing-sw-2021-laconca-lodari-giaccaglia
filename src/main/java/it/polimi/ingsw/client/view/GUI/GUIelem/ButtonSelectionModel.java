@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.GUI.GUIelem;
 
+import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.server.model.Resource;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Border;
@@ -12,7 +13,10 @@ import java.util.List;
 public class ButtonSelectionModel {
 
     boolean moving=false;
-    boolean transferring=false;
+    boolean transferring=false;    boolean isLeader=false;
+    boolean isMarket=false;
+    boolean isDevelop=false;
+    boolean isProduction=false;
     Resource tomove;
     Resource totransfer;
 
@@ -91,7 +95,6 @@ public class ButtonSelectionModel {
             sceneButton.setOnAction(e ->
             {
                 {
-                    System.out.println(isTransferring());
                     if(isTransferring())
                     {
                         transferring=false;
@@ -158,7 +161,6 @@ public class ButtonSelectionModel {
                         if(!transferring)
                         {
                             transferring=true;
-                            System.out.println("transferring"+transferring);
                             totransfer=sceneButton.getResource();
                             sceneButton.setResource(Resource.EMPTY);
                             sceneButton.color();
@@ -219,7 +221,7 @@ public class ButtonSelectionModel {
 
             if(!selected.get(resourcesToMove.indexOf(sceneButton)))
             {
-                resourcesToMove.get(resourcesToMove.indexOf(sceneButton)).setStyle(" -fx-background-color: #f2f735");
+                resourcesToMove.get(resourcesToMove.indexOf(sceneButton)).setStyle(" -fx-background-color: #66ff00");
             }
 
 
@@ -240,7 +242,7 @@ public class ButtonSelectionModel {
 
             if(selected.get(resourcesToMove.indexOf(sceneButton)))
             {
-                resourcesToMove.get(resourcesToMove.indexOf(sceneButton)).setStyle(" -fx-background-color: #f2f735");
+                resourcesToMove.get(resourcesToMove.indexOf(sceneButton)).setStyle(" -fx-background-color: #000000");
             }
 
 
@@ -332,5 +334,44 @@ public class ButtonSelectionModel {
 
         };
 
-    }}
+    }
+
+
+    public void setLeader(boolean leader) {
+        isLeader = leader;
+    }
+
+    public void setMarket(boolean market) {
+        isMarket = market;
+    }
+
+    public void setDevelop(boolean develop) {
+        isDevelop = develop;
+    }
+
+    public void setProduction(boolean production) {
+        isProduction = production;
+    }
+
+
+
+    public boolean isProduction() {
+        return isProduction;
+    }
+
+    public boolean isLeader() {
+        return isLeader;
+    }
+
+    public boolean isMarket() {
+        return isMarket;
+    }
+
+    public boolean isDevelop() {
+        return isDevelop;
+    }
+
+
+
+}
 

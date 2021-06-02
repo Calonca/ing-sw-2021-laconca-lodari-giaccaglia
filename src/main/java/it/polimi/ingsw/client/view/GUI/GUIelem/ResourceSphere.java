@@ -37,7 +37,10 @@ public class ResourceSphere extends Sphere {
         add(Color.GOLD);
         add(Color.PURPLE);
         add(Color.BLUE);
-        add(Color.GREY);
         add(Color.RED);
+        add(Color.RED);
+        add(Color.DARKRED);
+        add(Color.BLACK);
+        add(Color.WHITE);
     }};
 }

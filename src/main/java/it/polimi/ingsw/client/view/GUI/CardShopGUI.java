@@ -17,6 +17,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.text.Text;
 
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
@@ -29,6 +30,9 @@ import java.util.*;
  */
 public class CardShopGUI extends CardShopViewBuilder implements GUIView {
 
+
+    Text error=new Text("NOT ALLOWED RIGHT NOW.");
+    Text errorChoice=new Text("SELECT AT LEAST ONE CARD");
 
     public AnchorPane cardsAnchor;
     int ROWS=3;
@@ -49,7 +53,7 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
 
     public void addMarket() {
         Node toadd=getRoot();
-        toadd.setTranslateX(-400);
+        toadd.setTranslateX(-410);
         toadd.setTranslateY(107);
         ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(toadd);
         System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
@@ -112,7 +116,26 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
 
 
 
-            //todo find solution
+
+            if(!ViewPersonalBoard.getController().isDevelop())
+            {
+                    error.setOpacity(1);
+                    return;
+
+            }
+            int selectedCards=0;
+            for(Boolean prod : selected)
+            {
+                if(prod)
+                {
+                    selectedCards++;
+                }                }
+            if(selectedCards==0)
+            {
+                errorChoice.setOpacity(1);
+                return;
+            }
+
 
 
 
@@ -184,6 +207,15 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
         cardsAnchor.getChildren().add(validationButton());
         cardsAnchor.getChildren().add(cardsGrid);
 
+        error.setOpacity(0);
+        error.setLayoutX(150);
+        error.setLayoutY(320);
+
+        cardsAnchor.getChildren().add(error);
+        errorChoice.setOpacity(0);
+        errorChoice.setLayoutX(150);
+        errorChoice.setLayoutY(340);
+        cardsAnchor.getChildren().add(errorChoice);
 
         getClient().getStage().show();
 
