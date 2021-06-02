@@ -1,61 +1,88 @@
 package it.polimi.ingsw.client.view.CLI.layout;
 
-import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.view.CLI.CLI;
+import it.polimi.ingsw.network.simplemodel.SimpleModelElement;
+import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public abstract class OptionList {
-    protected List<Option> options;
+public abstract class OptionList extends GridElem{
+
+    protected List<GridElem> elems;
     private Option lastSelectedOption;
-    private int optStartIndex;
 
     public OptionList(){
-        options = new ArrayList<>();
+        elems = new ArrayList<>();
+        alignment = Alignment.START;
     }
 
-    public void setStartIndex(int optStartIndex) {
-        this.optStartIndex = optStartIndex;
+    public OptionList(Stream<Option> elem){
+        this();
+        elem.forEach(this::addElem);
+    }
+
+    public void addElem(GridElem elem){
+        elem.setFirstIdx(getLastIndex()+1);
+        elems.add(elem);
+    }
+
+    public Column addAndGetColumn(){
+        Column c = new Column(); 
+        elems.add(c);
+        return c;
+    }
+
+    public Row addAndGetRow(){
+        Row r = new Row();
+        elems.add(r);
+        return r;
+    }
+
+    @Override
+    public void setFirstIdx(int firstIdx) {
+        super.setFirstIdx(firstIdx);
+        if (!elems.isEmpty())
+            IntStream.range(0,elems.size()).forEach(i->elems.get(i).setFirstIdx(firstIdx+i));
+    }
+
+    @Override
+    public int getLastIndex() {
+        if (elems.isEmpty())
+            return getFirstIdx()-1;
+        return elems.get(elems.size()-1).getLastIndex();
+    }
+
+    @Override
+    public Optional<Option> getOptionWithIndex(int i) {
+        return elems.stream().filter(e->i>=e.getFirstIdx()&&i<=e.getLastIndex())
+                .map(e2->e2.getOptionWithIndex(i))
+                .filter(Optional::isPresent).map(Optional::get).findFirst();
+    }
+
+    private void selectOptionAtPosition(int choice)
+    {
+        lastSelectedOption = getOptionWithIndex(choice).orElse(null);
+        if (lastSelectedOption!=null)
+            lastSelectedOption.setSelected(!lastSelectedOption.isSelected());
     }
 
     public void performLastChoice(){
-        lastSelectedOption.perform();
-    }
-
-    public OptionList(Stream<Option> optionStream){
-        options = optionStream.collect(Collectors.toList());
-    }
-
-    public void addOption(Option o){
-        options.add(o);
-    }
-
-    public void updateOptions(Stream<Option> optionStream,Client client){
-        options = optionStream.collect(Collectors.toList());
-    }
-
-    private void selectOptionAtPosition(int numberInList)
-    {
-        lastSelectedOption = options.get(numberInList);
-        lastSelectedOption.setSelected(!lastSelectedOption.isSelected());
-    }
-
-    protected int globalPos(int i) {
-        return i+optStartIndex;
+        if (lastSelectedOption!=null)
+            lastSelectedOption.perform();
     }
 
     public void selectAndRunOption(CLI cli)
     {
         Runnable r = ()->{
-            int choice = cli.getLastInt()-optStartIndex;
+            int choice = cli.getLastInt();
             selectOptionAtPosition(choice);
             performLastChoice();
         };
-        cli.runOnIntInput("Select a choice:","Select a valid choice",optStartIndex,optStartIndex+options.size()-1,r);
+        cli.runOnIntInput("Select a choice:","Select a valid choice", getFirstIdx(),getLastIndex(),r);
     }
 
 }

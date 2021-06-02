@@ -28,6 +28,10 @@ public class SimpleModel {
         commonSimpleModelElementsMap.put(SimpleMarketBoard.class.getSimpleName(), new SimpleMarketBoard());
     }
 
+    public PlayerCache[] getPlayersCaches() {
+        return playersCacheList.toArray(PlayerCache[]::new);
+    }
+
     public PlayerCache getPlayerCache(int playerNumber){
         return playersCacheList.get(playerNumber);
     }

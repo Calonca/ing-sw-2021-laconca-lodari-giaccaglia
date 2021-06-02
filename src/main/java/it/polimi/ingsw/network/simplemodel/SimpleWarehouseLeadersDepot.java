@@ -16,6 +16,10 @@ public class SimpleWarehouseLeadersDepot extends SimpleModelElement{
         this.simpleWarehouseLeadersDepot = simpleWarehouseLeadersDepot;
     }
 
+    public Map<Integer, List<Pair<ResourceAsset, Boolean>>> getDepots() {
+        return simpleWarehouseLeadersDepot;
+    }
+
     @Override
     public void update(SimpleModelElement element) {
         SimpleWarehouseLeadersDepot serverWarehouseLeadersDepot= (SimpleWarehouseLeadersDepot) element;

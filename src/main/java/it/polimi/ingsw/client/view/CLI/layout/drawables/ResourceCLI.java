@@ -53,7 +53,7 @@ public enum ResourceCLI {
     }
 
     public static int width(){
-        return 2+TO_CHOSE.toBigDrawableList(false).getWidth();
+        return TO_CHOSE.toBigDrawableList(false).getWidth();
     }
     public static int height(){
         return TO_CHOSE.toBigDrawableList(false).getHeight();
@@ -86,7 +86,7 @@ public enum ResourceCLI {
     public static ResourceCLI fromAsset(ResourceAsset asset){
         int rNum = asset.getResourceNumber();
         ResourceCLI[] val = ResourceCLI.values();
-        return rNum>val.length||rNum<0 ? EMPTY: val[rNum];
+        return rNum>=val.length||rNum<0 ? EMPTY: val[rNum];
     }
 
 

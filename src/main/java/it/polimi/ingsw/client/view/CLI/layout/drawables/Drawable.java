@@ -19,16 +19,13 @@ public class Drawable {
         this.drawableLines = new ArrayList<>();
     }
 
-    public Drawable(List<DrawableLine> drawableLines) {
-        this.drawableLines = drawableLines;
-    }
-
     public Drawable(Drawable first, Drawable second) {
         drawableLines = Stream.concat(first.drawableLines.stream(),second.drawableLines.stream()).collect(Collectors.toList());
     }
 
     public static Drawable copyShifted(int shiftX, int shiftY, Drawable list) {
         Drawable shifted = new Drawable();
+        shifted.id = list.id;
         shifted.drawableLines = list.drawableLines.stream()
                 .map(d-> DrawableLine.shifted(shiftX,shiftY,d)).collect(Collectors.toList());
         return shifted;
@@ -61,13 +58,12 @@ public class Drawable {
         drawableLines.add(new DrawableLine(x, getHeight(), s));
     }
 
-    public void addToCenter(int canvasWidth,String s){
-        drawableLines.add(new DrawableLine(StringUtil.startCenterWritingX(s, canvasWidth+2), getHeight(), s));
+    public void addToCenter(int width,String s){
+        addToCenter(width,s,Color.DEFAULT,Background.DEFAULT);
     }
 
-    public void shift(int shiftX,int shiftY) {
-        drawableLines = drawableLines.stream()
-                .map(d-> DrawableLine.shifted(shiftX,shiftY,d)).collect(Collectors.toList());
+    public void addToCenter(int width,String s,Color c,Background b){
+        drawableLines.add(new DrawableLine(StringUtil.startCenterWritingX(s, width+2), getHeight(), s,c,b));
     }
 
     public void addEmptyLine(){
@@ -93,13 +89,15 @@ public class Drawable {
     }
 
     public int getHeight(){
-        int minY = drawableLines.stream().mapToInt(DrawableLine::getYPos).min().orElse(0);
         int maxY = drawableLines.stream().mapToInt(l->l.getYPos()+l.getHeight()).max().orElse(0);
+        int minY = drawableLines.stream().mapToInt(DrawableLine::getYPos).min().orElse(0);
         return maxY-minY;
     }
 
     public int getWidth(){
-        return drawableLines.stream().mapToInt(DrawableLine::getWidth).max().orElse(0);
+        int maxX = drawableLines.stream().mapToInt(l->l.getXPos()+l.getWidth()).max().orElse(0);
+        int minX = drawableLines.stream().mapToInt(DrawableLine::getXPos).min().orElse(0);
+        return maxX-minX;
     }
 
     public UUID getId() {

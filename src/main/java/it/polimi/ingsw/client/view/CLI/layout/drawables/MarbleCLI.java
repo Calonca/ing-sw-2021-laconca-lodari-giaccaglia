@@ -29,20 +29,20 @@ public enum MarbleCLI {
     public Drawable toBigDrawableList(){
 
         Drawable dwList = new Drawable();
-        dwList.add(0,"    █",c,Background.DEFAULT);
-        dwList.add(0," ███████",c,Background.DEFAULT);
-        dwList.add(0,"█████████",c,Background.DEFAULT);
-        dwList.add(0," ███████",c,Background.DEFAULT);
-        dwList.add(0,"    █",c,Background.DEFAULT);
+        dwList.add(0,"    █      ",c,Background.DEFAULT);
+        dwList.add(0," ███████   ",c,Background.DEFAULT);
+        dwList.add(0,"█████████  ",c,Background.DEFAULT);
+        dwList.add(0," ███████   ",c,Background.DEFAULT);
+        dwList.add(0,"    █      ",c,Background.DEFAULT);
         return dwList;
     }
 
     public static List<Drawable> toList(){
-        return Arrays.stream(MarbleCLI.values()).limit(6).map(res->res.toBigDrawableList()).collect(Collectors.toList());
+        return Arrays.stream(MarbleCLI.values()).limit(6).map(MarbleCLI::toBigDrawableList).collect(Collectors.toList());
     }
 
     public static int width(){
-        return 2+WHITE.toBigDrawableList().getWidth();
+        return WHITE.toBigDrawableList().getWidth();
     }
     public static int height(){
         return WHITE.toBigDrawableList().getHeight();

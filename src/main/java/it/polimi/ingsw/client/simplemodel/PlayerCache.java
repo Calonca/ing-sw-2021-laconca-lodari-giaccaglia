@@ -28,7 +28,7 @@ public class PlayerCache {
         elems.forEach(this::updateSimpleModelElement);
         String oldState = currentState;
         currentState = state;
-        support.firePropertyChange(currentState,oldState,currentState);
+        support.firePropertyChange(currentState,"old:"+oldState,currentState);
     }
 
     public SimpleModelElement getElem(String name){
