@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.client.messages.servertoclient.StateInNetwork;
 import it.polimi.ingsw.client.simplemodel.SimpleModel;
 import it.polimi.ingsw.client.simplemodel.State;
@@ -17,6 +19,7 @@ import javafx.stage.Stage;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.net.Socket;
+import java.nio.file.Path;
 import java.util.*;
 
 
@@ -166,7 +169,8 @@ public class Client implements Runnable
 
     public void setState(StateInNetwork stateInNetwork){
         System.out.println("Client " +commonData.getThisPlayerIndex()+" received: "+"client "+stateInNetwork.getPlayerNumber()+" "+stateInNetwork.getState());
-        System.out.println(JsonUtility.serialize(stateInNetwork));
+        Gson gson = new GsonBuilder().registerTypeHierarchyAdapter(Path.class, new JsonUtility.PathConverter()).create();
+        System.out.println(JsonUtility.serialize(stateInNetwork, StateInNetwork.class, gson));
         commonData.setCurrentPlayer(stateInNetwork.getPlayerNumber());
         if (simpleModel==null){
             try {

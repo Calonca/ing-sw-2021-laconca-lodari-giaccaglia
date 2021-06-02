@@ -70,11 +70,12 @@ public class Serializator extends JsonUtility {
 
         return Deserializator.networkLeaderCardsDeserialization().keySet().stream().collect(Collectors.toMap(index -> index , index -> {
 
-            NetworkLeaderCard card = Deserializator.networkLeaderCardsDeserialization().get(index);
+
             String cardPathSuffix = index.toString() + ".png";
             String frontActivated = frontLeaderCardPathString + cardPathSuffix;
             String frontInactive = frontLeaderCardGrayedOutPathString + cardPathSuffix;
-            return new LeaderCardAsset(card, frontInactive, backLeaderCardGrayedOutPathString, frontActivated, backLeaderCardPathString, index);
+
+            return new LeaderCardAsset(Deserializator.networkLeaderCardsDeserialization().get(index), frontInactive, backLeaderCardGrayedOutPathString, frontActivated, backLeaderCardPathString, index);
 
         }));
 
@@ -1249,8 +1250,7 @@ public class Serializator extends JsonUtility {
       //  serializeResources();
        // Map<UUID, Leader> leadersCardMap = leadersCardMapDeserialization();
 
-        serializeMultiPlayerStatesTransitionTable();
-        serializeSinglePlayerStatesTransitionTable();
+        networkLeaderCardsAssetsSerialization();
 
     }
 

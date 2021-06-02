@@ -25,5 +25,4 @@ public class SimpleDiscardBox extends SimpleModelElement{
         this.simpleDiscardBox = serverDiscardBox.simpleDiscardBox;
     }
 
-
 }

@@ -2,12 +2,14 @@ package it.polimi.ingsw.network.messages.servertoclient;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.network.messages.NetworkMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
 import it.polimi.ingsw.RuntimeTypeAdapterFactory;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
 import it.polimi.ingsw.network.simplemodel.*;
 
+import java.nio.file.Path;
 import java.util.UUID;
 
 import static it.polimi.ingsw.network.jsonUtils.JsonUtility.serialize;
@@ -68,7 +70,7 @@ public abstract class ServerToClientMessage extends NetworkMessage
 
         Gson gson1 = new GsonBuilder()
                 .registerTypeAdapterFactory(s2cAdapter)
-                .registerTypeAdapterFactory(elementAdapter())
+                .registerTypeAdapterFactory(elementAdapter()).registerTypeHierarchyAdapter(Path.class, new JsonUtility.PathConverter())
                 .create();
 
         return serialize(this, ServerToClientMessage.class, gson1);
