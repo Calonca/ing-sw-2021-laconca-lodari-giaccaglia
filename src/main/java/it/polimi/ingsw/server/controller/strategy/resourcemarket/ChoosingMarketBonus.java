@@ -30,9 +30,9 @@ public class ChoosingMarketBonus implements GameStrategy {
         if(gamemodel.areThereWhiteMarblesInPickedLine())
             return new Pair<>(State.CHOOSING_WHITEMARBLE_CONVERSION, elementsToUpdate);
 
-
         elementsToUpdate.add(Element.SimpleStrongBox);
         return new Pair<>(State.CHOOSING_POSITION_FOR_RESOURCES, elementsToUpdate);
+
     }
 
 }

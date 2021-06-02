@@ -25,6 +25,8 @@ public class DiscardingResources implements GameStrategy {
         int positionsToAdd;
         PersonalBoard currentBoard = gamemodel.getCurrentPlayer().getPersonalBoard();
 
+        currentBoard.discardResources();
+
         positionsToAdd = currentBoard.getFaithToAdd();
 
         for(int i=0;i<positionsToAdd;i++)
@@ -32,7 +34,7 @@ public class DiscardingResources implements GameStrategy {
             gamemodel.getCurrentPlayer().moveOnePosition();  //TODO HANDLE VATICAN REPORT
         }
 
-        currentBoard.discardResources();
+
         positionsToAdd = currentBoard.getBadFaithToAdd();
 
 
@@ -44,6 +46,7 @@ public class DiscardingResources implements GameStrategy {
 
 
         elementsToUpdate.add(Element.SimpleDiscardBox);
+        elementsToUpdate.add(Element.SimpleFaithTrack);
 
         return new Pair<>(State.FINAL_PHASE, elementsToUpdate);
 

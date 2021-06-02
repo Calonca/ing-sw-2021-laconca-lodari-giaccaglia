@@ -187,7 +187,7 @@ public class MarketBoard {
 
     private void mapResource(int resourceNumber, int quantity){
 
-        int [] resourcesQuantites =IntStream.range(0, 4)
+        int [] resourcesQuantites =IntStream.range(0, 5)
                 .map(i ->  (i==resourceNumber) ? quantity : 0).toArray();
 
         mappedResources.addResources(resourcesQuantites);

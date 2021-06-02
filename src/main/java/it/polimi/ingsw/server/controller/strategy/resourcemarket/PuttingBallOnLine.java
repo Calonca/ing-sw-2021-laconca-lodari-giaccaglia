@@ -29,6 +29,7 @@ public class PuttingBallOnLine implements GameStrategy {
         gamemodel.chooseLineFromMarketBoard(MarketLine.fromInt(((ChooseLineEvent) event).getChosenRow()));
         gamemodel.getCurrentPlayer().getPersonalBoard().setMarketBox(gamemodel.getBoxOfResourcesFromMarketBoard());
         gamemodel.updateMatrixAfterTakingResources();
+        gamemodel.getCurrentPlayer().getPersonalBoard().getFaithToAdd();
 
         elementsToUpdate.add(Element.SimpleMarketBoard);
 
