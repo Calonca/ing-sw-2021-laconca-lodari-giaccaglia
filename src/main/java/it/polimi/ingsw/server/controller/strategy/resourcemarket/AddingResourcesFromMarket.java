@@ -29,6 +29,8 @@ public class AddingResourcesFromMarket implements GameStrategy {
 
         gamemodel.getCurrentPlayer().getPersonalBoard().move(startPos, endPos);
 
+        elementsToUpdate.add(Element.SimpleWareHouseLeadersDepot);
+
         return new Pair<>(State.CHOOSING_POSITION_FOR_RESOURCES, elementsToUpdate);
 
     }

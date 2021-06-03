@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client.view.abstractview;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.simplemodel.PlayerCache;

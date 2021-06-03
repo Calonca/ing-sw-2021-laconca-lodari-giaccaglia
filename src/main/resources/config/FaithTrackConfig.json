@@ -5,7 +5,7 @@
   },
   "lorenzoPiece": {
     "left": "LORENZO",
-    "right": 0
+    "right": -1
   },
   "track": [
     {

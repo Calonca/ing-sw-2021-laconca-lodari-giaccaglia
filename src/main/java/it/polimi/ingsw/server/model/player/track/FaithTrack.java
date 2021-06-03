@@ -37,10 +37,6 @@ public class FaithTrack {
     private final MutablePair<Piece, Integer> playerPiece = new MutablePair<>(Piece.PLAYER, 0);
     private final MutablePair<Piece, Integer> lorenzoPiece = new MutablePair<>(Piece.LORENZO, 0);
 
-    public FaithTrack faithTrackConstructor(){
-        return deserialize("src/main/resources/config/FaithTrackConfig.json", FaithTrack.class);
-    }
-
     /**
      * <p>{@link List} of {@link FaithCell FaithCells} objects representing the core structure of the <em>FaithTrack</em>.<br>
      * The default number of elements is 25, which is set on the game setup.
@@ -227,6 +223,7 @@ public class FaithTrack {
     public int getPlayerPosition(){
         return getPiecePosition(playerPiece);
     }
+
 
 }
 

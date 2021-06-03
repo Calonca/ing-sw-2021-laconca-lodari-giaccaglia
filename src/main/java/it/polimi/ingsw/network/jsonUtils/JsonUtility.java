@@ -22,12 +22,12 @@ public class JsonUtility {
     }
 
     public static <T> T deserialize(String jsonPath, Class<T> destinationClass){
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Gson gson = new GsonBuilder().enableComplexMapKeySerialization().registerTypeHierarchyAdapter(Path.class, new PathConverter()).setPrettyPrinting().create();
         return deserialize(jsonPath,destinationClass,gson);
     }
 
     public static <T> T deserialize(JsonElement jsonElement, Type destinationType) {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Gson gson = new GsonBuilder().enableComplexMapKeySerialization().registerTypeHierarchyAdapter(Path.class, new PathConverter()).setPrettyPrinting().create();
         return gson.fromJson(jsonElement, destinationType);
     }
 
@@ -63,7 +63,7 @@ public class JsonUtility {
     }
 
     public static <T> String serialize(T Object){
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Gson gson = new GsonBuilder().enableComplexMapKeySerialization().registerTypeHierarchyAdapter(Path.class, new PathConverter()).setPrettyPrinting().create();
         return gson.toJson(Object);
     }
 
@@ -76,7 +76,7 @@ public class JsonUtility {
     }
 
     public static <T> void serialize(String jsonPath, T Object , Class<T> classToSerialize){
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Gson gson = new GsonBuilder().enableComplexMapKeySerialization().registerTypeHierarchyAdapter(Path.class, new PathConverter()).setPrettyPrinting().create();
         serialize(jsonPath, Object, classToSerialize, gson);
     }
 
@@ -111,7 +111,7 @@ public class JsonUtility {
     {
         JsonObject json = JsonParser.parseString(jsonString).getAsJsonObject();
 
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Gson gson = new GsonBuilder().enableComplexMapKeySerialization().registerTypeHierarchyAdapter(Path.class, new PathConverter()).setPrettyPrinting().create();
 
         return gson.toJson(json);
     }

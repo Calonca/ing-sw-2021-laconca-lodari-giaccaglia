@@ -19,6 +19,7 @@ public class FaithTrackTest {
     @Before
     public void setUp() throws Exception {
        testTrack = Deserializator.faithTrackDeserialization();
+       testTrack.moveLorenzoOnePosition();
     }
 
     @Test

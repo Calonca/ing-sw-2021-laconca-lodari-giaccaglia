@@ -244,20 +244,24 @@ public class MarketBoard {
     public void updateMatrix() {
 
         int lineNumber = line.getLineNumber();
+        Marble nextExternalMarble;
+
         if (lineNumber < rows) {
-                Marble nextExternalMarble = marbleMatrix[lineNumber][0];
+            nextExternalMarble = marbleMatrix[lineNumber][0];
                 System.arraycopy(marbleMatrix[lineNumber], 1, marbleMatrix[lineNumber], 0, columns - 1);
                 marbleMatrix[lineNumber][columns-1] = slideMarble;
-                slideMarble = nextExternalMarble;
         }
-        else {
-            Marble nextExternalMarble = marbleMatrix[rows-1][lineNumber-3];
-            for(int i=1; i<rows; i++)
-                marbleMatrix[i][lineNumber-3] = marbleMatrix[i-1][lineNumber-3];
 
-            marbleMatrix[0][lineNumber-3] = slideMarble;
-            slideMarble = nextExternalMarble;
+        else {
+
+            nextExternalMarble = marbleMatrix[0][lineNumber - 3];
+
+            for(int i=1; i<rows; i++)
+                marbleMatrix[i-1][lineNumber-3] = marbleMatrix[i][lineNumber-3];
+
+                marbleMatrix[rows-1][lineNumber-3] = slideMarble;
         }
+        slideMarble = nextExternalMarble;
 
     }
 

@@ -26,6 +26,7 @@ import java.util.stream.Stream;
 public class PersonalBoardBody extends CLIelem {
 
     public enum Mode{
+
         MOVING_RES(){
                 @Override
         public void initialize(PersonalBoardBody board, PlayerCache cache, SimpleModel simpleModel){
@@ -56,12 +57,14 @@ public class PersonalBoardBody extends CLIelem {
     }
 
     private static Column discardBoxBuilder(SimpleDiscardBox simpleDiscardBox){
+
         Map<Integer, Pair<ResourceAsset, Integer>> discardBoxMap = simpleDiscardBox.getResourceMap();
         Stream<Option> optionList = discardBoxMap.entrySet().stream().sorted(Map.Entry.comparingByKey())
             .map(e->optionFromAsset(e.getValue().getKey(),e.getValue().getValue()));
         Column discardedBoxList = new Column(optionList);
         discardedBoxList.addElem(Option.from("Discard", ResourceMarketViewBuilder::sendDiscard));
         return discardedBoxList;
+
     }
 
     private static Option optionFromAsset(ResourceAsset asset,int n){

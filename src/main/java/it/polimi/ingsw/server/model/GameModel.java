@@ -158,6 +158,7 @@ public class GameModel {
         this.singlePlayer = singlePlayer;
         soloDeck = new SinglePlayerDeck();
         currentPlayer = singlePlayer;
+        currentPlayer.moveLorenzoOnePosition();
     }
 
     public void setGameStatus(boolean isStarted){

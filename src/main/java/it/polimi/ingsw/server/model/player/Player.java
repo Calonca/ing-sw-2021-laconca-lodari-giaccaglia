@@ -96,10 +96,6 @@ public class Player {
         return discounts;
     }
 
-  /*  public List<Leader> getLeadersList() {
-        return new ArrayList<>(leaders.values());
-    } */
-
     public List<UUID> getLeadersUUIDs() {return new ArrayList<>(leaders.keySet());}
 
     public void discardLeader(UUID leaderId){
@@ -291,11 +287,4 @@ public class Player {
         return faithTrack.hasReachedLastSpace(faithTrack.getPlayerPiece());
     }
 
-   /* public State getMacroState() {
-        return macroState;
-    }
-
-    public void setMacroState(State macroState) {
-        this.macroState = macroState;
-    }*/
 }
