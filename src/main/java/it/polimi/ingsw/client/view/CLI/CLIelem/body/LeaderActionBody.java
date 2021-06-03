@@ -32,7 +32,7 @@ public class LeaderActionBody extends CLIelem {
             LeaderCardAsset l = leaders.get(i);
             Column leaderCard = leadersList.addAndGetColumn();
 
-            Drawable listEntry = DrawableLeader.fromAsset(l, false);
+            Drawable listEntry = DrawableLeader.fromAsset(l.getNetworkLeaderCard(), false);
             Option visOpt = Option.noNumber(listEntry);
             leaderCard.addElem(visOpt);
 

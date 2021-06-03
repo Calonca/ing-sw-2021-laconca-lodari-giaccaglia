@@ -123,8 +123,8 @@ public class SetupBody extends CLIelem {
         Row leadersToChooseFrom = new Row();
         for (int i=0;i<leadersToChoose.size();i++) {
             int finalI1 = i;
-            Drawable leader = DrawableLeader.fromAsset(leadersToChoose.get(i), false);
-            Drawable selectedLeader = DrawableLeader.fromAsset(leadersToChoose.get(i), true);
+            Drawable leader = DrawableLeader.fromAsset(leadersToChoose.get(i).getNetworkLeaderCard(), false);
+            Drawable selectedLeader = DrawableLeader.fromAsset(leadersToChoose.get(i).getNetworkLeaderCard(), true);
             Option o = Option.from(leader, selectedLeader, () -> {
                 selected.get(finalI1).setLeft(!selected.get(finalI1).left);
                 cli.show();

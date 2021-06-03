@@ -45,7 +45,7 @@ public class PlayerCache {
         Optional<SimpleModelElement> notCasted= Optional.ofNullable(playerSimpleModelElementsMap.getOrDefault(s.getSimpleName(),null));
         try {
             return (Optional<T>) notCasted;
-        } catch (Exception e){
+        } catch (ClassCastException e){
             return Optional.empty();
         }
     }

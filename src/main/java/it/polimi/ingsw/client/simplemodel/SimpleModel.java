@@ -51,7 +51,7 @@ public class SimpleModel {
         Optional<SimpleModelElement> notCasted= Optional.ofNullable(commonSimpleModelElementsMap.getOrDefault(s.getSimpleName(),null));
         try {
             return (Optional<T>) notCasted;
-        } catch (Exception e){
+        } catch (ClassCastException e){
             return Optional.empty();
         }
     }
