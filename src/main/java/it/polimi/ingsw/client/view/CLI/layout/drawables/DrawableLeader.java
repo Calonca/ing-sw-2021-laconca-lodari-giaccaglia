@@ -66,7 +66,7 @@ public class DrawableLeader {
         castWithOptional(NetworkMarketLeaderCard.class,ldCard).ifPresent(e-> addAbility(dwl, e,isSelected));
         castWithOptional(NetworkProductionLeaderCard.class,ldCard).ifPresent(e-> addAbility(dwl, e,isSelected));
         castWithOptional(NetworkDepositLeaderCard.class,ldCard).ifPresent(e-> addAbility(dwl, e,isSelected));
-        castWithOptional(DevelopmentDiscountNetworkLeaderCard.class,ldCard).ifPresent(e-> addAbility(dwl, e,isSelected));
+        castWithOptional(NetworkDevelopmentDiscountLeaderCard.class,ldCard).ifPresent(e-> addAbility(dwl, e,isSelected));
 
         if (isSelected)
             return Drawable.selectedDrawableList(dwl);
@@ -115,7 +115,7 @@ public class DrawableLeader {
         }
     }
 
-    public static void addAbility(Drawable top, DevelopmentDiscountNetworkLeaderCard ldCard, boolean isSelected){
+    public static void addAbility(Drawable top, NetworkDevelopmentDiscountLeaderCard ldCard, boolean isSelected){
         top.add(0,"|Ability: Discount |");
         top.add(0,"|Ability: Produce  |");
         top.add(0,"|__________________|");
