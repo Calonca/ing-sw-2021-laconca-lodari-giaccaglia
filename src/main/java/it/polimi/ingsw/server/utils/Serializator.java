@@ -5,26 +5,23 @@ import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.RuntimeTypeAdapterFactory;
 import it.polimi.ingsw.network.assets.*;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
-import it.polimi.ingsw.network.assets.leaders.NetworkLeaderCard;
+import it.polimi.ingsw.network.assets.leaders.*;
 import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.jsonUtils.UUIDTypeAdapter;
-import it.polimi.ingsw.network.simplemodel.SimpleFaithTrack;
+import it.polimi.ingsw.network.simplemodel.SimpleModelElement;
 import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.cards.*;
 import it.polimi.ingsw.server.model.cards.production.Production;
-import it.polimi.ingsw.server.model.market.Marble;
 import it.polimi.ingsw.server.model.player.board.LeaderDepot;
 import it.polimi.ingsw.server.model.player.leaders.*;
-import it.polimi.ingsw.server.model.player.track.FaithTrack;
 import it.polimi.ingsw.server.model.states.StatesTransitionTable;
 import javafx.util.Pair;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.function.Function;
@@ -50,7 +47,7 @@ public class Serializator extends JsonUtility {
 
     public static void cardShopSerialization(){
         CardShop shop = new CardShop(Deserializator.devCardsDeckDeserialization());
-        serialize(configPathString + "CardShopConfig.json", shop, CardShop.class, gsonBuilder.registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).setPrettyPrinting().create());
+        serialize(writeConfigPathString + "CardShopConfig.json", shop, CardShop.class, gsonBuilder.registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).setPrettyPrinting().create());
     }
 
     private static Map<UUID , DevelopmentCardAsset> devCardsAssetsBuilder() {
@@ -82,14 +79,21 @@ public class Serializator extends JsonUtility {
     }
 
     public static void devCardsAssetsSerialization(){
-
         Gson customGson = gsonBuilder.enableComplexMapKeySerialization().registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).registerTypeHierarchyAdapter(Path.class, new PathConverter()).setPrettyPrinting().create();
-        serialize(configPathString + "DevCardsAssetsMapConfig.json", devCardsAssetsBuilder(), Map.class, customGson);
+        serialize(writeConfigPathString + "DevCardsAssetsMapConfig.json", devCardsAssetsBuilder(), Map.class, customGson);
     }
 
     public static void networkLeaderCardsAssetsSerialization(){
-        Gson customGson = gsonBuilder.enableComplexMapKeySerialization().registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).registerTypeHierarchyAdapter(Path.class, new PathConverter()).setPrettyPrinting().create();
-        serialize(configPathString + "NetworkLeaderCardsAssetsMap.json", networkLeaderCardsAssetsMapBuilder(), Map.class, customGson);
+
+        RuntimeTypeAdapterFactory<NetworkLeaderCard> jsonToNetworkLeaderListAdapter = RuntimeTypeAdapterFactory.of(NetworkLeaderCard.class);
+
+        jsonToNetworkLeaderListAdapter.registerSubtype(NetworkDepositLeaderCard.class);
+        jsonToNetworkLeaderListAdapter.registerSubtype(NetworkMarketLeaderCard.class);
+        jsonToNetworkLeaderListAdapter.registerSubtype(NetworkProductionLeaderCard.class);
+        jsonToNetworkLeaderListAdapter.registerSubtype(NetworkDevelopmentDiscountLeaderCard.class);
+
+        Gson customGson = gsonBuilder.enableComplexMapKeySerialization().registerTypeAdapterFactory(jsonToNetworkLeaderListAdapter).registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).registerTypeHierarchyAdapter(Path.class, new PathConverter()).setPrettyPrinting().create();
+        serialize(writeConfigPathString + "NetworkLeaderCardsAssetsMap.json", networkLeaderCardsAssetsMapBuilder(), Map.class, customGson);
     }
 
     public static void leaderCardsArraySerialization() {
@@ -1153,7 +1157,7 @@ public class Serializator extends JsonUtility {
                 .registerTypeAdapterFactory(jsonToLeaderListAdapter).setPrettyPrinting()
                 .create();
 
-        serialize(configPathString+"LeadersConfig.json", series2.toArray(Leader[]::new), Leader[].class, gson1);
+        serialize(writeConfigPathString +"LeadersConfig.json", series2.toArray(Leader[]::new), Leader[].class, gson1);
      /*   String serialized = gson1.toJson(series2.toArray(Leader[]::new), Leader[].class);
         Writer writer = new FileWriter("src/main/resources/config/LeadersConfig.json");
         writer.write(serialized);
@@ -1207,7 +1211,7 @@ public class Serializator extends JsonUtility {
     private static void serializeSinglePlayerStatesTransitionTable () {
 
         JsonUtility.serialize(
-                JsonUtility.configPathString + StatesTransitionTable.singlePLayerTableFile,
+                JsonUtility.writeConfigPathString + StatesTransitionTable.singlePLayerTableFile,
                 StatesTransitionTable.setupCommonStatesTransitionTable(),
                 StatesTransitionTable.class,
                 StatesTransitionTable.jsonWithAdapter()
@@ -1218,7 +1222,7 @@ public class Serializator extends JsonUtility {
     private static void serializeMultiPlayerStatesTransitionTable() {
 
         JsonUtility.serialize(
-                JsonUtility.configPathString + StatesTransitionTable.multiPLayerTableFile,
+                JsonUtility.writeConfigPathString + StatesTransitionTable.multiPLayerTableFile,
                 StatesTransitionTable.setupCommonStatesTransitionTable(),
                 StatesTransitionTable.class,
                 StatesTransitionTable.jsonWithAdapter()
@@ -1226,14 +1230,28 @@ public class Serializator extends JsonUtility {
 
     }
 
-    public static void main(String[] args) throws IOException {
+    public static Type getType(String typeName) {
+        try {
+            Class<?> clazz = Class.forName(typeName);
+            TypeToken<?> typeToken = TypeToken.get(clazz);
+            return typeToken.getType();
+        } catch (ClassNotFoundException e) {
+            throw new IllegalArgumentException("Unsupported type: " + typeName, e);
+        }
+    }
+
+
+
+
+
+    public static void main(String[] args) throws IOException, ClassNotFoundException, IllegalAccessException, InstantiationException {
   /*
         --- * uncomment to update config files / test serialization * ---
         cardShopSerialization();
         devCardsAssetsSerialization();
         leaderCardsArraySerialization();
         MarketBoard test = marketBoardDeserialization();
-        serialize(configPathString + "MarketBoardConfig.json", test, MarketBoard.class);
+        serialize(readConfigPathString + "MarketBoardConfig.json", test, MarketBoard.class);
 
         devCardsAssetsSerialization();
         leaderCardsAssetsSerialization();
@@ -1250,7 +1268,28 @@ public class Serializator extends JsonUtility {
       //  serializeResources();
        // Map<UUID, Leader> leadersCardMap = leadersCardMapDeserialization();
 
-        networkLeaderCardsAssetsSerialization();
+       // networkLeaderCardsAssetsSerialization();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     }
 

@@ -28,7 +28,8 @@ public enum Element {
                     gameModel.getMarketBoardRows(),
                     UUID.nameUUIDFromBytes(gameModel.getSlideMarble().toString().getBytes(StandardCharsets.UTF_8)),
                     MarketBoardMessageBuilder.pickedMarblesAdapter(gameModel),
-                    gameModel.getFaithPointsFromMarketPickedMarbles());
+                    gameModel.getFaithPointsFromMarketPickedMarbles(),
+                    gameModel.getNumberOfWhiteMarblesInPickedLine());
         }
     },
 

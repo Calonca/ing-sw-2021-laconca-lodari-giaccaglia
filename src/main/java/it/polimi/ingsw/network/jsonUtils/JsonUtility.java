@@ -16,7 +16,8 @@ import java.util.stream.*;
 public class JsonUtility {
 
  //   private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    public static final String configPathString = "/config/";
+    public static final String readConfigPathString = "/config/";
+    public static final String writeConfigPathString = "src/main/resources/config/";
     public static String serializeVarArgs(Object... o) {
         return serialize(Arrays.stream(o).collect(Collectors.toList()));
     }

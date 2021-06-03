@@ -22,12 +22,13 @@ public class SimpleMarketBoard extends SimpleModelElement{
     private int faithPointsFromPickedMarbles;
     private MarbleAsset slideMarble;
     private List<MarbleAsset> pickedMarbles;
+    private int whiteMarblesQuantity;
     private transient Path boardAsset = Paths.get("src/main/resources/assets/punchboard/MarketBoard.png");
 
 
     public SimpleMarketBoard(){}
 
-    public SimpleMarketBoard(UUID[][] marbleMatrix, int marketColumns, int marketRows, UUID slideMarbleId, List<UUID> pickedMarblesId, int faithPointsFromPickedMarbles){
+    public SimpleMarketBoard(UUID[][] marbleMatrix, int marketColumns, int marketRows, UUID slideMarbleId, List<UUID> pickedMarblesId, int faithPointsFromPickedMarbles, int whiteMarblesQuantity){
 
         this.marbleMatrix = new MarbleAsset[marketRows][marketColumns];
 
@@ -42,6 +43,7 @@ public class SimpleMarketBoard extends SimpleModelElement{
         this.marketColumns = marketColumns;
         this.marketRows = marketRows;
         this.faithPointsFromPickedMarbles = faithPointsFromPickedMarbles;
+        this.whiteMarblesQuantity = whiteMarblesQuantity;
 
     }
 
@@ -53,6 +55,7 @@ public class SimpleMarketBoard extends SimpleModelElement{
         this.slideMarble = serverMarketBoard.slideMarble;
         this.pickedMarbles = serverMarketBoard.pickedMarbles;
         this.faithPointsFromPickedMarbles = serverMarketBoard.faithPointsFromPickedMarbles;
+        this.whiteMarblesQuantity = serverMarketBoard.whiteMarblesQuantity;
 
     }
 

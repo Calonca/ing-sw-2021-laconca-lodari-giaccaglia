@@ -5,11 +5,11 @@ import it.polimi.ingsw.RuntimeTypeAdapterFactory;
 import it.polimi.ingsw.client.messages.servertoclient.ClientMessage;
 import it.polimi.ingsw.network.assets.CardAsset;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
+import it.polimi.ingsw.network.assets.leaders.*;
 import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
 import it.polimi.ingsw.network.jsonUtils.UUIDTypeAdapter;
 import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
-import it.polimi.ingsw.network.assets.leaders.NetworkLeaderCard;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.server.model.player.leaders.Leader;
 
@@ -48,9 +48,18 @@ public class Deserializator extends JsonUtility {
 
     public static Map<UUID, LeaderCardAsset> networkLeaderCardsAssetsMapDeserialization() {
 
-        Gson customGson = new GsonBuilder().enableComplexMapKeySerialization().registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).registerTypeHierarchyAdapter(Path.class, new PathConverter()).setPrettyPrinting().create();
+        RuntimeTypeAdapterFactory<NetworkLeaderCard> jsonToNetworkLeaderListAdapter = RuntimeTypeAdapterFactory.of(NetworkLeaderCard.class);
+
+        jsonToNetworkLeaderListAdapter.registerSubtype(NetworkDepositLeaderCard.class);
+        jsonToNetworkLeaderListAdapter.registerSubtype(NetworkMarketLeaderCard.class);
+        jsonToNetworkLeaderListAdapter.registerSubtype(NetworkProductionLeaderCard.class);
+        jsonToNetworkLeaderListAdapter.registerSubtype(NetworkDevelopmentDiscountLeaderCard.class);
+
+
+
+        Gson customGson = new GsonBuilder().enableComplexMapKeySerialization().registerTypeAdapterFactory(jsonToNetworkLeaderListAdapter).registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).registerTypeHierarchyAdapter(Path.class, new PathConverter()).setPrettyPrinting().create();
         Type type = new TypeToken<Map<UUID, LeaderCardAsset> >(){}.getType();
-        return deserialize(clientConfigPathString + "NetworkLeaderCardsAssetsMap.json", type ,customGson);
+        return deserialize(clientConfigPathString + "NetLeaderCardsAssetsMap.json", type ,customGson);
 
     }
 

@@ -1,6 +1,7 @@
 {
   "c68ed1339b283c349fa1185d47295834": {
     "networkLeaderCard": {
+      "type": "NetworkProductionLeaderCard",
       "productionInputResources": [
         1,
         0,
@@ -20,6 +21,7 @@
         1
       ],
       "victoryPoints": 4,
+      "requirementsResources": [],
       "requirementsCards": [
         {
           "key": "GREEN",
@@ -42,8 +44,10 @@
   },
   "3a26e1c113ef3a5b91c06d481c7ea027": {
     "networkLeaderCard": {
+      "type": "NetworkMarketLeaderCard",
       "marketBonusResourceAsset": "STONE",
       "victoryPoints": 5,
+      "requirementsResources": [],
       "requirementsCards": [
         {
           "key": "BLUE",
@@ -70,8 +74,10 @@
   },
   "1add81481e8d34eeb7d25f7c2d9ad746": {
     "networkLeaderCard": {
+      "type": "NetworkMarketLeaderCard",
       "marketBonusResourceAsset": "SHIELD",
       "victoryPoints": 5,
+      "requirementsResources": [],
       "requirementsCards": [
         {
           "key": "GREEN",
@@ -98,6 +104,7 @@
   },
   "d44c55711e1e3092b948e8a1b9e527fb": {
     "networkLeaderCard": {
+      "type": "NetworkProductionLeaderCard",
       "productionInputResources": [
         0,
         0,
@@ -117,6 +124,7 @@
         1
       ],
       "victoryPoints": 4,
+      "requirementsResources": [],
       "requirementsCards": [
         {
           "key": "PURPLE",
@@ -139,6 +147,7 @@
   },
   "8c9c8fc5312435e7aae35263e4b8274b": {
     "networkLeaderCard": {
+      "type": "NetworkProductionLeaderCard",
       "productionInputResources": [
         0,
         1,
@@ -158,6 +167,7 @@
         1
       ],
       "victoryPoints": 4,
+      "requirementsResources": [],
       "requirementsCards": [
         {
           "key": "BLUE",
@@ -180,8 +190,10 @@
   },
   "68f98e0df3b23de48e3e025de26e0766": {
     "networkLeaderCard": {
+      "type": "NetworkMarketLeaderCard",
       "marketBonusResourceAsset": "GOLD",
       "victoryPoints": 5,
+      "requirementsResources": [],
       "requirementsCards": [
         {
           "key": "PURPLE",
@@ -208,8 +220,15 @@
   },
   "063171604d923ff7869c27793c0ad5d1": {
     "networkLeaderCard": {
+      "type": "NetworkDepositLeaderCard",
       "resourcesTypeInDepot": "SHIELD",
       "victoryPoints": 3,
+      "requirementsResources": [
+        {
+          "key": "SERVANT",
+          "value": 5
+        }
+      ],
       "requirementsCards": [],
       "requirementsCardsLevel": 1,
       "isActive": false,
@@ -227,6 +246,7 @@
   },
   "2a1b9b8a8fdf37c7baf97b81b5af2392": {
     "networkLeaderCard": {
+      "type": "NetworkProductionLeaderCard",
       "productionInputResources": [
         0,
         0,
@@ -246,6 +266,7 @@
         1
       ],
       "victoryPoints": 4,
+      "requirementsResources": [],
       "requirementsCards": [
         {
           "key": "YELLOW",
@@ -268,11 +289,13 @@
   },
   "8f00ca10c8b03f69acce5227da01b9cc": {
     "networkLeaderCard": {
+      "type": "NetworkDevelopmentDiscountLeaderCard",
       "resourcesDiscount": {
         "key": "SERVANT",
         "value": 1
       },
       "victoryPoints": 2,
+      "requirementsResources": [],
       "requirementsCards": [
         {
           "key": "YELLOW",
@@ -299,8 +322,10 @@
   },
   "f5aa23cf5bb53c5bb5aeed2aafd42008": {
     "networkLeaderCard": {
+      "type": "NetworkMarketLeaderCard",
       "marketBonusResourceAsset": "SERVANT",
       "victoryPoints": 5,
+      "requirementsResources": [],
       "requirementsCards": [
         {
           "key": "YELLOW",
@@ -327,11 +352,13 @@
   },
   "8ae6ef566d443c4ba63f031e1116987b": {
     "networkLeaderCard": {
+      "type": "NetworkDevelopmentDiscountLeaderCard",
       "resourcesDiscount": {
         "key": "STONE",
         "value": 1
       },
       "victoryPoints": 2,
+      "requirementsResources": [],
       "requirementsCards": [
         {
           "key": "GREEN",
@@ -358,8 +385,15 @@
   },
   "6e7d82d9f539350ba51958b3a625ed00": {
     "networkLeaderCard": {
+      "type": "NetworkDepositLeaderCard",
       "resourcesTypeInDepot": "STONE",
       "victoryPoints": 3,
+      "requirementsResources": [
+        {
+          "key": "GOLD",
+          "value": 5
+        }
+      ],
       "requirementsCards": [],
       "requirementsCardsLevel": 1,
       "isActive": false,
@@ -377,11 +411,13 @@
   },
   "bc1355ffa52f35f2ab387754271dff59": {
     "networkLeaderCard": {
+      "type": "NetworkDevelopmentDiscountLeaderCard",
       "resourcesDiscount": {
         "key": "GOLD",
         "value": 1
       },
       "victoryPoints": 2,
+      "requirementsResources": [],
       "requirementsCards": [
         {
           "key": "YELLOW",
@@ -408,11 +444,13 @@
   },
   "cebe561bb6733440883f99124a8bf00a": {
     "networkLeaderCard": {
+      "type": "NetworkDevelopmentDiscountLeaderCard",
       "resourcesDiscount": {
         "key": "SHIELD",
         "value": 1
       },
       "victoryPoints": 2,
+      "requirementsResources": [],
       "requirementsCards": [
         {
           "key": "PURPLE",
@@ -439,8 +477,15 @@
   },
   "0fbaecad11ec3212834333407aadd7fa": {
     "networkLeaderCard": {
+      "type": "NetworkDepositLeaderCard",
       "resourcesTypeInDepot": "GOLD",
       "victoryPoints": 3,
+      "requirementsResources": [
+        {
+          "key": "SHIELD",
+          "value": 5
+        }
+      ],
       "requirementsCards": [],
       "requirementsCardsLevel": 1,
       "isActive": false,
@@ -458,8 +503,15 @@
   },
   "a7b2501e50e333a3974e1f57cdf1ac3a": {
     "networkLeaderCard": {
+      "type": "NetworkDepositLeaderCard",
       "resourcesTypeInDepot": "SERVANT",
       "victoryPoints": 3,
+      "requirementsResources": [
+        {
+          "key": "STONE",
+          "value": 5
+        }
+      ],
       "requirementsCards": [],
       "requirementsCardsLevel": 1,
       "isActive": false,
