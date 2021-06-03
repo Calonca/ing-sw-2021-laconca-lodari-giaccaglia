@@ -19,7 +19,7 @@ public class SetupPhase extends SetupPhaseViewBuilder implements CLIBuilder {
     @Override
     public void run() {
 
-        String title = "Select two leader cards and resources";
+        String title = "Select resources and leaders you want to discard";
         int resourcesToChoose = Util.resourcesToChooseOnSetup(getCommonData().getThisPlayerIndex());
         getCLIView().setTitle(new Title(title));
         SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).orElseThrow();

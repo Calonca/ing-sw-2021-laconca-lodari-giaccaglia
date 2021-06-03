@@ -14,19 +14,21 @@ import java.util.List;
 public class DrawableDevCard {
 
 
-    private enum DevCardColorCLI {
+    public enum DevCardColorCLI {
 
-       GREEN(NetworkDevelopmentCardColor.GREEN, Color.WHITE),
-       BLUE(NetworkDevelopmentCardColor.BLUE,Color.SHIELD),
-       PURPLE(NetworkDevelopmentCardColor.PURPLE,Color.STONE),
-       YELLOW(NetworkDevelopmentCardColor.YELLOW,Color.GOLD);
+       GREEN(NetworkDevelopmentCardColor.GREEN,  "Green " , Color.GREEN),
+       BLUE(NetworkDevelopmentCardColor.BLUE,    "Blue  ", Color.SHIELD),
+       PURPLE(NetworkDevelopmentCardColor.PURPLE,"Purple", Color.PURPLE),
+       YELLOW(NetworkDevelopmentCardColor.YELLOW,"Yellow" , Color.GOLD);
 
         private final NetworkDevelopmentCardColor res;
         private final Color c;
+        private final String nameWithSpaces;
 
-        DevCardColorCLI(NetworkDevelopmentCardColor res, Color c) {
+        DevCardColorCLI(NetworkDevelopmentCardColor res, String nameWithSpaces, Color c) {
             this.res = res;
             this.c = c;
+            this.nameWithSpaces = nameWithSpaces;
         }
 
         public Color getC() {
@@ -39,18 +41,20 @@ public class DrawableDevCard {
             return rNum>val.length ? DevCardColorCLI.GREEN: val[rNum];
         }
 
+        public String getNameWithSpaces() {
+            return nameWithSpaces;
+        }
     }
 
-    public static Drawable fromDevCardAsset(DevelopmentCardAsset devCardAsset){
+    public static Drawable fromDevCardAsset(NetworkDevelopmentCard networkDevCard){
 
-        if (devCardAsset==null) {
+        if (networkDevCard==null) {
             Drawable drawable1 = new Drawable();
             drawable1.add(0, "No card");
             return drawable1;
         }
 
         Color c;
-        NetworkDevelopmentCard networkDevCard = devCardAsset.getDevelopmentCard();
 
         if (networkDevCard.isSelectable())
             c = DevCardColorCLI.fromNetworkColor(networkDevCard.getCardType()).getC();
@@ -80,9 +84,9 @@ public class DrawableDevCard {
     }
 
     public static int width(){
-        return fromDevCardAsset(new DevelopmentCardAsset()).getWidth();
+        return fromDevCardAsset(new NetworkDevelopmentCard()).getWidth();
     }
     public static int height(){
-        return fromDevCardAsset(new DevelopmentCardAsset()).getHeight();
+        return fromDevCardAsset(new NetworkDevelopmentCard()).getHeight();
     }
 }
