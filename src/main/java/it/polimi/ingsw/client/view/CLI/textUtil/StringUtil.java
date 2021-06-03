@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client.view.CLI.textUtil;
 
+import it.polimi.ingsw.server.model.states.State;
+
 import java.util.Arrays;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
@@ -11,6 +13,11 @@ public class StringUtil {
                 StringBuilder::append,
                 StringBuilder::append,
                 StringBuilder::toString));
+    }
+
+
+    public static String emptyLineWithBorder(int size){
+        return "║"+spaces(size-2)+"║";
     }
 
     public static String spaces(int numOf){

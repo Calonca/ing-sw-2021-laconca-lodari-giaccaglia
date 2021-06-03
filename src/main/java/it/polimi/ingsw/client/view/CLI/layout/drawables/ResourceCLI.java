@@ -3,19 +3,20 @@ package it.polimi.ingsw.client.view.CLI.layout.drawables;
 import it.polimi.ingsw.client.view.CLI.textUtil.Background;
 import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
+import it.polimi.ingsw.server.model.Resource;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public enum ResourceCLI {
-    GOLD(ResourceAsset.GOLD,"G", "Gold", "  Gold   ", Color.GOLD, Background.ANSI_GOLD_BACKGROUND),
-    SERVANT(ResourceAsset.SERVANT, "S", "Servant", " Servant ",Color.SERVANT,Background.ANSI_GOLD_BACKGROUND),
-    SHIELD(ResourceAsset.SHIELD, "H", "Shield", " Shield  ",Color.SHIELD,Background.ANSI_GOLD_BACKGROUND),
-    STONE(ResourceAsset.STONE, "T", "Stone", "  Stone  ",Color.STONE,Background.ANSI_GOLD_BACKGROUND),
-    TO_CHOSE(ResourceAsset.EMPTY, "C", "To choose", "To choose",Color.RIGHT_WHITE,Background.ANSI_WHITE_BACKGROUND),
-    FAITH(ResourceAsset.FAITH, "F", "Faith", "  Faith  ",Color.DEFAULT,Background.DEFAULT),
-    EMPTY(ResourceAsset.EMPTY, "E", "Empty", "  Empty  ",Color.DEFAULT,Background.DEFAULT);
+    GOLD(ResourceAsset.GOLD,"GO", "Gold", "  Gold   ", Color.GOLD, Background.ANSI_GOLD_BACKGROUND),
+    SERVANT(ResourceAsset.SERVANT, "SE", "Servant", " Servant ",Color.SERVANT,Background.ANSI_PURPLE_BACKGROUND),
+    SHIELD(ResourceAsset.SHIELD, "SH", "Shield", " Shield  ",Color.SHIELD,Background.ANSI_CYAN_BACKGROUND),
+    STONE(ResourceAsset.STONE, "ST", "Stone", "  Stone  ",Color.STONE,Background.ANSI_BRIGHT_BLACK_BACKGROUND),
+    FAITH(ResourceAsset.FAITH, "FA", "Faith",      "  Faith  ",Color.RED,Background.ANSI_RED_BACKGROUND),
+    TO_CHOSE(ResourceAsset.TOCHOOSE, "TC", "To choose", "To choose",Color.RIGHT_WHITE,Background.ANSI_BLACK_BACKGROUND),
+    EMPTY(ResourceAsset.EMPTY, "EE", "Empty", "  Empty  ",Color.DEFAULT,Background.DEFAULT);
 
 
     private final ResourceAsset res;
@@ -83,10 +84,14 @@ public enum ResourceCLI {
         return b;
     }
 
-    public static ResourceCLI fromAsset(ResourceAsset asset){
-        int rNum = asset.getResourceNumber();
+    public static ResourceCLI fromInt(int i){
         ResourceCLI[] val = ResourceCLI.values();
-        return rNum>=val.length||rNum<0 ? EMPTY: val[rNum];
+        return i>=val.length||i<0 ? EMPTY: val[i];
+
+    }
+
+    public static ResourceCLI fromAsset(ResourceAsset asset){
+         return Arrays.stream(ResourceCLI.values()).filter(r->r.getRes().equals(asset)).findFirst().orElse(ResourceCLI.EMPTY);
     }
 
 

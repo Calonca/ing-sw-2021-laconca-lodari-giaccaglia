@@ -85,4 +85,14 @@ public abstract class OptionList extends GridElem{
         cli.runOnIntInput("Select a choice:","Select a valid choice", getFirstIdx(),getLastIndex(),r);
     }
 
+    public void selectAndEnabledOption(CLI cli,String message)
+    {
+        Runnable r = ()->{
+            int choice = cli.getLastInt();
+            selectOptionAtPosition(choice);
+            performLastChoice();
+        };
+        cli.runOnIntInput(message,"Select a valid choice", getFirstIdx(),getLastIndex(),r);
+    }
+
 }

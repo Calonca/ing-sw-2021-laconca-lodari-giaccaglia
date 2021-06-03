@@ -42,12 +42,13 @@ public class PlayerCache {
     }
 
     public <T extends SimpleModelElement> Optional<T> getElem(Class<T> s){
-        Optional<SimpleModelElement> notCasted= Optional.ofNullable(playerSimpleModelElementsMap.getOrDefault(s.getSimpleName(),null));
+        Optional<T> result;
         try {
-            return (Optional<T>) notCasted;
+            result = Optional.ofNullable(s.cast(playerSimpleModelElementsMap.getOrDefault(s.getSimpleName(),null)));;
         } catch (ClassCastException e){
-            return Optional.empty();
+            result = Optional.empty();
         }
+        return result;
     }
 
     public PlayerCache(){

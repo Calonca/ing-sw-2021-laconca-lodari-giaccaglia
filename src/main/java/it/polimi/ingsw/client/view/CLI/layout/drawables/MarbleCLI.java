@@ -3,7 +3,6 @@ package it.polimi.ingsw.client.view.CLI.layout.drawables;
 import it.polimi.ingsw.client.view.CLI.textUtil.Background;
 import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
-import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +25,7 @@ public enum MarbleCLI {
         this.c = c;
     }
 
-    public Drawable toBigDrawableList(){
+    public Drawable toBigDrawable(){
 
         Drawable dwList = new Drawable();
         dwList.add(0,"    █      ",c,Background.DEFAULT);
@@ -37,15 +36,24 @@ public enum MarbleCLI {
         return dwList;
     }
 
+    public Drawable toSmallDrawable(){
+
+        Drawable dwList = new Drawable();
+        dwList.add(0,"      ██   ",c,Background.DEFAULT);
+        dwList.add(0,"    ██████ ",c,Background.DEFAULT);
+        dwList.add(0,"      ██   ",c,Background.DEFAULT);
+        return dwList;
+    }
+
     public static List<Drawable> toList(){
-        return Arrays.stream(MarbleCLI.values()).limit(6).map(MarbleCLI::toBigDrawableList).collect(Collectors.toList());
+        return Arrays.stream(MarbleCLI.values()).limit(6).map(MarbleCLI::toBigDrawable).collect(Collectors.toList());
     }
 
     public static int width(){
-        return WHITE.toBigDrawableList().getWidth();
+        return WHITE.toBigDrawable().getWidth();
     }
     public static int height(){
-        return WHITE.toBigDrawableList().getHeight();
+        return WHITE.toBigDrawable().getHeight();
     }
 
     public MarbleAsset getRes() {

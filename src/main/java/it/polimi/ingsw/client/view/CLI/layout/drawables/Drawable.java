@@ -33,8 +33,21 @@ public class Drawable {
 
     public static Drawable selectedDrawableList(Drawable drawable){
         Drawable dList = Drawable.copyShifted(0,0, drawable);
-        dList.get().forEach(e->e.setColor(Color.BLACK));
-        dList.get().forEach(e->e.setBackground(Background.ANSI_WHITE_BACKGROUND));
+        dList.get().forEach(e-> {
+            if (e.getColor().equals(Color.DEFAULT))
+                e.setColor(Color.BRIGHT_WHITE);
+        });
+        dList.get().forEach(e-> {
+            if (e.getBackground().equals(Background.DEFAULT))
+                e.setBackground(Background.ANSI_BRIGHT_BLACK_BACKGROUND);
+        });
+        return dList;
+    }
+
+    public static Drawable disabledDrawableList(Drawable drawable){
+        Drawable dList = Drawable.copyShifted(0,0, drawable);
+        dList.get().forEach(e->e.setColor(Color.DISABLED));
+        dList.get().forEach(e->e.setBackground(Background.DEFAULT));
         return dList;
     }
 

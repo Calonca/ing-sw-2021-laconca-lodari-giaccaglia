@@ -6,9 +6,11 @@ import it.polimi.ingsw.client.view.CLI.textUtil.Characters;
 import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.IntStream;
 
 /**
  * Builds the CLI.<br>
@@ -31,7 +33,7 @@ public class CLI {
     private int writtenChars;
 
     //Min is 21
-    public static final int height =35;//Usually 45
+    public static final int height =45;//Usually 45
     //Min is 21
     public static final int width =185;//Usually 185
 
@@ -163,6 +165,20 @@ public class CLI {
                 show();
             }
         };
+    }
+    public void runOnIntListInput(String message, String errorMessage, IntStream possibleValues, Runnable r1){
+        int max = possibleValues.max().orElse(0);
+        int min = possibleValues.min().orElse(0);
+        Runnable r2 = ()->{
+            if (possibleValues.noneMatch(i->i==getLastInt())) {
+                runOnIntListInput(message,errorMessage,possibleValues,r1);
+                show();
+            }
+            else {
+                r1.run();
+            }
+        };
+        runOnIntInput(message,errorMessage,min,max,r2);
     }
 
 

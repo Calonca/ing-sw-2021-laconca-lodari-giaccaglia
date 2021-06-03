@@ -2,7 +2,6 @@ package it.polimi.ingsw.client.view.CLI.layout.drawables;
 
 import it.polimi.ingsw.client.view.CLI.textUtil.Background;
 import it.polimi.ingsw.client.view.CLI.textUtil.Color;
-import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCardColor;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
@@ -13,38 +12,6 @@ import java.util.List;
 
 public class DrawableDevCard {
 
-
-    public enum DevCardColorCLI {
-
-       GREEN(NetworkDevelopmentCardColor.GREEN,  "Green " , Color.GREEN),
-       BLUE(NetworkDevelopmentCardColor.BLUE,    "Blue  ", Color.SHIELD),
-       PURPLE(NetworkDevelopmentCardColor.PURPLE,"Purple", Color.PURPLE),
-       YELLOW(NetworkDevelopmentCardColor.YELLOW,"Yellow" , Color.GOLD);
-
-        private final NetworkDevelopmentCardColor res;
-        private final Color c;
-        private final String nameWithSpaces;
-
-        DevCardColorCLI(NetworkDevelopmentCardColor res, String nameWithSpaces, Color c) {
-            this.res = res;
-            this.c = c;
-            this.nameWithSpaces = nameWithSpaces;
-        }
-
-        public Color getC() {
-            return c;
-        }
-
-        public static DevCardColorCLI fromNetworkColor(NetworkDevelopmentCardColor asset){
-            int rNum = asset.ordinal();
-            DevCardColorCLI[] val = DevCardColorCLI.values();
-            return rNum>val.length ? DevCardColorCLI.GREEN: val[rNum];
-        }
-
-        public String getNameWithSpaces() {
-            return nameWithSpaces;
-        }
-    }
 
     public static Drawable fromDevCardAsset(NetworkDevelopmentCard networkDevCard){
 
@@ -57,7 +24,7 @@ public class DrawableDevCard {
         Color c;
 
         if (networkDevCard.isSelectable())
-            c = DevCardColorCLI.fromNetworkColor(networkDevCard.getCardType()).getC();
+            c = DevCardCLI.fromNetworkColor(networkDevCard.getCardType()).getC();
         else c = Color.BLACK;
         Background back = Background.DEFAULT;
 

@@ -59,6 +59,7 @@ public class Option extends GridElem{
 
     private VisMode mode;
     private boolean selected;
+    private boolean enabled;
     private Runnable performer;
     private final Drawable drawable;
     private final Drawable selectedDrawable;
@@ -109,6 +110,7 @@ public class Option extends GridElem{
         this.drawable = normalDwl;
         selectedDrawable = selectedDwl;
         this.selected = false;
+        this.setEnabled(true);
     }
 
     private static Drawable fromNameAndSub(String name,String subtitle){
@@ -134,6 +136,14 @@ public class Option extends GridElem{
 
     public void setSelected(boolean selected) {
         this.selected = selected;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     private Drawable getDrawableWithoutNumber(){

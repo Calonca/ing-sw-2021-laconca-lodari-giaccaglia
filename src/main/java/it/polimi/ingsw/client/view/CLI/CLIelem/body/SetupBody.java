@@ -69,7 +69,7 @@ public class SetupBody extends CLIelem {
 
     private Row selectedResourcesRow(){
         String resToChooseString = "Resources to choose: ";
-        String chosenResString= "Your chosen resources";
+        String chosenResString= chosenRes.size()==0?"No resources to choose from":"Your chosen resources";
         int CenterX = 1+CLI.getCenterX()-(ResourceCLI.width())/2;
         int startPositionX = CenterX-resToChooseString.length()-(ResourceCLI.width()+1)*chosenRes.size();
 

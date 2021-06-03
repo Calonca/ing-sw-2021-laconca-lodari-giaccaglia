@@ -48,12 +48,13 @@ public class SimpleModel {
     }
 
     public <T extends SimpleModelElement> Optional<T> getElem(Class<T> s){
-        Optional<SimpleModelElement> notCasted= Optional.ofNullable(commonSimpleModelElementsMap.getOrDefault(s.getSimpleName(),null));
+        Optional<T> result;
         try {
-            return (Optional<T>) notCasted;
+            result = Optional.ofNullable(s.cast(commonSimpleModelElementsMap.getOrDefault(s.getSimpleName(),null)));;
         } catch (ClassCastException e){
-            return Optional.empty();
+            result = Optional.empty();
         }
+        return result;
     }
 
     private SimpleModelElement getElem(String name){

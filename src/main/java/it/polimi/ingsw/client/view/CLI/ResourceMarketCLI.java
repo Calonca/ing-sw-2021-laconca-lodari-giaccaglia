@@ -79,7 +79,7 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
     }
 
     private Option buildResourceOption(MarbleAsset res){
-        return Option.noNumber(MarbleCLI.fromAsset(res).toBigDrawableList());
+        return Option.noNumber(MarbleCLI.fromAsset(res).toBigDrawable());
     }
 
 }
