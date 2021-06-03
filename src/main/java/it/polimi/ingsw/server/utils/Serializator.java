@@ -1230,19 +1230,6 @@ public class Serializator extends JsonUtility {
 
     }
 
-    public static Type getType(String typeName) {
-        try {
-            Class<?> clazz = Class.forName(typeName);
-            TypeToken<?> typeToken = TypeToken.get(clazz);
-            return typeToken.getType();
-        } catch (ClassNotFoundException e) {
-            throw new IllegalArgumentException("Unsupported type: " + typeName, e);
-        }
-    }
-
-
-
-
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, IllegalAccessException, InstantiationException {
   /*

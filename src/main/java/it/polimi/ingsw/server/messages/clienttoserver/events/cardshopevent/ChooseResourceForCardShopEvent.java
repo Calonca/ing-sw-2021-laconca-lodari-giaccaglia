@@ -47,6 +47,8 @@ public class ChooseResourceForCardShopEvent extends it.polimi.ingsw.network.mess
     public boolean validate(GameModel gameModel) {
 
         initializeMiddlePhaseEventValidation(gameModel);
+        applyMarketBonusToRequiredResources(gameModel);
+
 
         return isGameStarted(gameModel)
                 && checkResourcesPositionIndexes()
@@ -54,6 +56,14 @@ public class ChooseResourceForCardShopEvent extends it.polimi.ingsw.network.mess
                 && checkResourcesMatchingRequirements(gameModel.takePurchasedCardFromShop())
                 && checkResourceRequirements()
                 && validateDevCardRequirements(gameModel.takePurchasedCardFromShop());
+    }
+
+    private void applyMarketBonusToRequiredResources(GameModel gameModel){
+
+        int [] discounts = gameModel.getCurrentPlayer().getDiscounts();
+        for(int i=0; i<discounts.length; i++)
+            chosenResourcesArray[i] += discounts[i];
+
     }
 
     /**
@@ -95,6 +105,7 @@ public class ChooseResourceForCardShopEvent extends it.polimi.ingsw.network.mess
 
     private boolean checkResourcesMatchingRequirements(DevelopmentCard card){
         buildResourcesArray();
+
         return Arrays.equals(card.getCostAsArray(), chosenResourcesArray);
     }
 
