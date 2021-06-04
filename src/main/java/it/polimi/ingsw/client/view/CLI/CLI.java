@@ -36,10 +36,10 @@ public class CLI {
 
     private int writtenChars;
 
-    //Min is 21
-    public static final int height =45;//Usually 45
-    //Min is 21
-    public static final int width =185;//Usually 185
+    //Min is 52
+    public static final int height =53;//Usually 53
+    //Min is 180
+    public static final int width =188;//Usually 185
 
 
     public CLI(Client client) {
