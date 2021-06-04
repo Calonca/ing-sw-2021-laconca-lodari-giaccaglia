@@ -20,7 +20,6 @@ import java.util.stream.Stream;
 public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIBuilder {
     @Override
     public void run() {
-        choosePositions();
         getCLIView().setTitle("Take resources from the resource market");
         Column root = new Column();
 
