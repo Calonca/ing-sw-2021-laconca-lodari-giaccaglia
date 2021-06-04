@@ -6,6 +6,9 @@ import it.polimi.ingsw.client.view.CLI.layout.drawables.DrawableLine;
 import it.polimi.ingsw.client.view.CLI.textUtil.Background;
 import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -17,18 +20,18 @@ public class Option extends GridElem{
     public enum VisMode {
         NUMBER_TO_BOTTOM {
             @Override
-            public Drawable getDrawable(int idx, Drawable drawable) {
+            public Drawable getDrawable(int idx, Drawable drawable, boolean enabled) {
                 Drawable dw = Drawable.copyShifted(0,0,drawable);
-                DrawableLine dwl = Option.numberLine(0,dw.getHeight(), idx);
+                DrawableLine dwl = Option.numberLine(0,dw.getHeight(), idx,enabled);
                 dw.addToCenter(dw.getWidth(),dwl.getString(),dwl.getColor(),dwl.getBackground());
                 return dw;
             }
         },
         NUMBER_TO_BOTTOM_SPACED {
             @Override
-            public Drawable getDrawable(int idx, Drawable drawable) {
+            public Drawable getDrawable(int idx, Drawable drawable, boolean enabled) {
                 Drawable dw = Drawable.copyShifted(0,0,drawable);
-                DrawableLine dwl = Option.numberLine(0,dw.getHeight(), idx);
+                DrawableLine dwl = Option.numberLine(0,dw.getHeight(), idx,enabled);
                 dw.addToCenter(dw.getWidth(),dwl.getString(),dwl.getColor(),dwl.getBackground());
                 dw.addEmptyLine();
                 return dw;
@@ -36,8 +39,8 @@ public class Option extends GridElem{
         },
         NUMBER_TO_LEFT {
             @Override
-            public Drawable getDrawable(int idx, Drawable drawable) {
-                DrawableLine index = Option.numberLine(0,0,idx);
+            public Drawable getDrawable(int idx, Drawable drawable, boolean enabled) {
+                DrawableLine index = Option.numberLine(0,0,idx,enabled);
                 Drawable dw = Drawable.copyShifted(index.getWidth(),0,drawable);
                 dw.add(index);
                 return dw;
@@ -45,14 +48,14 @@ public class Option extends GridElem{
         }
         ,NO_NUMBER {
             @Override
-            public Drawable getDrawable(int idx, Drawable drawable) {
+            public Drawable getDrawable(int idx, Drawable drawable, boolean enabled) {
                 Drawable dw = Drawable.copyShifted(0,0,drawable);
                 dw.addEmptyLine();
                 return  dw;
             }
         };
 
-        public abstract Drawable getDrawable(int idx, Drawable drawable);
+        public abstract Drawable getDrawable(int idx, Drawable drawable, boolean enabled);
 
     }
 
@@ -159,8 +162,8 @@ public class Option extends GridElem{
             performer.run();
     }
 
-    private static DrawableLine numberLine(int x, int y, int idx){
-        return new DrawableLine(x,y,idx+": ", Color.OPTION, Background.DEFAULT);
+    private static DrawableLine numberLine(int x, int y, int idx, boolean isEnabled){
+        return new DrawableLine(x,y,idx+": ",isEnabled? Color.OPTION:Color.DISABLED, Background.DEFAULT);
     }
 
 
@@ -171,24 +174,29 @@ public class Option extends GridElem{
 
     @Override
     public Optional<Option> getOptionWithIndex(int i) {
-        return Optional.ofNullable((getFirstIdx()==i&&!mode.equals(VisMode.NO_NUMBER))?this:null);
+        return Optional.ofNullable((getFirstIdx()==i&&!mode.equals(VisMode.NO_NUMBER)&&enabled)?this:null);
+    }
+
+    @Override
+    public List<Option> getAllEnabledOption() {
+        return getOptionWithIndex(getFirstIdx()).map(Arrays::asList).orElse(new ArrayList<>());
     }
 
     @Override
     public void addToCanvas(Canvas canvas, int x, int y) {
-        Drawable toDisplay = mode.getDrawable(getFirstIdx(), getDrawableWithoutNumber());
+        Drawable toDisplay = mode.getDrawable(getFirstIdx(), getDrawableWithoutNumber(),enabled);
         Drawable copy = Drawable.copyShifted(x,y,toDisplay);
         canvas.addDrawable(copy);
     }
 
     @Override
     public int getMinWidth() {
-        return mode.getDrawable(getFirstIdx(), drawable).getWidth();
+        return mode.getDrawable(getFirstIdx(), drawable,enabled).getWidth();
     }
 
     @Override
     public int getMinHeight() {
-        return mode.getDrawable(getFirstIdx(), drawable).getHeight();
+        return mode.getDrawable(getFirstIdx(), drawable,enabled).getHeight();
     }
 
 

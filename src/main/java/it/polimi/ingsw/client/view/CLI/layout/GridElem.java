@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view.CLI.layout;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.Canvas;
 import javafx.util.Pair;
 
+import java.util.List;
 import java.util.Optional;
 
 public abstract class GridElem {
@@ -32,6 +33,8 @@ public abstract class GridElem {
     }
 
     public abstract Optional<Option> getOptionWithIndex(int i);
+
+    public abstract List<Option> getAllEnabledOption();
 
     public abstract void addToCanvas(Canvas canvas, int x,int y);
 

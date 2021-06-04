@@ -42,6 +42,7 @@ public class LeaderActionBody extends CLIelem {
                 InitialOrFinalPhaseEvent activate = new InitialOrFinalPhaseEvent(1, l.getCardId());
                 client.getServerHandler().sendCommandMessage(new EventMessage(activate));
             });
+            activateOption.setEnabled(l.getNetworkLeaderCard().isPlayable());
             optionList.addElem(activateOption);
 
 
@@ -63,7 +64,7 @@ public class LeaderActionBody extends CLIelem {
         skipColumn.addElem(skipLeaderOpt);
         skipLeaderOpt.setFirstIdx(leaders.size()*2);
 
-        leadersList.selectAndRunOption(cli);
+        leadersList.selectInEnabledOption(cli,"Select a possible action");
         return CanvasBody.centered(leadersList).toString();
     }
 

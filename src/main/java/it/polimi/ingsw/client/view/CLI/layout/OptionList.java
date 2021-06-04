@@ -7,6 +7,7 @@ import javafx.util.Pair;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -63,6 +64,13 @@ public abstract class OptionList extends GridElem{
                 .filter(Optional::isPresent).map(Optional::get).findFirst();
     }
 
+    @Override
+    public List<Option> getAllEnabledOption() {
+        return elems.stream()
+                .flatMap(e->e.getAllEnabledOption().stream())
+                .collect(Collectors.toList());
+    }
+
     private void selectOptionAtPosition(int choice)
     {
         lastSelectedOption = getOptionWithIndex(choice).orElse(null);
@@ -85,14 +93,14 @@ public abstract class OptionList extends GridElem{
         cli.runOnIntInput("Select a choice:","Select a valid choice", getFirstIdx(),getLastIndex(),r);
     }
 
-    public void selectAndEnabledOption(CLI cli,String message)
+    public void selectInEnabledOption(CLI cli, String message)
     {
         Runnable r = ()->{
             int choice = cli.getLastInt();
             selectOptionAtPosition(choice);
             performLastChoice();
         };
-        cli.runOnIntInput(message,"Select a valid choice", getFirstIdx(),getLastIndex(),r);
+        cli.runOnIntListInput(message,"Select a valid choice", getAllEnabledOption().stream().mapToInt(GridElem::getFirstIdx),r);
     }
 
 }

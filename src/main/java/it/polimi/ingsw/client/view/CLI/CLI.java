@@ -6,11 +6,15 @@ import it.polimi.ingsw.client.view.CLI.textUtil.Characters;
 import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * Builds the CLI.<br>
@@ -147,10 +151,10 @@ public class CLI {
                 {
                     this.errorMessage = errorMessage;
                     if (choice<min) {
-                        this.errorMessage += "Insert a GREATER number!";
+                        this.errorMessage += ", insert a GREATER number!";
                     }
                     else {
-                        this.errorMessage += "Insert a SMALLER number!";
+                        this.errorMessage += ", insert a SMALLER number!";
                     }
                     runOnIntInput(message,errorMessage,min,max,r1);
                     show();
@@ -160,18 +164,21 @@ public class CLI {
                 }
             }
             catch (NumberFormatException e){
-                this.errorMessage = errorMessage+"Insert a NUMBER!";
+                this.errorMessage = errorMessage+", insert a NUMBER!";
                 runOnIntInput(message,errorMessage,min,max,r1);
                 show();
             }
         };
     }
     public void runOnIntListInput(String message, String errorMessage, IntStream possibleValues, Runnable r1){
-        int max = possibleValues.max().orElse(0);
-        int min = possibleValues.min().orElse(0);
+
+        int[] supplier = possibleValues.toArray();
+        int max = Arrays.stream(supplier).max().orElse(0);
+        int min = Arrays.stream(supplier).min().orElse(0);
         Runnable r2 = ()->{
-            if (possibleValues.noneMatch(i->i==getLastInt())) {
-                runOnIntListInput(message,errorMessage,possibleValues,r1);
+            if (Arrays.stream(supplier).noneMatch(i->i==getLastInt())) {
+                this.errorMessage = errorMessage+", select an active option";
+                runOnIntListInput(message,errorMessage, Arrays.stream(supplier),r1);
                 show();
             }
             else {

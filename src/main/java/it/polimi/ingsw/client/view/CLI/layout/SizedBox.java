@@ -2,6 +2,8 @@ package it.polimi.ingsw.client.view.CLI.layout;
 
 import it.polimi.ingsw.client.view.CLI.layout.drawables.Canvas;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class SizedBox extends GridElem{
@@ -20,6 +22,11 @@ public class SizedBox extends GridElem{
     @Override
     public Optional<Option> getOptionWithIndex(int i) {
         return Optional.empty();
+    }
+
+    @Override
+    public List<Option> getAllEnabledOption() {
+        return new ArrayList<>();
     }
 
     @Override
