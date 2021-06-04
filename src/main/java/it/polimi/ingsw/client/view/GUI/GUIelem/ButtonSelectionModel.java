@@ -59,6 +59,7 @@ public class ButtonSelectionModel {
 
             sceneButton.setOnAction(e ->
             {
+
                 int currentSelected=0;
                 {
                     for (Integer integer : selected) currentSelected += integer;
@@ -69,7 +70,8 @@ public class ButtonSelectionModel {
                 }
             });
 
-        }}
+        }
+    }
 
 
     public void bindForPayment(List<ResourceButton> scenePaymentButtons,List<Boolean> scenePaidButtons)
@@ -130,7 +132,7 @@ public class ButtonSelectionModel {
                     {
                         //todo get observer on productionboard to update board
                     }
-                    if(!selected.get(scenesLeadersToChoose.indexOf(sceneButton)))
+                    else if(!selected.get(scenesLeadersToChoose.indexOf(sceneButton)))
                     {
                         if(booleanCount<maxselection)
                             selected.set(scenesLeadersToChoose.indexOf(sceneButton),true);

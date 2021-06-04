@@ -2,7 +2,6 @@ package it.polimi.ingsw.client.view.GUI;
 
 
 import it.polimi.ingsw.client.simplemodel.State;
-import it.polimi.ingsw.client.view.CLI.IDLEViewBuilder;
 import it.polimi.ingsw.client.view.GUI.GUIelem.ButtonSelectionModel;
 import it.polimi.ingsw.client.view.GUI.GUIelem.ResourceButton;
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
@@ -26,6 +25,8 @@ import javafx.scene.shape.Circle;
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 /**
@@ -57,7 +58,10 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
     @Override
     public void run() {
         ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(0);
-        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(getRoot());
+        SubScene root=getRoot();
+        root.setId("SETUP");
+
+        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(root);
         System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
 
     }
@@ -106,13 +110,10 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         confirm.setLayoutX(450);
         confirm.setOnAction(p -> {
 
-            List<UUID> discardedLeaders=new ArrayList<>();
+               SetupPhaseEvent event = new SetupPhaseEvent(Util.resourcesToChooseOnSetup(getCommonData().getThisPlayerIndex()),2,getClient().getCommonData().getThisPlayerIndex());
             for(int i = 0; i< sceneLeaders.size(); i++)
                 if(!selectedLeaders.get(i))
-                    discardedLeaders.add(leadersUUIDs.get(i));
-                int look= getClient().getCommonData().getThisPlayerIndex();
-                int watch = Util.resourcesToChooseOnSetup(getCommonData().getThisPlayerIndex());
-            SetupPhaseEvent event = new SetupPhaseEvent(Util.resourcesToChooseOnSetup(getCommonData().getThisPlayerIndex()),2,getClient().getCommonData().getThisPlayerIndex());
+                    event.addDiscardedLeader(leadersUUIDs.get(i));
             getClient().getServerHandler().sendCommandMessage(new EventMessage(event));
 
 
@@ -149,19 +150,17 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
          * Buttons are built according to leadernumber parameter
          */
 
-        SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).orElseThrow();
+        SimplePlayerLeaders simplePlayerLeaders = getSimpleModel().getPlayerCache(getClient().getCommonData().getThisPlayerIndex()).getElem(SimplePlayerLeaders.class).orElseThrow();
+        List<LeaderCardAsset> leaderCardAssets=simplePlayerLeaders.getPlayerLeaders();
 
-        SimplePlayerLeaders playerLeaders = new SimplePlayerLeaders();
-        List<LeaderCardAsset> leaderCardAssets = playerLeaders.getPlayerLeaders();
-
-        for(LeaderCardAsset leader : leaderCardAssets)
-            System.out.println(leader.getNetworkLeaderCard().toString());
         Button tempbut;
         for(int i=0;i<LEADERNUMBER;i++)
         {
-            leadersUUIDs.add(UUID.randomUUID());
-            ImageView temp = new ImageView(new Image("assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_0.png", true));
-
+            leadersUUIDs.add(leaderCardAssets.get(i).getCardId());
+            Path path= Paths.get(leaderCardAssets.get(i).getCardPaths().getKey().toString().substring(1));
+            System.out.println(leaderCardAssets.get(i).getCardPaths().getKey().toString().toString());
+            ImageView temp = new ImageView(new Image("assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_2.png", true));
+//new Image(ViewPersonalBoard.class.getResource(leaderCardAssets.get(i).getCardPaths().getKey().toString()).toString()
             tempbut= new Button();
             tempbut.setLayoutY(600);
             tempbut.setLayoutX(100+200*i);
@@ -197,6 +196,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         selectedResources =javafx.collections.FXCollections.observableArrayList();
         for (int i=0;i<4;i++)
             selectedResources.add(0);
+
 
 
         colors.add(Color.GOLD);
@@ -246,7 +246,10 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         if (evt.getPropertyName().equals(State.IDLE.name()))
             getClient().changeViewBuilder(new IDLEViewBuilder());
         else{
-            System.out.println("Setup received: "+evt.getPropertyName()+ JsonUtility.serialize(evt.getNewValue()));
+            SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).orElseThrow();
+            List<LeaderCardAsset> leaderCardAssets=simplePlayerLeaders.getPlayerLeaders();
+            System.out.println(leaderCardAssets);
+
         }
     }
 }

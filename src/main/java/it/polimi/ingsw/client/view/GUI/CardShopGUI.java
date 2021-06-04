@@ -53,9 +53,12 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
     }
 
     public void addMarket() {
+        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(this);
+
         Node toAdd=getRoot();
-        toAdd.setTranslateX(-410);
-        toAdd.setTranslateY(107);
+        toAdd.setTranslateX(-380);
+        toAdd.setTranslateY(20);
+        toAdd.setId("CARDSHOP");
         ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(toAdd);
         System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
 
@@ -63,7 +66,7 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
 
     public void addDiscardBox() {
         Node toadd=getRoot();
-        toadd.setTranslateX(-150);
+        toadd.setTranslateX(-195);
         toadd.setTranslateY(107);
         ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(toadd);
         System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
@@ -81,7 +84,7 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
             e.printStackTrace();
         }
 
-        return new SubScene(root,300,500);
+        return new SubScene(root,430,800);
 
     }
 
@@ -110,8 +113,8 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
     {
         Button confirm=new Button();
         confirm.setText("CONFIRM");
-        confirm.setLayoutY(350);
-        confirm.setLayoutX(150);
+        confirm.setLayoutY(720);
+        confirm.setLayoutX(300);
         confirm.setOnAction(p -> {
 
 
@@ -155,7 +158,6 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
         GridPane cardsGrid=new GridPane();
         cardsGrid.setLayoutX(0);
         cardsGrid.setLayoutY(0);
-        cardsGrid.setPadding(new Insets(5,5,5,5));
         Button tempBut;
         for(int i=0;i<ROWS;i++)
         {
@@ -163,12 +165,13 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
             {
                 //todo fix order
                 ImageView tempImage = new ImageView(new Image("assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_0.png", true));
-
                 tempBut= new Button();
-                tempImage.setFitWidth(50);
-                tempImage.setFitHeight(50);
+
+                tempImage.setFitWidth(115);
+                tempImage.setFitHeight(165);
 
                 tempBut.setGraphic(tempImage);
+                tempBut.setStyle("-fx-border-color: transparent");
 
 
                 cardsGrid.add(tempBut,i,j);
@@ -176,8 +179,6 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
 
             }
         }
-        cardsGrid.setHgap(30);
-        cardsGrid.setVgap(30);
 
 
 
@@ -221,7 +222,7 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
         for(int i=0;i<5;i++)
         {
             tempContainer=new ResourceButton();
-            tempContainer.setLayoutY(420);
+            tempContainer.setLayoutY(720);
             tempContainer.setLayoutX(100+40*i);
             cardsAnchor.getChildren().add(tempContainer);
             scenePaymentButtons.add(tempContainer);

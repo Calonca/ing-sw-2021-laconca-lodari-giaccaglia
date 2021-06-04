@@ -55,7 +55,6 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
     @Override
     public void run() {
 
-        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(getRoot());
 
         SubScene root=getRoot();
         root.translateYProperty().set(getClient().getStage().getScene().getHeight());
@@ -64,7 +63,9 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         KeyFrame kf= new KeyFrame(Duration.seconds(2),kv);
         timeline.getKeyFrames().add(kf);
         timeline.play();
+        root.setId("LOBBY");
         ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(0);
+        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(root);
 
         System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
 

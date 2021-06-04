@@ -73,9 +73,11 @@ public class DiscardBoxInitializer extends ResourceMarketViewBuilder implements 
 
     public void fillDiscardBox()
     {
-        Node toadd=getRoot();
-        toadd.setTranslateX(-400);
+        SubScene toadd=getRoot();
+        toadd.setTranslateX(-48);
         toadd.setTranslateY(-300);
+        toadd.setId("DISCARD");
+
         ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(toadd);
         System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
     }

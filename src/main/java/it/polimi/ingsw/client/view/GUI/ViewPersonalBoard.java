@@ -40,6 +40,7 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
     List<ResourceButton> standardProductionButtonsOut=new ArrayList<>();
     List<ResourceButton> wareHouseButtons=new ArrayList<>();
 
+    List<Button> controlButtons=new ArrayList<>();
 
 
     List<Button> productions=new ArrayList<>();
@@ -63,9 +64,10 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
     @Override
     public void run() {
         getClient().getStage().setResizable(true);
-
+        SubScene root=getRoot();
+        root.setId("BOARD");
         ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(0);
-        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(getRoot());
+        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(root);
         getClient().getStage().setHeight(800);
         getClient().getStage().setWidth(1200);
         getClient().getStage().setResizable(false);
@@ -164,7 +166,7 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
     ResourceButton tempbut= new ResourceButton();
         tempbut.setResource(Resource.EMPTY);
         tempbut.setLayoutY(500);
-        tempbut.setLayoutX(450);
+        tempbut.setLayoutX(540);
         tempbut.color();
         menuPane.getChildren().add(tempbut);
         sceneResources.add(tempbut);
@@ -176,7 +178,7 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
         tempbut= new ResourceButton();
         tempbut.setResource(Resource.GOLD);
         tempbut.setLayoutY(545);
-        tempbut.setLayoutX(430+30*i);
+        tempbut.setLayoutX(520+20*i);
         tempbut.color();
         menuPane.getChildren().add(tempbut);
         sceneResources.add(tempbut);
@@ -188,7 +190,7 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
         tempbut= new ResourceButton();
         tempbut.setResource(Resource.EMPTY);
         tempbut.setLayoutY(585);
-        tempbut.setLayoutX(420+30*i);
+        tempbut.setLayoutX(510+20*i);
         tempbut.color();
         menuPane.getChildren().add(tempbut);
         sceneResources.add(tempbut);
@@ -198,7 +200,7 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
     public void initializeFaithTrack()
     {
         faithBut =new Button();
-        faithBut.setLayoutX(380);
+        faithBut.setLayoutX(480);
         faithBut.setLayoutY(380);
         faithBut.setOnAction(p ->
         {
@@ -255,19 +257,20 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
     public void bindForStandardProduction()
     {
 
-        Button button=new Button();
-        button.setGraphic(new Label("PRODUCTION"));
-        button.setLayoutX(800);
-        button.setLayoutY(100);
-        button.setOnAction(p -> getController().setProduction(true));
-        menuPane.getChildren().add(button);
+        Button productionButton=new Button();
+        productionButton.setGraphic(new Label("PRODUCTION"));
+        productionButton.setLayoutX(1100);
+        productionButton.setLayoutY(50);
+        productionButton.setOnAction(p -> getController().setProduction(true));
+        menuPane.getChildren().add(productionButton);
+        controlButtons.add(productionButton);
 
         selectedStandardProductions=javafx.collections.FXCollections.observableArrayList();
         selectedStandardProductionsOut=javafx.collections.FXCollections.observableArrayList();
 
         ResourceButton prodBut=new ResourceButton();
         prodBut.setResource(Resource.TOCHOOSE);
-        prodBut.setLayoutX(575);
+        prodBut.setLayoutX(650);
         prodBut.setLayoutY(650);
         prodBut.color();
         standardProductionButtons.add(prodBut);
@@ -277,7 +280,7 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
         prodBut=new ResourceButton();
         prodBut.setResource(Resource.TOCHOOSE);
         prodBut.color();
-        prodBut.setLayoutX(575);
+        prodBut.setLayoutX(650);
         prodBut.setLayoutY(630);
         standardProductionButtons.add(prodBut);
         menuPane.getChildren().add(prodBut);
@@ -287,7 +290,7 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
         prodBut=new ResourceButton();
         prodBut.setResource(Resource.TOCHOOSE);
         prodBut.color();
-        prodBut.setLayoutX(605);
+        prodBut.setLayoutX(695);
         prodBut.setLayoutY(640);
         standardProductionButtonsOut.add(prodBut);
         selectedStandardProductionsOut.add(false);
@@ -333,20 +336,22 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
 
             }});
 
-        button=new Button();
-        button.setGraphic(new Label("DEVELOP"));
-        button.setLayoutX(900);
-        button.setLayoutY(150);
-        button.setOnAction(p -> getController().isCardShopOpen(true));
+        Button developmentButton=new Button();
+        developmentButton.setGraphic(new Label("DEVELOP"));
+        developmentButton.setLayoutX(1100);
+        developmentButton.setLayoutY(150);
+        developmentButton.setOnAction(p -> getController().isCardShopOpen(true));
+        menuPane.getChildren().add(developmentButton);
+        controlButtons.add(developmentButton);
 
-        menuPane.getChildren().add(button);
-        button=new Button();
-        button.setGraphic(new Label("MARKET PLAY"));
-        button.setLayoutX(950);
-        button.setLayoutY(100);
-        button.setOnAction(p -> getController().setMarket(true));
+        Button marketButton=new Button();
+        marketButton.setGraphic(new Label("MARKET PLAY"));
+        marketButton.setLayoutX(1100);
+        marketButton.setLayoutY(100);
+        marketButton.setOnAction(p -> getController().setMarket(true));
+        menuPane.getChildren().add(marketButton);
+        controlButtons.add(marketButton);
 
-        menuPane.getChildren().add(button);
         error.setOpacity(0);
         error.setLayoutX(550);
         error.setLayoutY(740);
@@ -398,8 +403,8 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
         tempImageView=new ImageView(new Image("assets/board/smallerboard.png", true));
 
         tempImageView.setFitHeight(500);
-        tempImageView.setFitWidth(850);
-        tempImageView.setLayoutX(345);
+        tempImageView.setFitWidth(750);
+        tempImageView.setLayoutX(445);
         tempImageView.setLayoutY(280);
 
         menuPane.getChildren().add(tempImageView);
@@ -448,7 +453,7 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
         for(int i=0;i<3;i++)
         {
         productionButton=new Button();
-        productionButton.setLayoutX(695+168*i);
+        productionButton.setLayoutX(740+150*i);
         productionButton.setLayoutY(550);
         ImageView devCardImage=new ImageView(new Image("assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_2.png", true));
         devCardImage.setFitWidth(100);
@@ -469,7 +474,7 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
 
         wareHouseGrid.setMaxHeight(100);
         wareHouseGrid.setMaxWidth(100);
-        wareHouseGrid.setLayoutX(380);
+        wareHouseGrid.setLayoutX(480);
         wareHouseGrid.setLayoutY(650);
         menuPane.getChildren().add(wareHouseGrid);
 

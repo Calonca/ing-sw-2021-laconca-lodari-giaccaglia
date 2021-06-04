@@ -18,6 +18,10 @@ public abstract class InitialOrFinalPhaseViewBuilder extends ViewBuilder {
         InitialOrFinalPhaseViewBuilder.isInitial = isInitial;
     }
 
+    public InitialOrFinalPhaseViewBuilder() {
+        InitialOrFinalPhaseViewBuilder.isInitial=true;
+    }
+
     public static ViewBuilder getBuilder(boolean isCLI,boolean initial){
         if (isCLI)
             return new InitialOrFinalPhaseCLI(initial);

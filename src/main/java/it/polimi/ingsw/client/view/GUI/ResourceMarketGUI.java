@@ -43,8 +43,8 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
     public int ROWNUMBER=3;
     public double ballsize=0.75;
 
-    public double width=400;
-    public double len=300;
+    public double width=300;
+    public double len=260;
 
     public AnchorPane marketPane;
 
@@ -71,7 +71,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
             e.printStackTrace();
         }
 
-        return new SubScene(root,400,260);
+        return new SubScene(root,width,len);
 
     }
 
@@ -92,9 +92,11 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
     }
 
     public void addMatrix() {
-        Node toadd=getRoot();
-        toadd.setTranslateX(0);
+        SubScene toadd=getRoot();
+        toadd.setTranslateX(350);
         toadd.setTranslateY(-250);
+        toadd.setId("MARKET");
+
         ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(toadd);
         System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
 
@@ -209,8 +211,8 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
 
             Button button=new Button();
             button.setLayoutX(h);
-            h+=75;
-            button.setLayoutY(230);
+            h+=30;
+            button.setLayoutY(250);
 
             setBut(button,y,i);
             marketPane.getChildren().add(button);
@@ -285,12 +287,12 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
 
 
         double x=1.5;
-        int h=20;
+        int h=70;
         for(int i=0;i<ROWNUMBER;i++)
         {
             generateRow(root3D,x,-5,h);
             x-=2*ballsize;
-            h+=100;
+            h+=30;
         }
 
         toPutStartingX=x;
@@ -303,10 +305,10 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
 
 
 
-        generateColumns(rows,50);
+        generateColumns(rows,70);
 
 
-        SubScene subScene = new SubScene(root3D, 300, 200, true, SceneAntialiasing.BALANCED);
+        SubScene subScene = new SubScene(root3D, 300, 260, true, SceneAntialiasing.BALANCED);
         subScene.setFill(Color.AQUAMARINE);
         subScene.setCamera(camera);
 
