@@ -222,7 +222,7 @@ public class Deserializator extends JsonUtility {
     }
 
     public static List<NetworkDevelopmentCard> networkDevCardsListDeserialization(){
-        NetworkDevelopmentCard[] cardsArray = deserialize(readConfigPathString + "DevelopmentCardConfig.json",
+        NetworkDevelopmentCard[] cardsArray = deserialize(readConfigPathString + "cardsfixed.json",
                 NetworkDevelopmentCard[].class, gson);
         return (Arrays.asList(cardsArray));
     }

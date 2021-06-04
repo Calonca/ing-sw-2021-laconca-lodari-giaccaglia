@@ -1,0 +1,3381 @@
+[
+  {
+    "production": {
+      "input": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        0,
+        0,
+        0,
+        0,
+        2,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        0,
+        0,
+        0,
+        0,
+        2,
+        0,
+        0
+      ]
+    },
+    "cardType": "GREEN",
+    "costList": [
+      {
+        "key": "SHIELD",
+        "value": 2
+      }
+    ],
+    "inputResources": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      0,
+      0,
+      0,
+      0,
+      2,
+      0,
+      0
+    ],
+    "victoryPoints": 1,
+    "level": 1,
+    "cardId": "f7658131-424b-3b1c-9868-229aef429f6e"
+  },
+  {
+    "production": {
+      "input": [
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0
+      ]
+    },
+    "cardType": "PURPLE",
+    "costList": [
+      {
+        "key": "SERVANT",
+        "value": 3
+      }
+    ],
+    "inputResources": [
+      2,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      0,
+      1,
+      1,
+      1,
+      0,
+      0,
+      0
+    ],
+    "victoryPoints": 3,
+    "level": 1,
+    "cardId": "49c2e876-e297-332e-9d45-47642318c05e"
+  },
+  {
+    "production": {
+      "input": [
+        0,
+        0,
+        0,
+        2,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        0,
+        0,
+        0,
+        2,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "cardType": "BLUE",
+    "costList": [
+      {
+        "key": "GOLD",
+        "value": 3
+      }
+    ],
+    "inputResources": [
+      0,
+      0,
+      0,
+      2,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      1,
+      1,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "victoryPoints": 3,
+    "level": 1,
+    "cardId": "a88ba6c6-9297-3c23-aa32-981b8d6fe603"
+  },
+  {
+    "production": {
+      "input": [
+        0,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        0,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        1,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        1,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0
+      ]
+    },
+    "cardType": "YELLOW",
+    "costList": [
+      {
+        "key": "STONE",
+        "value": 3
+      }
+    ],
+    "inputResources": [
+      0,
+      2,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      1,
+      0,
+      1,
+      1,
+      0,
+      0,
+      0
+    ],
+    "victoryPoints": 3,
+    "level": 1,
+    "cardId": "2d469431-81b1-32b9-9921-46a21d06f43e"
+  },
+  {
+    "production": {
+      "input": [
+        0,
+        1,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        0,
+        1,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        2,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        2,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ]
+    },
+    "cardType": "GREEN",
+    "costList": [
+      {
+        "key": "SHIELD",
+        "value": 2
+      },
+      {
+        "key": "GOLD",
+        "value": 2
+      }
+    ],
+    "inputResources": [
+      0,
+      1,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      2,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "victoryPoints": 4,
+    "level": 1,
+    "cardId": "de445700-690e-3027-a153-6a13f9d179cb"
+  },
+  {
+    "production": {
+      "input": [
+        1,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        1,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        0,
+        0,
+        0,
+        2,
+        1,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        0,
+        0,
+        0,
+        2,
+        1,
+        0,
+        0
+      ]
+    },
+    "cardType": "PURPLE",
+    "costList": [
+      {
+        "key": "SERVANT",
+        "value": 2
+      },
+      {
+        "key": "STONE",
+        "value": 2
+      }
+    ],
+    "inputResources": [
+      1,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      0,
+      0,
+      0,
+      2,
+      1,
+      0,
+      0
+    ],
+    "victoryPoints": 4,
+    "level": 1,
+    "cardId": "90c43e19-3fc3-3744-bc3c-a652309e5013"
+  },
+  {
+    "production": {
+      "input": [
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        0,
+        2,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        0,
+        2,
+        0,
+        0,
+        1,
+        0,
+        0
+      ]
+    },
+    "cardType": "BLUE",
+    "costList": [
+      {
+        "key": "GOLD",
+        "value": 2
+      },
+      {
+        "key": "SERVANT",
+        "value": 2
+      }
+    ],
+    "inputResources": [
+      0,
+      0,
+      1,
+      1,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      0,
+      2,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "victoryPoints": 4,
+    "level": 1,
+    "cardId": "1970e0ab-610f-3dd2-b9e5-4a400d115e4a"
+  },
+  {
+    "production": {
+      "input": [
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        0,
+        0,
+        2,
+        0,
+        1,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        0,
+        0,
+        2,
+        0,
+        1,
+        0,
+        0
+      ]
+    },
+    "cardType": "YELLOW",
+    "costList": [
+      {
+        "key": "STONE",
+        "value": 2
+      },
+      {
+        "key": "SHIELD",
+        "value": 2
+      }
+    ],
+    "inputResources": [
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      0,
+      0,
+      2,
+      0,
+      1,
+      0,
+      0
+    ],
+    "victoryPoints": 4,
+    "level": 1,
+    "cardId": "18ae1276-406c-3ce3-ac0b-294420add353"
+  },
+  {
+    "production": {
+      "input": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        0,
+        0,
+        0,
+        0,
+        2,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        0,
+        0,
+        0,
+        0,
+        2,
+        0,
+        0
+      ]
+    },
+    "cardType": "GREEN",
+    "costList": [
+      {
+        "key": "SHIELD",
+        "value": 4
+      }
+    ],
+    "inputResources": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      0,
+      0,
+      0,
+      0,
+      2,
+      0,
+      0
+    ],
+    "victoryPoints": 5,
+    "level": 2,
+    "cardId": "cab409d3-64e6-3387-a8da-095d81e3cfd4"
+  },
+  {
+    "production": {
+      "input": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        0,
+        0,
+        0,
+        0,
+        2,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        0,
+        0,
+        0,
+        0,
+        2,
+        0,
+        0
+      ]
+    },
+    "cardType": "PURPLE",
+    "costList": [
+      {
+        "key": "SERVANT",
+        "value": 4
+      }
+    ],
+    "inputResources": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      0,
+      0,
+      0,
+      0,
+      2,
+      0,
+      0
+    ],
+    "victoryPoints": 5,
+    "level": 2,
+    "cardId": "80c4a12f-478c-3346-9921-847a51528a6e"
+  },
+  {
+    "production": {
+      "input": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        0,
+        0,
+        0,
+        0,
+        2,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        0,
+        0,
+        0,
+        0,
+        2,
+        0,
+        0
+      ]
+    },
+    "cardType": "BLUE",
+    "costList": [
+      {
+        "key": "GOLD",
+        "value": 4
+      }
+    ],
+    "inputResources": [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      0,
+      0,
+      0,
+      0,
+      2,
+      0,
+      0
+    ],
+    "victoryPoints": 5,
+    "level": 2,
+    "cardId": "12bb03f0-9a13-38cf-876c-1a08b35c3fec"
+  },
+  {
+    "production": {
+      "input": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ]
+    },
+    "cardType": "PURPLE",
+    "costList": [
+      {
+        "key": "SERVANT",
+        "value": 2
+      }
+    ],
+    "inputResources": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "victoryPoints": 1,
+    "level": 1,
+    "cardId": "3b3f822c-ea67-378d-9414-9e83204e53b7"
+  },
+  {
+    "production": {
+      "input": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        0,
+        0,
+        0,
+        0,
+        2,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        0,
+        0,
+        0,
+        0,
+        2,
+        0,
+        0
+      ]
+    },
+    "cardType": "YELLOW",
+    "costList": [
+      {
+        "key": "STONE",
+        "value": 4
+      }
+    ],
+    "inputResources": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      0,
+      0,
+      0,
+      0,
+      2,
+      0,
+      0
+    ],
+    "victoryPoints": 5,
+    "level": 2,
+    "cardId": "16779089-ad45-33b0-9479-150d6f7a7a4b"
+  },
+  {
+    "production": {
+      "input": [
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        0,
+        0,
+        0,
+        3,
+        0,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        0,
+        0,
+        0,
+        3,
+        0,
+        0,
+        0
+      ]
+    },
+    "cardType": "GREEN",
+    "costList": [
+      {
+        "key": "SHIELD",
+        "value": 3
+      },
+      {
+        "key": "SERVANT",
+        "value": 2
+      }
+    ],
+    "inputResources": [
+      0,
+      1,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      0,
+      0,
+      0,
+      3,
+      0,
+      0,
+      0
+    ],
+    "victoryPoints": 5,
+    "level": 2,
+    "cardId": "24f8c231-fe9d-3954-b5aa-758fac5c4146"
+  },
+  {
+    "production": {
+      "input": [
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        0,
+        0,
+        3,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        0,
+        0,
+        3,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "cardType": "PURPLE",
+    "costList": [
+      {
+        "key": "GOLD",
+        "value": 2
+      },
+      {
+        "key": "SERVANT",
+        "value": 3
+      }
+    ],
+    "inputResources": [
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      0,
+      0,
+      3,
+      0,
+      0,
+      0,
+      0
+    ],
+    "victoryPoints": 6,
+    "level": 2,
+    "cardId": "4a63fc25-324f-3ee0-8330-346bb49ddd07"
+  },
+  {
+    "production": {
+      "input": [
+        1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        0,
+        3,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        0,
+        3,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "cardType": "BLUE",
+    "costList": [
+      {
+        "key": "GOLD",
+        "value": 3
+      },
+      {
+        "key": "STONE",
+        "value": 2
+      }
+    ],
+    "inputResources": [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      0,
+      3,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "victoryPoints": 6,
+    "level": 2,
+    "cardId": "bc086040-a036-35c1-86f5-2c040ca074dc"
+  },
+  {
+    "production": {
+      "input": [
+        0,
+        1,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        0,
+        1,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        3,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        3,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "cardType": "YELLOW",
+    "costList": [
+      {
+        "key": "STONE",
+        "value": 3
+      },
+      {
+        "key": "SHIELD",
+        "value": 2
+      }
+    ],
+    "inputResources": [
+      0,
+      1,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      3,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "victoryPoints": 6,
+    "level": 2,
+    "cardId": "947584bd-9c58-3c55-b312-6a87271fda55"
+  },
+  {
+    "production": {
+      "input": [
+        2,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        2,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        0,
+        0,
+        0,
+        2,
+        2,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        0,
+        0,
+        0,
+        2,
+        2,
+        0,
+        0
+      ]
+    },
+    "cardType": "GREEN",
+    "costList": [
+      {
+        "key": "SHIELD",
+        "value": 5
+      }
+    ],
+    "inputResources": [
+      2,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      0,
+      0,
+      0,
+      2,
+      2,
+      0,
+      0
+    ],
+    "victoryPoints": 7,
+    "level": 2,
+    "cardId": "c65cc292-c07e-3164-86a1-e88f502f6401"
+  },
+  {
+    "production": {
+      "input": [
+        0,
+        0,
+        0,
+        2,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        0,
+        0,
+        0,
+        2,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        2,
+        0,
+        0,
+        0,
+        2,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        2,
+        0,
+        0,
+        0,
+        2,
+        0,
+        0
+      ]
+    },
+    "cardType": "PURPLE",
+    "costList": [
+      {
+        "key": "SERVANT",
+        "value": 5
+      }
+    ],
+    "inputResources": [
+      0,
+      0,
+      0,
+      2,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      2,
+      0,
+      0,
+      0,
+      2,
+      0,
+      0
+    ],
+    "victoryPoints": 7,
+    "level": 2,
+    "cardId": "f24a463b-6417-32dd-8023-ebe136e243ae"
+  },
+  {
+    "production": {
+      "input": [
+        0,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        0,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        0,
+        0,
+        2,
+        0,
+        2,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        0,
+        0,
+        2,
+        0,
+        2,
+        0,
+        0
+      ]
+    },
+    "cardType": "BLUE",
+    "costList": [
+      {
+        "key": "GOLD",
+        "value": 5
+      }
+    ],
+    "inputResources": [
+      0,
+      2,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      0,
+      0,
+      2,
+      0,
+      2,
+      0,
+      0
+    ],
+    "victoryPoints": 7,
+    "level": 2,
+    "cardId": "6f25f950-20f6-3afc-8412-5c03593496fe"
+  },
+  {
+    "production": {
+      "input": [
+        0,
+        0,
+        2,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        0,
+        0,
+        2,
+        0,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        0,
+        2,
+        0,
+        0,
+        2,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        0,
+        2,
+        0,
+        0,
+        2,
+        0,
+        0
+      ]
+    },
+    "cardType": "YELLOW",
+    "costList": [
+      {
+        "key": "STONE",
+        "value": 5
+      }
+    ],
+    "inputResources": [
+      0,
+      0,
+      2,
+      0,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      0,
+      2,
+      0,
+      0,
+      2,
+      0,
+      0
+    ],
+    "victoryPoints": 7,
+    "level": 2,
+    "cardId": "f982aece-ae20-3700-9391-9d323890b3c6"
+  },
+  {
+    "production": {
+      "input": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        0,
+        0,
+        2,
+        0,
+        1,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        0,
+        0,
+        2,
+        0,
+        1,
+        0,
+        0
+      ]
+    },
+    "cardType": "GREEN",
+    "costList": [
+      {
+        "key": "SHIELD",
+        "value": 3
+      },
+      {
+        "key": "GOLD",
+        "value": 3
+      }
+    ],
+    "inputResources": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      0,
+      0,
+      2,
+      0,
+      1,
+      0,
+      0
+    ],
+    "victoryPoints": 8,
+    "level": 2,
+    "cardId": "4904d0c6-1357-36ae-8264-c7377eacd63f"
+  },
+  {
+    "production": {
+      "input": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ]
+    },
+    "cardType": "BLUE",
+    "costList": [
+      {
+        "key": "GOLD",
+        "value": 2
+      }
+    ],
+    "inputResources": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "victoryPoints": 1,
+    "level": 1,
+    "cardId": "e4befa8c-d239-38c7-8d1f-b23dcafb30ee"
+  },
+  {
+    "production": {
+      "input": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        0,
+        2,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        0,
+        2,
+        0,
+        0,
+        1,
+        0,
+        0
+      ]
+    },
+    "cardType": "PURPLE",
+    "costList": [
+      {
+        "key": "SERVANT",
+        "value": 3
+      },
+      {
+        "key": "SHIELD",
+        "value": 3
+      }
+    ],
+    "inputResources": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      0,
+      2,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "victoryPoints": 8,
+    "level": 2,
+    "cardId": "030d638c-3170-3268-a05b-2cb3f46d25be"
+  },
+  {
+    "production": {
+      "input": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        0,
+        0,
+        0,
+        2,
+        1,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        0,
+        0,
+        0,
+        2,
+        1,
+        0,
+        0
+      ]
+    },
+    "cardType": "BLUE",
+    "costList": [
+      {
+        "key": "GOLD",
+        "value": 3
+      },
+      {
+        "key": "STONE",
+        "value": 3
+      }
+    ],
+    "inputResources": [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      0,
+      0,
+      0,
+      2,
+      1,
+      0,
+      0
+    ],
+    "victoryPoints": 8,
+    "level": 2,
+    "cardId": "a55d4953-cda4-3053-b2cc-1b0550497279"
+  },
+  {
+    "production": {
+      "input": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        2,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        2,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ]
+    },
+    "cardType": "YELLOW",
+    "costList": [
+      {
+        "key": "SERVANT",
+        "value": 3
+      },
+      {
+        "key": "STONE",
+        "value": 3
+      }
+    ],
+    "inputResources": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      2,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "victoryPoints": 8,
+    "level": 2,
+    "cardId": "dd86e566-2d18-3e10-b5d4-ae9ec5e3a4ae"
+  },
+  {
+    "production": {
+      "input": [
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        0,
+        0,
+        0,
+        3,
+        2,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        0,
+        0,
+        0,
+        3,
+        2,
+        0,
+        0
+      ]
+    },
+    "cardType": "GREEN",
+    "costList": [
+      {
+        "key": "SHIELD",
+        "value": 6
+      }
+    ],
+    "inputResources": [
+      2,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      0,
+      0,
+      0,
+      3,
+      2,
+      0,
+      0
+    ],
+    "victoryPoints": 9,
+    "level": 3,
+    "cardId": "82deff8d-13eb-3091-8a6d-f97e3c52f390"
+  },
+  {
+    "production": {
+      "input": [
+        0,
+        0,
+        0,
+        2,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        0,
+        0,
+        0,
+        2,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        3,
+        0,
+        0,
+        0,
+        2,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        3,
+        0,
+        0,
+        0,
+        2,
+        0,
+        0
+      ]
+    },
+    "cardType": "PURPLE",
+    "costList": [
+      {
+        "key": "SERVANT",
+        "value": 6
+      }
+    ],
+    "inputResources": [
+      0,
+      0,
+      0,
+      2,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      3,
+      0,
+      0,
+      0,
+      2,
+      0,
+      0
+    ],
+    "victoryPoints": 9,
+    "level": 3,
+    "cardId": "a44b03e4-9b52-302c-9844-6e1dc385cb82"
+  },
+  {
+    "production": {
+      "input": [
+        0,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        0,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        0,
+        0,
+        3,
+        0,
+        2,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        0,
+        0,
+        3,
+        0,
+        2,
+        0,
+        0
+      ]
+    },
+    "cardType": "BLUE",
+    "costList": [
+      {
+        "key": "GOLD",
+        "value": 6
+      }
+    ],
+    "inputResources": [
+      0,
+      2,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      0,
+      0,
+      3,
+      0,
+      2,
+      0,
+      0
+    ],
+    "victoryPoints": 9,
+    "level": 3,
+    "cardId": "b5c03961-a227-3579-8dca-2eeeb8db39ac"
+  },
+  {
+    "production": {
+      "input": [
+        0,
+        0,
+        2,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        0,
+        0,
+        2,
+        0,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        0,
+        3,
+        0,
+        0,
+        2,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        0,
+        3,
+        0,
+        0,
+        2,
+        0,
+        0
+      ]
+    },
+    "cardType": "YELLOW",
+    "costList": [
+      {
+        "key": "STONE",
+        "value": 6
+      }
+    ],
+    "inputResources": [
+      0,
+      0,
+      2,
+      0,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      0,
+      3,
+      0,
+      0,
+      2,
+      0,
+      0
+    ],
+    "victoryPoints": 9,
+    "level": 3,
+    "cardId": "11087aec-4ef0-300e-992c-6a1bf1400cc5"
+  },
+  {
+    "production": {
+      "input": [
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        0,
+        0,
+        2,
+        2,
+        1,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        0,
+        0,
+        2,
+        2,
+        1,
+        0,
+        0
+      ]
+    },
+    "cardType": "GREEN",
+    "costList": [
+      {
+        "key": "SHIELD",
+        "value": 5
+      },
+      {
+        "key": "SERVANT",
+        "value": 2
+      }
+    ],
+    "inputResources": [
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      0,
+      0,
+      2,
+      2,
+      1,
+      0,
+      0
+    ],
+    "victoryPoints": 10,
+    "level": 3,
+    "cardId": "e496b0c4-b202-3e2b-ab1f-78ba0ac0be94"
+  },
+  {
+    "production": {
+      "input": [
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        2,
+        2,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        2,
+        2,
+        0,
+        0,
+        1,
+        0,
+        0
+      ]
+    },
+    "cardType": "PURPLE",
+    "costList": [
+      {
+        "key": "SERVANT",
+        "value": 5
+      },
+      {
+        "key": "GOLD",
+        "value": 2
+      }
+    ],
+    "inputResources": [
+      0,
+      0,
+      1,
+      1,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      2,
+      2,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "victoryPoints": 10,
+    "level": 3,
+    "cardId": "28b6bb22-95a9-3ffe-88be-a9e0bac080cc"
+  },
+  {
+    "production": {
+      "input": [
+        1,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        1,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        0,
+        2,
+        0,
+        2,
+        1,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        0,
+        2,
+        0,
+        2,
+        1,
+        0,
+        0
+      ]
+    },
+    "cardType": "BLUE",
+    "costList": [
+      {
+        "key": "GOLD",
+        "value": 5
+      },
+      {
+        "key": "STONE",
+        "value": 2
+      }
+    ],
+    "inputResources": [
+      1,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      0,
+      2,
+      0,
+      2,
+      1,
+      0,
+      0
+    ],
+    "victoryPoints": 10,
+    "level": 3,
+    "cardId": "ecbefb21-f9dd-386a-83b2-c0100ed29128"
+  },
+  {
+    "production": {
+      "input": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "cardType": "YELLOW",
+    "costList": [
+      {
+        "key": "STONE",
+        "value": 2
+      }
+    ],
+    "inputResources": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "victoryPoints": 1,
+    "level": 1,
+    "cardId": "b6360b0d-ab25-3fb1-9c75-6c6a86b29b6d"
+  },
+  {
+    "production": {
+      "input": [
+        0,
+        1,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        0,
+        1,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        2,
+        0,
+        2,
+        0,
+        1,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        2,
+        0,
+        2,
+        0,
+        1,
+        0,
+        0
+      ]
+    },
+    "cardType": "YELLOW",
+    "costList": [
+      {
+        "key": "STONE",
+        "value": 5
+      },
+      {
+        "key": "SERVANT",
+        "value": 2
+      }
+    ],
+    "inputResources": [
+      0,
+      1,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      2,
+      0,
+      2,
+      0,
+      1,
+      0,
+      0
+    ],
+    "victoryPoints": 10,
+    "level": 3,
+    "cardId": "cb3a270a-a38d-33b9-a29e-f66e09ba893e"
+  },
+  {
+    "production": {
+      "input": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        1,
+        0,
+        0,
+        0,
+        3,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        1,
+        0,
+        0,
+        0,
+        3,
+        0,
+        0
+      ]
+    },
+    "cardType": "GREEN",
+    "costList": [
+      {
+        "key": "SHIELD",
+        "value": 7
+      }
+    ],
+    "inputResources": [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      1,
+      0,
+      0,
+      0,
+      3,
+      0,
+      0
+    ],
+    "victoryPoints": 11,
+    "level": 3,
+    "cardId": "1a7b645a-4b1c-3844-88de-824eb6e35769"
+  },
+  {
+    "production": {
+      "input": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        0,
+        0,
+        0,
+        1,
+        3,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        0,
+        0,
+        0,
+        1,
+        3,
+        0,
+        0
+      ]
+    },
+    "cardType": "PURPLE",
+    "costList": [
+      {
+        "key": "SERVANT",
+        "value": 7
+      }
+    ],
+    "inputResources": [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      0,
+      0,
+      0,
+      1,
+      3,
+      0,
+      0
+    ],
+    "victoryPoints": 11,
+    "level": 3,
+    "cardId": "426514d7-ef1f-3f72-8d62-1a4dbf3725ed"
+  },
+  {
+    "production": {
+      "input": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        0,
+        0,
+        1,
+        0,
+        3,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        0,
+        0,
+        1,
+        0,
+        3,
+        0,
+        0
+      ]
+    },
+    "cardType": "BLUE",
+    "costList": [
+      {
+        "key": "GOLD",
+        "value": 7
+      }
+    ],
+    "inputResources": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      0,
+      0,
+      1,
+      0,
+      3,
+      0,
+      0
+    ],
+    "victoryPoints": 11,
+    "level": 3,
+    "cardId": "98228120-0328-36bf-b4e2-6b12f873b029"
+  },
+  {
+    "production": {
+      "input": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        3,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        3,
+        0,
+        0
+      ]
+    },
+    "cardType": "YELLOW",
+    "costList": [
+      {
+        "key": "STONE",
+        "value": 7
+      }
+    ],
+    "inputResources": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      0,
+      1,
+      0,
+      0,
+      0,
+      3,
+      0,
+      0
+    ],
+    "victoryPoints": 11,
+    "level": 3,
+    "cardId": "5a633fc7-f18e-3b1b-8878-f764b7736546"
+  },
+  {
+    "production": {
+      "input": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        3,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        3,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "cardType": "GREEN",
+    "costList": [
+      {
+        "key": "SHIELD",
+        "value": 4
+      },
+      {
+        "key": "GOLD",
+        "value": 4
+      }
+    ],
+    "inputResources": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      3,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "victoryPoints": 12,
+    "level": 3,
+    "cardId": "ff5ed850-9a26-3c6d-af29-2e9ff7221e2e"
+  },
+  {
+    "production": {
+      "input": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        0,
+        1,
+        0,
+        3,
+        0,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        0,
+        1,
+        0,
+        3,
+        0,
+        0,
+        0
+      ]
+    },
+    "cardType": "PURPLE",
+    "costList": [
+      {
+        "key": "SERVANT",
+        "value": 4
+      },
+      {
+        "key": "SHIELD",
+        "value": 4
+      }
+    ],
+    "inputResources": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      0,
+      1,
+      0,
+      3,
+      0,
+      0,
+      0
+    ],
+    "victoryPoints": 12,
+    "level": 3,
+    "cardId": "f0e91ad2-0196-31ef-a1bb-018e4e011ad6"
+  },
+  {
+    "production": {
+      "input": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        1,
+        0,
+        3,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        1,
+        0,
+        3,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "cardType": "BLUE",
+    "costList": [
+      {
+        "key": "GOLD",
+        "value": 4
+      },
+      {
+        "key": "STONE",
+        "value": 4
+      }
+    ],
+    "inputResources": [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      1,
+      0,
+      3,
+      0,
+      0,
+      0,
+      0
+    ],
+    "victoryPoints": 12,
+    "level": 3,
+    "cardId": "625a04d5-6cd1-3131-b3ee-88503b962e1f"
+  },
+  {
+    "production": {
+      "input": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        0,
+        3,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        0,
+        3,
+        0,
+        1,
+        0,
+        0,
+        0
+      ]
+    },
+    "cardType": "YELLOW",
+    "costList": [
+      {
+        "key": "STONE",
+        "value": 4
+      },
+      {
+        "key": "SERVANT",
+        "value": 4
+      }
+    ],
+    "inputResources": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      0,
+      3,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    "victoryPoints": 12,
+    "level": 3,
+    "cardId": "41e678fc-e202-3202-8c75-95ba4adb52b7"
+  },
+  {
+    "production": {
+      "input": [
+        0,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        0,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        1,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        1,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0
+      ]
+    },
+    "cardType": "GREEN",
+    "costList": [
+      {
+        "key": "SHIELD",
+        "value": 3
+      }
+    ],
+    "inputResources": [
+      0,
+      2,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      1,
+      0,
+      1,
+      1,
+      0,
+      0,
+      0
+    ],
+    "victoryPoints": 3,
+    "level": 1,
+    "cardId": "0db08219-62cf-35c1-af94-8b92c2edc200"
+  },
+  {
+    "production": {
+      "input": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "cardType": "YELLOW",
+    "costList": [
+      {
+        "key": "STONE",
+        "value": 1
+      },
+      {
+        "key": "SHIELD",
+        "value": 1
+      },
+      {
+        "key": "GOLD",
+        "value": 1
+      }
+    ],
+    "inputResources": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "victoryPoints": 2,
+    "level": 1,
+    "cardId": "188bde22-d486-3b76-ad63-36165a3e6407"
+  },
+  {
+    "production": {
+      "input": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ]
+    },
+    "cardType": "BLUE",
+    "costList": [
+      {
+        "key": "STONE",
+        "value": 1
+      },
+      {
+        "key": "SERVANT",
+        "value": 1
+      },
+      {
+        "key": "GOLD",
+        "value": 1
+      }
+    ],
+    "inputResources": [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    "victoryPoints": 2,
+    "level": 1,
+    "cardId": "80f68ada-0e44-3ddf-978a-67bbad4cb166"
+  },
+  {
+    "production": {
+      "input": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "cardType": "PURPLE",
+    "costList": [
+      {
+        "key": "SHIELD",
+        "value": 1
+      },
+      {
+        "key": "SERVANT",
+        "value": 1
+      },
+      {
+        "key": "GOLD",
+        "value": 1
+      }
+    ],
+    "inputResources": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "victoryPoints": 2,
+    "level": 1,
+    "cardId": "b071d81a-c96b-37d8-9359-ed6cf6920279"
+  },
+  {
+    "production": {
+      "input": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreinput": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "output": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "restoreoutput": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "cardType": "GREEN",
+    "costList": [
+      {
+        "key": "SHIELD",
+        "value": 1
+      },
+      {
+        "key": "SERVANT",
+        "value": 1
+      },
+      {
+        "key": "STONE",
+        "value": 1
+      }
+    ],
+    "inputResources": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "outputResources": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "victoryPoints": 2,
+    "level": 1,
+    "cardId": "f5d3858f-4ca2-3e84-a7aa-7a9cc95ea6b2"
+  }
+]

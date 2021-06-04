@@ -5,8 +5,10 @@ import it.polimi.ingsw.server.model.Resource;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * Class for Development Cards. Since the color is not strictly tied to the input/output we totally decoupled that
@@ -88,5 +90,6 @@ public class DevelopmentCard
 
         return toar;
     }
+
 
 }

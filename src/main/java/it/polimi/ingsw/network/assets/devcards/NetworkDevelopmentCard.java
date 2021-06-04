@@ -13,6 +13,8 @@ public class NetworkDevelopmentCard {
      */
     private NetworkDevelopmentCardColor cardType;
     private List<Pair<ResourceAsset,Integer>> costList;
+    private List<Integer> inputResources;
+    private List<Integer> outputResources;
     private int victoryPoints;
     private int level;
     private UUID cardId;
@@ -47,6 +49,13 @@ public class NetworkDevelopmentCard {
         return victoryPoints;
     }
 
+    public List<Integer> getInputResources(){
+        return inputResources;
+    }
+
+    public List<Integer> getOutputResources(){
+        return outputResources;
+    }
 
 
 

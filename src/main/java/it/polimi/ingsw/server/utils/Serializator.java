@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.RuntimeTypeAdapterFactory;
 import it.polimi.ingsw.network.assets.*;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
+import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCardColor;
 import it.polimi.ingsw.network.assets.leaders.*;
 import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
@@ -41,7 +42,7 @@ public class Serializator extends JsonUtility {
     public static final String frontDevCardPathString = "/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_";
     public static final String backDevCardPathString = "/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_";
     public static final String frontDevCardGrayedOutPathString = "/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_";
-    public static final String backDevCardGrayedOutPathString = "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_";
+    public static final String backDevCardGrayedOutPathString = "/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_";
 
     public static final String frontLeaderCardPathString = "/assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_";
     public static final String backLeaderCardPathString = "/assets/leaders/raw/BACK/Masters of Renaissance__Cards_BACK.png";
@@ -58,6 +59,7 @@ public class Serializator extends JsonUtility {
     }
 
     private static Map<UUID , DevelopmentCardAsset> devCardsAssetsBuilder() {
+
         Map<UUID, NetworkDevelopmentCard> cardsFromJsonHandlerMap = networkDevCardsMap();
         return cardsFromJsonHandlerMap.keySet().stream().map(id -> {
             NetworkDevelopmentCard card = cardsFromJsonHandlerMap.get(id);
@@ -68,6 +70,7 @@ public class Serializator extends JsonUtility {
             String backNotPurchasable = backDevCardGrayedOutPathString + cardPathSuffix;
             return new DevelopmentCardAsset(card, frontPurchasable, backPurchasable, frontNotPurchasable, backNotPurchasable , id);
         }).collect(Collectors.toMap(DevelopmentCardAsset::getCardId, Function.identity()));
+
     }
 
     private static Map<UUID , LeaderCardAsset> networkLeaderCardsAssetsMapBuilder() {
@@ -1241,14 +1244,12 @@ public class Serializator extends JsonUtility {
     public static void main(String[] args) throws IOException, ClassNotFoundException, IllegalAccessException, InstantiationException {
 
         /*
+        leaderCardsArraySerialization();
         devCardsAssetsMapSerialization();
         networkLeaderCardsAssetsMapSerialization();
         serializeResources();
         serializeMarbles();
-         */
-
-
-
+        */
     }
 
 }
