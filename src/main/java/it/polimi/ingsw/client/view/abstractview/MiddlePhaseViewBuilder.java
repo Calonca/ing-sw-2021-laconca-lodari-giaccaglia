@@ -42,6 +42,9 @@ public abstract class MiddlePhaseViewBuilder extends ViewBuilder {
         String propertyName = evt.getPropertyName();
         if (CHOOSING_MARKET_LINE.name().equals(propertyName)) {
             getClient().changeViewBuilder(ResourceMarketViewBuilder.getBuilder(getClient().isCLI()));
+        }else if (CHOOSING_PRODUCTION.name().equals(propertyName)) {
+            printWrongStateReceived(evt);
+            //getClient().changeViewBuilder(ResourceMarketViewBuilder.getBuilder(getClient().isCLI()));
         }else if (CHOOSING_DEVELOPMENT_CARD.name().equals(propertyName)) {
             getClient().changeViewBuilder(CardShopViewBuilder.getBuilder(getClient().isCLI()));
         }

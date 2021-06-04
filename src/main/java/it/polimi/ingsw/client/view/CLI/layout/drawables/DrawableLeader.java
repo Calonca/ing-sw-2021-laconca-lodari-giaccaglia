@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client.view.CLI.layout.drawables;
 
-import it.polimi.ingsw.client.view.CLI.layout.Option;
 import it.polimi.ingsw.client.view.CLI.textUtil.Background;
 import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 import it.polimi.ingsw.client.view.CLI.textUtil.StringUtil;

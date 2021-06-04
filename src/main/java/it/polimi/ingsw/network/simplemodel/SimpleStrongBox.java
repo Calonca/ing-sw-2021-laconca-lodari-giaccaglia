@@ -15,6 +15,11 @@ public class SimpleStrongBox extends SimpleModelElement {
         this.simpleStrongBox = simpleStrongBox;
     }
 
+    //         Pos           Res                 number   selected
+    public Map<Integer, Pair<ResourceAsset, Pair<Integer, Integer>>> getResourceMap() {
+        return simpleStrongBox;
+    }
+
     @Override
     public void update(SimpleModelElement element) {
         SimpleStrongBox serverStrongBox = (SimpleStrongBox) element;
