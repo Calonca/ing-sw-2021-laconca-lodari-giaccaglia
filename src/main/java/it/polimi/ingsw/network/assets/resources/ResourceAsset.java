@@ -21,14 +21,15 @@ import java.util.Map;
 
 public enum ResourceAsset
 {
-    GOLD(0, Paths.get("src/main/resources/assets/resources/GOLD.png")),
-    SERVANT(1, Paths.get("src/main/resources/assets/resources/SERVANT.png")),
-    SHIELD(2, Paths.get("src/main/resources/assets/resources/SHIELD.png")),
-    STONE(3, Paths.get("src/main/resources/assets/resources/STONE.png")),
-    FAITH(4, Paths.get("src/main/resources/assets/resources/FAITH.png")),
-    BADFAITH(5,Paths.get("src/main/resources/assets/resources/FAITH.png")),
-    TOCHOOSE(6, Paths.get("src/main/resources/assets/resources/DUMMY_PATH")),
-    EMPTY(7, Paths.get("src/main/resources/assets/resources/EMPTY.png"));
+    GOLD(0, Paths.get("/assets/resources/GOLD.png")),
+    SERVANT(1, Paths.get("/assets/resources/SERVANT.png")),
+    SHIELD(2, Paths.get("/assets/resources/SHIELD.png")),
+    STONE(3, Paths.get("/assets/resources/STONE.png")),
+    FAITH(4, Paths.get("/assets/resources/FAITH.png")),
+    BADFAITH(5,Paths.get("/assets/resources/FAITH.png")),
+    TOCHOOSE(6, Paths.get("/assets/resources/DUMMY_PATH")),
+    EMPTY(7, Paths.get("/assets/resources/EMPTY.png"));
+
 
     private int resourceNumber;
 

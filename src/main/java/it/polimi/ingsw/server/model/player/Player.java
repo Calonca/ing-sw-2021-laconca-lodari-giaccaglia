@@ -84,8 +84,6 @@ public class Player {
         return personalBoard;
     }
 
-
-
     /**
      * Method to get currentlu active {@link DevelopmentCard} required resources discounts, stored inside player's
      * {@link Player#discounts} array as positional int values-
@@ -286,5 +284,10 @@ public class Player {
     public boolean hasReachedTrackEnd(){
         return faithTrack.hasReachedLastSpace(faithTrack.getPlayerPiece());
     }
+
+    public boolean hasLorenzoReachedTrackEnd(){
+        return faithTrack.hasReachedLastSpace(faithTrack.getLorenzoPiece());
+    }
+
 
 }

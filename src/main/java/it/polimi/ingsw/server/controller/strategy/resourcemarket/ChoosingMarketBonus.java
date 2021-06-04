@@ -5,7 +5,6 @@ import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.messages.clienttoserver.events.marketboardevent.ChooseWhiteMarbleConversionEvent;
 import it.polimi.ingsw.server.messages.messagebuilders.Element;
 import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.states.State;
 import javafx.util.Pair;
 
@@ -23,7 +22,10 @@ public class ChoosingMarketBonus implements GameStrategy {
 
     public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event)
     {
-        gamemodel.convertWhiteMarbleInPickedLine(Resource.fromInt(((ChooseWhiteMarbleConversionEvent) event).getResourceNumber()));
+
+       int resourceNumber =  ((ChooseWhiteMarbleConversionEvent) event).getResourceNumber();
+
+
 
         elementsToUpdate.add(Element.SimpleMarketBoard);
 

@@ -46,6 +46,8 @@ public class GameModel {
      */
     private Player winnerPlayer;
 
+    private Map<Integer, Player> playersEndingTheGame;
+
     /**
      * Boolean value indicating if current player has started or is still in setup phase.
      */
@@ -293,6 +295,10 @@ public class GameModel {
                 Function.identity(), index -> players.get(index)));
     }
 
+    public Map<Integer, Player> getMatchPlayers(){
+        return players;
+    }
+
    /**
     * Returns the {@link State state} of the game of the current player.<br>
     * The {@link State state} of the game of each player can be different.
@@ -498,7 +504,7 @@ public class GameModel {
      * Convert the first white marble in the picked market board line to a resource
      * based on the {@link it.polimi.ingsw.server.model.player.leaders.MarketLeader leader} selected for that conversion.
      */
-    public void convertWhiteMarbleInPickedLine(Resource mappedResource){
+    public void convertWhiteMarbleInPickedLine(int mappedResource){
         resourcesMarket.convertWhiteMarble(mappedResource);
     }
 
@@ -565,6 +571,53 @@ public class GameModel {
     }
 
 
+
+   public void handleVaticanReport(){
+
+        if(!vaticanReportTriggers().isEmpty())
+            executeVaticanReport();
+
+    }
+
+    public boolean checkTrackStatus(){
+
+        Map<Integer, Player> playersAtTheEnd = getPlayersAtTheEndOfTheFaithTrack();
+
+        if(!isSinglePlayer) {
+
+            if (!playersAtTheEnd.isEmpty()) {
+                setPlayersEndingTheGame(playersAtTheEnd);
+                return true;
+
+            }
+
+        }
+
+        else{
+
+            if (!playersAtTheEnd.isEmpty() ||  (currentPlayer.hasLorenzoReachedTrackEnd())) {
+                setPlayersEndingTheGame(playersAtTheEnd);
+                return true;
+            }
+        }
+
+        return false;
+
+    }
+
+
+    public void setPlayersEndingTheGame(Map<Integer, Player> playersEndingTheGame){
+        this.playersEndingTheGame = playersEndingTheGame;
+
+    }
+
+    public Map<Integer, Player> getPlayersAtTheEndOfTheFaithTrack(){
+
+        return players.keySet().stream().filter(playerIndex -> players.get(playerIndex).hasReachedTrackEnd())
+                .collect(Collectors.toMap(playerIndex -> playerIndex,
+                        playerIndex -> players.get(playerIndex)));
+
+    }
 
 
 }

@@ -1,34 +1,34 @@
 {
-  "GOLD": {
-    "key": 0,
-    "value": "src/main/resources/assets/resources/GOLD.png"
-  },
-  "BADFAITH": {
-    "key": 5,
-    "value": "src/main/resources/assets/resources/FAITH.png"
-  },
-  "FAITH": {
-    "key": 4,
-    "value": "src/main/resources/assets/resources/FAITH.png"
-  },
-  "STONE": {
-    "key": 3,
-    "value": "src/main/resources/assets/resources/STONE.png"
-  },
   "SERVANT": {
     "key": 1,
-    "value": "src/main/resources/assets/resources/SERVANT.png"
+    "value": "/assets/resources/SERVANT.png"
   },
   "SHIELD": {
     "key": 2,
-    "value": "src/main/resources/assets/resources/SHIELD.png"
+    "value": "/assets/resources/SHIELD.png"
+  },
+  "GOLD": {
+    "key": 0,
+    "value": "/assets/resources/GOLD.png"
+  },
+  "BADFAITH": {
+    "key": 5,
+    "value": "/assets/resources/FAITH.png"
+  },
+  "FAITH": {
+    "key": 4,
+    "value": "/assets/resources/FAITH.png"
   },
   "TOCHOOSE": {
     "key": 6,
-    "value": "src/main/resources/assets/resources/DUMMY_PATH"
+    "value": "/assets/resources/DUMMY_PATH"
+  },
+  "STONE": {
+    "key": 3,
+    "value": "/assets/resources/STONE.png"
   },
   "EMPTY": {
     "key": 7,
-    "value": "src/main/resources/assets/resources/EMPTY.png"
+    "value": "/assets/resources/EMPTY.png"
   }
 }

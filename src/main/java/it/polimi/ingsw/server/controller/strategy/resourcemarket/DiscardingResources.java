@@ -1,7 +1,6 @@
 package it.polimi.ingsw.server.controller.strategy.resourcemarket;
 
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
-import it.polimi.ingsw.server.controller.strategy.InitialOrFinalStrategy;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.messages.messagebuilders.Element;
 import it.polimi.ingsw.server.model.GameModel;
@@ -20,37 +19,49 @@ public class DiscardingResources implements GameStrategy {
 
     List<Element> elementsToUpdate = new ArrayList<>();
 
-    public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event)
+    public Pair<State, List<Element>> execute(GameModel gameModel, Validable event)
     {
+
         int positionsToAdd;
-        PersonalBoard currentBoard = gamemodel.getCurrentPlayer().getPersonalBoard();
+        elementsToUpdate.add(Element.SimpleDiscardBox);
+        elementsToUpdate.add(Element.SimpleFaithTrack);
+
+        PersonalBoard currentBoard = gameModel.getCurrentPlayer().getPersonalBoard();
 
         currentBoard.discardResources();
-
-        positionsToAdd = currentBoard.getFaithToAdd();
-
-        for(int i=0;i<positionsToAdd;i++)
-        {
-            gamemodel.getCurrentPlayer().moveOnePosition();  //TODO HANDLE VATICAN REPORT
-        }
 
 
         positionsToAdd = currentBoard.getBadFaithToAdd();
 
-
-        for(int i=0;i<positionsToAdd;i++)
+        for(int i=0; i<positionsToAdd; i++)
         {
-            gamemodel.addFaithPointToOtherPlayers();  //TODO HANDLE VATICAN REPORT
+
+            gameModel.addFaithPointToOtherPlayers();
+            gameModel.handleVaticanReport();
+
+            if(gameModel.checkTrackStatus())
+                return new Pair<>(State.END_PHASE, elementsToUpdate);
+
         }
 
 
+        positionsToAdd = currentBoard.getFaithToAdd();
 
-        elementsToUpdate.add(Element.SimpleDiscardBox);
-        elementsToUpdate.add(Element.SimpleFaithTrack);
+        for(int i=0; i<positionsToAdd; i++)
+        {
+            gameModel.getCurrentPlayer().moveOnePosition();
+            gameModel.handleVaticanReport();
+
+            if(gameModel.checkTrackStatus())
+                return new Pair<>(State.END_PHASE, elementsToUpdate);
+        }
+
 
         return new Pair<>(State.FINAL_PHASE, elementsToUpdate);
 
     }
+
+
 
 
 }
