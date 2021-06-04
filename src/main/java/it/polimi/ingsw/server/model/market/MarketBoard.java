@@ -222,8 +222,8 @@ public class MarketBoard {
      * @param mappedResource {@link Resource} of {@link Marble#WHITE WHITEMARBLE} to convert when
      * corresponding {@link it.polimi.ingsw.server.model.player.leaders.Leader} effect has been enabled.
      */
-    public void convertWhiteMarble(Resource mappedResource) {
-        mapResource(mappedResource.getResourceNumber(), 1);
+    public void convertWhiteMarble(int mappedResource) {
+        mapResource(mappedResource, 1);
         whiteMarblesQuantity--;
     }
 

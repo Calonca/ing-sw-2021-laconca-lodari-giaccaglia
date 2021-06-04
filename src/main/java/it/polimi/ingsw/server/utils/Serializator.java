@@ -9,21 +9,28 @@ import it.polimi.ingsw.network.assets.leaders.*;
 import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.jsonUtils.UUIDTypeAdapter;
-import it.polimi.ingsw.network.simplemodel.SimpleModelElement;
 import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.cards.*;
 import it.polimi.ingsw.server.model.cards.production.Production;
+import it.polimi.ingsw.server.model.market.Marble;
 import it.polimi.ingsw.server.model.player.board.LeaderDepot;
 import it.polimi.ingsw.server.model.player.leaders.*;
 import it.polimi.ingsw.server.model.states.StatesTransitionTable;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.util.Pair;
 
-import java.io.IOException;
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.lang.reflect.Type;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.List;
 import java.util.function.Function;
 import java.util.stream.*;
 
@@ -31,15 +38,15 @@ import static it.polimi.ingsw.server.utils.Deserializator.*;
 
 public class Serializator extends JsonUtility {
 
-    public static final String frontDevCardPathString = "src/main/resources/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_";
-    public static final String backDevCardPathString = "src/main/resources/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_";
-    public static final String frontDevCardGrayedOutPathString = "src/main/resources/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_";
+    public static final String frontDevCardPathString = "/assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_";
+    public static final String backDevCardPathString = "/assets/devCards/raw/BACK/Masters of Renaissance__Cards_BACK_";
+    public static final String frontDevCardGrayedOutPathString = "/assets/devCards/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_";
     public static final String backDevCardGrayedOutPathString = "src/main/resources/assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_";
 
-    public static final String frontLeaderCardPathString = "src/main/resources/assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_";
-    public static final String backLeaderCardPathString = "src/main/resources/assets/leaders/raw/BACK/Masters of Renaissance__Cards_BACK.png";
-    public static final String frontLeaderCardGrayedOutPathString = "src/main/resources/assets/leaders/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_0.png";
-    public static final String backLeaderCardGrayedOutPathString = "src/main/resources/assets/leaders/grayed out/BACK/Masters of Renaissance__Cards_BACK.png";
+    public static final String frontLeaderCardPathString = "/assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_";
+    public static final String backLeaderCardPathString = "/assets/leaders/raw/BACK/Masters of Renaissance__Cards_BACK.png";
+    public static final String frontLeaderCardGrayedOutPathString = "/assets/leaders/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_0.png";
+    public static final String backLeaderCardGrayedOutPathString = "/assets/leaders/grayed out/BACK/Masters of Renaissance__Cards_BACK.png";
 
 
     private static final GsonBuilder gsonBuilder = new GsonBuilder();
@@ -78,12 +85,12 @@ public class Serializator extends JsonUtility {
 
     }
 
-    public static void devCardsAssetsSerialization(){
+    public static void devCardsAssetsMapSerialization(){
         Gson customGson = gsonBuilder.enableComplexMapKeySerialization().registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).registerTypeHierarchyAdapter(Path.class, new PathConverter()).setPrettyPrinting().create();
         serialize(writeConfigPathString + "DevCardsAssetsMapConfig.json", devCardsAssetsBuilder(), Map.class, customGson);
     }
 
-    public static void networkLeaderCardsAssetsSerialization(){
+    public static void networkLeaderCardsAssetsMapSerialization(){
 
         RuntimeTypeAdapterFactory<NetworkLeaderCard> jsonToNetworkLeaderListAdapter = RuntimeTypeAdapterFactory.of(NetworkLeaderCard.class);
 
@@ -1232,49 +1239,13 @@ public class Serializator extends JsonUtility {
 
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, IllegalAccessException, InstantiationException {
-  /*
-        --- * uncomment to update config files / test serialization * ---
-        cardShopSerialization();
-        devCardsAssetsSerialization();
-        leaderCardsArraySerialization();
-        MarketBoard test = marketBoardDeserialization();
-        serialize(readConfigPathString + "MarketBoardConfig.json", test, MarketBoard.class);
 
-        devCardsAssetsSerialization();
-        leaderCardsAssetsSerialization();
+        /*
+        devCardsAssetsMapSerialization();
+        networkLeaderCardsAssetsMapSerialization();
+        serializeResources();
         serializeMarbles();
-        MarbleAsset.initializeMarblesFromConfig("src/main/resources/clientconfig/MarblesAssetsConfig.json");
-        MarbleAsset.initializeMarblesFromConfig("src/main/resources/clientconfig/MarblesAssetsConfig.json");
-        Marble.values();
-
-               networkLeaderCardsAssetsSerialization();
-        ResourceAsset.initializeResourcesFromConfig("src/main/resources/clientconfig/ResourcesAssetsConfig.json");
-        ResourceAsset[] value = ResourceAsset.values();
-
-   */
-      //  serializeResources();
-       // Map<UUID, Leader> leadersCardMap = leadersCardMapDeserialization();
-
-       // networkLeaderCardsAssetsSerialization();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+         */
 
 
 

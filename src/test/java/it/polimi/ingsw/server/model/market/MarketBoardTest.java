@@ -53,7 +53,7 @@ public class MarketBoardTest {
         numberOfWhiteMarbles = gameModelTest.getNumberOfWhiteMarblesInPickedLine();
 
         for (int i = 0; i < numberOfWhiteMarbles; i++)
-            gameModelTest.convertWhiteMarbleInPickedLine(mappedResource.get(i));
+            gameModelTest.convertWhiteMarbleInPickedLine(mappedResource.get(i).getResourceNumber());
 
         mappedResources = gameModelTest.getBoxOfResourcesFromMarketBoard();
         gameModelTest.updateMatrixAfterTakingResources();
@@ -133,7 +133,7 @@ public class MarketBoardTest {
             whiteMarblesQuantity = gameModelTest.getNumberOfWhiteMarblesInPickedLine();
 
             for (int i = 0; i < whiteMarblesQuantity; i++)
-                gameModelTest.convertWhiteMarbleInPickedLine(mappedResource);
+                gameModelTest.convertWhiteMarbleInPickedLine(mappedResource.getResourceNumber());
 
 
         Box mappedResources = gameModelTest.getBoxOfResourcesFromMarketBoard();

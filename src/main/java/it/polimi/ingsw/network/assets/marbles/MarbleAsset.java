@@ -32,33 +32,33 @@ public enum MarbleAsset {
      * According to the official rulebook this <em>Marble</em> hasn't a mapped {@link ResourceAsset Resource}. <br>
      * Any possible mapping to a resource due to dedicated leader effect is done in the MarketBoard
      */
-    WHITE(Paths.get("src/main/resources/assets/marbles/Masters of Renaissance_Marbles_WHITE.png")),
+    WHITE(Paths.get("/assets/marbles/Masters of Renaissance_Marbles_WHITE.png")),
     /**
      * This <em>Marble</em> is mapped to the {@link ResourceAsset#SHIELD SHIELD} Resource
      */
-    BLUE((Paths.get("src/main/resources/assets/marbles/Masters of Renaissance_Marbles_BLUE.png"))),
+    BLUE((Paths.get("/assets/marbles/Masters of Renaissance_Marbles_BLUE.png"))),
 
     /**
      * This <em>Marble</em> is mapped to the {@link ResourceAsset#STONE STONE} Resource
      */
-    GRAY((Paths.get("src/main/resources/assets/marbles/Masters_of_Renaissance_Marbles_GRAY.png"))),
+    GRAY((Paths.get("/assets/marbles/Masters_of_Renaissance_Marbles_GRAY.png"))),
 
     /**
      * This <em>Marble</em> is mapped to the {@link ResourceAsset#GOLD GOLD} Resource
      */
-    YELLOW((Paths.get("src/main/resources/assets/marbles/Masters of Renaissance_Marbles_YELLOW.png"))),
+    YELLOW((Paths.get("/assets/marbles/Masters of Renaissance_Marbles_YELLOW.png"))),
 
     /**
      * This <em>Marble</em> is mapped to the {@link ResourceAsset#SERVANT SERVANT} Resource
      */
-    PURPLE((Paths.get("src/main/resources/assets/marbles/Masters of Renaissance_Marbles_PURPLE.png"))),
+    PURPLE((Paths.get("/assets/marbles/Masters of Renaissance_Marbles_PURPLE.png"))),
 
     /**
      * This <em>Marble</em> is mapped to the {@link ResourceAsset#FAITH FAITH} Resource
      */
-    RED((Paths.get("src/main/resources/assets/marbles/Masters of Renaissance_Marbles_RED.png"))),
+    RED((Paths.get("/assets/marbles/Masters of Renaissance_Marbles_RED.png"))),
 
-    INVALID((Paths.get("src/main/resources/config/dummypath")));
+    INVALID((Paths.get("/assets/marbles/dummy.png")));
 
 
     private Path marbleAssetPath;
