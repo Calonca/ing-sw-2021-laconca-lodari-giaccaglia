@@ -37,8 +37,8 @@ public class DrawableDevCard {
         drawable.add(0,"║═ Production ═══════════║");
 
 
-        //Drawable production = DrawableProduction.fromInputAndOutput(card.getProductionInputResources(),card.getProductionOutputResources());
-        //drawable.add(Drawable.copyShifted(0,drawable.getHeight(),production));
+        Drawable production = DrawableProduction.fromInputAndOutput(card.getInputResources(),card.getOutputResources());
+        drawable.add(Drawable.copyShifted(0,drawable.getHeight(),production));
 
         drawable.add(0,"╚════════════════════════╝");
         //drawable.add(0,"elevation1",c, back);
