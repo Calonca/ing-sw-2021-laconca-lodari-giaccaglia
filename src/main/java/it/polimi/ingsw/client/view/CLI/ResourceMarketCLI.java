@@ -71,7 +71,7 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
     }
 
     private Stream<Option> buildLineStream(int start, int stop){
-        return IntStream.range(start,stop).mapToObj(i->Option.noNumber(StringUtil.stringUntilReachingSize(" Line "+i,MarbleCLI.width())));
+        return IntStream.range(start,stop).mapToObj(i->Option.noNumber(StringUtil.untilReachingSize(" Line "+i,MarbleCLI.width())));
     }
 
     private Stream<Option> buildResourceOptionStream(MarbleAsset[] res){

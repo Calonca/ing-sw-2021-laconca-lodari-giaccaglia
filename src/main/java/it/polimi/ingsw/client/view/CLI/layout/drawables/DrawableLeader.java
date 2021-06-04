@@ -8,6 +8,7 @@ import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCardColor;
 import it.polimi.ingsw.network.assets.leaders.*;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import javafx.util.Pair;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,25 +30,10 @@ public class DrawableLeader {
         dwl.add(0,"║═ requirements ═════════║");
         int heightUntilNow = 3+(isSelected?0:2);
 
-        List<Drawable> reqLines = IntStream.range(0,4)
-                .mapToObj(i->{
-                    Drawable dw = new Drawable();
-                    dw.add(new DrawableLine(0, heightUntilNow +i,StringUtil.emptyLineWithBorder(dwl.getWidth())));
-                    return dw;
-                })
-                .collect(Collectors.toList());
-
         List<Pair<ResourceAsset,Integer>> resCost = ldCard.getRequirementsResources() != null ? ldCard.getRequirementsResources() : new ArrayList<>();
-        for (Pair<ResourceAsset, Integer> d : resCost) {
-            ResourceCLI res = ResourceCLI.fromAsset(d.getKey());
-            Drawable dw = new Drawable();
-            dw.add(new DrawableLine(0,heightUntilNow+res.ordinal(), "║ "));
-            DrawableLine dl = new DrawableLine(2,heightUntilNow+res.ordinal(), res.getSymbol(), Color.BRIGHT_WHITE,res.getB());
-            dw.add(new DrawableLine(4,heightUntilNow+res.ordinal(), " x "+d.getValue()));
-            dw.add(new DrawableLine(8,heightUntilNow+res.ordinal(), "                 ║"));
-            dw.add(dl);
-            reqLines.set(res.ordinal(),dw);
-        }
+
+        List<Drawable> reqLines = linesWithResRequirements(dwl, heightUntilNow, resCost);
+
         List<Pair<NetworkDevelopmentCardColor,Integer>> cardCosts = ldCard.getRequirementsCards() != null ? ldCard.getRequirementsCards() : new ArrayList<>();
         for (Pair<NetworkDevelopmentCardColor, Integer> d : cardCosts) {
             Drawable dw = new Drawable();
@@ -83,6 +69,29 @@ public class DrawableLeader {
             return Drawable.selectedDrawableList(dwl);
         else
             return dwl;
+    }
+
+    @NotNull
+    public static List<Drawable> linesWithResRequirements(Drawable dwl, int heightUntilNow, List<Pair<ResourceAsset, Integer>> resCost) {
+        List<Drawable> reqLines = IntStream.range(0,4)
+                .mapToObj(i->{
+                    Drawable dw = new Drawable();
+                    dw.add(new DrawableLine(0, heightUntilNow +i,StringUtil.emptyLineWithBorder(dwl.getWidth())));
+                    return dw;
+                })
+                .collect(Collectors.toList());
+
+        for (Pair<ResourceAsset, Integer> d : resCost) {
+            ResourceCLI res = ResourceCLI.fromAsset(d.getKey());
+            Drawable dw = new Drawable();
+            dw.add(new DrawableLine(0, heightUntilNow +res.ordinal(), "║ "));
+            DrawableLine dl = new DrawableLine(2, heightUntilNow +res.ordinal(), res.getSymbol(), Color.BRIGHT_WHITE,res.getB());
+            dw.add(new DrawableLine(4, heightUntilNow +res.ordinal(), " x "+d.getValue()));
+            dw.add(new DrawableLine(8, heightUntilNow +res.ordinal(), "                 ║"));
+            dw.add(dl);
+            reqLines.set(res.ordinal(),dw);
+        }
+        return reqLines;
     }
 
     public static <T extends NetworkLeaderCard> Optional<T> castWithOptional(Class<? extends T> s,NetworkLeaderCard cart){

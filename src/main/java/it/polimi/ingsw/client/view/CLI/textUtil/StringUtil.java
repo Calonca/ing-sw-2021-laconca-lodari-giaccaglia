@@ -7,12 +7,20 @@ import java.util.stream.Collector;
 import java.util.stream.Stream;
 
 public class StringUtil {
-    public static String stringUntilReachingSize(String s, int size){
+    public static String untilReachingSize(String s, int size){
         return Stream.concat(s.chars().mapToObj(c->(char)c),Stream.generate(()->' ')).limit(size).collect(Collector.of(
                 StringBuilder::new,
                 StringBuilder::append,
                 StringBuilder::append,
                 StringBuilder::toString));
+    }
+
+    public static String untilReachingSize(int i, int size){
+        return untilReachingSize(String.valueOf(i),size);
+    }
+
+    public static String twoDigitsRigth(int i){
+        return i>9? String.valueOf(i) :" "+i;
     }
 
 

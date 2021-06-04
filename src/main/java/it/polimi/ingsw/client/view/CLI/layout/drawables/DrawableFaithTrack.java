@@ -35,7 +35,7 @@ public class DrawableFaithTrack {
         //tile.add(0, Characters.TOP_LEFT_DIV.getString()+Characters.HOR_DIVIDER.getString().repeat(5), zoneColor,back);
         tile.add(0, Characters.VERT_DIVIDER.getString()+(player?"P ":"  ")+(lorenzo?"L ":"  "), zoneColor,back);
         int faithPoints = faithCell.getPoints();
-        String faithString = faithPoints>0? StringUtil.stringUntilReachingSize(String.valueOf(faithPoints),2):"  ";
+        String faithString = faithPoints>0? StringUtil.untilReachingSize(String.valueOf(faithPoints),2):"  ";
         DrawableLine fp = new DrawableLine(5,0,faithString,zoneColor,back);
         tile.add(0, Characters.BOTTOM_LEFT_DIV.getString()+Characters.HOR_DIVIDER.getString().repeat(6), zoneColor,back);
         tile.add(fp);

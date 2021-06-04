@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.view.CLI.layout.drawables.Drawable;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.DrawableLine;
 import it.polimi.ingsw.client.view.CLI.textUtil.Background;
 import it.polimi.ingsw.client.view.CLI.textUtil.Color;
+import it.polimi.ingsw.client.view.CLI.textUtil.StringUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -163,7 +164,7 @@ public class Option extends GridElem{
     }
 
     private static DrawableLine numberLine(int x, int y, int idx, boolean isEnabled){
-        return new DrawableLine(x,y,idx+": ",isEnabled? Color.OPTION:Color.DISABLED, Background.DEFAULT);
+        return new DrawableLine(x,y, StringUtil.twoDigitsRigth(idx)+": ",isEnabled? Color.OPTION:Color.DISABLED, Background.DEFAULT);
     }
 
 

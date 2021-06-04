@@ -11,6 +11,8 @@ import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCardColor;
 
+import java.util.Optional;
+
 public class CardShopCLI extends CardShopViewBuilder {
 
 
@@ -28,9 +30,9 @@ public class CardShopCLI extends CardShopViewBuilder {
                         .orElse(null);
                 int finalI = i;
                 int finalColor = color;
-                verTest.addElem(Option.from(DrawableDevCard.fromDevCardAsset(netCard), () -> {
-                    sendChosenCard(finalColor, finalI);
-                }));
+                Option o = Option.from(DrawableDevCard.fromDevCardAsset(netCard), () -> sendChosenCard(finalColor, finalI));
+                o.setEnabled(netCard != null && netCard.isSelectable());
+                verTest.addElem(o);
             }
             grid.addElem(verTest);
         }
