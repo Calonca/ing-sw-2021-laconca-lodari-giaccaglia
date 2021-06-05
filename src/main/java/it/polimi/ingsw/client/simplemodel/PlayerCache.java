@@ -52,6 +52,7 @@ public class PlayerCache {
     }
 
     public PlayerCache(){
+
         this.support = new PropertyChangeSupport(this);;
 
         playerSimpleModelElementsMap.put(SimplePlayerLeaders.class.getSimpleName(), new SimplePlayerLeaders());
