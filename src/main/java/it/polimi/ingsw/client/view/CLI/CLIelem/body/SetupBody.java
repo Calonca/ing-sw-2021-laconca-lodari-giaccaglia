@@ -1,13 +1,10 @@
 package it.polimi.ingsw.client.view.CLI.CLIelem.body;
 
 import it.polimi.ingsw.client.Client;
-import it.polimi.ingsw.client.view.CLI.CLI;
 import it.polimi.ingsw.client.view.CLI.CLIelem.CLIelem;
 import it.polimi.ingsw.client.view.CLI.layout.*;
-import it.polimi.ingsw.client.view.CLI.layout.drawables.Canvas;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.Drawable;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.DrawableLeader;
-import it.polimi.ingsw.client.view.CLI.layout.drawables.ResourceCLI;
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
@@ -19,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class SetupBody extends CLIelem {
     List<LeaderCardAsset> leadersToChoose;
@@ -40,82 +38,54 @@ public class SetupBody extends CLIelem {
     @Override
     public String toString() {
         Column layout = new Column();
-
-        layout.addElem(selectedResourcesRow());
-
+        List<ResourceAsset> outputs =
+                Stream.concat(
+                        chosenRes.stream(),
+                        Stream.generate(()->ResourceAsset.TOCHOOSE).limit(resToChoose)
+                        ).collect(Collectors.toList());
+        ResChoiceRow resChoiceRow = new ResChoiceRow(chosenRes.size(),new ArrayList<>(), outputs);
+        resChoiceRow.setOnChosenOutput(()->{
+            chosenRes.add(ResourceAsset.fromInt(cli.getLastInt()));
+            resToChoose-=1;
+            cli.show();
+        });
+        resChoiceRow.addToGrid(layout);
+        Row selectingLeaderRow = new Row();
         if (!resAreChosen()) {
-            layout.addElem(arrow());
-            Row choosingResourceRow = choosingResourceRow();
-            layout.addElem(choosingResourceRow);
-            choosingResourceRow.setFirstIdx(0);
-            choosingResourceRow.selectAndRunOption(cli);
-        }else if (!leadersAreChosen()){
-            Row selectingLeaderRow = choosingLeadersRow();
+            layout.selectAndRunOption(cli);
+        }else {
+            selectingLeaderRow = choosingLeadersRow();
             layout.addElem(selectingLeaderRow);
             selectingLeaderRow.setFirstIdx(0);
+        }
+
+        if (resAreChosen() && !leadersAreChosen()){
             selectingLeaderRow.selectAndRunOption(cli);
-        }else {
-             SetupPhaseEvent event = new SetupPhaseEvent(chosenRes.size(),2,client.getCommonData().getThisPlayerIndex());
-             selected.stream().filter(p->p.left.equals(true)).forEach(p->event.addDiscardedLeader(p.right));
-             if (chosenRes.size()>0)
-                 event.addResource(new Pair<>(0,chosenRes.get(0).getResourceNumber()));
-             if (chosenRes.size()>1)
-                 event.addResource(new Pair<>(1,chosenRes.get(1).getResourceNumber()));
-
-             client.getServerHandler().sendCommandMessage(new EventMessage(event));
-        };
-        return CanvasBody.fromGrid(layout).toString();
-    }
-
-    private Row selectedResourcesRow(){
-        String resToChooseString = "Resources to choose: ";
-        String chosenResString= chosenRes.size()==0?"No resources to choose from":"Your chosen resources";
-        int CenterX = 1+CLI.getCenterX()-(ResourceCLI.width())/2;
-        int startPositionX = CenterX-resToChooseString.length()-(ResourceCLI.width()+1)*chosenRes.size();
-
-        Row row = new Row();
-        row.addElem(new SizedBox(startPositionX,0));
-
-        if (!resAreChosen())
-            row.addElem(Option.noNumber(resToChooseString));
-        else
-            row.addElem(new SizedBox(resToChooseString.length(),0));
-
-        for (ResourceAsset resAsset:chosenRes)
-        {
-            Drawable dl = ResourceCLI.fromAsset(resAsset).toBigDrawableList(false);
-            row.addElem(Option.noNumber(dl));
-            row.addElem(new SizedBox(1,0));
         }
-        for (int i =0;i<resToChoose;i++)
+
+        if (resAreChosen() && leadersAreChosen())
         {
-            Drawable dl = ResourceCLI.TO_CHOSE.toBigDrawableList(i==0);
-            row.addElem(Option.noNumber(dl));
-            row.addElem(new SizedBox(1,0));
-        }
-        if (resAreChosen())
-            row.addElem(Option.noNumber(chosenResString));
+            Thread animation = new Thread(()->{
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
-        return row;
-    }
+                SetupPhaseEvent event = new SetupPhaseEvent(chosenRes.size(),2,client.getCommonData().getThisPlayerIndex());
+                selected.stream().filter(p->p.left.equals(true)).forEach(p->event.addDiscardedLeader(p.right));
+                if (chosenRes.size()>0)
+                    event.addResource(new Pair<>(0,chosenRes.get(0).getResourceNumber()));
+                if (chosenRes.size()>1)
+                    event.addResource(new Pair<>(1,chosenRes.get(1).getResourceNumber()));
 
-    private Row choosingResourceRow(){
-        Row resToChooseFrom = new Row();
-
-        List<Drawable> optionsDwList = ResourceCLI.toList();
-        for (int i=0;i<optionsDwList.size();i++){
-            int finalI = i;
-            Option o = Option.from(optionsDwList.get(i),()->{
-                chosenRes.add(ResourceAsset.fromInt(finalI));
-                resToChoose-=1;
-                cli.show();
+                client.getServerHandler().sendCommandMessage(new EventMessage(event));
             });
-            o.setMode(Option.VisMode.NUMBER_TO_BOTTOM);
-            resToChooseFrom.addElem(o);
+
+            animation.start();
         }
 
-        resToChooseFrom.setAlignment(GridElem.Alignment.CANVAS_CENTER_VERTICAL);
-        return resToChooseFrom;
+        return CanvasBody.fromGrid(layout).toString();
     }
 
     private Row choosingLeadersRow() {
@@ -135,15 +105,6 @@ public class SetupBody extends CLIelem {
         }
         leadersToChooseFrom.setAlignment(GridElem.Alignment.CANVAS_CENTER_VERTICAL);
         return leadersToChooseFrom;
-    }
-
-    private Option arrow(){
-        Drawable dwl = new Drawable();
-        dwl.addToCenter(CLI.width,"^");
-        dwl.addToCenter(CLI.width,"|");
-        dwl.addToCenter(CLI.width,"|");
-        dwl.addToCenter(CLI.width,"|"+"-".repeat(1+(ResourceCLI.width()+6)*4)+"|");
-        return Option.noNumber(dwl);
     }
 
     private boolean resAreChosen() {

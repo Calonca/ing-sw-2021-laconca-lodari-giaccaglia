@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.CLI.layout.drawables;
 
-import it.polimi.ingsw.client.view.CLI.CLI;
+import it.polimi.ingsw.client.view.CLI.layout.GridElem;
+import it.polimi.ingsw.client.view.CLI.layout.Option;
 import it.polimi.ingsw.client.view.CLI.textUtil.Background;
 import it.polimi.ingsw.client.view.CLI.textUtil.Characters;
 import it.polimi.ingsw.client.view.CLI.textUtil.Color;
@@ -9,15 +10,16 @@ import it.polimi.ingsw.network.simplemodel.FaithCell;
 import it.polimi.ingsw.network.simplemodel.FaithZone;
 import it.polimi.ingsw.network.simplemodel.SimpleFaithTrack;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
-public class DrawableFaithTrack {
-    private final Canvas canvas =Canvas.withBorder(CLI.width,6);
+public class FaithTrackGridElem extends GridElem {
     private final SimpleFaithTrack simpleFaithTrack;
     private final String allPlayers;
 
-    public Drawable faithTile(int pos,FaithCell faithCell,boolean player,boolean lorenzo){
+    public Drawable faithTile(int xShift, int yShift, FaithCell faithCell, boolean player, boolean lorenzo){
         int x = faithCell.getX_pos()*7;
         int y = faithCell.getY_pos()*2;
         Background back;
@@ -40,21 +42,45 @@ public class DrawableFaithTrack {
         tile.add(0, Characters.BOTTOM_LEFT_DIV.getString()+Characters.HOR_DIVIDER.getString().repeat(6), zoneColor,back);
         tile.add(fp);
 
-        return Drawable.copyShifted(x+1,y,tile);
+        return Drawable.copyShifted(x+xShift+1,y+yShift,tile);
     }
 
-    public DrawableFaithTrack(SimpleFaithTrack player,SimpleFaithTrack[] simpleFaithTrack){
+    public FaithTrackGridElem(SimpleFaithTrack player, SimpleFaithTrack[] simpleFaithTrack){
         this.simpleFaithTrack = player;
         allPlayers = Arrays.stream(simpleFaithTrack).map(t->String.valueOf(t.getPlayerPosition())).reduce(",",(a,b)->a+b);
     }
 
     @Override
-    public String toString() {
+    public int getLastIndex() {
+        return getFirstIdx();
+    }
+
+    @Override
+    public Optional<Option> getOptionWithIndex(int i) {
+        return Optional.empty();
+    }
+
+    @Override
+    public List<Option> getAllEnabledOption() {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public void addToCanvas(Canvas canvas, int x, int y) {
         List<FaithCell> track = simpleFaithTrack.getTrack();
         for (int i = 0, trackSize = track.size(); i < trackSize; i++) {
             FaithCell c = track.get(i);
-            canvas.addDrawable(faithTile(i,c,simpleFaithTrack.getPlayerPosition()==i,simpleFaithTrack.getLorenzoPosition()==i));
+            canvas.addDrawable(faithTile(x,y, c, simpleFaithTrack.getPlayerPosition()==i, simpleFaithTrack.getLorenzoPosition()==i));
         }
-        return canvas.toString()+"\n"+ allPlayers;
+    }
+
+    @Override
+    public int getMinWidth() {
+        return 150;
+    }
+
+    @Override
+    public int getMinHeight() {
+        return 9;
     }
 }

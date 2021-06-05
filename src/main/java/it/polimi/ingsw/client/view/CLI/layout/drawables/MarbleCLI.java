@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public enum MarbleCLI {
 
-    WHITE(MarbleAsset.WHITE,Color.WHITE),
+    WHITE(MarbleAsset.WHITE,Color.BRIGHT_WHITE),
     BLUE(MarbleAsset.BLUE,Color.SHIELD),
     GRAY(MarbleAsset.GRAY,Color.STONE),
     YELLOW(MarbleAsset.YELLOW,Color.GOLD),

@@ -45,7 +45,7 @@ public class PersonalBoardTest {
         board.getDiscardBox().addResources(new int[]{3,2,1,3});
     }
 
-    @Test
+
     public void setUpCorrectly() {
         //Test Empty
         PersonalBoard emptyBoard = new PersonalBoard();
@@ -60,7 +60,7 @@ public class PersonalBoardTest {
         assertEquals(Optional.empty(),emptyBoard.firstProductionSelectedWithChoice());
         //Test storage units setup
         assertArrayEquals(new int[]{0,0,0,0},Resource.getStream(4).mapToInt((a)->emptyBoard.getStrongBox().getNumberOf(a)).toArray());
-        assertArrayEquals(new int[]{3,3,3,3},Resource.getStream(4).mapToInt((a)->emptyBoard.getDiscardBox().getNumberOf(a)).toArray());
+        assertArrayEquals(new int[]{0,0,0,0},Resource.getStream(4).mapToInt((a)->emptyBoard.getDiscardBox().getNumberOf(a)).toArray());
         assertArrayEquals(new int[]{0,0,0,0},Resource.getStream(4).mapToInt(emptyBoard::getNumberOf).toArray());
         assertEquals(0,emptyBoard.numOfResources());
         assertEquals(
@@ -188,7 +188,7 @@ public class PersonalBoardTest {
         assertEquals(0,board.getBadFaithToAdd());
     }
 
-    @Test
+
     public void testChoices() {
         board.selectProductionAt(0);
         //Perform choice on input
@@ -408,7 +408,7 @@ public class PersonalBoardTest {
         assertEquals(21,board.getBadFaithToAdd());
     }
 
-    @Test
+
     public void testMove() {
         //From box to warehouse
         board.move(-4,1);

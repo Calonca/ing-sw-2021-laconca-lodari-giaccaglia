@@ -23,9 +23,7 @@ public class SetupPhase extends SetupPhaseViewBuilder implements CLIBuilder {
         int resourcesToChoose = Util.resourcesToChooseOnSetup(getCommonData().getThisPlayerIndex());
         getCLIView().setTitle(new Title(title));
         SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).orElseThrow();
-        SimpleFaithTrack simpleTrack = getThisPlayerCache().getElem(SimpleFaithTrack.class).orElseThrow();
         getCLIView().setBody(new SetupBody(simplePlayerLeaders.getPlayerLeaders(),resourcesToChoose,getClient()));
-        //getCLIView().setBody(new PersonalBoardBody(simpleTrack));
         getCLIView().show();
     }
 

@@ -21,7 +21,7 @@ public enum Color {
 
     BRIGHT_BLACK("\u001B[90m"),
     BRIGHT_RED("\u001B[91m"),
-    RIGHT_WHITE("\u001B[92m"),
+    BIGHT_GREEN("\u001B[92m"),
     BRIGHT_YELLOW("\u001B[93m"),
     BRIGHT_BLUE("\u001B[94m"),
     BRIGHT_PURPLE("\u001B[95m"),

@@ -3,7 +3,6 @@ package it.polimi.ingsw.client.view.CLI.layout.drawables;
 import it.polimi.ingsw.client.view.CLI.textUtil.Background;
 import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
-import it.polimi.ingsw.server.model.Resource;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,7 +14,7 @@ public enum ResourceCLI {
     SHIELD(ResourceAsset.SHIELD, "SH", "Shield", " Shield  ",Color.SHIELD,Background.ANSI_CYAN_BACKGROUND),
     STONE(ResourceAsset.STONE, "ST", "Stone", "  Stone  ",Color.STONE,Background.ANSI_BRIGHT_BLACK_BACKGROUND),
     FAITH(ResourceAsset.FAITH, "FA", "Faith",      "  Faith  ",Color.RED,Background.ANSI_RED_BACKGROUND),
-    TO_CHOSE(ResourceAsset.TOCHOOSE, "??", "To choose", "To choose",Color.RIGHT_WHITE,Background.ANSI_BLACK_BACKGROUND),
+    TO_CHOSE(ResourceAsset.TOCHOOSE, "??", "To choose", "To choose",Color.BRIGHT_WHITE,Background.ANSI_BLACK_BACKGROUND),
     EMPTY(ResourceAsset.EMPTY, "EE", "Empty", "  Empty  ",Color.DEFAULT,Background.DEFAULT);
 
 
@@ -37,16 +36,19 @@ public enum ResourceCLI {
 
     public Drawable toBigDrawableList(boolean isSelected){
         Background back = isSelected?b:Background.DEFAULT;
-        Color cl = isSelected?Color.BLACK :c;
+        Color cl = c;
         Drawable dwList = new Drawable();
-        dwList.add(0,"-----------",cl,back);
-        dwList.add(0,"|         |",cl,back);
+        dwList.add(0,"------------",cl,back);
+        dwList.add(0,"|          |",cl,back);
         dwList.add(0,"|    "+ symbol +"    |",cl,back);
-        dwList.add(0,"|         |",cl,back);
-        dwList.add(0,"-----------",cl,back);
-        dwList.add(0,"|"+ nameWithSpaces +"|",cl,back);
-        dwList.add(0,"-----------",cl,back);
-        return dwList;
+        dwList.add(0,"|          |",cl,back);
+        dwList.add(0,"|----------|",cl,back);
+        dwList.add(0,"| "+ nameWithSpaces +"|",cl,back);
+        dwList.add(0,"------------",cl,back);
+        if (isSelected)
+            return Drawable.selectedDrawableList(dwList);
+        else
+            return dwList;
     }
 
     public static List<Drawable> toList(){
