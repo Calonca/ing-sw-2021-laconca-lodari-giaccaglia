@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="createPane" prefHeight="400.0" prefWidth="500.0" style="-fx-background-color: #006994; -fx-border-color: #FAEBD7;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.GUI.CreateMatchGUI">
+    <children>
+        <Button fx:id="a" layoutX="124.0" layoutY="138.0" mnemonicParsing="false" text="Button" />
+        <Button fx:id="b" layoutX="325.0" layoutY="138.0" mnemonicParsing="false" text="Button" />
+        <Button fx:id="c" layoutX="325.0" layoutY="296.0" mnemonicParsing="false" text="Button" />
+         <Button fx:id="d" layoutX="124.0" layoutY="296.0" mnemonicParsing="false" text="Button" />
+    </children>
+</AnchorPane>

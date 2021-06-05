@@ -1,11 +1,8 @@
 package it.polimi.ingsw.client.view.GUI;
 
-import com.google.gson.GsonBuilder;
-import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.view.GUI.GUIelem.MatchRow;
 import it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchViewBuilder;
-import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 import it.polimi.ingsw.network.messages.clienttoserver.CreateMatchRequest;
 import it.polimi.ingsw.network.messages.clienttoserver.JoinMatchRequest;
 import javafx.animation.Interpolator;
@@ -18,9 +15,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.SubScene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -43,13 +38,14 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
     @FXML
     public TableView<MatchRow> guiMatchesData;
     public StackPane cjlPane;
-    public double tiledim;
     boolean created=false;
     TableColumn<MatchRow,String> nicknames;
     TableColumn<MatchRow,UUID> UUIDs;
 
     boolean selected=false;
     private Slider playerCount;
+
+    public double tilelen=264;
     public int tileheight=70;
 
     @Override
@@ -60,7 +56,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         root.translateYProperty().set(getClient().getStage().getScene().getHeight());
         Timeline timeline=new Timeline();
         KeyValue kv= new KeyValue(root.translateYProperty(),0, Interpolator.EASE_IN);
-        KeyFrame kf= new KeyFrame(Duration.seconds(2),kv);
+        KeyFrame kf= new KeyFrame(Duration.seconds(0.5),kv);
         timeline.getKeyFrames().add(kf);
         timeline.play();
         root.setId("LOBBY");
@@ -133,25 +129,24 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
      * @return the Create slider. This is a service method
      */
     public AnchorPane creationTile(){
-        AnchorPane temppane=new AnchorPane();
-        temppane.setPrefHeight(tileheight);
-        temppane.setPrefWidth(tiledim+150);
+        AnchorPane createPane=new AnchorPane();
+        createPane.setPrefHeight(tileheight);
+        createPane.setPrefWidth(tilelen+150);
 
         Button but=new Button();
         but.setLayoutY(tileheight-20);
-        but.setLayoutX(30);
+        but.setLayoutX(tilelen/2);
         but.setOnAction( p ->
         {
-            int a= (int) playerCount.getValue();
-            System.out.println(a+getCommonData().getCurrentnick());
-            getClient().getServerHandler().sendCommandMessage(new CreateMatchRequest(a,getCommonData().getCurrentnick()));
+           // int playerCountValue= (int) playerCount.getValue();
+            //getClient().getServerHandler().sendCommandMessage(new CreateMatchRequest(playerCountValue,getCommonData().getCurrentnick()));
             created=true;
-            getClient().changeViewBuilder(new CreateMatch());
+            getClient().changeViewBuilder(new CreateMatchGUI());
 
         });
 
         but.setGraphic(new Label("CREATE"));
-        playerCount=new Slider(1,4,1);
+     /*   playerCount=new Slider(1,4,1);
         playerCount.setMaxWidth(tiledim);
         playerCount.setBlockIncrement(4);
         playerCount.setMinorTickCount(0);
@@ -159,14 +154,12 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         playerCount.setShowTickLabels(true);
         playerCount.setShowTickMarks(true);
         playerCount.setSnapToTicks(true);
+*/
 
-        temppane.getChildren().add(playerCount);
-        playerCount.setLayoutX(0);
-        playerCount.setLayoutY(0);
-        temppane.setStyle("-fx-background-color: #DEB887");
-        temppane.getChildren().add(but);
+        createPane.setStyle("-fx-background-color: #DEB887");
+        createPane.getChildren().add(but);
 
-        return temppane;
+        return createPane;
     }
 
     /**
@@ -177,39 +170,38 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
     public AnchorPane matchToTile(MatchRow matchRow)
     {
 
-        AnchorPane temppane=new AnchorPane();
+        AnchorPane joinPane=new AnchorPane();
 
-        temppane.setPrefHeight(tileheight);
-        temppane.setPrefWidth(tiledim+150);
+        joinPane.setPrefHeight(tileheight);
+        joinPane.setPrefWidth(tilelen+150);
 
         Label templabel=new Label(matchRow.getPeople());
-        templabel.setMaxSize(tiledim,40);
+        templabel.setMaxSize(tilelen,40);
         templabel.setLayoutY(10);
         templabel.setLayoutX(10);
 
-        temppane.getChildren().add(templabel);
+        joinPane.getChildren().add(templabel);
 
         Button but=new Button();
         but.setLayoutY(tileheight-20);
-        but.setLayoutX(40);
+        but.setLayoutX(tilelen/2);
         but.setOnAction( p ->
         {
            getClient().getServerHandler().sendCommandMessage(new JoinMatchRequest(matchRow.getKey(),getClient().getCommonData().getCurrentnick()));
-           getClient().changeViewBuilder(new CreateMatch());
+           getClient().changeViewBuilder(new MatchToStart());
         });
 
         but.setGraphic(new Label("JOIN"));
-        temppane.setStyle("-fx-background-color: #DEB887");
-        temppane.getChildren().add(but);
+        joinPane.setStyle("-fx-background-color: #DEB887");
+        joinPane.getChildren().add(but);
 
-        return temppane;
+        return joinPane;
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
        // double rowdim=( Math.sqrt(dataToRow().size())+1);
-        tiledim= 264;
 
         nicknames= new TableColumn<MatchRow,String>("NICKNAMES");
         UUIDs= new TableColumn<MatchRow,UUID>("UUID");

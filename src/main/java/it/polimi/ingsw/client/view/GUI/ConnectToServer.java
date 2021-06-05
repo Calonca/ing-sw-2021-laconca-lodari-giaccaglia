@@ -42,7 +42,7 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
     private AnchorPane connectionAnchor;
   
 
-    private StackPane single_instance = null;
+    private StackPane firstPane = null;
 
     private TextField addressText;
     private TextField portText;
@@ -51,12 +51,12 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
     @Override
     public void run() {
 
-        single_instance = new StackPane();
-        single_instance.setPrefWidth(1000);
-        single_instance.setPrefHeight(700);
-        single_instance.getChildren().add(getRoot());
+        firstPane = new StackPane();
+        firstPane.setPrefWidth(1000);
+        firstPane.setPrefHeight(700);
+        firstPane.getChildren().add(getRoot());
 
-        Scene scene = new Scene(single_instance);
+        Scene scene = new Scene(firstPane);
         getClient().getStage().setScene(scene);
         getClient().getStage().show();
         System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());

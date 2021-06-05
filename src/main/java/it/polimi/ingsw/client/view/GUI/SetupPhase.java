@@ -48,7 +48,8 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
 
     List<Color> colors=new ArrayList<>();
     List<String> colorsToRes=new ArrayList<>();
-
+    double width=1000;
+    double len=700;
 
     @FXML
     private AnchorPane cjlAnchor;
@@ -161,7 +162,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
             ImageView temp = new ImageView(new Image("assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_2.png", true));
 //new Image(ViewPersonalBoard.class.getResource(leaderCardAssets.get(i).getCardPaths().getKey().toString()).toString()
             tempbut= new Button();
-            tempbut.setLayoutY(600);
+            tempbut.setLayoutY(len-100);
             tempbut.setLayoutX(100+200*i);
             tempbut.setGraphic(temp);
 

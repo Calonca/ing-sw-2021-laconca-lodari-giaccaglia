@@ -8,7 +8,6 @@ import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.server.model.Resource;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.scene.ImageCursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -37,8 +36,10 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
     public AnchorPane cardsAnchor;
     int ROWS=3;
     int COLUMNS=4;
-    List<UUID> cardsUUIDs=new ArrayList<>();
     boolean enabled=false;
+    double len=800;
+    double width=430;
+
     List<ResourceButton> scenePaymentButtons=new ArrayList<>();
     List<Button> scenesCardsToChoose=new ArrayList<>();
     javafx.collections.ObservableList<Boolean> scenePaidButtons;
@@ -64,14 +65,6 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
 
     }
 
-    public void addDiscardBox() {
-        Node toadd=getRoot();
-        toadd.setTranslateX(-195);
-        toadd.setTranslateY(107);
-        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(toadd);
-        System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
-
-    }
 
     public SubScene getRoot() {
         FXMLLoader loader = new FXMLLoader();
@@ -84,26 +77,13 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
             e.printStackTrace();
         }
 
-        return new SubScene(root,430,800);
+        return new SubScene(root,width,len);
 
     }
 
-    /**
-     *
-     * @param selected is a boolean array used to represent selection
-     * @param scenesLeadersToChoose is a button array for the user to execute selection
-     */
 
 
 
-
-    /**
-     * given a color and a position, the method will build one accordingly
-     * @param color is a css color string
-     * @param y is an int position
-     * @param x is an int position
-     * @return a spinner according to parameters
-     */
 
     /**
      * service method
@@ -158,24 +138,24 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
         GridPane cardsGrid=new GridPane();
         cardsGrid.setLayoutX(0);
         cardsGrid.setLayoutY(0);
-        Button tempBut;
+        Button sceneCard;
         for(int i=0;i<ROWS;i++)
         {
             for(int j=0;j<COLUMNS;j++)
             {
                 //todo fix order
                 ImageView tempImage = new ImageView(new Image("assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_0.png", true));
-                tempBut= new Button();
+                sceneCard = new Button();
 
-                tempImage.setFitWidth(115);
-                tempImage.setFitHeight(165);
+                tempImage.setFitWidth((width-50)/3);
+                tempImage.setFitHeight((len-130)/4);
 
-                tempBut.setGraphic(tempImage);
-                tempBut.setStyle("-fx-border-color: transparent");
+                sceneCard.setGraphic(tempImage);
+                sceneCard.setStyle("-fx-border-color: transparent");
 
 
-                cardsGrid.add(tempBut,i,j);
-                scenesCardsToChoose.add(tempBut);
+                cardsGrid.add(sceneCard,i,j);
+                scenesCardsToChoose.add(sceneCard);
 
             }
         }
@@ -195,10 +175,11 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
             @Override
             public void onChanged(Change<? extends Boolean> c) {
                 c.next();
+                getClient().getStage().getScene().setCursor(ImageCursor.HAND);
+
                 if(c.getAddedSubList().get(0))
                 {
                     ViewPersonalBoard.getController().highlightTrue(selectedSceneCards,scenesCardsToChoose);
-                    getClient().getStage().getScene().setCursor(ImageCursor.HAND);
                     for (Boolean aBoolean : selectedSceneCards)
                         if (aBoolean)
                             break;
@@ -207,7 +188,6 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
                 else
                     {
                     ViewPersonalBoard.getController().dehighlightTrue(selectedSceneCards,scenesCardsToChoose);
-                    getClient().getStage().getScene().setCursor(ImageCursor.HAND);
 
                 }
 
@@ -222,7 +202,7 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
         for(int i=0;i<5;i++)
         {
             tempContainer=new ResourceButton();
-            tempContainer.setLayoutY(720);
+            tempContainer.setLayoutY(len-80);
             tempContainer.setLayoutX(100+40*i);
             cardsAnchor.getChildren().add(tempContainer);
             scenePaymentButtons.add(tempContainer);
@@ -262,13 +242,13 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
         cardsAnchor.getChildren().add(cardsGrid);
 
         error.setOpacity(0);
-        error.setLayoutX(150);
-        error.setLayoutY(320);
+        error.setLayoutX(width/3);
+        error.setLayoutY(len-40);
 
         cardsAnchor.getChildren().add(error);
         errorChoice.setOpacity(0);
-        errorChoice.setLayoutX(150);
-        errorChoice.setLayoutY(340);
+        errorChoice.setLayoutX(width/3);
+        errorChoice.setLayoutY(len-60);
         cardsAnchor.getChildren().add(errorChoice);
 
         getClient().getStage().show();

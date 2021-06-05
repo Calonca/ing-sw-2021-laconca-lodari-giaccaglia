@@ -2,6 +2,6 @@
 
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="createPane" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.GUI.CreateMatch">
+<AnchorPane fx:id="createPane" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.GUI.MatchToStart">
 
 </AnchorPane>

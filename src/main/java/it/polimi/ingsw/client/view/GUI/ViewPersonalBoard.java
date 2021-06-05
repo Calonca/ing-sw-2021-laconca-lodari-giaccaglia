@@ -79,6 +79,8 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
         market.addMatrix();
         DiscardBoxInitializer disc= new DiscardBoxInitializer();
         disc.fillDiscardBox();
+        InitialOrFinalPhaseGUI init= new InitialOrFinalPhaseGUI();
+        init.run();
 
 
 
@@ -289,6 +291,9 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
 
         prodBut=new ResourceButton();
         prodBut.setResource(Resource.TOCHOOSE);
+        prodBut.setMinWidth(30);
+        prodBut.setMinWidth(30);
+
         prodBut.color();
         prodBut.setLayoutX(695);
         prodBut.setLayoutY(640);
@@ -304,8 +309,15 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
             @Override
             public void onChanged(Change<? extends Boolean> c) {
                 c.next();
+                if(getController().isCardShopOpen())
+                {
+                    getClient().getStage().getScene().setCursor(ImageCursor.HAND);
+
+                }
+
                 if(!c.getAddedSubList().get(0))
                 {
+
 
                 }
                 else

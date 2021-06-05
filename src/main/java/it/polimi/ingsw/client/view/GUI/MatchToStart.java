@@ -30,7 +30,7 @@ import java.util.ResourceBundle;
 /**
  * Waiting screen
  */
-public class CreateMatch extends CreateJoinLoadMatchViewBuilder implements GUIView {
+public class MatchToStart extends CreateJoinLoadMatchViewBuilder implements GUIView {
 
     public AnchorPane createPane;
     @FXML
@@ -74,14 +74,12 @@ public class CreateMatch extends CreateJoinLoadMatchViewBuilder implements GUIVi
 
         Sphere circle1=new Sphere();
         circle1.setRadius(10);
-        circle1.setLayoutX(width/2);
-        circle1.setLayoutY((3*len)/4);
-
-
+        circle1.setLayoutX(500);
+        circle1.setLayoutY(100);
 
         TranslateTransition transition = new TranslateTransition(Duration.seconds(1.5),circle1);
-        transition.setToX(width/2);
-        transition.setToY(len/4);
+        transition.setToX(0);
+        transition.setToY(500);
         transition.setAutoReverse(true);
         transition.setCycleCount(Animation.INDEFINITE);
         transition.play();
@@ -89,16 +87,15 @@ public class CreateMatch extends CreateJoinLoadMatchViewBuilder implements GUIVi
         createPane.getChildren().add(circle1);
 
 
-
         Sphere circle2=new Sphere();
         circle2.setRadius(10);
-        circle2.setLayoutX(300);
-        circle2.setLayoutY(100);
+        circle2.setLayoutX(500);
+        circle2.setLayoutY(600);
 
 
         TranslateTransition transition2 = new TranslateTransition(Duration.seconds(1.5),circle2);
         transition2.setToX(0);
-        transition2.setToY(200);
+        transition2.setToY(-500);
         transition2.setAutoReverse(true);
         transition2.setCycleCount(Animation.INDEFINITE);
         transition2.play();
@@ -107,14 +104,15 @@ public class CreateMatch extends CreateJoinLoadMatchViewBuilder implements GUIVi
 
         createPane.getChildren().add(circle2);
 
+
         Sphere circle3=new Sphere();
         circle3.setRadius(10);
-        circle3.setLayoutX(400);
-        circle3.setLayoutY(200);
+        circle3.setLayoutX(100);
+        circle3.setLayoutY(350);
 
 
         TranslateTransition transition3 = new TranslateTransition(Duration.seconds(1.5),circle3);
-        transition3.setToX(-200);
+        transition3.setToX(800);
         transition3.setToY(0);
         transition3.setAutoReverse(true);
         transition3.setCycleCount(Animation.INDEFINITE);
@@ -124,12 +122,12 @@ public class CreateMatch extends CreateJoinLoadMatchViewBuilder implements GUIVi
 
         Sphere circle4=new Sphere();
         circle4.setRadius(10);
-        circle4.setLayoutX(300);
-        circle4.setLayoutY(300);
+        circle4.setLayoutX(900);
+        circle4.setLayoutY(350);
 
         TranslateTransition transition4 = new TranslateTransition(Duration.seconds(1.5),circle4);
-        transition4.setToX(0);
-        transition4.setToY(-200);
+        transition4.setToX(-800);
+        transition4.setToY(0);
         transition4.setAutoReverse(true);
         transition4.setCycleCount(Animation.INDEFINITE);
         transition4.play();

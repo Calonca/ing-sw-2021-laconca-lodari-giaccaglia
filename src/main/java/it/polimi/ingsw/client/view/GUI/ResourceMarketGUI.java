@@ -35,13 +35,14 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
 
 
     Text error=new Text("NOT ALLOWED RIGHT NOW.");
-    double toPutStartingX;
-    double toPutStartingY;
     boolean selected=false;
     public ResourceSphere toPut;
     public int ROWSIZE=4;
     public int ROWNUMBER=3;
     public double ballsize=0.75;
+
+    double toPutStartingY=-5+ROWSIZE*ballsize*2;;
+    double toPutStartingX;
 
     public double width=300;
     public double len=260;
@@ -286,7 +287,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
 
 
 
-        double x=1.5;
+        double x=ballsize*2;
         int h=70;
         for(int i=0;i<ROWNUMBER;i++)
         {
@@ -296,7 +297,6 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
         }
 
         toPutStartingX=x;
-        toPutStartingY=-5+ROWSIZE*ballsize*2;
         toPut=new ResourceSphere(ballsize,Resource.SERVANT);
         toPut.translateYProperty().set(toPutStartingY);
         toPut.translateXProperty().set(toPutStartingX);
