@@ -371,7 +371,7 @@ public class PersonalBoard {
      * @param pos position of the {@link StorageUnit} to get
      * @return {@link StorageUnit} that contains the given position
      */
-    public StorageUnit storageUnitFromPos(int pos){
+    private StorageUnit storageUnitFromPos(int pos){
         if (pos>=-8 && pos<=-5) return strongBox;
         else if (pos>=-4 && pos<=-1) return discardBox;
         else return warehouseLeadersDepots;

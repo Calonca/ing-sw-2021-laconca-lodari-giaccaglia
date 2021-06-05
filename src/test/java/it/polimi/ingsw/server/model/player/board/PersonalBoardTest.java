@@ -408,18 +408,6 @@ public class PersonalBoardTest {
         assertEquals(21,board.getBadFaithToAdd());
     }
 
-
-    @Test
-    public void testStorageUnitFromPos() {
-        for (int i=-8;i<6;i++){
-            if (i<-4)
-                assertEquals(board.getStrongBox(),board.storageUnitFromPos(i));
-            else if (i<0)
-                assertEquals(board.getDiscardBox(),board.storageUnitFromPos(i));
-            else assertEquals(board.getWarehouseLeadersDepots(),board.storageUnitFromPos(i));
-        }
-    }
-
     @Test
     public void testMove() {
         //From box to warehouse
