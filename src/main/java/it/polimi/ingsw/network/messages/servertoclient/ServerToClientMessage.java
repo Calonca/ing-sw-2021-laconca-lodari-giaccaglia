@@ -2,7 +2,7 @@ package it.polimi.ingsw.network.messages.servertoclient;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import it.polimi.ingsw.network.EndGameInfo;
+import it.polimi.ingsw.network.simplemodel.EndGameInfo;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.network.messages.NetworkMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
@@ -92,6 +92,7 @@ public abstract class ServerToClientMessage extends NetworkMessage
         elemAdapter.registerSubtype(SimpleWarehouseLeadersDepot.class);
         elemAdapter.registerSubtype(SimpleAvailableMovingPositions.class);
         elemAdapter.registerSubtype(EndGameInfo.class);
+        elemAdapter.registerSubtype(ActiveLeaderBonusInfo.class);
 
         return elemAdapter;
     }

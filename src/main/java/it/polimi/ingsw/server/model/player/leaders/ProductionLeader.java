@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  */
 public class ProductionLeader extends Leader
 {
-    public Production production;
+    private Production production;
 
 
     public ProductionLeader(LeaderState state, int victoryPoints, List<Pair<Resource,Integer>> requirementsResources, List<Pair<DevelopmentCardColor, Integer>> requirementsCards, Production production, int requirementsCardsLevel )

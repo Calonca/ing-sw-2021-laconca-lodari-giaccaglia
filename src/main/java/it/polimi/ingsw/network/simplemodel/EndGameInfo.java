@@ -1,6 +1,4 @@
-package it.polimi.ingsw.network;
-
-import it.polimi.ingsw.network.simplemodel.SimpleModelElement;
+package it.polimi.ingsw.network.simplemodel;
 
 import java.util.List;
 import java.util.Map;

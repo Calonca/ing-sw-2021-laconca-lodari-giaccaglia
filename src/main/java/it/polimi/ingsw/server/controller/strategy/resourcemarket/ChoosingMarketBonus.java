@@ -24,8 +24,7 @@ public class ChoosingMarketBonus implements GameStrategy {
     {
 
        int resourceNumber =  ((ChooseWhiteMarbleConversionEvent) event).getResourceNumber();
-
-
+       gamemodel.convertWhiteMarbleInPickedLine(resourceNumber);
 
         elementsToUpdate.add(Element.SimpleMarketBoard);
 

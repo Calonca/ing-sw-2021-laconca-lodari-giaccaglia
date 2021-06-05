@@ -58,6 +58,7 @@ public class SimpleDepotsMessageBuilder {
 
         PersonalBoard currentPlayerPersonalBoard = gameModel.getCurrentPlayer().getPersonalBoard();
         int warehouseDepotSpaces = currentPlayerPersonalBoard.getWarehouseLeadersDepots().getNumOfCellsInAllDepots();
+        System.out.println(warehouseDepotSpaces);
 
         return IntStream.range(-4, warehouseDepotSpaces).boxed().collect(Collectors.toMap(
                 position -> position,

@@ -13,6 +13,7 @@ import it.polimi.ingsw.server.model.player.track.FaithTrack;
 import javafx.util.Pair;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -79,6 +80,10 @@ public class Player {
 
     public Optional<Leader> getLeader(UUID leaderId){
         return Optional.ofNullable(leaders.get(leaderId));
+    }
+
+    public List<Leader> getActiveLeaders(){
+        return leaders.values().stream().filter(leader -> leader.getState().equals(LeaderState.ACTIVE)).collect(Collectors.toList());
     }
 
     public PersonalBoard getPersonalBoard() {

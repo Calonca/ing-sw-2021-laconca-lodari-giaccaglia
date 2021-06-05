@@ -14,7 +14,7 @@ import java.util.List;
 public class DepositLeader extends Leader
 {
 
-    public LeaderDepot leaderdepot;
+    private LeaderDepot leaderdepot;
 
     public DepositLeader(LeaderState state, int victoryPoints, List<Pair<Resource,Integer>> requirementsResources, List<Pair<DevelopmentCardColor, Integer>> requirementsCards, LeaderDepot leaderdepot, int requirementsCardsLevel)
     {
@@ -45,4 +45,7 @@ public class DepositLeader extends Leader
         return leaderdepot.geResourceType();
     }
 
+    public LeaderDepot getLeaderDepot(){
+        return leaderdepot;
+    }
 }

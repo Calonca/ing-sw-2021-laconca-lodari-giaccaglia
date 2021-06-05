@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.simplemodel;
 
-import it.polimi.ingsw.network.EndGameInfo;
+import it.polimi.ingsw.network.simplemodel.EndGameInfo;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
 import it.polimi.ingsw.network.simplemodel.SimpleCardShop;
 import it.polimi.ingsw.network.simplemodel.SimpleMarketBoard;
