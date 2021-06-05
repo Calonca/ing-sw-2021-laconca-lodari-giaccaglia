@@ -73,6 +73,7 @@ public class PersonalBoard {
         strongBox = Box.strongBox();
         discardBox = Box.discardBox();
         discardBox.addResources(new int[]{3,3,3,3});  //setup phase DiscardBox
+        //strongBox.addResources(new int[]{7,8,9,3});   //to test CardShop
         productions = Stream.of(Optional.of(Production.basicProduction())).collect(Collectors.toList());
         productions.add(Optional.empty());
         productions.add(Optional.empty());
@@ -490,8 +491,8 @@ public class PersonalBoard {
      * @return an IntStream of global positions
      */
     public IntStream availableMovingPositionsForResource(Resource res){
-        return IntStream.concat(
-                IntStream.of(discardBox.globalPositionOfRes(res),strongBox.globalPositionOfRes(res)),
+        return IntStream.concat(res.equals(Resource.EMPTY)?IntStream.empty():
+                IntStream.of(discardBox.globalPositionOfRes(res)),
                 warehouseLeadersDepots.availableMovingPositionsForResource(res));
     }
 
