@@ -53,7 +53,13 @@ public class ChoosingSpaceForDevelopmentCard implements GameStrategy {
 
                 gamemodel.setPlayersEndingTheGame(player);
 
-                return new Pair<>(State.END_PHASE, elementsToUpdate);
+                if(gamemodel.getMacroGamePhase().equals(GameModel.MacroGamePhase.ActiveGame))
+                    gamemodel.setMacroGamePhase(GameModel.MacroGamePhase.LastTurn);
+
+                else if(gamemodel.getPlayerIndex(gamemodel.getCurrentPlayer()) == (gamemodel.getOnlinePlayers().size() - 1))
+                    gamemodel.setMacroGamePhase(GameModel.MacroGamePhase.GameEnded);
+
+                return new Pair<>(State.IDLE, elementsToUpdate);
 
         }
 

@@ -6,36 +6,21 @@
         "elementsToUpdate": []
       }
     },
-    "SETUP_PHASE": {
-      "SetupPhaseEvent": {
-        "type": "Setup",
-        "elementsToUpdate": [],
-        "currentPlayerNumber": 0
-      }
-    },
     "CHOOSING_WHITEMARBLE_CONVERSION": {
       "ChooseWhiteMarbleConversionEvent": {
         "type": "TogglingForProduction",
         "elementsToUpdate": []
       }
     },
-    "FINAL_PHASE": {
-      "DiscardLeaderEvent": {
-        "type": "DiscardingLeader",
-        "elementsToUpdate": []
-      },
-      "InitialOrFinalPhaseEvent": {
-        "type": "InitialOrFinalStrategy",
-        "elementsToUpdate": []
-      },
-      "PlayLeaderEvent": {
-        "type": "ActivatingLeader",
-        "elementsToUpdate": []
-      }
-    },
     "CHOOSING_MARKET_LINE": {
       "ChooseLineEvent": {
         "type": "PuttingBallOnLine",
+        "elementsToUpdate": []
+      }
+    },
+    "CHOOSING_RESOURCE_FOR_PRODUCTION": {
+      "ChooseResourcesForProductionEvent": {
+        "type": "ChoosingResourceForProduction",
         "elementsToUpdate": []
       }
     },
@@ -52,14 +37,14 @@
       }
     },
     "IDLE": {
-      "null": {
-        "type": "IDLE",
+      "MoveResourceEvent": {
+        "type": "MovingResource",
         "elementsToUpdate": []
       }
     },
-    "CHOOSING_RESOURCE_FOR_PRODUCTION": {
-      "ChooseResourcesForProductionEvent": {
-        "type": "ChoosingResourceForProduction",
+    "INITIAL_PHASE": {
+      "InitialOrFinalPhaseEvent": {
+        "type": "InitialOrFinalStrategy",
         "elementsToUpdate": []
       }
     },
@@ -69,29 +54,28 @@
         "elementsToUpdate": []
       }
     },
+    "SETUP_PHASE": {
+      "SetupPhaseEvent": {
+        "type": "Setup",
+        "elementsToUpdate": [],
+        "currentPlayerNumber": 0
+      }
+    },
     "CHOOSING_PRODUCTION": {
       "ChooseProductionAtPositionEvent": {
         "type": "TogglingForProduction",
         "elementsToUpdate": []
       }
     },
-    "INITIAL_PHASE": {
-      "DiscardLeaderEvent": {
-        "type": "DiscardingLeader",
-        "elementsToUpdate": []
-      },
+    "FINAL_PHASE": {
       "InitialOrFinalPhaseEvent": {
         "type": "InitialOrFinalStrategy",
-        "elementsToUpdate": []
-      },
-      "PlayLeaderEvent": {
-        "type": "ActivatingLeader",
         "elementsToUpdate": []
       }
     },
     "CHOOSING_POSITION_FOR_RESOURCES": {
       "MoveResourceEvent": {
-        "type": "AddingResourcesFromMarket",
+        "type": "MovingResource",
         "elementsToUpdate": []
       },
       "DiscardResourcesEvent": {

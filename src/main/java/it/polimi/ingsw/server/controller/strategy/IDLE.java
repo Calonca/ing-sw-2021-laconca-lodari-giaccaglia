@@ -20,10 +20,20 @@ public class IDLE implements GameStrategy {
     public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event)
     {
 
+            if(gamemodel.getMacroGamePhase().equals(GameModel.MacroGamePhase.LastTurn))
+                return new Pair<>(State.IDLE, elementsToUpdate);
+
+            else if(gamemodel.getMacroGamePhase().equals(GameModel.MacroGamePhase.GameEnded)) {
+                elementsToUpdate.add(Element.EndGameInfo);
+                return new Pair<>(State.END_PHASE, elementsToUpdate);
+            }
+
+
             if(gamemodel.getCurrentPlayer().anyLeaderPlayable()) {
                 gamemodel.getCurrentPlayer().setCurrentState(State.INITIAL_PHASE);
                 return new Pair<>(State.INITIAL_PHASE, elementsToUpdate);
             }
+
             else{
                 gamemodel.getCurrentPlayer().setCurrentState(State.MIDDLE_PHASE);
                 return new Pair<>(State.MIDDLE_PHASE, elementsToUpdate);

@@ -9,6 +9,7 @@ import it.polimi.ingsw.server.controller.Match;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.states.State;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,16 +31,18 @@ public class tem {
       //  CardAssetsContainer.setCardAssetsContainer(Deserializator.networkDevCardsAssetsDeserialization());
         elements.add(Element.SimplePlayerLeaders);
         //elements.add(Element.TestElem);
-         elements.add(Element.SimpleCardShop);
+        elements.add(Element.SimpleCardShop);
         elements.add(Element.SimpleFaithTrack);
+        elements.add(Element.EndGameInfo);
+
         State state = State.SETUP_PHASE;
         StateInNetwork stateInNetwork = state.toStateMessage(model, elements);
         String stateInNet = stateInNetwork.serialized();
 
+        System.out.println(JsonUtility.toPrettyFormat(stateInNet));
 
 
-
-        StateInNetwork deserializedStateInNetworl = JsonUtility.deserializeFromString(stateInNet, StateInNetwork.class, new GsonBuilder().registerTypeAdapterFactory(elementAdapter()).create());
+        StateInNetwork deserializedStateInNetworl = JsonUtility.deserializeFromString(stateInNet, StateInNetwork.class, new GsonBuilder().registerTypeHierarchyAdapter(Path.class, new JsonUtility.PathConverter()).registerTypeAdapterFactory(elementAdapter()).create());
         List<SimpleModelElement> commonlist = deserializedStateInNetworl.getCommonSimpleModelElements();
         List<SimpleModelElement> playerList = deserializedStateInNetworl.getPlayerSimpleModelElements();
         int player = stateInNetwork.getPlayerNumber();

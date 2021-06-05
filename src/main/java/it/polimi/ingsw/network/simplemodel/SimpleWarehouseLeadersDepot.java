@@ -26,5 +26,4 @@ public class SimpleWarehouseLeadersDepot extends SimpleModelElement{
         this.simpleWarehouseLeadersDepot = serverWarehouseLeadersDepot.simpleWarehouseLeadersDepot;
     }
 
-
 }

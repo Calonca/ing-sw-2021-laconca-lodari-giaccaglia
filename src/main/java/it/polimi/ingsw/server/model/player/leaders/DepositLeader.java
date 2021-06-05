@@ -19,7 +19,7 @@ public class DepositLeader extends Leader
     public DepositLeader(LeaderState state, int victoryPoints, List<Pair<Resource,Integer>> requirementsResources, List<Pair<DevelopmentCardColor, Integer>> requirementsCards, LeaderDepot leaderdepot, int requirementsCardsLevel)
     {
         this.state = state;
-        this.victoryPoints = victoryPoints;
+        this.points = victoryPoints;
         this.requirementsCards = requirementsCards;
         this.requirementsResources = requirementsResources;
         this.leaderdepot = leaderdepot;

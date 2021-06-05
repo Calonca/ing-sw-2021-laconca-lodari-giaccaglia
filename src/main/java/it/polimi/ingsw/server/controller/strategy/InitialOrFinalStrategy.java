@@ -36,6 +36,7 @@ public class InitialOrFinalStrategy implements GameStrategy {
         else { //choice == 3 -> skip
             State nextState = gamemodel.getCurrentPlayer().getCurrentState().equals(State.INITIAL_PHASE) ? State.MIDDLE_PHASE : State.IDLE;
 
+            elementsToUpdate.add(Element.SimpleAvailableMovingPositions); //needed for idle phase
             return new Pair<>(nextState, elementsToUpdate);
 
         }

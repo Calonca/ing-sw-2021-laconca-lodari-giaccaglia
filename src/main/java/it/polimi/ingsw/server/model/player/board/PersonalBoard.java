@@ -553,5 +553,13 @@ public class PersonalBoard {
 
     }
 
+    public int getPointsFromResources(){
+        return Resource.getStream(4).map(this::getNumberOf).reduce(0, Integer::sum);
+    }
+
+    public int getPointsFromDevelopmentCards(){
+        return Arrays.stream(cardCells).mapToInt(ProductionCardCell::getTotalCellPoints).sum();
+    }
+
 
 }

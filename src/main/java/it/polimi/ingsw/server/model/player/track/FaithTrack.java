@@ -193,7 +193,7 @@ public class FaithTrack {
      *
      * @return <em>Victory Points</em> from {@link PopeFavourTile PopeFavourTiles}
      */
-    public int victoryPointsFromFaithTrackCell(){
+    public int getPointsFromFaithTrackCell(){
         return track.stream()
                 .filter(cell -> (track.indexOf(cell) <= playerPiece.getValue()))
                 .mapToInt(FaithCell::getPoints)
@@ -207,7 +207,7 @@ public class FaithTrack {
      *
      * @return sum of <em>Victory Points</em> from {@link PopeFavourTile PopeFavourTiles}
      */
-    public int victoryPointsFromPopeFavourTiles(){
+    public int getPointsFromPopeFavourTiles(){
         return tiles.stream()
                 .filter(tile -> (tile.getTileState().equals(TileState.ACTIVE)))
                 .mapToInt(PopeFavourTile::getVictoryPoints)

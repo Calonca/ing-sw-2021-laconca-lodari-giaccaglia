@@ -852,7 +852,7 @@ public class Serializator extends JsonUtility {
         level=1;
         color=DevelopmentCardColor.GREEN ;
 
-       /* series.add(new NetworkDevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+       /* series.add(new NetworkDevelopmentCard(level, color,addProd,points,requirementsTest));
         Gson gsonprint= new Gson();
         System.out.println(gsonprint.toJson(series));
         */
@@ -1244,6 +1244,9 @@ public class Serializator extends JsonUtility {
         serializeMarbles();
 
  */
+
+        serializeSinglePlayerStatesTransitionTable();
+        serializeMultiPlayerStatesTransitionTable();
 
     }
 

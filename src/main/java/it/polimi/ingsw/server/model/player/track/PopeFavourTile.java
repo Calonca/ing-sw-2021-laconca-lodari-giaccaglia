@@ -31,8 +31,8 @@ public class PopeFavourTile {
      * When the object is created, the initialization process sets the {@link TileState} to the default
      * {@link TileState#INACTIVE INACTIVE} value.
      *
-    public PopeFavourTile(int victoryPoints, FaithZone zone) {
-        this.victoryPoints = victoryPoints;
+    public PopeFavourTile(int points, FaithZone zone) {
+        this.points = points;
         this.state = TileState.INACTIVE;
         this.zone = zone;
     }

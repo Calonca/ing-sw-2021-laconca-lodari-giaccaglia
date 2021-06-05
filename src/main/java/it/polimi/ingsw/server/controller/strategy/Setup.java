@@ -1,11 +1,9 @@
 package it.polimi.ingsw.server.controller.strategy;
 
-import it.polimi.ingsw.server.controller.EventValidationFailedException;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.messages.clienttoserver.events.setupphaseevent.SetupPhaseEvent;
 import it.polimi.ingsw.server.messages.messagebuilders.Element;
 import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.server.model.player.board.Box;
 import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.network.util.Util;
 import javafx.util.Pair;
@@ -26,29 +24,25 @@ public class Setup implements GameStrategy {
 
     public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event)
     {
-        int[] toadd = new int[4];
+        int[] toAdd = new int[4];
+
         SetupPhaseEvent clientEvent = ((SetupPhaseEvent) event);
-        List<UUID> toDiscard= clientEvent.getDiscardedLeaders();
+
+        List<UUID> chosenLeaders = clientEvent.getChosenLeaders();
         currentPlayerNumber = gamemodel.getPlayerIndex(gamemodel.getCurrentPlayer());
 
+        Arrays.fill((toAdd),0);
 
-
-        Arrays.fill((toadd),0);
         for (Pair<Integer, Integer> resourceIntegerPair : clientEvent.getChosenResources())
-            toadd[resourceIntegerPair.getKey()] += resourceIntegerPair.getValue();
+            toAdd[resourceIntegerPair.getKey()] += resourceIntegerPair.getValue();
 
-
-
-
-        gamemodel.discardLeadersOnSetupPhase(currentPlayerNumber, toDiscard);
-        gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().addResources(toadd);
+        gamemodel.discardLeadersOnSetupPhase(chosenLeaders);
+        gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().addResources(toAdd);
         gamemodel.getCurrentPlayer().getPersonalBoard().resetDiscardBox();
 
         IntStream.range(0, Util.initialFaithPoints(currentPlayerNumber)).forEach(i -> gamemodel.getCurrentPlayer().moveOnePosition());
 
         buildElementsList();
-
-
 
         return new Pair<>(State.IDLE, elementsToUpdate);
 

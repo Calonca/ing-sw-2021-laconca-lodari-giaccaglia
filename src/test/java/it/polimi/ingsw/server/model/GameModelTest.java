@@ -64,7 +64,7 @@ public class GameModelTest {
         assertEquals(testPlayer, gameModelTest.getCurrentPlayer());
         assertEquals(testPlayer, gameModelTest.getPlayer(players.get(0)));
 
-        gameModelTest.setGameStatus(true);
+        gameModelTest.start();
 
         assertEquals(0, gameModelTest.getPlayerPosition(testPlayer));
     }

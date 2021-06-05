@@ -42,7 +42,7 @@ public class SetupBody extends CLIelem {
                 Stream.concat(
                         chosenRes.stream(),
                         Stream.generate(()->ResourceAsset.TOCHOOSE).limit(resToChoose)
-                        ).collect(Collectors.toList());
+                ).collect(Collectors.toList());
         ResChoiceRow resChoiceRow = new ResChoiceRow(chosenRes.size(),new ArrayList<>(), outputs);
         resChoiceRow.setOnChosenOutput(()->{
             chosenRes.add(ResourceAsset.fromInt(cli.getLastInt()));
@@ -73,7 +73,7 @@ public class SetupBody extends CLIelem {
                 }
 
                 SetupPhaseEvent event = new SetupPhaseEvent(chosenRes.size(),2,client.getCommonData().getThisPlayerIndex());
-                selected.stream().filter(p->p.left.equals(true)).forEach(p->event.addDiscardedLeader(p.right));
+                selected.stream().filter(p->p.left.equals(true)).forEach(p->event.addChosenLeader(p.right));
                 if (chosenRes.size()>0)
                     event.addResource(new Pair<>(0,chosenRes.get(0).getResourceNumber()));
                 if (chosenRes.size()>1)

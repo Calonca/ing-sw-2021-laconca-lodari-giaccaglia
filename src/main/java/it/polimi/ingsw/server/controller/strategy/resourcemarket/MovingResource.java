@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.controller.strategy.resourcemarket;
 
-import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.messages.clienttoserver.events.marketboardevent.MoveResourceEvent;
@@ -17,7 +16,7 @@ import java.util.List;
  * space. Before being able to proceed, the user needs to place all of the resources from the market either in the
  * DiscardBox or in one of their depot lines. For each resource in the DiscardBox all the other players get a faith point
  */
-public class AddingResourcesFromMarket implements GameStrategy {
+public class MovingResource implements GameStrategy {
 
     List<Element> elementsToUpdate = new ArrayList<>();
 
@@ -31,8 +30,9 @@ public class AddingResourcesFromMarket implements GameStrategy {
 
         elementsToUpdate.add(Element.SimpleWareHouseLeadersDepot);
         elementsToUpdate.add(Element.SimpleAvailableMovingPositions);
+        elementsToUpdate.add(Element.SimpleDiscardBox);
 
-        return new Pair<>(State.CHOOSING_POSITION_FOR_RESOURCES, elementsToUpdate);
+        return new Pair<>(gamemodel.getGamePhase(), elementsToUpdate);
 
     }
 

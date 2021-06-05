@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.simplemodel;
 
+import it.polimi.ingsw.network.EndGameInfo;
 import it.polimi.ingsw.network.simplemodel.*;
 
 import java.beans.PropertyChangeListener;
@@ -44,7 +45,7 @@ public class PlayerCache {
     public <T extends SimpleModelElement> Optional<T> getElem(Class<T> s){
         Optional<T> result;
         try {
-            result = Optional.ofNullable(s.cast(playerSimpleModelElementsMap.getOrDefault(s.getSimpleName(),null)));;
+            result = Optional.ofNullable(s.cast(playerSimpleModelElementsMap.getOrDefault(s.getSimpleName(),null)));
         } catch (ClassCastException e){
             result = Optional.empty();
         }
@@ -53,7 +54,7 @@ public class PlayerCache {
 
     public PlayerCache(){
 
-        this.support = new PropertyChangeSupport(this);;
+        this.support = new PropertyChangeSupport(this);
 
         playerSimpleModelElementsMap.put(SimplePlayerLeaders.class.getSimpleName(), new SimplePlayerLeaders());
         playerSimpleModelElementsMap.put(SimpleAvailableMovingPositions.class.getSimpleName(), new SimpleAvailableMovingPositions());
@@ -62,6 +63,7 @@ public class PlayerCache {
         playerSimpleModelElementsMap.put(SimpleWarehouseLeadersDepot.class.getSimpleName(), new SimpleWarehouseLeadersDepot());
         playerSimpleModelElementsMap.put(SimpleStrongBox.class.getSimpleName(), new SimpleStrongBox());
         playerSimpleModelElementsMap.put(SimpleDiscardBox.class.getSimpleName(), new SimpleDiscardBox());
+
 
     }
 

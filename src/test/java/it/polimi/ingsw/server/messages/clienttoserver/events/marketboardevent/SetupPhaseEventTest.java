@@ -151,13 +151,13 @@ public class SetupPhaseEventTest {
         }
 
         for (UUID initialDiscardedLeader : initialDiscardedLeaders) {
-            clientEventTest.addDiscardedLeader(initialDiscardedLeader);
+            clientEventTest.addChosenLeader(initialDiscardedLeader);
         }
     }
 
     private void initializeGameModel(List<String> players){
         gameModelTest = new GameModel(players, false, null);
-        gameModelTest.setGameStatus(true);
+        gameModelTest.start();
     }
 
 

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.simplemodel;
 
+import it.polimi.ingsw.network.EndGameInfo;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
 import it.polimi.ingsw.network.simplemodel.SimpleCardShop;
 import it.polimi.ingsw.network.simplemodel.SimpleMarketBoard;
@@ -26,6 +27,7 @@ public class SimpleModel {
 
         commonSimpleModelElementsMap.put(SimpleCardShop.class.getSimpleName(), new SimpleCardShop());
         commonSimpleModelElementsMap.put(SimpleMarketBoard.class.getSimpleName(), new SimpleMarketBoard());
+        commonSimpleModelElementsMap.put(EndGameInfo.class.getSimpleName(), new EndGameInfo());
     }
 
     public PlayerCache[] getPlayersCaches() {
@@ -50,7 +52,7 @@ public class SimpleModel {
     public <T extends SimpleModelElement> Optional<T> getElem(Class<T> s){
         Optional<T> result;
         try {
-            result = Optional.ofNullable(s.cast(commonSimpleModelElementsMap.getOrDefault(s.getSimpleName(),null)));;
+            result = Optional.ofNullable(s.cast(commonSimpleModelElementsMap.getOrDefault(s.getSimpleName(),null)));
         } catch (ClassCastException e){
             result = Optional.empty();
         }

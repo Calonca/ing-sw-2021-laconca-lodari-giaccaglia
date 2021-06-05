@@ -12,6 +12,8 @@ import it.polimi.ingsw.server.model.player.board.*;
 import it.polimi.ingsw.server.model.player.leaders.Leader;
 import it.polimi.ingsw.server.model.player.track.*;
 import it.polimi.ingsw.server.model.solo.*;
+
+import javax.crypto.Mac;
 import java.io.IOException;
 import java.util.*;
 import java.util.function.Function;
@@ -41,12 +43,16 @@ public class GameModel {
      */
     private MarketBoard resourcesMarket;
 
-    /**
-     * Ending game variable referencing the winner player, if present, determined after last played {@link State#FINAL_PHASE}
-     */
-    private Player winnerPlayer;
+    public enum MacroGamePhase
+    {
+        ActiveGame,
+        LastTurn,
+        GameEnded
+    }
 
-    private Map<Integer, Player> playersEndingTheGame;
+    private MacroGamePhase macroGamePhase;
+
+    private Map<Integer, Player> playersEndingTheGame = new HashMap<>();
 
     /**
      * Boolean value indicating if current player has started or is still in setup phase.
@@ -163,8 +169,21 @@ public class GameModel {
         currentPlayer.moveLorenzoOnePosition();
     }
 
-    public void setGameStatus(boolean isStarted){
-        this.isStarted = isStarted;
+    public void start(){
+
+        this.isStarted = true;
+        macroGamePhase = MacroGamePhase.ActiveGame;
+
+    }
+
+    public void setMacroGamePhase(MacroGamePhase macroGamePhase){
+
+        this.macroGamePhase = macroGamePhase;
+
+    }
+
+    public MacroGamePhase getMacroGamePhase(){
+        return this.macroGamePhase;
     }
 
     public boolean isGameStarted(){
@@ -251,8 +270,8 @@ public class GameModel {
         return currentPlayer.anyLeaderPlayable();
     }
 
-    public void discardLeadersOnSetupPhase(int playerNumber, List<UUID> leadersToDiscard){
-        leadersToDiscard.forEach(leader -> players.get(playerNumber).discardLeader(leader));
+    public void discardLeadersOnSetupPhase(List<UUID> chosenLeaders){
+        currentPlayer.getLeadersUUIDs().stream().filter(leaderId -> !chosenLeaders.contains(leaderId)).forEach(leaderId -> currentPlayer.discardLeader(leaderId));
     }
 
     public void setOfflinePlayer(Player player){
@@ -570,8 +589,6 @@ public class GameModel {
         return match.getMatchId();
     }
 
-
-
    public void handleVaticanReport(){
 
         if(!vaticanReportTriggers().isEmpty())
@@ -605,10 +622,13 @@ public class GameModel {
 
     }
 
-
     public void setPlayersEndingTheGame(Map<Integer, Player> playersEndingTheGame){
         this.playersEndingTheGame = playersEndingTheGame;
 
+    }
+
+    public Map<Integer, Player> getPlayersEndingTheGame(){
+        return playersEndingTheGame;
     }
 
     public Map<Integer, Player> getPlayersAtTheEndOfTheFaithTrack(){

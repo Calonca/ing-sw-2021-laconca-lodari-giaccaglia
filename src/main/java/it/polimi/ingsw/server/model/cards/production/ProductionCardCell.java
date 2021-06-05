@@ -12,10 +12,11 @@ import java.util.Optional;
  */
 
 public class ProductionCardCell {
+
     private DevelopmentCard cardOnTop;
     private int maxsize=3;
 
-    private List<DevelopmentCard> stackedCards;
+    private final List<DevelopmentCard> stackedCards;
 
     public ProductionCardCell()
     {
@@ -78,6 +79,10 @@ public class ProductionCardCell {
         }
         return temp;
 
+    }
+
+    public int getTotalCellPoints(){
+        return stackedCards.stream().mapToInt(DevelopmentCard::getPoints).sum();
     }
 
 }

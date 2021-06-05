@@ -17,7 +17,8 @@ import java.util.List;
  */
 public class DiscardingResources implements GameStrategy {
 
-    List<Element> elementsToUpdate = new ArrayList<>();
+    private final List<Element> elementsToUpdate = new ArrayList<>();
+    private transient GameModel gameModel;
 
     public Pair<State, List<Element>> execute(GameModel gameModel, Validable event)
     {
@@ -26,22 +27,25 @@ public class DiscardingResources implements GameStrategy {
         elementsToUpdate.add(Element.SimpleDiscardBox);
         elementsToUpdate.add(Element.SimpleFaithTrack);
 
+        this.gameModel = gameModel;
         PersonalBoard currentBoard = gameModel.getCurrentPlayer().getPersonalBoard();
 
         currentBoard.discardResources();
-
 
         positionsToAdd = currentBoard.getBadFaithToAdd();
 
         for(int i=0; i<positionsToAdd; i++)
         {
-
             gameModel.addFaithPointToOtherPlayers();
             gameModel.handleVaticanReport();
 
-            if(gameModel.checkTrackStatus())
-                return new Pair<>(State.END_PHASE, elementsToUpdate);
+            if(gameModel.checkTrackStatus()) {
 
+                handleCommonEndGameStrategy();
+
+                return new Pair<>(State.IDLE, elementsToUpdate);
+
+            }
         }
 
 
@@ -52,8 +56,13 @@ public class DiscardingResources implements GameStrategy {
             gameModel.getCurrentPlayer().moveOnePosition();
             gameModel.handleVaticanReport();
 
-            if(gameModel.checkTrackStatus())
-                return new Pair<>(State.END_PHASE, elementsToUpdate);
+            if(gameModel.checkTrackStatus()) {
+
+                handleCommonEndGameStrategy();
+
+                return new Pair<>(State.IDLE, elementsToUpdate);
+            }
+
         }
 
 
@@ -61,7 +70,14 @@ public class DiscardingResources implements GameStrategy {
 
     }
 
+    private void handleCommonEndGameStrategy(){
+        if (gameModel.getMacroGamePhase().equals(GameModel.MacroGamePhase.ActiveGame))
+            gameModel.setMacroGamePhase(GameModel.MacroGamePhase.LastTurn);
+
+        else if (gameModel.getPlayerIndex(gameModel.getCurrentPlayer()) == (gameModel.getOnlinePlayers().size() - 1))
+            gameModel.setMacroGamePhase(GameModel.MacroGamePhase.GameEnded);
 
 
+    }
 
 }

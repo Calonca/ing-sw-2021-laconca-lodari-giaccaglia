@@ -14,7 +14,7 @@ import java.util.UUID;
 public class SetupPhaseEvent extends Event {
 
     protected Pair<Integer, Integer> [] resources; //key = position, value = resource number
-    protected List<UUID> discardedLeaders;
+    protected List<UUID> chosenLeaders;
     protected int initialResources;
     protected int initialDiscardedLeaders;
     protected int actualSize = 0;
@@ -31,7 +31,7 @@ public class SetupPhaseEvent extends Event {
     public SetupPhaseEvent(int initialResources,int initialDiscardedLeaders, int playerNumber){
         this.initialResources = initialResources;
         this.initialDiscardedLeaders = initialDiscardedLeaders;
-        this.discardedLeaders = new ArrayList<>(initialDiscardedLeaders);
+        this.chosenLeaders = new ArrayList<>(initialDiscardedLeaders);
         this.playerNumber = playerNumber;
         resources = new Pair[initialResources];
     }
@@ -56,8 +56,8 @@ public class SetupPhaseEvent extends Event {
      * Method to select <em>leaderCards</em> to discard during setup phase.
      * @param leaderNumber int value representing <em>leaderCard</em> number.
      */
-    public void addDiscardedLeader(UUID leaderNumber){
-        discardedLeaders.add(leaderNumber);
+    public void addChosenLeader(UUID leaderNumber){
+        chosenLeaders.add(leaderNumber);
     }
 
 }

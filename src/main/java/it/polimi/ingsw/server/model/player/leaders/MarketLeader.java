@@ -18,7 +18,7 @@ public class MarketLeader extends Leader
     public MarketLeader(LeaderState state, int victoryPoints, List<Pair<Resource,Integer>> requirementsResources, List<Pair<DevelopmentCardColor, Integer>> requirementsCards, Resource bonus, int requirementsCardsLevel)
     {
         this.state = state;
-        this.victoryPoints = victoryPoints;
+        this.points = victoryPoints;
         this.requirementsCards = requirementsCards;
         this.requirementsResources = requirementsResources;
         this.bonus = bonus;

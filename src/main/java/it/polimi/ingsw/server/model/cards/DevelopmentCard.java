@@ -5,10 +5,8 @@ import it.polimi.ingsw.server.model.Resource;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 /**
  * Class for Development Cards. Since the color is not strictly tied to the input/output we totally decoupled that
@@ -25,7 +23,7 @@ public class DevelopmentCard
      */
     private DevelopmentCardColor cardType;
     private List<Pair<Resource,Integer>> costList;
-    private int victoryPoints;
+    private int points;
     private int level;
     private UUID cardId;
     public int getLevel() {
@@ -44,16 +42,16 @@ public class DevelopmentCard
         this(level,cardType,production,1);
     }
 
-    public DevelopmentCard(int level, DevelopmentCardColor cardType,Production production, int victoryPoints)
+    public DevelopmentCard(int level, DevelopmentCardColor cardType,Production production, int points)
     {
-        this(level,cardType,production,victoryPoints,new ArrayList<>());
+        this(level,cardType,production, points,new ArrayList<>());
     }
-    public DevelopmentCard(int level, DevelopmentCardColor cardType,Production production, int victoryPoints, List<Pair<Resource,Integer>> costList)
+    public DevelopmentCard(int level, DevelopmentCardColor cardType, Production production, int points, List<Pair<Resource,Integer>> costList)
     {
         this.production = production;
         this.level = level;
         this.cardType = cardType;
-        this.victoryPoints=victoryPoints;
+        this.points = points;
         this.costList=costList;
     }
 
@@ -61,7 +59,7 @@ public class DevelopmentCard
         this.production = another.production;
         this.level = another.level;
         this.cardType = another.cardType;
-        this.victoryPoints= another.victoryPoints;
+        this.points = another.points;
         this.costList= another.costList;
         this.cardId = another.cardId;
     }
@@ -89,6 +87,10 @@ public class DevelopmentCard
             toar[resourceIntegerPair.getKey().getResourceNumber()] += resourceIntegerPair.getValue();
 
         return toar;
+    }
+
+    public int getPoints(){
+        return points;
     }
 
 

@@ -62,9 +62,15 @@ public class StatesTransitionTable {
         statesTransitionTable.table = new HashMap<>();
         HashMap<String, GameStrategy> eventsAndStrategy = new HashMap<>();
 
-        // just an idea : player can freely move warehouse resources during idle phase
+
+
+        // player can freely move warehouse resources during idle phase
         //Idle Phase
         eventsAndStrategy.put(null, new IDLE());
+        statesTransitionTable.table.put(State.IDLE, eventsAndStrategy);
+        eventsAndStrategy = new HashMap<>();
+
+        eventsAndStrategy.put(name(MoveResourceEvent.class), new MovingResource());
         statesTransitionTable.table.put(State.IDLE, eventsAndStrategy);
         eventsAndStrategy = new HashMap<>();
 
@@ -107,7 +113,7 @@ public class StatesTransitionTable {
         eventsAndStrategy = new HashMap<>();
 
         //Choosing Position For Resources
-        eventsAndStrategy.put(name(MoveResourceEvent.class), new AddingResourcesFromMarket());
+        eventsAndStrategy.put(name(MoveResourceEvent.class), new MovingResource());
         eventsAndStrategy.put(name(DiscardResourcesEvent.class), new DiscardingResources());
         statesTransitionTable.table.put(State.CHOOSING_POSITION_FOR_RESOURCES, eventsAndStrategy);
         eventsAndStrategy = new HashMap<>();
@@ -162,12 +168,13 @@ public class StatesTransitionTable {
         strategyAdapter.registerSubtype(ChoosingSpaceForDevelopmentCard.class);
         strategyAdapter.registerSubtype(PayingResourcesForDevelopmentCard.class);
         strategyAdapter.registerSubtype(ChoosingResourceForProduction.class);
-        strategyAdapter.registerSubtype(AddingResourcesFromMarket.class);
+        strategyAdapter.registerSubtype(MovingResource.class);
         strategyAdapter.registerSubtype(ChoosingMarketBonus.class);
         strategyAdapter.registerSubtype(DiscardingResources.class);
         strategyAdapter.registerSubtype(PuttingBallOnLine.class);
         strategyAdapter.registerSubtype(TogglingForProduction.class);
         strategyAdapter.registerSubtype(Setup.class);
+        strategyAdapter.registerSubtype(EndGameStrategy.class);
 
         return new GsonBuilder()
                 .registerTypeAdapterFactory(strategyAdapter).setPrettyPrinting()

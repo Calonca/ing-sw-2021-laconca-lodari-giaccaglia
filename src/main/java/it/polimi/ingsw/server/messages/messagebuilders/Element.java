@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.messages.messagebuilders;
 
+import it.polimi.ingsw.client.simplemodel.SimpleModel;
+import it.polimi.ingsw.network.EndGameInfo;
 import it.polimi.ingsw.network.simplemodel.*;
 import it.polimi.ingsw.server.model.GameModel;
 
@@ -32,6 +34,16 @@ public enum Element {
                     gameModel.getNumberOfWhiteMarblesInPickedLine());
         }
     },
+
+    EndGameInfo(true){
+        @Override
+        public SimpleModelElement buildSimpleModelElement(GameModel gameModel){
+            return new EndGameInfo(
+                    EndGameInfoMessageBuilder.endGameInfoMap(gameModel),
+                    EndGameInfoMessageBuilder.getPlayersEndingTheGame(gameModel));
+        }
+    },
+
 
     //--------player elements-----------//
 

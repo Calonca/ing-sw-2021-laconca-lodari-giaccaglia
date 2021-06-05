@@ -5,7 +5,6 @@ import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.GUI.GUIelem.ButtonSelectionModel;
 import it.polimi.ingsw.client.view.GUI.GUIelem.ResourceButton;
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
-import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.events.setupphaseevent.SetupPhaseEvent;
 import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
@@ -113,7 +112,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
                SetupPhaseEvent event = new SetupPhaseEvent(Util.resourcesToChooseOnSetup(getCommonData().getThisPlayerIndex()),2,getClient().getCommonData().getThisPlayerIndex());
             for(int i = 0; i< sceneLeaders.size(); i++)
                 if(!selectedLeaders.get(i))
-                    event.addDiscardedLeader(leadersUUIDs.get(i));
+                    event.addChosenLeader(leadersUUIDs.get(i));
             getClient().getServerHandler().sendCommandMessage(new EventMessage(event));
 
 
@@ -158,7 +157,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         {
             leadersUUIDs.add(leaderCardAssets.get(i).getCardId());
             Path path= Paths.get(leaderCardAssets.get(i).getCardPaths().getKey().toString().substring(1));
-            System.out.println(leaderCardAssets.get(i).getCardPaths().getKey().toString().toString());
+            System.out.println(leaderCardAssets.get(i).getCardPaths().getKey().toString());
             ImageView temp = new ImageView(new Image("assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_2.png", true));
 //new Image(ViewPersonalBoard.class.getResource(leaderCardAssets.get(i).getCardPaths().getKey().toString()).toString()
             tempbut= new Button();

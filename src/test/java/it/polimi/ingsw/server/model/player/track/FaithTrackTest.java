@@ -179,7 +179,7 @@ public class FaithTrackTest {
     }
 
     @Test
-    public void hasReachedLastSpace() throws IOException {
+    public void hasReachedLastSpace() {
 
         for(int i=0; i<=23; i++) {
             testTrack.moveLorenzoOnePosition();
@@ -230,7 +230,7 @@ public class FaithTrackTest {
             testTrack.moveOnePosition();
         }
 
-        int lorenzoVictoryPoints = testTrack.victoryPointsFromFaithTrackCell();
+        int lorenzoVictoryPoints = testTrack.getPointsFromFaithTrackCell();
         assertEquals(expectedVictoryPoints, lorenzoVictoryPoints);
 
     }
@@ -257,7 +257,7 @@ public class FaithTrackTest {
         }
 
         testTrack.turnPopeFavourTile(popeSpacePosition);
-        assertEquals(testTrack.victoryPointsFromPopeFavourTiles(), expectedVictoryPoints);
+        assertEquals(testTrack.getPointsFromPopeFavourTiles(), expectedVictoryPoints);
 
     }
 

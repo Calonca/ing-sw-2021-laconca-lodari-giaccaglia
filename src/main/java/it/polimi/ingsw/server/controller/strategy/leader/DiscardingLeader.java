@@ -33,8 +33,17 @@ public class DiscardingLeader implements GameStrategy {
 
             gamemodel.handleVaticanReport();
 
-            if(gamemodel.checkTrackStatus())
-                return new Pair<>(State.END_PHASE, elementsToUpdate);
+            if(gamemodel.checkTrackStatus()) {
+
+                if(gamemodel.getMacroGamePhase().equals(GameModel.MacroGamePhase.ActiveGame))
+                    gamemodel.setMacroGamePhase(GameModel.MacroGamePhase.LastTurn);
+
+                else if(gamemodel.getPlayerIndex(gamemodel.getCurrentPlayer()) == (gamemodel.getOnlinePlayers().size() - 1))
+                    gamemodel.setMacroGamePhase(GameModel.MacroGamePhase.GameEnded);
+
+                return new Pair<>(State.IDLE, elementsToUpdate);
+
+            }
 
         }
 

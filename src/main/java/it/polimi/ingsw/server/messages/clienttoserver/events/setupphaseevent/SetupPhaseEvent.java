@@ -44,10 +44,10 @@ public class SetupPhaseEvent extends it.polimi.ingsw.network.messages.clienttose
      */
     private boolean validateLeaders() {
 
-        if(discardedLeaders.size() == initialDiscardedLeaders && initialDiscardedLeaders == 2)
+        if(chosenLeaders.size() == initialDiscardedLeaders && initialDiscardedLeaders == 2)
         {
             boolean validationOk;
-            for (UUID leaderId: discardedLeaders) {
+            for (UUID leaderId: chosenLeaders) {
                 validationOk = gamemodel.getCurrentPlayer().isLeaderAvailable(leaderId);
                 if(!validationOk) return false;
             }
@@ -137,8 +137,8 @@ public class SetupPhaseEvent extends it.polimi.ingsw.network.messages.clienttose
 
     //key = position in warehouseLeadersDepot, value = resource number
 
-    public List<UUID> getDiscardedLeaders(){
-        return discardedLeaders;
+    public List<UUID> getChosenLeaders(){
+        return chosenLeaders;
     }
 
     public Pair<Integer, Integer>[] getChosenResources(){

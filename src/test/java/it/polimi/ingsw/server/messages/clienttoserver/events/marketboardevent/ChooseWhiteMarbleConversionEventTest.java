@@ -60,7 +60,7 @@ public class ChooseWhiteMarbleConversionEventTest {
         players.add("testPlayer4");
 
         gameModelTest = new GameModel(players, false , null);
-        gameModelTest.setGameStatus(true);
+        gameModelTest.start();
     }
 
 

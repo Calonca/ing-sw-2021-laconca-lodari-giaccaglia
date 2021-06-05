@@ -33,8 +33,8 @@ public class Match {
             this.clientHandler = clientHandler;
         }
 
-
     }
+
     public Match(int maxPlayers){
         matchId = UUID.randomUUID();
         this.maxPlayers = maxPlayers;
@@ -53,7 +53,7 @@ public class Match {
     public void startGame() {
 
         this.game = new GameModel(onlineUsers.stream().map(u->u.nickname).collect(Collectors.toList()), onlineUsers.size()==1,this);
-        game.setGameStatus(true);
+        game.start();
         game.getCurrentPlayer().setCurrentState(State.SETUP_PHASE);
         List<Element> elems = new ArrayList<>(Arrays.asList(Element.values()));
         notifyStateToAllPlayers(elems);
@@ -115,26 +115,32 @@ public class Match {
     }
 
     public void transitionToNextState(Validable event) throws EventValidationFailedException {
+
         GameStrategy gameStrategy = game.getCurrentPlayer().getStatesTransitionTable().getStrategy(game.getCurrentPlayer().getCurrentState(), event);
         if (gameStrategy==null)
             throw new EventValidationFailedException();
+
         Pair<State, List<Element>> data = gameStrategy.execute(game,event);
         game.getCurrentPlayer().setCurrentState(data.getKey());
         notifyStateToAllPlayers(data.getValue());
 
         //Todo check for better way
         if (game.getCurrentPlayer().getCurrentState().equals(State.IDLE)) {
+
             game.setCurrentPlayer(game.getNextPlayer());
+
             if (game.getCurrentPlayer().getCurrentState().equals(State.SETUP_PHASE)){
                 List<Element> elems = new ArrayList<>(Arrays.asList(Element.values()));
                 notifyStateToAllPlayers(elems);
             }
+
             else {
                 IDLE IDLEStrategy = new IDLE();
                 Pair<State, List<Element>> data2 = IDLEStrategy.execute(game, null);
                 game.getCurrentPlayer().setCurrentState(data2.getKey());
                 notifyStateToAllPlayers(data2.getValue());
             }
+
         }
 
     }

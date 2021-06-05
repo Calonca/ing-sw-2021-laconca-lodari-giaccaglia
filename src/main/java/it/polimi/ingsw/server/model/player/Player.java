@@ -32,7 +32,6 @@ public class Player {
      */
     private final PersonalBoard personalBoard;
 
-
     private final Map<UUID, Leader> leaders;
 
     /**
@@ -45,6 +44,8 @@ public class Player {
      * with online players.
      */
     private boolean currentlyOnline;
+
+    private boolean matchOutcome;
 
     /**
      * Player's personal {@link FaithTrack} along which {@link FaithTrack#playerPiece playerPiece} is moved and <em>Vatican Report</em>
@@ -92,6 +93,14 @@ public class Player {
     public int[] getDiscounts()
     {
         return discounts;
+    }
+
+    public void setMatchOutcome(boolean matchOutcome){
+        this.matchOutcome = matchOutcome;
+    }
+
+    public boolean getMatchOutCome(){
+        return matchOutcome;
     }
 
     public List<UUID> getLeadersUUIDs() {return new ArrayList<>(leaders.keySet());}
@@ -217,7 +226,6 @@ public class Player {
         return faithTrack.getLorenzoPosition();
     }
 
-
     /**
      * @return true if the <em>PlayerPiece</em> is currently in a <em>Pope Space</em> along {@link FaithTrack}.
      */
@@ -288,6 +296,27 @@ public class Player {
     public boolean hasLorenzoReachedTrackEnd(){
         return faithTrack.hasReachedLastSpace(faithTrack.getLorenzoPiece());
     }
+
+    private int getPointsFromLeaders(){
+
+        return leaders.values().stream().mapToInt(Leader::getLeaderPoints).sum();
+
+    }
+
+    public int getCurrentGamePoints(){
+
+        return faithTrack.getPointsFromFaithTrackCell() +
+                faithTrack.getPointsFromPopeFavourTiles() +
+                personalBoard.getPointsFromResources() +
+                personalBoard.getPointsFromDevelopmentCards() +
+                getPointsFromLeaders();
+    }
+
+
+
+
+
+
 
 
 }
