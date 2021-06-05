@@ -65,6 +65,12 @@ public enum Element {
             }
         },
 
+        SimpleAvailableMovingPositions(false){
+        @Override
+            public SimpleModelElement buildSimpleModelElement(GameModel gameModel){
+            return new SimpleAvailableMovingPositions(SimpleDepotsMessageBuilder.getAvailableMovingPositionsForResourceAtPos(gameModel));
+            }
+        },
 
 
         SimpleWareHouseLeadersDepot(false) {

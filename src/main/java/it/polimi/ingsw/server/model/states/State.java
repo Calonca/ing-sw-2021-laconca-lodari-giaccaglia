@@ -153,6 +153,7 @@ public enum State {
                 gameModel.getPlayerIndex(gameModel.getCurrentPlayer()),
                 this.toString(), playerSimpleModelElements,
                 commonSimpleModelElements);
+
     }
 
 }

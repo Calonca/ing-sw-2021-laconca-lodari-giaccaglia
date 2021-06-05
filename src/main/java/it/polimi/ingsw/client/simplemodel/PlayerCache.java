@@ -55,6 +55,7 @@ public class PlayerCache {
         this.support = new PropertyChangeSupport(this);;
 
         playerSimpleModelElementsMap.put(SimplePlayerLeaders.class.getSimpleName(), new SimplePlayerLeaders());
+        playerSimpleModelElementsMap.put(SimpleAvailableMovingPositions.class.getSimpleName(), new SimpleAvailableMovingPositions());
         playerSimpleModelElementsMap.put(SimpleFaithTrack.class.getSimpleName(), new SimpleFaithTrack());
         playerSimpleModelElementsMap.put(SimpleCardCells.class.getSimpleName(), new SimpleCardCells());
         playerSimpleModelElementsMap.put(SimpleWarehouseLeadersDepot.class.getSimpleName(), new SimpleWarehouseLeadersDepot());

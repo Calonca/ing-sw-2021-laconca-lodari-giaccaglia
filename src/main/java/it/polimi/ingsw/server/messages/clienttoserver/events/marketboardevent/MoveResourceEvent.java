@@ -76,8 +76,11 @@ public class MoveResourceEvent extends it.polimi.ingsw.network.messages.clientto
 
         if(startPos<0)
             return startPos >= -4 && gameModel.getCurrentPlayer().getPersonalBoard().getDiscardBox().getNumberOf(Resource.fromIntFixed(startPos + 4)) > 0;
-        else
+
+        else if(startPos < currentPlayerPersonalBoard.getWarehouseLeadersDepots().getNumOfCellsInAllDepots())
             return !gameModel.getCurrentPlayer().getPersonalBoard().getResourceAtPosition(startPos).equals(Resource.EMPTY);
+
+        else return false;
     }
 
     public int getStartPos(){
