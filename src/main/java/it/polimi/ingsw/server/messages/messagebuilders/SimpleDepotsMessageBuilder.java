@@ -3,11 +3,16 @@ package it.polimi.ingsw.server.messages.messagebuilders;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
+import it.polimi.ingsw.server.model.market.MarketLine;
+import it.polimi.ingsw.server.model.player.board.Box;
+import it.polimi.ingsw.server.model.player.board.PersonalBoard;
 import javafx.util.Pair;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class SimpleDepotsMessageBuilder {
 
@@ -48,6 +53,19 @@ public class SimpleDepotsMessageBuilder {
                 )
         ));
     }
+
+    public static Map<Integer, List<Integer>> getAvailableMovingPositionsForResourceAtPos(GameModel gameModel){
+
+        PersonalBoard currentPlayerPersonalBoard = gameModel.getCurrentPlayer().getPersonalBoard();
+        int warehouseDepotSpaces = currentPlayerPersonalBoard.getWarehouseLeadersDepots().getNumOfCellsInAllDepots();
+
+        return IntStream.range(-4, warehouseDepotSpaces).boxed().collect(Collectors.toMap(
+                position -> position,
+                position ->currentPlayerPersonalBoard.availableMovingPositionsForResourceAt(position).boxed().collect(Collectors.toList())
+        ));
+    }
+
+
 
 
 }
