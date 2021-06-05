@@ -60,6 +60,7 @@ public class MoveResourceEventTest {
     }
 
     private void invalidTestInitialization(){
+
         for(MarketLine line : MarketLine.values()) {
             if(line!=MarketLine.INVALID_LINE)
                 gameModelTest.chooseLineFromMarketBoard(line);
@@ -73,6 +74,7 @@ public class MoveResourceEventTest {
 
         for(Resource resource : Resource.values()){
             if( resource.getResourceNumber() < 4 && discardBox.getNumberOf(resource) == 0) {
+                System.out.println(resource.getResourceNumber());
                 System.out.println(discardBox.getNumberOf(resource));
                 resourceNumber = resource.getResourceNumber();
                 break;

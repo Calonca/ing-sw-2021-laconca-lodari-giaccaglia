@@ -32,7 +32,7 @@ public class SimpleDepotsMessageBuilder {
                 position -> position,
                 position -> new Pair<>(
                 ResourceAsset.fromInt(box.get(position).getKey()), new Pair<>(
-                box.get(position).getValue().getKey(), box.get(position).getValue().getKey()))
+                box.get(position).getValue().getKey(), box.get(position).getValue().getValue()))
         ));
     }
 

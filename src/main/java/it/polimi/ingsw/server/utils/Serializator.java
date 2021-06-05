@@ -14,14 +14,10 @@ import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.cards.*;
 import it.polimi.ingsw.server.model.cards.production.Production;
-import it.polimi.ingsw.server.model.market.Marble;
 import it.polimi.ingsw.server.model.player.board.LeaderDepot;
 import it.polimi.ingsw.server.model.player.leaders.*;
 import it.polimi.ingsw.server.model.states.StatesTransitionTable;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.util.Pair;
-
 import java.io.*;
 import java.lang.reflect.Type;
 import java.nio.file.Path;
@@ -44,7 +40,6 @@ public class Serializator extends JsonUtility {
     public static final String backLeaderCardPathString = "/assets/leaders/raw/BACK/Masters of Renaissance__Cards_BACK.png";
     public static final String frontLeaderCardGrayedOutPathString = "/assets/leaders/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_";
     public static final String backLeaderCardGrayedOutPathString = "/assets/leaders/grayed out/BACK/Masters of Renaissance__Cards_BACK.png";
-
 
     private static final GsonBuilder gsonBuilder = new GsonBuilder();
     //helper method to serialize cardshop configuration
@@ -1088,7 +1083,7 @@ public class Serializator extends JsonUtility {
         costTest = new Pair<>(Resource.GOLD, 1);
 
 
-        series2.add(new DevelopmentDiscountLeader(  LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,costTest));
+        series2.add(new DevelopmentDiscountLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,costTest));
 
 
 
@@ -1109,7 +1104,7 @@ public class Serializator extends JsonUtility {
         costTest = new Pair<>(Resource.STONE, 1);
 
 
-        series2.add(new DevelopmentDiscountLeader(  LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,costTest));
+        series2.add(new DevelopmentDiscountLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,costTest));
 
 
 
@@ -1240,21 +1235,15 @@ public class Serializator extends JsonUtility {
 
     }
 
-
     public static void main(String[] args) throws IOException, ClassNotFoundException, IllegalAccessException, InstantiationException {
-
-
+/*
         leaderCardsArraySerialization();
         devCardsAssetsMapSerialization();
         networkLeaderCardsAssetsMapSerialization();
         serializeResources();
         serializeMarbles();
 
-
-
-
-
-
+ */
 
     }
 

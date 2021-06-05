@@ -278,6 +278,11 @@ public class WarehouseLeadersDepots implements StorageUnit {
         return depots.stream().mapToInt((dep)->dep.getNumberOf(type)).reduce(0, Integer::sum);
     }
 
+    public int getNumOfCellsInAllDepots(){
+        return depots.stream().map(Depot::getSize).reduce(0 , Integer::sum);
+
+    }
+
     /** Returns how many {@link Resource resources} flagged for the next action there are in the {@link StorageUnit}
      * @return Number of selected {@link Resource resource}
      */

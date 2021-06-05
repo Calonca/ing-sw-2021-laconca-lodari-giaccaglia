@@ -67,7 +67,9 @@ public class MoveResourceEvent extends it.polimi.ingsw.network.messages.clientto
      * ending position is among available ones inside {@link it.polimi.ingsw.server.model.player.board.WarehouseDepot WarehouseDepot}
      */
     private boolean validateResourceToMove(int startPos, int endPos){
-        return endPos >= 0 && currentPlayerPersonalBoard.availableMovingPositionsForResourceAt(startPos)
+        return endPos >= 0
+                && endPos < currentPlayerPersonalBoard.getWarehouseLeadersDepots().getNumOfCellsInAllDepots()
+                && currentPlayerPersonalBoard.availableMovingPositionsForResourceAt(startPos)
                 .anyMatch(position -> position == endPos);
     }
     private boolean checkResourceAvailability(){
