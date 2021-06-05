@@ -100,13 +100,17 @@ public class Box implements StorageUnit {
     }
 
     /**
-     * Returns the {@link Resource resource} at the given global position in the {@link Box}
+     * Returns the {@link Resource resource} at the given global position in the {@link Box} or Resource.EMPTY if there are no resources of that type
      * @param globalPos the global position of the resource to get
      * @return The {@link Resource resource} at the given global position in the {@link Box}
      */
     @Override
     public Resource getResourceAt(int globalPos) {
-        return Resource.fromInt(globalPos-globalPosition);
+        int localPos = globalPos-globalPosition;
+        if (localPos>=nResAtPos.length || nResAtPos[localPos]==0)
+            return Resource.EMPTY;
+        else
+            return Resource.fromInt(localPos);
     }
 
     /**
