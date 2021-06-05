@@ -510,9 +510,7 @@ public class PersonalBoard {
      * @return the resource at the given position, if present, otherwise returns {@link Resource#EMPTY EMPTY}
      */
     public Resource getResourceAtPosition(int position){
-        return warehouseLeadersDepots.getResourceAt(position).equals(Resource.EMPTY) ?
-                strongBox.getResourceAt(position) :
-                warehouseLeadersDepots.getResourceAt(position);
+        return  storageUnitFromPos(position).getResourceAt(position);
     }
 
     /**

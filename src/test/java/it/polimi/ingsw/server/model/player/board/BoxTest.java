@@ -5,6 +5,8 @@ import javafx.util.Pair;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.stream.Stream;
+
 import static org.junit.Assert.*;
 
 public class BoxTest {
@@ -77,8 +79,9 @@ public class BoxTest {
     @Test
     public void getResourceAtTest() {
         Box box = new Box(6,-10);
+        box.addResources(new int[]{0,2,4,0,2,3});
         assertArrayEquals(
-                new int[]{0,1,2,3,4,5},
+                new int[]{7,1,2,7,4,5},
                 Resource.getStream(6)
                         .mapToInt(Resource::getResourceNumber)
                         .map((a)->a-10).mapToObj(box::getResourceAt)
@@ -87,8 +90,9 @@ public class BoxTest {
 
     @Test
     public void getResourceAt() {
+        box3.addResources(new int[]{1,1,1});
         assertArrayEquals(
-                Resource.getStream(111).toArray(),
+                Stream.concat(Resource.getStream(3),Stream.generate(()->Resource.EMPTY).limit(108)).toArray(),
                 Resource.getStream(111)
                         .map((res)->box3.getResourceAt(res.getResourceNumber()-12)).toArray()
         );
