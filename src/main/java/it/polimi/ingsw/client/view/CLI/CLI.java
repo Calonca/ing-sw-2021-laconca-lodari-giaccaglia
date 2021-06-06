@@ -30,15 +30,12 @@ public class CLI {
     private final Client client;
     private Optional<Title> title;
     private Optional<CLIelem> body;
-    private Optional<CLIelem> bottom;
     public final AtomicBoolean stopASAP;
 
     private String inputMessage, errorMessage;
     private String lastInput;
     private int lastInt;
     private Runnable afterInput;
-
-    private int writtenChars;
 
     //Min is 52
     public static final int height =53;//Usually 53
@@ -51,8 +48,6 @@ public class CLI {
         this.client = client;
         title = Optional.empty();
         body = Optional.empty();
-        bottom = Optional.empty();
-        writtenChars = 0;
         Thread inputThread = new Thread(() -> {
             Scanner scanner = new Scanner(System.in);
             while (true) {
@@ -91,12 +86,6 @@ public class CLI {
         this.title = Optional.of(title);
     }
 
-    public void setBottom(CLIelem bottom) {
-        this.bottom.ifPresent(b->b.removeFromListeners(client));
-        bottom.addToListeners(client);
-        this.bottom = Optional.of(bottom);
-    }
-
     public void setBody(CLIelem body){
         this.body.ifPresent(b->b.removeFromListeners(client));
         this.body = Optional.ofNullable(body);
@@ -127,9 +116,6 @@ public class CLI {
 
         cli.body.ifPresent(b->b.removeFromListeners(cli.client));
         cli.body = Optional.empty();
-
-        cli.bottom.ifPresent(b->b.removeFromListeners(cli.client));
-        cli.bottom = Optional.empty();
 
         cli.deleteText();
     }
@@ -194,12 +180,10 @@ public class CLI {
 
 
     private void printLine(String s){
-        writtenChars += s.length()+1;
         System.out.println(s);
     }
 
     private void print(String s){
-        writtenChars += s.length();
         System.out.print(s);
     }
 
@@ -215,8 +199,6 @@ public class CLI {
         title.ifPresent(t-> print(t.toString()));
         putDivider();
         body.ifPresent(b-> print(b.toString()));
-        putDivider();
-        bottom.ifPresent(b-> printLine(b.toString()));
 
         putEndDiv();
         if (errorMessage!=null)

@@ -12,7 +12,7 @@ public enum MarbleCLI {
 
     WHITE(MarbleAsset.WHITE,Color.BRIGHT_WHITE),
     BLUE(MarbleAsset.BLUE,Color.SHIELD),
-    GRAY(MarbleAsset.GRAY,Color.STONE),
+    GRAY(MarbleAsset.GRAY,Color.BRIGHT_BLACK),
     YELLOW(MarbleAsset.YELLOW,Color.GOLD),
     PURPLE(MarbleAsset.PURPLE,Color.SERVANT),
     RED(MarbleAsset.RED,Color.RED);

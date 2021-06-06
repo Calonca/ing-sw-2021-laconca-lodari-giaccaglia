@@ -27,9 +27,9 @@ public class MiddlePhaseCLI extends MiddlePhaseViewBuilder implements CLIBuilder
         row.addElem(middlePhaseOption(resourceMk,()-> sendMessage(Choice.RESOURCE_MARKET)));
 
         Drawable cardShop = new Drawable();
-        cardShop.add(0,"Buy a new card from ");
-        cardShop.add(0,"the card shop");
-        row.addElem(middlePhaseOption(cardShop,()-> sendMessage(Choice.CARD_SHOP)));
+        cardShop.add(0,"Look or buy cards");
+        cardShop.add(0,"from the Card Shop");
+        row.addElem(middlePhaseOption(cardShop,()-> getClient().changeViewBuilder(new CardShopCLI())));
         row.selectAndRunOption(getCLIView());
 
         getCLIView().setBody(CanvasBody.centered(row));

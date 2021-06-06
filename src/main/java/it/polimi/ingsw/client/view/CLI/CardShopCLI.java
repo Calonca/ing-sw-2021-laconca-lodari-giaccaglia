@@ -18,7 +18,7 @@ public class CardShopCLI extends CardShopViewBuilder {
 
     @Override
     public void run() {
-        getCLIView().setTitle("Select a card to buy");
+        getCLIView().setTitle("Card Shop");
 
         Column grid = new Column();
         for (int i = 3; i >= 1; i--) {
@@ -38,6 +38,7 @@ public class CardShopCLI extends CardShopViewBuilder {
         }
 
         getCLIView().setBody(CanvasBody.centered(grid));
+        getCLIView().runOnInput("Press enter to go back",()->getClient().changeViewBuilder(new MiddlePhaseCLI()));
         getCLIView().show();
 
     }
