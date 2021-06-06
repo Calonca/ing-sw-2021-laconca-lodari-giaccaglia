@@ -31,6 +31,10 @@ public abstract class OptionList extends GridElem{
         elems.add(elem);
     }
 
+    public void addElemNoIndexChange(GridElem elem){
+        elems.add(elem);
+    }
+
     public Column addAndGetColumn(){
         Column c = new Column(); 
         elems.add(c);

@@ -47,14 +47,21 @@ public class Option extends GridElem{
                 return dw;
             }
         }
-        ,NO_NUMBER {
+        , NO_NUMBER_SPACE_BOTTOM {
             @Override
             public Drawable getDrawable(int idx, Drawable drawable, boolean enabled) {
                 Drawable dw = Drawable.copyShifted(0,0,drawable);
                 dw.addEmptyLine();
                 return  dw;
             }
+        },
+        NO_NUMBER {
+            @Override
+            public Drawable getDrawable(int idx, Drawable drawable, boolean enabled) {
+                return drawable;
+            }
         };
+
 
         public abstract Drawable getDrawable(int idx, Drawable drawable, boolean enabled);
 
@@ -74,7 +81,7 @@ public class Option extends GridElem{
 
     public static Option noNumber(String name){
         Option o = Option.from(fromNameAndSub(name,""),()->{});
-        o.setMode(VisMode.NO_NUMBER);
+        o.setMode(VisMode.NO_NUMBER_SPACE_BOTTOM);
         return o;
     }
 
@@ -93,7 +100,7 @@ public class Option extends GridElem{
 
     public static Option noNumber(Drawable drawable){
         Option o = Option.from(drawable,()->{});
-        o.setMode(VisMode.NO_NUMBER);
+        o.setMode(VisMode.NO_NUMBER_SPACE_BOTTOM);
         return o;
     }
 
@@ -175,7 +182,7 @@ public class Option extends GridElem{
 
     @Override
     public Optional<Option> getOptionWithIndex(int i) {
-        return Optional.ofNullable((getFirstIdx()==i&&!mode.equals(VisMode.NO_NUMBER)&&enabled)?this:null);
+        return Optional.ofNullable((getFirstIdx()==i&&!mode.equals(VisMode.NO_NUMBER_SPACE_BOTTOM)&&enabled)?this:null);
     }
 
     @Override

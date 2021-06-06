@@ -10,16 +10,11 @@ import it.polimi.ingsw.client.view.CLI.layout.drawables.ResourceCLI;
 import it.polimi.ingsw.client.view.CLI.textUtil.Background;
 import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
-import it.polimi.ingsw.network.simplemodel.SimpleDiscardBox;
-import it.polimi.ingsw.network.simplemodel.SimpleFaithTrack;
-import it.polimi.ingsw.network.simplemodel.SimpleStrongBox;
-import it.polimi.ingsw.network.simplemodel.SimpleWarehouseLeadersDepot;
+import it.polimi.ingsw.network.simplemodel.*;
 import javafx.util.Pair;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.*;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class PersonalBoardBody extends CLIelem {
@@ -28,41 +23,46 @@ public class PersonalBoardBody extends CLIelem {
 
         MOVING_RES(){
                 @Override
-        public void initialize(PersonalBoardBody board, PlayerCache cache, SimpleModel simpleModel){
+        public void initialize(PersonalBoardBody board){
                     board.mode = MOVING_RES;
-                    SimpleFaithTrack[] simpleFaithTracks =Arrays.stream(simpleModel.getPlayersCaches())
+                    PlayerCache cache = board.cache;
+                    SimpleFaithTrack[] simpleFaithTracks =Arrays.stream(board.simpleModel.getPlayersCaches())
                             .map(c->c.getElem(SimpleFaithTrack.class).orElseThrow()).toArray(SimpleFaithTrack[]::new);
                     board.faithTrack = new FaithTrackGridElem(cache.getElem(SimpleFaithTrack.class).orElseThrow(),simpleFaithTracks);
-                    board.discardBox = board.discardBoxBuilder(cache.getElem(SimpleDiscardBox.class).orElseThrow(), board);
-                    board.wareHouseLeadersDepot = wareBuilder(cache.getElem(SimpleWarehouseLeadersDepot.class).orElseThrow(),board );
+
+                    board.initializeMove();
                     board.strongBox = strongBoxBuilder(cache.getElem(SimpleStrongBox.class).orElseThrow(), board);
-                    
-        }
+                    board.message = "Select move starting position or discard resources";
+                }
 
             @Override
             public String getString(PersonalBoardBody board) {
-                Column root = new Column();
-                root.setAlignment(GridElem.Alignment.CANVAS_CENTER_VERTICAL);
-                root.addElem(board.faithTrack);
 
-                Row endRow = root.addAndGetRow();
+                board.root = new Column();
 
-                Column depotsRow = endRow.addAndGetColumn();
-                depotsRow.addElem(board.wareHouseLeadersDepot);
+                board.root.setAlignment(GridElem.Alignment.CANVAS_CENTER_VERTICAL);
+                board.root.addElem(board.faithTrack);
 
-                depotsRow.addElem(new SizedBox(0,2));
-                depotsRow.addElem(board.strongBox);
+                Row depotsAndProds = board.root.addAndGetRow();
 
-                endRow.addElem(board.discardBox);
+                Column depots = depotsAndProds.addAndGetColumn();
+                depots.addElemNoIndexChange(board.wareHouseLeadersDepot);
 
-                return  CanvasBody.fromGrid(root).toString();
+                depots.addElem(new SizedBox(0,2));
+                depots.addElem(board.strongBox);
+
+                depotsAndProds.addElem(board.discardBox);
+
+                depotsAndProds.selectInEnabledOption(cli,board.message);
+                return  CanvasBody.fromGrid(board.root).toString();
             }
         },
         TEST() {
             @Override
-            public void initialize(PersonalBoardBody board, PlayerCache cache, SimpleModel simpleModel) {
-                board.mode = MOVING_RES;   
-                board.wareHouseLeadersDepot = wareBuilder(cache.getElem(SimpleWarehouseLeadersDepot.class).orElseThrow(),board );
+            public void initialize(PersonalBoardBody board) {
+                board.mode = MOVING_RES;
+                SimpleAvailableMovingPositions movPos = board.cache.getElem(SimpleAvailableMovingPositions.class).orElseThrow();
+                board.wareHouseLeadersDepot = wareBuilder(board.cache.getElem(SimpleWarehouseLeadersDepot.class).orElseThrow(),board, movPos);
             }
 
             @Override
@@ -71,7 +71,7 @@ public class PersonalBoardBody extends CLIelem {
             }
         };
 
-        public abstract void initialize(PersonalBoardBody board, PlayerCache cache, SimpleModel simpleModel);
+        public abstract void initialize(PersonalBoardBody board);
 
         public abstract String getString(PersonalBoardBody board);
 
@@ -81,19 +81,45 @@ public class PersonalBoardBody extends CLIelem {
     Column discardBox;
     Row strongBox;
     Column wareHouseLeadersDepot;
+    Column root = new Column();
+    PlayerCache cache;
+    SimpleModel simpleModel;
+    String message;
     
     Mode mode;
+    Integer lastSelectedPosition;
 
     public PersonalBoardBody(PlayerCache cache, Mode mode, SimpleModel simpleModel) {
-        mode.initialize(this,cache, simpleModel);
+        this.cache = cache;
+        this.simpleModel = simpleModel;
+        mode.initialize(this);
     }
 
-    private Column discardBoxBuilder(SimpleDiscardBox simpleDiscardBox, PersonalBoardBody board){
+    private boolean getSelectable(PersonalBoardBody board,SimpleAvailableMovingPositions movPos,int pos){
+        boolean selectable = false;
+        if (board.mode.equals(Mode.MOVING_RES)){
+            if (board.lastSelectedPosition==null)
+                selectable = !movPos.getAvailableMovingPositionsForResourceAt(pos).isEmpty();
+            else {
+                List<Integer> moveEndPos = movPos.getAvailableMovingPositionsForResourceAt(lastSelectedPosition);
+                selectable = moveEndPos.contains(pos);
+            }
+        }
+        return selectable;
+    }
 
+    private Column discardBoxBuilder(SimpleDiscardBox simpleDiscardBox, PersonalBoardBody board, SimpleAvailableMovingPositions movPos){
         Map<Integer, Pair<ResourceAsset, Integer>> discardBoxMap = simpleDiscardBox.getResourceMap();
+        Optional<Integer> faithPointsPos = discardBoxMap.entrySet().stream().filter(e->e.getValue().getKey().equals(ResourceAsset.FAITH)).map(Map.Entry::getKey).findFirst();
+        int faithPoints = faithPointsPos.map(p->discardBoxMap.get(faithPointsPos.get()).getValue()).orElse(0);
+        faithPointsPos.ifPresent(discardBoxMap::remove);
+
         Stream<Option> optionList = discardBoxMap.entrySet().stream().sorted(Map.Entry.comparingByKey())
-            .map(e->optionFromAsset(e.getValue().getKey(),e.getValue().getValue(),0,board.mode ));
+            .map(e->optionFromAsset(e.getValue().getKey(),e.getValue().getValue(),0,getSelectable(board,movPos,e.getKey()),e.getKey()));
         Column discardedBoxList = new Column(optionList);
+        Option faith = optionFromAsset(ResourceAsset.FAITH,faithPoints,0,false,-100);
+        faith.setMode(Option.VisMode.NO_NUMBER);
+        discardedBoxList.addElem(faith);
         discardedBoxList.addElem(Option.from("Discard", ResourceMarketViewBuilder::sendDiscard));
         return discardedBoxList;
 
@@ -103,7 +129,12 @@ public class PersonalBoardBody extends CLIelem {
 
         Map<Integer, Pair<ResourceAsset, Pair<Integer, Integer>>> strongBoxMap = simpleStrongBox.getResourceMap();
         Stream<Option> optionList = strongBoxMap.entrySet().stream().sorted(Map.Entry.comparingByKey())
-                .map(e->optionFromAsset(e.getValue().getKey(), numAndSel(e).getKey(),numAndSel(e).getValue(), board.mode));
+                .map(e-> {
+                    Option strongOption = board.optionFromAsset(e.getValue().getKey(), numAndSel(e).getKey(), numAndSel(e).getValue(),false,e.getKey() );
+                    if (board.mode.equals(Mode.MOVING_RES))
+                        strongOption.setEnabled(false);
+                    return strongOption;
+                });
         return new Row(optionList);
 
     }
@@ -112,35 +143,58 @@ public class PersonalBoardBody extends CLIelem {
         return e.getValue().getValue();
     }
 
-    private static Option optionFromAsset(ResourceAsset asset, int n, int selected, Mode mode){
+    private Option optionFromAsset(ResourceAsset asset, int numOf, int selected, boolean selectable, int globalPos){
         Drawable dw = new Drawable();
         ResourceCLI resourceCLI = ResourceCLI.fromAsset(asset);
-        dw.add(0, (n==1?"":n+" ")+resourceCLI.getFullName()+" ",resourceCLI.getC(), Background.DEFAULT);
+        dw.add(0, (numOf ==1?"": numOf +" ")+resourceCLI.getFullName()+" ",resourceCLI.getC(), Background.DEFAULT);
         dw.add(0, (selected==0?"         ":selected+" selected"),resourceCLI.getC(), Background.DEFAULT);
         Runnable r=()->{};
         if (mode.equals(Mode.MOVING_RES))
             r = ()->{
-
+                if (lastSelectedPosition==null){
+                    lastSelectedPosition = globalPos;
+                    initializeMove();
+                    message = "Select end position or discard resources";
+                    cli.show();
+                } else {
+                    int startPosition = lastSelectedPosition;
+                    cli.show();//Animation
+                    lastSelectedPosition = null;
+                    ResourceMarketViewBuilder.sendMove(startPosition, globalPos);
+                }
             };
-        return Option.from(dw, ResourceMarketViewBuilder::sendDiscard);
+        Option o = Option.from(dw, r);
+        o.setEnabled(selectable);
+        o.setSelected(lastSelectedPosition!=null&&lastSelectedPosition==globalPos);
+        return o;
     }
 
-    private static Column wareBuilder(SimpleWarehouseLeadersDepot simpleWare, PersonalBoardBody body){
+    private void initializeMove() {
+        SimpleAvailableMovingPositions movPos = cache.getElem(SimpleAvailableMovingPositions.class).orElseThrow();
+        discardBox = discardBoxBuilder(cache.getElem(SimpleDiscardBox.class).orElseThrow(), this, movPos);
+        wareHouseLeadersDepot = wareBuilder(cache.getElem(SimpleWarehouseLeadersDepot.class).orElseThrow(),this, movPos);
+    }
+
+    private static Column wareBuilder(SimpleWarehouseLeadersDepot simpleWare, PersonalBoardBody body, SimpleAvailableMovingPositions movPos){
         Column wareGrid = new Column();
         Map<Integer, List<Pair<ResourceAsset, Boolean>>> resMap = simpleWare.getDepots();
-        List<Row> rows = resMap.entrySet().stream().sorted(Map.Entry.comparingByKey())
-                .map(e-> new Row(
-                        e.getValue().stream().map(a -> optionFromAsset(a.getKey(), 1,0,body.mode ))))
-                .collect(Collectors.toList());
+        List<Map.Entry<Integer, List<Pair<ResourceAsset, Boolean>>>> toSort = new ArrayList<>(resMap.entrySet());
+        toSort.sort(Map.Entry.comparingByKey());
+        List<Row> rows = new ArrayList<>();
+        int pos=0;
+        for (Map.Entry<Integer, List<Pair<ResourceAsset, Boolean>>> e : toSort) {//Loop in rows
+
+            int finalPos = pos;
+            Row row1 = new Row(IntStream.range(0,e.getValue().size())
+                    .mapToObj(i -> body.optionFromAsset(e.getValue().get(i).getKey(), 1, 0, body.getSelectable(body, movPos, finalPos +i), finalPos +i)));
+            rows.add(row1);
+            pos+=e.getValue().size();
+        }
+
         for (Row row : rows) {
             wareGrid.addElem(row);
         }
         return wareGrid;
-    }
-
-
-    public void selectInDiscardBox(){
-        discardBox.selectAndRunOption(cli);
     }
 
     @Override

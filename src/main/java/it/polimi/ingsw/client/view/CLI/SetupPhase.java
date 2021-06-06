@@ -12,14 +12,15 @@ import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
 import it.polimi.ingsw.network.util.Util;
 
 import java.beans.PropertyChangeEvent;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.nio.file.Path;
 
 public class SetupPhase extends SetupPhaseViewBuilder implements CLIBuilder {
 
     @Override
     public void run() {
-
-        String title = "Select resources and leaders you want to discard";
+        String title = "Select resources and the two leaders you want to keep";
         int resourcesToChoose = Util.resourcesToChooseOnSetup(getCommonData().getThisPlayerIndex());
         getCLIView().setTitle(new Title(title));
         SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).orElseThrow();

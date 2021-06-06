@@ -26,15 +26,15 @@ public abstract class ResourceMarketViewBuilder extends ViewBuilder{
     /**
      * @param line 0 to 2 for rows and 3 to 6 for columns
      */
-    protected void sendLine(int line){
+    public void sendLine(int line){
         getClient().getServerHandler().sendCommandMessage(new EventMessage(new ChooseLineEvent(line)));
     }
 
-    protected void sendWhiteMarbleConversion(int resourceNumber){
+    public static void sendWhiteMarbleConversion(int resourceNumber){
         getClient().getServerHandler().sendCommandMessage(new EventMessage(new ChooseLineEvent(resourceNumber)));
     }
 
-    protected void sendMove(int startPos, int endPos){
+    public static void sendMove(int startPos, int endPos){
         getClient().getServerHandler().sendCommandMessage(new EventMessage(new MoveResourceEvent(startPos, endPos)));
     }
 

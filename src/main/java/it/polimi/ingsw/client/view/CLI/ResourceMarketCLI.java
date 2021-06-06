@@ -17,9 +17,16 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import static it.polimi.ingsw.client.simplemodel.State.CHOOSING_POSITION_FOR_RESOURCES;
+
 public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIBuilder {
     @Override
     public void run() {
+        //Todo better wrong event handling
+        if (getThisPlayerCache().getCurrentState().equals(CHOOSING_POSITION_FOR_RESOURCES.name())){
+            choosePositions();
+            return;
+        }
         getCLIView().setTitle("Take resources from the resource market");
         Column root = new Column();
 
@@ -64,7 +71,8 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
     public void choosePositions() {
         PersonalBoardBody personalBoard = new PersonalBoardBody(getThisPlayerCache(), PersonalBoardBody.Mode.MOVING_RES, getSimpleModel());
         getCLIView().setBody(personalBoard);
-        getCLIView().runOnInput("Press send to discard resources", ResourceMarketViewBuilder::sendDiscard);
+        //personalBoard.selectAndMoveResource();
+        //getCLIView().runOnInput("Press send to discard resources", ResourceMarketViewBuilder::sendDiscard);
         //personalBoard.selectInDiscardBox();
         getCLIView().show();
     }

@@ -16,6 +16,7 @@ import it.polimi.ingsw.network.messages.clienttoserver.events.productionevent.Ch
 import it.polimi.ingsw.network.messages.clienttoserver.events.productionevent.FinalProductionPhase;
 import it.polimi.ingsw.network.messages.clienttoserver.events.productionevent.ProductionEvent;
 import it.polimi.ingsw.network.messages.clienttoserver.events.setupphaseevent.SetupPhaseEvent;
+import it.polimi.ingsw.network.messages.clienttoserver.events.marketboardevent.MoveResourceEvent;
 
 
 /**
@@ -51,6 +52,7 @@ public abstract class ClientToServerMessage extends NetworkMessage
         eventMessageAdapter.registerSubtype(ChooseCardPositionEvent.class);
         eventMessageAdapter.registerSubtype(ChooseResourceForCardShopEvent.class);
         eventMessageAdapter.registerSubtype(FinalDevCardPhase.class);
+        eventMessageAdapter.registerSubtype(MoveResourceEvent.class);
 
         eventMessageAdapter.registerSubtype(ChooseLineEvent.class);
         eventMessageAdapter.registerSubtype(ChooseWhiteMarbleConversionEvent.class);
