@@ -35,6 +35,7 @@ public class IDLE implements GameStrategy {
             }
 
             else{
+                elementsToUpdate.add(Element.SimpleCardShop);
                 gamemodel.getCurrentPlayer().setCurrentState(State.MIDDLE_PHASE);
                 return new Pair<>(State.MIDDLE_PHASE, elementsToUpdate);
             }

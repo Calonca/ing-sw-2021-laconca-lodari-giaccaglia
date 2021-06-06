@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.strategy.resourcemarket;
 
+import it.polimi.ingsw.server.controller.strategy.FinalStrategy;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.messages.messagebuilders.Element;
@@ -50,7 +51,6 @@ public class DiscardingResources implements GameStrategy {
 
 
         positionsToAdd = currentBoard.getFaithToAdd();
-
         for(int i=0; i<positionsToAdd; i++)
         {
             gameModel.getCurrentPlayer().moveOnePosition();
@@ -66,7 +66,7 @@ public class DiscardingResources implements GameStrategy {
         }
 
 
-        return new Pair<>(State.FINAL_PHASE, elementsToUpdate);
+        return FinalStrategy.handleCommonEndGameStrategy(elementsToUpdate,gameModel);
 
     }
 
@@ -79,5 +79,4 @@ public class DiscardingResources implements GameStrategy {
 
 
     }
-
 }

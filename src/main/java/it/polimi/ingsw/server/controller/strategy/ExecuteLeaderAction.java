@@ -12,7 +12,7 @@ import javafx.util.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InitialOrFinalStrategy implements GameStrategy {
+public class ExecuteLeaderAction implements GameStrategy {
 
     List<Element> elementsToUpdate = new ArrayList<>();
 
@@ -37,6 +37,7 @@ public class InitialOrFinalStrategy implements GameStrategy {
             State nextState = gamemodel.getCurrentPlayer().getCurrentState().equals(State.INITIAL_PHASE) ? State.MIDDLE_PHASE : State.IDLE;
 
             elementsToUpdate.add(Element.SimpleAvailableMovingPositions); //needed for idle phase
+            elementsToUpdate.add(Element.SimpleCardShop);
             return new Pair<>(nextState, elementsToUpdate);
 
         }

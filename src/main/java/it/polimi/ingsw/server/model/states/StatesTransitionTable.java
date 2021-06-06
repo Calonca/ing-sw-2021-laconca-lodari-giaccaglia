@@ -139,14 +139,14 @@ public class StatesTransitionTable {
 
         //---InitialOrFinalStrategy Leader Action --//
 
-        eventsAndStrategy.put(name(InitialOrFinalPhaseEvent.class), new InitialOrFinalStrategy());
+        eventsAndStrategy.put(name(InitialOrFinalPhaseEvent.class), new ExecuteLeaderAction());
         statesTransitionTable.table.put(State.INITIAL_PHASE, eventsAndStrategy);
         eventsAndStrategy = new HashMap<>();
 
 
         //--Final Leader Action --//
 
-        eventsAndStrategy.put(name(InitialOrFinalPhaseEvent.class), new InitialOrFinalStrategy());
+        eventsAndStrategy.put(name(InitialOrFinalPhaseEvent.class), new ExecuteLeaderAction());
         statesTransitionTable.table.put(State.FINAL_PHASE, eventsAndStrategy);
 
 
@@ -160,7 +160,7 @@ public class StatesTransitionTable {
         RuntimeTypeAdapterFactory<GameStrategy> strategyAdapter = RuntimeTypeAdapterFactory.of(GameStrategy.class);
 
         strategyAdapter.registerSubtype(IDLE.class);
-        strategyAdapter.registerSubtype(InitialOrFinalStrategy.class);
+        strategyAdapter.registerSubtype(ExecuteLeaderAction.class);
         strategyAdapter.registerSubtype(Middle.class);
         strategyAdapter.registerSubtype(ActivatingLeader.class);
         strategyAdapter.registerSubtype(DiscardingLeader.class);

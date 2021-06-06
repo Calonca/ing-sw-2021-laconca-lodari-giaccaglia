@@ -34,5 +34,7 @@ public class ChoosingResourceForProduction implements GameStrategy {
 
 
         return new Pair<>(State.CHOOSING_PRODUCTION, elementsToUpdate);
+        //Todo if no elements left return final strategy
+
     }
 }

@@ -1,11 +1,5 @@
 {
   "table": {
-    "CHOOSING_POSITION_FOR_DEVCARD": {
-      "ChooseCardPositionEvent": {
-        "type": "ChoosingSpaceForDevelopmentCard",
-        "elementsToUpdate": []
-      }
-    },
     "CHOOSING_WHITEMARBLE_CONVERSION": {
       "ChooseWhiteMarbleConversionEvent": {
         "type": "TogglingForProduction",
@@ -24,9 +18,50 @@
         "elementsToUpdate": []
       }
     },
+    "CHOOSING_POSITION_FOR_RESOURCES": {
+      "MoveResourceEvent": {
+        "type": "MovingResource",
+        "elementsToUpdate": []
+      },
+      "DiscardResourcesEvent": {
+        "type": "DiscardingResources",
+        "elementsToUpdate": []
+      }
+    },
     "CHOOSING_DEVELOPMENT_CARD": {
       "ChooseCardEvent": {
         "type": "AcquiringDevelopmentCard",
+        "elementsToUpdate": []
+      }
+    },
+    "CHOOSING_PRODUCTION": {
+      "ChooseProductionAtPositionEvent": {
+        "type": "TogglingForProduction",
+        "elementsToUpdate": []
+      }
+    },
+    "CHOOSING_POSITION_FOR_DEVCARD": {
+      "ChooseCardPositionEvent": {
+        "type": "ChoosingSpaceForDevelopmentCard",
+        "elementsToUpdate": []
+      }
+    },
+    "SETUP_PHASE": {
+      "SetupPhaseEvent": {
+        "type": "Setup",
+        "elementsToUpdate": [],
+        "currentPlayerNumber": 0
+      }
+    },
+    "MIDDLE_PHASE": {
+      "MiddlePhaseEvent": {
+        "type": "Middle",
+        "elementsToUpdate": []
+      }
+    },
+    "FINAL_PHASE": {
+      "InitialOrFinalPhaseEvent": {
+        "type": "ExecuteLeaderAction",
         "elementsToUpdate": []
       }
     },
@@ -44,42 +79,7 @@
     },
     "INITIAL_PHASE": {
       "InitialOrFinalPhaseEvent": {
-        "type": "InitialOrFinalStrategy",
-        "elementsToUpdate": []
-      }
-    },
-    "MIDDLE_PHASE": {
-      "MiddlePhaseEvent": {
-        "type": "Middle",
-        "elementsToUpdate": []
-      }
-    },
-    "SETUP_PHASE": {
-      "SetupPhaseEvent": {
-        "type": "Setup",
-        "elementsToUpdate": [],
-        "currentPlayerNumber": 0
-      }
-    },
-    "CHOOSING_PRODUCTION": {
-      "ChooseProductionAtPositionEvent": {
-        "type": "TogglingForProduction",
-        "elementsToUpdate": []
-      }
-    },
-    "FINAL_PHASE": {
-      "InitialOrFinalPhaseEvent": {
-        "type": "InitialOrFinalStrategy",
-        "elementsToUpdate": []
-      }
-    },
-    "CHOOSING_POSITION_FOR_RESOURCES": {
-      "MoveResourceEvent": {
-        "type": "MovingResource",
-        "elementsToUpdate": []
-      },
-      "DiscardResourcesEvent": {
-        "type": "DiscardingResources",
+        "type": "ExecuteLeaderAction",
         "elementsToUpdate": []
       }
     }

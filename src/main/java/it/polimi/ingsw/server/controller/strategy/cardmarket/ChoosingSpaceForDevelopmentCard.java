@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.strategy.cardmarket;
 
+import it.polimi.ingsw.server.controller.strategy.FinalStrategy;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent.ChooseCardPositionEvent;
@@ -59,11 +60,9 @@ public class ChoosingSpaceForDevelopmentCard implements GameStrategy {
                 else if(gamemodel.getPlayerIndex(gamemodel.getCurrentPlayer()) == (gamemodel.getOnlinePlayers().size() - 1))
                     gamemodel.setMacroGamePhase(GameModel.MacroGamePhase.GameEnded);
 
-                return new Pair<>(State.IDLE, elementsToUpdate);
-
         }
 
-        return new Pair<>(State.FINAL_PHASE, elementsToUpdate);
+        return FinalStrategy.handleCommonEndGameStrategy(elementsToUpdate,gamemodel);
 
 
     }
