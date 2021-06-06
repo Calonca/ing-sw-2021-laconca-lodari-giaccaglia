@@ -79,8 +79,7 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
         market.addMatrix();
         DiscardBoxInitializer disc= new DiscardBoxInitializer();
         disc.fillDiscardBox();
-        InitialOrFinalPhaseGUI init= new InitialOrFinalPhaseGUI();
-        init.run();
+
 
 
 
