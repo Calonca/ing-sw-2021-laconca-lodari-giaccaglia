@@ -43,7 +43,7 @@ public class ChooseCardEvent extends it.polimi.ingsw.network.messages.clienttose
      * @return true if resources and level requirements are satisfied, otherwise false
      */
     private boolean validateDevCardRequirements(DevelopmentCard card){
-        return currentPlayerPersonalBoard.isDevelopmentCardAvailable(card);
+        return currentPlayerPersonalBoard.areDevCardRequirementsSatisfied(card);
     }
 
     /**
@@ -84,5 +84,7 @@ public class ChooseCardEvent extends it.polimi.ingsw.network.messages.clienttose
     public int getCardLevel(){
         return cardLevel;
     }
+
+
 
 }

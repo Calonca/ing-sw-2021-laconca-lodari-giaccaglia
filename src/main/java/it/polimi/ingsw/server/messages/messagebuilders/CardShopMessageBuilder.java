@@ -1,7 +1,6 @@
 package it.polimi.ingsw.server.messages.messagebuilders;
 
 import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
-import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCardColor;
 import it.polimi.ingsw.network.simplemodel.Cards;
 import it.polimi.ingsw.server.model.GameModel;
@@ -62,7 +61,7 @@ public class CardShopMessageBuilder {
     }
 
     private static boolean checkCardRequirements(GameModel gameModel, DevelopmentCard card){
-        return gameModel.getCurrentPlayer().getPersonalBoard().isDevelopmentCardAvailable(card);
+        return gameModel.getCurrentPlayer().getPersonalBoard().areDevCardRequirementsSatisfied(card);
 
     }
 }

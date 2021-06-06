@@ -8,12 +8,15 @@ import java.util.Map;
 
 public class SimpleWarehouseLeadersDepot extends SimpleModelElement{
 
-    Map<Integer, List<Pair<ResourceAsset, Boolean>>> simpleWarehouseLeadersDepot;
+    private Map<Integer, List<Pair<ResourceAsset, Boolean>>> simpleWarehouseLeadersDepot;
+
+    private Map<Integer, List<Integer>> availableMovingPositions;
 
     public SimpleWarehouseLeadersDepot(){}
 
-    public SimpleWarehouseLeadersDepot(Map<Integer, List<Pair<ResourceAsset, Boolean>>> simpleWarehouseLeadersDepot){
+    public SimpleWarehouseLeadersDepot(Map<Integer, List<Pair<ResourceAsset, Boolean>>> simpleWarehouseLeadersDepot, Map<Integer, List<Integer>> availableMovingPositions ){
         this.simpleWarehouseLeadersDepot = simpleWarehouseLeadersDepot;
+        this.availableMovingPositions = availableMovingPositions;
     }
 
     public Map<Integer, List<Pair<ResourceAsset, Boolean>>> getDepots() {
@@ -24,6 +27,11 @@ public class SimpleWarehouseLeadersDepot extends SimpleModelElement{
     public void update(SimpleModelElement element) {
         SimpleWarehouseLeadersDepot serverWarehouseLeadersDepot= (SimpleWarehouseLeadersDepot) element;
         this.simpleWarehouseLeadersDepot = serverWarehouseLeadersDepot.simpleWarehouseLeadersDepot;
+        this.availableMovingPositions = serverWarehouseLeadersDepot.availableMovingPositions;
+    }
+
+    public Map<Integer, List<Integer>> getAvailableMovingPositions(){
+        return availableMovingPositions;
     }
 
 }

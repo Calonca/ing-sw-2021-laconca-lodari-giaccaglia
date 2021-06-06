@@ -40,6 +40,7 @@ public class ChoosingSpaceForDevelopmentCard implements GameStrategy {
 
         elementsToUpdate.add(Element.SimpleCardCells);
         elementsToUpdate.add(Element.SimpleCardShop);
+        elementsToUpdate.add(Element.SimplePlayerLeaders);
 
         if((
                 gamemodel.isSomeDevCardColourOutOfStock() && gamemodel.isSinglePlayer()) ||

@@ -3,12 +3,10 @@ package it.polimi.ingsw.server.messages.messagebuilders;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
-import it.polimi.ingsw.server.model.market.MarketLine;
 import it.polimi.ingsw.server.model.player.board.Box;
 import it.polimi.ingsw.server.model.player.board.PersonalBoard;
 import javafx.util.Pair;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -54,19 +52,43 @@ public class SimpleDepotsMessageBuilder {
         ));
     }
 
-    public static Map<Integer, List<Integer>> getAvailableMovingPositionsForResourceAtPos(GameModel gameModel){
+    public static Map<Integer, List<Integer>> getAvailableMovingPositionsForResourceInWarehouseAtPos(GameModel gameModel){
+
+        int warehouseDepotSpaces = gameModel.getCurrentPlayer().getPersonalBoard().getWarehouseLeadersDepots().getNumOfCellsInAllDepots();
+
+        return getAvailableMovingPositionsForResourceAtPos(gameModel, 0, warehouseDepotSpaces);
+    }
+
+    public static Map<Integer, List<Integer>> getAvailableMovingPositionsForResourceInDiscardBoxAtPos(GameModel gameModel){
+
+        return getAvailableMovingPositionsForResourceAtPos(gameModel, -4, 0);
+    }
+
+    public static Map<Integer, List<Integer>> getAvailableMovingPositionsForResourceAtPos(GameModel gameModel, int startingInclusive, int endingExclusive){
 
         PersonalBoard currentPlayerPersonalBoard = gameModel.getCurrentPlayer().getPersonalBoard();
-        int warehouseDepotSpaces = currentPlayerPersonalBoard.getWarehouseLeadersDepots().getNumOfCellsInAllDepots();
-        System.out.println(warehouseDepotSpaces);
 
-        return IntStream.range(-4, warehouseDepotSpaces).boxed().collect(Collectors.toMap(
+        return IntStream.range(startingInclusive, endingExclusive).boxed().collect(Collectors.toMap(
                 position -> position,
                 position ->currentPlayerPersonalBoard.availableMovingPositionsForResourceAt(position).boxed().collect(Collectors.toList())
         ));
+
     }
 
 
 
+    public static boolean isDiscardBoxDiscardable(GameModel gameModel){
+
+        PersonalBoard board = gameModel.getCurrentPlayer().getPersonalBoard();
+        Box discardBox = board.getDiscardBox();
+        int discardBoxSize = 5;
+        List<Integer> positions = IntStream.range(0, discardBoxSize).boxed().collect(Collectors.toList());
+
+        return positions.stream().filter(position ->
+                board.getWarehouseLeadersDepots().availableMovingPositionsForResource(discardBox.getResourceAt(position))
+                        .findAny()
+                        .isPresent()).findFirst().isEmpty();
+
+    }
 
 }

@@ -40,7 +40,7 @@ public class ChooseResourceForCardShopEvent extends it.polimi.ingsw.network.mess
      * @return true if resources and level requirements are satisfied, otherwise false
      */
     private boolean validateDevCardRequirements(DevelopmentCard card){
-        return currentPlayerPersonalBoard.isDevelopmentCardAvailable(card);
+        return currentPlayerPersonalBoard.areDevCardRequirementsSatisfied(card);
     }
 
     @Override
@@ -60,7 +60,7 @@ public class ChooseResourceForCardShopEvent extends it.polimi.ingsw.network.mess
 
     private void applyMarketBonusToRequiredResources(GameModel gameModel){
 
-        int [] discounts = gameModel.getCurrentPlayer().getDiscounts();
+        int [] discounts = gameModel.getCurrentPlayer().getPersonalBoard().getDiscounts();
         for(int i=0; i<discounts.length; i++)
             chosenResourcesArray[i] += discounts[i];
 

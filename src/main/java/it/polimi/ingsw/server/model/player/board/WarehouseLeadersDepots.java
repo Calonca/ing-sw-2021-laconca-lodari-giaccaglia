@@ -222,7 +222,9 @@ public class WarehouseLeadersDepots implements StorageUnit {
      * @param depot the depot that will be added to the list
      */
     public void addDepot(Depot depot){
-        depotAtPosition.addAll(Collections.nCopies(depot.getSize(),depots.size()));
+
+        depot.changeDepotGlobalPosOfFirstElement(getNumOfCellsInAllDepots());
+        depotAtPosition.addAll(Collections.nCopies(depot.getSize(), depots.size()));
         depots.add(depot);
     }
 
@@ -280,7 +282,6 @@ public class WarehouseLeadersDepots implements StorageUnit {
 
     public int getNumOfCellsInAllDepots(){
         return depots.stream().map(Depot::getSize).reduce(0 , Integer::sum);
-
     }
 
     /** Returns how many {@link Resource resources} flagged for the next action there are in the {@link StorageUnit}
@@ -290,6 +291,7 @@ public class WarehouseLeadersDepots implements StorageUnit {
     public int getTotalSelected(){
         return (int) IntStream.range(0,depotAtPosition.size()).filter((pos)->depotThatHasPos(pos).getSelected(pos)).count();
     }
+
 
 
 }

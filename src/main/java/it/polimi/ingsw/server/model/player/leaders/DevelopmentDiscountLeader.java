@@ -45,7 +45,7 @@ public class DevelopmentDiscountLeader extends Leader
      */
     public void activate(GameModel gamemodel)
     {
-        gamemodel.getCurrentPlayer().applyDiscount(discount);
+        gamemodel.getCurrentPlayer().getPersonalBoard().applyDiscount(discount);
         state = LeaderState.ACTIVE; //assumo che il leader attivato sia "in cima"
     }
 

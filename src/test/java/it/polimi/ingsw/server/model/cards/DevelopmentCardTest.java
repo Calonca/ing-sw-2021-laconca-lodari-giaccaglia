@@ -38,28 +38,28 @@ public class DevelopmentCardTest {
         List<Pair<Resource, Integer>> requirementsTest = new ArrayList<>();
         requirementsTest.add(costTest);
         DevelopmentCard dev= new DevelopmentCard(1,DevelopmentCardColor.GREEN, Production.basicProduction(),3,requirementsTest);
-        assertTrue(personalboardtest.isDevelopmentCardAvailable(dev));
+        assertTrue(personalboardtest.areDevCardRequirementsSatisfied(dev));
         personalboardtest.getCardCells().get(0).addToTop(dev);
         personalboardtest.getCardCells().get(1).addToTop(dev);
         personalboardtest.getCardCells().get(2).addToTop(dev);
-        assertFalse(personalboardtest.isDevelopmentCardAvailable(dev));
+        assertFalse(personalboardtest.areDevCardRequirementsSatisfied(dev));
 
         dev= new DevelopmentCard(2,DevelopmentCardColor.GREEN, Production.basicProduction(),3,requirementsTest);
 
-        assertTrue(personalboardtest.isDevelopmentCardAvailable(dev));
+        assertTrue(personalboardtest.areDevCardRequirementsSatisfied(dev));
         personalboardtest.getCardCells().get(0).addToTop(dev);
         personalboardtest.getCardCells().get(1).addToTop(dev);
         personalboardtest.getCardCells().get(2).addToTop(dev);
-        assertFalse(personalboardtest.isDevelopmentCardAvailable(dev));
+        assertFalse(personalboardtest.areDevCardRequirementsSatisfied(dev));
 
         dev= new DevelopmentCard(3,DevelopmentCardColor.GREEN, Production.basicProduction(),3,requirementsTest);
 
 
-        assertTrue(personalboardtest.isDevelopmentCardAvailable(dev));
+        assertTrue(personalboardtest.areDevCardRequirementsSatisfied(dev));
         personalboardtest.getCardCells().get(0).addToTop(dev);
         personalboardtest.getCardCells().get(1).addToTop(dev);
         personalboardtest.getCardCells().get(2).addToTop(dev);
-        assertFalse(personalboardtest.isDevelopmentCardAvailable(dev));
+        assertFalse(personalboardtest.areDevCardRequirementsSatisfied(dev));
 
     }
 }
