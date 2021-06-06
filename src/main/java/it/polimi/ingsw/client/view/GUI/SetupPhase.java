@@ -34,9 +34,7 @@ import java.util.*;
  */
 public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupPhaseViewBuilder implements GUIView {
 
-    /**
-     * By changin LEADERNUMBER the number of received leaders to show can be easily changed
-     */
+
     private final int LEADERNUMBER=4;
 
     List<UUID> leadersUUIDs=new ArrayList<>();
@@ -83,23 +81,6 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
     }
 
     /**
-     *
-     * @param selected is a boolean array used to represent selection
-     * @param scenesLeadersToChoose is a button array for the user to execute selection
-     */
-
-
-
-
-    /**
-     * given a color and a position, the method will build one accordingly
-     * @param color is a css color string
-     * @param y is an int position
-     * @param x is an int position
-     * @return a spinner according to parameters
-     */
-
-    /**
      * service method
      * @return a button according to parameters
      */
@@ -135,12 +116,6 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         ButtonSelectionModel selectionModel=new ButtonSelectionModel();
         int y=200;
         int x=120;
-
-        colorsToRes.add(" -fx-background-color: #B8860B");
-        colorsToRes.add(" -fx-background-color: #9400D3");
-        colorsToRes.add(" -fx-background-color: #0099FF");
-        colorsToRes.add(" -fx-background-color: #DEB887");
-
 
 
 
@@ -180,7 +155,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
             selectedLeaders.add(false);
 
 
-        selectionModel.cardSelector(selectedLeaders, sceneLeaders,2);
+        selectionModel.cardSelector(selectedLeaders, sceneLeaders,Util.resourcesToChooseOnSetup(getClient().getCommonData().getThisPlayerIndex()));
 
         selectedLeaders.addListener(new javafx.collections.ListChangeListener<Boolean>() {
             @Override

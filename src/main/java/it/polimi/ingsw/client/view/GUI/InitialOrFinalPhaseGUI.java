@@ -9,6 +9,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.SubScene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Popup;
@@ -79,15 +81,20 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
             ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(4);
             getClient().getServerHandler().sendCommandMessage(new EventMessage(new InitialOrFinalPhaseEvent(2)));
         });
-     //   SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).orElseThrow();
+        SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).orElseThrow();
 
+        for(int i=0; i<sceneLeaders.size();i++)
+        {
+            sceneLeaders.get(i).setGraphic(new ImageView(new Image("assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_2.png", true)));
+
+        }
         playButton.setOnAction(p -> {
             ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(4);
             for(Boolean b : selectedLeaders)
                 if(b)
                 {
-                   // InitialOrFinalPhaseEvent activate = new InitialOrFinalPhaseEvent(1,simplePlayerLeaders.getPlayerLeaders().get(selectedLeaders.indexOf(b)).getCardId());
-                  //  getClient().getServerHandler().sendCommandMessage(new EventMessage(activate));
+                   InitialOrFinalPhaseEvent activate = new InitialOrFinalPhaseEvent(1,simplePlayerLeaders.getPlayerLeaders().get(selectedLeaders.indexOf(b)).getCardId());
+                   getClient().getServerHandler().sendCommandMessage(new EventMessage(activate));
                 }
 
 
@@ -98,8 +105,8 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
             for(Boolean b : selectedLeaders)
                 if(b)
                 {
-                  //  InitialOrFinalPhaseEvent discard = new InitialOrFinalPhaseEvent(0,simplePlayerLeaders.getPlayerLeaders().get(selectedLeaders.indexOf(b)).getCardId());
-                  //  getClient().getServerHandler().sendCommandMessage(new EventMessage(discard));
+                  InitialOrFinalPhaseEvent discard = new InitialOrFinalPhaseEvent(0,simplePlayerLeaders.getPlayerLeaders().get(selectedLeaders.indexOf(b)).getCardId());
+                  getClient().getServerHandler().sendCommandMessage(new EventMessage(discard));
                 }
 
 

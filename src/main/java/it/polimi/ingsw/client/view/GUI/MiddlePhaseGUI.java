@@ -20,7 +20,6 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
     public Button cardButton;
     public Button productionButton;
     public Button resourceMarketButton;
-    public AnchorPane mfAnchor;
 
     @Override
     public void run() {

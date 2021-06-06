@@ -21,6 +21,8 @@ import javafx.scene.text.Text;
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -72,7 +74,6 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
         getClient().getStage().setWidth(1200);
         getClient().getStage().setResizable(false);
 
-        System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
         CardShopGUI cardshop=new CardShopGUI();
         cardshop.addMarket();
         ResourceMarketGUI market=new ResourceMarketGUI();
