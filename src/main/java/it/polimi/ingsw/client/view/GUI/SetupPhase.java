@@ -20,6 +20,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.util.Pair;
 
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
@@ -114,7 +115,13 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
             for(int i = 0; i< sceneLeaders.size(); i++)
                 if(!selectedLeaders.get(i))
                     event.addChosenLeader(leadersUUIDs.get(i));
+            if (selectedResources.size()>0)
+                event.addResource(new Pair<>(0,selectedResources.get(0)));
+            if (selectedResources.size()>1)
+                event.addResource(new Pair<>(1,selectedResources.get(1)));
+            System.out.println(event);
             getClient().getServerHandler().sendCommandMessage(new EventMessage(event));
+
 
 
 
@@ -135,10 +142,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         colorsToRes.add(" -fx-background-color: #DEB887");
 
 
-        Label resNumber=new Label(Integer.toString(Util.resourcesToChooseOnSetup(getCommonData().getThisPlayerIndex())));
-        resNumber.setLayoutX(300);
-        resNumber.setLayoutY(200);
-        cjlAnchor.getChildren().add(resNumber);
+
 
         Label leaders=new Label("SELEZIONA DUE LEADER");
         leaders.setLayoutX(300);
@@ -146,9 +150,6 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         cjlAnchor.getChildren().add(leaders);
 
 
-        /**
-         * Buttons are built according to leadernumber parameter
-         */
 
         SimplePlayerLeaders simplePlayerLeaders = getSimpleModel().getPlayerCache(getClient().getCommonData().getThisPlayerIndex()).getElem(SimplePlayerLeaders.class).orElseThrow();
         List<LeaderCardAsset> leaderCardAssets=simplePlayerLeaders.getPlayerLeaders();
@@ -194,15 +195,8 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
             }});
 
         selectedResources =javafx.collections.FXCollections.observableArrayList();
-        for (int i=0;i<4;i++)
-            selectedResources.add(0);
 
 
-
-        colors.add(Color.GOLD);
-        colors.add(Color.PURPLE);
-        colors.add(Color.BLUE);
-        colors.add(Color.GREY);
 
         ResourceButton resbut;
         for(int i=0;i<4;i++)
@@ -219,19 +213,12 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
 
         }
 
-        selectionModel.resourceSelector(selectedResources,sceneResources,2);
+        selectionModel.resourceSelector(selectedResources,sceneResources,Util.resourcesToChooseOnSetup(getClient().getCommonData().getThisPlayerIndex()));
 
         selectedResources.addListener(new javafx.collections.ListChangeListener<Integer>() {
             @Override
             public void onChanged(Change<? extends Integer> c) {
-                c.next();
-                Circle temp=new Circle();
-                temp.setLayoutX(430+25* selectedResources.stream().mapToInt(i -> i).sum());
-                temp.setLayoutY(400);
-                temp.setRadius(20);
-                temp.setFill(colors.get(c.getFrom()));
-                cjlAnchor.getChildren().add(temp);
-                getClient().getStage().show();
+            //todo animation
 
 
             }});

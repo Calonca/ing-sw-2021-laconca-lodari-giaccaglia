@@ -63,9 +63,9 @@ public class ButtonSelectionModel {
                 int currentSelected=0;
                 {
                     for (Integer integer : selected) currentSelected += integer;
-                    if(currentSelected<maxselection)
-                        selected.set(sceneResourcesToChoose.indexOf(sceneButton),selected.get(sceneResourcesToChoose.indexOf(sceneButton))+1);
-
+                    if(currentSelected<maxselection+1)
+                        selected.add(sceneResourcesToChoose.indexOf(sceneButton));
+                    System.out.println(selected.size());
 
                 }
             });
