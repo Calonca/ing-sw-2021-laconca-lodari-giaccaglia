@@ -3,30 +3,23 @@ package it.polimi.ingsw.client.view.GUI;
 import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.view.GUI.GUIelem.MatchRow;
 import it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchViewBuilder;
-import it.polimi.ingsw.network.messages.clienttoserver.CreateMatchRequest;
 import it.polimi.ingsw.network.messages.clienttoserver.JoinMatchRequest;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.SubScene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
-
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.net.URL;
@@ -40,11 +33,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
     public TableView<MatchRow> guiMatchesData;
     public StackPane cjlPane;
     boolean created=false;
-    TableColumn<MatchRow,String> nicknames;
-    TableColumn<MatchRow,UUID> UUIDs;
 
-    boolean selected=false;
-    private Slider playerCount;
 
     public double tilelen=264;
     public int tileheight=70;
@@ -90,11 +79,6 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
     }
 
 
-    public void clickedColumn(MouseEvent event)
-    {
-        //TODO SELECT WHOLE ROW (NOT NECESSARY IT WOULD WORK ANYWAY BUT ITS UGLY)
-    }
-
     /**
      * Screen refresh when new match is created
      * @param evt is not null
@@ -115,13 +99,11 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
 
     /**
      * Adapter for matches data
-     * @return
+     * @return list of easily displayable data
      */
     public List<MatchRow> dataToRow() {
         List<MatchRow> templist=new ArrayList<>();
-        getClient().getCommonData().getMatchesData().ifPresent((data)->{
-            data.forEach((key, value) -> templist.add(new MatchRow(key, Arrays.toString(value))));
-        });
+        getClient().getCommonData().getMatchesData().ifPresent((data)-> data.forEach((key, value) -> templist.add(new MatchRow(key, Arrays.toString(value)))));
         return templist;
     }
 
@@ -190,22 +172,6 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
-       // double rowdim=( Math.sqrt(dataToRow().size())+1);
-
- /*       nicknames= new TableColumn<MatchRow,String>("NICKNAMES");
-        UUIDs= new TableColumn<MatchRow,UUID>("UUID");
-
-        final ObservableList<MatchRow> data= FXCollections.observableArrayList(dataToRow());
-
-        nicknames.setCellValueFactory(new PropertyValueFactory<MatchRow,String>("people"));
-        UUIDs.setCellValueFactory(new PropertyValueFactory<MatchRow,UUID>("key"));
-
-        guiMatchesData.getColumns().add(nicknames);
-        guiMatchesData.getColumns().add(UUIDs);
-        //tableview init code
-        guiMatchesData.setItems(data);*/
-
-
 
         GridPane grid=new GridPane();
         grid.setPadding(new Insets(50,50,50,50));
@@ -246,12 +212,6 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         test.setGraphic(new Label("PERSONAL BOARD"));
         test.setOnAction( t -> getClient().changeViewBuilder(new BoardView3D()));
         grid.add(test,2,2);
-       // guiMatchesData.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        //guiMatchesData.getSelectionModel().setCellSelectionEnabled(true);
-      //  System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(
-        //       getClient().getCommonData().getMatchesData().orElse(null)));
-
-
 
 
     }

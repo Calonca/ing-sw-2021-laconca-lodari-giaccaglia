@@ -1,24 +1,17 @@
 package it.polimi.ingsw.client.view.GUI;
 
-import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchViewBuilder;
 import javafx.animation.Animation;
-import javafx.animation.FillTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.TextField;
+
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
+
 import javafx.scene.shape.Sphere;
 import javafx.util.Duration;
 
@@ -137,9 +130,7 @@ public class MatchToStart extends CreateJoinLoadMatchViewBuilder implements GUIV
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(CommonData.thisMatchData))
             Platform.runLater(()->
-                    {
-                        getClient().changeViewBuilder(new SetupPhase());
-                    }
+                    getClient().changeViewBuilder(new SetupPhase())
             );
 
     }

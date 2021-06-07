@@ -2,7 +2,6 @@ package it.polimi.ingsw.client.view.GUI;
 
 import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
 import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
-import it.polimi.ingsw.network.messages.clienttoserver.events.marketboardevent.ChooseLineEvent;
 import it.polimi.ingsw.network.messages.clienttoserver.events.marketboardevent.ChooseWhiteMarbleConversionEvent;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +15,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Sphere;
-import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -95,14 +93,13 @@ public class ChooseResourceForMarket extends ResourceMarketViewBuilder implement
             Button tempButton=new Button();
             tempButton.setLayoutY(len/4+i*len/8);
             tempButton.setLayoutX(width/4+width/8);
-            //todo add res
             int finalI = i;
             tempButton.setOnAction(p->
                     {
                         ChooseWhiteMarbleConversionEvent event=new ChooseWhiteMarbleConversionEvent(finalI);
                         getClient().getServerHandler().sendCommandMessage(new EventMessage(event));
                         resourcesToChoose--;
-                        if(resourcesToChoose==0);
+                        if(resourcesToChoose==0)
                             System.out.println("remove me");
                         marble.setMaterial(new PhongMaterial(resToCol.get(finalI)));
                         moveX(marble,200,new Duration(200));

@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.simplemodel.SimpleDiscardBox;
 import it.polimi.ingsw.server.model.Resource;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
 import javafx.scene.image.Image;
@@ -141,17 +142,15 @@ public class DiscardBoxInitializer extends ResourceMarketViewBuilder implements 
         res.add(new Image("assets/resources/SERVANT.png"));
         res.add(new Image("assets/resources/SHIELD.png"));
         res.add(new Image("assets/resources/STONE.png"));
-        selected.addListener(new javafx.collections.ListChangeListener<Boolean>() {
-            @Override
-            public void onChanged(Change<? extends Boolean> c) {
-                c.next();
-                if(!c.getAddedSubList().get(0))
-                    getClient().getStage().getScene().setCursor(new ImageCursor(res.get(sceneButtons.get(c.getFrom()).getResource().getResourceNumber())));
-                else
-                    getClient().getStage().getScene().setCursor(ImageCursor.HAND);
+        selected.addListener((ListChangeListener<Boolean>) c -> {
+            c.next();
+            if(!c.getAddedSubList().get(0))
+                getClient().getStage().getScene().setCursor(new ImageCursor(res.get(sceneButtons.get(c.getFrom()).getResource().getResourceNumber())));
+            else
+                getClient().getStage().getScene().setCursor(ImageCursor.HAND);
 
 
-            }});
+        });
 
 
 

@@ -7,12 +7,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.SubScene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Text;
-
-import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.net.URL;

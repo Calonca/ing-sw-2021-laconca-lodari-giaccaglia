@@ -1,11 +1,10 @@
 package it.polimi.ingsw.client.view.GUI;
 
-import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.GUI.GUIelem.ButtonSelectionModel;
 import it.polimi.ingsw.client.view.GUI.GUIelem.ResourceButton;
 import it.polimi.ingsw.server.model.Resource;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.SubScene;
@@ -16,14 +15,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -37,8 +34,6 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
     Button faithBut;
     int tempFaith =0;
     List<ResourceButton> sceneResources=new ArrayList<>();
-    List<Integer[]> sceneProductionCosts=new ArrayList<>();
-
     List<ResourceButton> standardProductionButtons=new ArrayList<>();
     List<ResourceButton> standardProductionButtonsOut=new ArrayList<>();
     List<ResourceButton> wareHouseButtons=new ArrayList<>();
@@ -66,11 +61,13 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
     }
     @Override
     public void run() {
+        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(0);
+
         getClient().getStage().setResizable(true);
         SubScene root=getRoot();
         root.setId("BOARD");
-        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(0);
         ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(root);
+
         getClient().getStage().setHeight(800);
         getClient().getStage().setWidth(1200);
         getClient().getStage().setResizable(false);
@@ -262,12 +259,11 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
         temp.add(standardProductionButtonsOut.get(0).getResource());
         while(temp!=null)
         {
-            for(int i=0;i<wareHouseButtons.size();i++)
-            {
-                if(wareHouseButtons.get(i).getResource()==Resource.EMPTY)
-                {
-                    wareHouseButtons.get(i).setResource(temp.get(0));
-                    wareHouseButtons.get(i).color();
+            //todo fix
+            for (ResourceButton wareHouseButton : wareHouseButtons) {
+                if (wareHouseButton.getResource() == Resource.EMPTY) {
+                    wareHouseButton.setResource(temp.get(0));
+                    wareHouseButton.color();
                     temp.remove(0);
                 }
             }
@@ -341,48 +337,44 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
         getController().setProductionIn(selectedStandardProductions,standardProductionButtons);
         getController().selectChoiceFromDispenser(standardProductionButtonsOut,selectedStandardProductionsOut);
 
-        selectedStandardProductions.addListener(new javafx.collections.ListChangeListener<Boolean>() {
-            @Override
-            public void onChanged(Change<? extends Boolean> c) {
-                c.next();
-                if(getController().isCardShopOpen())
-                {
-                    getClient().getStage().getScene().setCursor(ImageCursor.HAND);
+        selectedStandardProductions.addListener((ListChangeListener<Boolean>) c -> {
+            c.next();
+            if(getController().isCardShopOpen())
+            {
+                getClient().getStage().getScene().setCursor(ImageCursor.HAND);
 
-                }
+            }
 
-                if(!c.getAddedSubList().get(0))
-                {
+            if(!c.getAddedSubList().get(0))
+            {
 
 
-                }
-                else
-                {
-                    getClient().getStage().getScene().setCursor(ImageCursor.HAND);
+            }
+            else
+            {
+                getClient().getStage().getScene().setCursor(ImageCursor.HAND);
 
-                    getController().deHighlightFalse(selectedResources,sceneResources);
-                }
-
-
-            }});
-
-        selectedStandardProductionsOut.addListener(new javafx.collections.ListChangeListener<Boolean>() {
-            @Override
-            public void onChanged(Change<? extends Boolean> c) {
-                c.next();
-                if(!c.getAddedSubList().get(0))
-                {
-
-                }
-                else
-                {
-                    getClient().getStage().getScene().setCursor(ImageCursor.HAND);
-
-                    getController().deHighlightFalse(selectedResources,sceneResources);
-                }
+                getController().deHighlightFalse(selectedResources,sceneResources);
+            }
 
 
-            }});
+        });
+
+        selectedStandardProductionsOut.addListener((ListChangeListener<Boolean>) c -> {
+            c.next();
+            if(!c.getAddedSubList().get(0))
+            {
+
+            }
+            else
+            {
+                getClient().getStage().getScene().setCursor(ImageCursor.HAND);
+
+                getController().deHighlightFalse(selectedResources,sceneResources);
+            }
+
+
+        });
 
         Button developmentButton=new Button();
         developmentButton.setGraphic(new Label("DEVELOP"));
@@ -418,28 +410,26 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
         getBoardController().cardSelector(productionSelection,productions,3);
 
 
-        productionSelection.addListener(new javafx.collections.ListChangeListener<Boolean>() {
-            @Override
-            public void onChanged(Change<? extends Boolean> c) {
-                c.next();
-                if(c.getAddedSubList().get(0))
+        productionSelection.addListener((ListChangeListener<Boolean>) c -> {
+            c.next();
+            if(c.getAddedSubList().get(0))
+            {
+                if(ViewPersonalBoard.getController().isMoving())
                 {
-                    if(ViewPersonalBoard.getController().isMoving())
-                    {
-                            getClient().getStage().getScene().setCursor(ImageCursor.HAND);
-                            ViewPersonalBoard.getController().setMoving(false);
-                            productionSelection.set(c.getFrom(),false);
-                    }
-                    ViewPersonalBoard.getController().highlightTrue(productionSelection,productions);
-
+                        getClient().getStage().getScene().setCursor(ImageCursor.HAND);
+                        ViewPersonalBoard.getController().setMoving(false);
+                        productionSelection.set(c.getFrom(),false);
                 }
-                else
-                {
-                    ViewPersonalBoard.getController().dehighlightTrue(productionSelection,productions);
+                ViewPersonalBoard.getController().highlightTrue(productionSelection,productions);
 
-                }
+            }
+            else
+            {
+                ViewPersonalBoard.getController().dehighlightTrue(productionSelection,productions);
 
-            }});
+            }
+
+        });
 
 
     }
@@ -480,17 +470,15 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
         res.add(new Image("assets/resources/SERVANT.png"));
         res.add(new Image("assets/resources/SHIELD.png"));
         res.add(new Image("assets/resources/STONE.png"));
-        selectedResources.addListener(new javafx.collections.ListChangeListener<Boolean>() {
-            @Override
-            public void onChanged(Change<? extends Boolean> c) {
-                c.next();
-                if(!c.getAddedSubList().get(0))
-                    getClient().getStage().getScene().setCursor(new ImageCursor(res.get(sceneResources.get(c.getFrom()).getResource().getResourceNumber())));
-                else
-                    getClient().getStage().getScene().setCursor(ImageCursor.HAND);
+        selectedResources.addListener((ListChangeListener<Boolean>) c -> {
+            c.next();
+            if(!c.getAddedSubList().get(0))
+                getClient().getStage().getScene().setCursor(new ImageCursor(res.get(sceneResources.get(c.getFrom()).getResource().getResourceNumber())));
+            else
+                getClient().getStage().getScene().setCursor(ImageCursor.HAND);
 
 
-            }});
+        });
 
 
 

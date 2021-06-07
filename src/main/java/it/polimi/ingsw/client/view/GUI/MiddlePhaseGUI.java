@@ -1,6 +1,4 @@
 package it.polimi.ingsw.client.view.GUI;
-
-import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.abstractview.MiddlePhaseViewBuilder;
 import javafx.application.Platform;
@@ -8,11 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.SubScene;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.net.URL;
@@ -52,7 +46,7 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
 
     /**
      * When market line choice is performed, Discard Box gets initialized
-     * @param evt
+     * @param evt is a fired support property
      */
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(State.CHOOSING_POSITION_FOR_RESOURCES.name()))
@@ -79,10 +73,7 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //Todo use MiddlePhaseViewBuilder.sendMessage(Choice.PRODUCTION);
-        // MiddlePhaseViewBuilder.sendMessage(Choice.RESOURCE_MARKET);
-        // MiddlePhaseViewBuilder.sendMessage(Choice.CARD_SHOP);
-        // to send the messages to the client
+
         cardButton.setOnAction( e ->
         {
 

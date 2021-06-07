@@ -14,6 +14,7 @@ import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,16 +23,12 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 import javafx.util.Pair;
-
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
 /**
@@ -50,8 +47,6 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
     javafx.collections.ObservableList<Boolean> selectedLeaders;
     javafx.collections.ObservableList<Integer> selectedResources;
 
-    List<Color> colors=new ArrayList<>();
-    List<String> colorsToRes=new ArrayList<>();
     double width=1000;
     double len=700;
 
@@ -61,7 +56,6 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
 
     @Override
     public void run() {
-        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(0);
         SubScene root=getRoot();
         root.translateYProperty().set(getClient().getStage().getScene().getHeight());
         Timeline timeline=new Timeline();
@@ -70,6 +64,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         timeline.getKeyFrames().add(kf);
         timeline.play();
         root.setId("SETUP");
+        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(0);
 
         ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(root);
         System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
@@ -87,7 +82,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
             e.printStackTrace();
         }
 
-        return new SubScene(root,1000,700);
+        return new SubScene(root,width,len);
 
     }
 
@@ -125,9 +120,6 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
         ButtonSelectionModel selectionModel=new ButtonSelectionModel();
-        int y=200;
-        int x=120;
-
 
 
         Label leaders=new Label("SELECT TWO LEADERS TO DISCARD");
@@ -167,17 +159,15 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
 
         selectionModel.cardSelector(selectedLeaders, sceneLeaders,2);
 
-        selectedLeaders.addListener(new javafx.collections.ListChangeListener<Boolean>() {
-            @Override
-            public void onChanged(Change<? extends Boolean> c) {
-                c.next();
-                if(c.getAddedSubList().get(0))
-                    sceneLeaders.get(c.getFrom()).setLayoutY(sceneLeaders.get(c.getFrom()).getLayoutY()-30);
-                else
-                    sceneLeaders.get(c.getFrom()).setLayoutY(sceneLeaders.get(c.getFrom()).getLayoutY()+30);
+        selectedLeaders.addListener((ListChangeListener<Boolean>) c -> {
+            c.next();
+            if(c.getAddedSubList().get(0))
+                sceneLeaders.get(c.getFrom()).setLayoutY(sceneLeaders.get(c.getFrom()).getLayoutY()-30);
+            else
+                sceneLeaders.get(c.getFrom()).setLayoutY(sceneLeaders.get(c.getFrom()).getLayoutY()+30);
 
 
-            }});
+        });
 
         selectedResources =javafx.collections.FXCollections.observableArrayList();
 
@@ -200,13 +190,11 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
 
         selectionModel.resourceSelector(selectedResources,sceneResources,Util.resourcesToChooseOnSetup(getClient().getCommonData().getThisPlayerIndex()));
 
-        selectedResources.addListener(new javafx.collections.ListChangeListener<Integer>() {
-            @Override
-            public void onChanged(Change<? extends Integer> c) {
-            //todo animation
+        selectedResources.addListener((ListChangeListener<Integer>) c -> {
+        //todo animation
 
 
-            }});
+        });
         cjlAnchor.getChildren().add(validationButton());
         getClient().getStage().show();
 
@@ -217,10 +205,6 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(State.IDLE.name()))
             getClient().changeViewBuilder(new IDLEViewBuilder());
-        else{
-            SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).orElseThrow();
-            List<LeaderCardAsset> leaderCardAssets=simplePlayerLeaders.getPlayerLeaders();
 
-        }
     }
 }

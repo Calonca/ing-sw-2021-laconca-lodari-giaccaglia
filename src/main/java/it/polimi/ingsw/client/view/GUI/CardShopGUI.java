@@ -6,10 +6,9 @@ import it.polimi.ingsw.client.view.CLI.IDLEViewBuilder;
 import it.polimi.ingsw.client.view.GUI.GUIelem.ResourceButton;
 import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCardColor;
-import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.network.simplemodel.SimpleCardShop;
-import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
 import it.polimi.ingsw.server.model.Resource;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.ImageCursor;
 import javafx.scene.Node;
@@ -37,7 +36,6 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
     public AnchorPane cardsAnchor;
     int ROWS=3;
     int COLUMNS=4;
-    boolean enabled=false;
     double len=800;
     double width=430;
 
@@ -51,6 +49,9 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
         super(viewing);
     }
 
+    /**
+     * Do not remove
+     */
     public CardShopGUI() {
         super(false);
     }
@@ -64,7 +65,6 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
     }
 
     public void addMarket() {
-        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(this);
 
         Node toAdd=getRoot();
         toAdd.setTranslateX(-380);
@@ -158,8 +158,8 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
 
     /**
      * The cardShop gets initialized as soon as the board.
-     * @param url
-     * @param resourceBundle
+     * @param url is ignored
+     * @param resourceBundle is ignored
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
@@ -169,7 +169,6 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
         cardsGrid.setLayoutX(0);
         cardsGrid.setLayoutY(0);
         Button sceneCard;
-        int k=0;
 
         Path path;
         ImageView tempImage;
@@ -212,30 +211,28 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
 
         ViewPersonalBoard.getController().cardSelector(selectedSceneCards,scenesCardsToChoose,1);
 
-        selectedSceneCards.addListener(new javafx.collections.ListChangeListener<Boolean>() {
-            @Override
-            public void onChanged(Change<? extends Boolean> c) {
-                c.next();
-                getClient().getStage().getScene().setCursor(ImageCursor.HAND);
+        selectedSceneCards.addListener((ListChangeListener<Boolean>) c -> {
+            c.next();
+            getClient().getStage().getScene().setCursor(ImageCursor.HAND);
 
-                if(c.getAddedSubList().get(0))
+            if(c.getAddedSubList().get(0))
+            {
+                ViewPersonalBoard.getController().highlightTrue(selectedSceneCards,scenesCardsToChoose);
+                for (Boolean aBoolean : selectedSceneCards)
+                    if (aBoolean)
+                        break;
+
+            }
+            else
                 {
-                    ViewPersonalBoard.getController().highlightTrue(selectedSceneCards,scenesCardsToChoose);
-                    for (Boolean aBoolean : selectedSceneCards)
-                        if (aBoolean)
-                            break;
+                ViewPersonalBoard.getController().dehighlightTrue(selectedSceneCards,scenesCardsToChoose);
 
-                }
-                else
-                    {
-                    ViewPersonalBoard.getController().dehighlightTrue(selectedSceneCards,scenesCardsToChoose);
-
-                }
+            }
 
 
 
 
-            }});
+        });
 
 
         scenePaidButtons=javafx.collections.FXCollections.observableArrayList();
@@ -251,32 +248,28 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
             scenePaidButtons.add(true);
         }
 
-        scenePaidButtons.addListener(new javafx.collections.ListChangeListener<Boolean>() {
-            @Override
-            public void onChanged(Change<? extends Boolean> c) {
-                c.next();
-                if(!c.getAddedSubList().get(0))
-                {
-                    for(Boolean bol : scenePaidButtons)
-                        if(bol)
-                            return;
-                    getClient().getStage().getScene().setCursor(new ImageCursor(new Image("assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_0.png")));
-                    ViewPersonalBoard.getController().setMoving(true);
-                }
-                else
-                {
-                    getClient().getStage().getScene().setCursor(ImageCursor.HAND);
+        scenePaidButtons.addListener((ListChangeListener<Boolean>) c -> {
+            c.next();
+            if(!c.getAddedSubList().get(0))
+            {
+                for(Boolean bol : scenePaidButtons)
+                    if(bol)
+                        return;
+            }
+            else
+            {
+                getClient().getStage().getScene().setCursor(ImageCursor.HAND);
 
-                    for(Boolean bol : scenePaidButtons)
-                        if(bol)
-                            return;
-                    getClient().getStage().getScene().setCursor(new ImageCursor(new Image("assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_0.png")));
-                    ViewPersonalBoard.getController().setMoving(true);
-                    //ViewPersonalBoard.getController().deHighlightFalse(selectedResources,sceneResources);
-                }
+                for(Boolean bol : scenePaidButtons)
+                    if(bol)
+                        return;
+                //ViewPersonalBoard.getController().deHighlightFalse(selectedResources,sceneResources);
+            }
+            getClient().getStage().getScene().setCursor(new ImageCursor(new Image("assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_0.png")));
+            ViewPersonalBoard.getController().setMoving(true);
 
 
-            }});
+        });
 
 
         cardsAnchor.getChildren().add(validationButton());
@@ -317,7 +310,5 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(State.IDLE.name()))
             getClient().changeViewBuilder(new IDLEViewBuilder());
-        else{
-        }
     }
 }

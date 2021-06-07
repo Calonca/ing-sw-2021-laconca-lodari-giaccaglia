@@ -1,20 +1,13 @@
 package it.polimi.ingsw.client.view.GUI;
 
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
-import it.polimi.ingsw.client.CommonData;
-import it.polimi.ingsw.client.view.GUI.GUIelem.ButtonSelectionModel;
+
 import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
-import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
 import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.events.marketboardevent.ChooseLineEvent;
-import it.polimi.ingsw.server.controller.strategy.resourcemarket.PuttingBallOnLine;
-import it.polimi.ingsw.server.model.Resource;
 import javafx.animation.*;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -24,8 +17,6 @@ import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 import javafx.util.Duration;
-
-import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -50,7 +41,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
     int h=70;
 
 
-    double toPutStartingY=-5+ROWSIZE*ballsize*2;;
+    double toPutStartingY=-5+ROWSIZE*ballsize*2;
     double toPutStartingX;
 
     public double width=300;
@@ -86,21 +77,6 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
 
     }
 
-    public SubScene getDiscardRoot()
-    {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/fxml/DiscardBox.fxml"));
-        Parent root = null;
-        try {
-            root = loader.load();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return new SubScene(root,200,150);
-
-    }
 
     public void addMatrix() {
         SubScene toadd=getRoot();
@@ -219,7 +195,6 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
     public void generateColumns(List<List<Sphere>> rows,int h){
 
 
-        double y=-ballsize*2;
 
         for(int i=0;i<rows.get(0).size();i++)
         {
@@ -232,7 +207,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
             h+=30;
             button.setLayoutY(250);
 
-            setBut(button,y,i);
+            setBut(button,i);
             marketPane.getChildren().add(button);
 
         }
@@ -240,7 +215,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
 
     }
 
-    public void setBut(Button but,double y,int i)
+    public void setBut(Button but,int i)
     {
         but.setOnAction( p-> {
 
@@ -318,7 +293,6 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
         }
 
         toPutStartingX=x;
-        MarbleAsset toPutAsset=getSimpleMarketBoard().getSlideMarble();
 
         toPut=new Sphere(ballsize);
         toPut.translateYProperty().set(toPutStartingY);

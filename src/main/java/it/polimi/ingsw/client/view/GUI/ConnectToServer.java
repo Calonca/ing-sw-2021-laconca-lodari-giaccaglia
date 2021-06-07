@@ -1,34 +1,23 @@
 package it.polimi.ingsw.client.view.GUI;
 
-import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.view.abstractview.ConnectToServerViewBuilder;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.geometry.VPos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.*;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.Stack;
 
 /**
  * During this phase, the player will be asked to connect to a game server. It's composed by three text forms
@@ -40,7 +29,7 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
     public AnchorPane connectionPane;
     @FXML
     private AnchorPane connectionAnchor;
-  
+
 
     private StackPane firstPane = null;
 
@@ -144,9 +133,7 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(CommonData.matchesDataString))
             Platform.runLater(()->
-            {
-                getClient().changeViewBuilder(new CreateJoinLoadMatch());
-            });
+                    getClient().changeViewBuilder(new CreateJoinLoadMatch()));
 
     }
 }
