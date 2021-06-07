@@ -5,8 +5,10 @@ import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.player.board.Box;
 import it.polimi.ingsw.server.model.player.board.PersonalBoard;
+import it.polimi.ingsw.server.model.player.board.WarehouseLeadersDepots;
 import javafx.util.Pair;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -90,22 +92,47 @@ public class SimpleDepotsMessageBuilder {
     }
 
     public static Pair<Integer, List<Integer>> getAvailableMovingPositionsForResourceAtPos(PersonalBoard board, int position, Resource res){
-
-        int resourceNumber = res.getResourceNumber();
         List<Integer> positions = board.getWarehouseLeadersDepots().availableMovingPositionsForResource(res).boxed().collect(Collectors.toList());
+        if(position>=0)
+            positions.add(position);
+
         return new Pair<>(position, positions);
 
     }
-
 
     public static boolean isDiscardBoxDiscardable(GameModel gameModel){
 
         PersonalBoard board = gameModel.getCurrentPlayer().getPersonalBoard();
         Box discardBox = board.getDiscardBox();
-        List<Integer> positions = IntStream.range(-4, 1).boxed().collect(Collectors.toList());
+        List<Integer> positions = IntStream.range(-4, -1).boxed().collect(Collectors.toList());
 
         return positions.stream().noneMatch(position ->
                 board.getWarehouseLeadersDepots().availableMovingPositionsForResource(discardBox.getResourceAt(position)).findAny().isPresent());
+
+    }
+
+    public static Map<Integer, ResourceAsset> getResourcesTypesOfLeaderDepots(GameModel gameModel){
+
+        WarehouseLeadersDepots currentDepots = gameModel.getCurrentPlayer().getPersonalBoard().getWarehouseLeadersDepots();
+
+        int numberOfDepots = currentDepots.getNumOfCellsInAllDepots();
+        if(numberOfDepots>6) {
+
+            Map<Integer, ResourceAsset> resourcesTypes = IntStream.range(6, numberOfDepots).boxed().collect(Collectors.toMap(
+
+                    spotPosition -> spotPosition,
+                    spotPosition -> {
+
+                        int resourceIntValue = currentDepots.getLeaderDepotAtPosResourceType(spotPosition);
+
+                        return ResourceAsset.fromInt(resourceIntValue);
+                    }
+            ));
+
+            return resourcesTypes;
+        }
+
+        else return new HashMap<>();
 
     }
 
