@@ -54,7 +54,9 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
         super(viewing);
     }
 
-
+    public CardShopGUI() {
+        super(false);
+    }
     @Override
     public void run() {
         ViewPersonalBoard.getController().isCardShopOpen(true);
@@ -131,7 +133,7 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
                 errorChoice.setOpacity(1);
                 return;
             }
-            SimpleCardShop simpleCardShop = getSimpleCardShop();
+     /*       SimpleCardShop simpleCardShop = getSimpleCardShop();
             for(int i=0; i<simpleCardShop.getCardFront(NetworkDevelopmentCardColor.BLUE,1).get().getDevelopmentCard().getCostList().size();i++)
                 for (int j=0;j<simpleCardShop.getCardFront(NetworkDevelopmentCardColor.BLUE,1).get().getDevelopmentCard().getCostList().get(0).getValue();j++)
                     scenePaymentButtons.get(i).setResource(Resource.fromInt(i));
@@ -139,7 +141,7 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
             sendChosenCard(temp%4, temp/4);
             ViewPersonalBoard.getController().bindForPayment(scenePaymentButtons,scenePaidButtons);
 
-
+*/
 
 
         });
@@ -163,11 +165,10 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
         {
             for(int j=0;j<COLUMNS;j++)
             {
-                if (simpleCardShop.getCardFront(NetworkDevelopmentCardColor.fromInt(j),i+1).isPresent())
+                if (simpleCardShop.getCardFront(NetworkDevelopmentCardColor.fromInt(j),3-i).isPresent())
                 {
                     System.out.println(i+1);
-                    path=simpleCardShop.getCardFront(NetworkDevelopmentCardColor.fromInt(j),i+1).get().getCardPaths().getKey();
-                    System.out.println(simpleCardShop.getCardFront(NetworkDevelopmentCardColor.fromInt(j),i+1).get().getDevelopmentCard().getLevel());
+                    path=simpleCardShop.getCardFront(NetworkDevelopmentCardColor.fromInt(j),3-i).get().getCardPaths().getKey();
                     tempImage = new ImageView(new Image(path.toString(), true));
                 }
                 else
@@ -305,7 +306,7 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
         if (evt.getPropertyName().equals(State.IDLE.name()))
             getClient().changeViewBuilder(new IDLEViewBuilder());
         else{
-            System.out.println("Setup received: "+evt.getPropertyName()+ JsonUtility.serialize(evt.getNewValue()));
+            System.out.println("Setup received: ");
         }
     }
 }

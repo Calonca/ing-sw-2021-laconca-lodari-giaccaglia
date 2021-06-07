@@ -20,6 +20,9 @@ public abstract class CardShopViewBuilder extends ViewBuilder{
         CardShopViewBuilder.viewing = viewing;
     }
 
+    public CardShopViewBuilder() { CardShopViewBuilder.viewing =true;
+    }
+
     public static ViewBuilder getBuilder(boolean isCLI, boolean viewing) {
         if (isCLI) return new CardShopCLI(viewing);
         else return new CardShopGUI(viewing);
