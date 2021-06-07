@@ -36,7 +36,7 @@ public enum ResourceCLI {
 
     public Drawable toBigDrawableList(boolean isSelected){
         Background back = isSelected?b:Background.DEFAULT;
-        Color cl = c;
+        Color cl = isSelected? Color.DEFAULT:c;
         Drawable dwList = new Drawable();
         dwList.add(0,"------------",cl,back);
         dwList.add(0,"|          |",cl,back);

@@ -84,6 +84,9 @@ public class PersonalBoard {
         discardBox = Box.discardBox();
         discardBox.addResources(new int[]{3,3,3,3});  //setup phase DiscardBox
         //strongBox.addResources(new int[]{7,8,9,3});   //to test CardShop
+        //warehouseLeadersDepots.addResource(new Pair<>(0,Resource.GOLD));
+        //warehouseLeadersDepots.addResource(new Pair<>(1,Resource.SERVANT));
+        //warehouseLeadersDepots.addResource(new Pair<>(3,Resource.STONE));
         productions = Stream.of(Optional.of(Production.basicProduction())).collect(Collectors.toList());
         productions.add(Optional.empty());
         productions.add(Optional.empty());

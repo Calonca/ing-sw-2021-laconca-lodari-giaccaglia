@@ -5,11 +5,14 @@ import it.polimi.ingsw.client.view.CLI.CLIelem.body.PersonalBoardBody;
 import it.polimi.ingsw.client.view.CLI.layout.Column;
 import it.polimi.ingsw.client.view.CLI.layout.Row;
 import it.polimi.ingsw.client.view.CLI.layout.SizedBox;
+import it.polimi.ingsw.client.view.CLI.layout.drawables.FaithTrackGridElem;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.MarbleCLI;
 import it.polimi.ingsw.client.view.CLI.layout.Option;
 import it.polimi.ingsw.client.view.CLI.textUtil.StringUtil;
 import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
 import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
+import it.polimi.ingsw.network.simplemodel.SimpleFaithTrack;
+import it.polimi.ingsw.network.simplemodel.SimpleStrongBox;
 
 import java.util.Arrays;
 import java.util.List;
@@ -69,8 +72,15 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
 
     @Override
     public void choosePositions() {
-        PersonalBoardBody personalBoard = new PersonalBoardBody(getThisPlayerCache(), PersonalBoardBody.Mode.MOVING_RES, getSimpleModel());
-        getCLIView().setBody(personalBoard);
+        PersonalBoardBody board = new PersonalBoardBody(getThisPlayerCache(), PersonalBoardBody.Mode.MOVING_RES);
+        SimpleFaithTrack[] simpleFaithTracks = Arrays.stream(getSimpleModel().getPlayersCaches())
+                .map(c->c.getElem(SimpleFaithTrack.class).orElseThrow()).toArray(SimpleFaithTrack[]::new);
+        board.setFaithTrack(new FaithTrackGridElem(getThisPlayerCache().getElem(SimpleFaithTrack.class).orElseThrow(),simpleFaithTracks));
+
+        board.initializeMove();
+        board.setStrongBox(PersonalBoardBody.strongBoxBuilder(getThisPlayerCache().getElem(SimpleStrongBox.class).orElseThrow(), board));
+        board.setMessage("Select move starting position or discard resources");
+        getCLIView().setBody(board);
         getCLIView().show();
     }
 
