@@ -254,7 +254,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
 
         Button test=new Button();
         test.setGraphic(new Label("PERSONAL BOARD"));
-        test.setOnAction( t -> getClient().changeViewBuilder(new ViewPersonalBoard()));
+        test.setOnAction( t -> getClient().changeViewBuilder(new BoardView3D()));
         grid.add(test,2,2);
         guiMatchesData.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         guiMatchesData.getSelectionModel().setCellSelectionEnabled(true);
