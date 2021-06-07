@@ -54,10 +54,7 @@ public class Player {
      */
     private FaithTrack faithTrack;
 
-    /**
-     * Keeps track of currently active {@link DevelopmentDiscountLeader} related resources discounts.
-     */
-    private final int[] discounts;
+
 
     private final boolean[] marketBonus;
 
@@ -71,7 +68,6 @@ public class Player {
         personalBoard= new PersonalBoard();
         currentlyOnline = true;
         currentState = State.SETUP_PHASE;
-        discounts=new int[4];
         marketBonus=new boolean[4];
         this.nickName = nickName;
         initializeFaithTrack();
@@ -90,15 +86,6 @@ public class Player {
         return personalBoard;
     }
 
-    /**
-     * Method to get currentlu active {@link DevelopmentCard} required resources discounts, stored inside player's
-     * {@link Player#discounts} array as positional int values-
-     * @return {@link Player#discounts} array storing updated values.
-     */
-    public int[] getDiscounts()
-    {
-        return discounts;
-    }
 
     public void setMatchOutcome(boolean matchOutcome){
         this.matchOutcome = matchOutcome;
@@ -138,17 +125,6 @@ public class Player {
         return statesTransitionTable;
     }
 
-    /**
-     * Method to store inside player's {@link Player#discounts} array a new positional {@link Resource} value to discount
-     * after the appropriate {@link Leader} <em>effect</em> has been activated.
-     * @param discount {@link Pair} containing a Resource to discount when purchasing a {@link DevelopmentCard} from {@link CardShop} as a key
-     * and an int as a value indicating the discount amount.
-     * Used by leader interface
-     */
-    public void applyDiscount(Pair<Resource,Integer> discount)
-    {
-        discounts[discount.getKey().getResourceNumber()]+=discount.getValue();
-    }
 
     /**
      * Method to store inside player's {@link Player#marketBonus} array a new {@link Resource} for
@@ -316,12 +292,5 @@ public class Player {
                 personalBoard.getPointsFromDevelopmentCards() +
                 getPointsFromLeaders();
     }
-
-
-
-
-
-
-
 
 }

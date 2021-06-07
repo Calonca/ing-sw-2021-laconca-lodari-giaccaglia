@@ -27,6 +27,7 @@ public class DiscardingResources implements GameStrategy {
         int positionsToAdd;
         elementsToUpdate.add(Element.SimpleDiscardBox);
         elementsToUpdate.add(Element.SimpleFaithTrack);
+        elementsToUpdate.add(Element.SimplePlayerLeaders);
 
         this.gameModel = gameModel;
         PersonalBoard currentBoard = gameModel.getCurrentPlayer().getPersonalBoard();
@@ -37,6 +38,7 @@ public class DiscardingResources implements GameStrategy {
 
         for(int i=0; i<positionsToAdd; i++)
         {
+
             gameModel.addFaithPointToOtherPlayers();
             gameModel.handleVaticanReport();
 
@@ -71,12 +73,12 @@ public class DiscardingResources implements GameStrategy {
     }
 
     private void handleCommonEndGameStrategy(){
+
         if (gameModel.getMacroGamePhase().equals(GameModel.MacroGamePhase.ActiveGame))
             gameModel.setMacroGamePhase(GameModel.MacroGamePhase.LastTurn);
 
         else if (gameModel.getPlayerIndex(gameModel.getCurrentPlayer()) == (gameModel.getOnlinePlayers().size() - 1))
             gameModel.setMacroGamePhase(GameModel.MacroGamePhase.GameEnded);
-
 
     }
 }

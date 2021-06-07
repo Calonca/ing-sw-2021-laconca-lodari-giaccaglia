@@ -1,10 +1,13 @@
 package it.polimi.ingsw.server.model.player.board;
 
 import it.polimi.ingsw.server.model.*;
+import it.polimi.ingsw.server.model.cards.CardShop;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
 import it.polimi.ingsw.server.model.cards.production.Production;
 import it.polimi.ingsw.server.model.cards.production.ProductionCardCell;
+import it.polimi.ingsw.server.model.player.Player;
+import it.polimi.ingsw.server.model.player.leaders.DevelopmentDiscountLeader;
 import it.polimi.ingsw.server.model.player.leaders.Leader;
 import it.polimi.ingsw.server.model.player.leaders.ProductionLeader;
 import it.polimi.ingsw.server.model.player.track.FaithTrack;
@@ -35,6 +38,13 @@ public class PersonalBoard {
      * used as a temporary deposit for resources that will be discarded if not taken by the player
      */
     private Box discardBox;
+
+    /**
+     * Keeps track of currently active {@link DevelopmentDiscountLeader} related resources discounts.
+     */
+    private final int[] discounts;
+
+
     /**
      * A list of {@link Production productions}, composed both of {@link Production productions}
      * from {@link ProductionLeader ProductionLeader} and
@@ -83,6 +93,7 @@ public class PersonalBoard {
         prodsSelected.add(Optional.empty());
         prodsSelected.add(Optional.empty());
         prodsSelected.add(Optional.empty());
+        discounts=new int[4];
         
     }
 
@@ -421,6 +432,10 @@ public class PersonalBoard {
      */
     public boolean hasResources(int[] toCheck)
     {
+
+
+
+
         Box box= getStrongBox();
         //Goes up to toChoose
         int[] inputOfLengthResources = IntStream.concat(Arrays.stream(toCheck),IntStream.generate(()->0)).limit(Resource.nRes+3).toArray();
@@ -429,7 +444,9 @@ public class PersonalBoard {
         if(!getWarehouseLeadersDepots().enoughResourcesForProductions(toFindInWarehouse))
             return false;
         return Arrays.stream(inputOfLengthResources).limit(Resource.nRes).reduce(0, Integer::sum)+inputOfLengthResources[6]<=numOfResources();
+
     }
+
 
     /**
      * This method will check if there are enough spaces in the {@link ProductionCardCell}
@@ -449,9 +466,17 @@ public class PersonalBoard {
      * @param developmentCard if NULL -> return false
      * @return is true if both conditions are true
      */
-     public boolean isDevelopmentCardAvailable(DevelopmentCard developmentCard)
+     public boolean areDevCardRequirementsSatisfied(DevelopmentCard developmentCard)
      {
-        return developmentCard != null && isDevCardLevelSatisfied(developmentCard) && hasResources(developmentCard.getCostAsArray());
+         if(developmentCard == null)
+             return false;
+
+         int [] requiredResources = developmentCard.getCostAsArray();
+
+         for(int i=0; i<requiredResources.length; i++)
+             requiredResources[i] -= discounts[i];
+
+        return isDevCardLevelSatisfied(developmentCard) && hasResources(requiredResources);
      }
 
     /**
@@ -560,6 +585,32 @@ public class PersonalBoard {
     public int getPointsFromDevelopmentCards(){
         return Arrays.stream(cardCells).mapToInt(ProductionCardCell::getTotalCellPoints).sum();
     }
+
+
+    /**
+     * Method to get currentlu active {@link DevelopmentCard} required resources discounts, stored inside player's
+     * {@link PersonalBoard#discounts} array as positional int values-
+     * @return {@link PersonalBoard#discounts} array storing updated values.
+     */
+    public int[] getDiscounts()
+    {
+        return discounts;
+    }
+
+
+    /**
+     * Method to store inside player's {@link PersonalBoard#discounts} array a new positional {@link Resource} value to discount
+     * after the appropriate {@link Leader} <em>effect</em> has been activated.
+     * @param discount {@link Pair} containing a Resource to discount when purchasing a {@link DevelopmentCard} from {@link CardShop} as a key
+     * and an int as a value indicating the discount amount.
+     * Used by leader interface
+     */
+    public void applyDiscount(Pair<Resource,Integer> discount)
+    {
+        discounts[discount.getKey().getResourceNumber()]+=discount.getValue();
+    }
+
+
 
 
 }

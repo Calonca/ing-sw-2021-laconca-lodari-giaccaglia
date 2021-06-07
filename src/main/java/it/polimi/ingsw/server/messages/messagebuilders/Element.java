@@ -17,7 +17,6 @@ public enum Element {
             return new SimpleCardShop(CardShopMessageBuilder.cardShopAdapter(gameModel), CardShopMessageBuilder.purchasedCardAdapter(gameModel));
         }
 
-
     },
 
     SimpleMarketBoard(true) {
@@ -71,14 +70,12 @@ public enum Element {
         SimpleDiscardBox(false) {
             @Override
             public SimpleModelElement buildSimpleModelElement(GameModel gameModel){
-                return new SimpleDiscardBox(SimpleDepotsMessageBuilder.getSimpleDiscardBox(gameModel));
-            }
-        },
+                return new SimpleDiscardBox(
 
-        SimpleAvailableMovingPositions(false){
-        @Override
-            public SimpleModelElement buildSimpleModelElement(GameModel gameModel){
-            return new SimpleAvailableMovingPositions(SimpleDepotsMessageBuilder.getAvailableMovingPositionsForResourceAtPos(gameModel));
+                        SimpleDepotsMessageBuilder.getSimpleDiscardBox(gameModel),
+                        SimpleDepotsMessageBuilder.getAvailableMovingPositionsForResourceInDiscardBoxAtPos(gameModel) ,
+                        SimpleDepotsMessageBuilder.isDiscardBoxDiscardable(gameModel));
+
             }
         },
 
@@ -86,7 +83,7 @@ public enum Element {
             @Override
             public SimpleModelElement buildSimpleModelElement(GameModel gameModel){
                 return new SimpleWarehouseLeadersDepot(
-                        SimpleDepotsMessageBuilder.getSimpleWarehouseLeadersDepots(gameModel));
+                        SimpleDepotsMessageBuilder.getSimpleWarehouseLeadersDepots(gameModel), SimpleDepotsMessageBuilder.getAvailableMovingPositionsForResourceInWarehouseAtPos(gameModel));
             }
         },
 
@@ -94,6 +91,17 @@ public enum Element {
             @Override
             public SimpleModelElement buildSimpleModelElement(GameModel gameModel){
                 return new SimpleCardCells(SimpleCardsCellsMessageBuilder.cardCellsAdapter(gameModel));
+            }
+        },
+
+        SimpleAvailableMovingPositions(false){
+            @Override
+            public SimpleModelElement buildSimpleModelElement(GameModel gameModel){
+                return new SimpleAvailableMovingPositions(SimpleDepotsMessageBuilder.getAvailableMovingPositionsForResourceAtPos(
+                        gameModel,
+                        -4 , gameModel.getCurrentPlayer().getPersonalBoard().getWarehouseLeadersDepots().getNumOfCellsInAllDepots()
+                       )
+                );
             }
         },
 

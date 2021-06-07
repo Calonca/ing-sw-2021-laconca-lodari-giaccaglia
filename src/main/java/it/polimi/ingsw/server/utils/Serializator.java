@@ -1024,7 +1024,7 @@ public class Serializator extends JsonUtility {
         requirementsTest.add(costTest);
 
         victoryPoints=3;
-        depo=new LeaderDepot(0, Resource.SHIELD);
+        depo=new LeaderDepot(6, Resource.SHIELD);
 
         series2.add(new DepositLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,depo));
 

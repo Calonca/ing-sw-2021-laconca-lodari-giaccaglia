@@ -19,7 +19,7 @@ public abstract class Depot{
     /**
      * the global position of the first cell of the depot
      */
-    private final int globalPositionOfFirstElement;
+    private int globalPositionOfFirstElement;
     /**
      * number of occupied cells
      */
@@ -180,6 +180,10 @@ public abstract class Depot{
         if (!type.equals(this.type))
             return 0;
         else return getOccupiedSpotsInDepotNum();
+    }
+
+    public void changeDepotGlobalPosOfFirstElement(int newGlobalPosOfFirstElement){
+        this.globalPositionOfFirstElement = newGlobalPosOfFirstElement;
     }
 
 }
