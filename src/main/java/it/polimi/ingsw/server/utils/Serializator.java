@@ -54,7 +54,7 @@ public class Serializator extends JsonUtility {
         Map<UUID, NetworkDevelopmentCard> cardsFromJsonHandlerMap = networkDevCardsMap();
         return cardsFromJsonHandlerMap.keySet().stream().map(id -> {
             NetworkDevelopmentCard card = cardsFromJsonHandlerMap.get(id);
-            String cardPathSuffix = card.getCardType().toString() + "_" + card.getLevel() + ".png";
+            String cardPathSuffix = card.getCardType().toString() + "_" + card.getVictoryPoints() + ".png";
             String frontPurchasable = frontDevCardPathString + cardPathSuffix;
             String backPurchasable = backDevCardPathString + cardPathSuffix;
             String frontNotPurchasable = frontDevCardGrayedOutPathString + cardPathSuffix;
@@ -1238,15 +1238,17 @@ public class Serializator extends JsonUtility {
     public static void main(String[] args) throws IOException, ClassNotFoundException, IllegalAccessException, InstantiationException {
 /*
         leaderCardsArraySerialization();
-        devCardsAssetsMapSerialization();
+
         networkLeaderCardsAssetsMapSerialization();
         serializeResources();
         serializeMarbles();
+                serializeSinglePlayerStatesTransitionTable();
+        serializeMultiPlayerStatesTransitionTable();
 
  */
 
-        serializeSinglePlayerStatesTransitionTable();
-        serializeMultiPlayerStatesTransitionTable();
+        devCardsAssetsMapSerialization();
+
 
     }
 
