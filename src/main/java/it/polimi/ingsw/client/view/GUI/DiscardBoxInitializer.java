@@ -44,8 +44,9 @@ public class DiscardBoxInitializer extends ResourceMarketViewBuilder implements 
         int startpos=-4;
         for(int i=0;i<4;i++)
         {
+            //todo fix stone
             temp[i]+=discardBoxMap.get(startpos).getValue();
-
+            startpos++;
         }
         ViewPersonalBoard.getController().setAllowedRes(temp);
         fillDiscardBox();
@@ -109,7 +110,7 @@ public class DiscardBoxInitializer extends ResourceMarketViewBuilder implements 
 
 
 
-        button4.setLayoutY(len/2);
+        button4.setLayoutY(len/4);
         button4.setLayoutX(width/2);
         sceneButtons.add(button4);
         discardPane.getChildren().add(button4);

@@ -135,11 +135,18 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
                 return;
             }
             SimpleCardShop simpleCardShop = getSimpleCardShop();
-            for(int i=0; i<simpleCardShop.getCardFront(NetworkDevelopmentCardColor.BLUE,1).get().getDevelopmentCard().getCostList().size();i++)
-                for (int j=0;j<simpleCardShop.getCardFront(NetworkDevelopmentCardColor.BLUE,1).get().getDevelopmentCard().getCostList().get(0).getValue();j++)
+
+            System.out.println("temp is" + temp + "temp%4 is" + temp%4);
+            if(temp<4)
+                sendChosenCard(temp%4, 3);
+            else if(temp<8)
+                sendChosenCard(temp%4, 2);
+            else sendChosenCard(temp%4, 1);
+
+            for(int i=0; i<simpleCardShop.getCardFront(NetworkDevelopmentCardColor.fromInt(temp%4),1).get().getDevelopmentCard().getCostList().size();i++)
+                for (int j=0;j<simpleCardShop.getCardFront(NetworkDevelopmentCardColor.fromInt(temp%4),1).get().getDevelopmentCard().getCostList().get(i).getValue();j++)
                     scenePaymentButtons.get(i).setResource(Resource.fromInt(i));
 
-            sendChosenCard(temp%4, temp/4);
             ViewPersonalBoard.getController().bindForPayment(scenePaymentButtons,scenePaidButtons);
 
 

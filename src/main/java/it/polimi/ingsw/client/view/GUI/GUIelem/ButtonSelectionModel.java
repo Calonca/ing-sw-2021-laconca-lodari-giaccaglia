@@ -288,6 +288,10 @@ public class ButtonSelectionModel {
             selected.get(i).setDisable(false);
 
             int finalI = i;
+            if(allowedRes[finalI]==0)
+            {
+                selected.get(finalI).setDisable(true);
+            }
             selected.get(i).setOnAction(p ->
                 {
 

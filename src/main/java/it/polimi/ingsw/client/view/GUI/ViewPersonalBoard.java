@@ -79,6 +79,8 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
         cardshop.addMarket();
         ResourceMarketGUI market=new ResourceMarketGUI();
         market.addMatrix();
+        ChooseResourceForMarket choose=new ChooseResourceForMarket();
+        choose.run();
 
 
 

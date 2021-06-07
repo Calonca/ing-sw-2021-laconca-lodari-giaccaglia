@@ -59,6 +59,8 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
         {
             DiscardBoxInitializer disc=new DiscardBoxInitializer();
             Platform.runLater(disc);
+            ChooseResourceForMarket chooseResourceForMarket=new ChooseResourceForMarket();
+            Platform.runLater(chooseResourceForMarket);
         }
     }
 
