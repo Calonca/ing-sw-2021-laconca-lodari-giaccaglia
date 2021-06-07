@@ -129,6 +129,9 @@ public enum State {
      */
     LEADER_END,
 
+
+    TOKEN_PHASE,
+
     /**
      * Default player state during others' turn.
      */

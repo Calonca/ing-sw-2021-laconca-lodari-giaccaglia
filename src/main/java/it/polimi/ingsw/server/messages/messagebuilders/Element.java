@@ -38,7 +38,7 @@ public enum Element {
         public SimpleModelElement buildSimpleModelElement(GameModel gameModel){
             return new EndGameInfo(
                     GameInfoMessageBuilder.endGameInfoMap(gameModel),
-                    GameInfoMessageBuilder.getPlayersEndingTheGame(gameModel));
+                    GameInfoMessageBuilder.getPlayersEndingTheGame(gameModel), gameModel.getThisMatch().getReasonOfGameEnd());
         }
     },
 

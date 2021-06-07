@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.strategy.resourcemarket;
 
+import it.polimi.ingsw.server.controller.EndGameReason;
 import it.polimi.ingsw.server.controller.strategy.FinalStrategy;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
@@ -25,6 +26,7 @@ public class DiscardingResources implements GameStrategy {
     {
 
         int positionsToAdd;
+
         elementsToUpdate.add(Element.SimpleDiscardBox);
         elementsToUpdate.add(Element.SimpleFaithTrack);
         elementsToUpdate.add(Element.SimplePlayerLeaders);
@@ -44,7 +46,14 @@ public class DiscardingResources implements GameStrategy {
 
             if(gameModel.checkTrackStatus()) {
 
-                handleCommonEndGameStrategy();
+                if(gameModel.isSinglePlayer()){
+
+                    String endGameReason = EndGameReason.LORENZO_REACHED_END.getEndGameReason();
+                    return FinalStrategy.handleSinglePlayerEndGameStrategy(elementsToUpdate, gameModel, endGameReason);
+                }
+
+                setMarcoGamePhase();
+
 
                 return new Pair<>(State.IDLE, elementsToUpdate);
 
@@ -60,19 +69,27 @@ public class DiscardingResources implements GameStrategy {
 
             if(gameModel.checkTrackStatus()) {
 
-                handleCommonEndGameStrategy();
+                if(gameModel.isSinglePlayer()) {
 
-                return new Pair<>(State.IDLE, elementsToUpdate);
+                    String endGameReason = EndGameReason.TRACK_END_SOLO.getEndGameReason();
+                    return FinalStrategy.handleSinglePlayerEndGameStrategy(elementsToUpdate, gameModel, endGameReason);
+                }
+
+
+                setMarcoGamePhase();
+
+
+
             }
 
         }
 
-
         return FinalStrategy.handleCommonEndGameStrategy(elementsToUpdate,gameModel);
+
 
     }
 
-    private void handleCommonEndGameStrategy(){
+    private void setMarcoGamePhase(){
 
         if (gameModel.getMacroGamePhase().equals(GameModel.MacroGamePhase.ActiveGame))
             gameModel.setMacroGamePhase(GameModel.MacroGamePhase.LastTurn);

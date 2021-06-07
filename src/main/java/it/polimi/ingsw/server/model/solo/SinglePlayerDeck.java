@@ -14,6 +14,8 @@ public class SinglePlayerDeck {
      */
     private final List<SoloActionToken> actionTokens = Arrays.asList(SoloActionToken.values());
 
+    private SoloActionToken lastActivatedToken;
+
     /**
      * New stack is created by shuffling the default order of {@link SoloActionToken SoloActionTokens}.
      */
@@ -39,6 +41,10 @@ public class SinglePlayerDeck {
         return actionTokens.get(0);
     }
 
+    public SoloActionToken showLastActivatedToken(){
+        return lastActivatedToken;
+    }
+
     /**
      * Invokes the {@link SoloActionToken#applyEffect applyEffect} of top {@link SoloActionToken}
      *
@@ -46,6 +52,7 @@ public class SinglePlayerDeck {
      */
     public void activateToken(GameModel gameModel){
         actionTokens.get(0).applyEffect(gameModel);
+        lastActivatedToken = actionTokens.get(0);
     }
 
 }

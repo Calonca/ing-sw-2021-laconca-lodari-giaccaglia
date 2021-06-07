@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.strategy.cardmarket;
 
+import it.polimi.ingsw.server.controller.EndGameReason;
 import it.polimi.ingsw.server.controller.strategy.FinalStrategy;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
@@ -42,9 +43,24 @@ public class ChoosingSpaceForDevelopmentCard implements GameStrategy {
         elementsToUpdate.add(Element.SimpleCardShop);
         elementsToUpdate.add(Element.SimplePlayerLeaders);
 
-        if((
-                gamemodel.isSomeDevCardColourOutOfStock() && gamemodel.isSinglePlayer()) ||
-                (gamemodel.getCurrentPlayer().getPersonalBoard().playerHasSevenCards() && !gamemodel.isSinglePlayer())){
+        if(gamemodel.isSinglePlayer() && (gamemodel.isSomeDevCardColourOutOfStock() || currentBoard.playerHasSevenCards())) {
+            String endGameReason = null;
+            elementsToUpdate.add(Element.EndGameInfo);
+
+            if (gamemodel.isSomeDevCardColourOutOfStock())
+                endGameReason = EndGameReason.NO_MORE_DEVCARD_TYPE.getEndGameReason();
+
+            else if (currentBoard.playerHasSevenCards())
+                endGameReason = EndGameReason.SEVENTH_CARD_PURCHASED_SOLO.getEndGameReason();
+
+            FinalStrategy.handleSinglePlayerEndGameStrategy(elementsToUpdate, gamemodel, endGameReason);
+        }
+
+
+
+        else if (currentBoard.playerHasSevenCards() && !gamemodel.isSinglePlayer())
+
+        {
 
                 int currentPlayerIndex = gamemodel.getPlayerPosition(gamemodel.getCurrentPlayer());
 
@@ -54,6 +70,10 @@ public class ChoosingSpaceForDevelopmentCard implements GameStrategy {
                 ));
 
                 gamemodel.setPlayersEndingTheGame(player);
+
+                String reasonOfEnd = EndGameReason.SEVENTH_CARD_PURCHASED.getEndGameReason();
+
+                gamemodel.getThisMatch().setReasonOfGameEnd(reasonOfEnd);
 
                 if(gamemodel.getMacroGamePhase().equals(GameModel.MacroGamePhase.ActiveGame))
                     gamemodel.setMacroGamePhase(GameModel.MacroGamePhase.LastTurn);

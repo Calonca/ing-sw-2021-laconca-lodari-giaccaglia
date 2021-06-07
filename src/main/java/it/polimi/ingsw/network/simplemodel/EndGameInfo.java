@@ -9,12 +9,16 @@ public class EndGameInfo extends SimpleModelElement{
 
     List<Integer> playersEndingTheGame;
 
+    List<String> causeOfEnd;
+
+
     public EndGameInfo(){}
 
-    public EndGameInfo(Map<Integer, PlayerInfo> playerInfoMap, List<Integer> playersEndingTheGame){
+    public EndGameInfo(Map<Integer, PlayerInfo> playerInfoMap, List<Integer> playersEndingTheGame, String causeOfEnd){
 
         this.playerInfoMap = playerInfoMap;
         this.playersEndingTheGame = playersEndingTheGame;
+
 
     }
 
@@ -26,6 +30,24 @@ public class EndGameInfo extends SimpleModelElement{
         playersEndingTheGame = serverElement.playersEndingTheGame;
 
     }
+
+
+    private void handleCauseOfEndString(String causeOfEnd){
+
+        String causeOfEndString;
+
+        if(playerInfoMap.size() == 1) {
+            causeOfEndString = playerInfoMap.get(0).playerNickname + causeOfEnd;
+            this.causeOfEnd.add(causeOfEndString);
+        }
+
+        else{
+
+
+        }
+
+    }
+
 
     public PlayerInfo getPlayerInfo(int playerIndex){
         return playerInfoMap.get(playerIndex);
@@ -41,13 +63,15 @@ public class EndGameInfo extends SimpleModelElement{
         private final boolean outcome;
         private final int faithTrackPosition;
         private final int lorenzoTrackPosition;
+        private final String playerNickname;
 
-        public PlayerInfo(int victoryPoints, boolean outcome, int faithTrackPosition, int lorenzoTrackPosition){
+        public PlayerInfo(int victoryPoints, boolean outcome, int faithTrackPosition, int lorenzoTrackPosition, String playerNickname){
 
             this.victoryPoints = victoryPoints;
             this.outcome = outcome;
             this.faithTrackPosition = faithTrackPosition;
             this.lorenzoTrackPosition = lorenzoTrackPosition;
+            this.playerNickname = playerNickname;
 
         }
 
@@ -65,6 +89,10 @@ public class EndGameInfo extends SimpleModelElement{
 
         public int getLorenzoTrackPosition() {
             return lorenzoTrackPosition;
+        }
+
+        public String getPlayerNickname(){
+            return playerNickname;
         }
 
     }

@@ -17,12 +17,14 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Match {
+
     private final UUID matchId;
     private final List<User> onlineUsers = new ArrayList<>();
     private final List<String> offlineUsers = new ArrayList<>();
     private GameModel game;
     private final int maxPlayers;
     private Date createdTime;
+    private String reasonOfGameEnd;
 
     private class User{
         String nickname;
@@ -168,4 +170,14 @@ public class Match {
     public int getLastPos() {
         return onlineUsers.size()-1;
     }
+
+    public String getReasonOfGameEnd(){
+        return reasonOfGameEnd;
+    }
+
+    public void setReasonOfGameEnd(String reasonOfGameEnd){
+        this.reasonOfGameEnd = reasonOfGameEnd;
+    }
+
+
 }
