@@ -25,7 +25,6 @@ public class Middle implements GameStrategy {
 
         //MESSAGE IS MARKET, SHOP, PRODUCTION (0,1,2)
         MiddlePhaseEvent middlePhaseEvent = (MiddlePhaseEvent) event;
-        elementsToUpdate.add(Element.SimpleAvailableMovingPositions);
 
         int msg=middlePhaseEvent.getChoice();
 

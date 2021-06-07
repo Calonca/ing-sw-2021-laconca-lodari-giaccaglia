@@ -1238,17 +1238,15 @@ public class Serializator extends JsonUtility {
     public static void main(String[] args) throws IOException, ClassNotFoundException, IllegalAccessException, InstantiationException {
 /*
         leaderCardsArraySerialization();
-
+        devCardsAssetsMapSerialization();
         networkLeaderCardsAssetsMapSerialization();
         serializeResources();
         serializeMarbles();
-                serializeSinglePlayerStatesTransitionTable();
-        serializeMultiPlayerStatesTransitionTable();
 
  */
 
-        devCardsAssetsMapSerialization();
-
+        serializeSinglePlayerStatesTransitionTable();
+        serializeMultiPlayerStatesTransitionTable();
 
     }
 
