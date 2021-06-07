@@ -17,6 +17,7 @@ import javafx.stage.Popup;
 
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -85,7 +86,13 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
 
         for(int i=0; i<sceneLeaders.size();i++)
         {
-            sceneLeaders.get(i).setGraphic(new ImageView(new Image("assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_2.png", true)));
+            Path path= simplePlayerLeaders.getPlayerLeaders().get(i).getCardPaths().getKey();
+            ImageView temp = new ImageView(new Image(path.toString(), true));
+//new Image(ViewPersonalBoard.class.getResource(leaderCardAssets.get(i).getCardPaths().getKey().toString()).toString()
+
+            temp.setFitHeight(100);
+            temp.setFitWidth(70);
+            sceneLeaders.get(i).setGraphic(temp);
 
         }
         playButton.setOnAction(p -> {

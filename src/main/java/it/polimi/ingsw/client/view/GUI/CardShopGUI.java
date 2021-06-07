@@ -5,7 +5,10 @@ import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.CLI.IDLEViewBuilder;
 import it.polimi.ingsw.client.view.GUI.GUIelem.ResourceButton;
 import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
+import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCardColor;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
+import it.polimi.ingsw.network.simplemodel.SimpleCardShop;
+import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
 import it.polimi.ingsw.server.model.Resource;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.ImageCursor;
@@ -21,6 +24,7 @@ import javafx.scene.text.Text;
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Path;
 import java.util.*;
 
 /**
@@ -98,7 +102,7 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
         confirm.setOnAction(p -> {
 
 
-
+            int temp=0;
 
 
             if(!ViewPersonalBoard.getController().isCardShopOpen())
@@ -114,6 +118,9 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
                 if(prod)
                 {
                     selectedCards++;
+                    temp=selectedSceneCards.indexOf(prod);
+                    break;
+
                 }
             }
             if(selectedCards==0)
@@ -121,7 +128,12 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
                 errorChoice.setOpacity(1);
                 return;
             }
-            scenePaymentButtons.get(0).setResource(Resource.GOLD);
+            SimpleCardShop simpleCardShop = getSimpleCardShop();
+            for(int i=0; i<simpleCardShop.getCardFront(NetworkDevelopmentCardColor.BLUE,1).get().getDevelopmentCard().getCostList().size();i++)
+                for (int j=0;j<simpleCardShop.getCardFront(NetworkDevelopmentCardColor.BLUE,1).get().getDevelopmentCard().getCostList().get(0).getValue();j++)
+                    scenePaymentButtons.get(i).setResource(Resource.fromInt(i));
+
+            sendChosenCard(temp%4, temp/4);
             ViewPersonalBoard.getController().bindForPayment(scenePaymentButtons,scenePaidButtons);
 
 
@@ -139,22 +151,35 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
         cardsGrid.setLayoutX(0);
         cardsGrid.setLayoutY(0);
         Button sceneCard;
+        int k=0;
+
+        Path path;
+        ImageView tempImage;
+        SimpleCardShop simpleCardShop = getSimpleCardShop();
         for(int i=0;i<ROWS;i++)
         {
             for(int j=0;j<COLUMNS;j++)
             {
-                //todo fix order
-                ImageView tempImage = new ImageView(new Image("assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_0.png", true));
+                if (simpleCardShop.getCardFront(NetworkDevelopmentCardColor.fromInt(j),i+1).isPresent())
+                {
+                    System.out.println(i+1);
+                    path=simpleCardShop.getCardFront(NetworkDevelopmentCardColor.fromInt(j),i+1).get().getCardPaths().getKey();
+                    System.out.println(simpleCardShop.getCardFront(NetworkDevelopmentCardColor.fromInt(j),i+1).get().getDevelopmentCard().getLevel());
+                    tempImage = new ImageView(new Image(path.toString(), true));
+                }
+                else
+                    tempImage = new ImageView(new Image("assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_BLUE_1.png"));
+
+
                 sceneCard = new Button();
 
-                tempImage.setFitWidth((width-50)/3);
+                tempImage.setFitWidth((width-70)/4);
                 tempImage.setFitHeight((len-130)/4);
 
                 sceneCard.setGraphic(tempImage);
                 sceneCard.setStyle("-fx-border-color: transparent");
-
-
-                cardsGrid.add(sceneCard,i,j);
+                //ROWS COLUMNS
+                cardsGrid.add(sceneCard,j,i);
                 scenesCardsToChoose.add(sceneCard);
 
             }

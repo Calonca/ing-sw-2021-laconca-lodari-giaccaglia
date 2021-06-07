@@ -5,8 +5,8 @@
 
 <AnchorPane fx:id="leaderPane" prefHeight="400.0" prefWidth="500.0" style="-fx-background-color: #006994; -fx-border-color: #FAEBD7;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.GUI.InitialOrFinalPhaseGUI">
    <children>
-      <Button fx:id="leaderOne" layoutX="124.0" layoutY="138.0" mnemonicParsing="false" text="Button" />
-      <Button fx:id="leaderTwo" layoutX="325.0" layoutY="138.0" mnemonicParsing="false" text="Button" />
+      <Button fx:id="leaderOne" layoutX="124.0" layoutY="138.0" mnemonicParsing="false" />
+      <Button fx:id="leaderTwo" layoutX="325.0" layoutY="138.0" mnemonicParsing="false" />
       <Button fx:id="playButton" layoutX="176.0" layoutY="314.0" mnemonicParsing="false" text="PLAY" />
       <Button fx:id="discardButton" layoutX="273.0" layoutY="314.0" mnemonicParsing="false" text="DISCARD" />
       <Button fx:id="skipButton" layoutX="434.0" layoutY="361.0" mnemonicParsing="false" text="SKIP" />

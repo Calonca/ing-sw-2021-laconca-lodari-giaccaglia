@@ -70,6 +70,7 @@ public enum MarbleAsset {
         this.marbleAssetPath = marbleAssetPath;
         }
 
+
     public Path getPath() {
         return this.marbleAssetPath;
     }

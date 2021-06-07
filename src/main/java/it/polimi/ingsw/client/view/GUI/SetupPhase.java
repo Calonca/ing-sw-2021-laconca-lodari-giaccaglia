@@ -119,7 +119,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
 
 
 
-        Label leaders=new Label("SELEZIONA DUE LEADER");
+        Label leaders=new Label("DISCARD TWO LEADERS");
         leaders.setLayoutX(300);
         leaders.setLayoutY(500);
         cjlAnchor.getChildren().add(leaders);
@@ -133,9 +133,9 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         for(int i=0;i<LEADERNUMBER;i++)
         {
             leadersUUIDs.add(leaderCardAssets.get(i).getCardId());
-            Path path= Paths.get(leaderCardAssets.get(i).getCardPaths().getKey().toString().substring(1));
+            Path path= leaderCardAssets.get(i).getCardPaths().getKey();
             System.out.println(leaderCardAssets.get(i).getCardPaths().getKey().toString());
-            ImageView temp = new ImageView(new Image("assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_2.png", true));
+            ImageView temp = new ImageView(new Image(path.toString(), true));
 //new Image(ViewPersonalBoard.class.getResource(leaderCardAssets.get(i).getCardPaths().getKey().toString()).toString()
             tempbut= new Button();
             tempbut.setLayoutY(len-100);
@@ -155,7 +155,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
             selectedLeaders.add(false);
 
 
-        selectionModel.cardSelector(selectedLeaders, sceneLeaders,Util.resourcesToChooseOnSetup(getClient().getCommonData().getThisPlayerIndex()));
+        selectionModel.cardSelector(selectedLeaders, sceneLeaders,2);
 
         selectedLeaders.addListener(new javafx.collections.ListChangeListener<Boolean>() {
             @Override
