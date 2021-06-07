@@ -26,7 +26,8 @@ public class MovingResource implements GameStrategy {
         int startPos = ((MoveResourceEvent) event).getStartPos();
         int endPos = ((MoveResourceEvent) event).getEndPos();
 
-        gamemodel.getCurrentPlayer().getPersonalBoard().move(startPos, endPos);
+        if(startPos!=endPos)
+            gamemodel.getCurrentPlayer().getPersonalBoard().move(startPos, endPos);
 
         elementsToUpdate.add(Element.SimpleWareHouseLeadersDepot);
         elementsToUpdate.add(Element.SimpleDiscardBox);

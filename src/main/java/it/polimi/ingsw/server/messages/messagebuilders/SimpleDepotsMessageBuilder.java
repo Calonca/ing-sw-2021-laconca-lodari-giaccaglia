@@ -90,9 +90,10 @@ public class SimpleDepotsMessageBuilder {
     }
 
     public static Pair<Integer, List<Integer>> getAvailableMovingPositionsForResourceAtPos(PersonalBoard board, int position, Resource res){
-
-        int resourceNumber = res.getResourceNumber();
         List<Integer> positions = board.getWarehouseLeadersDepots().availableMovingPositionsForResource(res).boxed().collect(Collectors.toList());
+        if(position>=0)
+            positions.add(position);
+
         return new Pair<>(position, positions);
 
     }
