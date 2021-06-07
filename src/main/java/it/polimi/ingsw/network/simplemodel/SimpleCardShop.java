@@ -53,7 +53,7 @@ public class SimpleCardShop extends SimpleModelElement{
     }
 
     public boolean isAnyCardPurchasable(){
-        return isAnyCardPurchasable();
+        return anyCardPurchasable;
     }
 
 }
