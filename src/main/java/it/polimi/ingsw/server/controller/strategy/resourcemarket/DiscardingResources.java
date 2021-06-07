@@ -52,7 +52,7 @@ public class DiscardingResources implements GameStrategy {
                     return FinalStrategy.handleSinglePlayerEndGameStrategy(elementsToUpdate, gameModel, endGameReason);
                 }
 
-                setMarcoGamePhase();
+                FinalStrategy.setMacroGamePhase(gameModel, elementsToUpdate);
 
 
                 return new Pair<>(State.IDLE, elementsToUpdate);
@@ -75,10 +75,7 @@ public class DiscardingResources implements GameStrategy {
                     return FinalStrategy.handleSinglePlayerEndGameStrategy(elementsToUpdate, gameModel, endGameReason);
                 }
 
-
-                setMarcoGamePhase();
-
-
+                FinalStrategy.setMacroGamePhase(gameModel, elementsToUpdate);
 
             }
 
@@ -86,16 +83,6 @@ public class DiscardingResources implements GameStrategy {
 
         return FinalStrategy.handleCommonEndGameStrategy(elementsToUpdate,gameModel);
 
-
-    }
-
-    private void setMarcoGamePhase(){
-
-        if (gameModel.getMacroGamePhase().equals(GameModel.MacroGamePhase.ActiveGame))
-            gameModel.setMacroGamePhase(GameModel.MacroGamePhase.LastTurn);
-
-        else if (gameModel.getPlayerIndex(gameModel.getCurrentPlayer()) == (gameModel.getOnlinePlayers().size() - 1))
-            gameModel.setMacroGamePhase(GameModel.MacroGamePhase.GameEnded);
 
     }
 }

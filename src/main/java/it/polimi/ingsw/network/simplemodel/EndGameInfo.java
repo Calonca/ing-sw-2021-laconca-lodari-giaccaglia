@@ -1,7 +1,10 @@
 package it.polimi.ingsw.network.simplemodel;
 
+import it.polimi.ingsw.server.model.player.Player;
+
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class EndGameInfo extends SimpleModelElement{
 
@@ -29,6 +32,7 @@ public class EndGameInfo extends SimpleModelElement{
         playerInfoMap = serverElement.playerInfoMap;
         playersEndingTheGame = serverElement.playersEndingTheGame;
 
+
     }
 
 
@@ -38,13 +42,14 @@ public class EndGameInfo extends SimpleModelElement{
 
         if(playerInfoMap.size() == 1) {
             causeOfEndString = playerInfoMap.get(0).playerNickname + causeOfEnd;
-            this.causeOfEnd.add(causeOfEndString);
         }
 
         else{
 
-
+            causeOfEndString = playerInfoMap.values().stream().map(playerInfo -> playerInfo.playerNickname).collect((Collectors.joining(", "))) + causeOfEnd;
         }
+
+        this.causeOfEnd.add(causeOfEndString);
 
     }
 

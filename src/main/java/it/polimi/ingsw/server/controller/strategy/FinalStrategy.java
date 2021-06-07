@@ -32,5 +32,15 @@ public class FinalStrategy {
         return new Pair<>(State.END_PHASE, elementsToUpdate);
     }
 
+    public static void setMacroGamePhase(GameModel gameModel, List<Element> elementsToUpdate){
 
-}
+            if (gameModel.getMacroGamePhase().equals(GameModel.MacroGamePhase.ActiveGame)) {
+                elementsToUpdate.add(Element.EndGameInfo);
+                gameModel.setMacroGamePhase(GameModel.MacroGamePhase.LastTurn);
+            }
+
+            else if (gameModel.getPlayerIndex(gameModel.getCurrentPlayer()) == (gameModel.getOnlinePlayers().size() - 1))
+                gameModel.setMacroGamePhase(GameModel.MacroGamePhase.GameEnded);
+
+        }
+    }
