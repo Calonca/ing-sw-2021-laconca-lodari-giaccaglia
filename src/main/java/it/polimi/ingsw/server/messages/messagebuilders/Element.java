@@ -83,7 +83,11 @@ public enum Element {
             @Override
             public SimpleModelElement buildSimpleModelElement(GameModel gameModel){
                 return new SimpleWarehouseLeadersDepot(
-                        SimpleDepotsMessageBuilder.getSimpleWarehouseLeadersDepots(gameModel), SimpleDepotsMessageBuilder.getAvailableMovingPositionsForResourceInWarehouseAtPos(gameModel));
+
+                        SimpleDepotsMessageBuilder.getSimpleWarehouseLeadersDepots(gameModel),
+                        SimpleDepotsMessageBuilder.getAvailableMovingPositionsForResourceInWarehouseAtPos(gameModel),
+                        SimpleDepotsMessageBuilder.getResourcesTypesOfLeaderDepots(gameModel));
+
             }
         },
 
@@ -91,6 +95,7 @@ public enum Element {
             @Override
             public SimpleModelElement buildSimpleModelElement(GameModel gameModel){
                 return new SimpleCardCells(
+
                         SimpleCardsCellsMessageBuilder.cardCellsAdapter(gameModel),
                         gameModel.getCurrentPlayer().getPersonalBoard().getAvailableSpotsForDevCard(gameModel.getCardShop().getCopyOfPurchasedCard())
                 );

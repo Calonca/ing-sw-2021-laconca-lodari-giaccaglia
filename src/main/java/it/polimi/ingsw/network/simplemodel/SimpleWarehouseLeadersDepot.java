@@ -12,11 +12,15 @@ public class SimpleWarehouseLeadersDepot extends SimpleModelElement{
 
     private Map<Integer, List<Integer>> availableMovingPositions;
 
+
+    private Map<Integer, ResourceAsset> resourcesTypesOfLeaderDepots;  // key -> leader depot spot ; value -> resource types
+
     public SimpleWarehouseLeadersDepot(){}
 
-    public SimpleWarehouseLeadersDepot(Map<Integer, List<Pair<ResourceAsset, Boolean>>> simpleWarehouseLeadersDepot, Map<Integer, List<Integer>> availableMovingPositions ){
+    public SimpleWarehouseLeadersDepot(Map<Integer, List<Pair<ResourceAsset, Boolean>>> simpleWarehouseLeadersDepot, Map<Integer, List<Integer>> availableMovingPositions,  Map<Integer, ResourceAsset> resourcesTypesOfLeaderDepots){
         this.simpleWarehouseLeadersDepot = simpleWarehouseLeadersDepot;
         this.availableMovingPositions = availableMovingPositions;
+        this.resourcesTypesOfLeaderDepots = resourcesTypesOfLeaderDepots;
     }
 
     public Map<Integer, List<Pair<ResourceAsset, Boolean>>> getDepots() {
@@ -28,6 +32,7 @@ public class SimpleWarehouseLeadersDepot extends SimpleModelElement{
         SimpleWarehouseLeadersDepot serverWarehouseLeadersDepot= (SimpleWarehouseLeadersDepot) element;
         this.simpleWarehouseLeadersDepot = serverWarehouseLeadersDepot.simpleWarehouseLeadersDepot;
         this.availableMovingPositions = serverWarehouseLeadersDepot.availableMovingPositions;
+        this.resourcesTypesOfLeaderDepots = serverWarehouseLeadersDepot.resourcesTypesOfLeaderDepots;
     }
 
     public Map<Integer, List<Integer>> getAvailableMovingPositions(){

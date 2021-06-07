@@ -5,8 +5,10 @@ import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.player.board.Box;
 import it.polimi.ingsw.server.model.player.board.PersonalBoard;
+import it.polimi.ingsw.server.model.player.board.WarehouseLeadersDepots;
 import javafx.util.Pair;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -98,7 +100,6 @@ public class SimpleDepotsMessageBuilder {
 
     }
 
-
     public static boolean isDiscardBoxDiscardable(GameModel gameModel){
 
         PersonalBoard board = gameModel.getCurrentPlayer().getPersonalBoard();
@@ -107,6 +108,31 @@ public class SimpleDepotsMessageBuilder {
 
         return positions.stream().noneMatch(position ->
                 board.getWarehouseLeadersDepots().availableMovingPositionsForResource(discardBox.getResourceAt(position)).findAny().isPresent());
+
+    }
+
+    public static Map<Integer, ResourceAsset> getResourcesTypesOfLeaderDepots(GameModel gameModel){
+
+        WarehouseLeadersDepots currentDepots = gameModel.getCurrentPlayer().getPersonalBoard().getWarehouseLeadersDepots();
+
+        int numberOfDepots = currentDepots.getNumOfCellsInAllDepots();
+        if(numberOfDepots>6) {
+
+            Map<Integer, ResourceAsset> resourcesTypes = IntStream.range(6, numberOfDepots).boxed().collect(Collectors.toMap(
+
+                    spotPosition -> spotPosition,
+                    spotPosition -> {
+
+                        int resourceIntValue = currentDepots.getLeaderDepotAtPosResourceType(spotPosition);
+
+                        return ResourceAsset.fromInt(resourceIntValue);
+                    }
+            ));
+
+            return resourcesTypes;
+        }
+
+        else return new HashMap<>();
 
     }
 

@@ -292,6 +292,18 @@ public class WarehouseLeadersDepots implements StorageUnit {
         return (int) IntStream.range(0,depotAtPosition.size()).filter((pos)->depotThatHasPos(pos).getSelected(pos)).count();
     }
 
+    public int getLeaderDepotAtPosResourceType(int spotPosition){
+
+        if(spotPosition>=depotAtPosition.size() || spotPosition<6)
+            return -1;
+
+        int depotPosition =  depotAtPosition.get(spotPosition);
+        LeaderDepot leaderDepot =  (LeaderDepot) depots.get(depotPosition);
+
+        return leaderDepot.geResourceType();
+
+    }
+
 
 
 }
