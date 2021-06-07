@@ -10,6 +10,10 @@ import it.polimi.ingsw.network.messages.clienttoserver.events.setupphaseevent.Se
 import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
 import it.polimi.ingsw.network.util.Util;
 import it.polimi.ingsw.server.model.Resource;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -20,6 +24,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.util.Duration;
 import javafx.util.Pair;
 
 import java.beans.PropertyChangeEvent;
@@ -58,6 +63,12 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
     public void run() {
         ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(0);
         SubScene root=getRoot();
+        root.translateYProperty().set(getClient().getStage().getScene().getHeight());
+        Timeline timeline=new Timeline();
+        KeyValue kv= new KeyValue(root.translateYProperty(),0, Interpolator.EASE_IN);
+        KeyFrame kf= new KeyFrame(Duration.seconds(0.5),kv);
+        timeline.getKeyFrames().add(kf);
+        timeline.play();
         root.setId("SETUP");
 
         ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(root);
@@ -119,7 +130,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
 
 
 
-        Label leaders=new Label("DISCARD TWO LEADERS");
+        Label leaders=new Label("SELECT TWO LEADERS TO DISCARD");
         leaders.setLayoutX(300);
         leaders.setLayoutY(500);
         cjlAnchor.getChildren().add(leaders);

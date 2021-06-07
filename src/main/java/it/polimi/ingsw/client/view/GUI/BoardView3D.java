@@ -34,7 +34,7 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
     @Override
     public void run() {
         Node toAdd=getRoot();
-
+        //todo fix initialization
         toAdd.setId("3DVIEW");
 
 
@@ -68,7 +68,7 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
 
         scene.setOnMousePressed(event -> {
             anchorX = event.getSceneX();
-            System.out.println("pork");
+            System.out.println("test");
             System.out.println(toPut.getTranslateX() + "Y" + toPut.getTranslateY());
             anchorY = event.getSceneY();
             anchorAngleX = angleX.get();
@@ -76,6 +76,7 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
         });
 
         scene.setOnMouseDragged(event -> {
+            System.out.println(toPut.getTranslateX() + "Y" + toPut.getTranslateY());
 
             angleX.set(anchorAngleX - (anchorY - event.getSceneY()));
             angleY.set(anchorAngleY + anchorX - event.getSceneX());
