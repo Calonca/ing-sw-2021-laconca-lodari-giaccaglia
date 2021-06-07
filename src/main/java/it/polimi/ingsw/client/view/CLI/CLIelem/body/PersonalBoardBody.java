@@ -72,7 +72,7 @@ public class PersonalBoardBody extends CLIelem {
                 SimpleCardShop cardShop = board.simpleModel.getElem(SimpleCardShop.class).orElseThrow();
                 Drawable purchasedCard = DrawableDevCard.fromDevCardAsset(cardShop.getPurchasedCard().map(c->c.getDevelopmentCard()).orElseThrow());
                 board.productions.addElem(Option.noNumber(purchasedCard));
-                board.wareHouseLeadersDepot = wareBuilder(cache.getElem(SimpleWarehouseLeadersDepot.class).orElseThrow(),board, null);
+                board.wareHouseLeadersDepot = wareBuilder(cache.getElem(SimpleWarehouseLeadersDepot.class).orElseThrow(),board);
                 board.strongBox = strongBoxBuilder(cache.getElem(SimpleStrongBox.class).orElseThrow(), board);
                 board.message = "Select the resources to buy the card";
             }
