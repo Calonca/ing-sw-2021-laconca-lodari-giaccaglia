@@ -111,7 +111,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
                 event.addResource(new Pair<>(0,selectedResources.get(0)));
             if (selectedResources.size()>1)
                 event.addResource(new Pair<>(1,selectedResources.get(1)));
-            System.out.println(event);
+            //System.out.println(event);
             getClient().getServerHandler().sendCommandMessage(new EventMessage(event));
 
 
@@ -145,7 +145,6 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         {
             leadersUUIDs.add(leaderCardAssets.get(i).getCardId());
             Path path= leaderCardAssets.get(i).getCardPaths().getKey();
-            System.out.println(leaderCardAssets.get(i).getCardPaths().getKey().toString());
             ImageView temp = new ImageView(new Image(path.toString(), true));
 //new Image(ViewPersonalBoard.class.getResource(leaderCardAssets.get(i).getCardPaths().getKey().toString()).toString()
             tempbut= new Button();
@@ -221,7 +220,6 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         else{
             SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).orElseThrow();
             List<LeaderCardAsset> leaderCardAssets=simplePlayerLeaders.getPlayerLeaders();
-            System.out.println(leaderCardAssets);
 
         }
     }

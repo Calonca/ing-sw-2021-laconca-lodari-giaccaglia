@@ -68,7 +68,6 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
 
         scene.setOnMousePressed(event -> {
             anchorX = event.getSceneX();
-            System.out.println("test");
             System.out.println(toPut.getTranslateX() + "Y" + toPut.getTranslateY());
             anchorY = event.getSceneY();
             anchorAngleX = angleX.get();

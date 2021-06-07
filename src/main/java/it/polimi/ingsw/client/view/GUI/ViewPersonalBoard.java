@@ -74,7 +74,7 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
         getClient().getStage().setWidth(1200);
         getClient().getStage().setResizable(false);
 
-        CardShopGUI cardshop=new CardShopGUI(false);
+        CardShopGUI cardshop=new CardShopGUI(true);
         cardshop.addMarket();
         ResourceMarketGUI market=new ResourceMarketGUI();
         market.addMatrix();
@@ -163,7 +163,7 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
     }
 
 
-    public void initializeDeposit()
+    public void initializeDepositAndWareHouse()
     {
     ResourceButton tempbut= new ResourceButton();
         tempbut.setResource(Resource.EMPTY);
@@ -176,7 +176,7 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
 
 
         for(int i=0;i<2;i++)
-    {
+        {
         tempbut= new ResourceButton();
         tempbut.setResource(Resource.GOLD);
         tempbut.setLayoutY(545);
@@ -185,10 +185,10 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
         menuPane.getChildren().add(tempbut);
         sceneResources.add(tempbut);
 
-    }
+        }
 
         for(int i=0;i<3;i++)
-    {
+        {
         tempbut= new ResourceButton();
         tempbut.setResource(Resource.EMPTY);
         tempbut.setLayoutY(585);
@@ -197,7 +197,23 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
         menuPane.getChildren().add(tempbut);
         sceneResources.add(tempbut);
 
-    }}
+        }
+        for(int i=0;i<5;i++)
+        {
+            ResourceButton wareHouseButton=new ResourceButton();
+            wareHouseButton.setResource(Resource.EMPTY);
+            wareHouseGrid.add(wareHouseButton,i,0);
+
+            wareHouseButtons.add(wareHouseButton);
+        }
+
+        wareHouseGrid.setMaxHeight(100);
+        wareHouseGrid.setMaxWidth(100);
+        wareHouseGrid.setLayoutX(480);
+        wareHouseGrid.setLayoutY(650);
+        menuPane.getChildren().add(wareHouseGrid);
+
+    }
 
     public void initializeFaithTrack()
     {
@@ -232,7 +248,7 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
             for(ResourceButton but : standardProductionButtons)
                 if(but.getResource()==Resource.TOCHOOSE)
                     return;
-            stockWareHouse();
+            //stockWareHouse();
         });
         menuPane.getChildren().add(coverCardShop);
 
@@ -253,6 +269,24 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
                     temp.remove(0);
                 }
             }
+        }
+    }
+
+    public void addDevelopmentCards()
+    {
+        Button productionButton;
+
+        for(int i=0;i<3;i++)
+        {
+            productionButton=new Button();
+            productionButton.setLayoutX(740+150*i);
+            productionButton.setLayoutY(550);
+            ImageView devCardImage=new ImageView(new Image("assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_2.png", true));
+            devCardImage.setFitWidth(100);
+            devCardImage.setFitHeight(100);
+            productionButton.setGraphic(devCardImage);
+            menuPane.getChildren().add(productionButton);
+            productions.add(productionButton);
         }
     }
 
@@ -411,22 +445,21 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        ImageView tempImageView;
-        tempImageView=new ImageView(new Image("assets/board/smallerboard.png", true));
+      //  ImageView tempImageView;
+      //  tempImageView=new ImageView(new Image("assets/board/smallerboard.png", true));
+      //  tempImageView.setFitHeight(500);
+      //  tempImageView.setFitWidth(750);
+      //  tempImageView.setLayoutX(445);
+      //  tempImageView.setLayoutY(280);
 
-        tempImageView.setFitHeight(500);
-        tempImageView.setFitWidth(750);
-        tempImageView.setLayoutX(445);
-        tempImageView.setLayoutY(280);
+      //  menuPane.getChildren().add(tempImageView);
+      //  StackPane.setAlignment(tempImageView, Pos.BOTTOM_CENTER);
 
-        menuPane.getChildren().add(tempImageView);
-        StackPane.setAlignment(tempImageView, Pos.BOTTOM_CENTER);
+      //  initializeDepositAndWarehouse();
 
-        initializeDeposit();
+      //  initializeFaithTrack();
 
-        initializeFaithTrack();
-
-        validationButton();
+      //  validationButton();
 
         selectedResources =javafx.collections.FXCollections.observableArrayList();
 
@@ -460,39 +493,11 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
 
 
 
-        Button productionButton;
-
-        for(int i=0;i<3;i++)
-        {
-        productionButton=new Button();
-        productionButton.setLayoutX(740+150*i);
-        productionButton.setLayoutY(550);
-        ImageView devCardImage=new ImageView(new Image("assets/devCards/raw/FRONT/Masters of Renaissance_Cards_FRONT_BLUE_2.png", true));
-        devCardImage.setFitWidth(100);
-        devCardImage.setFitHeight(100);
-        productionButton.setGraphic(devCardImage);
-        menuPane.getChildren().add(productionButton);
-        productions.add(productionButton);
-        }
-        int row;
-        for(int i=0;i<5;i++)
-        {
-            ResourceButton wareHouseButton=new ResourceButton();
-            wareHouseButton.setResource(Resource.EMPTY);
-            wareHouseGrid.add(wareHouseButton,i,0);
-
-            wareHouseButtons.add(wareHouseButton);
-        }
-
-        wareHouseGrid.setMaxHeight(100);
-        wareHouseGrid.setMaxWidth(100);
-        wareHouseGrid.setLayoutX(480);
-        wareHouseGrid.setLayoutY(650);
-        menuPane.getChildren().add(wareHouseGrid);
 
 
 
-        bindForStandardProduction();
+
+        //bindForStandardProduction();
         getClient().getStage().show();
     }
 }

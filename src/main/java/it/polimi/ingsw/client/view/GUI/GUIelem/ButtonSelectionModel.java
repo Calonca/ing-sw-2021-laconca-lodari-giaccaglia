@@ -65,7 +65,6 @@ public class ButtonSelectionModel {
                     for (Integer integer : selected) currentSelected += integer;
                     if(currentSelected+1<maxselection)
                         selected.add(sceneResourcesToChoose.indexOf(sceneButton));
-                    System.out.println(selected.size());
 
                 }
             });
@@ -554,12 +553,20 @@ public class ButtonSelectionModel {
         return isProduction;
     }
 
+    public void isProduction(boolean b) {
+       isProduction=b;
+    }
+
     public boolean isLeader() {
         return isLeader;
     }
 
     public boolean isMarket() {
         return isMarket;
+    }
+
+    public void isMarket(boolean b) {
+        isMarket=b;
     }
 
     public boolean isCardShopOpen() {
