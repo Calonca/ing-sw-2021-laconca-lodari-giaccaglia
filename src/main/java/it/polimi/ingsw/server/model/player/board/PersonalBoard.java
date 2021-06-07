@@ -433,9 +433,6 @@ public class PersonalBoard {
     public boolean hasResources(int[] toCheck)
     {
 
-
-
-
         Box box= getStrongBox();
         //Goes up to toChoose
         int[] inputOfLengthResources = IntStream.concat(Arrays.stream(toCheck),IntStream.generate(()->0)).limit(Resource.nRes+3).toArray();
@@ -511,24 +508,6 @@ public class PersonalBoard {
         return true;
     }
 
-    /**
-     * Returns all the available global positions in the {@link PersonalBoard} where the given resource can be moved
-     * @return an IntStream of global positions
-     */
-    public IntStream availableMovingPositionsForResource(Resource res){
-        return IntStream.concat(res.equals(Resource.EMPTY)?IntStream.empty():
-                IntStream.of(discardBox.globalPositionOfRes(res)),
-                warehouseLeadersDepots.availableMovingPositionsForResource(res));
-    }
-
-    /**
-     * Returns all the available positions in all the {@link PersonalBoard} where the resource at the given position can be moved
-     * @param position the global position of the resource of which available moving positions will be returned
-     * @return an IntStream of global positions
-     */
-    public IntStream availableMovingPositionsForResourceAt(int position){
-        return availableMovingPositionsForResource(storageUnitFromPos(position).getResourceAt(position)).filter((i)->i!=position);
-    }
 
     /**
      * Returns the resource at a given position in the {{@link PersonalBoard#warehouseLeadersDepots} or {@link PersonalBoard#strongBox}

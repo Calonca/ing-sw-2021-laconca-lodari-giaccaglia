@@ -46,7 +46,6 @@ public class PuttingBallOnLine implements GameStrategy {
         gamemodel.getCurrentPlayer().getPersonalBoard().setMarketBox(marketBox);
 
         elementsToUpdate.add(Element.SimpleDiscardBox);
-        elementsToUpdate.add(Element.SimpleAvailableMovingPositions);
 
         return new Pair<>(State.CHOOSING_POSITION_FOR_RESOURCES, elementsToUpdate);
 

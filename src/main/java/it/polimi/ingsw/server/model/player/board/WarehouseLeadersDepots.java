@@ -151,7 +151,7 @@ public class WarehouseLeadersDepots implements StorageUnit {
      * @param position the global position of the resource of which available moving positions will be returned
      * @return an IntStream of global positions
      */
-    private IntStream availableMovingPositionsForResourceAt(int position){
+    public IntStream availableMovingPositionsForResourceAt(int position){
         return availableMovingPositionsForResource(getResourceAt(position));
     }
 

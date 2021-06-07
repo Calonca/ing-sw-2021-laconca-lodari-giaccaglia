@@ -32,6 +32,10 @@ public class SimpleDiscardBox extends SimpleModelElement{
 
     }
 
+    public boolean isDiscardable() {
+        return isDiscardable;
+    }
+
     public Map<Integer, Pair<ResourceAsset, Integer>> getResourceMap() {
         return simpleDiscardBox;
     }
