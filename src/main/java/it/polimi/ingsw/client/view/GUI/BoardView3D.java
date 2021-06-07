@@ -2,9 +2,14 @@ package it.polimi.ingsw.client.view.GUI;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
+import javafx.scene.image.Image;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.shape.Box;
 import javafx.scene.shape.Sphere;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
@@ -25,7 +30,7 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
     //We will update these after drag. Using JavaFX property to bind with object
     private final DoubleProperty angleX = new SimpleDoubleProperty(0);
     private final DoubleProperty angleY = new SimpleDoubleProperty(0);
-    Sphere toPut;
+    Box toPut;
 
 
     @Override
@@ -88,25 +93,24 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+
         camera = new PerspectiveCamera(true);
         camera.getTransforms().addAll(new Rotate(0,Rotate.Z_AXIS),new Rotate(0,Rotate.X_AXIS), new Rotate(0,Rotate.Y_AXIS), new Translate(0, 0, 0d));
         camera.translateXProperty().set(20);
-        camera.translateYProperty().set(20.0);
-        camera.setTranslateZ(-20);
+        camera.translateYProperty().set(20);
+        camera.setTranslateZ(-100);
         Group root3D = new Group();
 
 
-
-        for(int i=0;i<100;i++)
-        {
-        toPut=new Sphere(10);
-        toPut.translateYProperty().set(i);
-        toPut.translateXProperty().set(i);
+        toPut=new Box(10,20,30);
+        toPut.translateYProperty().set(0);
+        toPut.translateXProperty().set(0);
         root3D.getChildren().add(toPut);
-        }
         Scene scene=new Scene(root3D,1000,700);
         scene.setCamera(camera);
         initMouseControl(root3D,scene);
+
+
 
         getClient().getStage().setScene(scene);
     }
