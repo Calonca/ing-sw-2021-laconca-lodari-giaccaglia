@@ -29,7 +29,6 @@ public class MovingResource implements GameStrategy {
         gamemodel.getCurrentPlayer().getPersonalBoard().move(startPos, endPos);
 
         elementsToUpdate.add(Element.SimpleWareHouseLeadersDepot);
-        elementsToUpdate.add(Element.SimpleAvailableMovingPositions);
         elementsToUpdate.add(Element.SimpleDiscardBox);
 
         return new Pair<>(gamemodel.getGamePhase(), elementsToUpdate);

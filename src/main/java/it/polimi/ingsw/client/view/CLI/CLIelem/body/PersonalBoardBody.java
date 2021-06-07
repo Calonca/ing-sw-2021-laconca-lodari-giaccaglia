@@ -94,7 +94,7 @@ public class PersonalBoardBody extends CLIelem {
         mode.initialize(this);
     }
 
-    private boolean getSelectable(PersonalBoardBody board,Map<Integer, List<Integer>> movPos,int pos){
+    private boolean getSelectable(PersonalBoardBody board, Map<Integer, List<Integer>> movPos,int pos){
         boolean selectable = false;
         if (board.mode.equals(Mode.MOVING_RES)){
             if (board.lastSelectedPosition==null)
@@ -184,7 +184,7 @@ public class PersonalBoardBody extends CLIelem {
 
             int finalPos = pos;
             Row row1 = new Row(IntStream.range(0,e.getValue().size())
-                    .mapToObj(i -> body.optionFromAsset(e.getValue().get(i).getKey(), 1, 0, body.getSelectable(body, simpleWare.getAvailableMovingPositions(), finalPos +i), finalPos +i)));
+             .mapToObj(i -> body.optionFromAsset(e.getValue().get(i).getKey(), 1, 0, body.getSelectable(body, simpleWare.getAvailableMovingPositions(), finalPos +i), finalPos +i)));
             rows.add(row1);
             pos+=e.getValue().size();
         }

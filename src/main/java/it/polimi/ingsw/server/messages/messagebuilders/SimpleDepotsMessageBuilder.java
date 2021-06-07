@@ -55,44 +55,57 @@ public class SimpleDepotsMessageBuilder {
     public static Map<Integer, List<Integer>> getAvailableMovingPositionsForResourceInWarehouseAtPos(GameModel gameModel){
 
         int warehouseDepotSpaces = gameModel.getCurrentPlayer().getPersonalBoard().getWarehouseLeadersDepots().getNumOfCellsInAllDepots();
+        PersonalBoard currentPlayerPersonalBoard = gameModel.getCurrentPlayer().getPersonalBoard();
 
-        return getAvailableMovingPositionsForResourceAtPos(gameModel, 0, warehouseDepotSpaces);
+        List<Integer> positions= IntStream.range(0, warehouseDepotSpaces).boxed().collect(Collectors.toList());
+
+        Map<Integer, List<Integer>> availablePositions = positions.stream().map(position -> getAvailableMovingPositionsForResourceAtPos(currentPlayerPersonalBoard, position,
+                currentPlayerPersonalBoard.getWarehouseLeadersDepots().getResourceAt(position)))
+                .collect(Collectors.toMap(
+                        Pair::getKey,
+                        Pair::getValue
+                ));
+
+        return availablePositions;
+
     }
 
     public static Map<Integer, List<Integer>> getAvailableMovingPositionsForResourceInDiscardBoxAtPos(GameModel gameModel){
 
         PersonalBoard currentPlayerPersonalBoard = gameModel.getCurrentPlayer().getPersonalBoard();
 
-        return Resource.getStream(4).collect(Collectors.toMap(
-                res ->res.getResourceNumber()-4,
-                res ->currentPlayerPersonalBoard.getWarehouseLeadersDepots().availableMovingPositionsForResource(res).boxed().collect(Collectors.toList())
-        ));
-    }
+        List<Integer> resourcesPositions = IntStream.range(-4, 0).boxed().collect(Collectors.toList());
 
-    public static Map<Integer, List<Integer>> getAvailableMovingPositionsForResourceAtPos(GameModel gameModel, int startingInclusive, int endingExclusive){
+        Map<Integer, List<Integer>> availablePositions = resourcesPositions.stream().map(
+                position -> getAvailableMovingPositionsForResourceAtPos(currentPlayerPersonalBoard, position,
+                        currentPlayerPersonalBoard.getDiscardBox().getResourceAt(position)))
 
-        PersonalBoard currentPlayerPersonalBoard = gameModel.getCurrentPlayer().getPersonalBoard();
+                .collect(Collectors.toMap(
+                        Pair::getKey,
+                        Pair::getValue
+                ));
 
-        return IntStream.range(startingInclusive, endingExclusive).boxed().collect(Collectors.toMap(
-                position -> position,
-                position ->currentPlayerPersonalBoard.getWarehouseLeadersDepots().availableMovingPositionsForResourceAt(position).boxed().collect(Collectors.toList())
-        ));
+        return availablePositions;
 
     }
 
+    public static Pair<Integer, List<Integer>> getAvailableMovingPositionsForResourceAtPos(PersonalBoard board, int position, Resource res){
+
+        int resourceNumber = res.getResourceNumber();
+        List<Integer> positions = board.getWarehouseLeadersDepots().availableMovingPositionsForResource(res).boxed().collect(Collectors.toList());
+        return new Pair<>(position, positions);
+
+    }
 
 
     public static boolean isDiscardBoxDiscardable(GameModel gameModel){
 
         PersonalBoard board = gameModel.getCurrentPlayer().getPersonalBoard();
         Box discardBox = board.getDiscardBox();
-        int discardBoxSize = 5;
-        List<Integer> positions = IntStream.range(0, discardBoxSize).boxed().collect(Collectors.toList());
+        List<Integer> positions = IntStream.range(-4, 1).boxed().collect(Collectors.toList());
 
-        return positions.stream().filter(position ->
-                board.getWarehouseLeadersDepots().availableMovingPositionsForResource(discardBox.getResourceAt(position))
-                        .findAny()
-                        .isPresent()).findFirst().isEmpty();
+        return positions.stream().noneMatch(position ->
+                board.getWarehouseLeadersDepots().availableMovingPositionsForResource(discardBox.getResourceAt(position)).findAny().isPresent());
 
     }
 

@@ -433,9 +433,6 @@ public class PersonalBoard {
     public boolean hasResources(int[] toCheck)
     {
 
-
-
-
         Box box= getStrongBox();
         //Goes up to toChoose
         int[] inputOfLengthResources = IntStream.concat(Arrays.stream(toCheck),IntStream.generate(()->0)).limit(Resource.nRes+3).toArray();
