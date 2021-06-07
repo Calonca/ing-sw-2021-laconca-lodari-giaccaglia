@@ -42,8 +42,10 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
     Text error=new Text("NOT ALLOWED RIGHT NOW.");
     boolean selected=false;
     public Sphere toPut;
+
     public int ROWSIZE=4;
     public int ROWNUMBER=3;
+
     public double ballsize=0.75;
     int h=70;
 
@@ -56,12 +58,13 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
 
     public AnchorPane marketPane;
 
-    double LOWER_CORNER_X=-4.5;
-    double LOWER_CORNER_Y=3.5;
+
     public List<List<Sphere>> rows=new ArrayList<>();
-    public List<List<Sphere>> columns=new ArrayList<>();
 
 
+    /**
+     * This runnable simply enables the market for the user to choose
+     */
     @Override
     public void run() {
 
@@ -279,6 +282,12 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
 
 
     }
+
+    /**
+     * This method dinamically generates a market matrix, colors it and adapts it to scene width and lenght
+     * @param url is ignored
+     * @param resourceBundle is ignored
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {

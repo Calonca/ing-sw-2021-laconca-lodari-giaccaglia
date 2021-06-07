@@ -32,15 +32,8 @@ import java.util.ResourceBundle;
  */
 public class MatchToStart extends CreateJoinLoadMatchViewBuilder implements GUIView {
 
-    public AnchorPane createPane;
     @FXML
-    private StackPane connectionPane;
-    @FXML
-    private Button connectionButton;
-    @FXML
-    private TextField addressText;
-    @FXML
-    private TextField portText;
+    private AnchorPane createPane;
 
     @Override
     public void run() {
@@ -66,12 +59,14 @@ public class MatchToStart extends CreateJoinLoadMatchViewBuilder implements GUIV
 
     }
 
+    /**
+     * Basic loading animation
+     * @param url is ignored
+     * @param resourceBundle is ignored
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
-        double width=createPane.getWidth();
-        double len=createPane.getHeight();
-
         Sphere circle1=new Sphere();
         circle1.setRadius(10);
         circle1.setLayoutX(500);

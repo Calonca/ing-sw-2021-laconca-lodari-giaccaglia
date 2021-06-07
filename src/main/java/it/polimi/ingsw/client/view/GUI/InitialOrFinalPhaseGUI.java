@@ -38,11 +38,14 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
     public InitialOrFinalPhaseGUI() {
         super();
     }
+
+    /**
+     * This runnable will append the leader choice scene to the current view
+     */
     @Override
     public void run()
     {
         Node toAdd=getRoot();
-
         toAdd.setId("LEADER");
         ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(toAdd);
         System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
@@ -73,8 +76,8 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
         javafx.collections.ObservableList<Boolean> selectedLeaders;
         selectedLeaders=javafx.collections.FXCollections.observableArrayList();
 
-        selectedLeaders.add(false);
-        selectedLeaders.add(false);
+        for(int i=0; i<sceneLeaders.size();i++)
+            selectedLeaders.add(false);
 
         ViewPersonalBoard.getController().cardSelector(selectedLeaders,sceneLeaders,1);
 
@@ -88,8 +91,6 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
         {
             Path path= simplePlayerLeaders.getPlayerLeaders().get(i).getCardPaths().getKey();
             ImageView temp = new ImageView(new Image(path.toString(), true));
-//new Image(ViewPersonalBoard.class.getResource(leaderCardAssets.get(i).getCardPaths().getKey().toString()).toString()
-
             temp.setFitHeight(100);
             temp.setFitWidth(70);
             sceneLeaders.get(i).setGraphic(temp);

@@ -30,6 +30,9 @@ import java.util.ResourceBundle;
 public class IDLEViewBuilder extends it.polimi.ingsw.client.view.abstractview.SetupPhaseViewBuilder implements GUIView
 {
 
+    /**
+     * While waiting to receive the first state, the personalBoard gets displayed
+     */
     @Override
     public void run() {
         getClient().getStage().setResizable(true);

@@ -27,10 +27,7 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.util.*;
 
-/**
- * The CardShop is generated via a method that passes its subscene. It's composed of a small single card
- * selector and a confirmation button
- */
+
 public class CardShopGUI extends CardShopViewBuilder implements GUIView {
 
 
@@ -57,6 +54,10 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
     public CardShopGUI() {
         super(false);
     }
+
+    /**
+     * This runnable simply enables the card shop to be used by the player
+     */
     @Override
     public void run() {
         ViewPersonalBoard.getController().isCardShopOpen(true);
@@ -95,7 +96,7 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
 
 
     /**
-     * service method
+     * Service method
      * @return a button according to parameters
      */
     public Button validationButton()
@@ -133,7 +134,7 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
                 errorChoice.setOpacity(1);
                 return;
             }
-     /*       SimpleCardShop simpleCardShop = getSimpleCardShop();
+            SimpleCardShop simpleCardShop = getSimpleCardShop();
             for(int i=0; i<simpleCardShop.getCardFront(NetworkDevelopmentCardColor.BLUE,1).get().getDevelopmentCard().getCostList().size();i++)
                 for (int j=0;j<simpleCardShop.getCardFront(NetworkDevelopmentCardColor.BLUE,1).get().getDevelopmentCard().getCostList().get(0).getValue();j++)
                     scenePaymentButtons.get(i).setResource(Resource.fromInt(i));
@@ -141,13 +142,18 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
             sendChosenCard(temp%4, temp/4);
             ViewPersonalBoard.getController().bindForPayment(scenePaymentButtons,scenePaidButtons);
 
-*/
+
 
 
         });
         return confirm;
     }
 
+    /**
+     * The cardShop gets initialized as soon as the board.
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {

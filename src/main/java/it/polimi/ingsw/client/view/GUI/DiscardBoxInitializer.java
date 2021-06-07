@@ -24,16 +24,17 @@ import java.util.ResourceBundle;
  */
 public class DiscardBoxInitializer extends ResourceMarketViewBuilder implements GUIView {
 
-    ResourceButton button1=new ResourceButton();
-    ResourceButton button2=new ResourceButton();
-    ResourceButton button3=new ResourceButton();
-    ResourceButton button4=new ResourceButton();
+
     javafx.collections.ObservableList<Boolean> selected;
 
-    List<Resource> resourcesToBind=new ArrayList<>();
     List<ResourceButton> sceneButtons=new ArrayList<>();
     public AnchorPane discardPane;
+    double width=200;
+    double len=200;
 
+    /**
+     * This runnable will convert the received discardbox for resource choosing
+     */
     @Override
     public void run() {
 
@@ -66,11 +67,9 @@ public class DiscardBoxInitializer extends ResourceMarketViewBuilder implements 
     }
 
 
-    public void setResourcesToBind(List<Resource> resourcesToBind) {
-        this.resourcesToBind = resourcesToBind;
-    }
-
-
+    /**
+     * This method will append the discard box to the current view
+     */
     public void fillDiscardBox()
     {
         SubScene toadd=getRoot();
@@ -82,48 +81,41 @@ public class DiscardBoxInitializer extends ResourceMarketViewBuilder implements 
         System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
     }
 
-    public void setResources(List<Resource> toPick)
-    {
-        button1.setResource(toPick.get(0));
-        button1.color();
-        getClient().getStage().show();
-    }
-
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
+        ResourceButton button1=new ResourceButton();
+        ResourceButton button2=new ResourceButton();
+        ResourceButton button3=new ResourceButton();
+        ResourceButton button4=new ResourceButton();
 
-        button1.setLayoutY(100);
-        button1.setLayoutX(100);
+        button1.setLayoutY(len/2);
+        button1.setLayoutX(width/2);
         sceneButtons.add(button1);
         discardPane.getChildren().add(button1);
 
-        button2.setLayoutY(50);
-        button2.setLayoutX(50);
+        button2.setLayoutY(len/4);
+        button2.setLayoutX(width/4);
         sceneButtons.add(button2);
         discardPane.getChildren().add(button2);
 
 
-        button3.setLayoutY(100);
-        button3.setLayoutX(50);
+        button3.setLayoutY(len/2);
+        button3.setLayoutX(width/4);
         sceneButtons.add(button3);
         discardPane.getChildren().add(button3);
 
 
 
-        button4.setLayoutY(50);
-        button4.setLayoutX(100);
+        button4.setLayoutY(len/2);
+        button4.setLayoutX(width/2);
         sceneButtons.add(button4);
         discardPane.getChildren().add(button4);
 
 
 
-        button3.setResource(Resource.SERVANT);
-        button4.setResource(Resource.GOLD);
-        button3.color();
-        button4.color();
 
         List<Resource> dispensed=new ArrayList<>();
         dispensed.add(Resource.GOLD);
@@ -141,7 +133,6 @@ public class DiscardBoxInitializer extends ResourceMarketViewBuilder implements 
             sceneButtons.get(i).color();
 
         }
-        ViewPersonalBoard.getController().setAllowedRes(new int[]{1,1,1,1});
         ViewPersonalBoard.getController().bindDispenser(selected,sceneButtons);
 
         List<Image> res=new ArrayList<>();

@@ -23,6 +23,9 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
     public Button productionButton;
     public Button resourceMarketButton;
 
+    /**
+     * This runnable appends the scene to the current view
+     */
     @Override
     public void run() {
         SubScene toadd=getRoot();
@@ -47,6 +50,10 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
 
     }
 
+    /**
+     * When market line choice is performed, Discard Box gets initialized
+     * @param evt
+     */
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(State.CHOOSING_POSITION_FOR_RESOURCES.name()))
         {
@@ -62,6 +69,12 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
 
 
     }
+
+    /**
+     * Scene buttons get bound to controller
+     * @param url is ignored
+     * @param resourceBundle is ignored
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //Todo use MiddlePhaseViewBuilder.sendMessage(Choice.PRODUCTION);

@@ -59,7 +59,6 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
         Scene scene = new Scene(firstPane);
         getClient().getStage().setScene(scene);
         getClient().getStage().show();
-        System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
 
     }
 
