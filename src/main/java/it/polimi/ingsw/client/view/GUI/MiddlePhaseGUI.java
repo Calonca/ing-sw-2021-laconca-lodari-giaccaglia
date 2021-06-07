@@ -55,6 +55,7 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
         sendMessage(choice);
         ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(4);
 
+
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -62,9 +63,27 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
         // MiddlePhaseViewBuilder.sendMessage(Choice.RESOURCE_MARKET);
         // MiddlePhaseViewBuilder.sendMessage(Choice.CARD_SHOP);
         // to send the messages to the client
-        cardButton.setOnAction( e -> sendChoice(Choice.CARD_SHOP));
-        productionButton.setOnAction( e -> sendChoice(Choice.PRODUCTION));
-        resourceMarketButton.setOnAction( e -> sendChoice(Choice.RESOURCE_MARKET));
+        cardButton.setOnAction( e ->
+        {
+
+            sendChoice(Choice.CARD_SHOP);
+            ViewPersonalBoard.getController().isCardShopOpen(true);
+
+        });
+        productionButton.setOnAction( e ->
+        {
+
+            sendChoice(Choice.PRODUCTION);
+            ViewPersonalBoard.getController().isProduction(true);
+
+        });
+        resourceMarketButton.setOnAction( e ->
+        {
+
+            sendChoice(Choice.RESOURCE_MARKET);
+            ViewPersonalBoard.getController().isMarket(true);
+
+        });
 
 
     }

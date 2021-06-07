@@ -167,7 +167,6 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
             {
                 if (simpleCardShop.getCardFront(NetworkDevelopmentCardColor.fromInt(j),3-i).isPresent())
                 {
-                    System.out.println(i+1);
                     path=simpleCardShop.getCardFront(NetworkDevelopmentCardColor.fromInt(j),3-i).get().getCardPaths().getKey();
                     tempImage = new ImageView(new Image(path.toString(), true));
                 }
@@ -306,7 +305,6 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
         if (evt.getPropertyName().equals(State.IDLE.name()))
             getClient().changeViewBuilder(new IDLEViewBuilder());
         else{
-            System.out.println("Setup received: ");
         }
     }
 }
