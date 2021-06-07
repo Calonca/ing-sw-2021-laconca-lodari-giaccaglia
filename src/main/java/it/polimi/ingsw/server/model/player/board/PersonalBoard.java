@@ -44,7 +44,6 @@ public class PersonalBoard {
      */
     private final int[] discounts;
 
-
     /**
      * A list of {@link Production productions}, composed both of {@link Production productions}
      * from {@link ProductionLeader ProductionLeader} and
@@ -479,6 +478,16 @@ public class PersonalBoard {
         return isDevCardLevelSatisfied(developmentCard) && hasResources(requiredResources);
      }
 
+     public Map<Integer, Boolean> getAvailableSpotsForDevCard(DevelopmentCard developmentCard){
+
+         return IntStream.range(0, cardCells.length).boxed().collect(Collectors.toMap(
+                 position -> position,
+
+                 position -> developmentCard != null && cardCells[position].isSpotAvailable(developmentCard)
+         ));
+
+     }
+
     /**
      * This method will check if there are enough resources and cards to play a leader.
      * Leaders cost is converted to an array to re-use the method for the productions.
@@ -486,6 +495,7 @@ public class PersonalBoard {
      * @return is true if requirements are met
      */
     public boolean isLeaderRequirementsSatisfied(Leader leader){
+
         int[] toar = new int[4];
         for (Pair<Resource, Integer> resourceIntegerPair : leader.getRequirementsResources())
             toar[resourceIntegerPair.getKey().getResourceNumber()] += resourceIntegerPair.getValue();

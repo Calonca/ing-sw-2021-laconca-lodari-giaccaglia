@@ -51,6 +51,8 @@ public class DiscardingResources implements GameStrategy {
             }
         }
 
+        currentBoard.setBadFaithToZero();
+
 
         positionsToAdd = currentBoard.getFaithToAdd();
         for(int i=0; i<positionsToAdd; i++)
@@ -66,6 +68,8 @@ public class DiscardingResources implements GameStrategy {
             }
 
         }
+
+        currentBoard.setFaithToZero();
 
 
         return FinalStrategy.handleCommonEndGameStrategy(elementsToUpdate,gameModel);

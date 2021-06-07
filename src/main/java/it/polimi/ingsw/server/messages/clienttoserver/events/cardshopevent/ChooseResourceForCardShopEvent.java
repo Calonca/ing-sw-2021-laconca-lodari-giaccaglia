@@ -20,7 +20,7 @@ import java.util.List;
 public class ChooseResourceForCardShopEvent extends it.polimi.ingsw.network.messages.clienttoserver.events.cardshopevent.ChooseResourceForCardShopEvent implements Validable {
 
     private transient PersonalBoard currentPlayerPersonalBoard;
-    private int[] chosenResourcesArray = new int[4];
+    private int[] chosenResourcesAsArray;
 
     /**
      * Server-side initializer to setup common attributes among {@link State#MIDDLE_PHASE MIDDLE_PHASE}
@@ -46,23 +46,27 @@ public class ChooseResourceForCardShopEvent extends it.polimi.ingsw.network.mess
     @Override
     public boolean validate(GameModel gameModel) {
 
+
+
         initializeMiddlePhaseEventValidation(gameModel);
+        buildResourcesArray();
         applyMarketBonusToRequiredResources(gameModel);
+
 
 
         return isGameStarted(gameModel)
                 && checkResourcesPositionIndexes()
                 && checkIndexes ()
-                && checkResourcesMatchingRequirements(gameModel.takePurchasedCardFromShop())
+                && checkResourcesMatchingRequirements(gameModel.getCardShop().getCopyOfPurchasedCard())
                 && checkResourceRequirements()
-                && validateDevCardRequirements(gameModel.takePurchasedCardFromShop());
+                && validateDevCardRequirements(gameModel.getCardShop().getCopyOfPurchasedCard());
     }
 
     private void applyMarketBonusToRequiredResources(GameModel gameModel){
 
         int [] discounts = gameModel.getCurrentPlayer().getPersonalBoard().getDiscounts();
         for(int i=0; i<discounts.length; i++)
-            chosenResourcesArray[i] += discounts[i];
+            chosenResourcesAsArray[i] += discounts[i];
 
     }
 
@@ -72,7 +76,7 @@ public class ChooseResourceForCardShopEvent extends it.polimi.ingsw.network.mess
      * deposits availability, otherwise false.
      */
     private boolean checkResourceRequirements(){
-        return currentPlayerPersonalBoard.hasResources(chosenResourcesArray);
+        return currentPlayerPersonalBoard.hasResources(chosenResourcesAsArray);
     }
 
 
@@ -81,6 +85,7 @@ public class ChooseResourceForCardShopEvent extends it.polimi.ingsw.network.mess
     }
 
     private boolean checkIndexes (){
+
         return chosenResources
                 .stream()
                 .allMatch(position -> {
@@ -94,31 +99,30 @@ public class ChooseResourceForCardShopEvent extends it.polimi.ingsw.network.mess
 
                             else if (position >= -8 && position <-4) {
                                 Resource resource = currentPlayerPersonalBoard.getStrongBox().getResourceAt(position);
-                                return indexOccurrences < currentPlayerPersonalBoard.getStrongBox().getNumberOf(resource);
+                                return indexOccurrences <= currentPlayerPersonalBoard.getStrongBox().getNumberOf(resource);
                             }
 
                             else return false;
 
                 }
                 );
+
     }
 
     private boolean checkResourcesMatchingRequirements(DevelopmentCard card){
-        buildResourcesArray();
 
-        return Arrays.equals(card.getCostAsArray(), chosenResourcesArray);
+        return Arrays.equals(card.getCostAsArray(), chosenResourcesAsArray);
     }
 
     private void buildResourcesArray(){
 
+       chosenResourcesAsArray = new int[]{0,0,0,0};
+        int resourceNumber;
+
         for (Integer resourceGlobalPosition : chosenResources)
         {
-            if(resourceGlobalPosition>0)
-                chosenResourcesArray[resourceGlobalPosition] += 1;
-            else if(resourceGlobalPosition<-4 && resourceGlobalPosition>=-8){
-                chosenResourcesArray[resourceGlobalPosition + 8] += 1;
-            }
-
+        resourceNumber  =  currentPlayerPersonalBoard.getResourceAtPosition(resourceGlobalPosition).getResourceNumber();
+        chosenResourcesAsArray[resourceNumber] =  chosenResourcesAsArray[resourceNumber] + 1;
         }
 
     }

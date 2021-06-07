@@ -90,7 +90,10 @@ public enum Element {
         SimpleCardCells(false) {
             @Override
             public SimpleModelElement buildSimpleModelElement(GameModel gameModel){
-                return new SimpleCardCells(SimpleCardsCellsMessageBuilder.cardCellsAdapter(gameModel));
+                return new SimpleCardCells(
+                        SimpleCardsCellsMessageBuilder.cardCellsAdapter(gameModel),
+                        gameModel.getCurrentPlayer().getPersonalBoard().getAvailableSpotsForDevCard(gameModel.getCardShop().getCopyOfPurchasedCard())
+                );
             }
         },
 
