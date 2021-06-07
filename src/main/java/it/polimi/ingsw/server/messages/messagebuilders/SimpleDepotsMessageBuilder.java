@@ -61,7 +61,12 @@ public class SimpleDepotsMessageBuilder {
 
     public static Map<Integer, List<Integer>> getAvailableMovingPositionsForResourceInDiscardBoxAtPos(GameModel gameModel){
 
-        return getAvailableMovingPositionsForResourceAtPos(gameModel, -4, 0);
+        PersonalBoard currentPlayerPersonalBoard = gameModel.getCurrentPlayer().getPersonalBoard();
+
+        return Resource.getStream(4).collect(Collectors.toMap(
+                res ->res.getResourceNumber()-4,
+                res ->currentPlayerPersonalBoard.getWarehouseLeadersDepots().availableMovingPositionsForResource(res).boxed().collect(Collectors.toList())
+        ));
     }
 
     public static Map<Integer, List<Integer>> getAvailableMovingPositionsForResourceAtPos(GameModel gameModel, int startingInclusive, int endingExclusive){
@@ -70,7 +75,7 @@ public class SimpleDepotsMessageBuilder {
 
         return IntStream.range(startingInclusive, endingExclusive).boxed().collect(Collectors.toMap(
                 position -> position,
-                position ->currentPlayerPersonalBoard.availableMovingPositionsForResourceAt(position).boxed().collect(Collectors.toList())
+                position ->currentPlayerPersonalBoard.getWarehouseLeadersDepots().availableMovingPositionsForResourceAt(position).boxed().collect(Collectors.toList())
         ));
 
     }

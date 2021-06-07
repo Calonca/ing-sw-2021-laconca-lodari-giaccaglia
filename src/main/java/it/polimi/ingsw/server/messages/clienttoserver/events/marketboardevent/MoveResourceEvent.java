@@ -69,7 +69,7 @@ public class MoveResourceEvent extends it.polimi.ingsw.network.messages.clientto
     private boolean validateResourceToMove(int startPos, int endPos){
         return endPos >= 0
                 && endPos < currentPlayerPersonalBoard.getWarehouseLeadersDepots().getNumOfCellsInAllDepots()
-                && currentPlayerPersonalBoard.availableMovingPositionsForResourceAt(startPos)
+                && currentPlayerPersonalBoard.getWarehouseLeadersDepots().availableMovingPositionsForResourceAt(startPos)
                 .anyMatch(position -> position == endPos);
     }
     private boolean checkResourceAvailability(){

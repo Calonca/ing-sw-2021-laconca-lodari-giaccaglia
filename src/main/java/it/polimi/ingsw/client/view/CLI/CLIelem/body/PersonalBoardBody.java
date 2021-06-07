@@ -61,8 +61,7 @@ public class PersonalBoardBody extends CLIelem {
             @Override
             public void initialize(PersonalBoardBody board) {
                 board.mode = MOVING_RES;
-                SimpleAvailableMovingPositions movPos = board.cache.getElem(SimpleAvailableMovingPositions.class).orElseThrow();
-                board.wareHouseLeadersDepot = wareBuilder(board.cache.getElem(SimpleWarehouseLeadersDepot.class).orElseThrow(),board, movPos);
+                board.wareHouseLeadersDepot = wareBuilder(board.cache.getElem(SimpleWarehouseLeadersDepot.class).orElseThrow(),board);
             }
 
             @Override
@@ -95,27 +94,27 @@ public class PersonalBoardBody extends CLIelem {
         mode.initialize(this);
     }
 
-    private boolean getSelectable(PersonalBoardBody board,SimpleAvailableMovingPositions movPos,int pos){
+    private boolean getSelectable(PersonalBoardBody board,Map<Integer, List<Integer>> movPos,int pos){
         boolean selectable = false;
         if (board.mode.equals(Mode.MOVING_RES)){
             if (board.lastSelectedPosition==null)
-                selectable = !movPos.getAvailableMovingPositionsForResourceAt(pos).isEmpty();
+                selectable = !movPos.get(pos).isEmpty();
             else {
-                List<Integer> moveEndPos = movPos.getAvailableMovingPositionsForResourceAt(lastSelectedPosition);
+                List<Integer> moveEndPos = movPos.get(lastSelectedPosition);
                 selectable = moveEndPos.contains(pos);
             }
         }
         return selectable;
     }
 
-    private Column discardBoxBuilder(SimpleDiscardBox simpleDiscardBox, PersonalBoardBody board, SimpleAvailableMovingPositions movPos){
+    private Column discardBoxBuilder(SimpleDiscardBox simpleDiscardBox, PersonalBoardBody board){
         Map<Integer, Pair<ResourceAsset, Integer>> discardBoxMap = simpleDiscardBox.getResourceMap();
         Optional<Integer> faithPointsPos = discardBoxMap.entrySet().stream().filter(e->e.getValue().getKey().equals(ResourceAsset.FAITH)).map(Map.Entry::getKey).findFirst();
         int faithPoints = faithPointsPos.map(p->discardBoxMap.get(faithPointsPos.get()).getValue()).orElse(0);
         faithPointsPos.ifPresent(discardBoxMap::remove);
 
         Stream<Option> optionList = discardBoxMap.entrySet().stream().sorted(Map.Entry.comparingByKey())
-            .map(e->optionFromAsset(e.getValue().getKey(),e.getValue().getValue(),0,getSelectable(board,movPos,e.getKey()),e.getKey()));
+            .map(e->optionFromAsset(e.getValue().getKey(),e.getValue().getValue(),0,getSelectable(board,simpleDiscardBox.getAvailableMovingPositions(),e.getKey()),e.getKey()));
         Column discardedBoxList = new Column(optionList);
         Option faith = optionFromAsset(ResourceAsset.FAITH,faithPoints,0,false,-100);
         faith.setMode(Option.VisMode.NO_NUMBER);
@@ -170,12 +169,11 @@ public class PersonalBoardBody extends CLIelem {
     }
 
     private void initializeMove() {
-        SimpleAvailableMovingPositions movPos = cache.getElem(SimpleAvailableMovingPositions.class).orElseThrow();
-        discardBox = discardBoxBuilder(cache.getElem(SimpleDiscardBox.class).orElseThrow(), this, movPos);
-        wareHouseLeadersDepot = wareBuilder(cache.getElem(SimpleWarehouseLeadersDepot.class).orElseThrow(),this, movPos);
+        discardBox = discardBoxBuilder(cache.getElem(SimpleDiscardBox.class).orElseThrow(), this);
+        wareHouseLeadersDepot = wareBuilder(cache.getElem(SimpleWarehouseLeadersDepot.class).orElseThrow(),this);
     }
 
-    private static Column wareBuilder(SimpleWarehouseLeadersDepot simpleWare, PersonalBoardBody body, SimpleAvailableMovingPositions movPos){
+    private static Column wareBuilder(SimpleWarehouseLeadersDepot simpleWare, PersonalBoardBody body){
         Column wareGrid = new Column();
         Map<Integer, List<Pair<ResourceAsset, Boolean>>> resMap = simpleWare.getDepots();
         List<Map.Entry<Integer, List<Pair<ResourceAsset, Boolean>>>> toSort = new ArrayList<>(resMap.entrySet());
@@ -186,7 +184,7 @@ public class PersonalBoardBody extends CLIelem {
 
             int finalPos = pos;
             Row row1 = new Row(IntStream.range(0,e.getValue().size())
-                    .mapToObj(i -> body.optionFromAsset(e.getValue().get(i).getKey(), 1, 0, body.getSelectable(body, movPos, finalPos +i), finalPos +i)));
+                    .mapToObj(i -> body.optionFromAsset(e.getValue().get(i).getKey(), 1, 0, body.getSelectable(body, simpleWare.getAvailableMovingPositions(), finalPos +i), finalPos +i)));
             rows.add(row1);
             pos+=e.getValue().size();
         }

@@ -99,7 +99,7 @@ public enum Element {
             public SimpleModelElement buildSimpleModelElement(GameModel gameModel){
                 return new SimpleAvailableMovingPositions(SimpleDepotsMessageBuilder.getAvailableMovingPositionsForResourceAtPos(
                         gameModel,
-                        -4 , gameModel.getCurrentPlayer().getPersonalBoard().getWarehouseLeadersDepots().getNumOfCellsInAllDepots()
+                        0 , gameModel.getCurrentPlayer().getPersonalBoard().getWarehouseLeadersDepots().getNumOfCellsInAllDepots()
                        )
                 );
             }
