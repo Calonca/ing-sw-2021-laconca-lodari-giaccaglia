@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.messages.messagebuilders;
 
 import it.polimi.ingsw.server.model.GameModel;
+import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.player.leaders.LeaderState;
 import javafx.util.Pair;
 
@@ -18,11 +19,17 @@ public class PlayerLeadersMessageBuilder {
 
     public static Map<UUID, Pair<Boolean, Boolean>> playerLeadersMap(GameModel gameModel){
 
-        return gameModel.getCurrentPlayer().getLeadersUUIDs().stream().collect(Collectors.toMap(
+        Player currentPlayer = gameModel.getCurrentPlayer();
+
+        return currentPlayer.getLeadersUUIDs().stream().collect(Collectors.toMap(
                 leaderId -> leaderId,
                 leaderId -> new Pair<>(
-                        gameModel.getCurrentPlayer().getLeader(leaderId).get().getState().equals(LeaderState.ACTIVE),
-                        gameModel.getCurrentPlayer().getPersonalBoard().isLeaderRequirementsSatisfied(gameModel.getCurrentPlayer().getLeader(leaderId).get()))));
+                        currentPlayer.getLeader(leaderId).get().getState().equals(LeaderState.ACTIVE),
+
+                        ( currentPlayer.getPersonalBoard().isLeaderRequirementsSatisfied(currentPlayer.getLeader(leaderId).get())
+                        && currentPlayer.getLeader(leaderId).get().getState().equals(LeaderState.INACTIVE))
+
+        )));
 
     }
 

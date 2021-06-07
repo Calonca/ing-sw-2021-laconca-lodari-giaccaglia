@@ -63,6 +63,7 @@ public class PlayerCache {
         playerSimpleModelElementsMap.put(SimpleStrongBox.class.getSimpleName(), new SimpleStrongBox());
         playerSimpleModelElementsMap.put(SimpleDiscardBox.class.getSimpleName(), new SimpleDiscardBox());
         playerSimpleModelElementsMap.put(ActiveLeaderBonusInfo.class.getSimpleName(), new ActiveLeaderBonusInfo());
+        playerSimpleModelElementsMap.put(SimpleAvailableMovingPositions.class.getSimpleName(), new SimpleAvailableMovingPositions());
 
     }
 

@@ -81,13 +81,10 @@ public class SimpleDepotsMessageBuilder {
 
         PersonalBoard board = gameModel.getCurrentPlayer().getPersonalBoard();
         Box discardBox = board.getDiscardBox();
-        int discardBoxSize = 5;
-        List<Integer> positions = IntStream.range(0, discardBoxSize).boxed().collect(Collectors.toList());
+        List<Integer> positions = IntStream.range(-4, 1).boxed().collect(Collectors.toList());
 
-        return positions.stream().filter(position ->
-                board.getWarehouseLeadersDepots().availableMovingPositionsForResource(discardBox.getResourceAt(position))
-                        .findAny()
-                        .isPresent()).findFirst().isEmpty();
+        return positions.stream().noneMatch(position ->
+                board.getWarehouseLeadersDepots().availableMovingPositionsForResource(discardBox.getResourceAt(position)).findAny().isPresent());
 
     }
 
