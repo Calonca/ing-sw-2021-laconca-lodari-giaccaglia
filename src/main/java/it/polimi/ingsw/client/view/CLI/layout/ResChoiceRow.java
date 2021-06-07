@@ -6,11 +6,11 @@ import it.polimi.ingsw.client.view.CLI.layout.drawables.ResourceCLI;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ResChoiceRow {
 
-    private int index;
-    private final int arrowPos;
+    private int arrowPos;
     private final List<ResourceAsset> in;
     private final List<ResourceAsset> out;
     private Runnable outRunnable;
@@ -30,7 +30,7 @@ public class ResChoiceRow {
 
         List<Drawable> optionsDwList = ResourceCLI.toList();
         for (int i = 0, optionsDwListSize = optionsDwList.size(); i < optionsDwListSize; i++) {
-            index = i;
+            arrowPos = i;
             Drawable drawable = optionsDwList.get(i);
             Option o = Option.from(drawable, r);
             o.setMode(Option.VisMode.NUMBER_TO_BOTTOM);
@@ -41,6 +41,13 @@ public class ResChoiceRow {
         return resToChooseFrom;
     }
 
+
+    public Optional<ResourceAsset> getPointedResource(){
+        if (arrowPos>=in.size()+out.size())
+            return Optional.empty();
+        ResourceAsset res = arrowPos <= in.size() ? in.get(arrowPos) : out.get(arrowPos - in.size());
+        return Optional.ofNullable(res);
+    }
 
     private Row selectedResourcesRow(){
         String resToChooseString = "Resources to choose: ";
@@ -57,8 +64,12 @@ public class ResChoiceRow {
         else
             row.addElem(new SizedBox(resToChooseString.length(),0));
 
-        for (int i = 0, outSize = out.size(); i < outSize; i++) {
-            ResourceAsset resAsset = out.get(i);
+        for (int i = 0, size = out.size()+in.size(); i < size; i++) {
+            ResourceAsset resAsset;
+            if (i<in.size())
+                 resAsset = in.get(i);
+                else
+            resAsset = out.get(i-in.size());
             Drawable dl = ResourceCLI.fromAsset(resAsset).toBigDrawableList(i==arrowPos);
             row.addElem(Option.noNumber(dl));
             row.addElem(new SizedBox(1, 0));
@@ -101,6 +112,10 @@ public class ResChoiceRow {
     }
 
     public int getIndex() {
-        return index;
+        return arrowPos;
+    }
+
+    public void moveToNextIndex() {
+        arrowPos++;
     }
 }
