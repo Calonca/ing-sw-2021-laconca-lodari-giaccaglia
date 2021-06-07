@@ -74,7 +74,7 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
         getClient().getStage().setWidth(1200);
         getClient().getStage().setResizable(false);
 
-        CardShopGUI cardshop=new CardShopGUI();
+        CardShopGUI cardshop=new CardShopGUI(false);
         cardshop.addMarket();
         ResourceMarketGUI market=new ResourceMarketGUI();
         market.addMatrix();

@@ -50,6 +50,9 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
 
     javafx.collections.ObservableList<Boolean> selectedSceneCards;
 
+    public CardShopGUI(boolean viewing) {
+        super(viewing);
+    }
 
 
     @Override
@@ -285,7 +288,7 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
      * Get called when choosing resources to buy the card
      */
     @Override
-    public void choseResources() {
+    public void selectResources() {
 
     }
 

@@ -71,9 +71,6 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
     public void choosePositions() {
         PersonalBoardBody personalBoard = new PersonalBoardBody(getThisPlayerCache(), PersonalBoardBody.Mode.MOVING_RES, getSimpleModel());
         getCLIView().setBody(personalBoard);
-        //personalBoard.selectAndMoveResource();
-        //getCLIView().runOnInput("Press send to discard resources", ResourceMarketViewBuilder::sendDiscard);
-        //personalBoard.selectInDiscardBox();
         getCLIView().show();
     }
 

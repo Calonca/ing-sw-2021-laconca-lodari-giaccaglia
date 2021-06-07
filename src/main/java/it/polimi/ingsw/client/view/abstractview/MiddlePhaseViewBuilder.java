@@ -3,7 +3,6 @@ package it.polimi.ingsw.client.view.abstractview;
 import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.CLI.MiddlePhaseCLI;
 import it.polimi.ingsw.client.view.GUI.MiddlePhaseGUI;
-import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.events.MiddlePhaseEvent;
 
@@ -46,7 +45,7 @@ public abstract class MiddlePhaseViewBuilder extends ViewBuilder {
             printWrongStateReceived(evt);
             //getClient().changeViewBuilder(ResourceMarketViewBuilder.getBuilder(getClient().isCLI()));
         }else if (CHOOSING_DEVELOPMENT_CARD.name().equals(propertyName)) {
-            getClient().changeViewBuilder(CardShopViewBuilder.getBuilder(getClient().isCLI()));
+            getClient().changeViewBuilder(CardShopViewBuilder.getBuilder(getClient().isCLI(), false));
         }
         else ViewBuilder.printWrongStateReceived(evt);
     }

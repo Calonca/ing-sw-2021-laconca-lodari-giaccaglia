@@ -5,12 +5,15 @@ import it.polimi.ingsw.client.simplemodel.SimpleModel;
 import it.polimi.ingsw.client.view.CLI.CLIelem.CLIelem;
 import it.polimi.ingsw.client.view.CLI.layout.*;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.Drawable;
+import it.polimi.ingsw.client.view.CLI.layout.drawables.DrawableDevCard;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.FaithTrackGridElem;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.ResourceCLI;
 import it.polimi.ingsw.client.view.CLI.textUtil.Background;
 import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
+import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.simplemodel.*;
+import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
 import javafx.util.Pair;
 
 import java.util.*;
@@ -57,6 +60,45 @@ public class PersonalBoardBody extends CLIelem {
                 return  CanvasBody.fromGrid(board.root).toString();
             }
         },
+        SELECT_CARD_SHOP(){
+            @Override
+            public void initialize(PersonalBoardBody board){
+                board.mode = SELECT_CARD_SHOP;
+                PlayerCache cache = board.cache;
+                SimpleFaithTrack[] simpleFaithTracks =Arrays.stream(board.simpleModel.getPlayersCaches())
+                        .map(c->c.getElem(SimpleFaithTrack.class).orElseThrow()).toArray(SimpleFaithTrack[]::new);
+                board.faithTrack = new FaithTrackGridElem(cache.getElem(SimpleFaithTrack.class).orElseThrow(),simpleFaithTracks);
+                board.productions = new Row();
+                SimpleCardShop cardShop = board.simpleModel.getElem(SimpleCardShop.class).orElseThrow();
+                Drawable purchasedCard = DrawableDevCard.fromDevCardAsset(cardShop.getPurchasedCard().map(c->c.getDevelopmentCard()).orElseThrow());
+                board.productions.addElem(Option.noNumber(purchasedCard));
+                board.wareHouseLeadersDepot = wareBuilder(cache.getElem(SimpleWarehouseLeadersDepot.class).orElseThrow(),board, null);
+                board.strongBox = strongBoxBuilder(cache.getElem(SimpleStrongBox.class).orElseThrow(), board);
+                board.message = "Select the resources to buy the card";
+            }
+
+            @Override
+            public String getString(PersonalBoardBody board) {
+
+                board.root = new Column();
+
+                board.root.setAlignment(GridElem.Alignment.CANVAS_CENTER_VERTICAL);
+                board.root.addElem(board.faithTrack);
+
+                Row depotsAndProds = board.root.addAndGetRow();
+
+                Column depots = depotsAndProds.addAndGetColumn();
+                depots.addElemNoIndexChange(board.wareHouseLeadersDepot);
+
+                depots.addElem(new SizedBox(0,2));
+                depots.addElem(board.strongBox);
+
+                depotsAndProds.addElem(board.productions);
+
+                depotsAndProds.selectInEnabledOption(cli,board.message);
+                return  CanvasBody.fromGrid(board.root).toString();
+            }
+        },
         TEST() {
             @Override
             public void initialize(PersonalBoardBody board) {
@@ -77,11 +119,13 @@ public class PersonalBoardBody extends CLIelem {
 
     }
 
+    Column root = new Column();
     FaithTrackGridElem faithTrack;
     Column discardBox;
     Row strongBox;
     Column wareHouseLeadersDepot;
-    Column root = new Column();
+    Row productions;
+
     PlayerCache cache;
     SimpleModel simpleModel;
     String message;

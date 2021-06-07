@@ -14,9 +14,15 @@ import static it.polimi.ingsw.client.simplemodel.State.*;
 
 public abstract class CardShopViewBuilder extends ViewBuilder{
 
-    public static ViewBuilder getBuilder(boolean isCLI) {
-        if (isCLI) return new CardShopCLI();
-        else return new CardShopGUI();
+    public static boolean viewing;
+
+    public CardShopViewBuilder(boolean viewing) {
+        CardShopViewBuilder.viewing = viewing;
+    }
+
+    public static ViewBuilder getBuilder(boolean isCLI, boolean viewing) {
+        if (isCLI) return new CardShopCLI(viewing);
+        else return new CardShopGUI(viewing);
     }
 
 
@@ -37,7 +43,7 @@ public abstract class CardShopViewBuilder extends ViewBuilder{
     /**
      * Get called when choosing resources to buy the card
      */
-    public abstract void choseResources();
+    public abstract void selectResources();
 
     /**
      * Gets called when the player needs to place the development card on his personal board
@@ -53,7 +59,7 @@ public abstract class CardShopViewBuilder extends ViewBuilder{
     public void propertyChange(PropertyChangeEvent evt) {
         String propertyName = evt.getPropertyName();
         if (CHOOSING_RESOURCES_FOR_DEVCARD.name().equals(propertyName)) {
-            choseResources();
+            selectResources();
         } else if (CHOOSING_POSITION_FOR_DEVCARD.name().equals(propertyName)) {
             choosePositionForCard();
         } else MiddlePhaseViewBuilder.middlePhaseCommonTransition(evt);

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
+import it.polimi.ingsw.client.view.CLI.CLIelem.body.PersonalBoardBody;
 import it.polimi.ingsw.client.view.CLI.layout.Column;
 import it.polimi.ingsw.client.view.CLI.layout.Option;
 import it.polimi.ingsw.client.view.CLI.layout.OptionList;
@@ -15,6 +16,10 @@ import java.util.Optional;
 
 public class CardShopCLI extends CardShopViewBuilder {
 
+
+    public CardShopCLI(boolean viewing) {
+        super(viewing);
+    }
 
     @Override
     public void run() {
@@ -38,7 +43,10 @@ public class CardShopCLI extends CardShopViewBuilder {
         }
 
         getCLIView().setBody(CanvasBody.centered(grid));
-        getCLIView().runOnInput("Press enter to go back",()->getClient().changeViewBuilder(new MiddlePhaseCLI()));
+        boolean viewing = CardShopViewBuilder.viewing;
+        if (viewing)
+            getCLIView().runOnInput("Press enter to go back",()->getClient().changeViewBuilder(new MiddlePhaseCLI()));
+        else grid.selectInEnabledOption(getCLIView(),"Select a card to buy it");
         getCLIView().show();
 
     }
@@ -47,8 +55,10 @@ public class CardShopCLI extends CardShopViewBuilder {
      * Get called when choosing resources to buy the card
      */
     @Override
-    public void choseResources() {
-
+    public void selectResources() {
+        PersonalBoardBody personalBoard = new PersonalBoardBody(getThisPlayerCache(), PersonalBoardBody.Mode.SELECT_CARD_SHOP, getSimpleModel());
+        getCLIView().setBody(personalBoard);
+        getCLIView().show();
     }
 
     /**
