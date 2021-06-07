@@ -58,10 +58,10 @@ public class PersonalBoardBody extends CLIelem {
 
                 board.root = new Column();
 
-                board.root.setAlignment(GridElem.Alignment.CANVAS_CENTER_VERTICAL);
                 board.resChoiceRow.addToGrid(board.root);
 
                 Row depotsAndProds = board.root.addAndGetRow();
+                depotsAndProds.setAlignment(GridElem.Alignment.CANVAS_CENTER_VERTICAL);
 
                 Column depots = depotsAndProds.addAndGetColumn();
                 depots.addElemNoIndexChange(board.wareHouseLeadersDepot);
@@ -207,6 +207,7 @@ public class PersonalBoardBody extends CLIelem {
                 resChoiceRow.moveToNextIndex();
                 initializeBuy(this);
                 cli.show();
+                message = "All resources selected, buying card...";
                 if (resChoiceRow.getPointedResource().isEmpty()){
                     CardShopViewBuilder.sendResourcesToBuy(selectedResPos);
                 }

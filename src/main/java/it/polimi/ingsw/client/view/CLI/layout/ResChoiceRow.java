@@ -51,7 +51,7 @@ public class ResChoiceRow {
 
     private Row selectedResourcesRow(){
         String resToChooseString = "Resources to choose: ";
-        String chosenResString= numOfOutputChoices()==0?"No resources to choose from":"Your chosen resources";
+        String chosenResString= in.size()+out.size()==0?"No resources to choose from":"Your chosen resources";
         int CenterX = 1+ CLI.getCenterX()-(ResourceCLI.width())/2;
 
         int startPositionX = CenterX-resToChooseString.length()-(ResourceCLI.width()+1)*(arrowPos);
@@ -90,17 +90,24 @@ public class ResChoiceRow {
     public void addToGrid(OptionList e) {
         Column column = e.addAndGetColumn();
         column.addElem(selectedResourcesRow());
+        if (getPointedResource().isPresent())
+            column.addElem(arrowHead());
         if (numOfOutputChoices() > 0){
-            column.addElem(arrow());
+            column.addElem(arrowBody());
             Row choosingOutRow = choosingOutput(outRunnable);
             column.addElem(choosingOutRow);
             choosingOutRow.setFirstIdx(0);
         }
     }
 
-    private Option arrow(){
+    private Option arrowHead(){
         Drawable dwl = new Drawable();
         dwl.addToCenter(CLI.width,"^");
+        return Option.noNumber(dwl);
+    }
+
+    private Option arrowBody(){
+        Drawable dwl = new Drawable();
         dwl.addToCenter(CLI.width,"|");
         dwl.addToCenter(CLI.width,"|");
         dwl.addToCenter(CLI.width,"|"+"-".repeat(1+(ResourceCLI.width()+6)*4)+"|");
