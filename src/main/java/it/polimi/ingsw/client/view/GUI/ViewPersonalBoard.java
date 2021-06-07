@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.GUI;
 
+import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.GUI.GUIelem.ButtonSelectionModel;
 import it.polimi.ingsw.client.view.GUI.GUIelem.ResourceButton;
 import it.polimi.ingsw.server.model.Resource;
@@ -78,8 +79,7 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
         cardshop.addMarket();
         ResourceMarketGUI market=new ResourceMarketGUI();
         market.addMatrix();
-        DiscardBoxInitializer disc= new DiscardBoxInitializer();
-        disc.fillDiscardBox();
+
 
 
 

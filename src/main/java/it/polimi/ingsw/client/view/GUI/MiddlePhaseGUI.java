@@ -1,7 +1,9 @@
 package it.polimi.ingsw.client.view.GUI;
 
 import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.abstractview.MiddlePhaseViewBuilder;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.SubScene;
@@ -45,15 +47,18 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
 
     }
 
-    @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
+        if (evt.getPropertyName().equals(State.CHOOSING_POSITION_FOR_RESOURCES.name()))
+        {
+            DiscardBoxInitializer disc=new DiscardBoxInitializer();
+            Platform.runLater(disc);
+        }
     }
 
     public void sendChoice(Choice choice) {
 
         sendMessage(choice);
-        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(4);
+        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(3);
 
 
     }

@@ -27,16 +27,17 @@ public class ButtonSelectionModel {
     boolean transferring=false;
     boolean movingCard=false;
 
+
     int[] allowedRes=new int[]{1,0,1,0};
 
     boolean isLeader=false;
     boolean isMarket=false;
     boolean isDevelop=false;
-    int remainingBonus=0;
     boolean isProduction=false;
 
     Resource tomove;
-    Resource totransfer;DevelopmentCard bought;
+    Resource totransfer;
+    DevelopmentCard bought;
 
     boolean isTransferring()
     {

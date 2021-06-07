@@ -1,33 +1,23 @@
 package it.polimi.ingsw.client.view.GUI;
 
-import it.polimi.ingsw.client.CommonData;
-import it.polimi.ingsw.client.view.GUI.GUIelem.ButtonSelectionModel;
 import it.polimi.ingsw.client.view.GUI.GUIelem.ResourceButton;
-import it.polimi.ingsw.client.view.GUI.GUIelem.ResourceSphere;
 import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
+import it.polimi.ingsw.network.assets.resources.ResourceAsset;
+import it.polimi.ingsw.network.simplemodel.SimpleDiscardBox;
 import it.polimi.ingsw.server.model.Resource;
-import javafx.animation.*;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.PhongMaterial;
-import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Translate;
-import javafx.util.Duration;
+import javafx.util.Pair;
 
-import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.spi.ResourceBundleProvider;
 
 /**
  * The market is generated via a subscene that is attached to the main scene
@@ -47,7 +37,17 @@ public class DiscardBoxInitializer extends ResourceMarketViewBuilder implements 
     @Override
     public void run() {
 
+        SimpleDiscardBox sd = getClient().getSimpleModel().getPlayerCache(getClient().getCommonData().getThisPlayerIndex()).getElem(SimpleDiscardBox.class).orElseThrow();
+        Map<Integer, Pair<ResourceAsset, Integer>> discardBoxMap = sd.getResourceMap();
+        int[] temp=new int[]{0,0,0,0};
+        int startpos=-4;
+        for(int i=0;i<4;i++)
+        {
+            temp[i]+=discardBoxMap.get(startpos).getValue();
 
+        }
+        ViewPersonalBoard.getController().setAllowedRes(temp);
+        fillDiscardBox();
     }
 
     public SubScene getRoot() {
@@ -141,7 +141,7 @@ public class DiscardBoxInitializer extends ResourceMarketViewBuilder implements 
             sceneButtons.get(i).color();
 
         }
-        ViewPersonalBoard.getController().setAllowedRes(new int[]{1,0,1,0});
+        ViewPersonalBoard.getController().setAllowedRes(new int[]{1,1,1,1});
         ViewPersonalBoard.getController().bindDispenser(selected,sceneButtons);
 
         List<Image> res=new ArrayList<>();

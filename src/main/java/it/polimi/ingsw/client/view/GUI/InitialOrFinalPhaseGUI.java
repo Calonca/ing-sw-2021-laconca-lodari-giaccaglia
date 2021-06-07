@@ -79,7 +79,7 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
         ViewPersonalBoard.getController().cardSelector(selectedLeaders,sceneLeaders,1);
 
         skipButton.setOnAction(p -> {
-            ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(4);
+            ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(3);
             getClient().getServerHandler().sendCommandMessage(new EventMessage(new InitialOrFinalPhaseEvent(2)));
         });
         SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).orElseThrow();
