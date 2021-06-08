@@ -186,6 +186,9 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
 
 
         });
+        for(int i=0;i<simplePlayerLeaders.getPlayerLeaders().size();i++)
+            if(!simplePlayerLeaders.getPlayerLeaders().get(i).getNetworkLeaderCard().isPlayable())
+                sceneLeaders.get(i).setDisable(true);
         leaderPane.setId("pane");
 
     }
