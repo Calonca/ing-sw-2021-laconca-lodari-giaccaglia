@@ -35,7 +35,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
     boolean created=false;
 
 
-    public double tilelen=264;
+    public double tilelen=280;
     public int tileheight=70;
     double gridInsets=50;
     double VGap=35;
@@ -125,7 +125,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         createPane.setPrefWidth(tilelen);
 
         Button creationBut=new Button();
-        creationBut.setLayoutY(tileheight-20);
+        creationBut.setLayoutY(tileheight/2.0);
         creationBut.setLayoutX(tilelen/2);
         creationBut.setOnAction( p ->
         {
@@ -161,7 +161,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         joinPane.getChildren().add(templabel);
 
         Button joinMatchButton=new Button();
-        joinMatchButton.setLayoutY(tileheight-20);
+        joinMatchButton.setLayoutY(tileheight/2);
         joinMatchButton.setLayoutX(tilelen/2);
         joinMatchButton.setOnAction( p ->
         {
@@ -171,6 +171,28 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
 
         joinMatchButton.setGraphic(new Label("JOIN"));
         joinPane.setId("tile");
+        joinPane.getChildren().add(joinMatchButton);
+
+        return joinPane;
+    }
+
+    public AnchorPane emptyTile()
+    {
+
+        AnchorPane joinPane=new AnchorPane();
+
+        joinPane.setPrefHeight(tileheight);
+        joinPane.setPrefWidth(tilelen+150);
+
+
+        joinPane.setId("tile");
+
+        Button joinMatchButton=new Button();
+        joinMatchButton.setLayoutY(tileheight/2);
+        joinMatchButton.setLayoutX(tilelen/2);
+
+        joinMatchButton.setGraphic(new Label("EMPTY"));
+        joinMatchButton.setDisable(true);
         joinPane.getChildren().add(joinMatchButton);
 
         return joinPane;
@@ -191,12 +213,9 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         List<MatchRow> temp=dataToRow();
         int row=0;
         int column=1;
-        temp.add(new MatchRow(UUID.randomUUID(),"test"));
-        temp.add(new MatchRow(UUID.randomUUID(),"test"));
-        temp.add(new MatchRow(UUID.randomUUID(),"test"));
-        temp.add(new MatchRow(UUID.randomUUID(),"test"));
-        temp.add(new MatchRow(UUID.randomUUID(),"test"));
 
+
+        int i=0;
         while(!temp.isEmpty())
         {
             if(column==2)
@@ -207,6 +226,20 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
             grid.add(matchToTile(temp.get(0)),column,row);
             column++;
             temp.remove(0);
+            i++;
+
+        }
+
+        while(i<10)
+        {
+            if(column==2)
+            {
+                column=0;
+                row++;
+            }
+            grid.add(emptyTile(),column,row);
+            column++;
+            i++;
 
         }
 

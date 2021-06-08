@@ -135,6 +135,7 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
         connectionPane.getChildren().add(validationButton());
         connectionPane.setId("pane");
 
+
         connectionPane.getChildren().add(logoView);
 
     }

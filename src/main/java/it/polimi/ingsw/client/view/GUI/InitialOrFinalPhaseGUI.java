@@ -14,6 +14,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Text;
+
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Path;
@@ -71,6 +75,8 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
             leader=new Button();
             leader.setLayoutX((cardsStartingX+i*(cardLen*(462.0/709)+paddingBetweenCards)));
             leader.setLayoutY(cardsY);
+            leader.setId("leaderButton");
+
             leaderPane.getChildren().add(leader);
             sceneLeaders.add(leader);
         }
@@ -79,9 +85,14 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
 
     public void bindPicturesFromAssets(SimplePlayerLeaders simplePlayerLeaders)
     {
+        Path path;
         for(int i=0; i<sceneLeaders.size();i++)
         {
-            Path path= simplePlayerLeaders.getPlayerLeaders().get(i).getCardPaths().getKey();
+
+            if(simplePlayerLeaders.getPlayerLeaders().get(i).getNetworkLeaderCard().isPlayable())
+                    path= simplePlayerLeaders.getPlayerLeaders().get(i).getCardPaths().getKey();
+            else
+                    path= simplePlayerLeaders.getPlayerLeaders().get(i).getInactiveCardPaths().getKey();
             ImageView tempImage = new ImageView(new Image(path.toString(), true));
             tempImage.setFitHeight(cardLen);
             tempImage.setPreserveRatio(true);
@@ -133,7 +144,15 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
             for(Boolean b : selectedLeaders)
                 if(b)
                 {
-                    System.out.println("rat");
+                    if(!simplePlayerLeaders.getPlayerLeaders().get(selectedLeaders.indexOf(b)).getNetworkLeaderCard().isPlayable())
+                    {
+                        Text text=new Text("YOU CAN'T PLAY THAT!");
+                        leaderPane.getChildren().add(text);
+                        text.setLayoutX(width/2);
+                        text.setLayoutY(len-60);
+                        break;
+
+                    }
                     InitialOrFinalPhaseEvent activate = new InitialOrFinalPhaseEvent(1,simplePlayerLeaders.getPlayerLeaders().get(selectedLeaders.indexOf(b)).getCardId());
                     getClient().getServerHandler().sendCommandMessage(new EventMessage(activate));
                     ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(3);
@@ -149,6 +168,7 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
             for(Boolean b : selectedLeaders)
                 if(b)
                 {
+
                   ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(3);
                   InitialOrFinalPhaseEvent discard = new InitialOrFinalPhaseEvent(0,simplePlayerLeaders.getPlayerLeaders().get(selectedLeaders.indexOf(b)).getCardId());
                   getClient().getServerHandler().sendCommandMessage(new EventMessage(discard));
@@ -186,10 +206,9 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
 
 
         });
-        for(int i=0;i<simplePlayerLeaders.getPlayerLeaders().size();i++)
-            if(!simplePlayerLeaders.getPlayerLeaders().get(i).getNetworkLeaderCard().isPlayable())
-                sceneLeaders.get(i).setDisable(true);
+
         leaderPane.setId("pane");
+        skipButton.setId("rat");
 
     }
 }
