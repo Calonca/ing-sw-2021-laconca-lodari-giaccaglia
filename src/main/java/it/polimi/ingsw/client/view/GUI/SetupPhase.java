@@ -96,7 +96,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
     {
         Button confirm=new Button();
         confirm.setText("CONFIRM");
-        confirm.setLayoutY(800);
+        confirm.setLayoutY(len/2);
         confirm.setLayoutX(450);
         confirm.setOnAction(p -> {
 
@@ -104,10 +104,19 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
             for(int i = 0; i< sceneLeaders.size(); i++)
                 if(!selectedLeaders.get(i))
                     event.addChosenLeader(leadersUUIDs.get(i));
-            if (selectedResources.size()>0)
-                event.addResource(new Pair<>(0,selectedResources.get(0)));
-            if (selectedResources.size()>1)
-                event.addResource(new Pair<>(1,selectedResources.get(1)));
+            List<Integer> converter=new ArrayList<>();
+            for(int i=0;i<selectedResources.size();i++)
+                if (selectedResources.get(i) ==1)
+                    converter.add(i);
+                else if(selectedResources.get(i) ==2)
+                {
+                    converter.add(i);
+                    converter.add(i);
+                }
+            if (converter.size()>0)
+                event.addResource(new Pair<>(0,converter.get(0)));
+            if (converter.size()>1)
+                event.addResource(new Pair<>(1,converter.get(1)));
             //System.out.println(event);
             getClient().getServerHandler().sendCommandMessage(new EventMessage(event));
 
