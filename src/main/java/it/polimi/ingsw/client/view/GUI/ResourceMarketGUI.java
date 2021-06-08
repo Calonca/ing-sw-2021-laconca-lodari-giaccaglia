@@ -322,10 +322,11 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
 
 
         SubScene subScene = new SubScene(root3D, 300, 260, true, SceneAntialiasing.BALANCED);
-        subScene.setFill(Color.SADDLEBROWN);
+        subScene.setFill(Color.TRANSPARENT);
         subScene.setCamera(camera);
 
         marketPane.getChildren().add(0,subScene);
+        marketPane.setId("marketPane");
         error.setOpacity(0);
         error.setLayoutX(width/2);
         error.setLayoutY((len*4)/5);
