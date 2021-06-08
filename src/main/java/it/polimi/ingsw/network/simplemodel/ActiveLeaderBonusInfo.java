@@ -56,6 +56,7 @@ public class ActiveLeaderBonusInfo extends SimpleModelElement{
 
     public static class SimpleProductionBonus
     {
+
         private final List<ResourceAsset> inputResources;
         private final List<ResourceAsset> outputResources;
 

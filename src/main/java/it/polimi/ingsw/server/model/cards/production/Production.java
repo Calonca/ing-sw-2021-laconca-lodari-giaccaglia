@@ -119,7 +119,7 @@ public class Production {
             return this.output[Resource.TOCHOOSE.getResourceNumber()] != 0;
     }
 
-    public void resetchoice()
+    public void resetChoice()
     {
         System.arraycopy(restoreinput, 0, input, 0, input.length);
         System.arraycopy(restoreoutput, 0, output, 0, output.length);

@@ -41,6 +41,7 @@ public class PayingResourcesForDevelopmentCard implements GameStrategy {
 
         elementsToUpdate.add(Element.SimpleStrongBox);
         elementsToUpdate.add(Element.SimpleWareHouseLeadersDepot);
+        elementsToUpdate.add(Element.SimpleCardCells);
 
         return new Pair<>(State.CHOOSING_POSITION_FOR_DEVCARD, elementsToUpdate);
 

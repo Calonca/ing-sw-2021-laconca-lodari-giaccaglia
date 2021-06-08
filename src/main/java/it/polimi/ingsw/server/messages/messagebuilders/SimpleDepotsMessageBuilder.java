@@ -111,6 +111,7 @@ public class SimpleDepotsMessageBuilder {
 
     }
 
+        //    leaderDepotSpot   resourceType
     public static Map<Integer, ResourceAsset> getResourcesTypesOfLeaderDepots(GameModel gameModel){
 
         WarehouseLeadersDepots currentDepots = gameModel.getCurrentPlayer().getPersonalBoard().getWarehouseLeadersDepots();

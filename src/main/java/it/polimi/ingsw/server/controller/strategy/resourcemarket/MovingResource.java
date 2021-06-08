@@ -31,6 +31,7 @@ public class MovingResource implements GameStrategy {
 
         elementsToUpdate.add(Element.SimpleWareHouseLeadersDepot);
         elementsToUpdate.add(Element.SimpleDiscardBox);
+        elementsToUpdate.add(Element.SimpleProductions);
 
         return new Pair<>(gamemodel.getGamePhase(), elementsToUpdate);
 

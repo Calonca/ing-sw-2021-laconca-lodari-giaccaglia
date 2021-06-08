@@ -114,6 +114,14 @@ public enum Element {
                         GameInfoMessageBuilder.marketBonusResources(gameModel),
                         GameInfoMessageBuilder.productionBonusResources(gameModel));
             }
+        },
+
+        SimpleProductions(false){
+
+        @Override
+        public SimpleModelElement buildSimpleModelElement(GameModel gameModel){
+            return new SimpleProductions(SimpleProductionsMessageBuilder.simpleProductionsMap(gameModel));
+           }
         };
 
         private final boolean isCommonElement;

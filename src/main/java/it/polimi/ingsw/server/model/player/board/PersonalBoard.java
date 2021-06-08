@@ -6,7 +6,6 @@ import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
 import it.polimi.ingsw.server.model.cards.production.Production;
 import it.polimi.ingsw.server.model.cards.production.ProductionCardCell;
-import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.player.leaders.DevelopmentDiscountLeader;
 import it.polimi.ingsw.server.model.player.leaders.Leader;
 import it.polimi.ingsw.server.model.player.leaders.ProductionLeader;
@@ -126,6 +125,37 @@ public class PersonalBoard {
 
     }
 
+    public Map<Integer, Pair< Pair<Map<Integer, Integer> , Map<Integer, Integer>>, Boolean>> getSimpleProductionsMap(){
+
+        return IntStream.range(0, productions.size()).boxed().collect(Collectors.toMap(
+                productionIndex-> productionIndex,
+                productionIndex -> {
+
+                    Optional<Production> production = productions.get(productionIndex);
+
+                    Map<Integer, Integer> inputs = production.map(value -> IntStream.range(0, value.getInputs().length).boxed().collect(Collectors.toMap(
+                            resourceNumber -> resourceNumber,
+
+                            resourceNumber -> value.getInputs()[resourceNumber]
+                    ))).orElseGet(HashMap::new);
+
+                    Map<Integer, Integer> outputs = production.map(value -> IntStream.range(0, value.getOutputs().length).boxed().collect(Collectors.toMap(
+                            resourceNumber -> resourceNumber,
+
+                            resourceNumber -> value.getOutputs()[resourceNumber]
+                    ))).orElseGet(HashMap::new);
+
+                    boolean isAvailable = production.isPresent() && hasResources(production.get().getInputs());
+
+                    Pair<Map<Integer, Integer>, Map<Integer, Integer>> inputsAndOutPuts = new Pair<>(inputs, outputs);
+
+                    return new Pair<>(inputsAndOutPuts, isAvailable);
+
+                }
+        ));
+
+    }
+
     /**
      * Takes the selected {@link Resource resources} from the selected {@link Production productions}
      * and puts the outputs {@link Resource resources}
@@ -219,7 +249,7 @@ public class PersonalBoard {
      * Should be called at the end of the turn
      */
     public void resetChoices(){
-        productions.stream().flatMap(Optional::stream).filter(Production::choiceCanBeMade).forEach(Production::resetchoice);
+        productions.stream().flatMap(Optional::stream).filter(Production::choiceCanBeMade).forEach(Production::resetChoice);
     }
 
     /**
@@ -481,7 +511,7 @@ public class PersonalBoard {
      public Map<Integer, Boolean> getAvailableSpotsForDevCard(DevelopmentCard developmentCard){
 
          return IntStream.range(0, cardCells.length).boxed().collect(Collectors.toMap(
-                 position -> position,
+                 position -> position + 1,
 
                  position -> developmentCard != null && cardCells[position].isSpotAvailable(developmentCard)
          ));
