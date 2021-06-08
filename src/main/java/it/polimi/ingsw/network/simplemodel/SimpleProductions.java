@@ -5,6 +5,7 @@ import javafx.util.Pair;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class SimpleProductions extends SimpleModelElement{
 
@@ -26,6 +27,23 @@ public class SimpleProductions extends SimpleModelElement{
 
     }
 
+    public boolean isProductionAtPositionAvailable(int productionPosition){
+        Pair<SimpleProduction, Boolean> productionPairAtPos = availableProductions.get(productionPosition);
+
+        if(productionPairAtPos==null)
+            return false;
+        else return productionPairAtPos.getValue();
+    }
+
+    public Optional<SimpleProduction> getProductionAtPos(int productionPosition){
+
+        Pair<SimpleProduction, Boolean> productionPairAtPos = availableProductions.get(productionPosition);
+
+        if(productionPairAtPos == null)
+            return Optional.empty();
+
+        else return Optional.of(productionPairAtPos.getKey());
+    }
 
     public static class SimpleProduction{
 
