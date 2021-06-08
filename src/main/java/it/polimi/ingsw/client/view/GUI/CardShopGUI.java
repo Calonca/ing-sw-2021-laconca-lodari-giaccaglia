@@ -38,8 +38,8 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
     int COLUMNS=4;
     double len=800;
     double width=640;
-    int cardTilt=1;
-    List<ResourceButton> scenePaymentButtons=new ArrayList<>();
+    double cardTilt=0.1;
+    List<Button> scenePaymentButtons=new ArrayList<>();
     List<Button> scenesCardsToChoose=new ArrayList<>();
     javafx.collections.ObservableList<Boolean> scenePaidButtons;
 
@@ -145,11 +145,6 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
                 sendChosenCard(temp%4, 2);
             else sendChosenCard(temp%4, 1);
 
-            for(int i=0; i<simpleCardShop.getCardFront(NetworkDevelopmentCardColor.fromInt(temp%4),1).get().getDevelopmentCard().getCostList().size();i++)
-                for (int j=0;j<simpleCardShop.getCardFront(NetworkDevelopmentCardColor.fromInt(temp%4),1).get().getDevelopmentCard().getCostList().get(i).getValue();j++)
-                    scenePaymentButtons.get(i).setResource(Resource.fromInt(i));
-
-            ViewPersonalBoard.getController().bindForPayment(scenePaymentButtons,scenePaidButtons);
 
 
 
@@ -237,17 +232,15 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
 
         });
 
-
+        Button tempContainer;
         scenePaidButtons=javafx.collections.FXCollections.observableArrayList();
-        ResourceButton tempContainer;
         for(int i=0;i<5;i++)
         {
-            tempContainer=new ResourceButton();
+            tempContainer=new Button();
             tempContainer.setLayoutY(len-80);
             tempContainer.setLayoutX(100+40*i);
             cardsAnchor.getChildren().add(tempContainer);
             scenePaymentButtons.add(tempContainer);
-            tempContainer.setResource(Resource.EMPTY);
             scenePaidButtons.add(true);
         }
 
