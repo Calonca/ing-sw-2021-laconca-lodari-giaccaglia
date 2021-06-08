@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.view.abstractview.InitialOrFinalPhaseViewBuilder;
 import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.events.InitialOrFinalPhaseEvent;
 import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -25,9 +26,21 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
     public Button c;
     public Button leaderOne;
     public Button leaderTwo;
-    public Button playButton;
     public Button discardButton;
     public Button skipButton;
+
+    public double width=800;
+    public double len=600;
+    double paddingBetweenCards=50;
+    double cardsY=40;
+    double buttonsDistanceFromBottom=50;
+    double cardLen=len*(3.0/4);
+
+    double cardsStartingX=70;
+    List<Button> sceneLeaders=new ArrayList<>();
+
+
+
 
     public InitialOrFinalPhaseGUI(boolean isInitial) {
         super(isInitial);
@@ -45,8 +58,37 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
     {
         Node toAdd=getRoot();
         toAdd.setId("LEADER");
-        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(toAdd);
+        if(((Pane)getClient().getStage().getScene().getRoot()).getChildren().size()<4)
+            ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(toAdd);
         System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
+    }
+
+    public void initializeLeaderButtons(int size)
+    {
+        Button leader;
+        for(int i=0;i<size;i++)
+        {
+            leader=new Button();
+            leader.setLayoutX((cardsStartingX+i*(cardLen*(462.0/709)+paddingBetweenCards)));
+            leader.setLayoutY(cardsY);
+            leaderPane.getChildren().add(leader);
+            sceneLeaders.add(leader);
+        }
+
+    }
+
+    public void bindPicturesFromAssets(SimplePlayerLeaders simplePlayerLeaders)
+    {
+        for(int i=0; i<sceneLeaders.size();i++)
+        {
+            Path path= simplePlayerLeaders.getPlayerLeaders().get(i).getCardPaths().getKey();
+            ImageView tempImage = new ImageView(new Image(path.toString(), true));
+            tempImage.setFitHeight(cardLen);
+            tempImage.setPreserveRatio(true);
+            sceneLeaders.get(i).setGraphic(tempImage);
+
+        }
+
     }
 
     public SubScene getRoot() {
@@ -60,63 +102,91 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
             e.printStackTrace();
         }
 
-        return new SubScene(root,500,400);
+        return new SubScene(root,width,len);
 
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        List<Button> sceneLeaders=new ArrayList<>();
-
-        sceneLeaders.add(leaderOne);
-        sceneLeaders.add(leaderTwo);
-
         javafx.collections.ObservableList<Boolean> selectedLeaders;
         selectedLeaders=javafx.collections.FXCollections.observableArrayList();
+
+
+
+        SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).orElseThrow();
+
+
+        initializeLeaderButtons(simplePlayerLeaders.getPlayerLeaders().size());
+
+        bindPicturesFromAssets(simplePlayerLeaders);
 
         for(int i=0; i<sceneLeaders.size();i++)
             selectedLeaders.add(false);
 
         ViewPersonalBoard.getController().cardSelector(selectedLeaders,sceneLeaders,1);
 
-        skipButton.setOnAction(p -> {
-            ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(3);
-            getClient().getServerHandler().sendCommandMessage(new EventMessage(new InitialOrFinalPhaseEvent(2)));
-        });
-        SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).orElseThrow();
+        List<Button> controlButtons=new ArrayList<>();
 
-        for(int i=0; i<sceneLeaders.size();i++)
-        {
-            Path path= simplePlayerLeaders.getPlayerLeaders().get(i).getCardPaths().getKey();
-            ImageView temp = new ImageView(new Image(path.toString(), true));
-            temp.setFitHeight(100);
-            temp.setFitWidth(70);
-            sceneLeaders.get(i).setGraphic(temp);
 
-        }
+        Button playButton=new Button();
         playButton.setOnAction(p -> {
-            ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(4);
             for(Boolean b : selectedLeaders)
                 if(b)
                 {
-                   InitialOrFinalPhaseEvent activate = new InitialOrFinalPhaseEvent(1,simplePlayerLeaders.getPlayerLeaders().get(selectedLeaders.indexOf(b)).getCardId());
-                   getClient().getServerHandler().sendCommandMessage(new EventMessage(activate));
+                    System.out.println("rat");
+                    InitialOrFinalPhaseEvent activate = new InitialOrFinalPhaseEvent(1,simplePlayerLeaders.getPlayerLeaders().get(selectedLeaders.indexOf(b)).getCardId());
+                    getClient().getServerHandler().sendCommandMessage(new EventMessage(activate));
+                    ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(3);
+
                 }
 
 
         });
 
+        Button discardButton=new Button();
         discardButton.setOnAction(p -> {
-            ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(4);
+
             for(Boolean b : selectedLeaders)
                 if(b)
                 {
+                  ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(3);
                   InitialOrFinalPhaseEvent discard = new InitialOrFinalPhaseEvent(0,simplePlayerLeaders.getPlayerLeaders().get(selectedLeaders.indexOf(b)).getCardId());
                   getClient().getServerHandler().sendCommandMessage(new EventMessage(discard));
                 }
 
 
         });
+        Button skipButton=new Button();
+        skipButton.setOnAction(p -> {
+            ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(3);
+            getClient().getServerHandler().sendCommandMessage(new EventMessage(new InitialOrFinalPhaseEvent(2)));
+        });
+
+        controlButtons.add(playButton);
+        controlButtons.add(discardButton);
+        controlButtons.add(skipButton);
+
+        for(int i=0;i<2;i++)
+        {
+            controlButtons.get(i).setLayoutX((i+1)*width/3);
+            controlButtons.get(i).setLayoutY(len-buttonsDistanceFromBottom);
+            leaderPane.getChildren().add(controlButtons.get(i));
+        }
+
+        skipButton.setLayoutX(width-50);
+        skipButton.setLayoutY(len-50);
+        leaderPane.getChildren().add(skipButton);
+
+        selectedLeaders.addListener((ListChangeListener<Boolean>) c -> {
+            c.next();
+            if(c.getAddedSubList().get(0))
+                sceneLeaders.get(c.getFrom()).setLayoutY(sceneLeaders.get(c.getFrom()).getLayoutY()-30);
+            else
+                sceneLeaders.get(c.getFrom()).setLayoutY(sceneLeaders.get(c.getFrom()).getLayoutY()+30);
+
+
+        });
+        leaderPane.setId("pane");
 
     }
 }

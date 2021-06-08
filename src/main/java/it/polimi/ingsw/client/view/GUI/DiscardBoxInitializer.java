@@ -128,7 +128,7 @@ public class DiscardBoxInitializer extends ResourceMarketViewBuilder implements 
         for(Button into : sceneButtons)
             selected.add(0);
 
-    //todo fix
+    //todo generaliz
         List<Image> res=new ArrayList<>();
             res.add(new Image("assets/resources/GOLD.png"));
             res.add(new Image("assets/resources/SERVANT.png"));

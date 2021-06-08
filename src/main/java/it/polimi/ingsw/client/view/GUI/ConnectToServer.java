@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -47,6 +48,8 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
 
         Scene scene = new Scene(firstPane);
         getClient().getStage().setScene(scene);
+
+        getClient().getStage().getScene().getStylesheets().add("assets/application.css");
         getClient().getStage().show();
 
     }
@@ -69,25 +72,27 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
     }
     //Add buttons here that call client.changeViewBuilder(new *****, this);
 
-    public void handleButton()
+    public Button validationButton()
     {
+        Button button=new Button();
+        button.setLayoutX(500);
+        button.setLayoutY(350);
+        button.setText("CONNECT");
+        button.setOnAction(p->
+        {
+            if(!nickText.getCharacters().toString().isEmpty())
+                if(isIPAddr(addressText.getCharacters().toString()))
+                    if(Integer.parseInt(portText.getCharacters().toString())<65536)
+                    {
+                        getClient().getCommonData().setCurrentnick(nickText.getCharacters().toString());
+                        getClient().setServerConnection(addressText.getCharacters().toString(),Integer.parseInt(portText.getCharacters().toString()));
+                        getClient().run();
+                        return;
+                    }
+            error.setOpacity(200);
 
-        if(!nickText.getCharacters().toString().isEmpty())
-            if(isIPAddr(addressText.getCharacters().toString()))
-                if(Integer.parseInt(portText.getCharacters().toString())<65536)
-                {
-                    getClient().getCommonData().setCurrentnick(nickText.getCharacters().toString());
-                    getClient().setServerConnection(addressText.getCharacters().toString(),Integer.parseInt(portText.getCharacters().toString()));
-                    getClient().run();
-                    return;
-                }
-
-
-        error.setOpacity(200);
-
-
-        getClient().getStage().show();
-
+        });
+        return button;
     }
 
 
@@ -97,6 +102,7 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
 
         ImageView logoView=new ImageView(new Image("assets/logo.png", true));
         StackPane.setAlignment(logoView,Pos.TOP_CENTER);
+
 
         nickText=new TextField();
         nickText.setLayoutX(461);
@@ -123,11 +129,14 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
         logoView.setFitHeight(300);
         logoView.setLayoutX(100);
 
-        connectionAnchor.getChildren().add(nickText);
-        connectionAnchor.getChildren().add(addressText);
-        connectionAnchor.getChildren().add(portText);
+        connectionPane.getChildren().add(nickText);
+        connectionPane.getChildren().add(addressText);
+        connectionPane.getChildren().add(portText);
+        connectionPane.getChildren().add(validationButton());
+        connectionPane.setId("pane");
 
-        connectionAnchor.getChildren().add(logoView);
+        connectionPane.getChildren().add(logoView);
+
     }
     @Override
     public void propertyChange(PropertyChangeEvent evt) {

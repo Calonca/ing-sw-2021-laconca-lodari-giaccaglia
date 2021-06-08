@@ -113,6 +113,7 @@ public class CreateMatchGUI extends CreateJoinLoadMatchViewBuilder implements GU
         bindCreateButton(b,2);
         bindCreateButton(c,3);
         bindCreateButton(d,4);
+        createPane.setId("pane");
 
     }
 

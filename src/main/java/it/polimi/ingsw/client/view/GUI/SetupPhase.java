@@ -22,6 +22,7 @@ import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.SubScene;
 import javafx.scene.control.*;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -49,11 +50,19 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
     javafx.collections.ObservableList<Boolean> selectedLeaders;
     javafx.collections.ObservableList<Integer> selectedResources;
 
+    DropShadow effect=new DropShadow();
+    double leadersOffsetX=40;
+    double resourceSupplyY=70;
     double width=1000;
     double len=700;
+    double leaderSize=len/3+40;
+
 
     @FXML
     private AnchorPane cjlAnchor;
+
+    SimplePlayerLeaders simplePlayerLeaders = getSimpleModel().getPlayerCache(getClient().getCommonData().getThisPlayerIndex()).getElem(SimplePlayerLeaders.class).orElseThrow();
+    List<LeaderCardAsset> leaderCardAssets=simplePlayerLeaders.getPlayerLeaders();
 
 
     @Override
@@ -88,6 +97,23 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
 
     }
 
+    public List<ImageView> getSetupLeaderIcons() {
+        SimplePlayerLeaders simplePlayerLeaders = getSimpleModel().getPlayerCache(getClient().getCommonData().getThisPlayerIndex()).getElem(SimplePlayerLeaders.class).orElseThrow();
+        List<LeaderCardAsset> leaderCardAssets=simplePlayerLeaders.getPlayerLeaders();
+        List<ImageView> resultList=new ArrayList<>();
+
+        for (LeaderCardAsset leaderCardAsset : leaderCardAssets) {
+            Path path = leaderCardAsset.getCardPaths().getKey();
+            leadersUUIDs.add(leaderCardAsset.getCardId());
+            ImageView temp = new ImageView(new Image(path.toString(), true));
+            temp.setPreserveRatio(true);
+            temp.setFitHeight(leaderSize);
+            resultList.add(temp);
+        }
+        return resultList;
+
+    }
+
     /**
      * service method
      * @return a button according to parameters
@@ -97,7 +123,8 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         Button confirm=new Button();
         confirm.setText("CONFIRM");
         confirm.setLayoutY(len/2);
-        confirm.setLayoutX(450);
+        confirm.setLayoutX(width/2);
+        confirm.setEffect(effect);
         confirm.setOnAction(p -> {
 
                SetupPhaseEvent event = new SetupPhaseEvent(Util.resourcesToChooseOnSetup(getCommonData().getThisPlayerIndex()),2,getClient().getCommonData().getThisPlayerIndex());
@@ -127,43 +154,40 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         return confirm;
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle)
+    public void spawnResourceSupply()
     {
         ImageView resourceSupply=new ImageView(new Image("assets/punchboard/ResourceSupply.png"));
         resourceSupply.setFitWidth(width*2/3);
+        resourceSupply.setPreserveRatio(true);
         resourceSupply.setLayoutX(width/6);
-        resourceSupply.setFitHeight(width/4);
-        resourceSupply.setLayoutY(70);
+        resourceSupply.setLayoutY(resourceSupplyY);
+        resourceSupply.setEffect(effect);
         cjlAnchor.getChildren().add(resourceSupply);
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle)
+    {
+
+
+        spawnResourceSupply();
 
         Label leaders=new Label("SELECT TWO LEADERS TO DISCARD");
-        leaders.setLayoutX(300);
-        leaders.setLayoutY(500);
+        leaders.setLayoutX(width/2+100);
+        leaders.setLayoutY(len/2);
         cjlAnchor.getChildren().add(leaders);
 
-
-
-        SimplePlayerLeaders simplePlayerLeaders = getSimpleModel().getPlayerCache(getClient().getCommonData().getThisPlayerIndex()).getElem(SimplePlayerLeaders.class).orElseThrow();
-        List<LeaderCardAsset> leaderCardAssets=simplePlayerLeaders.getPlayerLeaders();
-
-        Button tempbut;
-        for(int i=0;i<LEADERNUMBER;i++)
+        Button leaderBut;
+        for(int i=0;i<getSetupLeaderIcons().size();i++)
         {
-            leadersUUIDs.add(leaderCardAssets.get(i).getCardId());
-            Path path= leaderCardAssets.get(i).getCardPaths().getKey();
-            ImageView temp = new ImageView(new Image(path.toString(), true));
-//new Image(ViewPersonalBoard.class.getResource(leaderCardAssets.get(i).getCardPaths().getKey().toString()).toString()
-            tempbut= new Button();
-            tempbut.setLayoutY(len-100);
-            tempbut.setLayoutX(100+200*i);
-            tempbut.setGraphic(temp);
+            leaderBut= new Button();
+            leaderBut.setEffect(SetupPhase.this.effect);
+            leaderBut.setLayoutY(len-leaderSize-10);
+            leaderBut.setLayoutX(leadersOffsetX+240*i);
+            leaderBut.setGraphic(getSetupLeaderIcons().get(i));
 
-            temp.setFitHeight(200);
-            temp.setFitWidth(200);
-            cjlAnchor.getChildren().add(tempbut);
-            sceneLeaders.add(tempbut);
-
+            cjlAnchor.getChildren().add(leaderBut);
+            sceneLeaders.add(leaderBut);
         }
 
 
@@ -192,7 +216,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         for(int i=0;i<4;i++)
         {
             resbut= new ResourceButton();
-            resbut.setLayoutY(180);
+            resbut.setLayoutY(resourceSupplyY+width/16);
             resbut.setLayoutX(250+165*i);
             resbut.setResource(Resource.fromInt(i));
 

@@ -7,8 +7,10 @@ import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 
+import javafx.scene.SubScene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
@@ -31,13 +33,15 @@ public class MatchToStart extends CreateJoinLoadMatchViewBuilder implements GUIV
     @Override
     public void run() {
 
+        Node toadd=getRoot();
+        toadd.setId("WAITING");
         ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(0);
-        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(getRoot());
+        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(toadd);
         System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
 
     }
 
-    public Parent getRoot() {
+    public SubScene getRoot() {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/MatchToStart.fxml"));
         Parent root = null;
@@ -48,7 +52,7 @@ public class MatchToStart extends CreateJoinLoadMatchViewBuilder implements GUIV
             e.printStackTrace();
         }
 
-        return root;
+        return new SubScene(root,1000,700);
 
     }
 

@@ -108,7 +108,7 @@ public class ChooseResourceForMarket extends ResourceMarketViewBuilder implement
             chooseMarketAnchor.getChildren().add(tempButton);
 
         }
-        //todo fix
+        //todo generalize
         List<Image> res=new ArrayList<>();
             res.add(new Image("assets/resources/GOLD.png"));
             res.add(new Image("assets/resources/SERVANT.png"));

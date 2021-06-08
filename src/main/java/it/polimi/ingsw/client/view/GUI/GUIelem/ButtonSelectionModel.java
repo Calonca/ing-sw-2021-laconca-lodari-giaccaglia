@@ -47,30 +47,6 @@ public class ButtonSelectionModel {
     }
 
 
-    public void resourceSelector(List<Integer> selected, List<Button> sceneResourcesToChoose, int maxselection)
-    {
-
-        //SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).get();
-        //List<LeaderCardAsset> leaderpics=simplePlayerLeaders.getPlayerLeaders();
-
-        for (Button sceneButton : sceneResourcesToChoose) {
-
-            sceneButton.setOnAction(e ->
-            {
-
-                int currentSelected=0;
-                {
-                    for (Integer integer : selected) currentSelected += integer;
-                    if(currentSelected+1<maxselection)
-                        selected.add(sceneResourcesToChoose.indexOf(sceneButton));
-
-                }
-            });
-
-        }
-    }
-
-
     public void bindForPayment(List<ResourceButton> scenePaymentButtons,List<Boolean> scenePaidButtons)
     {
 
@@ -536,6 +512,8 @@ public class ButtonSelectionModel {
         };
 
     }
+
+
 
 
     public void setLeader(boolean leader) {

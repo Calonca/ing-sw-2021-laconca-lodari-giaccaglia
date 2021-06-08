@@ -37,7 +37,7 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
     int ROWS=3;
     int COLUMNS=4;
     double len=800;
-    double width=430;
+    double width=630;
 
     List<ResourceButton> scenePaymentButtons=new ArrayList<>();
     List<Button> scenesCardsToChoose=new ArrayList<>();
@@ -61,13 +61,15 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
      */
     @Override
     public void run() {
+
         ViewPersonalBoard.getController().isCardShopOpen(true);
+        addMarket();
     }
 
     public void addMarket() {
 
         Node toAdd=getRoot();
-        toAdd.setTranslateX(-380);
+        toAdd.setTranslateX(0);
         toAdd.setTranslateY(20);
         toAdd.setId("CARDSHOP");
         ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(toAdd);
@@ -279,6 +281,10 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
         error.setLayoutX(width/3);
         error.setLayoutY(len-40);
 
+        Button backButton=new Button();
+        backButton.setLayoutY(750);
+        backButton.setLayoutX(234);
+
         cardsAnchor.getChildren().add(error);
         errorChoice.setOpacity(0);
         errorChoice.setLayoutX(width/3);
@@ -286,6 +292,7 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
         cardsAnchor.getChildren().add(errorChoice);
 
         getClient().getStage().show();
+        cardsAnchor.setId("pane");
 
     }
 

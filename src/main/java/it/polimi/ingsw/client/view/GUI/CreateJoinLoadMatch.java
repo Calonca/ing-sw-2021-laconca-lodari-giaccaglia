@@ -37,6 +37,9 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
 
     public double tilelen=264;
     public int tileheight=70;
+    double gridInsets=50;
+    double VGap=35;
+    double HGap=50;
 
 
     /**
@@ -47,16 +50,21 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
 
 
         SubScene root=getRoot();
+        root.setId("LOBBY");
+
         root.translateYProperty().set(getClient().getStage().getScene().getHeight());
         Timeline timeline=new Timeline();
         KeyValue kv= new KeyValue(root.translateYProperty(),0, Interpolator.EASE_IN);
         KeyFrame kf= new KeyFrame(Duration.seconds(0.5),kv);
         timeline.getKeyFrames().add(kf);
         timeline.play();
-        root.setId("LOBBY");
 
         ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(0);
         ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(root);
+        getClient().getStage().getScene().getStylesheets().add("assets/application.css");
+
+        getClient().getStage().show();
+
 
         System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
 
@@ -114,7 +122,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
     public AnchorPane creationTile(){
         AnchorPane createPane=new AnchorPane();
         createPane.setPrefHeight(tileheight);
-        createPane.setPrefWidth(tilelen+150);
+        createPane.setPrefWidth(tilelen);
 
         Button creationBut=new Button();
         creationBut.setLayoutY(tileheight-20);
@@ -127,9 +135,8 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         });
 
         creationBut.setGraphic(new Label("CREATE"));
-        createPane.setStyle("-fx-background-color: #DEB887");
+        createPane.setId("tile");
         createPane.getChildren().add(creationBut);
-
         return createPane;
     }
 
@@ -163,7 +170,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         });
 
         joinMatchButton.setGraphic(new Label("JOIN"));
-        joinPane.setStyle("-fx-background-color: #DEB887");
+        joinPane.setId("tile");
         joinPane.getChildren().add(joinMatchButton);
 
         return joinPane;
@@ -174,9 +181,9 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
     {
 
         GridPane grid=new GridPane();
-        grid.setPadding(new Insets(50,50,50,50));
-        grid.setHgap(50);
-        grid.setVgap(35);
+        grid.setPadding(new Insets(gridInsets,gridInsets,gridInsets,gridInsets));
+        grid.setHgap(HGap);
+        grid.setVgap(VGap);
 
         grid.add(creationTile(),0,0);
 
@@ -184,9 +191,12 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         List<MatchRow> temp=dataToRow();
         int row=0;
         int column=1;
+        temp.add(new MatchRow(UUID.randomUUID(),"test"));
+        temp.add(new MatchRow(UUID.randomUUID(),"test"));
+        temp.add(new MatchRow(UUID.randomUUID(),"test"));
+        temp.add(new MatchRow(UUID.randomUUID(),"test"));
+        temp.add(new MatchRow(UUID.randomUUID(),"test"));
 
-
-        int i=0;
         while(!temp.isEmpty())
         {
             if(column==2)
@@ -194,24 +204,24 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
                 column=0;
                 row++;
             }
-            grid.add(matchToTile(temp.get(i)),column,row);
+            grid.add(matchToTile(temp.get(0)),column,row);
             column++;
             temp.remove(0);
-            i++;
 
         }
 
 
         ScrollPane scrollPane= new ScrollPane();
         scrollPane.setContent(grid);
-
+        grid.setStyle("    -fx-background-color: linear-gradient(to right, #ADD8E6, #5771f2);");
         cjlPane.getChildren().remove(guiMatchesData);
         cjlPane.getChildren().add(scrollPane);
+
 
         Button test=new Button();
         test.setGraphic(new Label("PERSONAL BOARD"));
         test.setOnAction( t -> getClient().changeViewBuilder(new BoardView3D()));
-        grid.add(test,2,2);
+     //w   grid.add(test,2,2);
 
 
     }
