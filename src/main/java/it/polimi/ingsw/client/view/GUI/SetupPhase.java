@@ -14,9 +14,11 @@ import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.SubScene;
 import javafx.scene.control.*;
@@ -119,8 +121,12 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
-        ButtonSelectionModel selectionModel=new ButtonSelectionModel();
-
+        ImageView resourceSupply=new ImageView(new Image("assets/punchboard/ResourceSupply.png"));
+        resourceSupply.setFitWidth(width*2/3);
+        resourceSupply.setLayoutX(width/6);
+        resourceSupply.setFitHeight(width/4);
+        resourceSupply.setLayoutY(70);
+        cjlAnchor.getChildren().add(resourceSupply);
 
         Label leaders=new Label("SELECT TWO LEADERS TO DISCARD");
         leaders.setLayoutX(300);
@@ -157,7 +163,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
             selectedLeaders.add(false);
 
 
-        selectionModel.cardSelector(selectedLeaders, sceneLeaders,2);
+        ViewPersonalBoard.getController().cardSelector(selectedLeaders, sceneLeaders,2);
 
         selectedLeaders.addListener((ListChangeListener<Boolean>) c -> {
             c.next();
@@ -177,23 +183,22 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         for(int i=0;i<4;i++)
         {
             resbut= new ResourceButton();
-            resbut.setLayoutY(200);
-            resbut.setLayoutX(100+200*i);
+            resbut.setLayoutY(180);
+            resbut.setLayoutX(250+165*i);
             resbut.setResource(Resource.fromInt(i));
 
 
             resbut.color();
             cjlAnchor.getChildren().add(resbut);
             sceneResources.add(resbut);
+            selectedResources.add(0);
 
         }
-
-        selectionModel.resourceSelector(selectedResources,sceneResources,Util.resourcesToChooseOnSetup(getClient().getCommonData().getThisPlayerIndex()));
-
+        ViewPersonalBoard.getController().setAllowedRes(new int[]{3,3,3,3});
+        ViewPersonalBoard.getController().bindDispenser(selectedResources,sceneResources,Util.resourcesToChooseOnSetup(getClient().getCommonData().getThisPlayerIndex()));
         selectedResources.addListener((ListChangeListener<Integer>) c -> {
-        //todo animation
-
-
+            System.out.println(selectedResources);
+            //getClient().getStage().getScene().setCursor(new ImageCursor(Color.getRes().get(c.getFrom())));
         });
         cjlAnchor.getChildren().add(validationButton());
         getClient().getStage().show();

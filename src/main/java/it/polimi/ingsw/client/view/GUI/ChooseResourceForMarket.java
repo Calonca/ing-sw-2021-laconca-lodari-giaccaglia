@@ -91,8 +91,8 @@ public class ChooseResourceForMarket extends ResourceMarketViewBuilder implement
         for(int i=0;i<4;i++)
         {
             Button tempButton=new Button();
-            tempButton.setLayoutY(len/4+i*len/8);
-            tempButton.setLayoutX(width/4+width/8);
+            tempButton.setLayoutY(len/4+i*len/8+30);
+            tempButton.setLayoutX(width/4+width/8-15);
             int finalI = i;
             tempButton.setOnAction(p->
                     {
@@ -108,12 +108,12 @@ public class ChooseResourceForMarket extends ResourceMarketViewBuilder implement
             chooseMarketAnchor.getChildren().add(tempButton);
 
         }
+        //todo fix
         List<Image> res=new ArrayList<>();
-        res.add(new Image("assets/resources/GOLD.png"));
-        res.add(new Image("assets/resources/SERVANT.png"));
-        res.add(new Image("assets/resources/SHIELD.png"));
-        res.add(new Image("assets/resources/STONE.png"));
-
+            res.add(new Image("assets/resources/GOLD.png"));
+            res.add(new Image("assets/resources/SERVANT.png"));
+            res.add(new Image("assets/resources/SHIELD.png"));
+            res.add(new Image("assets/resources/STONE.png"));
         chooseMarketAnchor.getChildren().add(marble);
         for(int i=0;i<sceneResources.size();i++)
         {

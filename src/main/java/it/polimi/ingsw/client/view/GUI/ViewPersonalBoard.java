@@ -55,6 +55,7 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
     private static ButtonSelectionModel boardController=new ButtonSelectionModel();
 
 
+
     public static ButtonSelectionModel getController()
     {
         return boardController;
@@ -76,8 +77,7 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
         cardshop.addMarket();
         ResourceMarketGUI market=new ResourceMarketGUI();
         market.addMatrix();
-        ChooseResourceForMarket choose=new ChooseResourceForMarket();
-        choose.run();
+
 
 
 

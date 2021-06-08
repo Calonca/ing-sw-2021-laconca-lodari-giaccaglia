@@ -5,12 +5,14 @@ import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ButtonSelectionModel {
@@ -26,19 +28,15 @@ public class ButtonSelectionModel {
     boolean moving=false;
     boolean transferring=false;
     boolean movingCard=false;
-
-
-    int[] allowedRes=new int[]{1,0,1,0};
+    int[] allowedRes=new int[]{0,0,0,0};
 
     boolean isLeader=false;
     boolean isMarket=false;
     boolean isDevelop=false;
     boolean isProduction=false;
-
     Resource tomove;
     Resource totransfer;
     DevelopmentCard bought;
-
     boolean isTransferring()
     {
         return transferring;
@@ -47,7 +45,6 @@ public class ButtonSelectionModel {
     public void setAllowedRes(int[] allowedRes) {
         this.allowedRes = allowedRes;
     }
-
 
 
     public void resourceSelector(List<Integer> selected, List<Button> sceneResourcesToChoose, int maxselection)
@@ -274,13 +271,12 @@ public class ButtonSelectionModel {
 
         }
 
-    public void bindDispenser(List<Boolean> control,List<ResourceButton> selected)
+    public void bindDispenser(List<Integer> control,List<Button> selected,int maxSelection)
     {
 
         //SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).get();
         //List<LeaderCardAsset> leaderpics=simplePlayerLeaders.getPlayerLeaders();
         Button temp;
-
 
         for (int i=0; i<selected.size();i++)
         {
@@ -294,20 +290,26 @@ public class ButtonSelectionModel {
             }
             selected.get(i).setOnAction(p ->
                 {
+                    int currentSelected=0;
 
+                    for (Integer integer : control) currentSelected += integer;
+                    if(currentSelected==maxSelection)
+                        return;
                     if(allowedRes[finalI]==0)
                     {
                         selected.get(finalI).setDisable(true);
                         return;
                     }
                     else
+                    {
                         allowedRes[finalI]--;
+                        control.set(finalI,control.get(finalI)+1);
+                    }
 
                     if(!moving)
                     {
                         transferring=true;
-                        control.set(finalI,!control.get(finalI));
-                        totransfer=selected.get(finalI).getResource();
+                       // totransfer=selected.get(finalI).getResource();
                     }
                     else
                     {
