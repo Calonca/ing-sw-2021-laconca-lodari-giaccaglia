@@ -1,24 +1,49 @@
 .root{
     -fx-background-color: linear-gradient(to right, #ADD8E6, #5771f2);
 }
+
+.stackpane{
+    -fx-background-color: linear-gradient(to right, #ADD8E6, #5771f2);
+}
 #pane{
     -fx-background-color: linear-gradient(to right, #5771f2, #021782);
     -fx-border-color: #FAEBD7;
 
 }
+
+.text{
+         -fx-font-family: 'Bell Gothic St'
+       }
+
 #tile{
     -fx-background-color: linear-gradient(to right, #5771f2, #021782);
     -fx-border-color: #DEB887;
     -fx-border-radius: 3;
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 8,0.5,2,2 );
+
+}
+#marketPane{
+    fx-background-image: "assets/punchboard/MarketBoard.png";
+    -fx-background-size: 10 ;
 }
 
-#normalButton {
-  background-color: #4CAF50; /* Green */
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-}
+#leaderButton{
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 8,0.5,2,2 );
+    -fx-background-color: transparent;
+  }
+
+#developmentCardButton{
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 8,0.5,2,2 );
+    -fx-background-color: transparent;
+    -fx-border-radius: 1 ;
+  }
+
+#resourceButton{
+    -fx-background-color: transparent;
+  }
+
+.button{
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 8,0.5,2,2 );
+    -fx-background-color: linear-gradient(to right, #ADD8E6, #5771f2);
+
+  }

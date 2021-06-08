@@ -37,8 +37,8 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
     int ROWS=3;
     int COLUMNS=4;
     double len=800;
-    double width=630;
-
+    double width=640;
+    int cardTilt=1;
     List<ResourceButton> scenePaymentButtons=new ArrayList<>();
     List<Button> scenesCardsToChoose=new ArrayList<>();
     javafx.collections.ObservableList<Boolean> scenePaidButtons;
@@ -69,7 +69,7 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
     public void addMarket() {
 
         Node toAdd=getRoot();
-        toAdd.setTranslateX(0);
+        toAdd.setTranslateX(-200);
         toAdd.setTranslateY(20);
         toAdd.setId("CARDSHOP");
         ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(toAdd);
@@ -168,9 +168,11 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
     {
 
         GridPane cardsGrid=new GridPane();
-        cardsGrid.setLayoutX(0);
+        cardsGrid.setLayoutX(5);
         cardsGrid.setLayoutY(0);
         Button sceneCard;
+        cardsGrid.setHgap(5);
+        cardsGrid.setVgap(5);
 
         Path path;
         ImageView tempImage;
@@ -189,12 +191,12 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
 
 
                 sceneCard = new Button();
+                sceneCard.setId("developmentCardButton");
+                sceneCard.setRotate(Math.random() * (cardTilt - -cardTilt + 1) + -1 );
 
-                tempImage.setFitWidth((width-70)/4);
-                tempImage.setFitHeight((len-130)/4);
-
+                tempImage.setFitWidth((width-80)/4);
+                tempImage.setPreserveRatio(true);
                 sceneCard.setGraphic(tempImage);
-                sceneCard.setStyle("-fx-border-color: transparent");
                 //ROWS COLUMNS
                 cardsGrid.add(sceneCard,j,i);
                 scenesCardsToChoose.add(sceneCard);
@@ -208,7 +210,6 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
         for (int i=0;i<ROWS*COLUMNS;i++)
             selectedSceneCards.add(false);
 
-        ViewPersonalBoard.getController().dehighlightTrue(selectedSceneCards,scenesCardsToChoose);
 
 
         ViewPersonalBoard.getController().cardSelector(selectedSceneCards,scenesCardsToChoose,1);
@@ -222,8 +223,8 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
                 ViewPersonalBoard.getController().highlightTrue(selectedSceneCards,scenesCardsToChoose);
                 for (Boolean aBoolean : selectedSceneCards)
                     if (aBoolean)
-                        break;
-
+                        System.out.println(selectedSceneCards.indexOf(aBoolean));
+                        //scenesCardsToChoose.get(selectedSceneCards.indexOf(aBoolean)).setLayoutX(scenesCardsToChoose.get(selectedSceneCards.indexOf(aBoolean)).getLayoutX()+10);
             }
             else
                 {

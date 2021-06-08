@@ -56,6 +56,8 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
     double width=1000;
     double len=700;
     double leaderSize=len/3+40;
+    double cardTilt=1;
+    double resourcesOffsetX=-20;
 
 
     @FXML
@@ -185,7 +187,8 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
             leaderBut.setLayoutY(len-leaderSize-10);
             leaderBut.setLayoutX(leadersOffsetX+240*i);
             leaderBut.setGraphic(getSetupLeaderIcons().get(i));
-
+            leaderBut.setId("leaderButton");
+            leaderBut.setRotate(Math.random() * (cardTilt - -cardTilt + 1) + -1 );
             cjlAnchor.getChildren().add(leaderBut);
             sceneLeaders.add(leaderBut);
         }
@@ -210,25 +213,30 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
 
         selectedResources =javafx.collections.FXCollections.observableArrayList();
 
+        List<Image> res=new ArrayList<>();
+        res.add(new Image("assets/resources/GOLD.png"));
+        res.add(new Image("assets/resources/SERVANT.png"));
+        res.add(new Image("assets/resources/SHIELD.png"));
+        res.add(new Image("assets/resources/STONE.png"));
 
-
-        ResourceButton resbut;
+        Button resbut;
         for(int i=0;i<4;i++)
         {
-            resbut= new ResourceButton();
+            resbut= new Button();
             resbut.setLayoutY(resourceSupplyY+width/16);
-            resbut.setLayoutX(250+165*i);
-            resbut.setResource(Resource.fromInt(i));
-
-
-            resbut.color();
+            resbut.setLayoutX(width/6+ width/12 + (i)*width/6 + resourcesOffsetX);
+            ImageView tempImage=new ImageView(res.get(i));
+            tempImage.setPreserveRatio(true);
+            tempImage.setFitWidth(50);
+            resbut.setId("resourceButton");
+            resbut.setGraphic(tempImage);
             cjlAnchor.getChildren().add(resbut);
             sceneResources.add(resbut);
             selectedResources.add(0);
 
         }
         ViewPersonalBoard.getController().setAllowedRes(new int[]{3,3,3,3});
-        ViewPersonalBoard.getController().bindDispenser(selectedResources,sceneResources,Util.resourcesToChooseOnSetup(getClient().getCommonData().getThisPlayerIndex()));
+        ViewPersonalBoard.getController().bindDispenser(selectedResources,sceneResources,2);
         selectedResources.addListener((ListChangeListener<Integer>) c -> {
             System.out.println(selectedResources);
             //getClient().getStage().getScene().setCursor(new ImageCursor(Color.getRes().get(c.getFrom())));

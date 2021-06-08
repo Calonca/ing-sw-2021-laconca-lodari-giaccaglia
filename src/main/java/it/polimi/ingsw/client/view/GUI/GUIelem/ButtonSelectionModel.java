@@ -419,7 +419,7 @@ public class ButtonSelectionModel {
 
             if(selected.get(resourcesToMove.indexOf(sceneButton)))
             {
-                resourcesToMove.get(resourcesToMove.indexOf(sceneButton)).setStyle(" -fx-background-color: #000000");
+                resourcesToMove.get(resourcesToMove.indexOf(sceneButton)).setStyle(" -fx-background-color: #fefe33;     -fx-border-radius: 1 ;");
             }
 
 
@@ -439,7 +439,7 @@ public class ButtonSelectionModel {
 
             if(!selected.get(resourcesToMove.indexOf(sceneButton)))
             {
-                resourcesToMove.get(resourcesToMove.indexOf(sceneButton)).setStyle(" -fx-background-color: #ffffff");
+                resourcesToMove.get(resourcesToMove.indexOf(sceneButton)).setStyle(" -fx-background-color: transparent");
             }
 
 
@@ -459,7 +459,7 @@ public class ButtonSelectionModel {
 
             if(!selected.get(resourcesToMove.indexOf(sceneButton)))
             {
-                resourcesToMove.get(resourcesToMove.indexOf(sceneButton)).setStyle(" -fx-background-color: #ffffff");
+                resourcesToMove.get(resourcesToMove.indexOf(sceneButton)).setStyle(" -fx-background-color: transparent");
             }
 
 
