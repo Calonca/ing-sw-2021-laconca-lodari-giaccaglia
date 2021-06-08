@@ -11,9 +11,9 @@ import java.util.stream.Collectors;
 
 public class SimpleProductionsMessageBuilder {
 
-    public static Map<Integer, Pair<SimpleProductions.SimpleProduction, Boolean>> simpleProductionsMap(GameModel gameModel) {
-
-        Map<Integer, Pair<Pair<Map<Integer, Integer>, Map<Integer, Integer>>, Boolean>> productionsMap = gameModel.getCurrentPlayer().getPersonalBoard().getSimpleProductionsMap();
+    public static Map<Integer, SimpleProductions.SimpleProduction> simpleProductionsMap(GameModel gameModel){
+   //      position                     inputs                 outputs        isAvailable   isSelected
+        Map<Integer, Pair<Pair<Map<Integer, Integer>, Map<Integer, Integer>>, Pair<Boolean, Boolean>>> productionsMap = gameModel.getCurrentPlayer().getPersonalBoard().getSimpleProductionsMap();
 
 
         return productionsMap.keySet().stream().collect(Collectors.toMap(
@@ -22,15 +22,17 @@ public class SimpleProductionsMessageBuilder {
                 index -> {
 
                     Pair<Map<Integer, Integer>, Map<Integer, Integer>> inputsAndOutPutsResourcesInts = productionsMap.get(index).getKey();
-                    boolean isAvailable = productionsMap.get(index).getValue();
+                    Pair<Boolean, Boolean> booleanPair = productionsMap.get(index).getValue();
+
+                    Boolean isAvailable = booleanPair.getKey();
+                    Boolean isSelected = booleanPair.getValue();
 
                     Map<Integer, Integer> inputResources = inputsAndOutPutsResourcesInts.getKey();
                     Map<Integer, Integer> outputsResources = inputsAndOutPutsResourcesInts.getValue();
 
+                    SimpleProductions.SimpleProduction simpleProduction = new SimpleProductions.SimpleProduction(inputResources, outputsResources, isAvailable, isSelected);
 
-                    SimpleProductions.SimpleProduction simpleProduction = new SimpleProductions.SimpleProduction(inputResources, outputsResources);
-
-                    return new Pair<>(simpleProduction, isAvailable);
+                   return simpleProduction;
                 }
 
         ));

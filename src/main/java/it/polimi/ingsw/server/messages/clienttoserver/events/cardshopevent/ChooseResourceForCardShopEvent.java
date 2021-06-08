@@ -121,6 +121,8 @@ public class ChooseResourceForCardShopEvent extends it.polimi.ingsw.network.mess
 
         for (Integer resourceGlobalPosition : chosenResources)
         {
+
+
         resourceNumber  =  currentPlayerPersonalBoard.getResourceAtPosition(resourceGlobalPosition).getResourceNumber();
         chosenResourcesAsArray[resourceNumber] =  chosenResourcesAsArray[resourceNumber] + 1;
         }

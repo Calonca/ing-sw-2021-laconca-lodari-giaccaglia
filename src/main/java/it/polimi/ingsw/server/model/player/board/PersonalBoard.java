@@ -43,6 +43,8 @@ public class PersonalBoard {
      */
     private final int[] discounts;
 
+    private int lastSelectedProductionPosition = -1;
+
     /**
      * A list of {@link Production productions}, composed both of {@link Production productions}
      * from {@link ProductionLeader ProductionLeader} and
@@ -106,7 +108,7 @@ public class PersonalBoard {
         return Arrays.stream(cardCells).collect(Collectors.toList());
     }
 
-    public Optional<Production> getProductionFromCardPosition(int position){
+    public Optional<Production> getProductionFromPosition(int position){
         return productions.get(position+1);
     }
 
@@ -125,7 +127,7 @@ public class PersonalBoard {
 
     }
 
-    public Map<Integer, Pair< Pair<Map<Integer, Integer> , Map<Integer, Integer>>, Boolean>> getSimpleProductionsMap(){
+    public Map<Integer, Pair <Pair<Map<Integer, Integer> , Map<Integer, Integer>>, Pair<Boolean, Boolean>>> getSimpleProductionsMap(){
 
         return IntStream.range(0, productions.size()).boxed().collect(Collectors.toMap(
                 productionIndex-> productionIndex,
@@ -147,9 +149,12 @@ public class PersonalBoard {
 
                     boolean isAvailable = production.isPresent() && hasResources(production.get().getInputs());
 
+                    boolean isSelected = prodsSelected.get(productionIndex).isPresent() && prodsSelected.get(productionIndex).get();
+
+
                     Pair<Map<Integer, Integer>, Map<Integer, Integer>> inputsAndOutPuts = new Pair<>(inputs, outputs);
 
-                    return new Pair<>(inputsAndOutPuts, isAvailable);
+                    return new Pair<>(inputsAndOutPuts, new Pair<>(isAvailable, isSelected));
 
                 }
         ));
@@ -271,6 +276,7 @@ public class PersonalBoard {
                 prodsSelected.get(pos).map((op)->!op)
         );
     }
+
 
     /**
      * Flags the {@link Production production} at the given position as selected,
@@ -550,7 +556,6 @@ public class PersonalBoard {
         }
         return true;
     }
-
 
     /**
      * Returns the resource at a given position in the {{@link PersonalBoard#warehouseLeadersDepots} or {@link PersonalBoard#strongBox}

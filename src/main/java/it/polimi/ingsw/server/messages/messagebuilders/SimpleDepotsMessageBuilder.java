@@ -31,9 +31,13 @@ public class SimpleDepotsMessageBuilder {
 
     public static  Map<Integer, Pair<ResourceAsset, Pair<Integer, Integer>>>  getSimpleStrongBox(GameModel gameModel){
 
+        //     Pos           Res        number   selected
         Map<Integer, Pair<Integer, Pair<Integer, Integer>> >box = gameModel.getCurrentPlayer().getPersonalBoard().getSimpleStrongBox();
 
+
+
         return box.keySet().stream().collect(Collectors.toMap(
+
                 position -> position,
                 position -> new Pair<>(
                 ResourceAsset.fromInt(box.get(position).getKey()), new Pair<>(

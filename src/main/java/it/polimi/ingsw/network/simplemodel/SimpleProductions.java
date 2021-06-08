@@ -10,12 +10,12 @@ import java.util.Optional;
 public class SimpleProductions extends SimpleModelElement{
 
 
-//          position          production       can activate
-    private Map<Integer, Pair<SimpleProduction, Boolean>> availableProductions;
+//          position          production
+    private Map<Integer, SimpleProduction>availableProductions;
 
     public SimpleProductions(){}
 
-    public SimpleProductions(Map<Integer, Pair<SimpleProduction, Boolean>> availableProductions){
+    public SimpleProductions(Map<Integer, SimpleProduction> availableProductions){
         this.availableProductions = availableProductions;
     }
 
@@ -27,33 +27,48 @@ public class SimpleProductions extends SimpleModelElement{
 
     }
 
-    public boolean isProductionAtPositionAvailable(int productionPosition){
-        Pair<SimpleProduction, Boolean> productionPairAtPos = availableProductions.get(productionPosition);
+    public Optional<Boolean> isProductionAtPositionAvailable(int productionPosition){
+
+        SimpleProduction productionPairAtPos = availableProductions.get(productionPosition);
 
         if(productionPairAtPos==null)
-            return false;
-        else return productionPairAtPos.getValue();
+            return Optional.empty();
+        else return Optional.of(productionPairAtPos.isAvailable());
+    }
+
+    public Optional<Boolean> isProductionAtPositionSelected(int productionPosition){
+
+        SimpleProduction productionPairAtPos = availableProductions.get(productionPosition);
+
+        if(productionPairAtPos==null)
+            return Optional.empty();
+
+        else return Optional.of(productionPairAtPos.isAvailable());
     }
 
     public Optional<SimpleProduction> getProductionAtPos(int productionPosition){
 
-        Pair<SimpleProduction, Boolean> productionPairAtPos = availableProductions.get(productionPosition);
+        SimpleProduction productionAtPos = availableProductions.get(productionPosition);
 
-        if(productionPairAtPos == null)
+        if(productionAtPos == null)
             return Optional.empty();
 
-        else return Optional.of(productionPairAtPos.getKey());
+        else return Optional.of(productionAtPos);
     }
 
     public static class SimpleProduction{
 
         private final Map<Integer, Integer> inputResources;
         private final Map<Integer, Integer> outputResources;
+        private final boolean isAvailable;
+        private final boolean isSelected;
 
-        public SimpleProduction(Map<Integer, Integer> inputResources, Map<Integer, Integer> outputResources){
+        public SimpleProduction(Map<Integer, Integer> inputResources, Map<Integer, Integer> outputResources, boolean isAvailable, boolean isSelected){
 
             this.inputResources = inputResources;
             this.outputResources = outputResources;
+            this.isAvailable = isAvailable;
+            this.isSelected = isSelected;
 
         }
 
@@ -79,6 +94,14 @@ public class SimpleProductions extends SimpleModelElement{
                 return 0;
 
             return outputResources.get(resourceNumber);
+        }
+
+        public boolean isAvailable(){
+            return isAvailable;
+        }
+
+        public boolean isSelected(){
+            return isSelected;
         }
     }
 

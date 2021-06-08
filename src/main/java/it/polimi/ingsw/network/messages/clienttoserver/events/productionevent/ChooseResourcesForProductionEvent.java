@@ -8,15 +8,12 @@ import java.util.Map;
 public class ChooseResourcesForProductionEvent extends ProductionEvent {
 
     protected int chosenResource = -1;
+    protected List<Integer> positionsOfResourcesToConvert;
 
-    protected boolean isBasicProduction;
-
-    protected Map<Integer,Integer> resourcesToDiscard; //key = posizione nei depositi , value = numero della risorsa
-
-    public ChooseResourcesForProductionEvent(Map<Integer,Integer> resourcesToDiscard, int chosenResource, boolean isBasicProduction){
-        this.resourcesToDiscard = resourcesToDiscard;
-        this.chosenResource = chosenResource;
-        this.isBasicProduction = isBasicProduction;
+    public ChooseResourcesForProductionEvent(List<Integer> positionsOfResourcesToConvert, int productionPosition, int chosenResourceForBasicProduction){
+        super(productionPosition);
+        this.positionsOfResourcesToConvert = positionsOfResourcesToConvert;
+        this.chosenResource = chosenResourceForBasicProduction;
     }
 
     public ChooseResourcesForProductionEvent(){}
