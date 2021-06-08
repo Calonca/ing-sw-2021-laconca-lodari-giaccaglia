@@ -236,7 +236,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
 
         }
         ViewPersonalBoard.getController().setAllowedRes(new int[]{3,3,3,3});
-        ViewPersonalBoard.getController().bindDispenser(selectedResources,sceneResources,2);
+        ViewPersonalBoard.getController().bindDispenser(selectedResources,sceneResources,Util.resourcesToChooseOnSetup(getClient().getCommonData().getThisPlayerIndex()));
         selectedResources.addListener((ListChangeListener<Integer>) c -> {
             System.out.println(selectedResources);
             //getClient().getStage().getScene().setCursor(new ImageCursor(Color.getRes().get(c.getFrom())));
