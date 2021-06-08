@@ -28,7 +28,7 @@ public class ChooseCardEventTest {
     @Before
     public void setup(){
         initializeGameModel();
-        gameModelTest.setCurrentPlayer(gameModelTest.getPlayer("testPlayer2"));
+        gameModelTest.setCurrentPlayer(gameModelTest.getPlayer("testPlayer2").get());
         gson = new Gson();
     }
 

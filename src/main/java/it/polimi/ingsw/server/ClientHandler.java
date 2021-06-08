@@ -35,7 +35,6 @@ public class ClientHandler implements Runnable
         this.client = client;
     }
 
-
     /**
      * Connects to the client and runs the event loop.
      */

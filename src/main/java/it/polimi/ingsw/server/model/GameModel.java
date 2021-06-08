@@ -236,10 +236,10 @@ public class GameModel {
      * @param nickname the unique name of the player.
      * @return the {@link Player player} with the given nickname.
      */
-    public Player getPlayer(String nickname) {
+    public Optional<Player> getPlayer(String nickname) {
           return players.values().stream()
                   .filter(player1 -> player1.getNickName().equals(nickname))
-                .findAny().orElse(null);
+                .findAny();
     }
 
     /**
