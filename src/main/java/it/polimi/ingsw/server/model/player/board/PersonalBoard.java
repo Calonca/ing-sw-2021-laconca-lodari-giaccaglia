@@ -6,7 +6,6 @@ import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
 import it.polimi.ingsw.server.model.cards.production.Production;
 import it.polimi.ingsw.server.model.cards.production.ProductionCardCell;
-import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.player.leaders.DevelopmentDiscountLeader;
 import it.polimi.ingsw.server.model.player.leaders.Leader;
 import it.polimi.ingsw.server.model.player.leaders.ProductionLeader;
@@ -43,6 +42,8 @@ public class PersonalBoard {
      * Keeps track of currently active {@link DevelopmentDiscountLeader} related resources discounts.
      */
     private final int[] discounts;
+
+    private int lastSelectedProductionPosition = -1;
 
     /**
      * A list of {@link Production productions}, composed both of {@link Production productions}
@@ -107,7 +108,7 @@ public class PersonalBoard {
         return Arrays.stream(cardCells).collect(Collectors.toList());
     }
 
-    public Optional<Production> getProductionFromCardPosition(int position){
+    public Optional<Production> getProductionFromPosition(int position){
         return productions.get(position+1);
     }
 
@@ -123,6 +124,40 @@ public class PersonalBoard {
 
                  return card;
                 }));
+
+    }
+
+    public Map<Integer, Pair <Pair<Map<Integer, Integer> , Map<Integer, Integer>>, Pair<Boolean, Boolean>>> getSimpleProductionsMap(){
+
+        return IntStream.range(0, productions.size()).boxed().collect(Collectors.toMap(
+                productionIndex-> productionIndex,
+                productionIndex -> {
+
+                    Optional<Production> production = productions.get(productionIndex);
+
+                    Map<Integer, Integer> inputs = production.map(value -> IntStream.range(0, value.getInputs().length).boxed().collect(Collectors.toMap(
+                            resourceNumber -> resourceNumber,
+
+                            resourceNumber -> value.getInputs()[resourceNumber]
+                    ))).orElseGet(HashMap::new);
+
+                    Map<Integer, Integer> outputs = production.map(value -> IntStream.range(0, value.getOutputs().length).boxed().collect(Collectors.toMap(
+                            resourceNumber -> resourceNumber,
+
+                            resourceNumber -> value.getOutputs()[resourceNumber]
+                    ))).orElseGet(HashMap::new);
+
+                    boolean isAvailable = production.isPresent() && hasResources(production.get().getInputs());
+
+                    boolean isSelected = prodsSelected.get(productionIndex).isPresent() && prodsSelected.get(productionIndex).get();
+
+
+                    Pair<Map<Integer, Integer>, Map<Integer, Integer>> inputsAndOutPuts = new Pair<>(inputs, outputs);
+
+                    return new Pair<>(inputsAndOutPuts, new Pair<>(isAvailable, isSelected));
+
+                }
+        ));
 
     }
 
@@ -219,7 +254,7 @@ public class PersonalBoard {
      * Should be called at the end of the turn
      */
     public void resetChoices(){
-        productions.stream().flatMap(Optional::stream).filter(Production::choiceCanBeMade).forEach(Production::resetchoice);
+        productions.stream().flatMap(Optional::stream).filter(Production::choiceCanBeMade).forEach(Production::resetChoice);
     }
 
     /**
@@ -241,6 +276,7 @@ public class PersonalBoard {
                 prodsSelected.get(pos).map((op)->!op)
         );
     }
+
 
     /**
      * Flags the {@link Production production} at the given position as selected,
@@ -481,7 +517,7 @@ public class PersonalBoard {
      public Map<Integer, Boolean> getAvailableSpotsForDevCard(DevelopmentCard developmentCard){
 
          return IntStream.range(0, cardCells.length).boxed().collect(Collectors.toMap(
-                 position -> position,
+                 position -> position + 1,
 
                  position -> developmentCard != null && cardCells[position].isSpotAvailable(developmentCard)
          ));
@@ -520,7 +556,6 @@ public class PersonalBoard {
         }
         return true;
     }
-
 
     /**
      * Returns the resource at a given position in the {{@link PersonalBoard#warehouseLeadersDepots} or {@link PersonalBoard#strongBox}

@@ -32,9 +32,11 @@ public class ChoosingResourceForProduction implements GameStrategy {
             for(int k=0;k<output[k];k++)
                 gamemodel.getCurrentPlayer().getPersonalBoard().performChoiceOnInput(i);
 
+        //Todo if no elements left return final strategy
+        elementsToUpdate.add(Element.SimpleProductions);
 
         return new Pair<>(State.CHOOSING_PRODUCTION, elementsToUpdate);
-        //Todo if no elements left return final strategy
+
 
     }
 }

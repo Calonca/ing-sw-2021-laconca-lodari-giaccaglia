@@ -21,7 +21,6 @@ public class MoveResourceEvent extends MarketBoardEvent {
      */
     protected int endPos;
 
-
     /**
      * Client side {@link Event} constructor invoked when {@link State#CHOOSING_POSITION_FOR_RESOURCES CHOOSING_POSITION_FOR_RESOURCES}
      * phase action is performed.

@@ -33,6 +33,7 @@ public class AcquiringDevelopmentCard implements GameStrategy {
 
         elementsToUpdate.add(Element.SimpleCardShop);
 
+
         return new Pair<>(State.CHOOSING_RESOURCES_FOR_DEVCARD, elementsToUpdate);
     }
 }

@@ -57,12 +57,12 @@ public class GameModelTest {
         players.add("testPlayer");
         boolean isSinglePlayer = true;
         gameModelTest = new GameModel(players, isSinglePlayer, null);
-        testPlayer = gameModelTest.getPlayer(players.get(0));
+        testPlayer = gameModelTest.getPlayer(players.get(0)).get();
 
         assertEquals(testPlayer, gameModelTest.getSinglePlayer());
         assertEquals(testPlayer, gameModelTest.getNextPlayer());
         assertEquals(testPlayer, gameModelTest.getCurrentPlayer());
-        assertEquals(testPlayer, gameModelTest.getPlayer(players.get(0)));
+        assertEquals(testPlayer, gameModelTest.getPlayer(players.get(0)).get());
 
         gameModelTest.start();
 

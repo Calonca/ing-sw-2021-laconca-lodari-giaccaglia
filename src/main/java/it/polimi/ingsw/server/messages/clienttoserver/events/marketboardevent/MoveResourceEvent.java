@@ -19,22 +19,29 @@ public class MoveResourceEvent extends it.polimi.ingsw.network.messages.clientto
      * {@link GameModel} of the event's current game on which event validation has to be performed.
      */
     private transient GameModel gameModel;
-    private transient PersonalBoard currentPlayerPersonalBoard;
+    private transient PersonalBoard playerPersonalBoard;
 
     /**
      * Server-side initializer to setup common attributes among {@link State#MIDDLE_PHASE MIDDLE_PHASE}
      * events.
      * @param gameModel {@link GameModel} of the event's current game on which event validation has to be performed.
      */
-    private void initializeMiddlePhaseEventValidation(GameModel gameModel){
+    private boolean initializeMiddlePhaseEventValidation(GameModel gameModel){
         this.gameModel = gameModel;
-        this.currentPlayerPersonalBoard = gameModel.getCurrentPlayer().getPersonalBoard();
+        if(gameModel.getPlayer(playerNickname).isEmpty())
+            return false;
+
+        this.playerPersonalBoard = gameModel.getPlayer(playerNickname).get().getPersonalBoard();
+        return true;
     }
 
     @Override
     public boolean validate(GameModel model) {
-        initializeMiddlePhaseEventValidation(model);
-        return isGameStarted(model) && checkResourceAvailability() && validateResourceToMove(startPos, endPos);
+
+        return initializeMiddlePhaseEventValidation(model) &&
+                isGameStarted(model) &&
+                checkResourceAvailability() &&
+                validateResourceToMove(startPos, endPos);
     }
 
     /*
@@ -71,11 +78,11 @@ public class MoveResourceEvent extends it.polimi.ingsw.network.messages.clientto
         if(startPos == endPos)
             return true;
 
-        Resource resourceToMove = currentPlayerPersonalBoard.getResourceAtPosition(startPos);
+        Resource resourceToMove = playerPersonalBoard.getResourceAtPosition(startPos);
 
         return endPos >= 0
-                && endPos < currentPlayerPersonalBoard.getWarehouseLeadersDepots().getNumOfCellsInAllDepots()
-                && currentPlayerPersonalBoard.getWarehouseLeadersDepots().availableMovingPositionsForResource(resourceToMove)
+                && endPos < playerPersonalBoard.getWarehouseLeadersDepots().getNumOfCellsInAllDepots()
+                && playerPersonalBoard.getWarehouseLeadersDepots().availableMovingPositionsForResource(resourceToMove)
                 .anyMatch(position -> position == endPos);
 
 
@@ -83,10 +90,15 @@ public class MoveResourceEvent extends it.polimi.ingsw.network.messages.clientto
     private boolean checkResourceAvailability(){
 
         if(startPos<0)
-            return startPos >= -4 && gameModel.getCurrentPlayer().getPersonalBoard().getDiscardBox().getNumberOf(Resource.fromIntFixed(startPos + 4)) > 0;
+            return startPos >= -4 && playerPersonalBoard.getDiscardBox().getNumberOf(Resource.fromIntFixed(startPos + 4)) > 0;
 
-        else if(startPos < currentPlayerPersonalBoard.getWarehouseLeadersDepots().getNumOfCellsInAllDepots())
-            return !gameModel.getCurrentPlayer().getPersonalBoard().getResourceAtPosition(startPos).equals(Resource.EMPTY);
+        else if(startPos < playerPersonalBoard.getWarehouseLeadersDepots().getNumOfCellsInAllDepots()) {
+
+            if(startPos==endPos)
+                return true;
+
+            return !playerPersonalBoard.getResourceAtPosition(startPos).equals(Resource.EMPTY);
+        }
 
         else return false;
     }

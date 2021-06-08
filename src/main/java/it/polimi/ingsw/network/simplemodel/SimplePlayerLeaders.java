@@ -10,6 +10,9 @@ import java.util.stream.Collectors;
 public class SimplePlayerLeaders extends SimpleModelElement{
 
     private  List<LeaderCardAsset> playerLeaders;
+
+
+                        //  state    isPlayable
     private  Map<UUID, Pair<Boolean, Boolean>>  playerLeadersMap;
 
     public List<LeaderCardAsset> getPlayerLeaders() {

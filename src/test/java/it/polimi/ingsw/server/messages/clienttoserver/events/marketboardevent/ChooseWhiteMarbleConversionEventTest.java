@@ -27,7 +27,7 @@ public class ChooseWhiteMarbleConversionEventTest {
     @Before
     public void setUp() throws Exception {
         initializeGameModel();
-        gameModelTest.setCurrentPlayer(gameModelTest.getPlayer("testPlayer4"));
+        gameModelTest.setCurrentPlayer(gameModelTest.getPlayer("testPlayer4").get());
         gson = new Gson();
     }
 

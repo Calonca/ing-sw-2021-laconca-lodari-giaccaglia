@@ -26,7 +26,7 @@ public class ChooseCardPositionEventTest {
     @Before
     public void setup(){
         initializeGameModel();
-        gameModelTest.setCurrentPlayer(gameModelTest.getPlayer("testPlayer2"));
+        gameModelTest.setCurrentPlayer(gameModelTest.getPlayer("testPlayer2").get());
         gameModelTest.purchaseCardFromCardShop(DevelopmentCardColor.fromInt(2),1);
         gson = new Gson();
     }

@@ -236,10 +236,10 @@ public class GameModel {
      * @param nickname the unique name of the player.
      * @return the {@link Player player} with the given nickname.
      */
-    public Player getPlayer(String nickname) {
+    public Optional<Player> getPlayer(String nickname) {
           return players.values().stream()
                   .filter(player1 -> player1.getNickName().equals(nickname))
-                .findAny().orElse(null);
+                .findAny();
     }
 
     /**
@@ -378,6 +378,7 @@ public class GameModel {
      * @return true if any player is in Pope Space, otherwise false.
      */
     public boolean addFaithPointToOtherPlayers() {
+
         if(!isSinglePlayer) {
             return players.values().stream()
                     .filter(player -> !(player == currentPlayer))
@@ -396,6 +397,15 @@ public class GameModel {
      * list contains only one integer, corresponding to the singlePlayer, whose LorenzoPiece has triggered a VaticanReport
      */
     public List<Integer> vaticanReportTriggers(){
+
+        if(isSinglePlayer){
+
+            List<Integer> list = new ArrayList<>();
+            if(singlePlayer.isLorenzoInPopeSpace())
+                list.add(players.keySet().stream().findFirst().get());
+            return list;
+        }
+
         return players.values()
                 .stream()
                 .filter(Player::isInPopeSpace)
@@ -412,13 +422,20 @@ public class GameModel {
      * and <em>Solo mode</em> game.
      */
      public void executeVaticanReport(){
-            int popeSpacePosition = players
-                    .values()
-                    .stream()
-                    .filter(Player::isInPopeSpace)
-                    .mapToInt(Player::getPlayerPosition)
-                    .max()
-                    .orElse(-1);
+
+         int popeSpacePosition;
+         if(isSinglePlayer)
+            popeSpacePosition = singlePlayer.getLorenzoPosition();
+
+         else {
+             popeSpacePosition = players
+                     .values()
+                     .stream()
+                     .filter(Player::isInPopeSpace)
+                     .mapToInt(Player::getPlayerPosition)
+                     .max()
+                     .orElse(-1);
+         }
 
             players.values().forEach(player -> player.turnPopeFavourTileInFaithTrack(popeSpacePosition));
      }   
