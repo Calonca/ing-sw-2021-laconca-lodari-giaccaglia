@@ -75,7 +75,7 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
         PersonalBoardBody board = new PersonalBoardBody(getThisPlayerCache(), PersonalBoardBody.Mode.MOVING_RES);
         SimpleFaithTrack[] simpleFaithTracks = Arrays.stream(getSimpleModel().getPlayersCaches())
                 .map(c->c.getElem(SimpleFaithTrack.class).orElseThrow()).toArray(SimpleFaithTrack[]::new);
-        board.setFaithTrack(new FaithTrackGridElem(getThisPlayerCache().getElem(SimpleFaithTrack.class).orElseThrow(),simpleFaithTracks));
+        board.setTop(new FaithTrackGridElem(getThisPlayerCache().getElem(SimpleFaithTrack.class).orElseThrow(),simpleFaithTracks));
 
         board.initializeMove();
         board.setStrongBox(PersonalBoardBody.strongBoxBuilder(getThisPlayerCache().getElem(SimpleStrongBox.class).orElseThrow(), board));

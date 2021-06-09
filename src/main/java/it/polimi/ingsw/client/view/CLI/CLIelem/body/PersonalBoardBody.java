@@ -1,26 +1,20 @@
 package it.polimi.ingsw.client.view.CLI.CLIelem.body;
 
 import it.polimi.ingsw.client.simplemodel.PlayerCache;
-import it.polimi.ingsw.client.simplemodel.SimpleModel;
 import it.polimi.ingsw.client.view.CLI.CLIelem.CLIelem;
 import it.polimi.ingsw.client.view.CLI.layout.*;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.Drawable;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.DrawableDevCard;
-import it.polimi.ingsw.client.view.CLI.layout.drawables.FaithTrackGridElem;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.ResourceCLI;
 import it.polimi.ingsw.client.view.CLI.textUtil.Background;
 import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
-import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.simplemodel.*;
-import it.polimi.ingsw.server.model.cards.DevelopmentCard;
-import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
 import javafx.util.Pair;
 
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -35,7 +29,7 @@ public class PersonalBoardBody extends CLIelem {
                 board.root = new Column();
 
                 board.root.setAlignment(GridElem.Alignment.CANVAS_CENTER_VERTICAL);
-                board.root.addElem(board.faithTrack);
+                board.root.addElem(board.top);
 
                 Row depotsAndProds = board.root.addAndGetRow();
 
@@ -74,6 +68,27 @@ public class PersonalBoardBody extends CLIelem {
                 depotsAndProds.selectInEnabledOption(cli,board.message);
                 return  CanvasBody.fromGrid(board.root).toString();
             }
+        },
+        CHOOSE_POS_FOR_CARD(){
+            @Override
+            public String getString(PersonalBoardBody board) {
+
+                board.root = new Column();
+                board.root.setAlignment(GridElem.Alignment.CANVAS_CENTER_VERTICAL);
+                board.root.addElem(board.top);
+
+                Row depotsAndProds = board.root.addAndGetRow();
+
+                Column depots = depotsAndProds.addAndGetColumn();
+                depots.addElemNoIndexChange(board.wareHouseLeadersDepot);
+
+                depots.addElem(new SizedBox(0,2));
+                depots.addElem(board.strongBox);
+
+                depotsAndProds.addElem(board.productions);
+                board.productions.selectInEnabledOption(cli,board.message);
+                return  CanvasBody.fromGrid(board.root).toString();
+            }
         };
 
 
@@ -83,7 +98,7 @@ public class PersonalBoardBody extends CLIelem {
 
     Column root = new Column();
 
-    FaithTrackGridElem faithTrack;
+    GridElem top;
     Column discardBox;
     Row strongBox;
     Column wareHouseLeadersDepot;
@@ -103,8 +118,8 @@ public class PersonalBoardBody extends CLIelem {
         this.mode=mode;
     }
 
-    public void setFaithTrack(FaithTrackGridElem faithTrack) {
-        this.faithTrack = faithTrack;
+    public void setTop(GridElem faithTrack) {
+        this.top = faithTrack;
     }
 
     public void setResChoiceRow(ResChoiceRow resChoiceRow) {
@@ -131,7 +146,7 @@ public class PersonalBoardBody extends CLIelem {
         this.productions = productions;
     }
 
-    private boolean getSelectable(PersonalBoardBody board, int pos){
+    private boolean getSelectableMove(PersonalBoardBody board, int pos){
         boolean selectable = false;
         if (board.mode.equals(Mode.MOVING_RES)){
             if (board.lastSelectedPosition==null)
@@ -151,7 +166,7 @@ public class PersonalBoardBody extends CLIelem {
         faithPointsPos.ifPresent(discardBoxMap::remove);
 
         Stream<Option> optionList = discardBoxMap.entrySet().stream().sorted(Map.Entry.comparingByKey())
-            .map(e->optionFromAsset(e.getValue().getKey(),e.getValue().getValue(),0,getSelectable(board,e.getKey()),e.getKey()));
+            .map(e->optionFromAsset(e.getValue().getKey(),e.getValue().getValue(),0, getSelectableMove(board,e.getKey()),e.getKey()));
         Column discardedBoxList = new Column(optionList);
         Option faith = optionFromAsset(ResourceAsset.FAITH,faithPoints,0,false,-100);
         faith.setMode(Option.VisMode.NO_NUMBER);
@@ -164,11 +179,12 @@ public class PersonalBoardBody extends CLIelem {
     }
 
     public static Row strongBoxBuilder(SimpleStrongBox simpleStrongBox, PersonalBoardBody board){
-
         Map<Integer, Pair<ResourceAsset, Pair<Integer, Integer>>> strongBoxMap = simpleStrongBox.getResourceMap();
+
         Stream<Option> optionList = strongBoxMap.entrySet().stream().sorted(Map.Entry.comparingByKey())
                 .map(e-> {
-                    Option strongOption = board.optionFromAsset(e.getValue().getKey(), numAndSel(e).getKey(), numAndSel(e).getValue(),false,e.getKey() );
+                    boolean selectable = board.mode.equals(Mode.SELECT_CARD_SHOP) && numAndSel(e).getKey() > numAndSel(e).getValue();
+                    Option strongOption = board.optionFromAsset(e.getValue().getKey(), numAndSel(e).getKey(), numAndSel(e).getValue(),selectable,e.getKey() );
                     if (board.mode.equals(Mode.MOVING_RES))
                         strongOption.setEnabled(false);
                     return strongOption;
@@ -205,7 +221,7 @@ public class PersonalBoardBody extends CLIelem {
             r= ()->{
                 selectedResPos.add(globalPos);
                 resChoiceRow.moveToNextIndex();
-                initializeBuy(this);
+                initializeBuyOrChoosePos();
                 cli.show();
                 message = "All resources selected, buying card...";
                 if (resChoiceRow.getPointedResource().isEmpty()){
@@ -234,9 +250,9 @@ public class PersonalBoardBody extends CLIelem {
         wareHouseLeadersDepot = wareBuilder(sw,this);
     }
 
-    public static void initializeBuy(PersonalBoardBody board) {
-        board.wareHouseLeadersDepot = wareBuilder(board.cache.getElem(SimpleWarehouseLeadersDepot.class).orElseThrow(), board);
-        board.strongBox = strongBoxBuilder(board.cache.getElem(SimpleStrongBox.class).orElseThrow(), board);
+    public void initializeBuyOrChoosePos() {
+        wareHouseLeadersDepot = wareBuilder(cache.getElem(SimpleWarehouseLeadersDepot.class).orElseThrow(), this);
+        strongBox = strongBoxBuilder(cache.getElem(SimpleStrongBox.class).orElseThrow(), this);
     }
 
 
@@ -253,7 +269,7 @@ public class PersonalBoardBody extends CLIelem {
              .mapToObj(i -> {
                  boolean selectable;
                  Pair<ResourceAsset,Boolean> pair = e.getValue().get(i);
-                 if (body.mode.equals(Mode.MOVING_RES)) selectable = body.getSelectable(body, finalPos + i);
+                 if (body.mode.equals(Mode.MOVING_RES)) selectable = body.getSelectableMove(body, finalPos + i);
                  else if (body.mode.equals(Mode.SELECT_CARD_SHOP)) selectable = body.getSelected(pair);
                  else selectable = false;
 
@@ -273,6 +289,13 @@ public class PersonalBoardBody extends CLIelem {
         return resChoiceRow.getPointedResource().isPresent()
                 && pair.getKey().equals(resChoiceRow.getPointedResource().get())
                 && pair.getValue().equals(false);
+    }
+
+    public static Option prodOption(Runnable r, NetworkDevelopmentCard card){
+        Drawable d = DrawableDevCard.fromDevCardAsset(card);
+        Option o = Option.from(d,r);
+        o.setMode(Option.VisMode.NUMBER_TO_BOTTOM);
+        return o;
     }
 
     @Override
