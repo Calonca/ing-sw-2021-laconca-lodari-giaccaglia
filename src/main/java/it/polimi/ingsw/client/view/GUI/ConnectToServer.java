@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -28,11 +29,8 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
 
     public Text error;
     public AnchorPane connectionPane;
-    @FXML
-    private AnchorPane connectionAnchor;
 
 
-    private StackPane firstPane = null;
 
     private TextField addressText;
     private TextField portText;
@@ -41,12 +39,9 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
     @Override
     public void run() {
 
-        firstPane = new StackPane();
-        firstPane.setPrefWidth(1000);
-        firstPane.setPrefHeight(700);
-        firstPane.getChildren().add(getRoot());
 
-        Scene scene = new Scene(firstPane);
+
+        Scene scene = new Scene(getRoot());
         getClient().getStage().setScene(scene);
 
         getClient().getStage().getScene().getStylesheets().add("assets/application.css");
@@ -55,8 +50,11 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
     }
 
 
-
-    public Parent getRoot() {
+    /**
+     * The first scene needs a parent, starting from the second this method will only return SubScene
+     * @return the first game scene
+     */
+    public StackPane getRoot() {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/ConnectToServerScene.fxml"));
         Parent root = null;
@@ -66,8 +64,12 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        return root;
+        StackPane firstPane;
+        firstPane = new StackPane();
+        firstPane.setPrefWidth(1000);
+        firstPane.setPrefHeight(700);
+        firstPane.getChildren().add(root);
+        return firstPane;
 
     }
     //Add buttons here that call client.changeViewBuilder(new *****, this);
