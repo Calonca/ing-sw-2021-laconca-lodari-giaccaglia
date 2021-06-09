@@ -5,7 +5,6 @@ import javafx.util.Pair;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -28,7 +27,7 @@ public class SimpleCardCells extends SimpleModelElement{
                 position -> position,
                 position -> cards.get(position).stream().map(cardPair -> {
 
-                DevelopmentCardAsset card = Cards.getDevelopmentCardAsset(cardPair.getKey()).orElseThrow();
+                DevelopmentCardAsset card = Cards.getDevelopmentCardAsset(cardPair.getKey()).get();
                 card.getDevelopmentCard().setSelectable(cardPair.getValue());
                 return card;
 
@@ -42,12 +41,12 @@ public class SimpleCardCells extends SimpleModelElement{
         this.visibleCardsOnCells = serverCardCells.visibleCardsOnCells;
     }
 
-    public Map<Integer, Optional<DevelopmentCardAsset>> getVisibleCardsOnCells(){
+    public Map<Integer, DevelopmentCardAsset> getVisibleCardsOnCells(){
 
-        return visibleCardsOnCells.entrySet().stream().collect(Collectors.toMap(
+        return visibleCardsOnCells.keySet().stream().collect(Collectors.toMap(
 
-                Map.Entry::getKey,
-                e -> e.getValue().isEmpty()?Optional.empty():Optional.ofNullable(e.getValue().get(0))
+                position -> position,
+                position -> visibleCardsOnCells.get(position).get(0)
         ));
 
     }
