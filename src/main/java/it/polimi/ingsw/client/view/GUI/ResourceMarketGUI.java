@@ -58,8 +58,13 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
      */
     @Override
     public void run() {
+        SubScene toadd=getRoot();
+        toadd.setTranslateX(350);
+        toadd.setTranslateY(-250);
+        toadd.setId("MARKET");
 
-        ViewPersonalBoard.getController().setMarket(true);
+        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(toadd);
+        System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
     }
 
     public SubScene getRoot() {
@@ -79,13 +84,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
 
 
     public void addMatrix() {
-        SubScene toadd=getRoot();
-        toadd.setTranslateX(350);
-        toadd.setTranslateY(-250);
-        toadd.setId("MARKET");
 
-        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(toadd);
-        System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
 
     }
 

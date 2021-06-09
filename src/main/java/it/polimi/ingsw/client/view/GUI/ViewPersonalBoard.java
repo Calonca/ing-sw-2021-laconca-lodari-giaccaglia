@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view.GUI;
 
 import it.polimi.ingsw.client.view.GUI.GUIelem.ButtonSelectionModel;
 import it.polimi.ingsw.server.model.Resource;
+import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.ImageCursor;
@@ -27,6 +28,10 @@ import java.util.ResourceBundle;
 public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.SetupPhaseViewBuilder implements GUIView
 {
     public AnchorPane menuPane;
+
+    double controlButtonsY=30;
+    double cardShopButtonX=580;
+    double marketButtonX= 450;
 
     Button faithBut;
     int tempFaith =0;
@@ -54,15 +59,9 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
         SubScene root=getRoot();
         root.setId("BOARD");
         ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(root);
-
         getClient().getStage().setHeight(800);
         getClient().getStage().setWidth(1200);
         getClient().getStage().setResizable(false);
-
-        CardShopGUI cardshop=new CardShopGUI(true);
-        cardshop.addMarket();
-        ResourceMarketGUI market=new ResourceMarketGUI();
-        market.addMatrix();
 
 
 
@@ -197,9 +196,57 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
         res.add(new Image("assets/resources/STONE.png"));
 
 
+        Button viewCardShop=new Button();
+        viewCardShop.setLayoutX(cardShopButtonX);
+        viewCardShop.setLayoutY(controlButtonsY);
+        menuPane.getChildren().add(viewCardShop);
+        viewCardShop.setText("VIEW CARD SHOP");
+        viewCardShop.setOnMouseEntered( p ->
+        {
+            if(boardController.isMarket())
+            {
+                viewCardShop.setDisable(true);
+                return;
+            }
+            else
+                viewCardShop.setDisable(false);
+            CardShopGUI cs=new CardShopGUI();
+            cs.run();
+        });
+
+        viewCardShop.setOnMouseExited( p ->
+        {
+            ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(((Pane)getClient().getStage().getScene().getRoot()).getChildren().size()-1);
+        });
 
 
 
+        Button viewMarket=new Button();
+        viewMarket.setLayoutX(marketButtonX);
+        viewMarket.setLayoutY(controlButtonsY);
+        menuPane.getChildren().add(viewMarket);
+        viewMarket.setText("VIEW MARKET");
+        viewMarket.setOnMouseEntered( p ->
+        {
+            if(boardController.isMarket())
+            {
+                viewMarket.setDisable(true);
+                return;
+            }
+            else
+                viewMarket.setDisable(false);
+            ResourceMarketGUI cs=new ResourceMarketGUI();
+            cs.run();
+        });
+
+        viewMarket.setOnMouseExited( p ->
+        {
+            if(boardController.isMarket())
+                return;
+            ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(((Pane)getClient().getStage().getScene().getRoot()).getChildren().size()-1);
+        });
+
+        System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
 
 
 

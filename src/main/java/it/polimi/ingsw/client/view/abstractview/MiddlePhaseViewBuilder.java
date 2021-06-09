@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.view.CLI.MiddlePhaseCLI;
 import it.polimi.ingsw.client.view.GUI.MiddlePhaseGUI;
 import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.events.MiddlePhaseEvent;
+import javafx.application.Platform;
 
 import java.beans.PropertyChangeEvent;
 
@@ -40,7 +41,8 @@ public abstract class MiddlePhaseViewBuilder extends ViewBuilder {
     public void propertyChange(PropertyChangeEvent evt) {
         String propertyName = evt.getPropertyName();
         if (CHOOSING_MARKET_LINE.name().equals(propertyName)) {
-            getClient().changeViewBuilder(ResourceMarketViewBuilder.getBuilder(getClient().isCLI()));
+            if(getClient().isCLI())
+                getClient().changeViewBuilder(ResourceMarketViewBuilder.getBuilder(getClient().isCLI()));
         }else if (CHOOSING_PRODUCTION.name().equals(propertyName)) {
             printWrongStateReceived(evt);
             //getClient().changeViewBuilder(ResourceMarketViewBuilder.getBuilder(getClient().isCLI()));

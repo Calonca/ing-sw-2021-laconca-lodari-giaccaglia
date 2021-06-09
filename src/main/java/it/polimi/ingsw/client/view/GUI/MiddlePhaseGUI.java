@@ -1,6 +1,8 @@
 package it.polimi.ingsw.client.view.GUI;
 import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.abstractview.MiddlePhaseViewBuilder;
+import it.polimi.ingsw.network.simplemodel.SimpleCardShop;
+import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -56,12 +58,16 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
             ChooseResourceForMarket chooseResourceForMarket=new ChooseResourceForMarket();
             Platform.runLater(chooseResourceForMarket);
         }
+        if (evt.getPropertyName().equals(State.CHOOSING_MARKET_LINE.name()))
+        {
+
+        }
     }
 
     public void sendChoice(Choice choice) {
 
         sendMessage(choice);
-        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(3);
+        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(((Pane)getClient().getStage().getScene().getRoot()).getChildren().size()-1);
 
 
     }
@@ -74,23 +80,26 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        cardButton.setOnAction( e ->
+        //todo remove runlater
+        cardButton.setOnAction( p ->
         {
-
-            sendChoice(Choice.CARD_SHOP);
             ViewPersonalBoard.getController().isCardShopOpen(true);
+            CardShopGUI cs=new CardShopGUI();
+            Platform.runLater(cs);
+            sendChoice(Choice.CARD_SHOP);
 
         });
-        productionButton.setOnAction( e ->
-        {
+        if(!ViewPersonalBoard.getController().isCardShopOpen())
+            cardButton.setDisable(true);
 
-            sendChoice(Choice.PRODUCTION);
-            ViewPersonalBoard.getController().isProduction(true);
 
-        });
+
+
         resourceMarketButton.setOnAction( e ->
         {
 
+            ResourceMarketGUI res=new ResourceMarketGUI();
+            Platform.runLater(res);
             sendChoice(Choice.RESOURCE_MARKET);
             ViewPersonalBoard.getController().isMarket(true);
 

@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.view.abstractview.InitialOrFinalPhaseViewBuilder;
 import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.events.InitialOrFinalPhaseEvent;
 import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
+import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -122,10 +123,9 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
         javafx.collections.ObservableList<Boolean> selectedLeaders;
         selectedLeaders=javafx.collections.FXCollections.observableArrayList();
 
-
+        int currentSize=((Pane)getClient().getStage().getScene().getRoot()).getChildren().size();
 
         SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).orElseThrow();
-
 
         initializeLeaderButtons(simplePlayerLeaders.getPlayerLeaders().size());
 
@@ -155,7 +155,7 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
                     }
                     InitialOrFinalPhaseEvent activate = new InitialOrFinalPhaseEvent(1,simplePlayerLeaders.getPlayerLeaders().get(selectedLeaders.indexOf(b)).getCardId());
                     getClient().getServerHandler().sendCommandMessage(new EventMessage(activate));
-                    ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(3);
+                    ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(currentSize);
 
                 }
 
@@ -169,7 +169,7 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
                 if(b)
                 {
 
-                  ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(3);
+                  ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(currentSize);
                   InitialOrFinalPhaseEvent discard = new InitialOrFinalPhaseEvent(0,simplePlayerLeaders.getPlayerLeaders().get(selectedLeaders.indexOf(b)).getCardId());
                   getClient().getServerHandler().sendCommandMessage(new EventMessage(discard));
                 }
@@ -178,7 +178,7 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
         });
         Button skipButton=new Button();
         skipButton.setOnAction(p -> {
-            ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(3);
+            ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(currentSize);
             getClient().getServerHandler().sendCommandMessage(new EventMessage(new InitialOrFinalPhaseEvent(2)));
         });
 
