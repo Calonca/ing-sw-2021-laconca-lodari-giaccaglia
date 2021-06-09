@@ -27,15 +27,7 @@ public class PayingResourcesForDevelopmentCard implements GameStrategy {
 
         List<Integer>  resourcesToRemove = ((ChooseResourceForCardShopEvent) event).getChosenResources();
 
-        resourcesToRemove.forEach(resourcePosition -> {
-
-            if(resourcePosition>0)
-                playerBoard.getWarehouseLeadersDepots().selectResourceAt(resourcePosition);
-
-            else if(resourcePosition<-4 && resourcePosition>=-8)
-                playerBoard.getStrongBox().selectResourceAt(resourcePosition);
-
-        });
+        resourcesToRemove.forEach(playerBoard::selectResourceAt);
 
         playerBoard.removeSelected();
 

@@ -11,7 +11,7 @@ import it.polimi.ingsw.network.messages.clienttoserver.events.marketboardevent.C
 import it.polimi.ingsw.network.messages.clienttoserver.events.marketboardevent.ChooseWhiteMarbleConversionEvent;
 import it.polimi.ingsw.network.messages.clienttoserver.events.marketboardevent.DiscardResourcesEvent;
 import it.polimi.ingsw.network.messages.clienttoserver.events.marketboardevent.MarketBoardEvent;
-import it.polimi.ingsw.network.messages.clienttoserver.events.productionevent.ChooseProductionAtPositionEvent;
+import it.polimi.ingsw.network.messages.clienttoserver.events.productionevent.ToggleProductionAtPosition;
 import it.polimi.ingsw.network.messages.clienttoserver.events.productionevent.ChooseResourcesForProductionEvent;
 import it.polimi.ingsw.network.messages.clienttoserver.events.productionevent.FinalProductionPhase;
 import it.polimi.ingsw.network.messages.clienttoserver.events.productionevent.ProductionEvent;
@@ -59,7 +59,7 @@ public abstract class ClientToServerMessage extends NetworkMessage
         eventMessageAdapter.registerSubtype(DiscardResourcesEvent.class);
         eventMessageAdapter.registerSubtype(MarketBoardEvent.class);
 
-        eventMessageAdapter.registerSubtype(ChooseProductionAtPositionEvent.class);
+        eventMessageAdapter.registerSubtype(ToggleProductionAtPosition.class);
         eventMessageAdapter.registerSubtype(ChooseResourcesForProductionEvent.class);
         eventMessageAdapter.registerSubtype(FinalProductionPhase.class);
         eventMessageAdapter.registerSubtype(ProductionEvent.class);

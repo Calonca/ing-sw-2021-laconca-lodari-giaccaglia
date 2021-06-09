@@ -65,7 +65,7 @@ public class ChooseCardEventTest {
 
         gameModelTest.getCurrentPlayer().getPersonalBoard().setMarketBox(discardBox);
         for (int position = 0; position < 4; position++) {
-            if (discardBox.getNumberOf(Resource.fromInt(position)) > 0) {
+            if (discardBox.getNumberOf(Resource.fromIntFixed(position)) > 0) {
                 gameModelTest.getCurrentPlayer().getPersonalBoard().move(position - 4, position - 8);
             }
         }

@@ -103,6 +103,22 @@ public class SimpleProductions extends SimpleModelElement{
         public boolean isSelected(){
             return isSelected;
         }
+
+        public boolean choicesCanBeMadeOnInput(){
+
+            return inputResources.keySet()
+                    .stream()
+                    .anyMatch(resourceInt -> resourceInt.equals(ResourceAsset.TOCHOOSE.getResourceNumber()));
+        }
+
+        public boolean choicesCanBeMadeOnOutput(){
+
+            return outputResources.keySet()
+                    .stream()
+                    .anyMatch(resourceInt -> resourceInt.equals(ResourceAsset.TOCHOOSE.getResourceNumber()));
+
+        }
+
     }
 
 }
