@@ -3,7 +3,7 @@
 }
 
 .stackpane{
-    -fx-background-color: linear-gradient(to right, #ADD8E6, #5771f2);
+    -fx-background-color: linear-gradient(#0000ff 20%, #ff8c00 65%, #808080 100%);
 }
 #pane{
     -fx-background-color: linear-gradient(to right, #5771f2, #021782);
@@ -11,15 +11,12 @@
 
 }
 
-.text{
-         -fx-font-family: 'Bell Gothic St'
-       }
 
 #tile{
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 10,0.7,5,5 );
     -fx-background-color: linear-gradient(to right, #5771f2, #021782);
     -fx-border-color: #DEB887;
     -fx-border-radius: 3;
-    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 8,0.5,2,2 );
 
 }
 #marketPane{
@@ -28,12 +25,12 @@
 }
 
 #leaderButton{
-    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 8,0.5,2,2 );
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 10,0.7,5,5);
     -fx-background-color: transparent;
   }
 
 #developmentCardButton{
-    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 8,0.5,2,2 );
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 10,0.7,5,5);
     -fx-background-color: transparent;
     -fx-border-radius: 1 ;
   }
@@ -42,8 +39,19 @@
     -fx-background-color: transparent;
   }
 
+#logo{
+     -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 10,0.7,5,5 );
+     -fx-background-color: linear-gradient(to right, #ADD8E6, #5771f2);
+
+   }
+
+.text{
+          -fx-font: 12px Tahoma;
+          -fx-fill: linear-gradient(to right, #808080, #000000);
+}
+
 .button{
-    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 8,0.5,2,2 );
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 10,0.7,5,5 );
     -fx-background-color: linear-gradient(to right, #ADD8E6, #5771f2);
 
   }

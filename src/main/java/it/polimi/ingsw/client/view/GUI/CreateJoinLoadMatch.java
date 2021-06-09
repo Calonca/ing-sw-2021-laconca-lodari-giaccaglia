@@ -134,7 +134,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
 
         });
 
-        creationBut.setGraphic(new Label("CREATE"));
+        creationBut.setText("CREATE");
         createPane.setId("tile");
         createPane.getChildren().add(creationBut);
         return createPane;
@@ -169,7 +169,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
            getClient().changeViewBuilder(new MatchToStart());
         });
 
-        joinMatchButton.setGraphic(new Label("JOIN"));
+        joinMatchButton.setText("JOIN");
         joinPane.setId("tile");
         joinPane.getChildren().add(joinMatchButton);
 

@@ -104,6 +104,7 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
 
         ImageView logoView=new ImageView(new Image("assets/logo.png", true));
         StackPane.setAlignment(logoView,Pos.TOP_CENTER);
+        logoView.setId("logo");
 
 
         nickText=new TextField();
