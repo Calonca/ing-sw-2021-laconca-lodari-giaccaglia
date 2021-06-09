@@ -194,6 +194,8 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
                 //ROWS COLUMNS
                 cardsGrid.add(sceneCard,j,i);
                 scenesCardsToChoose.add(sceneCard);
+                if(!simpleCardShop.getCardFront(NetworkDevelopmentCardColor.fromInt(j),3-i).get().getDevelopmentCard().isSelectable())
+                    sceneCard.setDisable(true);
 
             }
         }

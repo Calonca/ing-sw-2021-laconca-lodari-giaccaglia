@@ -208,7 +208,6 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
         });
 
         leaderPane.setId("pane");
-        skipButton.setId("rat");
 
     }
 }
