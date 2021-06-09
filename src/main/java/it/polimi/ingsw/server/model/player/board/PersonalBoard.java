@@ -43,8 +43,6 @@ public class PersonalBoard {
      */
     private final int[] discounts;
 
-    private int lastSelectedProductionPosition = -1;
-
     /**
      * A list of {@link Production productions}, composed both of {@link Production productions}
      * from {@link ProductionLeader ProductionLeader} and
@@ -63,6 +61,11 @@ public class PersonalBoard {
      * A list that stores if a {@link Production} is selected, it has the same order of {@link #productions}
      */
     private List<Optional<Boolean>> prodsSelected;
+
+    private Map<Integer, List<Integer>> historyOfInputResourcesForProduction;  //key -> position of production with inputChoices ; value -> position of chosen resources
+
+    private int remainingNumOfSelectedProductionsWithoutChoices;
+
     /**
      * The faith points that need to added by the strategy to the {@link FaithTrack FaithTrack}
      */
@@ -97,7 +100,7 @@ public class PersonalBoard {
         prodsSelected.add(Optional.empty());
         prodsSelected.add(Optional.empty());
         discounts=new int[4];
-        
+        historyOfInputResourcesForProduction = new HashMap<>();
     }
 
     /**
@@ -109,7 +112,9 @@ public class PersonalBoard {
     }
 
     public Optional<Production> getProductionFromPosition(int position){
-        return productions.get(position+1);
+        if(position >= 0 && position < productions.size())
+            return productions.get(position);
+        else return Optional.empty();
     }
 
     public Map<Integer, List<DevelopmentCard>> getVisibleCardsOnCells(){
@@ -168,6 +173,7 @@ public class PersonalBoard {
      * The output faith or bad faith gets saved
      */
     public void produce(){
+
         removeSelected();
         int[] resources = IntStream.range(0,prodsSelected.size()).filter((pos)->prodsSelected.get(pos).isPresent())
                 .filter((pos)->prodsSelected.get(pos).get())
@@ -178,7 +184,19 @@ public class PersonalBoard {
         strongBox.addResources(Arrays.stream(resources).limit(Resource.nRes).toArray());
         resetChoices();
         resetSelectedProductions();
+        resetHistoryOfInputResourcesForProduction();
+
     }
+
+    public int getRemainingNumOfSelectedProductionsWithoutChoices(){
+        return remainingNumOfSelectedProductionsWithoutChoices;
+    }
+
+    public void decreaseRemainingNumOfSelectedProductionsWithoutChoices(){
+        remainingNumOfSelectedProductionsWithoutChoices--;
+    }
+
+
 
     /**
      * Removes the selected {@link Resource resources} from the {@link PersonalBoard}
@@ -275,6 +293,10 @@ public class PersonalBoard {
         prodsSelected.set(pos,
                 prodsSelected.get(pos).map((op)->!op)
         );
+
+        if(!productions.get(pos).get().choiceCanBeMade())
+            remainingNumOfSelectedProductionsWithoutChoices++;
+
     }
 
 
@@ -431,12 +453,43 @@ public class PersonalBoard {
      * @param resPos a position with the deposits position convention, >=-8
      */
     public void performChoiceOnInput(int resPos){
+
         firstProductionSelectedWithChoice().ifPresent((production)-> {
             Resource res = storageUnitFromPos(resPos).getResourceAt(resPos);
+
+            int productionPosition = productions.indexOf(firstProductionSelectedWithChoice());
+
+            if(historyOfInputResourcesForProduction.containsKey(productionPosition)) {
+
+              List<Integer> chosenResourcesPositions =   historyOfInputResourcesForProduction.get(productionPosition);
+              chosenResourcesPositions.add(resPos);
+
+            }
+            else {
+
+                List<Integer> chosenResourcesPositions = new ArrayList<>();
+                chosenResourcesPositions.add(resPos);
+                historyOfInputResourcesForProduction.put(productionPosition, chosenResourcesPositions);
+            }
+
             storageUnitFromPos(resPos).selectResourceAt(resPos);
             production.performChoiceOnInput(res);
         });
     }
+
+    public void selectResourceAt(int position){
+
+        storageUnitFromPos(position).selectResourceAt(position);
+    }
+
+    public void deselectResourceAt(int position){
+
+        storageUnitFromPos(position).deselectResourceAt(position);
+
+    }
+
+
+
 
     /**
      * Chooses the given {@link Resource resource} as the output the first choice in the first {@link Production production} with choices
@@ -565,6 +618,8 @@ public class PersonalBoard {
         return  storageUnitFromPos(position).getResourceAt(position);
     }
 
+
+
     /**
      * Return a reduced representation of a {@link Box} as a Map where : <br>
      *
@@ -637,6 +692,18 @@ public class PersonalBoard {
         discounts[discount.getKey().getResourceNumber()]+=discount.getValue();
     }
 
+
+    public List<Integer> getPosOfChosenResourcesOnInputForProduction(int productionPosition){
+        return historyOfInputResourcesForProduction.get(productionPosition);
+    }
+
+    public void resetHistoryOfProductionWithInputsToChoose(int productionPosition){
+        historyOfInputResourcesForProduction.remove(productionPosition);
+    }
+
+    public void resetHistoryOfInputResourcesForProduction(){
+        historyOfInputResourcesForProduction.clear();
+    }
 
 
 

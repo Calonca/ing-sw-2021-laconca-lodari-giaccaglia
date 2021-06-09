@@ -7,13 +7,11 @@ import java.util.Map;
 
 public class ChooseResourcesForProductionEvent extends ProductionEvent {
 
-    protected int chosenResource = -1;
     protected List<Integer> positionsOfResourcesToConvert;
-
-    public ChooseResourcesForProductionEvent(List<Integer> positionsOfResourcesToConvert, int productionPosition, int chosenResourceForBasicProduction){
+                                                                                                                        //set to -1 if not present
+    public ChooseResourcesForProductionEvent(List<Integer> positionsOfResourcesToConvert, int productionPosition, int chosenResourceForSpecialProduction){
         super(productionPosition);
         this.positionsOfResourcesToConvert = positionsOfResourcesToConvert;
-        this.chosenResource = chosenResourceForBasicProduction;
     }
 
     public ChooseResourcesForProductionEvent(){}
