@@ -2,6 +2,10 @@ package it.polimi.ingsw.client.view.GUI;
 
 import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.view.abstractview.ConnectToServerViewBuilder;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,8 +18,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
+
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.net.URL;
@@ -41,11 +48,24 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
 
 
 
-        Scene scene = new Scene(getRoot());
-        getClient().getStage().setScene(scene);
+        SubScene root=getRoot();
+        root.setId("CONNECT");
 
+        root.translateYProperty().set(getClient().getStage().getScene().getHeight());
+        Timeline timeline=new Timeline();
+        KeyValue kv= new KeyValue(root.translateYProperty(),0, Interpolator.EASE_IN);
+        KeyFrame kf= new KeyFrame(Duration.seconds(0.5),kv);
+        timeline.getKeyFrames().add(kf);
+        timeline.play();
+
+        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(0);
+        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(root);
         getClient().getStage().getScene().getStylesheets().add("assets/application.css");
+
         getClient().getStage().show();
+
+
+        System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
 
     }
 
@@ -54,7 +74,7 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
      * The first scene needs a parent, starting from the second this method will only return SubScene
      * @return the first game scene
      */
-    public StackPane getRoot() {
+    public SubScene getRoot() {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/ConnectToServerScene.fxml"));
         Parent root = null;
@@ -64,12 +84,8 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
         } catch (IOException e) {
             e.printStackTrace();
         }
-        StackPane firstPane;
-        firstPane = new StackPane();
-        firstPane.setPrefWidth(1000);
-        firstPane.setPrefHeight(700);
-        firstPane.getChildren().add(root);
-        return firstPane;
+
+        return new SubScene(root,1000,700);
 
     }
     //Add buttons here that call client.changeViewBuilder(new *****, this);
