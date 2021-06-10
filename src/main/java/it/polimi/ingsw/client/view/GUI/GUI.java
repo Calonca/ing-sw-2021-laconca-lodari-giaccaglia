@@ -27,7 +27,10 @@ public class GUI extends Application {
         stage.setTitle("Maestri");
         stage.setResizable(false);
         stage.centerOnScreen();
+
+        //INITIAL SCREEN BOOTSTRAP, THEN UPDATE IS LEFT TO ChangeViewBuilder
         Scene scene = new Scene(new StartingScreen().getRoot());
+
         client.getStage().setScene(scene);
         System.out.println(client.getStage().getScene().getRoot().getChildrenUnmodifiable());
         client.getStage().show();

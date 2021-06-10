@@ -61,6 +61,7 @@ public class StartingScreen extends ConnectToServerViewBuilder implements GUIVie
         firstPane.setPrefWidth(1000);
         firstPane.setPrefHeight(700);
         firstPane.getChildren().add(root);
+        firstPane.setId("START");
         return firstPane;
 
     }

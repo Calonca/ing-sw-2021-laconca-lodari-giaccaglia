@@ -118,9 +118,7 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
 
-        ImageView logoView=new ImageView(new Image("assets/logo.png", true));
-        StackPane.setAlignment(logoView,Pos.TOP_CENTER);
-        logoView.setId("logo");
+
 
 
         nickText=new TextField();
@@ -144,10 +142,6 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
         addressText.setLayoutY(445);
 
 
-        logoView.setFitWidth(800);
-        logoView.setFitHeight(300);
-        logoView.setLayoutX(100);
-
         connectionPane.getChildren().add(nickText);
         connectionPane.getChildren().add(addressText);
         connectionPane.getChildren().add(portText);
@@ -155,7 +149,7 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
         connectionPane.setId("background");
 
 
-        connectionPane.getChildren().add(logoView);
+
 
     }
     @Override

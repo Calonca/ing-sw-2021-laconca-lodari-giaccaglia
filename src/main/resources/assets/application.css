@@ -9,9 +9,12 @@
          -fx-background-position: center center;
          -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);}
 
-.stackpane{
-    -fx-background-color: linear-gradient(#0000ff 20%, #ff8c00 65%, #808080 100%);
-}
+#START{
+ -fx-background-image: url("../assets/logo.png");
+         -fx-background-repeat: stretch;
+         -fx-background-size: 1000 700;
+         -fx-background-position: center center;
+         -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);}}
 #pane{
     -fx-background-color: linear-gradient(to right, #5771f2, #021782);
     -fx-border-color: #FAEBD7;
