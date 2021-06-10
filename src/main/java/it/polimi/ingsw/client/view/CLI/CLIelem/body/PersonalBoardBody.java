@@ -1,13 +1,16 @@
 package it.polimi.ingsw.client.view.CLI.CLIelem.body;
 
 import it.polimi.ingsw.client.simplemodel.PlayerCache;
+import it.polimi.ingsw.client.simplemodel.SimpleModel;
 import it.polimi.ingsw.client.view.CLI.CLIelem.CLIelem;
 import it.polimi.ingsw.client.view.CLI.layout.*;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.Drawable;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.DrawableDevCard;
+import it.polimi.ingsw.client.view.CLI.layout.drawables.FaithTrackGridElem;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.ResourceCLI;
 import it.polimi.ingsw.client.view.CLI.textUtil.Background;
 import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
+import it.polimi.ingsw.client.view.abstractview.ProductionViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
 import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
@@ -19,6 +22,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+
+import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.getThisPlayerCache;
 
 public class PersonalBoardBody extends CLIelem {
 
@@ -73,6 +78,27 @@ public class PersonalBoardBody extends CLIelem {
             }
         },
         CHOOSE_POS_FOR_CARD(){
+            @Override
+            public String getString(PersonalBoardBody board) {
+
+                board.root = new Column();
+                board.root.setAlignment(GridElem.Alignment.CANVAS_CENTER_VERTICAL);
+                board.root.addElem(board.top);
+
+                Row depotsAndProds = board.root.addAndGetRow();
+
+                Column depots = depotsAndProds.addAndGetColumn();
+                depots.addElemNoIndexChange(board.wareHouseLeadersDepot);
+
+                depots.addElem(new SizedBox(0,2));
+                depots.addElem(board.strongBox);
+
+                depotsAndProds.addElem(board.productions);
+                board.productions.selectInEnabledOption(cli,board.message);
+                return  CanvasBody.fromGrid(board.root).toString();
+            }
+        },
+        CHOOSE_PRODUCTION(){
             @Override
             public String getString(PersonalBoardBody board) {
 
@@ -181,15 +207,21 @@ public class PersonalBoardBody extends CLIelem {
 
     }
 
-    public Row productionsBuilder(SimpleCardCells simpleCardCells){
+    public Row productionsBuilder(SimpleCardCells simpleCardCells, SimpleProductions simpleProductions){
         Map<Integer,Optional<NetworkDevelopmentCard>> frontCards=simpleCardCells.getVisibleCardsOnCells().entrySet().stream()
                 .collect(Collectors.toMap(Map.Entry::getKey, e->e.getValue().map(DevelopmentCardAsset::getDevelopmentCard)));
         return new Row(frontCards.entrySet().stream().map(e-> {
-            Option cell = prodOption(
-                    () -> CardShopViewBuilder.sendCardPlacementPosition(e.getKey()),
+            Option cell = prodOption( ()->{
+            if (mode.equals(Mode.CHOOSE_POS_FOR_CARD))
+                CardShopViewBuilder.sendCardPlacementPosition(e.getKey());
+            else if (mode.equals(Mode.CHOOSE_PRODUCTION))
+                    ProductionViewBuilder.sendChosenProduction(e.getKey());
+                    },
                     e.getValue().orElse(null));
             if (mode.equals(Mode.CHOOSE_POS_FOR_CARD))
                 cell.setEnabled(simpleCardCells.isSpotAvailable(e.getKey()));
+            else if (mode.equals(Mode.CHOOSE_PRODUCTION))
+                cell.setEnabled(simpleProductions.isProductionAtPositionAvailable(e.getKey()).orElse(false));
             else cell.setMode(Option.VisMode.NO_NUMBER);
             return cell;
         }));
@@ -316,6 +348,12 @@ public class PersonalBoardBody extends CLIelem {
         Option o = Option.from(d,r);
         o.setMode(Option.VisMode.NUMBER_TO_BOTTOM);
         return o;
+    }
+
+    public void initializeFaithTrack(SimpleModel simpleModel) {
+        SimpleFaithTrack[] simpleFaithTracks = Arrays.stream(simpleModel.getPlayersCaches())
+                .map(c->c.getElem(SimpleFaithTrack.class).orElseThrow()).toArray(SimpleFaithTrack[]::new);
+        setTop(new FaithTrackGridElem(getThisPlayerCache().getElem(SimpleFaithTrack.class).orElseThrow(),simpleFaithTracks));
     }
 
     @Override

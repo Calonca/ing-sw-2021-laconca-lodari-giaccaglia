@@ -26,7 +26,7 @@ public class PlayerLeadersMessageBuilder {
                 leaderId -> new Pair<>(
                         currentPlayer.getLeader(leaderId).get().getState().equals(LeaderState.ACTIVE),
 
-                        ( currentPlayer.getPersonalBoard().isLeaderRequirementsSatisfied(currentPlayer.getLeader(leaderId).get())
+                        (currentPlayer.getPersonalBoard().isLeaderRequirementsSatisfied(currentPlayer.getLeader(leaderId).get())
                         && currentPlayer.getLeader(leaderId).get().getState().equals(LeaderState.INACTIVE))
 
         )));

@@ -109,7 +109,7 @@ public class CardShop {
      */
 
     public DevelopmentCard takePurchasedCard(){
-        return new DevelopmentCard(devDecks.get(purchasedCard.getCardType()).get(purchasedCard.getLevel()).getCard());
+        return devDecks.get(purchasedCard.getCardType()).get(purchasedCard.getLevel()).getCard();
     }
 
     public DevelopmentCard getCopyOfPurchasedCard(){
@@ -176,7 +176,9 @@ public class CardShop {
 
                               int deckSize = devDecks.get(colorKey).get(intKey).getDeckSize();
 
+
                               int startOfRange = (deckSize>2) ? (deckSize-2) : 0;
+
 
                               return IntStream.range(startOfRange, deckSize)
                                         .boxed()

@@ -89,8 +89,15 @@ public class MoveResourceEvent extends it.polimi.ingsw.network.messages.clientto
     }
     private boolean checkResourceAvailability(){
 
-        if(startPos<0)
+
+
+        if(startPos<0) {
+
+            if(startPos == endPos)
+                return true;
+
             return startPos >= -4 && playerPersonalBoard.getDiscardBox().getNumberOf(Resource.fromIntFixed(startPos + 4)) > 0;
+        }
 
         else if(startPos < playerPersonalBoard.getWarehouseLeadersDepots().getNumOfCellsInAllDepots()) {
 

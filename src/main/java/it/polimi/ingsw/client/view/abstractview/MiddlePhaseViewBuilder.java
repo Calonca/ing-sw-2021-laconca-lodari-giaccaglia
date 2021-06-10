@@ -12,7 +12,7 @@ import java.beans.PropertyChangeEvent;
 import static it.polimi.ingsw.client.simplemodel.State.*;
 
 public abstract class MiddlePhaseViewBuilder extends ViewBuilder {
-    //Todo should be new MiddlePhaseEvent(1),2,3
+
     public enum Choice{
         RESOURCE_MARKET(()->getClient().getServerHandler().sendCommandMessage(new EventMessage(new MiddlePhaseEvent(0)))),
         CARD_SHOP(()->getClient().getServerHandler().sendCommandMessage(new EventMessage(new MiddlePhaseEvent(1)))),
@@ -44,8 +44,7 @@ public abstract class MiddlePhaseViewBuilder extends ViewBuilder {
             if(getClient().isCLI())
                 getClient().changeViewBuilder(ResourceMarketViewBuilder.getBuilder(getClient().isCLI()));
         }else if (CHOOSING_PRODUCTION.name().equals(propertyName)) {
-            printWrongStateReceived(evt);
-            //getClient().changeViewBuilder(ResourceMarketViewBuilder.getBuilder(getClient().isCLI()));
+            getClient().changeViewBuilder(ProductionViewBuilder.getBuilder(getClient().isCLI()));
         }else if (CHOOSING_DEVELOPMENT_CARD.name().equals(propertyName)) {
             getClient().changeViewBuilder(CardShopViewBuilder.getBuilder(getClient().isCLI(), false));
         }
