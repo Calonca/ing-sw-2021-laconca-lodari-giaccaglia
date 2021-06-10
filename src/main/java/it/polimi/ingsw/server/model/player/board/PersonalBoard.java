@@ -586,10 +586,12 @@ public class PersonalBoard {
     public boolean isLeaderRequirementsSatisfied(Leader leader){
 
         int[] toar = new int[4];
+
         for (Pair<Resource, Integer> resourceIntegerPair : leader.getRequirementsResources())
             toar[resourceIntegerPair.getKey().getResourceNumber()] += resourceIntegerPair.getValue();
 
-        return hasResources(toar)&&isLeaderColorRequirementsSatisfied(leader);
+        return hasResources(toar) && isLeaderColorRequirementsSatisfied(leader);
+
     }
 
     /**
