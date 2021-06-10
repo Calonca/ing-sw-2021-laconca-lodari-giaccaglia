@@ -3,6 +3,7 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.view.CLI.CLI;
 import it.polimi.ingsw.client.view.CLI.textUtil.Color;
+import it.polimi.ingsw.client.view.GUI.Drag3DObject;
 import it.polimi.ingsw.client.view.GUI.GUI;
 import it.polimi.ingsw.server.Server;
 import org.apache.commons.cli.*;

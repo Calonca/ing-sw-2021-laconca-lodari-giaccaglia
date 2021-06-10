@@ -4,7 +4,11 @@ package it.polimi.ingsw.client.view.CLI;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
 import it.polimi.ingsw.client.view.CLI.layout.Option;
 import it.polimi.ingsw.client.view.CLI.layout.Row;
+import it.polimi.ingsw.client.view.CLI.layout.SizedBox;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.Drawable;
+import it.polimi.ingsw.client.view.CLI.layout.drawables.DrawableLine;
+import it.polimi.ingsw.client.view.CLI.textUtil.Background;
+import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 import it.polimi.ingsw.client.view.abstractview.MiddlePhaseViewBuilder;
 import it.polimi.ingsw.network.simplemodel.SimpleCardShop;
 
@@ -17,25 +21,30 @@ public class MiddlePhaseCLI extends MiddlePhaseViewBuilder implements CLIBuilder
 
         Drawable productionDw = new Drawable();
         productionDw.add(0,"Make a production");
-        productionDw.add(0,"on your personal board ");
+        productionDw.add(0,"on your personal board");
         row.addElem(middlePhaseOption(productionDw,()-> sendMessage(Choice.PRODUCTION), true));
+        row.addElem(new SizedBox(2,0));
 
         Drawable resourceMk = new Drawable();
-        resourceMk.add(0,"Take resources from ");
+        resourceMk.add(0,"Take resources from");
         resourceMk.add(0,"the resource market");
         row.addElem(middlePhaseOption(resourceMk,()-> sendMessage(Choice.RESOURCE_MARKET), true));
+        row.addElem(new SizedBox(2,0));
 
         Drawable viewCardShop = new Drawable();
         viewCardShop.add(0,"Look at cards");
         viewCardShop.add(0,"from the Card Shop");
         row.addElem(middlePhaseOption(viewCardShop,()-> getClient().changeViewBuilder(new CardShopCLI(true)), true));
+        row.addElem(new SizedBox(2,0));
 
         SimpleCardShop simpleCardShop = getSimpleModel().getElem(SimpleCardShop.class).orElseThrow();
         Drawable buyCard = new Drawable();
         buyCard.add(0,"Buy a card");
         buyCard.add(0,"from the Card Shop");
         row.addElem(middlePhaseOption(buyCard,()-> sendMessage(Choice.CARD_SHOP), simpleCardShop.getIsAnyCardPurchasable()));
+        row.addElem(new SizedBox(2,0));
 
+        row.setFirstIdx(0);
         row.selectInEnabledOption(getCLIView(),"Select a middle phase option");
 
         getCLIView().setBody(CanvasBody.centered(row));

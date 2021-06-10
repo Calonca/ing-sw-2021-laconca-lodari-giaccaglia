@@ -30,21 +30,31 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
             return;
         }
         getCLIView().setTitle("Take resources from the resource market");
-        Column root = new Column();
 
-        Row gridAndLeft = root.addAndGetRow();
-        Column grid = gridAndLeft.addAndGetColumn();
+        Row root = new Row();
+        Column activeConversions = root.addAndGetColumn();
+        activeConversions.addElem(Option.noNumber("Bonus 1"));
+
+        root.addElem(new SizedBox(100,0));
+
+        Column grid = root.addAndGetColumn();
+
+        Row gridAndLines = grid.addAndGetRow();
+
+
+
+        Column marbleGrid = gridAndLines.addAndGetColumn();
 
         MarbleAsset[][] marketMatrix = getMarketMatrix();
         int rows = marketMatrix.length;
         int columns = marketMatrix.length>0?marketMatrix[0].length:0;
 
         for (MarbleAsset[] assetRow : marketMatrix) {
-            grid.addElem(new Row(buildResourceOptionStream(assetRow)));
-            grid.addElem(new SizedBox(2,0));
+            marbleGrid.addElem(new Row(buildResourceOptionStream(assetRow)));
+            marbleGrid.addElem(new SizedBox(2,0));
         }
 
-        Column lastColumn = gridAndLeft.addAndGetColumn();
+        Column lastColumn = gridAndLines.addAndGetColumn();
         lastColumn.addElem(new SizedBox(0,MarbleCLI.height()/2));
         List<Option> collect = buildLineStream(0, rows).collect(Collectors.toList());
         for (int i = 0, collectSize = collect.size(); i < collectSize; i++) {
@@ -56,7 +66,7 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
 
         Row lastLine = new Row(buildLineStream(rows, rows+columns));
         lastLine.addElem(buildResourceOption(getSimpleMarketBoard().getSlideMarble()));
-        root.addElem(lastLine);
+        grid.addElem(lastLine);
 
         getCLIView().setBody(CanvasBody.centered(root));
 
