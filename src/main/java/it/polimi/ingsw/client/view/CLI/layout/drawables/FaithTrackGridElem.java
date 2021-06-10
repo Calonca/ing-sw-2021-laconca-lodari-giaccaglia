@@ -51,7 +51,7 @@ public class FaithTrackGridElem extends GridElem {
     }
 
     @Override
-    public int getLastIndex() {
+    public int getNextElemIndex() {
         return getFirstIdx();
     }
 

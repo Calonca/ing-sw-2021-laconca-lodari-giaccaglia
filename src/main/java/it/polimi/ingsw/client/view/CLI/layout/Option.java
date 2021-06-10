@@ -15,7 +15,7 @@ import java.util.Optional;
 /**
  * A selectable option in a CLIView that will execute the given code when perform is called
  */
-public class Option extends GridElem{
+public class Option extends GridElem {
 
 
     public enum VisMode {
@@ -176,8 +176,10 @@ public class Option extends GridElem{
 
 
     @Override
-    public int getLastIndex() {
-        return getFirstIdx();
+    public int getNextElemIndex() {
+        if  (mode.equals(VisMode.NO_NUMBER)||mode.equals(VisMode.NO_NUMBER_SPACE_BOTTOM))
+            return getFirstIdx();
+        else return getFirstIdx()+1;
     }
 
     @Override

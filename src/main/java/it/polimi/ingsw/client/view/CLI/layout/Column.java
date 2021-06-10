@@ -1,12 +1,10 @@
 package it.polimi.ingsw.client.view.CLI.layout;
 
 import it.polimi.ingsw.client.view.CLI.layout.drawables.Canvas;
-import it.polimi.ingsw.network.messages.clienttoserver.events.InitialOrFinalPhaseEvent;
-import javafx.util.Pair;
 
 import java.util.stream.Stream;
 
-public class Column extends OptionList {
+public class Column extends RecursiveList {
 
 
     public Column() {

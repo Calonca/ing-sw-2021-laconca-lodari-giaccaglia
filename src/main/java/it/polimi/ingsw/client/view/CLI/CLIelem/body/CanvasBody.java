@@ -36,8 +36,8 @@ public class CanvasBody extends CLIelem {
 
     @Override
     public String toString() {
-        if (gridElem!=null)
-            gridElem.addToCanvas(canvas,0,(canvas.getHeight()-gridElem.getMinHeight())/2);
+        if (gridElem !=null)
+            gridElem.addToCanvas(canvas,0,(canvas.getHeight()- gridElem.getMinHeight())/2);
         return canvas.toString();
     }
 }

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class ResChoiceRow extends GridElem{
+public class ResChoiceRow extends GridElem {
 
     private int arrowPos;
     private final List<ResourceAsset> in;
@@ -115,7 +115,7 @@ public class ResChoiceRow extends GridElem{
     }
 
     @Override
-    public int getLastIndex() {
+    public int getNextElemIndex() {
         return getFirstIdx();
     }
 

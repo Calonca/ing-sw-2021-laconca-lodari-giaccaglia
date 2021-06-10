@@ -6,9 +6,6 @@ import it.polimi.ingsw.client.view.CLI.layout.Option;
 import it.polimi.ingsw.client.view.CLI.layout.Row;
 import it.polimi.ingsw.client.view.CLI.layout.SizedBox;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.Drawable;
-import it.polimi.ingsw.client.view.CLI.layout.drawables.DrawableLine;
-import it.polimi.ingsw.client.view.CLI.textUtil.Background;
-import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 import it.polimi.ingsw.client.view.abstractview.MiddlePhaseViewBuilder;
 import it.polimi.ingsw.network.simplemodel.SimpleCardShop;
 
@@ -24,6 +21,8 @@ public class MiddlePhaseCLI extends MiddlePhaseViewBuilder implements CLIBuilder
         Drawable po=new Drawable();
         po.add(0,numOfPlayers);
         row.addElem(middlePhaseOption(po,()->{},false));
+
+        row.addElem(new SizedBox(2,0));
 
         Drawable productionDw = new Drawable();
         productionDw.add(0,"Make a production");
@@ -50,7 +49,6 @@ public class MiddlePhaseCLI extends MiddlePhaseViewBuilder implements CLIBuilder
         row.addElem(middlePhaseOption(buyCard,()-> sendMessage(Choice.CARD_SHOP), simpleCardShop.getIsAnyCardPurchasable()));
         row.addElem(new SizedBox(2,0));
 
-        row.setFirstIdx(0);
         row.selectInEnabledOption(getCLIView(),"Select a middle phase option");
 
         getCLIView().setBody(CanvasBody.centered(row));

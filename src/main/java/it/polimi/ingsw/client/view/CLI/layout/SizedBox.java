@@ -6,7 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class SizedBox extends GridElem{
+/**
+ * A {@link GridElem} used to create space between two {@link GridElem elements}
+ */
+public class SizedBox extends GridElem {
     int height,width;
 
     public SizedBox(int width,int height) {
@@ -14,8 +17,10 @@ public class SizedBox extends GridElem{
         this.width = width;
     }
 
+
+
     @Override
-    public int getLastIndex() {
+    public int getNextElemIndex() {
         return getFirstIdx();
     }
 
