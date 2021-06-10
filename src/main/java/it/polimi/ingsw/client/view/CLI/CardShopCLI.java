@@ -63,16 +63,18 @@ public class CardShopCLI extends CardShopViewBuilder {
     @Override
     public void selectResources() {
         PersonalBoardBody board = new PersonalBoardBody(getThisPlayerCache(), PersonalBoardBody.Mode.SELECT_CARD_SHOP);
-        SimpleFaithTrack[] simpleFaithTracks =Arrays.stream(getSimpleModel().getPlayersCaches())
-                .map(c->c.getElem(SimpleFaithTrack.class).orElseThrow()).toArray(SimpleFaithTrack[]::new);
-        board.setTop(new FaithTrackGridElem(getThisPlayerCache().getElem(SimpleFaithTrack.class).orElseThrow(),simpleFaithTracks));
-        Row prodsRow = new Row();
-        board.setProductions(prodsRow);
         NetworkDevelopmentCard card = getSimpleCardShop().getPurchasedCard().map(DevelopmentCardAsset::getDevelopmentCard).orElseThrow();
-        prodsRow.addElem(Option.noNumber(DrawableDevCard.fromDevCardAsset(card)));
+
+        GridElem chosenCard = Option.noNumber(DrawableDevCard.fromDevCardAsset(card));
         List<ResourceAsset> costs = card.getCostList().stream().flatMap(p -> Stream.generate(p::getKey).limit(p.getValue()))
                 .sorted(Comparator.comparing(ResourceAsset::getResourceNumber)).collect(Collectors.toList());
-        board.setResChoiceRow(new ResChoiceRow(0,costs,new ArrayList<>()));
+        ResChoiceRow choices = new ResChoiceRow(0,costs,new ArrayList<>());
+        Row top = new Row(Stream.of(new SizedBox(10,0),chosenCard,choices));
+        board.setTop(top);
+        SimpleCardCells simpleCardCells = getThisPlayerCache().getElem(SimpleCardCells.class).orElseThrow();
+        Row prodsRow = board.productionsBuilder(simpleCardCells);
+        board.setProductions(prodsRow);
+        board.setResChoiceRow(choices);
         board.initializeBuyOrChoosePos();
         board.setMessage("Select the resources to buy the card, only working for warehouse for now");
         getCLIView().setBody(board);
@@ -91,15 +93,7 @@ public class CardShopCLI extends CardShopViewBuilder {
         board.setTop(chosenCard);
         board.initializeBuyOrChoosePos();
         SimpleCardCells simpleCardCells = getThisPlayerCache().getElem(SimpleCardCells.class).orElseThrow();
-        Map<Integer,Optional<NetworkDevelopmentCard>> frontCards=simpleCardCells.getVisibleCardsOnCells().entrySet().stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, e->e.getValue().map(DevelopmentCardAsset::getDevelopmentCard)));
-        Row prodsRow = new Row(frontCards.entrySet().stream().map(e-> {
-            Option cell = prodOption(
-                    () -> sendCardPlacementPosition(e.getKey()),
-                    e.getValue().orElse(null));
-            cell.setEnabled(simpleCardCells.isSpotAvailable(e.getKey()));
-            return cell;
-        }));
+        Row prodsRow = board.productionsBuilder(simpleCardCells);
         board.setProductions(prodsRow);
         board.setMessage("Choose a position for the card");
         getCLIView().setBody(board);

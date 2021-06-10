@@ -21,7 +21,7 @@ public abstract class OptionList extends GridElem{
         alignment = Alignment.START;
     }
 
-    public OptionList(Stream<Option> elem){
+    public OptionList(Stream<? extends GridElem> elem){
         this();
         elem.forEach(this::addElem);
     }

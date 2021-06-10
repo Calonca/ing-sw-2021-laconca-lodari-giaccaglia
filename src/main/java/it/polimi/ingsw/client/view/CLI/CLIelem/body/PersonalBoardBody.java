@@ -9,12 +9,14 @@ import it.polimi.ingsw.client.view.CLI.layout.drawables.ResourceCLI;
 import it.polimi.ingsw.client.view.CLI.textUtil.Background;
 import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
+import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.simplemodel.*;
 import javafx.util.Pair;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -40,6 +42,7 @@ public class PersonalBoardBody extends CLIelem {
                 depots.addElem(board.strongBox);
 
                 depotsAndProds.addElem(board.discardBox);
+                depotsAndProds.addElem(board.productions);
 
                 depotsAndProds.selectInEnabledOption(cli,board.message);
                 return  CanvasBody.fromGrid(board.root).toString();
@@ -52,7 +55,7 @@ public class PersonalBoardBody extends CLIelem {
 
                 board.root = new Column();
 
-                board.resChoiceRow.addToGrid(board.root);
+                board.root.addElem(board.top);
 
                 Row depotsAndProds = board.root.addAndGetRow();
                 depotsAndProds.setAlignment(GridElem.Alignment.CANVAS_CENTER_VERTICAL);
@@ -178,12 +181,29 @@ public class PersonalBoardBody extends CLIelem {
 
     }
 
+    public Row productionsBuilder(SimpleCardCells simpleCardCells){
+        Map<Integer,Optional<NetworkDevelopmentCard>> frontCards=simpleCardCells.getVisibleCardsOnCells().entrySet().stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, e->e.getValue().map(DevelopmentCardAsset::getDevelopmentCard)));
+        return new Row(frontCards.entrySet().stream().map(e-> {
+            Option cell = prodOption(
+                    () -> CardShopViewBuilder.sendCardPlacementPosition(e.getKey()),
+                    e.getValue().orElse(null));
+            if (mode.equals(Mode.CHOOSE_POS_FOR_CARD))
+                cell.setEnabled(simpleCardCells.isSpotAvailable(e.getKey()));
+            else cell.setMode(Option.VisMode.NO_NUMBER);
+            return cell;
+        }));
+    }
+
     public static Row strongBoxBuilder(SimpleStrongBox simpleStrongBox, PersonalBoardBody board){
         Map<Integer, Pair<ResourceAsset, Pair<Integer, Integer>>> strongBoxMap = simpleStrongBox.getResourceMap();
 
         Stream<Option> optionList = strongBoxMap.entrySet().stream().sorted(Map.Entry.comparingByKey())
                 .map(e-> {
-                    boolean selectable = board.mode.equals(Mode.SELECT_CARD_SHOP) && numAndSel(e).getKey() > numAndSel(e).getValue();
+                    boolean selectable = board.mode.equals(Mode.SELECT_CARD_SHOP) &&
+                            numAndSel(e).getKey() > numAndSel(e).getValue() &&
+                            board.resChoiceRow.getPointedResource().isPresent() &&
+                            board.resChoiceRow.getPointedResource().get().equals(e.getValue().getKey());
                     Option strongOption = board.optionFromAsset(e.getValue().getKey(), numAndSel(e).getKey(), numAndSel(e).getValue(),selectable,e.getKey() );
                     if (board.mode.equals(Mode.MOVING_RES))
                         strongOption.setEnabled(false);

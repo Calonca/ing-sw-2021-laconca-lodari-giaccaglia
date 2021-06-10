@@ -9,7 +9,7 @@ public class Row extends OptionList {
     public Row() {
     }
 
-    public Row(Stream<Option> elem) {
+    public Row(Stream<? extends GridElem> elem) {
         super(elem);
     }
 

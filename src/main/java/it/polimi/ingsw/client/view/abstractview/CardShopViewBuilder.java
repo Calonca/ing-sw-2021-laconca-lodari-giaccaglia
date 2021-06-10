@@ -38,7 +38,7 @@ public abstract class CardShopViewBuilder extends ViewBuilder{
         getClient().getServerHandler().sendCommandMessage(new EventMessage(new ChooseCardEvent(cardColor,cardLevel)));
     }
 
-    protected void sendCardPlacementPosition(int position) {
+    public static void sendCardPlacementPosition(int position) {
         getClient().getServerHandler().sendCommandMessage(new EventMessage(new ChooseCardPositionEvent(position)));
     }
 
