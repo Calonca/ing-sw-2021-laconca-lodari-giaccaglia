@@ -196,7 +196,6 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
         skipButton.setLayoutX(width-50);
         skipButton.setLayoutY(len-50);
         leaderPane.getChildren().add(skipButton);
-
         selectedLeaders.addListener((ListChangeListener<Boolean>) c -> {
             c.next();
             if(c.getAddedSubList().get(0))

@@ -249,7 +249,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         grid.setStyle("    -fx-background-color: linear-gradient(to right, #ADD8E6, #5771f2);");
         cjlPane.getChildren().remove(guiMatchesData);
         cjlPane.getChildren().add(scrollPane);
-
+        grid.setId("background");
 
         Button test=new Button();
         test.setGraphic(new Label("PERSONAL BOARD"));

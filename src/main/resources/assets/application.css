@@ -1,6 +1,13 @@
 .root{
-    -fx-background-color: linear-gradient(to right, #ADD8E6, #5771f2);
+    -fx-background-color: linear-gradient(to right, #FFEBCD, #FAEBD7);
 }
+
+#background{
+  -fx-background-image: url("../assets/punchboard/brickBackground.png");
+         -fx-background-repeat: stretch;
+         -fx-background-size: 1200 800;
+         -fx-background-position: center center;
+         -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);}
 
 .stackpane{
     -fx-background-color: linear-gradient(#0000ff 20%, #ff8c00 65%, #808080 100%);
@@ -8,6 +15,7 @@
 #pane{
     -fx-background-color: linear-gradient(to right, #5771f2, #021782);
     -fx-border-color: #FAEBD7;
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 10,0.7,5,5 );
 
 }
 
@@ -20,9 +28,11 @@
 
 }
 #marketPane{
-    fx-background-image: "assets/punchboard/MarketBoard.png";
-    -fx-background-size: 10 ;
-}
+    -fx-background-image: url("../assets/punchboard/MarketBoard.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: 580 720;
+    -fx-background-position: center center;
+    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);}
 
 #leaderButton{
     -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 10,0.7,5,5);
