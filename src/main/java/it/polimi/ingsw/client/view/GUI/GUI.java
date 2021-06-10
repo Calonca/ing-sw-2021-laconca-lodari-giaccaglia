@@ -3,6 +3,9 @@ package it.polimi.ingsw.client.view.GUI;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
@@ -24,6 +27,13 @@ public class GUI extends Application {
         stage.setTitle("Maestri");
         stage.setResizable(false);
         stage.centerOnScreen();
+
+        //INITIAL SCREEN BOOTSTRAP, THEN UPDATE IS LEFT TO ChangeViewBuilder
+        Scene scene = new Scene(new StartingScreen().getRoot());
+
+        client.getStage().setScene(scene);
+        System.out.println(client.getStage().getScene().getRoot().getChildrenUnmodifiable());
+        client.getStage().show();
         client.run();
 
     }

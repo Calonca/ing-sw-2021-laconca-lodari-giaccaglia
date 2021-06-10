@@ -17,7 +17,13 @@ public class MiddlePhaseCLI extends MiddlePhaseViewBuilder implements CLIBuilder
     @Override
     public void run() {
         getCLIView().setTitle("Select a choice");
+
+        String numOfPlayers= "NUM OF PLAYERS" + getCommonData().playersOfMatch().map(l -> l.length).orElse(0);
         Row row = new Row();
+
+        Drawable po=new Drawable();
+        po.add(0,numOfPlayers);
+        row.addElem(middlePhaseOption(po,()->{},false));
 
         Drawable productionDw = new Drawable();
         productionDw.add(0,"Make a production");

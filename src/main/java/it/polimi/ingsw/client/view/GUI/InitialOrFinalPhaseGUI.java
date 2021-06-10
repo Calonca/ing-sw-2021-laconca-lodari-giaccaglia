@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.GUI;
 
 import it.polimi.ingsw.client.view.abstractview.InitialOrFinalPhaseViewBuilder;
+import it.polimi.ingsw.network.assets.LeaderCardAsset;
 import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.events.InitialOrFinalPhaseEvent;
 import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
@@ -25,6 +26,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.UUID;
 
 public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder implements GUIView {
     public AnchorPane leaderPane;
@@ -38,9 +40,10 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
     public double len=600;
     double paddingBetweenCards=50;
     double cardsY=40;
+    double cardTilt=1;
     double buttonsDistanceFromBottom=50;
     double cardLen=len*(3.0/4);
-
+    List<UUID> leadersUUIDs=new ArrayList<>();
     double cardsStartingX=70;
     List<Button> sceneLeaders=new ArrayList<>();
 
@@ -68,37 +71,24 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
         System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
     }
 
-    public void initializeLeaderButtons(int size)
-    {
-        Button leader;
-        for(int i=0;i<size;i++)
-        {
-            leader=new Button();
-            leader.setLayoutX((cardsStartingX+i*(cardLen*(462.0/709)+paddingBetweenCards)));
-            leader.setLayoutY(cardsY);
-            leader.setId("leaderButton");
 
-            leaderPane.getChildren().add(leader);
-            sceneLeaders.add(leader);
-        }
-
-    }
 
     public void bindPicturesFromAssets(SimplePlayerLeaders simplePlayerLeaders)
     {
         Path path;
         for(int i=0; i<sceneLeaders.size();i++)
         {
-
-            if(simplePlayerLeaders.getPlayerLeaders().get(i).getNetworkLeaderCard().isPlayable())
+            if(!simplePlayerLeaders.getPlayerLeaders().get(i).getNetworkLeaderCard().isLeaderActive())
+            {
+                if(simplePlayerLeaders.getPlayerLeaders().get(i).getNetworkLeaderCard().isPlayable())
                     path= simplePlayerLeaders.getPlayerLeaders().get(i).getCardPaths().getKey();
-            else
+                else
                     path= simplePlayerLeaders.getPlayerLeaders().get(i).getInactiveCardPaths().getKey();
-            ImageView tempImage = new ImageView(new Image(path.toString(), true));
-            tempImage.setFitHeight(cardLen);
-            tempImage.setPreserveRatio(true);
-            sceneLeaders.get(i).setGraphic(tempImage);
-
+                ImageView tempImage = new ImageView(new Image(path.toString(), true));
+                tempImage.setFitHeight(cardLen);
+                tempImage.setPreserveRatio(true);
+                sceneLeaders.get(i).setGraphic(tempImage);
+            }
         }
 
     }
@@ -117,6 +107,27 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
         return new SubScene(root,width,len);
 
     }
+
+    public List<ImageView> getSetupLeaderIcons() {
+        SimplePlayerLeaders simplePlayerLeaders = getSimpleModel().getPlayerCache(getClient().getCommonData().getThisPlayerIndex()).getElem(SimplePlayerLeaders.class).orElseThrow();
+        List<LeaderCardAsset> leaderCardAssets=simplePlayerLeaders.getPlayerLeaders();
+        List<ImageView> resultList=new ArrayList<>();
+        Path path;
+
+        for (LeaderCardAsset leaderCardAsset : leaderCardAssets) {
+            if(!leaderCardAsset.getNetworkLeaderCard().isLeaderActive())
+            {
+                path = leaderCardAsset.getCardPaths().getKey();
+                leadersUUIDs.add(leaderCardAsset.getCardId());
+                ImageView temp = new ImageView(new Image(path.toString(), true));
+                temp.setPreserveRatio(true);
+                temp.setFitHeight(cardLen);
+                resultList.add(temp);}
+            }
+        return resultList;
+
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -127,12 +138,22 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
 
         SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).orElseThrow();
 
-        initializeLeaderButtons(simplePlayerLeaders.getPlayerLeaders().size());
+        Button leaderBut;
+        for(int i=0;i<getSetupLeaderIcons().size();i++)
+        {
+            leaderBut= new Button();
+            leaderBut.setLayoutY(cardsY);
+            leaderBut.setLayoutX(cardsStartingX+i*(cardLen*(462.0/709)+paddingBetweenCards));
+            leaderBut.setGraphic(getSetupLeaderIcons().get(i));
+            leaderBut.setId("leaderButton");
+            leaderBut.setRotate(Math.random() * (cardTilt - -cardTilt + 1) + -1 );
+            leaderPane.getChildren().add(leaderBut);
+            sceneLeaders.add(leaderBut);
+        }
 
-        bindPicturesFromAssets(simplePlayerLeaders);
-
-        for(int i=0; i<sceneLeaders.size();i++)
+        for(int i=0; i<getSetupLeaderIcons().size();i++)
             selectedLeaders.add(false);
+
 
         ViewPersonalBoard.getController().cardSelector(selectedLeaders,sceneLeaders,1);
 
@@ -140,6 +161,7 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
 
 
         Button playButton=new Button();
+        playButton.setText("PLAY");
         playButton.setOnAction(p -> {
             for(Boolean b : selectedLeaders)
                 if(b)
@@ -163,6 +185,7 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
         });
 
         Button discardButton=new Button();
+        discardButton.setText("DISCARD");
         discardButton.setOnAction(p -> {
 
             for(Boolean b : selectedLeaders)
@@ -177,6 +200,7 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
 
         });
         Button skipButton=new Button();
+        skipButton.setText("SKIP");
         skipButton.setOnAction(p -> {
             ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(currentSize);
             getClient().getServerHandler().sendCommandMessage(new EventMessage(new InitialOrFinalPhaseEvent(2)));
@@ -199,7 +223,10 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
         selectedLeaders.addListener((ListChangeListener<Boolean>) c -> {
             c.next();
             if(c.getAddedSubList().get(0))
+            {
                 sceneLeaders.get(c.getFrom()).setLayoutY(sceneLeaders.get(c.getFrom()).getLayoutY()-30);
+
+            }
             else
                 sceneLeaders.get(c.getFrom()).setLayoutY(sceneLeaders.get(c.getFrom()).getLayoutY()+30);
 
