@@ -2,22 +2,25 @@ package it.polimi.ingsw.client.view.GUI;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Point3D;
 import javafx.scene.*;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Sphere;
-import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Translate;
+import org.jetbrains.annotations.NotNull;
 
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupPhaseViewBuilder implements GUIView{
 
@@ -57,34 +60,6 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
 
     }
 
-    private void initMouseControl(Group group, Scene scene) {
-        Rotate xRotate;
-        Rotate yRotate;
-
-        group.getTransforms().addAll(
-                xRotate = new Rotate(0, Rotate.X_AXIS),
-                yRotate = new Rotate(0, Rotate.Y_AXIS)
-        );
-        xRotate.angleProperty().bind(angleX);
-        yRotate.angleProperty().bind(angleY);
-
-        scene.setOnMousePressed(event -> {
-            anchorX = event.getSceneX();
-            System.out.println(toPut.getTranslateX() + "Y" + toPut.getTranslateY());
-            anchorY = event.getSceneY();
-            anchorAngleX = angleX.get();
-            anchorAngleY = angleY.get();
-        });
-
-        scene.setOnMouseDragged(event -> {
-            System.out.println(toPut.getTranslateX() + "Y" + toPut.getTranslateY());
-
-            angleX.set(anchorAngleX - (anchorY - event.getSceneY()));
-            angleY.set(anchorAngleY + anchorX - event.getSceneX());
-            System.out.println(angleX);
-            System.out.println(angleY);
-        });
-    }
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
 
@@ -92,26 +67,81 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        PerspectiveCamera testCamera = new PerspectiveCamera();
+
+        Group parent = new Group();
+
+        Rectangle board = new Rectangle(2402, 1717);
+        Image boardPic = new Image("assets/board/biggerboard.png");
+        board.setFill(new ImagePattern(boardPic));
+        board.setTranslateX(-600);
+        board.setTranslateY(-700);
+        board.setTranslateZ(2000);
+        parent.getChildren().add(board);
+
+        //Box
+
+        Sphere shield = new Sphere(50);
+        Color color = Color.CYAN;
+        setMaterial(shield, color,false);
+        Point3D boardTopLeft = board.localToParent(new Point3D(0,0,0));
+
+        shield.setTranslateX(boardTopLeft.getX());
+        shield.setTranslateY(boardTopLeft.getY());
+        shield.setTranslateZ(boardTopLeft.getZ());
+        //Translate translate = new Translate(stoneCoords.getX(),stoneCoords.getY(),stoneCoords.getZ());
+        //shield.getTransforms().add(translate);
+
+        parent.getChildren().add(shield);
+
+        AtomicBoolean dragStarted = new AtomicBoolean(false);
+        shield.setOnDragDetected((MouseEvent event)-> {
+            if (!dragStarted.get()) {
+                dragStarted.set(true);
+                setMaterial(shield,color,true);
+            }
+            shield.setMouseTransparent(true);
+            board.setMouseTransparent(false);
+            shield.setCursor(Cursor.MOVE);
+            shield.startFullDrag();
+        });
+
+        shield.setOnMouseReleased((MouseEvent event)-> {
+            shield.setMouseTransparent(false);
+            dragStarted.set(false);
+            setMaterial(shield,color,false);
+            board.setMouseTransparent(true);
+            shield.setCursor(Cursor.DEFAULT);
+        });
+
+        board.setOnMouseDragOver((MouseEvent event)->{
+            Point3D stoneCoords = event.getPickResult().getIntersectedPoint();
+            stoneCoords = board.localToParent(stoneCoords);
+
+            //stoneCoords = boardTopLeft;
+            shield.setTranslateX(stoneCoords.getX());
+            shield.setTranslateY(stoneCoords.getY());
+            shield.setTranslateZ(stoneCoords.getZ());
+            //Translate translate = new Translate(stoneCoords.getX(),stoneCoords.getY(),stoneCoords.getZ());
+            //shield.getTransforms().add(translate);
+        });
 
 
-        camera = new PerspectiveCamera(true);
-        camera.getTransforms().addAll(new Rotate(0,Rotate.Z_AXIS),new Rotate(0,Rotate.X_AXIS), new Rotate(0,Rotate.Y_AXIS), new Translate(0, 0, 0d));
-        camera.translateXProperty().set(20);
-        camera.translateYProperty().set(20);
-        camera.setTranslateZ(-100);
-        Group root3D = new Group();
-
-
-        toPut=new Box(10,20,30);
-        toPut.translateYProperty().set(0);
-        toPut.translateXProperty().set(0);
-        root3D.getChildren().add(toPut);
-        Scene scene=new Scene(root3D,1000,700);
-        scene.setCamera(camera);
-        initMouseControl(root3D,scene);
-
-
+        Scene scene = new Scene(parent, 1000, 700, true);
+        testCamera.setTranslateZ(-1000);
+        scene.setCamera(testCamera);
 
         getClient().getStage().setScene(scene);
+        getClient().getStage().show();
+    }
+
+    @NotNull
+    private void setMaterial(Sphere shield, Color color, boolean selected) {
+        Color c2 = Color.hsb(color.getHue(),
+                0.3,
+                1);
+        Color c = selected?c2:color;
+        PhongMaterial shieldMaterial = new PhongMaterial(c);
+        shield.setMaterial(shieldMaterial);
     }
 }

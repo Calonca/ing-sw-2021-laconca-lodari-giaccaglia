@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.GUI;
 import it.polimi.ingsw.client.simplemodel.State;
+import it.polimi.ingsw.client.view.CLI.ProductionViewCLI;
 import it.polimi.ingsw.client.view.abstractview.MiddlePhaseViewBuilder;
 import it.polimi.ingsw.network.simplemodel.SimpleCardShop;
 import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
@@ -95,7 +96,10 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
             cardButton.setDisable(true);
 
 
-
+        productionButton.setOnAction( e ->
+        {
+            Platform.runLater(()->getClient().changeViewBuilder(ProductionViewCLI.getBuilder(false)));
+        });
 
         resourceMarketButton.setOnAction( e ->
         {

@@ -8,6 +8,7 @@ import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.CLI.CLI;
 import it.polimi.ingsw.client.view.CLI.CLIelem.CLIelem;
 import it.polimi.ingsw.client.view.CLI.TestGridBody;
+import it.polimi.ingsw.client.view.GUI.BoardView3D;
 import it.polimi.ingsw.client.view.abstractview.ConnectToServerViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.SetupPhaseViewBuilder;
@@ -184,7 +185,7 @@ public class Client implements Runnable
         simpleModel.updateSimpleModel(stateInNetwork);
         if(stateInNetwork.getPlayerNumber()==commonData.getThisPlayerIndex()
         && stateInNetwork.getState().equals(State.SETUP_PHASE.name()))
-            changeViewBuilder(SetupPhaseViewBuilder.getBuilder(isCLI));
+            changeViewBuilder(new BoardView3D());//SetupPhaseViewBuilder.getBuilder(isCLI));
     }
 
 }
