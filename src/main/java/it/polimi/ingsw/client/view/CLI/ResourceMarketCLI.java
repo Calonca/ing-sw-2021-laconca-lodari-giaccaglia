@@ -11,6 +11,7 @@ import it.polimi.ingsw.client.view.CLI.layout.Option;
 import it.polimi.ingsw.client.view.CLI.textUtil.StringUtil;
 import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
 import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
+import it.polimi.ingsw.network.simplemodel.SimpleCardCells;
 import it.polimi.ingsw.network.simplemodel.SimpleFaithTrack;
 import it.polimi.ingsw.network.simplemodel.SimpleStrongBox;
 
@@ -79,6 +80,9 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
 
         board.initializeMove();
         board.setStrongBox(PersonalBoardBody.strongBoxBuilder(getThisPlayerCache().getElem(SimpleStrongBox.class).orElseThrow(), board));
+        SimpleCardCells simpleCardCells = getThisPlayerCache().getElem(SimpleCardCells.class).orElseThrow();
+        Row prodsRow = board.productionsBuilder(simpleCardCells);
+        board.setProductions(prodsRow);
         board.setMessage("Select move starting position or discard resources");
         getCLIView().setBody(board);
         getCLIView().show();

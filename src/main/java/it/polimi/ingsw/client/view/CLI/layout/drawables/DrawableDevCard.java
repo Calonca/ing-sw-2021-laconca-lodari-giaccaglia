@@ -20,12 +20,13 @@ public class DrawableDevCard {
 
         Color c;
 
-        c = DevCardCLI.fromNetworkColor(card.getCardType()).getC();;
+        DevCardCLI cliCard = DevCardCLI.fromNetworkColor(card.getCardType());
         Background back = Background.DEFAULT;
 
 
         Drawable drawable= new Drawable();
-        drawable.add(0,"╔════════════════════════╗");
+        drawable.add(0,"╔═        ═══════════════╗");
+        drawable.add(new DrawableLine(3,0,cliCard.getNameWithSpaces(),Color.BRIGHT_WHITE,cliCard.getB()));
         drawable.add(0,"║ Points: "+ StringUtil.untilReachingSize(card.getVictoryPoints(),2)+"             ║");
         drawable.add(0,"║═ Costs ════════════════║");
 

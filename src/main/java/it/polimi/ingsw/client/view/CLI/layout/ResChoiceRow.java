@@ -1,14 +1,17 @@
 package it.polimi.ingsw.client.view.CLI.layout;
 
 import it.polimi.ingsw.client.view.CLI.CLI;
+import it.polimi.ingsw.client.view.CLI.layout.drawables.Canvas;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.Drawable;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.ResourceCLI;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class ResChoiceRow {
+public class ResChoiceRow extends GridElem{
 
     private int arrowPos;
     private final List<ResourceAsset> in;
@@ -81,23 +84,8 @@ public class ResChoiceRow {
         return row;
     }
 
-
-
     private boolean resAreChosen(){
         return arrowPos>=in.size()+out.size();
-    }
-
-    public void addToGrid(OptionList e) {
-        Column column = e.addAndGetColumn();
-        column.addElem(selectedResourcesRow());
-        if (getPointedResource().isPresent())
-            column.addElem(arrowHead());
-        if (numOfOutputChoices() > 0){
-            column.addElem(arrowBody());
-            Row choosingOutRow = choosingOutput(outRunnable);
-            column.addElem(choosingOutRow);
-            choosingOutRow.setFirstIdx(0);
-        }
     }
 
     private Option arrowHead(){
@@ -124,5 +112,53 @@ public class ResChoiceRow {
 
     public void moveToNextIndex() {
         arrowPos++;
+    }
+
+    @Override
+    public int getLastIndex() {
+        return getFirstIdx();
+    }
+
+    @Override
+    public Optional<Option> getOptionWithIndex(int i) {
+        return Optional.empty();
+    }
+
+    @Override
+    public List<Option> getAllEnabledOption() {
+        return new ArrayList<>();
+    }
+
+
+
+    @Override
+    public void addToCanvas(Canvas canvas, int x, int y) {
+        Column column = getColumn();
+        column.addToCanvas(canvas,x,y);
+    }
+
+    @NotNull
+    private Column getColumn() {
+        Column column = new Column();
+        column.addElem(selectedResourcesRow());
+        if (getPointedResource().isPresent())
+            column.addElem(arrowHead());
+        if (numOfOutputChoices() > 0){
+            column.addElem(arrowBody());
+            Row choosingOutRow = choosingOutput(outRunnable);
+            column.addElem(choosingOutRow);
+            choosingOutRow.setFirstIdx(0);
+        }
+        return column;
+    }
+
+    @Override
+    public int getMinWidth() {
+        return getColumn().getMinWidth();
+    }
+
+    @Override
+    public int getMinHeight() {
+        return getColumn().getMinHeight();
     }
 }
