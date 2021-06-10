@@ -98,7 +98,7 @@ public class Canvas {
                     matrix[matY][matX] = Color.startColorStringBackground(String.valueOf(toPrint),c,b);
                 else
                     matrix[matY][matX] = String.valueOf(toPrint);
-                pointTracing[matY][matX]=dwl.getId();
+                    pointTracing[matY][matX]= dwl.getId();
                 matX += 1;
             }
             if (defaultColorAndBack)//Resets color
