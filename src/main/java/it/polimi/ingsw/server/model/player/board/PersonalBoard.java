@@ -256,7 +256,7 @@ public class PersonalBoard {
      * @return an array which values are true for available productions
      */
     public Boolean[] getAvailableProductions(){
-        return productions.stream().flatMap(Optional::stream).map((p)-> hasResources(p.getInputs())).toArray(Boolean[]::new);
+        return productions.stream().map((prod)-> prod.filter(production -> hasResources(production.getInputs())).isPresent()).toArray(Boolean[]::new);
     }
 
     /**

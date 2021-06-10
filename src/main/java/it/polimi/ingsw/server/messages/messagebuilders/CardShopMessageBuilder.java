@@ -34,6 +34,7 @@ public class CardShopMessageBuilder {
                                         intKey -> intKey,
 
                                         intKey -> {
+
                                             List<DevelopmentCardAsset> netCards = (simpleCardShop
                                                     .get(colorKey)
                                                     .get(intKey)
@@ -43,11 +44,13 @@ public class CardShopMessageBuilder {
                                                     .map(card -> (new DevelopmentCardAsset ( (DevelopmentCardAsset) card.get())))
                                                     .collect(Collectors.toList()));
 
-                                            for (DevelopmentCardAsset netCard : netCards) {
-                                                DevelopmentCard card = gameModel.getDevCardsMap().get(netCard.getCardId());
+                                            if(netCards.size()>0) {
+                                                DevelopmentCardAsset cardOnTop = netCards.get(0);
+                                                DevelopmentCard card = gameModel.getDevCardsMap().get(cardOnTop.getCardId());
                                                 boolean isPurchasable = checkCardRequirements(gameModel, card);
-                                                netCard.getDevelopmentCard().setSelectable(isPurchasable);
+                                                cardOnTop.getDevelopmentCard().setSelectable(isPurchasable);
                                             }
+
                                             return netCards;
                                         }
                                 ))));

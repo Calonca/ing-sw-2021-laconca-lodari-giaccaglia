@@ -43,7 +43,7 @@ public class ChooseCardPositionEventTest {
     public void validationNotOkTest(){
         DevelopmentCard testCard = gameModelTest.getCardShop().getCopyOfCardOnTop(DevelopmentCardColor.fromInt(2), 1);
         gameModelTest.getCurrentPlayer().getPersonalBoard().addDevelopmentCardToCell(testCard, 1);
-        clientEventTest = new ChooseCardPositionEvent(1);
+        clientEventTest = new ChooseCardPositionEvent(2);
         serializedEvent = serialize(clientEventTest);
         serverEventTest = deserializeFromString(serializedEvent, it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent.ChooseCardPositionEvent.class , gson);
         assertFalse(serverEventTest.validate(gameModelTest));

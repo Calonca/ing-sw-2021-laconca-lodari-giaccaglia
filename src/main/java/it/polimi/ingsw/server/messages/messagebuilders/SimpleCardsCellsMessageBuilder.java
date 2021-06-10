@@ -36,6 +36,8 @@ public class SimpleCardsCellsMessageBuilder {
     }
 
     private static boolean checkProductionRequirements(GameModel gameModel, int cardPosition){
-        return gameModel.getCurrentPlayer().getPersonalBoard().getAvailableProductions()[cardPosition];
+        Boolean[] prods = gameModel.getCurrentPlayer().getPersonalBoard().getAvailableProductions();
+        return prods[cardPosition];
     }
+
 }

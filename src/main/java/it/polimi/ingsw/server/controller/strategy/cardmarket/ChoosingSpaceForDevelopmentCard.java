@@ -29,7 +29,7 @@ public class ChoosingSpaceForDevelopmentCard implements GameStrategy {
     public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event)
     {
 
-        int chosenPosition = ((ChooseCardPositionEvent) event).getCardPositionInPersonalBoard() - 1;
+        int chosenPosition = ((ChooseCardPositionEvent) event).getCardPositionInPersonalBoard();
 
         PersonalBoard currentBoard = gamemodel.getCurrentPlayer().getPersonalBoard();
         DevelopmentCard purchaseCard = gamemodel.takePurchasedCardFromShop();

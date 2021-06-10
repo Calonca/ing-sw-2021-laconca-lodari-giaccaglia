@@ -26,7 +26,7 @@ public class ChooseCardPositionEvent extends MiddlePhaseEvent {
      * {@link it.polimi.ingsw.server.model.player.board.PersonalBoard PersonalBoard}.
      */
     public ChooseCardPositionEvent(int position){
-        this.position = position;
+        this.position = position-1;
     }
 
     /**
