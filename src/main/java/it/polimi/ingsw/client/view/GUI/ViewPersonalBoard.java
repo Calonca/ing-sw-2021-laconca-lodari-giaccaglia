@@ -29,9 +29,9 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
 {
     public AnchorPane menuPane;
 
-    double controlButtonsY=30;
-    double cardShopButtonX=580;
-    double marketButtonX= 450;
+    double controlButtonsY=750;
+    double cardShopButtonX=900;
+    double marketButtonX= 1000;
 
     Button faithBut;
     int tempFaith =0;
@@ -203,7 +203,7 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
         viewCardShop.setText("VIEW CARD SHOP");
         viewCardShop.setOnMouseEntered( p ->
         {
-            if(boardController.isMarket())
+            if(boardController.isMarket()|| boardController.isCardShopOpen())
             {
                 viewCardShop.setDisable(true);
                 return;
@@ -216,6 +216,8 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
 
         viewCardShop.setOnMouseExited( p ->
         {
+            if(boardController.isMarket()|| boardController.isCardShopOpen())
+            return;
             ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(((Pane)getClient().getStage().getScene().getRoot()).getChildren().size()-1);
         });
 
@@ -228,7 +230,7 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
         viewMarket.setText("VIEW MARKET");
         viewMarket.setOnMouseEntered( p ->
         {
-            if(boardController.isMarket())
+            if(boardController.isMarket()|| boardController.isCardShopOpen())
             {
                 viewMarket.setDisable(true);
                 return;
@@ -241,7 +243,7 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
 
         viewMarket.setOnMouseExited( p ->
         {
-            if(boardController.isMarket())
+            if(boardController.isMarket()|| boardController.isCardShopOpen())
                 return;
             ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(((Pane)getClient().getStage().getScene().getRoot()).getChildren().size()-1);
         });
@@ -250,7 +252,7 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
 
 
 
-
+        menuPane.setId("background");
         //bindForStandardProduction();
         getClient().getStage().show();
     }

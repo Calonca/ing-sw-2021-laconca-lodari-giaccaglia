@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.SubScene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
@@ -18,6 +19,7 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
     public Button cardButton;
     public Button productionButton;
     public Button resourceMarketButton;
+    public AnchorPane middleAnchor;
 
     /**
      * This runnable appends the scene to the current view
@@ -105,6 +107,6 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
 
         });
 
-
+        middleAnchor.setId("pane");
     }
 }

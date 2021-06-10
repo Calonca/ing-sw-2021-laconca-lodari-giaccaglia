@@ -8,6 +8,8 @@ import javafx.animation.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -37,19 +39,27 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
     public int ROWSIZE=4;
     public int ROWNUMBER=3;
 
-    public double ballsize=0.75;
-    int h=70;
+    public double ballsize=0.8;
+    int rowButtonHeight=130;
+    int columnButtonOffset=150;
 
 
-    double toPutStartingY=-5+ROWSIZE*ballsize*2;
+    double ballsXOffset=-4.5;
+
+    double toPutStartingY=ballsXOffset+ROWSIZE*ballsize*2;
     double toPutStartingX;
 
-    public double width=300;
-    public double len=260;
+    public double width=400;
+    public double reaWidth=550;
+    public double len=320;
+    public double reaLen=700;
 
     public AnchorPane marketPane;
+    double marketTranslateX=300;
+    double MarketTranslateY=-30;
 
-
+    double subSceneTranslateY=75;
+    double subSceneTranslateX=75;
     public List<List<Sphere>> rows=new ArrayList<>();
 
 
@@ -59,8 +69,8 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
     @Override
     public void run() {
         SubScene toadd=getRoot();
-        toadd.setTranslateX(350);
-        toadd.setTranslateY(-250);
+        toadd.setTranslateX(marketTranslateX);
+        toadd.setTranslateY(MarketTranslateY);
         toadd.setId("MARKET");
 
         ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(toadd);
@@ -78,7 +88,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
             e.printStackTrace();
         }
 
-        return new SubScene(root,width,len);
+        return new SubScene(root,reaWidth,reaLen);
 
     }
 
@@ -143,8 +153,8 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
 
         }
         Button button=new Button();
-        button.setLayoutX(width-30);
-        button.setLayoutY(k*30+h);
+        button.setLayoutX(reaWidth-30);
+        button.setLayoutY(k*80+rowButtonHeight);
         button.setOnAction( p-> {
 
             if(!isUserAllowed())
@@ -203,8 +213,8 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
 
             Button button=new Button();
             button.setLayoutX(h);
-            h+=30;
-            button.setLayoutY(250);
+            h+=80;
+            button.setLayoutY(reaLen/2+70);
 
             setBut(button,i);
             marketPane.getChildren().add(button);
@@ -277,8 +287,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
 
 
 
-        Group root3D = new Group(camera);
-
+        Group root3D = new Group();
 
 
 
@@ -287,7 +296,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
         for(int i=0;i<ROWNUMBER;i++)
         {
             System.out.println(Arrays.toString(getMarketMatrix()[i]));
-            generateRow(root3D,x,-5,i);
+            generateRow(root3D,x,ballsXOffset,i);
             x-=2*ballsize;
         }
 
@@ -317,14 +326,16 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
 
             }
 
-        generateColumns(rows,70);
+        generateColumns(rows,columnButtonOffset);
 
-
-        SubScene subScene = new SubScene(root3D, 300, 260, true, SceneAntialiasing.BALANCED);
+        SubScene subScene = new SubScene(root3D, width, len, true, SceneAntialiasing.BALANCED);
+        subScene.setTranslateY(subSceneTranslateY);
+        subScene.setTranslateX(subSceneTranslateX);;
         subScene.setFill(Color.TRANSPARENT);
         subScene.setCamera(camera);
 
-        marketPane.getChildren().add(0,subScene);
+
+        marketPane.getChildren().add(subScene);
         marketPane.setId("marketPane");
         error.setOpacity(0);
         error.setLayoutX(width/2);

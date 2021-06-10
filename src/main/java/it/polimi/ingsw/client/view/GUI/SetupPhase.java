@@ -60,7 +60,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
 
 
     @FXML
-    private AnchorPane cjlAnchor;
+    private AnchorPane setupAnchor;
 
     SimplePlayerLeaders simplePlayerLeaders = getSimpleModel().getPlayerCache(getClient().getCommonData().getThisPlayerIndex()).getElem(SimplePlayerLeaders.class).orElseThrow();
     List<LeaderCardAsset> leaderCardAssets=simplePlayerLeaders.getPlayerLeaders();
@@ -163,7 +163,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         resourceSupply.setLayoutX(width/6);
         resourceSupply.setLayoutY(resourceSupplyY);
         resourceSupply.setEffect(effect);
-        cjlAnchor.getChildren().add(resourceSupply);
+        setupAnchor.getChildren().add(resourceSupply);
     }
 
     @Override
@@ -176,7 +176,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         Label leaders=new Label("SELECT TWO LEADERS TO DISCARD");
         leaders.setLayoutX(width/2+100);
         leaders.setLayoutY(len/2);
-        cjlAnchor.getChildren().add(leaders);
+        setupAnchor.getChildren().add(leaders);
 
         Button leaderBut;
         for(int i=0;i<getSetupLeaderIcons().size();i++)
@@ -188,7 +188,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
             leaderBut.setGraphic(getSetupLeaderIcons().get(i));
             leaderBut.setId("leaderButton");
             leaderBut.setRotate(Math.random() * (cardTilt - -cardTilt + 1) + -1 );
-            cjlAnchor.getChildren().add(leaderBut);
+            setupAnchor.getChildren().add(leaderBut);
             sceneLeaders.add(leaderBut);
         }
 
@@ -229,18 +229,20 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
             tempImage.setFitWidth(50);
             resbut.setId("resourceButton");
             resbut.setGraphic(tempImage);
-            cjlAnchor.getChildren().add(resbut);
+            setupAnchor.getChildren().add(resbut);
             sceneResources.add(resbut);
             selectedResources.add(0);
 
         }
+
         ViewPersonalBoard.getController().setAllowedRes(new int[]{3,3,3,3});
         ViewPersonalBoard.getController().bindDispenser(selectedResources,sceneResources,Util.resourcesToChooseOnSetup(getClient().getCommonData().getThisPlayerIndex()));
         selectedResources.addListener((ListChangeListener<Integer>) c -> {
             System.out.println(selectedResources);
             //getClient().getStage().getScene().setCursor(new ImageCursor(Color.getRes().get(c.getFrom())));
         });
-        cjlAnchor.getChildren().add(validationButton());
+        setupAnchor.getChildren().add(validationButton());
+        setupAnchor.setId("background");
         getClient().getStage().show();
 
     }
