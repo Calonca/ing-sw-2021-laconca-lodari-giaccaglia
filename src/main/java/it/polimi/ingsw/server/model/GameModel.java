@@ -298,9 +298,13 @@ public class GameModel {
      * {@link GameModel#players players} connection status variable.
      */
     private void updateOnlinePlayers() {
+
         onlinePlayers = onlinePlayers.keySet().stream().filter(key -> onlinePlayers.get(key).isOnline())
                 .collect(Collectors.toMap(Function.identity(), index -> onlinePlayers.get(index)));
+
     }
+
+
 
     /**
      * @return a list of currently online {@link Player Players}

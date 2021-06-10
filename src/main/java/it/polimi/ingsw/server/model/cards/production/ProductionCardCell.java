@@ -14,6 +14,7 @@ import java.util.Optional;
 public class ProductionCardCell {
 
     private DevelopmentCard cardOnTop;
+
     private int maxsize=3;
 
     private final List<DevelopmentCard> stackedCards;

@@ -40,6 +40,7 @@ public class SimpleCardCells extends SimpleModelElement{
     public void update(SimpleModelElement element){
         SimpleCardCells serverCardCells = (SimpleCardCells) element;
         this.visibleCardsOnCells = serverCardCells.visibleCardsOnCells;
+        this.availableSpotsForCard = serverCardCells.availableSpotsForCard;
     }
 
     public Map<Integer, Optional<DevelopmentCardAsset>> getVisibleCardsOnCells(){

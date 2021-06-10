@@ -119,13 +119,13 @@ public class PersonalBoard {
 
     public Map<Integer, List<DevelopmentCard>> getVisibleCardsOnCells(){
 
-        return IntStream.range(0, cardCells.length).boxed().collect(Collectors.toMap(integer -> integer,
+        return IntStream.rangeClosed(1, cardCells.length).boxed().collect(Collectors.toMap(integer -> integer,
                 integer -> {
 
-                List<DevelopmentCard> card = new ArrayList<>();
+                List<DevelopmentCard> card = new ArrayList<>(0);
 
-                if(cardCells[integer].getStackedCardsSize() > 0)
-                    card.add(cardCells[integer].getFrontCard());
+                if(cardCells[integer-1].getStackedCardsSize() > 0)
+                    card.add(cardCells[integer-1].getFrontCard());
 
                  return card;
                 }));
