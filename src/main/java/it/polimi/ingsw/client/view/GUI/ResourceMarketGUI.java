@@ -163,24 +163,24 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
 
             selected=true;
 
-            moveX(toPut,x,new Duration(0));
-            moveY(toPut,toPut.getTranslateY()-2*ballsize,new Duration(700));
+            toPut.setTranslateX(x);
+            moveY(toPut,toPut.getTranslateY()-2*ballsize,new Duration(100));
 
 
             for (Sphere circle : row) {
 
-                moveY(circle,circle.getTranslateY()-ballsize*2,new Duration(700));
+                moveY(circle,circle.getTranslateY()-ballsize*2,new Duration(100));
             }
+
             Sphere toswap=row.get(0);
             row.remove(0);
             row.add(toPut);
             toPut=toswap;
 
-            moveX(toPut,4*ballsize,new Duration(1700));
+            moveX(toPut,4*ballsize,new Duration(800));
 
-            moveY(toPut,toPutStartingY,new Duration(3000));
+            moveY(toPut,toPutStartingY,new Duration(2200));
 
-            moveX(toPut,toPutStartingX,new Duration(3700));
 
 
 
@@ -233,8 +233,10 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
 
             error.setOpacity(0);
 
-            moveY(toPut,toPut.getTranslateY()-(ROWSIZE-i)*ballsize*2,new Duration(0));
-            moveX(toPut,toPut.getTranslateX()+2*ballsize,new Duration(700));
+            toPut.setTranslateY(toPut.getTranslateY()-(ROWSIZE-i)*ballsize*2);
+            toPut.setTranslateX(toPut.getTranslateX()-ballsize*8);
+
+            moveX(toPut,toPut.getTranslateX()+2*ballsize,new Duration(100));
 
 
             ArrayList<Sphere> column= new ArrayList<>();
@@ -243,7 +245,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
             for (Sphere circle : column) {
 
 
-                moveX(circle,circle.getTranslateX()+ballsize*2,new Duration(700));
+                moveX(circle,circle.getTranslateX()+ballsize*2,new Duration(100));
 
 
 
@@ -252,8 +254,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
             column.remove(0);
             column.add(toPut);
             toPut=temp;
-            moveY(toPut,toPutStartingY,new Duration(1400));
-            moveX(toPut,toPutStartingX,new Duration(2200));
+            moveY(toPut,toPutStartingY,new Duration(700));
 
             ChooseLineEvent event=new ChooseLineEvent(i+3);
             getClient().getServerHandler().sendCommandMessage(new EventMessage(event));
@@ -304,7 +305,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
 
         toPut=new Sphere(ballsize);
         toPut.translateYProperty().set(toPutStartingY);
-        toPut.translateXProperty().set(toPutStartingX);
+        toPut.translateXProperty().set(toPutStartingX+8*ballsize);
         root3D.getChildren().add(toPut);
 
         List<Color> colors=new ArrayList<>(){{
@@ -328,14 +329,14 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
 
         generateColumns(rows,columnButtonOffset);
 
-        SubScene subScene = new SubScene(root3D, width, len, true, SceneAntialiasing.BALANCED);
-        subScene.setTranslateY(subSceneTranslateY);
-        subScene.setTranslateX(subSceneTranslateX);;
-        subScene.setFill(Color.TRANSPARENT);
-        subScene.setCamera(camera);
+        SubScene slideSubscene = new SubScene(root3D, width, len, true, SceneAntialiasing.BALANCED);
+        slideSubscene.setTranslateY(subSceneTranslateY);
+        slideSubscene.setTranslateX(subSceneTranslateX);;
+        slideSubscene.setFill(Color.TRANSPARENT);
+        slideSubscene.setCamera(camera);
 
 
-        marketPane.getChildren().add(subScene);
+        marketPane.getChildren().add(slideSubscene);
         marketPane.setId("marketPane");
         error.setOpacity(0);
         error.setLayoutX(width/2);
