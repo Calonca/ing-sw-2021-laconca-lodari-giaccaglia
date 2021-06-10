@@ -128,10 +128,12 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         confirm.setEffect(effect);
         confirm.setOnAction(p -> {
 
-               SetupPhaseEvent event = new SetupPhaseEvent(Util.resourcesToChooseOnSetup(getCommonData().getThisPlayerIndex()),2,getClient().getCommonData().getThisPlayerIndex());
+            SetupPhaseEvent event = new SetupPhaseEvent(Util.resourcesToChooseOnSetup(getCommonData().getThisPlayerIndex()),2,getClient().getCommonData().getThisPlayerIndex());
+
             for(int i = 0; i< sceneLeaders.size(); i++)
-                if(!selectedLeaders.get(i))
+                if(selectedLeaders.get(i))
                     event.addChosenLeader(leadersUUIDs.get(i));
+
             List<Integer> converter=new ArrayList<>();
             for(int i=0;i<selectedResources.size();i++)
                 if (selectedResources.get(i) ==1)
