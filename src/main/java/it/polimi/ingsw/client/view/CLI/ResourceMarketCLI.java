@@ -5,14 +5,12 @@ import it.polimi.ingsw.client.view.CLI.CLIelem.body.PersonalBoardBody;
 import it.polimi.ingsw.client.view.CLI.layout.Column;
 import it.polimi.ingsw.client.view.CLI.layout.Row;
 import it.polimi.ingsw.client.view.CLI.layout.SizedBox;
-import it.polimi.ingsw.client.view.CLI.layout.drawables.FaithTrackGridElem;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.MarbleCLI;
 import it.polimi.ingsw.client.view.CLI.layout.Option;
 import it.polimi.ingsw.client.view.CLI.textUtil.StringUtil;
 import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
 import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
 import it.polimi.ingsw.network.simplemodel.SimpleCardCells;
-import it.polimi.ingsw.network.simplemodel.SimpleFaithTrack;
 import it.polimi.ingsw.network.simplemodel.SimpleStrongBox;
 
 import java.util.Arrays;
@@ -74,19 +72,19 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
     @Override
     public void choosePositions() {
         PersonalBoardBody board = new PersonalBoardBody(getThisPlayerCache(), PersonalBoardBody.Mode.MOVING_RES);
-        SimpleFaithTrack[] simpleFaithTracks = Arrays.stream(getSimpleModel().getPlayersCaches())
-                .map(c->c.getElem(SimpleFaithTrack.class).orElseThrow()).toArray(SimpleFaithTrack[]::new);
-        board.setTop(new FaithTrackGridElem(getThisPlayerCache().getElem(SimpleFaithTrack.class).orElseThrow(),simpleFaithTracks));
+        board.initializeFaithTrack(getSimpleModel());
 
         board.initializeMove();
         board.setStrongBox(PersonalBoardBody.strongBoxBuilder(getThisPlayerCache().getElem(SimpleStrongBox.class).orElseThrow(), board));
         SimpleCardCells simpleCardCells = getThisPlayerCache().getElem(SimpleCardCells.class).orElseThrow();
-        Row prodsRow = board.productionsBuilder(simpleCardCells);
+        Row prodsRow = board.productionsBuilder(simpleCardCells, null);
         board.setProductions(prodsRow);
         board.setMessage("Select move starting position or discard resources");
         getCLIView().setBody(board);
         getCLIView().show();
     }
+
+
 
     private Stream<Option> buildLineStream(int start, int stop){
         return IntStream.range(start,stop).mapToObj(i->Option.noNumber(StringUtil.untilReachingSize(" Line "+i,MarbleCLI.width())));

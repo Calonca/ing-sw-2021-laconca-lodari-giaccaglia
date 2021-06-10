@@ -24,9 +24,11 @@ public abstract class ProductionViewBuilder extends ViewBuilder{
    public SimpleCardCells getSimpleCardCells(){
        return getSimpleModel().getElem(SimpleCardCells.class).orElseThrow();
    }
-    public void sendChosenProduction(int pos){
+
+    public static void sendChosenProduction(int pos){
         getClient().getServerHandler().sendCommandMessage(new EventMessage(new ProductionEvent(pos)));
     }
+
 
     //public void sendChosenResource(list<int> pos){
     //    getClient().getServerHandler().sendCommandMessage(new EventMessage(new ChooseResourcesForProductionEvent(pos)));

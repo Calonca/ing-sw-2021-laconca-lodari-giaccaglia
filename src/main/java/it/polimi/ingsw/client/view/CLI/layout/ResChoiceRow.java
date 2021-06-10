@@ -40,7 +40,7 @@ public class ResChoiceRow extends GridElem{
             resToChooseFrom.addElem(o);
         }
 
-        resToChooseFrom.setAlignment(GridElem.Alignment.CANVAS_CENTER_VERTICAL);
+        //resToChooseFrom.setAlignment(GridElem.Alignment.CANVAS_CENTER_VERTICAL);
         return resToChooseFrom;
     }
 
@@ -56,8 +56,8 @@ public class ResChoiceRow extends GridElem{
         String resToChooseString = "Resources to choose: ";
         String chosenResString= in.size()+out.size()==0?"No resources to choose from":"Your chosen resources";
         int CenterX = 1+ CLI.getCenterX()-(ResourceCLI.width())/2;
-
-        int startPositionX = CenterX-resToChooseString.length()-(ResourceCLI.width()+1)*(arrowPos);
+        int startPositionX = 0;
+        //int startPositionX = CenterX-resToChooseString.length()-(ResourceCLI.width()+1)*(arrowPos);
 
         Row row = new Row();
         row.addElem(new SizedBox(startPositionX,0));

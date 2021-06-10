@@ -3,22 +3,17 @@ package it.polimi.ingsw.client.view.CLI;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.PersonalBoardBody;
 import it.polimi.ingsw.client.view.CLI.layout.*;
-import it.polimi.ingsw.client.view.CLI.layout.drawables.Drawable;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.DrawableDevCard;
-import it.polimi.ingsw.client.view.CLI.layout.drawables.FaithTrackGridElem;
 import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
 import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCardColor;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.simplemodel.SimpleCardCells;
-import it.polimi.ingsw.network.simplemodel.SimpleFaithTrack;
 
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import static it.polimi.ingsw.client.view.CLI.CLIelem.body.PersonalBoardBody.prodOption;
 
 public class CardShopCLI extends CardShopViewBuilder {
 
@@ -72,11 +67,11 @@ public class CardShopCLI extends CardShopViewBuilder {
         Row top = new Row(Stream.of(new SizedBox(10,0),chosenCard,choices));
         board.setTop(top);
         SimpleCardCells simpleCardCells = getThisPlayerCache().getElem(SimpleCardCells.class).orElseThrow();
-        Row prodsRow = board.productionsBuilder(simpleCardCells);
+        Row prodsRow = board.productionsBuilder(simpleCardCells,null);
         board.setProductions(prodsRow);
         board.setResChoiceRow(choices);
         board.initializeBuyOrChoosePos();
-        board.setMessage("Select the resources to buy the card, only working for warehouse for now");
+        board.setMessage("Select the resources to buy the card");
         getCLIView().setBody(board);
         getCLIView().show();
     }
@@ -93,7 +88,7 @@ public class CardShopCLI extends CardShopViewBuilder {
         board.setTop(chosenCard);
         board.initializeBuyOrChoosePos();
         SimpleCardCells simpleCardCells = getThisPlayerCache().getElem(SimpleCardCells.class).orElseThrow();
-        Row prodsRow = board.productionsBuilder(simpleCardCells);
+        Row prodsRow = board.productionsBuilder(simpleCardCells, null);
         board.setProductions(prodsRow);
         board.setMessage("Choose a position for the card");
         getCLIView().setBody(board);
