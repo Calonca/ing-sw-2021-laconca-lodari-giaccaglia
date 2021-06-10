@@ -30,6 +30,7 @@ import java.util.ResourceBundle;
 public class StartingScreen extends ConnectToServerViewBuilder implements GUIView {
 
 
+    public AnchorPane startingPane;
 
     @Override
     public void run() {
@@ -70,8 +71,10 @@ public class StartingScreen extends ConnectToServerViewBuilder implements GUIVie
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-
+        ImageView imageView=new ImageView(new Image("assets/logo.png"));
+        imageView.setPreserveRatio(true);
+        imageView.setFitWidth(1000);
+        startingPane.getChildren().add(imageView);
     }
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
