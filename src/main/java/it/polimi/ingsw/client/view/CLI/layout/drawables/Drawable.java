@@ -11,6 +11,10 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * An element that can be drawn in a canvas
+ * Contains a colored string and a position in the canvas
+ */
 public class Drawable {
     private List<DrawableLine> drawableLines;
     private UUID id = UUID.randomUUID();
@@ -67,6 +71,9 @@ public class Drawable {
         drawableLines.addAll(list.drawableLines);
     }
 
+    /**
+     * Adds the drawable line to the bottom of the drawable
+     */
     public void add(int x, String s){
         drawableLines.add(new DrawableLine(x, getHeight(), s));
     }

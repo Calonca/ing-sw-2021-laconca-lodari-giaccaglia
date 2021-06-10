@@ -1,20 +1,15 @@
 package it.polimi.ingsw.client.view.GUI;
 
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
-import it.polimi.ingsw.client.CommonData;
-import it.polimi.ingsw.client.view.GUI.GUIelem.ButtonSelectionModel;
+
 import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
-import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
 import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.events.marketboardevent.ChooseLineEvent;
-import it.polimi.ingsw.server.controller.strategy.resourcemarket.PuttingBallOnLine;
-import it.polimi.ingsw.server.model.Resource;
 import javafx.animation.*;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -24,8 +19,6 @@ import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 import javafx.util.Duration;
-
-import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -42,30 +35,46 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
     Text error=new Text("NOT ALLOWED RIGHT NOW.");
     boolean selected=false;
     public Sphere toPut;
+
     public int ROWSIZE=4;
     public int ROWNUMBER=3;
-    public double ballsize=0.75;
-    int h=70;
+
+    public double ballsize=0.8;
+    int rowButtonHeight=130;
+    int columnButtonOffset=150;
 
 
-    double toPutStartingY=-5+ROWSIZE*ballsize*2;;
+    double ballsXOffset=-4.5;
+
+    double toPutStartingY=ballsXOffset+ROWSIZE*ballsize*2;
     double toPutStartingX;
 
-    public double width=300;
-    public double len=260;
+    public double width=400;
+    public double reaWidth=550;
+    public double len=320;
+    public double reaLen=700;
 
     public AnchorPane marketPane;
+    double marketTranslateX=300;
+    double MarketTranslateY=-30;
 
-    double LOWER_CORNER_X=-4.5;
-    double LOWER_CORNER_Y=3.5;
+    double subSceneTranslateY=75;
+    double subSceneTranslateX=75;
     public List<List<Sphere>> rows=new ArrayList<>();
-    public List<List<Sphere>> columns=new ArrayList<>();
 
 
+    /**
+     * This runnable simply enables the market for the user to choose
+     */
     @Override
     public void run() {
+        SubScene toadd=getRoot();
+        toadd.setTranslateX(marketTranslateX);
+        toadd.setTranslateY(MarketTranslateY);
+        toadd.setId("MARKET");
 
-        ViewPersonalBoard.getController().setMarket(true);
+        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(toadd);
+        System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
     }
 
     public SubScene getRoot() {
@@ -79,34 +88,13 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
             e.printStackTrace();
         }
 
-        return new SubScene(root,width,len);
+        return new SubScene(root,reaWidth,reaLen);
 
     }
 
-    public SubScene getDiscardRoot()
-    {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/fxml/DiscardBox.fxml"));
-        Parent root = null;
-        try {
-            root = loader.load();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return new SubScene(root,200,150);
-
-    }
 
     public void addMatrix() {
-        SubScene toadd=getRoot();
-        toadd.setTranslateX(350);
-        toadd.setTranslateY(-250);
-        toadd.setId("MARKET");
 
-        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(toadd);
-        System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
 
     }
 
@@ -165,8 +153,8 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
 
         }
         Button button=new Button();
-        button.setLayoutX(width-30);
-        button.setLayoutY(k*30+h);
+        button.setLayoutX(reaWidth-30);
+        button.setLayoutY(k*80+rowButtonHeight);
         button.setOnAction( p-> {
 
             if(!isUserAllowed())
@@ -175,24 +163,24 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
 
             selected=true;
 
-            moveX(toPut,x,new Duration(0));
-            moveY(toPut,toPut.getTranslateY()-2*ballsize,new Duration(700));
+            toPut.setTranslateX(x);
+            moveY(toPut,toPut.getTranslateY()-2*ballsize,new Duration(100));
 
 
             for (Sphere circle : row) {
 
-                moveY(circle,circle.getTranslateY()-ballsize*2,new Duration(700));
+                moveY(circle,circle.getTranslateY()-ballsize*2,new Duration(100));
             }
+
             Sphere toswap=row.get(0);
             row.remove(0);
             row.add(toPut);
             toPut=toswap;
 
-            moveX(toPut,4*ballsize,new Duration(1700));
+            moveX(toPut,4*ballsize,new Duration(800));
 
-            moveY(toPut,toPutStartingY,new Duration(3000));
+            moveY(toPut,toPutStartingY,new Duration(2200));
 
-            moveX(toPut,toPutStartingX,new Duration(3700));
 
 
 
@@ -216,7 +204,6 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
     public void generateColumns(List<List<Sphere>> rows,int h){
 
 
-        double y=-ballsize*2;
 
         for(int i=0;i<rows.get(0).size();i++)
         {
@@ -226,10 +213,10 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
 
             Button button=new Button();
             button.setLayoutX(h);
-            h+=30;
-            button.setLayoutY(250);
+            h+=80;
+            button.setLayoutY(reaLen/2+70);
 
-            setBut(button,y,i);
+            setBut(button,i);
             marketPane.getChildren().add(button);
 
         }
@@ -237,7 +224,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
 
     }
 
-    public void setBut(Button but,double y,int i)
+    public void setBut(Button but,int i)
     {
         but.setOnAction( p-> {
 
@@ -246,8 +233,10 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
 
             error.setOpacity(0);
 
-            moveY(toPut,toPut.getTranslateY()-(ROWSIZE-i)*ballsize*2,new Duration(0));
-            moveX(toPut,toPut.getTranslateX()+2*ballsize,new Duration(700));
+            toPut.setTranslateY(toPut.getTranslateY()-(ROWSIZE-i)*ballsize*2);
+            toPut.setTranslateX(toPut.getTranslateX()-ballsize*8);
+
+            moveX(toPut,toPut.getTranslateX()+2*ballsize,new Duration(100));
 
 
             ArrayList<Sphere> column= new ArrayList<>();
@@ -256,7 +245,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
             for (Sphere circle : column) {
 
 
-                moveX(circle,circle.getTranslateX()+ballsize*2,new Duration(700));
+                moveX(circle,circle.getTranslateX()+ballsize*2,new Duration(100));
 
 
 
@@ -265,8 +254,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
             column.remove(0);
             column.add(toPut);
             toPut=temp;
-            moveY(toPut,toPutStartingY,new Duration(1400));
-            moveX(toPut,toPutStartingX,new Duration(2200));
+            moveY(toPut,toPutStartingY,new Duration(700));
 
             ChooseLineEvent event=new ChooseLineEvent(i+3);
             getClient().getServerHandler().sendCommandMessage(new EventMessage(event));
@@ -279,6 +267,12 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
 
 
     }
+
+    /**
+     * This method dinamically generates a market matrix, colors it and adapts it to scene width and lenght
+     * @param url is ignored
+     * @param resourceBundle is ignored
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
@@ -294,8 +288,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
 
 
 
-        Group root3D = new Group(camera);
-
+        Group root3D = new Group();
 
 
 
@@ -304,16 +297,15 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
         for(int i=0;i<ROWNUMBER;i++)
         {
             System.out.println(Arrays.toString(getMarketMatrix()[i]));
-            generateRow(root3D,x,-5,i);
+            generateRow(root3D,x,ballsXOffset,i);
             x-=2*ballsize;
         }
 
         toPutStartingX=x;
-        MarbleAsset toPutAsset=getSimpleMarketBoard().getSlideMarble();
 
         toPut=new Sphere(ballsize);
         toPut.translateYProperty().set(toPutStartingY);
-        toPut.translateXProperty().set(toPutStartingX);
+        toPut.translateXProperty().set(toPutStartingX+8*ballsize);
         root3D.getChildren().add(toPut);
 
         List<Color> colors=new ArrayList<>(){{
@@ -335,14 +327,17 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
 
             }
 
-        generateColumns(rows,70);
+        generateColumns(rows,columnButtonOffset);
+
+        SubScene slideSubscene = new SubScene(root3D, width, len, true, SceneAntialiasing.BALANCED);
+        slideSubscene.setTranslateY(subSceneTranslateY);
+        slideSubscene.setTranslateX(subSceneTranslateX);;
+        slideSubscene.setFill(Color.TRANSPARENT);
+        slideSubscene.setCamera(camera);
 
 
-        SubScene subScene = new SubScene(root3D, 300, 260, true, SceneAntialiasing.BALANCED);
-        subScene.setFill(Color.AQUAMARINE);
-        subScene.setCamera(camera);
-
-        marketPane.getChildren().add(0,subScene);
+        marketPane.getChildren().add(slideSubscene);
+        marketPane.setId("marketPane");
         error.setOpacity(0);
         error.setLayoutX(width/2);
         error.setLayoutY((len*4)/5);

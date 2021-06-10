@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.messages.messagebuilders;
 
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
+import it.polimi.ingsw.server.model.player.board.PersonalBoard;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ public class SimpleCardsCellsMessageBuilder {
                 integer -> integer,
                 integer ->{
 
-                    List<Pair<UUID, Boolean>> cardIds = new ArrayList<>();
+                    List<Pair<UUID, Boolean>> cardIds = new ArrayList<>(0);
 
                     if(visibleCardCells.get(integer).size()>0)
                         cardIds = visibleCardCells.get(integer)
@@ -35,6 +36,8 @@ public class SimpleCardsCellsMessageBuilder {
     }
 
     private static boolean checkProductionRequirements(GameModel gameModel, int cardPosition){
-        return gameModel.getCurrentPlayer().getPersonalBoard().getAvailableProductions()[cardPosition+1];
+        Boolean[] prods = gameModel.getCurrentPlayer().getPersonalBoard().getAvailableProductions();
+        return prods[cardPosition];
     }
+
 }

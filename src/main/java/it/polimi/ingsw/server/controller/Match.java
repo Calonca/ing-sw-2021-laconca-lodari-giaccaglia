@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller;
 
+import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
@@ -32,6 +33,21 @@ public class Match {
             this.nickname = nickname;
             this.clientHandler = clientHandler;
         }
+
+        public String getNickname(){
+            return nickname;
+        }
+
+    }
+
+    public String getPlayerNicknameFromHandler(ClientHandler clientHandler){
+
+        String playerNickname = onlineUsers.stream()
+                .filter(user -> user.clientHandler == clientHandler)
+                .findFirst().get()
+                .nickname;
+
+        return playerNickname;
 
     }
 
@@ -120,7 +136,7 @@ public class Match {
         if (gameStrategy==null)
             throw new EventValidationFailedException();
 
-        Pair<State, List<Element>> data = gameStrategy.execute(game,event);
+        Pair<State, List<Element>> data = gameStrategy.execute(game, event);
         game.getCurrentPlayer().setCurrentState(data.getKey());
         notifyStateToAllPlayers(data.getValue());
 

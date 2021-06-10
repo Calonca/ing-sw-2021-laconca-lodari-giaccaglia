@@ -7,11 +7,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.SubScene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-
-import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.net.URL;
@@ -26,13 +23,18 @@ public class CreateMatchGUI extends CreateJoinLoadMatchViewBuilder implements GU
     public javafx.scene.control.Button c;
     public Button d;
 
+    double width=500;
+    double len=400;
+
+    /**
+     * This runnable will append the screen to the scene, removing it after sending the corresponding request
+     */
     public void run()
     {
         Node toAdd=getRoot();
 
         toAdd.setId("CREATE");
         ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(toAdd);
-        System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
     }
 
     public SubScene getRoot() {
@@ -46,10 +48,15 @@ public class CreateMatchGUI extends CreateJoinLoadMatchViewBuilder implements GU
             e.printStackTrace();
         }
 
-        return new SubScene(root,500,400);
+        return new SubScene(root,width,len);
 
     }
 
+    /**
+     * The argument button will be tied to generate a CreateMatchRequest with given inputs
+     * @param b is the match creation button
+     * @param playerCount is the corresponding player number
+     */
     public void bindCreateButton(Button b, int playerCount) {
 
         b.setText(Integer.toString(playerCount));
@@ -65,12 +72,48 @@ public class CreateMatchGUI extends CreateJoinLoadMatchViewBuilder implements GU
 
     }
 
+    /**
+     * Four buttons will be generated, according to given size. Each represent a number of players
+     * @param url is ignored
+     * @param resourceBundle is ignored
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+      /*  a=new Button();
+        a.setLayoutX((2*width)/3);
+        a.setLayoutY((2*len)/3);
+        a.setGraphic(new Text("1"));
+        createPane.getChildren().add(a);
+        bindCreateButton(a,1);
+
+
+        b=new Button();
+        b.setLayoutX((2*width)/3);
+        b.setLayoutY((len)/3);
+        b.setGraphic(new Text("2"));
+        createPane.getChildren().add(b);
+        bindCreateButton(b,2);
+
+
+        c=new Button();
+        c.setLayoutX((width)/3);
+        c.setLayoutY((len)/3);
+        c.setGraphic(new Text("3"));
+        createPane.getChildren().add(c);
+        bindCreateButton(c,3);
+
+
+        d=new Button();
+        d.setLayoutX((width)/3);
+        d.setLayoutY((2*len)/3);
+        d.setGraphic(new Text("4"));
+        createPane.getChildren().add(d);*/
         bindCreateButton(a,1);
         bindCreateButton(b,2);
         bindCreateButton(c,3);
         bindCreateButton(d,4);
+        createPane.setId("pane");
 
     }
 

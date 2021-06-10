@@ -82,7 +82,7 @@ public class WarehouseLeadersDepots implements StorageUnit {
      * @param resGlobalPos the global position of the resource to check whether selected
      * @return if the resource at the given global position is selected
      */
-    boolean getSelected(int resGlobalPos){
+    public boolean getSelected(int resGlobalPos){
         return depotThatHasPos(resGlobalPos).getSelected(resGlobalPos);
     }
 
@@ -223,7 +223,7 @@ public class WarehouseLeadersDepots implements StorageUnit {
      */
     public void addDepot(Depot depot){
 
-        depot.changeDepotGlobalPosOfFirstElement(getNumOfCellsInAllDepots());
+        depot.changeDepotGlobalPosOfFirstElement(getNextGlobalPosition());
         depotAtPosition.addAll(Collections.nCopies(depot.getSize(), depots.size()));
         depots.add(depot);
     }
@@ -290,6 +290,18 @@ public class WarehouseLeadersDepots implements StorageUnit {
     @Override
     public int getTotalSelected(){
         return (int) IntStream.range(0,depotAtPosition.size()).filter((pos)->depotThatHasPos(pos).getSelected(pos)).count();
+    }
+
+    public int getLeaderDepotAtPosResourceType(int spotPosition){
+
+        if(spotPosition>=depotAtPosition.size() || spotPosition<6)
+            return -1;
+
+        int depotPosition =  depotAtPosition.get(spotPosition);
+        LeaderDepot leaderDepot =  (LeaderDepot) depots.get(depotPosition);
+
+        return leaderDepot.geResourceType();
+
     }
 
 

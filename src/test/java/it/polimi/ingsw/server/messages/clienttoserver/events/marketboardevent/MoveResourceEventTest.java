@@ -28,7 +28,7 @@ public class MoveResourceEventTest {
     @Before
     public void setUp() throws Exception {
         initializeGameModel();
-        gameModelTest.setCurrentPlayer(gameModelTest.getPlayer("testPlayer4"));
+        gameModelTest.setCurrentPlayer(gameModelTest.getPlayer("testPlayer4").get());
         gson = new Gson();
     }
 
@@ -83,6 +83,7 @@ public class MoveResourceEventTest {
         System.out.println(resourceNumber);
         gameModelTest.getCurrentPlayer().getPersonalBoard().setMarketBox(discardBox);
         clientEventTest = new MoveResourceEvent(resourceNumber - 4, resourceNumber);
+        clientEventTest.setPlayerNickname(gameModelTest.getCurrentPlayer().getNickName());
 
     }
 
@@ -107,7 +108,8 @@ public class MoveResourceEventTest {
             }
         }
       //  System.out.println(resourceNumber);
-        gameModelTest.getCurrentPlayer().getPersonalBoard().setMarketBox(discardBox);
+         gameModelTest.getCurrentPlayer().getPersonalBoard().setMarketBox(discardBox);
         clientEventTest = new MoveResourceEvent(resourceNumber - 4, resourceNumber);
+        clientEventTest.setPlayerNickname(gameModelTest.getCurrentPlayer().getNickName());
     }
 }

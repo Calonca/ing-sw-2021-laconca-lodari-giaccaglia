@@ -4,8 +4,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<StackPane fx:id="cjlPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #006994;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.GUI.CreateJoinLoadMatch">
-   <TableView fx:id="guiMatchesData" layoutX="100.0" maxHeight="651.0" maxWidth="990.0" onMouseClicked="#clickedColumn" prefHeight="100.0" prefWidth="100.0" translateY="-15.0" />
+<StackPane fx:id="cjlPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.GUI.CreateJoinLoadMatch">
+   <TableView fx:id="guiMatchesData" layoutX="100.0" maxHeight="651.0" maxWidth="990.0" prefHeight="100.0" prefWidth="100.0" translateY="-15.0" />
     <cursor>
         <Cursor fx:constant="OPEN_HAND" />
     </cursor>

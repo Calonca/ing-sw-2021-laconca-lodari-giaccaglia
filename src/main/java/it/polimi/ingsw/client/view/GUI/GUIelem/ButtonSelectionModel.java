@@ -5,12 +5,14 @@ import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ButtonSelectionModel {
@@ -18,97 +20,23 @@ public class ButtonSelectionModel {
     public void setMoving(boolean moving) {
         this.moving = moving;
     }
-
-    public boolean isMoving() {
-        return moving;
-    }
-
     boolean moving=false;
     boolean transferring=false;
     boolean movingCard=false;
-
-
-    int[] allowedRes=new int[]{1,0,1,0};
+    int[] allowedRes=new int[]{0,0,0,0};
 
     boolean isLeader=false;
     boolean isMarket=false;
     boolean isDevelop=false;
     boolean isProduction=false;
 
-    Resource tomove;
-    Resource totransfer;
     DevelopmentCard bought;
-
-    boolean isTransferring()
-    {
-        return transferring;
-    }
 
     public void setAllowedRes(int[] allowedRes) {
         this.allowedRes = allowedRes;
     }
 
 
-
-    public void resourceSelector(List<Integer> selected, List<Button> sceneResourcesToChoose, int maxselection)
-    {
-
-        //SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).get();
-        //List<LeaderCardAsset> leaderpics=simplePlayerLeaders.getPlayerLeaders();
-
-        for (Button sceneButton : sceneResourcesToChoose) {
-
-            sceneButton.setOnAction(e ->
-            {
-
-                int currentSelected=0;
-                {
-                    for (Integer integer : selected) currentSelected += integer;
-                    if(currentSelected+1<maxselection)
-                        selected.add(sceneResourcesToChoose.indexOf(sceneButton));
-
-                }
-            });
-
-        }
-    }
-
-
-    public void bindForPayment(List<ResourceButton> scenePaymentButtons,List<Boolean> scenePaidButtons)
-    {
-
-        //SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).get();
-        //List<LeaderCardAsset> leaderpics=simplePlayerLeaders.getPlayerLeaders();
-
-        for (ResourceButton pay : scenePaymentButtons) {
-
-            if(pay.getResource()==Resource.EMPTY)
-            {
-                scenePaidButtons.set(scenePaymentButtons.indexOf(pay),false);
-                pay.setDisable(true);
-            }
-            pay.color();
-            pay.setOnAction(e ->
-            {
-
-                if (moving)
-                {
-                    moving=false;
-                    tomove=Resource.EMPTY;
-                    scenePaidButtons.set(scenePaymentButtons.indexOf(pay),false);
-                    pay.setDisable(true);
-
-                }
-                for (ResourceButton pay2 : scenePaymentButtons)
-                    if(!pay2.isDisabled())
-                        return;
-                movingCard=true;
-
-
-            });
-
-        }
-    }
 
     public void cardSelector(List<Boolean> selected,List<Button> scenesLeadersToChoose,int maxselection)
     {
@@ -146,112 +74,8 @@ public class ButtonSelectionModel {
 
         }}
 
-    public void bindToMove(List<Boolean> selected,List<ResourceButton> resourcesToMove)
-    {
 
-        //SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).get();
-        //List<LeaderCardAsset> leaderpics=simplePlayerLeaders.getPlayerLeaders();
-
-
-        for (ResourceButton sceneButton : resourcesToMove) {
-
-
-            //sceneButton.setGraphic(temp);
-            sceneButton.setOnAction(e ->
-            {
-                {
-                    if(isTransferring())
-                    {
-                        transferring=false;
-                        //disableFalseEnableTrue(selected,resourcesToMove);
-                        selected.set(resourcesToMove.indexOf(sceneButton),true);
-                        //disableFalseEnableTrue(selected,resourcesToMove);
-                        sceneButton.setResource(totransfer);
-                        totransfer=Resource.EMPTY;
-                        sceneButton.color();
-                    }
-                    else
-                    if(sceneButton.getResource()!=Resource.EMPTY)
-                        if(!moving)
-                        {
-                            moving=true;
-                            selected.set(resourcesToMove.indexOf(sceneButton),false);
-                            //disableTrueEnableFalse(selected,resourcesToMove);
-                            //highlightFalse(selected,resourcesToMove);
-                            tomove=sceneButton.getResource();
-                            sceneButton.setResource(Resource.EMPTY);
-                            sceneButton.color();
-                        }
-                        else
-                            System.out.println("YOU ALREADY MOVING!!");
-                    else
-                        if(!moving)
-                            System.out.println("DONT SELECT AN EMPTY CELL!");
-                        else
-                        {
-                            moving=false;
-                            //disableFalseEnableTrue(selected,resourcesToMove);
-                            selected.set(resourcesToMove.indexOf(sceneButton),true);
-                            deHighlightFalse(selected,resourcesToMove);
-                            //disableFalseEnableTrue(selected,resourcesToMove);
-                            sceneButton.setResource(tomove);
-                            tomove=Resource.EMPTY;
-                            sceneButton.color();
-                        }
-
-
-                }
-            });
-
-        }}
-
-    public void bindToTransfer(List<ResourceButton> resourcesToTransfer)
-    {
-
-        //SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).get();
-        //List<LeaderCardAsset> leaderpics=simplePlayerLeaders.getPlayerLeaders();
-
-
-        for (ResourceButton sceneButton : resourcesToTransfer) {
-
-
-            //sceneButton.setGraphic(temp);
-            sceneButton.setOnAction(e ->
-            {
-                {
-
-                    if(moving)
-                        return;
-                    if(sceneButton.getResource()!=Resource.EMPTY)
-                        if(!transferring)
-                        {
-                            transferring=true;
-                            totransfer=sceneButton.getResource();
-                            sceneButton.setResource(Resource.EMPTY);
-                            sceneButton.color();
-                        }
-                        else
-                            System.out.println("YOU ALREADY TRANSFERRING!!");
-                    else
-                    if(!transferring)
-                        System.out.println("DONT SELECT AN EMPTY CELL!");
-                    else
-                    {
-                        transferring=false;
-                        //disableFalseEnableTrue(selected,resourcesToMove);
-                        //disableFalseEnableTrue(selected,resourcesToMove);
-                        sceneButton.setResource(totransfer);
-                        totransfer=Resource.EMPTY;
-                        sceneButton.color();
-                    }
-
-
-                }
-            });
-
-        }}
-
-    public void disableFalseEnableTrue(List<Boolean> selected,List<ResourceButton> resourcesToMove)
+    public void disableFalseEnableTrue(List<Boolean> selected,List<Button> resourcesToMove)
     {
 
         //SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).get();
@@ -274,13 +98,12 @@ public class ButtonSelectionModel {
 
         }
 
-    public void bindDispenser(List<Boolean> control,List<ResourceButton> selected)
+    public void bindDispenser(List<Integer> control,List<Button> selected,int maxSelection)
     {
 
         //SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).get();
         //List<LeaderCardAsset> leaderpics=simplePlayerLeaders.getPlayerLeaders();
         Button temp;
-
 
         for (int i=0; i<selected.size();i++)
         {
@@ -288,22 +111,32 @@ public class ButtonSelectionModel {
             selected.get(i).setDisable(false);
 
             int finalI = i;
+            if(allowedRes[finalI]==0)
+            {
+                selected.get(finalI).setDisable(true);
+            }
             selected.get(i).setOnAction(p ->
                 {
+                    int currentSelected=0;
 
+                    for (Integer integer : control) currentSelected += integer;
+                    if(currentSelected==maxSelection)
+                        return;
                     if(allowedRes[finalI]==0)
                     {
                         selected.get(finalI).setDisable(true);
                         return;
                     }
                     else
+                    {
                         allowedRes[finalI]--;
+                        control.set(finalI,control.get(finalI)+1);
+                    }
 
                     if(!moving)
                     {
                         transferring=true;
-                        control.set(finalI,!control.get(finalI));
-                        totransfer=selected.get(finalI).getResource();
+                       // totransfer=selected.get(finalI).getResource();
                     }
                     else
                     {
@@ -313,105 +146,16 @@ public class ButtonSelectionModel {
         }
     }
 
-    public void setProductionIn(List<Boolean> selected,List<ResourceButton> toggled)
-    {
-
-        //SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).get();
-        //List<LeaderCardAsset> leaderpics=simplePlayerLeaders.getPlayerLeaders();
-        for(ResourceButton tog : toggled)
-        {
-
-            tog.setOnAction(p ->
-            {
-
-                if(moving)
-                {
-                    if(tog.getResource()==Resource.TOCHOOSE)
-                    {
-                    moving=false;
-                    //disableFalseEnableTrue(selected,resourcesToMove);
-                    selected.set(toggled.indexOf(tog),true);
-                    //disableFalseEnableTrue(selected,resourcesToMove);
-                    tog.setResource(tomove);
-                    tomove=Resource.EMPTY;
-                    tog.color();
-                    }
-                    else
-                        if(tog.getResource()==tomove)
-                        {
-                            moving=false;
-                            //disableFalseEnableTrue(selected,resourcesToMove);
-                            selected.set(toggled.indexOf(tog),true);
-                            //disableFalseEnableTrue(selected,resourcesToMove);
-                            tog.setResource(tomove);
-                            tomove=Resource.EMPTY;
-                            tog.color();
-                        }
-                }
-
-            });
-        }
 
 
-    }
-
-
-    public void selectChoiceFromDispenser(List<ResourceButton> toggled, List<Boolean> selected)
-    {
-
-        //SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).get();
-        //List<LeaderCardAsset> leaderpics=simplePlayerLeaders.getPlayerLeaders();
-        for(ResourceButton tog : toggled)
-        {
-
-            tog.setOnAction(p ->
-            {
-
-                if(tog.getResource()==Resource.TOCHOOSE)
-                {
-
-                    if(transferring)
-                    {
-                        transferring=false;
-                        //disableFalseEnableTrue(selected,resourcesToMove);
-                        //disableFalseEnableTrue(selected,resourcesToMove);
-                        selected.set(toggled.indexOf(tog),true);
-                        tog.setResource(totransfer);
-                        tomove=Resource.EMPTY;
-                        tog.color();
-                    }
-
-                }
-                else
-                if(transferring)
-                    if(totransfer==tog.getResource())
-                {
-                    tog.setGraphic(new Text(tog.getResource().toString()));
-                    transferring=false;
-                    //disableFalseEnableTrue(selected,resourcesToMove);
-                    //disableFalseEnableTrue(selected,resourcesToMove);
-                    selected.set(toggled.indexOf(tog),true);
-                    tog.setResource(totransfer);
-                    tomove=Resource.EMPTY;
-                    tog.color();
-                }
-
-
-            });
-        }
-
-
-    }
-
-
-    public void highlightFalse(List<Boolean> selected,List<ResourceButton> resourcesToMove)
+    public void highlightFalse(List<Boolean> selected,List<Button> resourcesToMove)
     {
 
         //SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).get();
         //List<LeaderCardAsset> leaderpics=simplePlayerLeaders.getPlayerLeaders();
 
 
-        for (ResourceButton sceneButton : resourcesToMove) {
+        for (Button sceneButton : resourcesToMove) {
 
 
             if(!selected.get(resourcesToMove.indexOf(sceneButton)))
@@ -437,7 +181,7 @@ public class ButtonSelectionModel {
 
             if(selected.get(resourcesToMove.indexOf(sceneButton)))
             {
-                resourcesToMove.get(resourcesToMove.indexOf(sceneButton)).setStyle(" -fx-background-color: #000000");
+                resourcesToMove.get(resourcesToMove.indexOf(sceneButton)).setStyle(" -fx-background-color: #fefe33;     -fx-border-radius: 1 ;");
             }
 
 
@@ -457,7 +201,7 @@ public class ButtonSelectionModel {
 
             if(!selected.get(resourcesToMove.indexOf(sceneButton)))
             {
-                resourcesToMove.get(resourcesToMove.indexOf(sceneButton)).setStyle(" -fx-background-color: #ffffff");
+                resourcesToMove.get(resourcesToMove.indexOf(sceneButton)).setStyle(" -fx-background-color: transparent");
             }
 
 
@@ -465,26 +209,26 @@ public class ButtonSelectionModel {
 
     }
 
-    public void deHighlightFalse(List<Boolean> selected,List<ResourceButton> resourcesToMove)
+    public void deHighlightFalse(List<Boolean> selected,List<Button> resourcesToMove)
     {
 
         //SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).get();
         //List<LeaderCardAsset> leaderpics=simplePlayerLeaders.getPlayerLeaders();
 
 
-        for (ResourceButton sceneButton : resourcesToMove) {
+        for (Button sceneButton : resourcesToMove) {
 
 
             if(!selected.get(resourcesToMove.indexOf(sceneButton)))
             {
-                resourcesToMove.get(resourcesToMove.indexOf(sceneButton)).setStyle(" -fx-background-color: #ffffff");
+                resourcesToMove.get(resourcesToMove.indexOf(sceneButton)).setStyle(" -fx-background-color: transparent");
             }
 
 
         };
 
     }
-    public void disableTrueEnableFalse(List<Boolean> selected,List<ResourceButton> resourcesToMove)
+    public void disableTrueEnableFalse(List<Boolean> selected,List<Button> resourcesToMove)
     {
 
         //SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).get();
@@ -508,28 +252,7 @@ public class ButtonSelectionModel {
     }
 
 
-    public void initializeFalseOnEmpty(List<Boolean> selected,List<ResourceButton> resourcesToMove)
-    {
 
-        //SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).get();
-        //List<LeaderCardAsset> leaderpics=simplePlayerLeaders.getPlayerLeaders();
-
-
-        for (ResourceButton sceneButton : resourcesToMove) {
-
-
-            if(sceneButton.getResource()!= Resource.EMPTY)
-            {
-                selected.set(resourcesToMove.indexOf(sceneButton),true);
-            }
-            else
-            {
-                selected.set(resourcesToMove.indexOf(sceneButton),false);
-            }
-
-        };
-
-    }
 
 
     public void setLeader(boolean leader) {
@@ -583,8 +306,6 @@ public class ButtonSelectionModel {
     public void setBought(DevelopmentCard bought) {
         this.bought = bought;
     }
-
-
 
 
 

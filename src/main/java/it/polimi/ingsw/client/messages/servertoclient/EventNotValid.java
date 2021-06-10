@@ -22,6 +22,7 @@ public class EventNotValid extends it.polimi.ingsw.network.messages.servertoclie
         String state = serverHandler.getClient().getSimpleModel().getPlayerCache(playerI).getCurrentState();
         serverHandler.getClient().setState(new StateInNetwork(playerI,state,new ArrayList<>(),new ArrayList<>()));
         serverHandler.getClient().changeViewBuilder(serverHandler.getClient().getCurrentViewBuilder());
+        serverHandler.getClient().setState(new StateInNetwork(playerI,state,new ArrayList<>(),new ArrayList<>()));
         System.out.println(Color.colorString("The last event send was not valid, going back to the last valid state",Color.RED));
         //Todo better handling
     }

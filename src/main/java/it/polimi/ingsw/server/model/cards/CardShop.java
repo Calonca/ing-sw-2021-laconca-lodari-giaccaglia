@@ -109,7 +109,7 @@ public class CardShop {
      */
 
     public DevelopmentCard takePurchasedCard(){
-        return new DevelopmentCard(devDecks.get(purchasedCard.getCardType()).get(purchasedCard.getLevel()).getCard());
+        return devDecks.get(purchasedCard.getCardType()).get(purchasedCard.getLevel()).getCard();
     }
 
     public DevelopmentCard getCopyOfPurchasedCard(){
@@ -175,12 +175,16 @@ public class CardShop {
                             .collect(Collectors.toMap(intKey -> intKey, intKey-> {
 
                               int deckSize = devDecks.get(colorKey).get(intKey).getDeckSize();
-                              return  IntStream.range(0, deckSize)
+
+
+                              int startOfRange = (deckSize>2) ? (deckSize-2) : 0;
+
+
+                              return IntStream.range(startOfRange, deckSize)
                                         .boxed()
                                         .sorted(Collections.reverseOrder())
                                         .map(
-                                        position ->  devDecks.get(colorKey).get(intKey).getCardCopyFromPosition(position)
-                                )
+                                        position ->  devDecks.get(colorKey).get(intKey).getCardCopyFromPosition(position))
                                         .filter(Optional::isPresent).map(Optional::get)
                                         .collect(Collectors.toList());
 

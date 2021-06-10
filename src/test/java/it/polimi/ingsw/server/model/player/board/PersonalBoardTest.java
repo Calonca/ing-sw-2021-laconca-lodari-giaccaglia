@@ -95,7 +95,7 @@ public class PersonalBoardTest {
     @Test
     public void testProduction() {
         board.addProduction(new Production(new int[]{4,8,0,0,0,0,1},new int[]{0,0,1,0,2,3,1}));
-        assertArrayEquals(new Boolean[]{true,true,false,true,true}, board.getAvailableProductions());
+        assertArrayEquals(new Boolean[]{true,false,true,false,true,true}, board.getAvailableProductions());
         //Select first production
         board.selectProductionAt(5);
         board.performChoiceOnInput(-8);
@@ -129,7 +129,7 @@ public class PersonalBoardTest {
         //Production
         board.produce();
         assertArrayEquals(new Boolean[]{false,false,false,false,false}, board.getSelectedProduction());
-        assertArrayEquals(new Boolean[]{true,true,false,true,false}, board.getAvailableProductions());
+        assertArrayEquals(new Boolean[]{true,false,true,false,true,false}, board.getAvailableProductions());
         assertArrayEquals(
                 new Boolean[]{true,false,false},
                 board.getCardCells().stream().map(ProductionCardCell::getFrontCard).map(Objects::isNull).toArray());
@@ -296,21 +296,21 @@ public class PersonalBoardTest {
 
     @Test
     public void getAvailableProductions() {
-        assertArrayEquals(new Boolean[]{true,true,false,true}, board.getAvailableProductions());
+        assertArrayEquals(new Boolean[]{true,false,true,false,true}, board.getAvailableProductions());
         board.getStrongBox().addResources(new int[]{100,0,0,0});
-        assertArrayEquals(new Boolean[]{true,true,true,true}, board.getAvailableProductions());
+        assertArrayEquals(new Boolean[]{true,false,true,true,true}, board.getAvailableProductions());
         board.getStrongBox().removeResources(new int[]{105,0,0,0});
-        assertArrayEquals(new Boolean[]{true,true,false,true}, board.getAvailableProductions());
+        assertArrayEquals(new Boolean[]{true,false,true,false,true}, board.getAvailableProductions());
         board.getWarehouseLeadersDepots().removeResource(2);
-        assertArrayEquals(new Boolean[]{true,false,false,true}, board.getAvailableProductions());
+        assertArrayEquals(new Boolean[]{true,false,false,false,true}, board.getAvailableProductions());
         board.getStrongBox().removeResources(new int[]{0,15,1,0});
-        assertArrayEquals(new Boolean[]{true,false,false,true}, board.getAvailableProductions());
+        assertArrayEquals(new Boolean[]{true,false,false,false,true}, board.getAvailableProductions());
         board.getWarehouseLeadersDepots().removeResource(0);
         assertEquals(2,board.numOfResources());
-        assertArrayEquals(new Boolean[]{true,false,false,false}, board.getAvailableProductions());
+        assertArrayEquals(new Boolean[]{true,false,false,false,false}, board.getAvailableProductions());
         board.getStrongBox().removeResources(new int[]{0,0,1,0});
         assertEquals(1,board.numOfResources());
-        assertArrayEquals(new Boolean[]{false,false,false,false}, board.getAvailableProductions());
+        assertArrayEquals(new Boolean[]{false,false,false,false,false}, board.getAvailableProductions());
     }
 
 

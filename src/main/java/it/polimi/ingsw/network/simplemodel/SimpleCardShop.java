@@ -1,9 +1,9 @@
 package it.polimi.ingsw.network.simplemodel;
 
 import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
-import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCardColor;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -21,8 +21,11 @@ public class SimpleCardShop extends SimpleModelElement{
     public SimpleCardShop(Map<NetworkDevelopmentCardColor, Map<Integer, List<DevelopmentCardAsset>>> simpleCardShop, DevelopmentCardAsset purchasedCard) {
         this.simpleCardShop = simpleCardShop;
         this.purchasedCard = purchasedCard;
+        anyCardPurchasable = isAnyCardPurchasable();
+    }
 
-        anyCardPurchasable = simpleCardShop.keySet().stream()
+    private boolean isAnyCardPurchasable() {
+        return simpleCardShop.keySet().stream()
                 .anyMatch(color ->
 
                         simpleCardShop.get(color).values().stream()
@@ -37,6 +40,7 @@ public class SimpleCardShop extends SimpleModelElement{
         SimpleCardShop serverCardShop = (SimpleCardShop) element;
         this.simpleCardShop = serverCardShop.simpleCardShop;
         this.purchasedCard = serverCardShop.purchasedCard;
+        this.anyCardPurchasable = isAnyCardPurchasable();
     }
 
 
@@ -52,7 +56,7 @@ public class SimpleCardShop extends SimpleModelElement{
         return Optional.of(purchasedCard);
     }
 
-    public boolean isAnyCardPurchasable(){
+    public boolean getIsAnyCardPurchasable(){
         return anyCardPurchasable;
     }
 

@@ -54,8 +54,6 @@ public class Player {
      */
     private FaithTrack faithTrack;
 
-
-
     private final boolean[] marketBonus;
 
     private StatesTransitionTable statesTransitionTable;

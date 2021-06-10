@@ -89,10 +89,11 @@ public class StatesTransitionTable {
 
         //--- Activate the Production --//
 
-        //Choosing Card For Production
-        eventsAndStrategy.put(name(ChooseProductionAtPositionEvent.class), new TogglingForProduction());
+        //Select/Deselect Production
+        eventsAndStrategy.put(name(ToggleProductionAtPosition.class), new TogglingForProduction());
         statesTransitionTable.table.put(State.CHOOSING_PRODUCTION, eventsAndStrategy);
         eventsAndStrategy = new HashMap<>();
+
 
         //Choosing Resource For Production
         eventsAndStrategy.put(name(ChooseResourcesForProductionEvent.class), new ChoosingResourceForProduction());

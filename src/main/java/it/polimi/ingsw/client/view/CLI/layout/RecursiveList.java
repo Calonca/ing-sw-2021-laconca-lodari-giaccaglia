@@ -1,33 +1,35 @@
 package it.polimi.ingsw.client.view.CLI.layout;
 
 import it.polimi.ingsw.client.view.CLI.CLI;
-import it.polimi.ingsw.network.simplemodel.SimpleModelElement;
-import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public abstract class OptionList extends GridElem{
+
+/**
+ * A list of {@link GridElem}, but since it also extends {@link GridElem} it can contain other {@link RecursiveList}.<br>
+ * It draws each {@link GridElem element} it contains recursively using each element height, width and alignment
+ */
+public abstract class RecursiveList extends GridElem {
 
     protected List<GridElem> elems;
     private Option lastSelectedOption;
 
-    public OptionList(){
+    public RecursiveList(){
         elems = new ArrayList<>();
         alignment = Alignment.START;
     }
 
-    public OptionList(Stream<Option> elem){
+    public RecursiveList(Stream<? extends GridElem> elem){
         this();
         elem.forEach(this::addElem);
     }
 
     public void addElem(GridElem elem){
-        elem.setFirstIdx(getLastIndex()+1);
+        elem.setFirstIdx(getNextElemIndex());
         elems.add(elem);
     }
 
@@ -50,20 +52,25 @@ public abstract class OptionList extends GridElem{
     @Override
     public void setFirstIdx(int firstIdx) {
         super.setFirstIdx(firstIdx);
-        if (!elems.isEmpty())
-            IntStream.range(0,elems.size()).forEach(i->elems.get(i).setFirstIdx(firstIdx+i));
+        if (!elems.isEmpty()){
+            List<GridElem> oldElems = elems;
+            elems = new ArrayList<>();
+            oldElems.forEach(this::addElem);
+            }
     }
 
+
+
     @Override
-    public int getLastIndex() {
+    public int getNextElemIndex() {
         if (elems.isEmpty())
-            return getFirstIdx()-1;
-        return elems.get(elems.size()-1).getLastIndex();
+            return getFirstIdx();
+        return elems.get(elems.size()-1).getNextElemIndex();
     }
 
     @Override
     public Optional<Option> getOptionWithIndex(int i) {
-        return elems.stream().filter(e->i>=e.getFirstIdx()&&i<=e.getLastIndex())
+        return elems.stream().filter(e->i>=e.getFirstIdx()&&i<=e.getNextElemIndex())
                 .map(e2->e2.getOptionWithIndex(i))
                 .filter(Optional::isPresent).map(Optional::get).findFirst();
     }
@@ -94,7 +101,7 @@ public abstract class OptionList extends GridElem{
             selectOptionAtPosition(choice);
             performLastChoice();
         };
-        cli.runOnIntInput("Select a choice:","Select a valid choice", getFirstIdx(),getLastIndex(),r);
+        cli.runOnIntInput("Select a choice:","Select a valid choice", getFirstIdx(), getNextElemIndex(),r);
     }
 
     public void selectInEnabledOption(CLI cli, String message)

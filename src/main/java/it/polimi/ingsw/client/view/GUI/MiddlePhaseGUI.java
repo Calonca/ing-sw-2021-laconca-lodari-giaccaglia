@@ -1,18 +1,15 @@
 package it.polimi.ingsw.client.view.GUI;
-
-import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.abstractview.MiddlePhaseViewBuilder;
+import it.polimi.ingsw.network.simplemodel.SimpleCardShop;
+import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.SubScene;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.net.URL;
@@ -22,7 +19,11 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
     public Button cardButton;
     public Button productionButton;
     public Button resourceMarketButton;
+    public AnchorPane middleAnchor;
 
+    /**
+     * This runnable appends the scene to the current view
+     */
     @Override
     public void run() {
         SubScene toadd=getRoot();
@@ -47,49 +48,65 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
 
     }
 
+    /**
+     * When market line choice is performed, Discard Box gets initialized
+     * @param evt is a fired support property
+     */
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(State.CHOOSING_POSITION_FOR_RESOURCES.name()))
         {
             DiscardBoxInitializer disc=new DiscardBoxInitializer();
             Platform.runLater(disc);
+            ChooseResourceForMarket chooseResourceForMarket=new ChooseResourceForMarket();
+            Platform.runLater(chooseResourceForMarket);
+        }
+        if (evt.getPropertyName().equals(State.CHOOSING_MARKET_LINE.name()))
+        {
+
         }
     }
 
     public void sendChoice(Choice choice) {
 
         sendMessage(choice);
-        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(3);
+        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(((Pane)getClient().getStage().getScene().getRoot()).getChildren().size()-1);
 
 
     }
+
+    /**
+     * Scene buttons get bound to controller
+     * @param url is ignored
+     * @param resourceBundle is ignored
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //Todo use MiddlePhaseViewBuilder.sendMessage(Choice.PRODUCTION);
-        // MiddlePhaseViewBuilder.sendMessage(Choice.RESOURCE_MARKET);
-        // MiddlePhaseViewBuilder.sendMessage(Choice.CARD_SHOP);
-        // to send the messages to the client
-        cardButton.setOnAction( e ->
-        {
 
-            sendChoice(Choice.CARD_SHOP);
+        //todo remove runlater
+        cardButton.setOnAction( p ->
+        {
             ViewPersonalBoard.getController().isCardShopOpen(true);
+            CardShopGUI cs=new CardShopGUI();
+            Platform.runLater(cs);
+            sendChoice(Choice.CARD_SHOP);
 
         });
-        productionButton.setOnAction( e ->
-        {
+        if(!ViewPersonalBoard.getController().isCardShopOpen())
+            cardButton.setDisable(true);
 
-            sendChoice(Choice.PRODUCTION);
-            ViewPersonalBoard.getController().isProduction(true);
 
-        });
+
+
         resourceMarketButton.setOnAction( e ->
         {
 
+            ResourceMarketGUI res=new ResourceMarketGUI();
+            Platform.runLater(res);
             sendChoice(Choice.RESOURCE_MARKET);
             ViewPersonalBoard.getController().isMarket(true);
 
         });
 
-
+        middleAnchor.setId("pane");
     }
 }

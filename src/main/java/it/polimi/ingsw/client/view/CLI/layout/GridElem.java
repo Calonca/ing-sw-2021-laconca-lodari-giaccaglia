@@ -6,6 +6,11 @@ import javafx.util.Pair;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * An element of {@link RecursiveList}, it has an index in the list, an alignment, a character width and height in the cli
+ * and also a method to draw the element
+ *
+ */
 public abstract class GridElem {
     public enum Alignment {
         START,
@@ -19,7 +24,10 @@ public abstract class GridElem {
         return firstIdx;
     };
 
-    public abstract int getLastIndex();
+    /**
+     * Returns the index of the next added element
+     */
+    public abstract int getNextElemIndex();
 
     public Alignment getAlignment() {
         return alignment;

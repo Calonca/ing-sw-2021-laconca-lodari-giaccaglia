@@ -1,17 +1,19 @@
 package it.polimi.ingsw.client.view.GUI;
-
-import it.polimi.ingsw.client.view.GUI.GUIelem.ResourceButton;
+import javafx.scene.control.Button;
 import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.simplemodel.SimpleDiscardBox;
 import it.polimi.ingsw.server.model.Resource;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.util.Pair;
 
+import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -24,16 +26,17 @@ import java.util.ResourceBundle;
  */
 public class DiscardBoxInitializer extends ResourceMarketViewBuilder implements GUIView {
 
-    ResourceButton button1=new ResourceButton();
-    ResourceButton button2=new ResourceButton();
-    ResourceButton button3=new ResourceButton();
-    ResourceButton button4=new ResourceButton();
-    javafx.collections.ObservableList<Boolean> selected;
 
-    List<Resource> resourcesToBind=new ArrayList<>();
-    List<ResourceButton> sceneButtons=new ArrayList<>();
+    javafx.collections.ObservableList<Integer> selected;
+    Button cicic;
+    List<Button> sceneButtons=new ArrayList<>();
     public AnchorPane discardPane;
+    double width=200;
+    double len=width/4;
 
+    /**
+     * This runnable will convert the received discardbox for resource choosing
+     */
     @Override
     public void run() {
 
@@ -43,8 +46,9 @@ public class DiscardBoxInitializer extends ResourceMarketViewBuilder implements 
         int startpos=-4;
         for(int i=0;i<4;i++)
         {
+            //todo fix stone
             temp[i]+=discardBoxMap.get(startpos).getValue();
-
+            startpos++;
         }
         ViewPersonalBoard.getController().setAllowedRes(temp);
         fillDiscardBox();
@@ -61,16 +65,14 @@ public class DiscardBoxInitializer extends ResourceMarketViewBuilder implements 
             e.printStackTrace();
         }
 
-        return new SubScene(root,200,200);
+        return new SubScene(root,width,len);
 
     }
 
 
-    public void setResourcesToBind(List<Resource> resourcesToBind) {
-        this.resourcesToBind = resourcesToBind;
-    }
-
-
+    /**
+     * This method will append the discard box to the current view
+     */
     public void fillDiscardBox()
     {
         SubScene toadd=getRoot();
@@ -82,84 +84,75 @@ public class DiscardBoxInitializer extends ResourceMarketViewBuilder implements 
         System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
     }
 
-    public void setResources(List<Resource> toPick)
-    {
-        button1.setResource(toPick.get(0));
-        button1.color();
-        getClient().getStage().show();
-    }
-
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
+        Button button1=new Button();
+        Button button2=new Button();
+        Button button3=new Button();
+        Button button4=new Button();
 
-        button1.setLayoutY(100);
-        button1.setLayoutX(100);
+        ImageView resourceSupply=new ImageView(new Image("assets/punchboard/ResourceSupply.png"));
+        resourceSupply.setFitWidth(width);
+        resourceSupply.setFitHeight(len);
+        discardPane.getChildren().add(resourceSupply);
         sceneButtons.add(button1);
         discardPane.getChildren().add(button1);
 
-        button2.setLayoutY(50);
-        button2.setLayoutX(50);
         sceneButtons.add(button2);
         discardPane.getChildren().add(button2);
 
-
-        button3.setLayoutY(100);
-        button3.setLayoutX(50);
         sceneButtons.add(button3);
         discardPane.getChildren().add(button3);
 
-
-
-        button4.setLayoutY(50);
-        button4.setLayoutX(100);
         sceneButtons.add(button4);
         discardPane.getChildren().add(button4);
 
+        for(int i=0;i<sceneButtons.size();i++)
+        {
+            sceneButtons.get(i).setLayoutX(width/8+i*width/4-15);
+            sceneButtons.get(i).setLayoutY(len/2-10);
+        }
 
-
-        button3.setResource(Resource.SERVANT);
-        button4.setResource(Resource.GOLD);
-        button3.color();
-        button4.color();
 
         List<Resource> dispensed=new ArrayList<>();
         dispensed.add(Resource.GOLD);
-        dispensed.add(Resource.STONE);
         dispensed.add(Resource.SERVANT);
         dispensed.add(Resource.SHIELD);
+        dispensed.add(Resource.STONE);
 
         selected=javafx.collections.FXCollections.observableArrayList();
 
-        for(ResourceButton res : sceneButtons)
-            selected.add(true);
+        for(Button into : sceneButtons)
+            selected.add(0);
+
+    //todo generaliz
+        List<Image> res=new ArrayList<>();
+            res.add(new Image("assets/resources/GOLD.png"));
+            res.add(new Image("assets/resources/SERVANT.png"));
+            res.add(new Image("assets/resources/SHIELD.png"));
+            res.add(new Image("assets/resources/STONE.png"));
+
+
         for(int i=0;i<sceneButtons.size();i++)
         {
-            sceneButtons.get(i).setResource(dispensed.get(i));
-            sceneButtons.get(i).color();
+            ImageView tempResize=new ImageView((res.get(i)));
+            tempResize.setFitHeight(10);
+            tempResize.setFitWidth(10);
+            sceneButtons.get(i).setGraphic(tempResize);
 
         }
-        ViewPersonalBoard.getController().setAllowedRes(new int[]{1,1,1,1});
-        ViewPersonalBoard.getController().bindDispenser(selected,sceneButtons);
-
-        List<Image> res=new ArrayList<>();
-        res.add(new Image("assets/resources/GOLD.png"));
-        res.add(new Image("assets/resources/SERVANT.png"));
-        res.add(new Image("assets/resources/SHIELD.png"));
-        res.add(new Image("assets/resources/STONE.png"));
-        selected.addListener(new javafx.collections.ListChangeListener<Boolean>() {
-            @Override
-            public void onChanged(Change<? extends Boolean> c) {
-                c.next();
-                if(!c.getAddedSubList().get(0))
-                    getClient().getStage().getScene().setCursor(new ImageCursor(res.get(sceneButtons.get(c.getFrom()).getResource().getResourceNumber())));
-                else
-                    getClient().getStage().getScene().setCursor(ImageCursor.HAND);
+        ViewPersonalBoard.getController().bindDispenser(selected,sceneButtons,10);
 
 
-            }});
+        selected.addListener((ListChangeListener<Integer>) c -> {
+            c.next();
+            getClient().getStage().getScene().setCursor(new ImageCursor(res.get(c.getFrom())));
+            System.out.println(selected);
+
+        });
 
 
 

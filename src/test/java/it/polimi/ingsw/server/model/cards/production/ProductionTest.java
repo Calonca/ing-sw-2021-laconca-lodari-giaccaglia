@@ -201,7 +201,7 @@ public class ProductionTest {
     {
         Production productiontest= Production.basicProduction();
         productiontest.performChoiceOnOutput(Resource.FAITH);
-        productiontest.resetchoice();
-        assertArrayEquals(new int[]{0,0,0,0,0,1,1}, productiontest.getOutputs());
+        productiontest.resetChoice();
+        assertArrayEquals(new int[]{0,0,0,0,0,0,1}, productiontest.getOutputs());
     }
 }

@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.view.GUI.CardShopGUI;
 import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.events.cardshopevent.ChooseCardEvent;
 import it.polimi.ingsw.network.messages.clienttoserver.events.cardshopevent.ChooseCardPositionEvent;
+import it.polimi.ingsw.network.messages.clienttoserver.events.cardshopevent.ChooseResourceForCardShopEvent;
 import it.polimi.ingsw.network.simplemodel.SimpleCardShop;
 
 import java.beans.PropertyChangeEvent;
@@ -29,16 +30,15 @@ public abstract class CardShopViewBuilder extends ViewBuilder{
     }
 
 
-    protected void sendResourcesToBuy(List<Integer> positions){
-        //Todo uncomment when ChooseResourceForCardShopEvent interface has changed
-        //getClient().getServerHandler().sendCommandMessage(new EventMessage(new ChooseResourceForCardShopEvent(positions)));
+    public static void sendResourcesToBuy(List<Integer> positions){
+        getClient().getServerHandler().sendCommandMessage(new EventMessage(new ChooseResourceForCardShopEvent(positions)));
     }
 
     protected void sendChosenCard(int cardColor, int cardLevel){
         getClient().getServerHandler().sendCommandMessage(new EventMessage(new ChooseCardEvent(cardColor,cardLevel)));
     }
 
-    protected void sendCardPlacementPosition(int position) {
+    public static void sendCardPlacementPosition(int position) {
         getClient().getServerHandler().sendCommandMessage(new EventMessage(new ChooseCardPositionEvent(position)));
     }
 

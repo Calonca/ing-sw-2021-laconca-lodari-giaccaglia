@@ -33,14 +33,13 @@ public class ChoosingSpaceForDevelopmentCard implements GameStrategy {
 
         PersonalBoard currentBoard = gamemodel.getCurrentPlayer().getPersonalBoard();
         DevelopmentCard purchaseCard = gamemodel.takePurchasedCardFromShop();
-        ProductionCardCell chosenCell = currentBoard.getCardCells().get(chosenPosition);
 
         currentBoard.addDevelopmentCardToCell(purchaseCard, chosenPosition);
-        chosenCell.addToTop(purchaseCard);
 
         elementsToUpdate.add(Element.SimpleCardCells);
         elementsToUpdate.add(Element.SimpleCardShop);
         elementsToUpdate.add(Element.SimplePlayerLeaders);
+        elementsToUpdate.add(Element.SimpleProductions);
 
         if((
                 gamemodel.isSomeDevCardColourOutOfStock() && gamemodel.isSinglePlayer()) ||

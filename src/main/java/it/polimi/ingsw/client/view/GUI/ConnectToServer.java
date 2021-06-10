@@ -1,17 +1,18 @@
 package it.polimi.ingsw.client.view.GUI;
 
-import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.view.abstractview.ConnectToServerViewBuilder;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.geometry.VPos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -19,16 +20,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.*;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.Stack;
 
 /**
  * During this phase, the player will be asked to connect to a game server. It's composed by three text forms
@@ -38,11 +36,8 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
 
     public Text error;
     public AnchorPane connectionPane;
-    @FXML
-    private AnchorPane connectionAnchor;
-  
 
-    private StackPane firstPane = null;
+
 
     private TextField addressText;
     private TextField portText;
@@ -51,21 +46,35 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
     @Override
     public void run() {
 
-        firstPane = new StackPane();
-        firstPane.setPrefWidth(1000);
-        firstPane.setPrefHeight(700);
-        firstPane.getChildren().add(getRoot());
 
-        Scene scene = new Scene(firstPane);
-        getClient().getStage().setScene(scene);
+
+        SubScene root=getRoot();
+        root.setId("CONNECT");
+
+        root.translateYProperty().set(getClient().getStage().getScene().getHeight());
+        Timeline timeline=new Timeline();
+        KeyValue kv= new KeyValue(root.translateYProperty(),0, Interpolator.EASE_IN);
+        KeyFrame kf= new KeyFrame(Duration.seconds(0.5),kv);
+        timeline.getKeyFrames().add(kf);
+        timeline.play();
+
+        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(0);
+        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(root);
+        getClient().getStage().getScene().getStylesheets().add("assets/application.css");
+
         getClient().getStage().show();
+
+
         System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
 
     }
 
 
-
-    public Parent getRoot() {
+    /**
+     * The first scene needs a parent, starting from the second this method will only return SubScene
+     * @return the first game scene
+     */
+    public SubScene getRoot() {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/ConnectToServerScene.fxml"));
         Parent root = null;
@@ -76,30 +85,32 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
             e.printStackTrace();
         }
 
-        return root;
+        return new SubScene(root,1000,700);
 
     }
     //Add buttons here that call client.changeViewBuilder(new *****, this);
 
-    public void handleButton()
+    public Button validationButton()
     {
+        Button button=new Button();
+        button.setLayoutX(500);
+        button.setLayoutY(350);
+        button.setText("CONNECT");
+        button.setOnAction(p->
+        {
+            if(!nickText.getCharacters().toString().isEmpty())
+                if(isIPAddr(addressText.getCharacters().toString()))
+                    if(Integer.parseInt(portText.getCharacters().toString())<65536)
+                    {
+                        getClient().getCommonData().setCurrentnick(nickText.getCharacters().toString());
+                        getClient().setServerConnection(addressText.getCharacters().toString(),Integer.parseInt(portText.getCharacters().toString()));
+                        getClient().run();
+                        return;
+                    }
+            error.setOpacity(200);
 
-        if(!nickText.getCharacters().toString().isEmpty())
-            if(isIPAddr(addressText.getCharacters().toString()))
-                if(Integer.parseInt(portText.getCharacters().toString())<65536)
-                {
-                    getClient().getCommonData().setCurrentnick(nickText.getCharacters().toString());
-                    getClient().setServerConnection(addressText.getCharacters().toString(),Integer.parseInt(portText.getCharacters().toString()));
-                    getClient().run();
-                    return;
-                }
-
-
-        error.setOpacity(200);
-
-
-        getClient().getStage().show();
-
+        });
+        return button;
     }
 
 
@@ -107,8 +118,8 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
 
-        ImageView logoView=new ImageView(new Image("assets/logo.png", true));
-        StackPane.setAlignment(logoView,Pos.TOP_CENTER);
+
+
 
         nickText=new TextField();
         nickText.setLayoutX(461);
@@ -131,23 +142,21 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
         addressText.setLayoutY(445);
 
 
-        logoView.setFitWidth(800);
-        logoView.setFitHeight(300);
-        logoView.setLayoutX(100);
+        connectionPane.getChildren().add(nickText);
+        connectionPane.getChildren().add(addressText);
+        connectionPane.getChildren().add(portText);
+        connectionPane.getChildren().add(validationButton());
+        connectionPane.setId("background");
 
-        connectionAnchor.getChildren().add(nickText);
-        connectionAnchor.getChildren().add(addressText);
-        connectionAnchor.getChildren().add(portText);
 
-        connectionAnchor.getChildren().add(logoView);
+
+
     }
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(CommonData.matchesDataString))
             Platform.runLater(()->
-            {
-                getClient().changeViewBuilder(new CreateJoinLoadMatch());
-            });
+                    getClient().changeViewBuilder(new CreateJoinLoadMatch()));
 
     }
 }

@@ -5,8 +5,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0" style="-fx-border-color: #fefe22; -fx-background-color: #006994;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.GUI.MiddlePhaseGUI">
-   <Button fx:id="resourceMarketButton" layoutX="368.0" layoutY="187.0" mnemonicParsing="false" style="-fx-border-color: #fefe22;" text="MARKET" StackPane.alignment="CENTER_LEFT">
+<AnchorPane fx:id="middleAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.GUI.MiddlePhaseGUI">
+   <Button fx:id="resourceMarketButton" layoutX="368.0" layoutY="187.0" mnemonicParsing="false" text="MARKET" StackPane.alignment="CENTER_LEFT">
       <StackPane.margin>
          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
       </StackPane.margin>

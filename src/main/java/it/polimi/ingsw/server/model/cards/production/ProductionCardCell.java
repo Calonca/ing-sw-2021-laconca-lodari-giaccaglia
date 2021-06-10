@@ -14,6 +14,7 @@ import java.util.Optional;
 public class ProductionCardCell {
 
     private DevelopmentCard cardOnTop;
+
     private int maxsize=3;
 
     private final List<DevelopmentCard> stackedCards;
@@ -22,7 +23,6 @@ public class ProductionCardCell {
     {
         this.stackedCards=new ArrayList<>();
     }
-
 
     public int getStackedCardsSize() {
         return stackedCards.size();
@@ -51,7 +51,7 @@ public class ProductionCardCell {
      */
     public boolean isSpotAvailable(DevelopmentCard card)
     {
-        return stackedCards.size()<maxsize&&card.getLevel()==stackedCards.size()+1;
+        return (stackedCards.size()<maxsize) && (card.getLevel()==stackedCards.size()+1);
     }
 
     /**
@@ -70,7 +70,6 @@ public class ProductionCardCell {
      */
     public int howManyOfColor(DevelopmentCardColor color, int level)
     {
-
         int temp=0;
         for (DevelopmentCard stackedCard : stackedCards) {
             if (stackedCard.getCardType() == color)

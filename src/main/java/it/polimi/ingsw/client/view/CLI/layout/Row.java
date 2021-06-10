@@ -4,12 +4,12 @@ import it.polimi.ingsw.client.view.CLI.layout.drawables.Canvas;
 
 import java.util.stream.Stream;
 
-public class Row extends OptionList {
+public class Row extends RecursiveList {
 
     public Row() {
     }
 
-    public Row(Stream<Option> elem) {
+    public Row(Stream<? extends GridElem> elem) {
         super(elem);
     }
 

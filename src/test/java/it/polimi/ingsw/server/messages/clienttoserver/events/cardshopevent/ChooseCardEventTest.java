@@ -28,7 +28,7 @@ public class ChooseCardEventTest {
     @Before
     public void setup(){
         initializeGameModel();
-        gameModelTest.setCurrentPlayer(gameModelTest.getPlayer("testPlayer2"));
+        gameModelTest.setCurrentPlayer(gameModelTest.getPlayer("testPlayer2").get());
         gson = new Gson();
     }
 
@@ -65,7 +65,7 @@ public class ChooseCardEventTest {
 
         gameModelTest.getCurrentPlayer().getPersonalBoard().setMarketBox(discardBox);
         for (int position = 0; position < 4; position++) {
-            if (discardBox.getNumberOf(Resource.fromInt(position)) > 0) {
+            if (discardBox.getNumberOf(Resource.fromIntFixed(position)) > 0) {
                 gameModelTest.getCurrentPlayer().getPersonalBoard().move(position - 4, position - 8);
             }
         }

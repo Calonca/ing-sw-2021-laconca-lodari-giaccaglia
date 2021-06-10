@@ -3,16 +3,15 @@ package it.polimi.ingsw.server.messages.clienttoserver.events.productionevent;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
+import it.polimi.ingsw.server.model.cards.production.Production;
 import it.polimi.ingsw.server.model.player.board.PersonalBoard;
 import it.polimi.ingsw.server.model.states.State;
 import javafx.util.Pair;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.messages.clienttoserver.events.productionevent.ChooseResourcesForProductionEvent implements Validable {
@@ -21,9 +20,8 @@ public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.m
      * {@link GameModel} of the event's current game on which event validation has to be performed.
      */
     private transient PersonalBoard currentPlayerPersonalBoard;
-    List<Integer> resourcePositions;
-    private final int[] resourcesToDiscardArray = new int[4];
-    private int cardPos;
+    private final int[] resourcesToConvertArray = new int[4];
+    List<Pair<Integer, Integer>> selectedResourcesPairList;  // Pair : key -> resource position ; value -> number of selected resources
 
     /**
      * Server-side initializer to setup common attributes among {@link State#MIDDLE_PHASE MIDDLE_PHASE}
@@ -36,46 +34,68 @@ public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.m
 
     @Override
     public boolean validate(GameModel gameModel) {
-        Integer resNUm = 0;
-        Integer pos = 0;
 
-        AtomicBoolean result = new AtomicBoolean(false);
-        currentPlayerPersonalBoard.firstProductionSelectedWithChoice().ifPresentOrElse((p)->{
-                if (p.choiceCanBeMade()&&p.choiceCanBeMadeOnInput()&&!pos.equals(null)&&resNUm.equals(null)){
-                    result.set(!currentPlayerPersonalBoard.getResourceAtPosition(pos).equals(Resource.EMPTY));
-                } else if(p.choiceCanBeMadeOnOutput()&&pos.equals(null)&&!resNUm.equals(null)){
-                    Resource resIfChoosingOutput = Resource.fromIntFixed(resNUm);
-                    result.set(!resIfChoosingOutput.equals(Resource.EMPTY));
-                }else result.set(false);
+
+
+
+      /*
+       Integer resNUm = 0;
+       Integer pos = 0;
+       AtomicBoolean result = new AtomicBoolean(false);
+        currentPlayerPersonalBoard.firstProductionSelectedWithChoice().ifPresentOrElse((p) -> {
+                    if (p.choiceCanBeMade() && p.choiceCanBeMadeOnInput() && !pos.equals(null) && resNUm.equals(null)) {
+                        result.set(!currentPlayerPersonalBoard.getResourceAtPosition(pos).equals(Resource.EMPTY));
+                    } else if (p.choiceCanBeMadeOnOutput() && pos.equals(null) && !resNUm.equals(null)) {
+                        Resource resIfChoosingOutput = Resource.fromIntFixed(resNUm);
+                        result.set(!resIfChoosingOutput.equals(Resource.EMPTY));
+                    } else result.set(false);
                 },
-            ()-> {
-                Resource r = currentPlayerPersonalBoard.getResourceAtPosition(pos);
-                //Todo check if the resource is in the production non selected input
-                result.set(currentPlayerPersonalBoard.remainingToSelectForProduction() > 0 &&
-                                !r.equals(Resource.EMPTY)
+                () -> {
+                    Resource r = currentPlayerPersonalBoard.getResourceAtPosition(pos);
+                    //Todo check if the resource is in the production non selected input
+                    result.set(currentPlayerPersonalBoard.remainingToSelectForProduction() > 0 &&
+                            !r.equals(Resource.EMPTY)
                     );
-            }
-        );
-
+                }
+        ); */
 
 
         initializeMiddlePhaseEventValidation(gameModel);
         buildResourcesArray();
-        resourcePositions = new ArrayList<>(resourcesToDiscard.keySet());
+        buildResourcesPairList();
 
 
         return isGameStarted(gameModel)
-                && checkChosenResourceValidity()
                 && checkTypeOfResourcesToConvert()
                 && checkProductionRequirements()
                 && checkResourcesPositionIndexes()
-                && checkResourcePositionUniqueness()
+                && checkPositionsValidity()
                 && checkAvailabilityOfResourcesToConvert()
-                && checkPositionOfResourcesToConvert();
+                && checkPositionOfResourcesToConvert()
+                && checkThatResourcesAreNotSelected();
+
     }
 
-    private boolean checkChosenResourceValidity(){
-        return !isBasicProduction || !(Resource.fromIntFixed(chosenResource).equals(Resource.EMPTY) && Resource.fromIntFixed(chosenResource).equals(Resource.FAITH));
+    private boolean checkThatResourcesAreNotSelected(){
+
+        return selectedResourcesPairList.stream().allMatch(
+                pair -> {
+                    if(pair.getKey()>=-8 && pair.getKey()<=-5){
+
+                        Resource resource = Resource.fromIntFixed(pair.getKey());
+                        int alreadySelectedResources = currentPlayerPersonalBoard.getStrongBox().getNSelected(resource);
+                        int availableResources = currentPlayerPersonalBoard.getStrongBox().getNumberOf(resource);
+
+                        return availableResources - alreadySelectedResources >= pair.getValue();
+
+                    }
+                    else {
+                        return !currentPlayerPersonalBoard.getWarehouseLeadersDepots().getSelected(pair.getKey());
+                    }
+
+                }
+        );
+
     }
 
     /**
@@ -84,60 +104,75 @@ public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.m
      * deposits availability, otherwise false.
      */
     private boolean checkAvailabilityOfResourcesToConvert(){
-        return currentPlayerPersonalBoard.hasResources(resourcesToDiscardArray);
+        return currentPlayerPersonalBoard.hasResources(resourcesToConvertArray);
     }
 
     private boolean checkPositionOfResourcesToConvert(){
-        return resourcesToDiscard.keySet().stream()
+        return positionsOfResourcesToConvert.stream()
                 .anyMatch(position ->
-                        !currentPlayerPersonalBoard.getResourceAtPosition(position).equals(Resource.fromIntFixed(resourcesToDiscard.get(position))));
+                        !currentPlayerPersonalBoard.getResourceAtPosition(position).equals(Resource.fromIntFixed(positionsOfResourcesToConvert.get(position))));
     }
 
     private boolean checkTypeOfResourcesToConvert(){
-        return resourcesToDiscard.values().stream().noneMatch(resource -> Resource.fromIntFixed(resource).equals(Resource.EMPTY));
+        return positionsOfResourcesToConvert.stream().noneMatch(resourcePos -> currentPlayerPersonalBoard.getResourceAtPosition(resourcePos).equals(Resource.EMPTY));
     }
 
     private boolean checkResourcesPositionIndexes(){
-        return resourcePositions.stream().anyMatch(i -> ( i<-8 || (i>-5 && i<0) ));
+        return positionsOfResourcesToConvert.stream().anyMatch(i -> ( i<-8 || (i>-5 && i<0) ));
     }
 
-    private boolean checkResourcePositionUniqueness(){
-        return resourcePositions.stream().distinct()
-                .count() == resourcePositions.size();
+    private boolean checkPositionsValidity(){
+
+        return positionsOfResourcesToConvert.stream().allMatch(
+                position -> {
+
+                    int positionOccurrences = positionsOfResourcesToConvert.stream().filter(positionToFind -> positionToFind.equals(position)).mapToInt(positionToFind -> 1).sum();
+
+                    if(position>=-8 && position<-4) {
+                            Resource resourceAtPos = currentPlayerPersonalBoard.getResourceAtPosition(position);
+                            return currentPlayerPersonalBoard.getStrongBox().getNumberOf(resourceAtPos) == positionOccurrences;
+                        }
+                    else if(positionOccurrences>1)
+                        return false;
+
+                    return true;
+                });
     }
 
-    private boolean checkProductionRequirements(){
-        return !isBasicProduction()
-                && currentPlayerPersonalBoard.getProductionFromCardPosition(cardPos).isPresent()
-                && Arrays.equals(currentPlayerPersonalBoard.getProductionFromCardPosition(cardPos).get().getInputs(), resourcesToDiscardArray);
+    private boolean checkProductionRequirements() {
+
+
+        Optional<Production> optOfSelectedProduction = currentPlayerPersonalBoard.getProductionFromPosition(productionPosition);
+        if (optOfSelectedProduction.isPresent()) {
+
+            Production selectedProduction = optOfSelectedProduction.get();
+            return Arrays.equals(selectedProduction.getInputs(), resourcesToConvertArray);
+
+        }
+
+        return false;
+    }
+
+    private void buildResourcesPairList(){
+
+        selectedResourcesPairList = positionsOfResourcesToConvert.stream().map(
+                position -> {
+
+                    int positionOccurrences = positionsOfResourcesToConvert.stream().filter(positionToFind -> positionToFind.equals(position)).mapToInt(positionToFind -> 1).sum();
+
+                    return new Pair<>(position, positionOccurrences);
+                }
+
+        ).collect(Collectors.toList());
+
     }
 
     private void buildResourcesArray(){
-        Map<Integer, List<Integer>> resourcesMap = resourcesToDiscard.values().stream()
-                .collect(Collectors.groupingBy(value -> value,
-                        Collectors.mapping(Function.identity(), Collectors.toList())));
-
-        List<Pair<Integer, Integer>> chosenResourcesList = resourcesMap
-                .keySet().stream()
-                .map(key ->
-                        new Pair<>(key, resourcesMap.get(key).stream().reduce(0, Integer::sum)))
-                .collect(Collectors.toList());
-
-
-        for (Pair<Integer, Integer> resourceIntegerPair : chosenResourcesList)
-            resourcesToDiscardArray[resourceIntegerPair.getKey()] += resourceIntegerPair.getValue();
-
+        for (Pair<Integer, Integer> resourceIntegerPair : selectedResourcesPairList)
+            resourcesToConvertArray[resourceIntegerPair.getKey()] += resourceIntegerPair.getValue();
     }
 
-    public boolean isBasicProduction(){
-        return isBasicProduction;
-    }
-
-    public int getChosenResourceForProduction(){
-        return chosenResource;
-    }
-
-    public Map<Integer, Integer> getChosenResources(){ return resourcesToDiscard;}
+    public List<Pair<Integer, Integer>> getSelectedResourcesPairList(){ return selectedResourcesPairList;}
 
 
 

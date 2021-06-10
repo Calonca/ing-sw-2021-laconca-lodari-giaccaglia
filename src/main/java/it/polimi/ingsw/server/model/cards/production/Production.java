@@ -4,6 +4,7 @@ import it.polimi.ingsw.server.model.Resource;
 
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Class to apply the production cards logic
@@ -20,12 +21,13 @@ public class Production {
     private int[] output;
     private final int[] restoreoutput;
 
+
     /**
      * Constructor for basic production
      * @return the basic Production of Maestri del rinascimento
      */
     public static Production basicProduction() {
-        return new Production(new int[]{0,0,0,0,0,0,2},new int[]{0,0,0,0,0,1,1});
+        return new Production(new int[]{0,0,0,0,0,0,2},new int[]{0,0,0,0,0,0,1});
     }
 
 
@@ -90,6 +92,17 @@ public class Production {
     }
 
     /**
+     * Returns how many {@link Resource resources} there are in the {@link #output} array
+     * @return how many {@link Resource resources} there are in the {@link #output} array
+     */
+    public int getNumOfResInOutput(){
+        return Arrays.stream(output).reduce(0,Integer::sum);
+    }
+
+
+
+
+    /**
      * Return an array with the outputs of the production
      * @return an array of int with the outputs of the production.
      * In position i of the array there is the number of resources of type i in the enum ordering
@@ -119,7 +132,7 @@ public class Production {
             return this.output[Resource.TOCHOOSE.getResourceNumber()] != 0;
     }
 
-    public void resetchoice()
+    public void resetChoice()
     {
         System.arraycopy(restoreinput, 0, input, 0, input.length);
         System.arraycopy(restoreoutput, 0, output, 0, output.length);

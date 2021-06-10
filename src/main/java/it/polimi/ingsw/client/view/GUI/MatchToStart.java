@@ -1,24 +1,19 @@
 package it.polimi.ingsw.client.view.GUI;
 
-import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchViewBuilder;
 import javafx.animation.Animation;
-import javafx.animation.FillTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.TextField;
+
+import javafx.scene.SubScene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
+
 import javafx.scene.shape.Sphere;
 import javafx.util.Duration;
 
@@ -32,26 +27,21 @@ import java.util.ResourceBundle;
  */
 public class MatchToStart extends CreateJoinLoadMatchViewBuilder implements GUIView {
 
-    public AnchorPane createPane;
     @FXML
-    private StackPane connectionPane;
-    @FXML
-    private Button connectionButton;
-    @FXML
-    private TextField addressText;
-    @FXML
-    private TextField portText;
+    private AnchorPane createPane;
 
     @Override
     public void run() {
 
+        Node toadd=getRoot();
+        toadd.setId("WAITING");
         ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(0);
-        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(getRoot());
+        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(toadd);
         System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
 
     }
 
-    public Parent getRoot() {
+    public SubScene getRoot() {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/MatchToStart.fxml"));
         Parent root = null;
@@ -62,16 +52,18 @@ public class MatchToStart extends CreateJoinLoadMatchViewBuilder implements GUIV
             e.printStackTrace();
         }
 
-        return root;
+        return new SubScene(root,1000,700);
 
     }
 
+    /**
+     * Basic loading animation
+     * @param url is ignored
+     * @param resourceBundle is ignored
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
-        double width=createPane.getWidth();
-        double len=createPane.getHeight();
-
         Sphere circle1=new Sphere();
         circle1.setRadius(10);
         circle1.setLayoutX(500);
@@ -142,9 +134,7 @@ public class MatchToStart extends CreateJoinLoadMatchViewBuilder implements GUIV
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(CommonData.thisMatchData))
             Platform.runLater(()->
-                    {
-                        getClient().changeViewBuilder(new SetupPhase());
-                    }
+                    getClient().changeViewBuilder(new SetupPhase())
             );
 
     }

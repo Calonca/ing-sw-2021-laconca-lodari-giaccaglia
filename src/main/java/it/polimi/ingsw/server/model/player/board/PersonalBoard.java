@@ -6,7 +6,6 @@ import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
 import it.polimi.ingsw.server.model.cards.production.Production;
 import it.polimi.ingsw.server.model.cards.production.ProductionCardCell;
-import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.player.leaders.DevelopmentDiscountLeader;
 import it.polimi.ingsw.server.model.player.leaders.Leader;
 import it.polimi.ingsw.server.model.player.leaders.ProductionLeader;
@@ -44,7 +43,6 @@ public class PersonalBoard {
      */
     private final int[] discounts;
 
-
     /**
      * A list of {@link Production productions}, composed both of {@link Production productions}
      * from {@link ProductionLeader ProductionLeader} and
@@ -63,6 +61,11 @@ public class PersonalBoard {
      * A list that stores if a {@link Production} is selected, it has the same order of {@link #productions}
      */
     private List<Optional<Boolean>> prodsSelected;
+
+    private Map<Integer, List<Integer>> historyOfInputResourcesForProduction;  //key -> position of production with inputChoices ; value -> position of chosen resources
+
+    private int remainingNumOfSelectedProductionsWithoutChoices;
+
     /**
      * The faith points that need to added by the strategy to the {@link FaithTrack FaithTrack}
      */
@@ -84,6 +87,9 @@ public class PersonalBoard {
         discardBox = Box.discardBox();
         discardBox.addResources(new int[]{3,3,3,3});  //setup phase DiscardBox
         //strongBox.addResources(new int[]{7,8,9,3});   //to test CardShop
+        //warehouseLeadersDepots.addResource(new Pair<>(0,Resource.GOLD));
+        //warehouseLeadersDepots.addResource(new Pair<>(1,Resource.SERVANT));
+        //warehouseLeadersDepots.addResource(new Pair<>(3,Resource.STONE));
         productions = Stream.of(Optional.of(Production.basicProduction())).collect(Collectors.toList());
         productions.add(Optional.empty());
         productions.add(Optional.empty());
@@ -94,7 +100,7 @@ public class PersonalBoard {
         prodsSelected.add(Optional.empty());
         prodsSelected.add(Optional.empty());
         discounts=new int[4];
-        
+        historyOfInputResourcesForProduction = new HashMap<>();
     }
 
     /**
@@ -105,22 +111,58 @@ public class PersonalBoard {
         return Arrays.stream(cardCells).collect(Collectors.toList());
     }
 
-    public Optional<Production> getProductionFromCardPosition(int position){
-        return productions.get(position+1);
+    public Optional<Production> getProductionFromPosition(int position){
+        if(position >= 0 && position < productions.size())
+            return productions.get(position);
+        else return Optional.empty();
     }
 
     public Map<Integer, List<DevelopmentCard>> getVisibleCardsOnCells(){
 
-        return IntStream.range(0, cardCells.length).boxed().collect(Collectors.toMap(integer -> integer,
+        return IntStream.rangeClosed(1, cardCells.length).boxed().collect(Collectors.toMap(integer -> integer,
                 integer -> {
 
-                List<DevelopmentCard> card = new ArrayList<>();
+                List<DevelopmentCard> card = new ArrayList<>(0);
 
-                if(cardCells[integer].getStackedCardsSize() > 0)
-                    card.add(cardCells[integer].getFrontCard());
+                if(cardCells[integer-1].getStackedCardsSize() > 0)
+                    card.add(cardCells[integer-1].getFrontCard());
 
                  return card;
                 }));
+
+    }
+
+    public Map<Integer, Pair <Pair<Map<Integer, Integer> , Map<Integer, Integer>>, Pair<Boolean, Boolean>>> getSimpleProductionsMap(){
+
+        return IntStream.range(0, productions.size()).boxed().collect(Collectors.toMap(
+                productionIndex-> productionIndex,
+                productionIndex -> {
+
+                    Optional<Production> production = productions.get(productionIndex);
+
+                    Map<Integer, Integer> inputs = production.map(value -> IntStream.range(0, value.getInputs().length).boxed().collect(Collectors.toMap(
+                            resourceNumber -> resourceNumber,
+
+                            resourceNumber -> value.getInputs()[resourceNumber]
+                    ))).orElseGet(HashMap::new);
+
+                    Map<Integer, Integer> outputs = production.map(value -> IntStream.range(0, value.getOutputs().length).boxed().collect(Collectors.toMap(
+                            resourceNumber -> resourceNumber,
+
+                            resourceNumber -> value.getOutputs()[resourceNumber]
+                    ))).orElseGet(HashMap::new);
+
+                    boolean isAvailable = production.isPresent() && hasResources(production.get().getInputs());
+
+                    boolean isSelected = prodsSelected.get(productionIndex).isPresent() && prodsSelected.get(productionIndex).get();
+
+
+                    Pair<Map<Integer, Integer>, Map<Integer, Integer>> inputsAndOutPuts = new Pair<>(inputs, outputs);
+
+                    return new Pair<>(inputsAndOutPuts, new Pair<>(isAvailable, isSelected));
+
+                }
+        ));
 
     }
 
@@ -131,6 +173,7 @@ public class PersonalBoard {
      * The output faith or bad faith gets saved
      */
     public void produce(){
+
         removeSelected();
         int[] resources = IntStream.range(0,prodsSelected.size()).filter((pos)->prodsSelected.get(pos).isPresent())
                 .filter((pos)->prodsSelected.get(pos).get())
@@ -141,7 +184,19 @@ public class PersonalBoard {
         strongBox.addResources(Arrays.stream(resources).limit(Resource.nRes).toArray());
         resetChoices();
         resetSelectedProductions();
+        resetHistoryOfInputResourcesForProduction();
+
     }
+
+    public int getRemainingNumOfSelectedProductionsWithoutChoices(){
+        return remainingNumOfSelectedProductionsWithoutChoices;
+    }
+
+    public void decreaseRemainingNumOfSelectedProductionsWithoutChoices(){
+        remainingNumOfSelectedProductionsWithoutChoices--;
+    }
+
+
 
     /**
      * Removes the selected {@link Resource resources} from the {@link PersonalBoard}
@@ -201,7 +256,7 @@ public class PersonalBoard {
      * @return an array which values are true for available productions
      */
     public Boolean[] getAvailableProductions(){
-        return productions.stream().flatMap(Optional::stream).map((p)-> hasResources(p.getInputs())).toArray(Boolean[]::new);
+        return productions.stream().map((prod)-> prod.filter(production -> hasResources(production.getInputs())).isPresent()).toArray(Boolean[]::new);
     }
 
     /**
@@ -217,7 +272,7 @@ public class PersonalBoard {
      * Should be called at the end of the turn
      */
     public void resetChoices(){
-        productions.stream().flatMap(Optional::stream).filter(Production::choiceCanBeMade).forEach(Production::resetchoice);
+        productions.stream().flatMap(Optional::stream).filter(Production::choiceCanBeMade).forEach(Production::resetChoice);
     }
 
     /**
@@ -238,7 +293,12 @@ public class PersonalBoard {
         prodsSelected.set(pos,
                 prodsSelected.get(pos).map((op)->!op)
         );
+
+        if(!productions.get(pos).get().choiceCanBeMade())
+            remainingNumOfSelectedProductionsWithoutChoices++;
+
     }
+
 
     /**
      * Flags the {@link Production production} at the given position as selected,
@@ -393,12 +453,43 @@ public class PersonalBoard {
      * @param resPos a position with the deposits position convention, >=-8
      */
     public void performChoiceOnInput(int resPos){
+
         firstProductionSelectedWithChoice().ifPresent((production)-> {
             Resource res = storageUnitFromPos(resPos).getResourceAt(resPos);
+
+            int productionPosition = productions.indexOf(firstProductionSelectedWithChoice());
+
+            if(historyOfInputResourcesForProduction.containsKey(productionPosition)) {
+
+              List<Integer> chosenResourcesPositions =   historyOfInputResourcesForProduction.get(productionPosition);
+              chosenResourcesPositions.add(resPos);
+
+            }
+            else {
+
+                List<Integer> chosenResourcesPositions = new ArrayList<>();
+                chosenResourcesPositions.add(resPos);
+                historyOfInputResourcesForProduction.put(productionPosition, chosenResourcesPositions);
+            }
+
             storageUnitFromPos(resPos).selectResourceAt(resPos);
             production.performChoiceOnInput(res);
         });
     }
+
+    public void selectResourceAt(int position){
+
+        storageUnitFromPos(position).selectResourceAt(position);
+    }
+
+    public void deselectResourceAt(int position){
+
+        storageUnitFromPos(position).deselectResourceAt(position);
+
+    }
+
+
+
 
     /**
      * Chooses the given {@link Resource resource} as the output the first choice in the first {@link Production production} with choices
@@ -476,6 +567,16 @@ public class PersonalBoard {
         return isDevCardLevelSatisfied(developmentCard) && hasResources(requiredResources);
      }
 
+     public Map<Integer, Boolean> getAvailableSpotsForDevCard(DevelopmentCard developmentCard){
+
+         return IntStream.range(0, cardCells.length).boxed().collect(Collectors.toMap(
+                 position -> position + 1,
+
+                 position -> developmentCard != null && cardCells[position].isSpotAvailable(developmentCard)
+         ));
+
+     }
+
     /**
      * This method will check if there are enough resources and cards to play a leader.
      * Leaders cost is converted to an array to re-use the method for the productions.
@@ -483,11 +584,14 @@ public class PersonalBoard {
      * @return is true if requirements are met
      */
     public boolean isLeaderRequirementsSatisfied(Leader leader){
+
         int[] toar = new int[4];
+
         for (Pair<Resource, Integer> resourceIntegerPair : leader.getRequirementsResources())
             toar[resourceIntegerPair.getKey().getResourceNumber()] += resourceIntegerPair.getValue();
 
-        return hasResources(toar)&&isLeaderColorRequirementsSatisfied(leader);
+        return hasResources(toar) && isLeaderColorRequirementsSatisfied(leader);
+
     }
 
     /**
@@ -508,7 +612,6 @@ public class PersonalBoard {
         return true;
     }
 
-
     /**
      * Returns the resource at a given position in the {{@link PersonalBoard#warehouseLeadersDepots} or {@link PersonalBoard#strongBox}
      * @return the resource at the given position, if present, otherwise returns {@link Resource#EMPTY EMPTY}
@@ -516,6 +619,8 @@ public class PersonalBoard {
     public Resource getResourceAtPosition(int position){
         return  storageUnitFromPos(position).getResourceAt(position);
     }
+
+
 
     /**
      * Return a reduced representation of a {@link Box} as a Map where : <br>
@@ -589,6 +694,18 @@ public class PersonalBoard {
         discounts[discount.getKey().getResourceNumber()]+=discount.getValue();
     }
 
+
+    public List<Integer> getPosOfChosenResourcesOnInputForProduction(int productionPosition){
+        return historyOfInputResourcesForProduction.get(productionPosition);
+    }
+
+    public void resetHistoryOfProductionWithInputsToChoose(int productionPosition){
+        historyOfInputResourcesForProduction.remove(productionPosition);
+    }
+
+    public void resetHistoryOfInputResourcesForProduction(){
+        historyOfInputResourcesForProduction.clear();
+    }
 
 
 

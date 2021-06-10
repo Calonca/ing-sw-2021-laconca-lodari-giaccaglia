@@ -32,7 +32,7 @@ public class SetupPhaseEventTest {
         players.add("testPlayer3");
 
         initializeGameModel(players);
-        gameModelTest.setCurrentPlayer(gameModelTest.getPlayer("testPlayer3"));
+        gameModelTest.setCurrentPlayer(gameModelTest.getPlayer("testPlayer3").get());
         gson = new Gson();
         playerLeadersUUIDs = gameModelTest.getCurrentPlayer().getLeadersUUIDs();
     }
@@ -113,7 +113,7 @@ public class SetupPhaseEventTest {
         players.add("testPlayer3");
         players.add("testPlayer4");
         initializeGameModel(players);
-        gameModelTest.setCurrentPlayer(gameModelTest.getPlayer("testPlayer3"));
+        gameModelTest.setCurrentPlayer(gameModelTest.getPlayer("testPlayer3").get());
         playerLeadersUUIDs = gameModelTest.getCurrentPlayer().getLeadersUUIDs();
 
         initialResources = new ArrayList<>();
