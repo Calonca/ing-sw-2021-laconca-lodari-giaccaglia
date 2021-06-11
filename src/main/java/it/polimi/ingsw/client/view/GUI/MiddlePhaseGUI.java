@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view.GUI;
 import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.CLI.ProductionViewCLI;
 import it.polimi.ingsw.client.view.abstractview.MiddlePhaseViewBuilder;
+import it.polimi.ingsw.client.view.abstractview.ProductionViewBuilder;
 import it.polimi.ingsw.network.simplemodel.SimpleCardShop;
 import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
 import javafx.application.Platform;
@@ -98,7 +99,7 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
 
         productionButton.setOnAction( e ->
         {
-            Platform.runLater(()->getClient().changeViewBuilder(ProductionViewCLI.getBuilder(false)));
+            Platform.runLater(()->getClient().changeViewBuilder(ProductionViewBuilder.getBuilder(false)));
         });
 
         resourceMarketButton.setOnAction( e ->

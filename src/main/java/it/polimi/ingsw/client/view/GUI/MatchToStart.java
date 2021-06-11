@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.GUI;
 
 import it.polimi.ingsw.client.CommonData;
+import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchViewBuilder;
 import javafx.animation.Animation;
 import javafx.animation.TranslateTransition;
@@ -132,9 +133,11 @@ public class MatchToStart extends CreateJoinLoadMatchViewBuilder implements GUIV
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals(CommonData.thisMatchData))
+        if(evt.getPropertyName().equals(State.SETUP_PHASE.name()))
             Platform.runLater(()->
-                    getClient().changeViewBuilder(new SetupPhase())
+            {
+
+            }
             );
 
     }

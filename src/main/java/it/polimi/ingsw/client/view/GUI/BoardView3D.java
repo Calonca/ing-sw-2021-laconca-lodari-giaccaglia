@@ -8,6 +8,7 @@ import javafx.scene.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.PhongMaterial;
@@ -42,6 +43,7 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
         //todo fix initialization
         toAdd.setId("3DVIEW");
 
+        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(toAdd);
 
     }
 
@@ -127,12 +129,11 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
         });
 
 
-        Scene scene = new Scene(parent, 1000, 700, true);
+        SubScene scene = new SubScene(parent, 1000, 700);
         testCamera.setTranslateZ(-1000);
         scene.setCamera(testCamera);
 
-        getClient().getStage().setScene(scene);
-        getClient().getStage().show();
+        boardPane.getChildren().add(scene);
     }
 
     @NotNull
