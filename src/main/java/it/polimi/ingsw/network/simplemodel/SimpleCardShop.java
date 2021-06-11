@@ -2,6 +2,8 @@ package it.polimi.ingsw.network.simplemodel;
 
 import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCardColor;
+import it.polimi.ingsw.network.assets.resources.ResourceAsset;
+import javafx.util.Pair;
 
 import java.util.Collection;
 import java.util.List;
@@ -14,13 +16,16 @@ public class SimpleCardShop extends SimpleModelElement{
 
     private DevelopmentCardAsset purchasedCard = null;
 
+    private List<Pair<ResourceAsset,Integer>> costListWithDiscounts;
+
     private boolean anyCardPurchasable;
 
     public SimpleCardShop(){}
 
-    public SimpleCardShop(Map<NetworkDevelopmentCardColor, Map<Integer, List<DevelopmentCardAsset>>> simpleCardShop, DevelopmentCardAsset purchasedCard) {
+    public SimpleCardShop(Map<NetworkDevelopmentCardColor, Map<Integer, List<DevelopmentCardAsset>>> simpleCardShop, DevelopmentCardAsset purchasedCard, List<Pair<ResourceAsset,Integer>> costListWithDiscounts) {
         this.simpleCardShop = simpleCardShop;
         this.purchasedCard = purchasedCard;
+        this.costListWithDiscounts = costListWithDiscounts;
         anyCardPurchasable = isAnyCardPurchasable();
     }
 
@@ -40,7 +45,9 @@ public class SimpleCardShop extends SimpleModelElement{
         SimpleCardShop serverCardShop = (SimpleCardShop) element;
         this.simpleCardShop = serverCardShop.simpleCardShop;
         this.purchasedCard = serverCardShop.purchasedCard;
+        this.costListWithDiscounts = serverCardShop.costListWithDiscounts;
         this.anyCardPurchasable = isAnyCardPurchasable();
+
     }
 
 
@@ -60,4 +67,7 @@ public class SimpleCardShop extends SimpleModelElement{
         return anyCardPurchasable;
     }
 
+    public List<Pair<ResourceAsset,Integer>> getCostListWithDiscounts(){
+        return costListWithDiscounts;
+    }
 }

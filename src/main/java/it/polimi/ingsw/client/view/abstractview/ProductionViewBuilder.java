@@ -3,7 +3,7 @@ package it.polimi.ingsw.client.view.abstractview;
 import it.polimi.ingsw.client.view.CLI.ProductionViewCLI;
 import it.polimi.ingsw.client.view.GUI.BoardView3D;
 import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
-import it.polimi.ingsw.network.messages.clienttoserver.events.productionevent.ProductionEvent;
+import it.polimi.ingsw.network.messages.clienttoserver.events.productionevent.ToggleProductionAtPosition;
 import it.polimi.ingsw.network.simplemodel.SimpleCardCells;
 
 import java.beans.PropertyChangeEvent;
@@ -21,7 +21,7 @@ public abstract class ProductionViewBuilder extends ViewBuilder{
    }
 
     public static void sendChosenProduction(int pos){
-        getClient().getServerHandler().sendCommandMessage(new EventMessage(new ProductionEvent(pos)));
+        getClient().getServerHandler().sendCommandMessage(new EventMessage(new ToggleProductionAtPosition(pos)));
     }
 
 

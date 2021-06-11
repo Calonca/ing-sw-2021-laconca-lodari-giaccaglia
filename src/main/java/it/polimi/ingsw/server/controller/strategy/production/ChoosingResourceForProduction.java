@@ -19,10 +19,9 @@ import java.util.List;
  */
 public class ChoosingResourceForProduction implements GameStrategy {
 
-    private transient List<Element> elementsToUpdate = new ArrayList<>();
-
     public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event){
 
+            List<Element> elementsToUpdate = new ArrayList<>();
             PersonalBoard personalBoard = gamemodel.getCurrentPlayer().getPersonalBoard();
 
             ChooseResourcesForProductionEvent chooseResourcesForProductionEvent = (ChooseResourcesForProductionEvent) event;
@@ -45,17 +44,9 @@ public class ChoosingResourceForProduction implements GameStrategy {
 
             );
 
-            personalBoard.decreaseRemainingNumOfSelectedProductionsWithoutChoices();
-
-            int remainingNumOfSelectedProductionsWithoutChoices = personalBoard.getRemainingNumOfSelectedProductionsWithoutChoices();
 
             elementsToUpdate.add(Element.SimpleWareHouseLeadersDepot);
             elementsToUpdate.add(Element.SimpleFaithTrack);
-
-            if(remainingNumOfSelectedProductionsWithoutChoices == 0){
-
-                return new Pair<>(State.FINAL_PHASE, elementsToUpdate);
-            }
 
 
             return new Pair<>(State.CHOOSING_RESOURCE_FOR_PRODUCTION, elementsToUpdate);

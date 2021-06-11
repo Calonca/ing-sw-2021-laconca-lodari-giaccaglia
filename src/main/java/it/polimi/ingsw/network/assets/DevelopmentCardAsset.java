@@ -19,6 +19,7 @@ public class DevelopmentCardAsset extends CardAsset{
     }
 
     public DevelopmentCardAsset(DevelopmentCardAsset toClone){
+
         super(
                 toClone.getActiveCardPaths().getKey().toString(),
                 toClone.getActiveCardPaths().getValue().toString(),
@@ -28,6 +29,7 @@ public class DevelopmentCardAsset extends CardAsset{
         );
 
         this.networkDevelopmentCard = toClone.getDevelopmentCard();
+        
     }
 
     public NetworkDevelopmentCard getDevelopmentCard() {

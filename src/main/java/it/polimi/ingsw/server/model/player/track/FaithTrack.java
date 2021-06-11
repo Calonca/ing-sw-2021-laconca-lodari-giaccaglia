@@ -157,10 +157,14 @@ public class FaithTrack {
     public void turnPopeFavourTile(int popeSpacePosition) {
 
         FaithZone currentZone = track.get(playerPiece.getValue()).getZone();
+
         int currentZoneNumber = currentZone.getZoneNumber();
 
         FaithZone popeSpaceZone = track.get(popeSpacePosition).getZone();
         int popeSpaceZoneNumber = popeSpaceZone.getZoneNumber();
+
+        if(tiles.get(popeSpaceZoneNumber).getTileState().equals(TileState.DISCARDED)) //already checked tile state
+            return;
 
         if(currentZone.getZoneNumber() == popeSpaceZone.getZoneNumber())
             tiles.get(currentZoneNumber).setTileState(TileState.ACTIVE);

@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class EventNotValid extends it.polimi.ingsw.network.messages.servertoclient.EventNotValid implements ClientMessage {
+
     public EventNotValid(ClientToServerMessage clientToServerMessage) {
         super(clientToServerMessage);
     }
@@ -18,6 +19,7 @@ public class EventNotValid extends it.polimi.ingsw.network.messages.servertoclie
      */
     @Override
     public void processMessage(ServerHandler serverHandler) throws IOException {
+
         int playerI = serverHandler.getClient().getCommonData().getThisPlayerIndex();
         String state = serverHandler.getClient().getSimpleModel().getPlayerCache(playerI).getCurrentState();
         serverHandler.getClient().setState(new StateInNetwork(playerI,state,new ArrayList<>(),new ArrayList<>()));

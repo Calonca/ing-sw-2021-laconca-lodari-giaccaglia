@@ -9,6 +9,7 @@ import java.util.List;
 
 public class FinalStrategy {
     public static Pair<State, List<Element>> handleCommonEndGameStrategy(List<Element> elementsToUpdate,GameModel gameModel){
+
         if (gameModel.getCurrentPlayer().anyLeaderPlayable() && !playerTriggeredEnd(gameModel)) {
             elementsToUpdate.add(Element.SimpleCardShop);
             return new Pair<>(State.FINAL_PHASE, elementsToUpdate);
