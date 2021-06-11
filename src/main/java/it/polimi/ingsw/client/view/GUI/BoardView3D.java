@@ -193,7 +193,8 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
 
         System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
 
-
+        viewMarket.setId("showButton");
+        viewCardShop.setId("showButton");
         boardPane.getChildren().add(viewCardShop);
         boardPane.getChildren().add(viewMarket);
         boardPane.getChildren().add(scene);

@@ -64,7 +64,31 @@
 }
 
 .button{
-    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 10,0.7,5,5 );
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 10,0.2,5,5 );
     -fx-background-color: linear-gradient(to right, #ADD8E6, #5771f2);
+
+  }
+
+#showButton{
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 10,0.2,5,5 );
+    -fx-background-color: linear-gradient(to right, #ADD8E6, #5771f2);
+
+}
+
+#showButton:hover{
+      -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 10,0.2,5,5 );
+    -fx-background-color: linear-gradient(to right, #fefe33, #ADD8E6);
+
+}
+
+.button:hover{
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 10,0.2,5,5 );
+    -fx-background-color: linear-gradient(to right, #5771f2, #ADD8E6);
+
+  }
+.button:pressed{
+
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 10,0.7,5,5 );
+    -fx-background-color: linear-gradient(to right, #fefe33, #ADD8E6);
 
   }

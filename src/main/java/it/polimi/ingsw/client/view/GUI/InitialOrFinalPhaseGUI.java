@@ -166,15 +166,7 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
             for(Boolean b : selectedLeaders)
                 if(b)
                 {
-                    if(!simplePlayerLeaders.getPlayerLeaders().get(selectedLeaders.indexOf(b)).getNetworkLeaderCard().isPlayable())
-                    {
-                        Text text=new Text("YOU CAN'T PLAY THAT!");
-                        leaderPane.getChildren().add(text);
-                        text.setLayoutX(width/2);
-                        text.setLayoutY(len-60);
-                        break;
 
-                    }
                     InitialOrFinalPhaseEvent activate = new InitialOrFinalPhaseEvent(1,simplePlayerLeaders.getPlayerLeaders().get(selectedLeaders.indexOf(b)).getCardId());
                     getClient().getServerHandler().sendCommandMessage(new EventMessage(activate));
                     ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(currentSize);
@@ -225,13 +217,21 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
             if(c.getAddedSubList().get(0))
             {
                 sceneLeaders.get(c.getFrom()).setLayoutY(sceneLeaders.get(c.getFrom()).getLayoutY()-30);
-
+                if(simplePlayerLeaders.getPlayerLeaders().get(c.getFrom()).getNetworkLeaderCard().isPlayable())
+                    playButton.setDisable(false);
+                discardButton.setDisable(false);
             }
             else
+            {
                 sceneLeaders.get(c.getFrom()).setLayoutY(sceneLeaders.get(c.getFrom()).getLayoutY()+30);
-
+                playButton.setDisable(true);
+                discardButton.setDisable(true);
+            }
 
         });
+
+        playButton.setDisable(true);
+        discardButton.setDisable(true);
 
         leaderPane.setId("pane");
 
