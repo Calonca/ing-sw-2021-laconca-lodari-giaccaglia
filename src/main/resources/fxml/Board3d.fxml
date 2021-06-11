@@ -3,6 +3,6 @@
 <?import javafx.scene.layout.*?>
 
 
-<AnchorPane fx:id="boardPane" prefHeight="200" prefWidth="200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.GUI.BoardView3D">
+<AnchorPane fx:id="boardPane" prefHeight="1800" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.GUI.BoardView3D">
 
 </AnchorPane>

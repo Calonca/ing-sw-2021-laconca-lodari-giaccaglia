@@ -41,7 +41,6 @@ public abstract class MiddlePhaseViewBuilder extends ViewBuilder {
     public void propertyChange(PropertyChangeEvent evt) {
         String propertyName = evt.getPropertyName();
         if (CHOOSING_MARKET_LINE.name().equals(propertyName)) {
-            if(getClient().isCLI())
                 getClient().changeViewBuilder(ResourceMarketViewBuilder.getBuilder(getClient().isCLI()));
         }else if (CHOOSING_PRODUCTION.name().equals(propertyName)) {
             getClient().changeViewBuilder(ProductionViewBuilder.getBuilder(getClient().isCLI()));

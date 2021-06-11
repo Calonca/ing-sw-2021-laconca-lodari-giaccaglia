@@ -50,23 +50,7 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
 
     }
 
-    /**
-     * When market line choice is performed, Discard Box gets initialized
-     * @param evt is a fired support property
-     */
-    public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals(State.CHOOSING_POSITION_FOR_RESOURCES.name()))
-        {
-            DiscardBoxInitializer disc=new DiscardBoxInitializer();
-            Platform.runLater(disc);
-            ChooseResourceForMarket chooseResourceForMarket=new ChooseResourceForMarket();
-            Platform.runLater(chooseResourceForMarket);
-        }
-        if (evt.getPropertyName().equals(State.CHOOSING_MARKET_LINE.name()))
-        {
 
-        }
-    }
 
     public void sendChoice(Choice choice) {
 
@@ -88,8 +72,6 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
         cardButton.setOnAction( p ->
         {
             ViewPersonalBoard.getController().isCardShopOpen(true);
-            CardShopGUI cs=new CardShopGUI();
-            Platform.runLater(cs);
             sendChoice(Choice.CARD_SHOP);
 
         });
@@ -106,7 +88,6 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
         {
 
             ResourceMarketGUI res=new ResourceMarketGUI();
-            Platform.runLater(res);
             sendChoice(Choice.RESOURCE_MARKET);
             ViewPersonalBoard.getController().isMarket(true);
 

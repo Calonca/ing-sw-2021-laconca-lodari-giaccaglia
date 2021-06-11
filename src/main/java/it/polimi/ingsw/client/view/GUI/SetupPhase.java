@@ -237,10 +237,15 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
 
         }
 
+        double resourcesX=width/2;
         ViewPersonalBoard.getController().setAllowedRes(new int[]{3,3,3,3});
         ViewPersonalBoard.getController().bindDispenser(selectedResources,sceneResources,Util.resourcesToChooseOnSetup(getClient().getCommonData().getThisPlayerIndex()));
         selectedResources.addListener((ListChangeListener<Integer>) c -> {
-            System.out.println(selectedResources);
+            c.next();
+            ImageView tempImage=new ImageView(res.get(c.getFrom()));
+            tempImage.setLayoutX(resourcesX);
+            tempImage.setLayoutY(len/2 - 50);
+            setupAnchor.getChildren().add(tempImage);
             //getClient().getStage().getScene().setCursor(new ImageCursor(Color.getRes().get(c.getFrom())));
         });
         setupAnchor.getChildren().add(validationButton());

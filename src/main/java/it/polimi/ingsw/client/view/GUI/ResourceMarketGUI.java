@@ -57,7 +57,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
     public double reaLen=700;
 
     public AnchorPane marketPane;
-    double marketTranslateX=300;
+    double marketTranslateX=600;
     double MarketTranslateY=-30;
 
     double subSceneTranslateY=75;

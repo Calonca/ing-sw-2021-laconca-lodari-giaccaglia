@@ -55,13 +55,10 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
     public void run() {
         ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(0);
 
-        getClient().getStage().setResizable(true);
         SubScene root=getRoot();
         root.setId("BOARD");
         ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(root);
-        getClient().getStage().setHeight(800);
-        getClient().getStage().setWidth(1200);
-        getClient().getStage().setResizable(false);
+
 
 
 
@@ -82,7 +79,7 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
             e.printStackTrace();
         }
 
-        return new SubScene(root,1200,800);
+        return new SubScene(root,1920,1080);
 
 
     }

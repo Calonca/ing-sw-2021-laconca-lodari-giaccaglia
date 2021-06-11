@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -31,6 +32,9 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
     //Keep track of current angle for x and y
     private double anchorAngleX = 0;
     private double anchorAngleY = 0;
+    double buttonStartingX=100;
+    double width=1800;
+    double len=1000;
     //We will update these after drag. Using JavaFX property to bind with object
     private final DoubleProperty angleX = new SimpleDoubleProperty(0);
     private final DoubleProperty angleY = new SimpleDoubleProperty(0);
@@ -58,7 +62,7 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
             e.printStackTrace();
         }
 
-        return new SubScene(root,1000,700);
+        return new SubScene(root,width,len);
 
     }
 
@@ -129,10 +133,69 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
         });
 
 
-        SubScene scene = new SubScene(parent, 1000, 700);
+        SubScene scene = new SubScene(parent, width, len);
         testCamera.setTranslateZ(-1000);
         scene.setCamera(testCamera);
 
+
+
+        Button viewCardShop=new Button();
+        viewCardShop.setLayoutX(buttonStartingX);
+        viewCardShop.setLayoutY(50);
+        parent.getChildren().add(viewCardShop);
+        viewCardShop.setText("VIEW CARD SHOP");
+        viewCardShop.setOnMouseEntered( p ->
+        {
+            //todo fix static
+            if(ViewPersonalBoard.getController().isMarket()|| ViewPersonalBoard.getController().isCardShopOpen())
+            {
+                viewCardShop.setDisable(true);
+                return;
+            }
+            else
+                viewCardShop.setDisable(false);
+            CardShopGUI cs=new CardShopGUI();
+            cs.run();
+        });
+
+        viewCardShop.setOnMouseExited( p ->
+        {
+            if(ViewPersonalBoard.getController().isMarket()|| ViewPersonalBoard.getController().isCardShopOpen())
+                return;
+            ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(((Pane)getClient().getStage().getScene().getRoot()).getChildren().size()-1);
+        });
+
+
+
+        Button viewMarket=new Button();
+        viewMarket.setLayoutX(buttonStartingX);
+        viewMarket.setLayoutY(100);
+        viewMarket.setText("VIEW MARKET");
+        viewMarket.setOnMouseEntered( p ->
+        {
+            if(ViewPersonalBoard.getController().isMarket()|| ViewPersonalBoard.getController().isCardShopOpen())
+            {
+                viewMarket.setDisable(true);
+                return;
+            }
+            else
+                viewMarket.setDisable(false);
+            ResourceMarketGUI cs=new ResourceMarketGUI();
+            cs.run();
+        });
+
+        viewMarket.setOnMouseExited( p ->
+        {
+            if(ViewPersonalBoard.getController().isMarket()|| ViewPersonalBoard.getController().isCardShopOpen())
+                return;
+            ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(((Pane)getClient().getStage().getScene().getRoot()).getChildren().size()-1);
+        });
+
+        System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
+
+
+        boardPane.getChildren().add(viewCardShop);
+        boardPane.getChildren().add(viewMarket);
         boardPane.getChildren().add(scene);
     }
 

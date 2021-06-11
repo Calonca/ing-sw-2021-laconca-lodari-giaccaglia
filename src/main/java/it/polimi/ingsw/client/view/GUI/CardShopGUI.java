@@ -39,6 +39,8 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
     double len=800;
     double width=640;
     double cardTilt=0.1;
+    double marketTranslateX=-570;
+    double marketTranslateY=110;
     List<Button> scenePaymentButtons=new ArrayList<>();
     List<Button> scenesCardsToChoose=new ArrayList<>();
     javafx.collections.ObservableList<Boolean> scenePaidButtons;
@@ -63,8 +65,8 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
     public void run() {
 
         Node toAdd=getRoot();
-        toAdd.setTranslateX(-300);
-        toAdd.setTranslateY(20);
+        toAdd.setTranslateX(-570);
+        toAdd.setTranslateY(110);
         toAdd.setId("CARDSHOP");
         ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(toAdd);
         System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
