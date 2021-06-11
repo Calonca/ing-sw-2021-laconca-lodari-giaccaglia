@@ -208,7 +208,7 @@ public class PersonalBoardBody extends CLIelem {
     }
 
     public Row productionsBuilder(SimpleCardCells simpleCardCells, SimpleProductions simpleProductions){
-        Map<Integer,Optional<NetworkDevelopmentCard>> frontCards=simpleCardCells.getVisibleCardsOnCells().entrySet().stream()
+        Map<Integer,Optional<NetworkDevelopmentCard>> frontCards=simpleCardCells.getDevCardsCells().entrySet().stream()
                 .collect(Collectors.toMap(Map.Entry::getKey, e->e.getValue().map(DevelopmentCardAsset::getDevelopmentCard)));
         return new Row(frontCards.entrySet().stream().map(e-> {
             Option cell = prodOption( ()->{

@@ -71,7 +71,7 @@ public class SimpleProductions extends SimpleModelElement{
             this.isSelected = isSelected;
 
         }
-
+        //         resNum   quantity
         public Map<Integer, Integer> getInputResources() {
             return inputResources;
         }

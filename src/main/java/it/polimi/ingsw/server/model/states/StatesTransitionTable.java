@@ -67,10 +67,8 @@ public class StatesTransitionTable {
         // player can freely move warehouse resources during idle phase
         //Idle Phase
         eventsAndStrategy.put(null, new IDLE());
-        statesTransitionTable.table.put(State.IDLE, eventsAndStrategy);
-        eventsAndStrategy = new HashMap<>();
-
         eventsAndStrategy.put(name(MoveResourceEvent.class), new MovingResource());
+
         statesTransitionTable.table.put(State.IDLE, eventsAndStrategy);
         eventsAndStrategy = new HashMap<>();
 
@@ -91,6 +89,10 @@ public class StatesTransitionTable {
 
         //Select/Deselect Production
         eventsAndStrategy.put(name(ToggleProductionAtPosition.class), new TogglingForProduction());
+
+        //Produce or go back to Middle Phase
+        eventsAndStrategy.put(name(FinalProductionStrategy.class), new FinalProductionStrategy());
+
         statesTransitionTable.table.put(State.CHOOSING_PRODUCTION, eventsAndStrategy);
         eventsAndStrategy = new HashMap<>();
 
@@ -176,6 +178,7 @@ public class StatesTransitionTable {
         strategyAdapter.registerSubtype(TogglingForProduction.class);
         strategyAdapter.registerSubtype(Setup.class);
         strategyAdapter.registerSubtype(EndGameStrategy.class);
+        strategyAdapter.registerSubtype(FinalProductionStrategy.class);
 
         return new GsonBuilder()
                 .registerTypeAdapterFactory(strategyAdapter).setPrettyPrinting()

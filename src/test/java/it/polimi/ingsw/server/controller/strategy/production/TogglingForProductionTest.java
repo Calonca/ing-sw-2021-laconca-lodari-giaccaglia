@@ -23,7 +23,7 @@ public class TogglingForProductionTest {
     @Test
     public void execute() {
 
-        Event clientEvent = new ToggleProductionAtPosition(2, 1);
+        Event clientEvent = new ToggleProductionAtPosition(2);
         String serializedEvent = JsonUtility.serialize(clientEvent);
 
         RuntimeTypeAdapterFactory<Event> adapter = ClientToServerMessage.eventMessageAdapter();

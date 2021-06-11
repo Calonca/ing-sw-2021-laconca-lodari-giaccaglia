@@ -11,7 +11,6 @@ public class SimplePlayerLeaders extends SimpleModelElement{
 
     private  List<LeaderCardAsset> playerLeaders;
 
-
                         //  state    isPlayable
     private  Map<UUID, Pair<Boolean, Boolean>>  playerLeadersMap;
 

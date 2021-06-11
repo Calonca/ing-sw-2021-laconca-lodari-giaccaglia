@@ -21,76 +21,25 @@ import java.util.Optional;
  */
 public class TogglingForProduction implements GameStrategy {
 
-    private transient List<Element> elementsToUpdate = new ArrayList<>();
-    private transient PersonalBoard playerBoard;
-
     public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event) {
 
+        List<Element> elementsToUpdate = new ArrayList<>();
+        PersonalBoard playerBoard;
+
         ToggleProductionAtPosition toggleProductionAtPosition = (ToggleProductionAtPosition) event;
-        int actionToPerform = toggleProductionAtPosition.getActionToPerform();
         playerBoard = gamemodel.getCurrentPlayer().getPersonalBoard();
-
-
-        if (actionToPerform == 2)    //end selection -> choose resources
-            return new Pair<>(State.CHOOSING_RESOURCE_FOR_PRODUCTION, elementsToUpdate);
-
         int productionPosition = toggleProductionAtPosition.getProductionPosition();
+        playerBoard.toggleSelectProductionAt(productionPosition);
 
-        if (actionToPerform == 1) {  //select production
-
-            playerBoard.toggleSelectProductionAt(productionPosition);
-
-            Optional<Production> optOfProductionWithChoice = playerBoard.firstProductionSelectedWithChoice();
-
-            if (optOfProductionWithChoice.isPresent()
-                    && (optOfProductionWithChoice.get().equals(playerBoard.getProductionFromPosition(productionPosition).get()))  //verify if last selected production has choices
-
-            ) {
-
-                List<Integer> positionsOfResourcesToConvert = toggleProductionAtPosition.getPositionsOfResourcesToConvertForSpecialProduction();
-
-                positionsOfResourcesToConvert.forEach(playerBoard::performChoiceOnInput);
-
-                if (optOfProductionWithChoice.get().choiceCanBeMadeOnOutput()) {
-
-                    int resToObtain = toggleProductionAtPosition.getChosenResourceForBasicProduction();
-
-                    playerBoard.performChoiceOnOutput(Resource.fromInt(resToObtain));
-                }
-
-
-            }
-
-        } else if (actionToPerform == 0) {  //deselect production
-
-
-            Optional<Production> optOfProductionWithChoice = playerBoard.firstProductionSelectedWithChoice();
-
-            //if it is a production with choices , deselect choices on input and remove choice on output
-
-            if (optOfProductionWithChoice.isPresent() && optOfProductionWithChoice.get().equals(playerBoard.getProductionFromPosition(productionPosition).get())) {
-
-                Production productionToRevert = optOfProductionWithChoice.get();
-
-                List<Integer> positionsOfResourcesToDeselect = playerBoard.getPosOfChosenResourcesOnInputForProduction(productionPosition);
-
-                positionsOfResourcesToDeselect.forEach(playerBoard::deselectResourceAt);
-
-                playerBoard.resetHistoryOfProductionWithInputsToChoose(productionPosition);
-
-                productionToRevert.resetChoice();
-
-            }
-
-            playerBoard.deselectProductionAt(productionPosition);
-
-        }
 
         elementsToUpdate.add(Element.SimpleWareHouseLeadersDepot);
         elementsToUpdate.add(Element.SimpleStrongBox);
         elementsToUpdate.add(Element.SimpleProductions);
 
-        if (playerBoard.remainingToSelectForProduction() == 0)
+
+        int lastSelectedProduction = playerBoard.getLastSelectedProductionPosition();
+
+        if(lastSelectedProduction == productionPosition) // player enabled a production
             return new Pair<>(State.CHOOSING_RESOURCE_FOR_PRODUCTION, elementsToUpdate);
 
 

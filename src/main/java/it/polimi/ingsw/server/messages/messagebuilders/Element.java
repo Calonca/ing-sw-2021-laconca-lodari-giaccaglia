@@ -14,7 +14,10 @@ public enum Element {
     SimpleCardShop(true) {
         @Override
         public SimpleModelElement buildSimpleModelElement(GameModel gameModel) {
-            return new SimpleCardShop(CardShopMessageBuilder.cardShopAdapter(gameModel), CardShopMessageBuilder.purchasedCardAdapter(gameModel));
+            return new SimpleCardShop(
+                    CardShopMessageBuilder.cardShopAdapter(gameModel),
+                    CardShopMessageBuilder.purchasedCardAdapter(gameModel),
+                    CardShopMessageBuilder.costListOfPurchasedCardWithDiscounts(gameModel));
         }
 
     },

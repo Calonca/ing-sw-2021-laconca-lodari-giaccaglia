@@ -22,6 +22,7 @@ public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.m
     private transient PersonalBoard currentPlayerPersonalBoard;
     private final int[] resourcesToConvertArray = new int[4];
     List<Pair<Integer, Integer>> selectedResourcesPairList;  // Pair : key -> resource position ; value -> number of selected resources
+    int lastSelectedProductionPosition;
 
     /**
      * Server-side initializer to setup common attributes among {@link State#MIDDLE_PHASE MIDDLE_PHASE}
@@ -29,36 +30,12 @@ public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.m
      * @param gameModel {@link GameModel} of the event's current game on which event validation has to be performed.
      */
     private void initializeMiddlePhaseEventValidation(GameModel gameModel){
+        lastSelectedProductionPosition = currentPlayerPersonalBoard.getLastSelectedProductionPosition();
         this.currentPlayerPersonalBoard = gameModel.getCurrentPlayer().getPersonalBoard();
     }
 
     @Override
     public boolean validate(GameModel gameModel) {
-
-
-
-
-      /*
-       Integer resNUm = 0;
-       Integer pos = 0;
-       AtomicBoolean result = new AtomicBoolean(false);
-        currentPlayerPersonalBoard.firstProductionSelectedWithChoice().ifPresentOrElse((p) -> {
-                    if (p.choiceCanBeMade() && p.choiceCanBeMadeOnInput() && !pos.equals(null) && resNUm.equals(null)) {
-                        result.set(!currentPlayerPersonalBoard.getResourceAtPosition(pos).equals(Resource.EMPTY));
-                    } else if (p.choiceCanBeMadeOnOutput() && pos.equals(null) && !resNUm.equals(null)) {
-                        Resource resIfChoosingOutput = Resource.fromIntFixed(resNUm);
-                        result.set(!resIfChoosingOutput.equals(Resource.EMPTY));
-                    } else result.set(false);
-                },
-                () -> {
-                    Resource r = currentPlayerPersonalBoard.getResourceAtPosition(pos);
-                    //Todo check if the resource is in the production non selected input
-                    result.set(currentPlayerPersonalBoard.remainingToSelectForProduction() > 0 &&
-                            !r.equals(Resource.EMPTY)
-                    );
-                }
-        ); */
-
 
         initializeMiddlePhaseEventValidation(gameModel);
         buildResourcesArray();
@@ -108,25 +85,25 @@ public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.m
     }
 
     private boolean checkPositionOfResourcesToConvert(){
-        return positionsOfResourcesToConvert.stream()
+        return inputPositionsToChoose.stream()
                 .anyMatch(position ->
-                        !currentPlayerPersonalBoard.getResourceAtPosition(position).equals(Resource.fromIntFixed(positionsOfResourcesToConvert.get(position))));
+                        !currentPlayerPersonalBoard.getResourceAtPosition(position).equals(Resource.fromIntFixed(inputPositionsToChoose.get(position))));
     }
 
     private boolean checkTypeOfResourcesToConvert(){
-        return positionsOfResourcesToConvert.stream().noneMatch(resourcePos -> currentPlayerPersonalBoard.getResourceAtPosition(resourcePos).equals(Resource.EMPTY));
+        return inputPositionsToChoose.stream().noneMatch(resourcePos -> currentPlayerPersonalBoard.getResourceAtPosition(resourcePos).equals(Resource.EMPTY));
     }
 
     private boolean checkResourcesPositionIndexes(){
-        return positionsOfResourcesToConvert.stream().anyMatch(i -> ( i<-8 || (i>-5 && i<0) ));
+        return inputPositionsToChoose.stream().anyMatch(i -> ( i<-8 || (i>-5 && i<0) ));
     }
 
     private boolean checkPositionsValidity(){
 
-        return positionsOfResourcesToConvert.stream().allMatch(
+        return inputPositionsToChoose.stream().allMatch(
                 position -> {
 
-                    int positionOccurrences = positionsOfResourcesToConvert.stream().filter(positionToFind -> positionToFind.equals(position)).mapToInt(positionToFind -> 1).sum();
+                    int positionOccurrences = inputPositionsToChoose.stream().filter(positionToFind -> positionToFind.equals(position)).mapToInt(positionToFind -> 1).sum();
 
                     if(position>=-8 && position<-4) {
                             Resource resourceAtPos = currentPlayerPersonalBoard.getResourceAtPosition(position);
@@ -141,11 +118,15 @@ public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.m
 
     private boolean checkProductionRequirements() {
 
+        Optional<Production> optOfSelectedProduction = currentPlayerPersonalBoard.getProductionFromPosition(lastSelectedProductionPosition);
 
-        Optional<Production> optOfSelectedProduction = currentPlayerPersonalBoard.getProductionFromPosition(productionPosition);
         if (optOfSelectedProduction.isPresent()) {
 
             Production selectedProduction = optOfSelectedProduction.get();
+
+            if(selectedProduction.choiceCanBeMade())
+                return checkProductionWithChoicesRequirements(selectedProduction);
+
             return Arrays.equals(selectedProduction.getInputs(), resourcesToConvertArray);
 
         }
@@ -153,12 +134,35 @@ public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.m
         return false;
     }
 
+    private boolean checkChosenResourceValidity(){
+
+        return outputResourceToChoose.stream().noneMatch(resourceInt -> Resource.fromIntFixed(resourceInt).equals(Resource.EMPTY));
+
+    }
+
+    private boolean checkProductionWithChoicesRequirements(Production production) {
+
+        boolean isValidationOk = false;
+
+        if (production.choiceCanBeMadeOnInput()) {
+            isValidationOk = (inputPositionsToChoose.size() == production.getNumOfResInInput());
+        }
+
+        if (production.choiceCanBeMadeOnOutput()) {
+
+            isValidationOk = (outputResourceToChoose.size() == production.getNumOfResInOutput()) && checkChosenResourceValidity();
+
+        }
+
+        return isValidationOk;
+    }
+
     private void buildResourcesPairList(){
 
-        selectedResourcesPairList = positionsOfResourcesToConvert.stream().map(
+        selectedResourcesPairList = inputPositionsToChoose.stream().map(
                 position -> {
 
-                    int positionOccurrences = positionsOfResourcesToConvert.stream().filter(positionToFind -> positionToFind.equals(position)).mapToInt(positionToFind -> 1).sum();
+                    int positionOccurrences = inputPositionsToChoose.stream().filter(positionToFind -> positionToFind.equals(position)).mapToInt(positionToFind -> 1).sum();
 
                     return new Pair<>(position, positionOccurrences);
                 }
@@ -168,8 +172,10 @@ public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.m
     }
 
     private void buildResourcesArray(){
+
         for (Pair<Integer, Integer> resourceIntegerPair : selectedResourcesPairList)
             resourcesToConvertArray[resourceIntegerPair.getKey()] += resourceIntegerPair.getValue();
+
     }
 
     public List<Pair<Integer, Integer>> getSelectedResourcesPairList(){ return selectedResourcesPairList;}

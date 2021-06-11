@@ -64,6 +64,11 @@ public class PlayerCache {
         playerSimpleModelElementsMap.put(ActiveLeaderBonusInfo.class.getSimpleName(), new ActiveLeaderBonusInfo());
         playerSimpleModelElementsMap.put(SimpleProductions.class.getSimpleName(), new SimpleProductions());
 
+        SimplePlayerLeaders playerLeadersElement = ((SimplePlayerLeaders) playerSimpleModelElementsMap.get(SimplePlayerLeaders.class.getSimpleName()));
+        SimpleCardCells simpleCardCells = ((SimpleCardCells) playerSimpleModelElementsMap.get(SimpleCardCells.class.getSimpleName()));
+
+        simpleCardCells.setSimplePlayerLeaders(playerLeadersElement);
+
     }
 
     public String getCurrentState() {

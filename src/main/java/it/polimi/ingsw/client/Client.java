@@ -185,6 +185,8 @@ public class Client implements Runnable
         simpleModel.updateSimpleModel(stateInNetwork);
         if(stateInNetwork.getPlayerNumber()==commonData.getThisPlayerIndex()
         && stateInNetwork.getState().equals(State.SETUP_PHASE.name()))
+            //SetupPhaseViewBuilder.getBuilder(isCLI);
+      //  changeViewBuilder(new BoardView3D());
             changeViewBuilder(SetupPhaseViewBuilder.getBuilder(isCLI));
     }
 

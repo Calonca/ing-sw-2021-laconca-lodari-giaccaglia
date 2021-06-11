@@ -97,7 +97,8 @@ public class SimpleDepotsMessageBuilder {
 
     public static Pair<Integer, List<Integer>> getAvailableMovingPositionsForResourceAtPos(PersonalBoard board, int position, Resource res){
         List<Integer> positions = board.getWarehouseLeadersDepots().availableMovingPositionsForResource(res).boxed().collect(Collectors.toList());
-        positions.add(position);  //selected resource can be deselected
+        if(!res.equals(Resource.EMPTY))
+            positions.add(position);  //selected resource can be deselected
 
         return new Pair<>(position, positions);
 

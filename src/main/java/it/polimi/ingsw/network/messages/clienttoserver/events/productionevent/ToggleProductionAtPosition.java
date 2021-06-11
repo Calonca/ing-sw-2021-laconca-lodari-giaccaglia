@@ -1,36 +1,18 @@
 package it.polimi.ingsw.network.messages.clienttoserver.events.productionevent;
 
-import java.util.List;
-
-public class ToggleProductionAtPosition extends ProductionEvent {
-
-    protected int actionToPerform = -1;  //0 to deselect, 1 to select, 2 to end selection
-
-    protected int chosenResource = -1;
-    protected List<Integer> positionsOfResourcesToConvertForSpecialProduction;
+import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
 
 
-    public ToggleProductionAtPosition(int productionPosition, int actionToPerform){
+public class ToggleProductionAtPosition extends Event {
 
-        super(productionPosition);
-        this.actionToPerform = actionToPerform;
+    protected int productionPosition;
 
+    public ToggleProductionAtPosition(int productionPosition){
+
+       this.productionPosition = productionPosition;
     }
 
     public ToggleProductionAtPosition(){}
-
-    // if chosen production has selection on input or output, resources integers are attached to the toggling event.
-
-    public void setPositionsOfResourcesToConvertForSpecialProduction(List<Integer> positionsOfResourcesToConvertForSpecialProduction){
-        this.positionsOfResourcesToConvertForSpecialProduction = positionsOfResourcesToConvertForSpecialProduction;
-    }
-
-
-    public void setChosenResourceToObtain(int chosenResource){
-        this.chosenResource = chosenResource;
-    }
-
-
 
 
 }

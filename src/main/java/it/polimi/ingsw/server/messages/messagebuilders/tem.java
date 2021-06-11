@@ -83,7 +83,7 @@ INITIAL
 
                     SimpleDepotsMessageBuilder.getSimpleStrongBox(gameModel.getCurrentPlayer().getPersonalBoard().getSimpleStrongBox()),
 
-                    SimpleCardsCellsMessageBuilder.cardCellsAdapter(gameModel.getCurrentPlayer().getPersonalBoard().getVisibleCardsOnCells()),
+                    SimpleCardsCellsMessageBuilder.cardCellsAdapter(gameModel.getCurrentPlayer().getPersonalBoard().getDevCardsCells()),
 
                     gameModel.getCurrentPlayer().getSerializedFaithTrack()
  *

@@ -62,9 +62,9 @@ public class PersonalBoard {
      */
     private List<Optional<Boolean>> prodsSelected;
 
-    private Map<Integer, List<Integer>> historyOfInputResourcesForProduction;  //key -> position of production with inputChoices ; value -> position of chosen resources
+    private Map<Integer, List<Integer>> historyOfInputResourcesForProduction;  //key -> position of production; value -> position of chosen resources
 
-    private int remainingNumOfSelectedProductionsWithoutChoices;
+    private int lastSelectedProductionPosition;
 
     /**
      * The faith points that need to added by the strategy to the {@link FaithTrack FaithTrack}
@@ -119,16 +119,10 @@ public class PersonalBoard {
 
     public Map<Integer, List<DevelopmentCard>> getVisibleCardsOnCells(){
 
-        return IntStream.rangeClosed(1, cardCells.length).boxed().collect(Collectors.toMap(integer -> integer,
-                integer -> {
-
-                List<DevelopmentCard> card = new ArrayList<>(0);
-
-                if(cardCells[integer-1].getStackedCardsSize() > 0)
-                    card.add(cardCells[integer-1].getFrontCard());
-
-                 return card;
-                }));
+        return IntStream.rangeClosed(1, cardCells.length).boxed().collect(Collectors.toMap(
+                integer -> integer,
+                integer -> cardCells[integer-1].getStackedCards()
+        ));
 
     }
 
@@ -182,20 +176,12 @@ public class PersonalBoard {
         faithPointsToAdd = resources[4];
         badFaithToAdd = resources[5];
         strongBox.addResources(Arrays.stream(resources).limit(Resource.nRes).toArray());
+
         resetChoices();
         resetSelectedProductions();
         resetHistoryOfInputResourcesForProduction();
 
     }
-
-    public int getRemainingNumOfSelectedProductionsWithoutChoices(){
-        return remainingNumOfSelectedProductionsWithoutChoices;
-    }
-
-    public void decreaseRemainingNumOfSelectedProductionsWithoutChoices(){
-        remainingNumOfSelectedProductionsWithoutChoices--;
-    }
-
 
 
     /**
@@ -294,10 +280,34 @@ public class PersonalBoard {
                 prodsSelected.get(pos).map((op)->!op)
         );
 
-        if(!productions.get(pos).get().choiceCanBeMade())
-            remainingNumOfSelectedProductionsWithoutChoices++;
+        if(prodsSelected.get(pos).get())   //production enabled
+            lastSelectedProductionPosition = pos;
+
+        if(!prodsSelected.get(pos).get()  && historyOfInputResourcesForProduction.containsKey(pos)) {  //disable production, revert selected resources
+
+            List<Integer> positionsOfResourcesToDeselect = historyOfInputResourcesForProduction.get(pos);
+            Production toggledProduction = productions.get(pos).get();
+            positionsOfResourcesToDeselect.forEach(this::deselectResourceAt);
+
+            resetHistoryOfProductionResources(pos);
+
+            toggledProduction.resetChoice();
+
+        }
+    }
+
+    public void resetAllSelectedProductions(){
+
+        resetChoices();
+        resetSelectedProductions();
+        historyOfInputResourcesForProduction.keySet().forEach(this::deselectResourceAt);
+        resetHistoryOfInputResourcesForProduction();
 
     }
+
+
+
+
 
 
     /**
@@ -487,8 +497,6 @@ public class PersonalBoard {
         storageUnitFromPos(position).deselectResourceAt(position);
 
     }
-
-
 
 
     /**
@@ -699,12 +707,16 @@ public class PersonalBoard {
         return historyOfInputResourcesForProduction.get(productionPosition);
     }
 
-    public void resetHistoryOfProductionWithInputsToChoose(int productionPosition){
+    public void resetHistoryOfProductionResources(int productionPosition){
         historyOfInputResourcesForProduction.remove(productionPosition);
     }
 
     public void resetHistoryOfInputResourcesForProduction(){
         historyOfInputResourcesForProduction.clear();
+    }
+
+    public int getLastSelectedProductionPosition(){
+        return lastSelectedProductionPosition;
     }
 
 

@@ -13,8 +13,7 @@ import it.polimi.ingsw.network.messages.clienttoserver.events.marketboardevent.D
 import it.polimi.ingsw.network.messages.clienttoserver.events.marketboardevent.MarketBoardEvent;
 import it.polimi.ingsw.network.messages.clienttoserver.events.productionevent.ToggleProductionAtPosition;
 import it.polimi.ingsw.network.messages.clienttoserver.events.productionevent.ChooseResourcesForProductionEvent;
-import it.polimi.ingsw.network.messages.clienttoserver.events.productionevent.FinalProductionPhase;
-import it.polimi.ingsw.network.messages.clienttoserver.events.productionevent.ProductionEvent;
+import it.polimi.ingsw.network.messages.clienttoserver.events.productionevent.FinalProductionPhaseEvent;
 import it.polimi.ingsw.network.messages.clienttoserver.events.setupphaseevent.SetupPhaseEvent;
 import it.polimi.ingsw.network.messages.clienttoserver.events.marketboardevent.MoveResourceEvent;
 
@@ -51,7 +50,6 @@ public abstract class ClientToServerMessage extends NetworkMessage
         eventMessageAdapter.registerSubtype(ChooseCardEvent.class);
         eventMessageAdapter.registerSubtype(ChooseCardPositionEvent.class);
         eventMessageAdapter.registerSubtype(ChooseResourceForCardShopEvent.class);
-        eventMessageAdapter.registerSubtype(FinalDevCardPhase.class);
         eventMessageAdapter.registerSubtype(MoveResourceEvent.class);
 
         eventMessageAdapter.registerSubtype(ChooseLineEvent.class);
@@ -61,8 +59,7 @@ public abstract class ClientToServerMessage extends NetworkMessage
 
         eventMessageAdapter.registerSubtype(ToggleProductionAtPosition.class);
         eventMessageAdapter.registerSubtype(ChooseResourcesForProductionEvent.class);
-        eventMessageAdapter.registerSubtype(FinalProductionPhase.class);
-        eventMessageAdapter.registerSubtype(ProductionEvent.class);
+        eventMessageAdapter.registerSubtype(FinalProductionPhaseEvent.class);
 
         eventMessageAdapter.registerSubtype(SetupPhaseEvent.class);
 
