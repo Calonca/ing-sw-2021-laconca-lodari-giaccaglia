@@ -1,8 +1,15 @@
 package it.polimi.ingsw.server.model.solo;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.server.model.cards.*;
 import it.polimi.ingsw.server.model.player.track.FaithTrack;
+import it.polimi.ingsw.server.utils.Deserializator;
+
+import java.lang.reflect.Type;
+import java.util.Map;
 
 
 /**
@@ -25,11 +32,22 @@ public enum SoloActionToken {
      */
     DISCARD2GREEN{
 
+        String effectDescription = "";
         final DevelopmentCardColor color = DevelopmentCardColor.GREEN;
 
         @Override
         public void applyEffect(GameModel gameModel) {
             discardCards(color, gameModel, 2);
+        }
+
+        @Override
+        public String getEffectDescription(){
+            return effectDescription;
+        }
+
+        @Override
+        public void setEffectDescription(String effectDescription){
+            this.effectDescription = effectDescription;
         }
     },
 
@@ -39,11 +57,22 @@ public enum SoloActionToken {
      */
     DISCARD2BLUE {
 
+        String effectDescription = "";
         final DevelopmentCardColor color = DevelopmentCardColor.BLUE;
 
         @Override
         public void applyEffect(GameModel gameModel) {
             discardCards(color, gameModel, 2);
+        }
+
+        @Override
+        public String getEffectDescription(){
+            return effectDescription;
+        }
+
+        @Override
+        public void setEffectDescription(String effectDescription){
+            this.effectDescription = effectDescription;
         }
     },
 
@@ -54,11 +83,22 @@ public enum SoloActionToken {
      */
     DISCARD2YELLOW{
 
+        String effectDescription = "";
         final DevelopmentCardColor color = DevelopmentCardColor.YELLOW;
 
         @Override
         public void applyEffect(GameModel gameModel) {
             discardCards(color, gameModel, 2);
+        }
+
+        @Override
+        public String getEffectDescription(){
+            return effectDescription;
+        }
+
+        @Override
+        public void setEffectDescription(String effectDescription){
+            this.effectDescription = effectDescription;
         }
     },
 
@@ -68,12 +108,24 @@ public enum SoloActionToken {
      * {@link #discardCards(DevelopmentCardColor, GameModel, int) discardCardFromShop} rules.
      */
     DISCARD2PURPLE{
+
+        String effectDescription = "";
         final DevelopmentCardColor color = DevelopmentCardColor.PURPLE;
 
         @Override
         public void applyEffect(GameModel gameModel) {
             discardCards(color, gameModel, 2);
 
+        }
+
+        @Override
+        public String getEffectDescription(){
+            return effectDescription;
+        }
+
+        @Override
+        public void setEffectDescription(String effectDescription){
+            this.effectDescription = effectDescription;
         }
     },
 
@@ -85,10 +137,23 @@ public enum SoloActionToken {
      * method, in order to create a new order in stack.
      */
     SHUFFLE_ADD1FAITH{
+
+        String effectDescription = "";
+
         @Override
         public void applyEffect(GameModel gameModel) {
             gameModel.addFaithPointToOtherPlayers();
             gameModel.shuffleSoloDeck();
+        }
+
+        @Override
+        public String getEffectDescription(){
+            return effectDescription;
+        }
+
+        @Override
+        public void setEffectDescription(String effectDescription){
+            this.effectDescription = effectDescription;
         }
     },
 
@@ -98,18 +163,36 @@ public enum SoloActionToken {
      * {@link GameModel#addFaithPointToOtherPlayers() addFaithPointToOtherPlayers}.
      */
     ADD2FAITH {
+
+        String effectDescription = "";
+
         @Override
         public void applyEffect(GameModel gameModel) {
             gameModel.addFaithPointToOtherPlayers();
             gameModel.addFaithPointToOtherPlayers();
         }
+
+        @Override
+        public String getEffectDescription(){
+            return effectDescription;
+        }
+
+        @Override
+        public void setEffectDescription(String effectDescription){
+            this.effectDescription = effectDescription;
+        }
     };
+
+    public abstract String getEffectDescription();
 
     /**
      * Abstract method overridden by the <em>ActionTokens</em> to implement the specific effect associated with.
      * @param gameModel The {@link GameModel} of the current game, on which the effect is applied in solo mode.
      */
     public abstract void applyEffect(GameModel gameModel);
+
+    public abstract void setEffectDescription(String effectDescription);
+
 
     /**
      * When this effect is applied, due to an <em>Action Token</em>, {@link DevelopmentCard}s of the indicated type
@@ -122,8 +205,17 @@ public enum SoloActionToken {
      * method is accessed to modify the {@link CardShop}.
      * @param amount The number of {@link DevelopmentCard}s to discard.
      */
-    public void discardCards(DevelopmentCardColor color, GameModel gameModel, int amount){
+    private static void discardCards(DevelopmentCardColor color, GameModel gameModel, int amount){
         gameModel.discardCardFromShop(color, amount);
+    }
+
+    public static void initializeDescriptionFromConfig(String path){
+
+        Gson gson = new GsonBuilder().create();
+        Type type = new TypeToken<Map<SoloActionToken, String>>(){}.getType();
+        Map<SoloActionToken, String> tokensMap = Deserializator.deserialize(path, type, gson);
+        tokensMap.forEach(SoloActionToken::setEffectDescription);
+
     }
 }
 
