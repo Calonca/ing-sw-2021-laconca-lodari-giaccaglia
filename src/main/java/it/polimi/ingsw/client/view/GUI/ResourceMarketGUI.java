@@ -179,9 +179,9 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
             row.add(toPut);
             toPut=toswap;
 
-            moveX(toPut,4*ballsize,new Duration(800));
+            moveX(toPut,4*ballsize,new Duration(600));
 
-            moveY(toPut,toPutStartingY,new Duration(2200));
+            moveY(toPut,toPutStartingY,new Duration(1300));
 
 
 
