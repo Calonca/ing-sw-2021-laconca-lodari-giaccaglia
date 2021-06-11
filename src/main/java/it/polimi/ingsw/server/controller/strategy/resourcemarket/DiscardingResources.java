@@ -25,6 +25,7 @@ public class DiscardingResources implements GameStrategy {
     {
 
         int positionsToAdd;
+
         elementsToUpdate.add(Element.SimpleDiscardBox);
         elementsToUpdate.add(Element.SimpleFaithTrack);
         elementsToUpdate.add(Element.SimplePlayerLeaders);
@@ -62,12 +63,15 @@ public class DiscardingResources implements GameStrategy {
 
             if(gameModel.checkTrackStatus()) {
 
-                handleCommonEndGameStrategy();
+                if(gameModel.isSinglePlayer()) {
 
-                return new Pair<>(State.IDLE, elementsToUpdate);
+                    String endGameReason = EndGameReason.TRACK_END_SOLO.getEndGameReason();
+                    return FinalStrategy.handleSinglePlayerEndGameStrategy(elementsToUpdate, gameModel, endGameReason);
+                }
+
+                FinalStrategy.setMacroGamePhase(gameModel, elementsToUpdate);
+
             }
-
-        }
 
         currentBoard.setFaithToZero();
 

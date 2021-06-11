@@ -25,6 +25,7 @@ public class Match {
     private GameModel game;
     private final int maxPlayers;
     private Date createdTime;
+    private String reasonOfGameEnd;
 
     private class User{
         String nickname;
@@ -208,4 +209,14 @@ public class Match {
     public int getLastPos() {
         return onlineUsers.size()-1;
     }
+
+    public String getReasonOfGameEnd(){
+        return reasonOfGameEnd;
+    }
+
+    public void setReasonOfGameEnd(String reasonOfGameEnd){
+        this.reasonOfGameEnd = reasonOfGameEnd;
+    }
+
+
 }

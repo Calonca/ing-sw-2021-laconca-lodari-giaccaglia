@@ -28,6 +28,7 @@ public class GameModel {
 
     private final Match match;
 
+
     /**
      * List of current game registered players after lobby creation.
      */
@@ -463,9 +464,15 @@ public class GameModel {
      * Returns the action that the opponent in the single player game, Lorenzo il Magnifico, will perform.
      * @return the action of Lorenzo il Magnifico.
      */
-    public SoloActionToken showSoloActionToken(){
+    public SoloActionToken showSoloActionTokenOnTop(){
         return soloDeck.showToken();
     }
+
+    public SoloActionToken showLastActivatedSoloActionToken(){
+        return soloDeck.showLastActivatedToken();
+    }
+
+
 
     /**
      * Performs the action that the opponent in the single player game, Lorenzo il Magnifico has chosen.
@@ -610,6 +617,10 @@ public class GameModel {
         return match.getMatchId();
     }
 
+    public Match getThisMatch(){
+        return match;
+    }
+
    public void handleVaticanReport(){
 
         if(!vaticanReportTriggers().isEmpty())
@@ -617,7 +628,7 @@ public class GameModel {
 
     }
 
-    public boolean checkTrackStatus(){
+    public boolean checkTrackStatus(){  //returns true if player reaches track end
 
         Map<Integer, Player> playersAtTheEnd = getPlayersAtTheEndOfTheFaithTrack();
 

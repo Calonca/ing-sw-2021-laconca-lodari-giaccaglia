@@ -36,7 +36,8 @@ public class GameInfoMessageBuilder {
                             player.getCurrentGamePoints(),
                             player.getMatchOutCome(),
                             player.getPlayerPosition(),
-                            player.getLorenzoPosition()
+                            player.getLorenzoPosition(),
+                            player.getNickName()
                     );
                 }
         ));
