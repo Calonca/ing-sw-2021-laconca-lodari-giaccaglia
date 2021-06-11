@@ -13,7 +13,7 @@ public enum Element {
 
     SimpleCardShop(true) {
         @Override
-        public SimpleModelElement buildSimpleModelElement(GameModel gameModel) {
+        public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate) {
             return new SimpleCardShop(
                     CardShopMessageBuilder.cardShopAdapter(gameModel),
                     CardShopMessageBuilder.purchasedCardAdapter(gameModel),
@@ -24,7 +24,7 @@ public enum Element {
 
     SimpleMarketBoard(true) {
         @Override
-        public SimpleModelElement buildSimpleModelElement(GameModel gameModel) {
+        public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate) {
             return new SimpleMarketBoard(
                     MarketBoardMessageBuilder.marketBoardAdapter(gameModel),
                     gameModel.getMarketBoardColumns(),
@@ -38,7 +38,7 @@ public enum Element {
 
     EndGameInfo(true){
         @Override
-        public SimpleModelElement buildSimpleModelElement(GameModel gameModel){
+        public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate){
             return new EndGameInfo(
                     GameInfoMessageBuilder.endGameInfoMap(gameModel),
                     GameInfoMessageBuilder.getPlayersEndingTheGame(gameModel));
@@ -47,7 +47,7 @@ public enum Element {
 
     PlayersInfo(true){
         @Override
-        public SimpleModelElement buildSimpleModelElement(GameModel gameModel){
+        public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate){
             return new PlayersInfo(GameInfoMessageBuilder.getSimplePlayerInfoMap(gameModel));
         }
     },
@@ -56,14 +56,14 @@ public enum Element {
 
         SimplePlayerLeaders(false) {
             @Override
-            public SimpleModelElement buildSimpleModelElement(GameModel gameModel) {
+            public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate) {
                 return new SimplePlayerLeaders(PlayerLeadersMessageBuilder.playerLeadersMap(gameModel));
             }
         },
 
         SimpleFaithTrack(false) {
             @Override
-            public SimpleModelElement buildSimpleModelElement(GameModel gameModel){
+            public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate){
                 it.polimi.ingsw.network.simplemodel.SimpleFaithTrack track = new SimpleFaithTrack();
                 return track.faithTrackConstructor(gameModel.getCurrentPlayer().getSerializedFaithTrack());
             }
@@ -72,14 +72,14 @@ public enum Element {
 
         SimpleStrongBox(false) {
             @Override
-            public SimpleModelElement buildSimpleModelElement(GameModel gameModel){
+            public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate){
                 return new SimpleStrongBox(SimpleDepotsMessageBuilder.getSimpleStrongBox(gameModel));
             }
         },
 
         SimpleDiscardBox(false) {
             @Override
-            public SimpleModelElement buildSimpleModelElement(GameModel gameModel){
+            public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate){
                 return new SimpleDiscardBox(
 
                         SimpleDepotsMessageBuilder.getSimpleDiscardBox(gameModel),
@@ -91,21 +91,20 @@ public enum Element {
 
         SimpleWareHouseLeadersDepot(false) {
             @Override
-            public SimpleModelElement buildSimpleModelElement(GameModel gameModel){
+            public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate){
                 return new SimpleWarehouseLeadersDepot(
 
-                        SimpleDepotsMessageBuilder.getSimpleWarehouseLeadersDepots(gameModel),
-                        SimpleDepotsMessageBuilder.getAvailableMovingPositionsForResourceInWarehouseAtPos(gameModel),
-                        SimpleDepotsMessageBuilder.getResourcesTypesOfLeaderDepots(gameModel));
+                        SimpleDepotsMessageBuilder.getSimpleWarehouseLeadersDepots(gameModel, playerRequestingUpdate),
+                        SimpleDepotsMessageBuilder.getAvailableMovingPositionsForResourceInWarehouseAtPos(gameModel, playerRequestingUpdate),
+                        SimpleDepotsMessageBuilder.getResourcesTypesOfLeaderDepots(gameModel, playerRequestingUpdate));
 
             }
         },
 
         SimpleCardCells(false) {
             @Override
-            public SimpleModelElement buildSimpleModelElement(GameModel gameModel){
+            public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate){
                 return new SimpleCardCells(
-
                         SimpleCardsCellsMessageBuilder.cardCellsAdapter(gameModel),
                         gameModel.getCurrentPlayer().getPersonalBoard().getAvailableSpotsForDevCard(gameModel.getCardShop().getCopyOfPurchasedCard())
                 );
@@ -114,9 +113,8 @@ public enum Element {
 
 
         ActiveLeaderInfo(false) {
-
             @Override
-            public SimpleModelElement buildSimpleModelElement(GameModel gameModel){
+            public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate){
                 return new ActiveLeaderBonusInfo(
 
                         GameInfoMessageBuilder.depotBonusResources(gameModel),
@@ -127,9 +125,8 @@ public enum Element {
         },
 
         SimpleProductions(false){
-
         @Override
-        public SimpleModelElement buildSimpleModelElement(GameModel gameModel){
+        public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate){
             return new SimpleProductions(SimpleProductionsMessageBuilder.simpleProductionsMap(gameModel));
            }
         };
@@ -142,7 +139,7 @@ public enum Element {
             this.isCommonElement = isCommonElement;
         }
 
-        public abstract SimpleModelElement buildSimpleModelElement(GameModel model);
+        public abstract SimpleModelElement buildSimpleModelElement(GameModel model, int playerRequestingUpdate);
 
         public static List<Element> getAsList() {
             return elements;

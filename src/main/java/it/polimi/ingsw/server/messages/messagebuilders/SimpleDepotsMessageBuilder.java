@@ -16,9 +16,9 @@ import java.util.stream.IntStream;
 
 public class SimpleDepotsMessageBuilder {
 
-    public static Map<Integer, List<Pair<ResourceAsset, Boolean>>> getSimpleWarehouseLeadersDepots(GameModel gameModel){
+    public static Map<Integer, List<Pair<ResourceAsset, Boolean>>> getSimpleWarehouseLeadersDepots(GameModel gameModel, int playerRequestingUpdate){
 
-        Map<Integer, List<Pair<Resource, Boolean>>> warehouse = gameModel.getCurrentPlayer().getPersonalBoard().getSimpleWarehouseLeadersDepots();
+        Map<Integer, List<Pair<Resource, Boolean>>> warehouse = gameModel.getMatchPlayers().get(playerRequestingUpdate).getPersonalBoard().getSimpleWarehouseLeadersDepots();
 
        return warehouse.keySet().stream()
                .collect(Collectors.toMap(
@@ -58,15 +58,15 @@ public class SimpleDepotsMessageBuilder {
         ));
     }
 
-    public static Map<Integer, List<Integer>> getAvailableMovingPositionsForResourceInWarehouseAtPos(GameModel gameModel){
+    public static Map<Integer, List<Integer>> getAvailableMovingPositionsForResourceInWarehouseAtPos(GameModel gameModel, int playerRequestingUpdate){
 
-        int warehouseDepotSpaces = gameModel.getCurrentPlayer().getPersonalBoard().getWarehouseLeadersDepots().getNumOfCellsInAllDepots();
-        PersonalBoard currentPlayerPersonalBoard = gameModel.getCurrentPlayer().getPersonalBoard();
+        int warehouseDepotSpaces = gameModel.getMatchPlayers().get(playerRequestingUpdate).getPersonalBoard().getWarehouseLeadersDepots().getNumOfCellsInAllDepots();
+        PersonalBoard playerPersonalBoard = gameModel.getMatchPlayers().get(playerRequestingUpdate).getPersonalBoard();
 
         List<Integer> positions= IntStream.range(0, warehouseDepotSpaces).boxed().collect(Collectors.toList());
 
-        Map<Integer, List<Integer>> availablePositions = positions.stream().map(position -> getAvailableMovingPositionsForResourceAtPos(currentPlayerPersonalBoard, position,
-                currentPlayerPersonalBoard.getWarehouseLeadersDepots().getResourceAt(position)))
+        Map<Integer, List<Integer>> availablePositions = positions.stream().map(position -> getAvailableMovingPositionsForResourceAtPos(playerPersonalBoard, position,
+                playerPersonalBoard.getWarehouseLeadersDepots().getResourceAt(position)))
                 .collect(Collectors.toMap(
                         Pair::getKey,
                         Pair::getValue
@@ -78,13 +78,13 @@ public class SimpleDepotsMessageBuilder {
 
     public static Map<Integer, List<Integer>> getAvailableMovingPositionsForResourceInDiscardBoxAtPos(GameModel gameModel){
 
-        PersonalBoard currentPlayerPersonalBoard = gameModel.getCurrentPlayer().getPersonalBoard();
+        PersonalBoard playerPersonalBoard = gameModel.getCurrentPlayer().getPersonalBoard();
 
         List<Integer> resourcesPositions = IntStream.range(-4, 0).boxed().collect(Collectors.toList());
 
         Map<Integer, List<Integer>> availablePositions = resourcesPositions.stream().map(
-                position -> getAvailableMovingPositionsForResourceAtPos(currentPlayerPersonalBoard, position,
-                        currentPlayerPersonalBoard.getDiscardBox().getResourceAt(position)))
+                position -> getAvailableMovingPositionsForResourceAtPos(playerPersonalBoard, position,
+                        playerPersonalBoard.getDiscardBox().getResourceAt(position)))
 
                 .collect(Collectors.toMap(
                         Pair::getKey,
@@ -116,9 +116,9 @@ public class SimpleDepotsMessageBuilder {
     }
 
         //    leaderDepotSpot   resourceType
-    public static Map<Integer, ResourceAsset> getResourcesTypesOfLeaderDepots(GameModel gameModel){
+    public static Map<Integer, ResourceAsset> getResourcesTypesOfLeaderDepots(GameModel gameModel, int playerRequestingUpdate){
 
-        WarehouseLeadersDepots currentDepots = gameModel.getCurrentPlayer().getPersonalBoard().getWarehouseLeadersDepots();
+        WarehouseLeadersDepots currentDepots = gameModel.getMatchPlayers().get(playerRequestingUpdate).getPersonalBoard().getWarehouseLeadersDepots();
 
         int numberOfDepots = currentDepots.getNumOfCellsInAllDepots();
         if(numberOfDepots>6) {

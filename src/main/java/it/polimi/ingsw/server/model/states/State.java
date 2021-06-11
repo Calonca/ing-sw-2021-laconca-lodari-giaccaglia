@@ -145,9 +145,10 @@ public enum State {
      * @param gameModel the {@link GameModel gamemodel} of the curent game
      * @return a String in json format
      */
-    public StateInNetwork toStateMessage(GameModel gameModel, List<Element> elementsToUpdate) {
-        List<SimpleModelElement> playerSimpleModelElements = elementsToUpdate.stream().filter(element -> !element.isCommonElement()).map(element -> element.buildSimpleModelElement(gameModel)).collect(Collectors.toList());
-        List<SimpleModelElement> commonSimpleModelElements = elementsToUpdate.stream().filter(Element::isCommonElement).map(element -> element.buildSimpleModelElement(gameModel)).collect(Collectors.toList());
+    public StateInNetwork toStateMessage(GameModel gameModel, List<Element> elementsToUpdate, int playerRequestingUpdate) {
+
+        List<SimpleModelElement> playerSimpleModelElements = elementsToUpdate.stream().filter(element -> !element.isCommonElement()).map(element -> element.buildSimpleModelElement(gameModel, playerRequestingUpdate)).collect(Collectors.toList());
+        List<SimpleModelElement> commonSimpleModelElements = elementsToUpdate.stream().filter(Element::isCommonElement).map(element -> element.buildSimpleModelElement(gameModel, playerRequestingUpdate)).collect(Collectors.toList());
 
         return new StateInNetwork(
                 gameModel.getPlayerIndex(gameModel.getCurrentPlayer()),
