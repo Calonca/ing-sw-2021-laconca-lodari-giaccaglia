@@ -118,21 +118,6 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
         transition.play();
     }
 
-    public boolean isUserAllowed()
-    {
-
-        if(!ViewPersonalBoard.getController().isMarket()||selected)
-        {
-            error.setOpacity(1);
-            return false;
-        }
-        else
-        {
-            selected=true;
-            ViewPersonalBoard.getController().isMarket(false);
-            return true;
-        }
-    }
 
     /**
      * Given a starting position, using the ROWSIZE, a list of lists (rows) is created
@@ -159,8 +144,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
         button.setLayoutY(k*80+rowButtonHeight);
         button.setOnAction( p-> {
 
-            if(!isUserAllowed())
-                return;
+
             error.setOpacity(0);
 
             selected=true;
@@ -230,8 +214,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
     {
         but.setOnAction( p-> {
 
-            if(!isUserAllowed())
-                return;
+
 
             error.setOpacity(0);
 

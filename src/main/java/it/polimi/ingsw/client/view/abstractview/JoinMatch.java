@@ -13,7 +13,7 @@ public abstract class JoinMatch extends ViewBuilder {
     public static ViewBuilder getBuilder(boolean isCLI){
         if (isCLI)
             return new it.polimi.ingsw.client.view.CLI.JoinMatch();
-        else return new it.polimi.ingsw.client.view.GUI.JoinLoadMatch();
+        else return new it.polimi.ingsw.client.view.GUI.MatchToStart();
     }
 
 }

@@ -3,9 +3,12 @@ package it.polimi.ingsw.client.view.GUI;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 import javafx.application.Application;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.SubScene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 /**
@@ -14,6 +17,10 @@ import javafx.stage.Stage;
  * referenced through static method.
  */
 public class GUI extends Application {
+
+    public static double GUIwidth=1800;
+    public static double GUIlen=1000;
+
     static String[] arguments;
     public static void main(String[] args) {
         arguments = args;
@@ -29,12 +36,41 @@ public class GUI extends Application {
         stage.centerOnScreen();
 
         //INITIAL SCREEN BOOTSTRAP, THEN UPDATE IS LEFT TO ChangeViewBuilder
-        Scene scene = new Scene(new StartingScreen().getRoot());
+        Scene scene = new Scene(getRealPane());
+
+        new StartingScreen().run();
 
         client.getStage().setScene(scene);
-        System.out.println(client.getStage().getScene().getRoot().getChildrenUnmodifiable());
+        client.getStage().getScene().getStylesheets().add("assets/application.css");
         client.getStage().show();
         client.run();
 
     }
+
+    private static StackPane realPane = null;
+
+    public static StackPane getRealPane()
+    {
+        if (realPane == null)
+        {
+            realPane = new StackPane();
+            realPane.setPrefHeight(GUIlen);
+            realPane.setPrefWidth(GUIwidth);
+
+        }
+
+        return realPane;
+    }
+
+    public static void removeLast()
+    {
+        realPane.getChildren().remove(realPane.getChildren().size()-1);
+    }
+
+    public static void addLast(Node scene)
+    {
+        realPane.getChildren().add(scene);
+    }
+
+
 }

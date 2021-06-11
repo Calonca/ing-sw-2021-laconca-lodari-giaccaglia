@@ -41,12 +41,11 @@ public class ChooseResourceForMarket extends ResourceMarketViewBuilder implement
 
     @Override
     public void run() {
-        SubScene toadd=getRoot();
-        toadd.setTranslateX(-400);
-        toadd.setTranslateY(-250);
-        toadd.setId("CHOOSEFORMARKET");
-
-        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(toadd);
+        SubScene root=getRoot();
+        root.setTranslateX(-400);
+        root.setTranslateY(-250);
+        root.setId("CHOOSEFORMARKET");
+        GUI.addLast(root);
         System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
     }
 

@@ -53,14 +53,6 @@ public class ViewPersonalBoard extends it.polimi.ingsw.client.view.abstractview.
     }
     @Override
     public void run() {
-        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(0);
-
-        SubScene root=getRoot();
-        root.setId("BOARD");
-        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(root);
-
-
-
 
 
 
