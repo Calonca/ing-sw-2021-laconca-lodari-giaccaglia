@@ -50,14 +50,14 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
     javafx.collections.ObservableList<Integer> selectedResources;
 
     DropShadow effect=new DropShadow();
-    double leadersOffsetX=40;
+    double leadersOffsetX=200;
     double resourceSupplyY=70;
-    double width=1000;
-    double len=700;
+    double width=GUI.GUIwidth;
+    double len=GUI.GUIlen;
     double leaderSize=len/3+40;
     double cardTilt=1;
     double resourcesOffsetX=-20;
-
+    double leadersSpacing=width/5;
 
     @FXML
     private AnchorPane setupAnchor;
@@ -69,17 +69,17 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
     @Override
     public void run() {
         SubScene root=getRoot();
-        root.translateYProperty().set(getClient().getStage().getScene().getHeight());
+    /*    root.translateYProperty().set(getClient().getStage().getScene().getHeight());
         Timeline timeline=new Timeline();
         KeyValue kv= new KeyValue(root.translateYProperty(),0, Interpolator.EASE_IN);
         KeyFrame kf= new KeyFrame(Duration.seconds(0.5),kv);
         timeline.getKeyFrames().add(kf);
-        timeline.play();
+        timeline.play();*/
         root.setId("SETUP");
-        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(0);
+        GUI.getRealPane().getChildren().remove(0);
+        GUI.getRealPane().getChildren().add(root);
 
-        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(root);
-        System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
+        System.out.println(GUI.getRealPane().getChildren());
 
     }
 
@@ -186,7 +186,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
             leaderBut= new Button();
             leaderBut.setEffect(SetupPhase.this.effect);
             leaderBut.setLayoutY(len-leaderSize-10);
-            leaderBut.setLayoutX(leadersOffsetX+240*i);
+            leaderBut.setLayoutX(leadersOffsetX+leadersSpacing*i);
             leaderBut.setGraphic(getSetupLeaderIcons().get(i));
             leaderBut.setId("leaderButton");
             leaderBut.setRotate(Math.random() * (cardTilt - -cardTilt + 1) + -1 );
@@ -255,10 +255,5 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
     }
 
 
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals(State.IDLE.name()))
-            getClient().changeViewBuilder(new IDLEViewBuilder());
 
-    }
 }

@@ -80,8 +80,8 @@ public class DiscardBoxInitializer extends ResourceMarketViewBuilder implements 
         toadd.setTranslateY(-300);
         toadd.setId("DISCARD");
 
-        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(toadd);
-        System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
+        GUI.addLast(toadd);
+        System.out.println(GUI.getRealPane().getChildren());
     }
 
 

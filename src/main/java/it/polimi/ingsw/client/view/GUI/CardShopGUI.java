@@ -64,12 +64,12 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
     @Override
     public void run() {
 
-        Node toAdd=getRoot();
-        toAdd.setTranslateX(-570);
-        toAdd.setTranslateY(110);
-        toAdd.setId("CARDSHOP");
-        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(toAdd);
-        System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
+        Node root=getRoot();
+        root.setTranslateX(-570);
+        root.setTranslateY(110);
+        root.setId("CARDSHOP");
+        GUI.addLast(root);
+        System.out.println(GUI.getRealPane().getChildren());
     }
 
 

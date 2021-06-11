@@ -20,12 +20,10 @@ public class IDLEViewBuilder extends it.polimi.ingsw.client.view.abstractview.Se
      */
     @Override
     public void run() {
-        getClient().getStage().setResizable(true);
-        getClient().getStage().setHeight(1000);
+
         BoardView3D temp=new BoardView3D();
         Platform.runLater(temp);
-        getClient().getStage().setWidth(1800);
-        getClient().getStage().setResizable(false);
+
 
         System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
 

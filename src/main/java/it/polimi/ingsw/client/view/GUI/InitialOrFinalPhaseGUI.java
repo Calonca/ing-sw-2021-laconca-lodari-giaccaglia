@@ -64,11 +64,10 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
     @Override
     public void run()
     {
-        Node toAdd=getRoot();
-        toAdd.setId("LEADER");
-        if(((Pane)getClient().getStage().getScene().getRoot()).getChildren().size()<4)
-            ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(toAdd);
-        System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
+        Node root=getRoot();
+        root.setId("LEADER");
+        GUI.addLast(root);
+        System.out.println(GUI.getRealPane().getChildren());
     }
 
 
@@ -169,7 +168,7 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
 
                     InitialOrFinalPhaseEvent activate = new InitialOrFinalPhaseEvent(1,simplePlayerLeaders.getPlayerLeaders().get(selectedLeaders.indexOf(b)).getCardId());
                     getClient().getServerHandler().sendCommandMessage(new EventMessage(activate));
-                    ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(currentSize);
+                    GUI.removeLast();
 
                 }
 
@@ -184,9 +183,9 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
                 if(b)
                 {
 
-                  ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(currentSize);
                   InitialOrFinalPhaseEvent discard = new InitialOrFinalPhaseEvent(0,simplePlayerLeaders.getPlayerLeaders().get(selectedLeaders.indexOf(b)).getCardId());
                   getClient().getServerHandler().sendCommandMessage(new EventMessage(discard));
+                  GUI.removeLast();
                 }
 
 
@@ -194,8 +193,9 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
         Button skipButton=new Button();
         skipButton.setText("SKIP");
         skipButton.setOnAction(p -> {
-            ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(currentSize);
             getClient().getServerHandler().sendCommandMessage(new EventMessage(new InitialOrFinalPhaseEvent(2)));
+            GUI.removeLast();
+
         });
 
         controlButtons.add(playButton);
@@ -207,6 +207,7 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
             controlButtons.get(i).setLayoutX((i+1)*width/3);
             controlButtons.get(i).setLayoutY(len-buttonsDistanceFromBottom);
             leaderPane.getChildren().add(controlButtons.get(i));
+
         }
 
         skipButton.setLayoutX(width-50);

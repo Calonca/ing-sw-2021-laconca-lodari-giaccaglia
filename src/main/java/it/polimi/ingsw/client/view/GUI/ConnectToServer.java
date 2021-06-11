@@ -42,6 +42,9 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
     private TextField addressText;
     private TextField portText;
     private TextField nickText;
+    double width=GUI.GUIwidth;
+    double len= GUI.GUIlen;
+
 
     @Override
     public void run() {
@@ -51,21 +54,22 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
         SubScene root=getRoot();
         root.setId("CONNECT");
 
-        root.translateYProperty().set(getClient().getStage().getScene().getHeight());
+        root.translateYProperty().set(GUI.getRealPane().getHeight());
         Timeline timeline=new Timeline();
         KeyValue kv= new KeyValue(root.translateYProperty(),0, Interpolator.EASE_IN);
         KeyFrame kf= new KeyFrame(Duration.seconds(0.5),kv);
         timeline.getKeyFrames().add(kf);
         timeline.play();
 
-        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(0);
-        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(root);
+        GUI.getRealPane().getChildren().remove(0);
+
+        GUI.addLast(root);
+
         getClient().getStage().getScene().getStylesheets().add("assets/application.css");
-
         getClient().getStage().show();
+        System.out.println((GUI.getRealPane().getChildren()));
 
 
-        System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
 
     }
 
@@ -85,7 +89,7 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
             e.printStackTrace();
         }
 
-        return new SubScene(root,1000,700);
+        return new SubScene(root,width,len);
 
     }
     //Add buttons here that call client.changeViewBuilder(new *****, this);
@@ -93,8 +97,8 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
     public Button validationButton()
     {
         Button button=new Button();
-        button.setLayoutX(500);
-        button.setLayoutY(350);
+        button.setLayoutX(width/2);
+        button.setLayoutY(len/2);
         button.setText("CONNECT");
         button.setOnAction(p->
         {
@@ -122,14 +126,14 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
 
 
         nickText=new TextField();
-        nickText.setLayoutX(461);
-        nickText.setLayoutY(419);
+        nickText.setLayoutX(width/2-25);
+        nickText.setLayoutY(len/2+len/8-20);
         nickText.setPromptText("nickname");
 
 
         portText=new TextField();
-        portText.setLayoutX(461);
-        portText.setLayoutY(471);
+        portText.setLayoutX(width/2-25);
+        portText.setLayoutY(len/2+len/8+10);
         portText.setPromptText("port");
         portText.setText(Integer.toString(getClient().getPort()));
 
@@ -138,8 +142,8 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
         if (ip!=null)
             addressText.setText(ip);
         addressText.setPromptText("ip address");
-        addressText.setLayoutX(461);
-        addressText.setLayoutY(445);
+        addressText.setLayoutX(width/2-25);
+        addressText.setLayoutY(len/2+len/8+40);
 
 
         connectionPane.getChildren().add(nickText);

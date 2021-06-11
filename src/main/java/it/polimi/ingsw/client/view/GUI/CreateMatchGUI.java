@@ -31,10 +31,10 @@ public class CreateMatchGUI extends CreateJoinLoadMatchViewBuilder implements GU
      */
     public void run()
     {
-        Node toAdd=getRoot();
+        SubScene root=getRoot();
 
-        toAdd.setId("CREATE");
-        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(toAdd);
+        root.setId("CREATE");
+        GUI.addLast(root);
     }
 
     public SubScene getRoot() {

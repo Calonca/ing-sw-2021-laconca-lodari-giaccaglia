@@ -29,26 +29,21 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
 
     Camera camera;
     public AnchorPane boardPane;
-    private double anchorX, anchorY;
-    //Keep track of current angle for x and y
-    private double anchorAngleX = 0;
-    private double anchorAngleY = 0;
     double buttonStartingX=100;
     double width=1800;
     double len=1000;
-    //We will update these after drag. Using JavaFX property to bind with object
-    private final DoubleProperty angleX = new SimpleDoubleProperty(0);
-    private final DoubleProperty angleY = new SimpleDoubleProperty(0);
     Box toPut;
 
 
     @Override
     public void run() {
-        Node toAdd=getRoot();
+        Node root=getRoot();
         //todo fix initialization
-        toAdd.setId("3DVIEW");
+        root.setId("3DVIEW");
 
-        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(toAdd);
+        GUI.getRealPane().getChildren().add(root);
+
+        System.out.println(GUI.getRealPane().getChildren());
 
     }
 
@@ -164,7 +159,8 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
         {
             if(ViewPersonalBoard.getController().isMarket()|| ViewPersonalBoard.getController().isCardShopOpen())
                 return;
-            ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(((Pane)getClient().getStage().getScene().getRoot()).getChildren().size()-1);
+            GUI.removeLast();
+
         });
 
 
@@ -190,10 +186,10 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
         {
             if(ViewPersonalBoard.getController().isMarket()|| ViewPersonalBoard.getController().isCardShopOpen())
                 return;
-            ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(((Pane)getClient().getStage().getScene().getRoot()).getChildren().size()-1);
+            GUI.removeLast();
         });
 
-        System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
+        System.out.println(GUI.getRealPane().getChildren());
 
         viewMarket.setId("showButton");
         viewCardShop.setId("showButton");

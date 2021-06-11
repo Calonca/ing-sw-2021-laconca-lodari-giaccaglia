@@ -35,11 +35,13 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
     boolean created=false;
 
 
-    public double tilelen=280;
-    public int tileheight=70;
     double gridInsets=50;
     double VGap=35;
     double HGap=50;
+    double width=GUI.GUIwidth;
+    double len= GUI.GUIlen;
+    public double tileWidth=width/3;
+    public double tileheight=len/10;
 
 
     /**
@@ -52,21 +54,15 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         SubScene root=getRoot();
         root.setId("LOBBY");
 
-        root.translateYProperty().set(getClient().getStage().getScene().getHeight());
-        Timeline timeline=new Timeline();
-        KeyValue kv= new KeyValue(root.translateYProperty(),0, Interpolator.EASE_IN);
-        KeyFrame kf= new KeyFrame(Duration.seconds(0.5),kv);
-        timeline.getKeyFrames().add(kf);
-        timeline.play();
+        GUI.getRealPane().getChildren().remove(0);
 
-        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(0);
-        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(root);
+        GUI.addLast(root);
         getClient().getStage().getScene().getStylesheets().add("assets/application.css");
 
         getClient().getStage().show();
 
 
-        System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
+        System.out.println((GUI.getRealPane().getChildren()));
 
     }
 
@@ -82,7 +78,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
             e.printStackTrace();
         }
 
-        return new SubScene(root,1000,700);
+        return new SubScene(root,GUI.GUIwidth,GUI.GUIlen);
 
     }
 
@@ -122,11 +118,11 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
     public AnchorPane creationTile(){
         AnchorPane createPane=new AnchorPane();
         createPane.setPrefHeight(tileheight);
-        createPane.setPrefWidth(tilelen);
+        createPane.setPrefWidth(tileWidth);
 
         Button creationBut=new Button();
         creationBut.setLayoutY(tileheight/2.0);
-        creationBut.setLayoutX(tilelen/2);
+        creationBut.setLayoutX(tileWidth/2);
         creationBut.setOnAction( p ->
         {
             created=true;
@@ -151,10 +147,10 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         AnchorPane joinPane=new AnchorPane();
 
         joinPane.setPrefHeight(tileheight);
-        joinPane.setPrefWidth(tilelen+150);
+        joinPane.setPrefWidth(tileWidth+250);
 
         Label templabel=new Label(matchRow.getPeople());
-        templabel.setMaxSize(tilelen,40);
+        templabel.setMaxSize(tileWidth,40);
         templabel.setLayoutY(10);
         templabel.setLayoutX(10);
 
@@ -162,7 +158,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
 
         Button joinMatchButton=new Button();
         joinMatchButton.setLayoutY(tileheight/2);
-        joinMatchButton.setLayoutX(tilelen/2);
+        joinMatchButton.setLayoutX(tileWidth/2);
         joinMatchButton.setOnAction( p ->
         {
            getClient().getServerHandler().sendCommandMessage(new JoinMatchRequest(matchRow.getKey(),getClient().getCommonData().getCurrentnick()));
@@ -182,14 +178,14 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         AnchorPane joinPane=new AnchorPane();
 
         joinPane.setPrefHeight(tileheight);
-        joinPane.setPrefWidth(tilelen+150);
+        joinPane.setPrefWidth(tileWidth+200);
 
 
         joinPane.setId("tile");
 
         Button joinMatchButton=new Button();
         joinMatchButton.setLayoutY(tileheight/2);
-        joinMatchButton.setLayoutX(tilelen/2);
+        joinMatchButton.setLayoutX(tileWidth/2);
 
         joinMatchButton.setGraphic(new Label("EMPTY"));
         joinMatchButton.setDisable(true);
@@ -206,6 +202,8 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         grid.setPadding(new Insets(gridInsets,gridInsets,gridInsets,gridInsets));
         grid.setHgap(HGap);
         grid.setVgap(VGap);
+        grid.setMinHeight(len);
+        grid.setMinWidth(width);
 
         grid.add(creationTile(),0,0);
 

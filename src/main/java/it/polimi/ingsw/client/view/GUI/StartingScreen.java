@@ -36,10 +36,7 @@ public class StartingScreen extends ConnectToServerViewBuilder implements GUIVie
     public void run() {
 
 
-
-        getClient().getStage().getScene().getStylesheets().add("assets/application.css");
-        getClient().getStage().show();
-
+        GUI.getRealPane().getChildren().add(getRoot());
     }
 
 
@@ -48,21 +45,13 @@ public class StartingScreen extends ConnectToServerViewBuilder implements GUIVie
      * @return the first game scene
      */
     public StackPane getRoot() {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/fxml/StartingScreen.fxml"));
-        Parent root = null;
-        try {
-            root = loader.load();
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         StackPane firstPane;
         firstPane = new StackPane();
-        firstPane.setPrefWidth(1000);
-        firstPane.setPrefHeight(700);
-        firstPane.getChildren().add(root);
-        firstPane.setId("START");
+        firstPane.setPrefWidth(1800);
+        firstPane.setPrefHeight(1000);
+        firstPane.setId("start");
+
         return firstPane;
 
     }
@@ -71,16 +60,10 @@ public class StartingScreen extends ConnectToServerViewBuilder implements GUIVie
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ImageView imageView=new ImageView(new Image("assets/logo.png"));
-        imageView.setPreserveRatio(true);
-        imageView.setFitWidth(1000);
-        startingPane.getChildren().add(imageView);
+
     }
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals(CommonData.matchesDataString))
-            Platform.runLater(()->
-                    getClient().changeViewBuilder(new CreateJoinLoadMatch()));
 
     }
 }

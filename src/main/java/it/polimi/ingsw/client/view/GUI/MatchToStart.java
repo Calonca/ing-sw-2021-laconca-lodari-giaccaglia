@@ -34,11 +34,12 @@ public class MatchToStart extends CreateJoinLoadMatchViewBuilder implements GUIV
     @Override
     public void run() {
 
-        Node toadd=getRoot();
-        toadd.setId("WAITING");
-        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(0);
-        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(toadd);
-        System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
+        Node root=getRoot();
+        root.setId("WAITING");
+        GUI.getRealPane().getChildren().remove(0);
+        GUI.getRealPane().getChildren().add(root);
+
+        System.out.println(GUI.getRealPane().getChildren());
 
     }
 
@@ -133,12 +134,7 @@ public class MatchToStart extends CreateJoinLoadMatchViewBuilder implements GUIV
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if(evt.getPropertyName().equals(State.SETUP_PHASE.name()))
-            Platform.runLater(()->
-            {
 
-            }
-            );
 
     }
 }

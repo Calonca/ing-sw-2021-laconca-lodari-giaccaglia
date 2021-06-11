@@ -28,10 +28,11 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
      */
     @Override
     public void run() {
-        SubScene toadd=getRoot();
-        toadd.setId("MIDDLE");
-        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().add(toadd);
-        System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
+        SubScene root=getRoot();
+        root.setId("MIDDLE");
+        GUI.getRealPane().getChildren().add(root);
+
+        System.out.println(GUI.getRealPane().getChildren());
 
     }
 
