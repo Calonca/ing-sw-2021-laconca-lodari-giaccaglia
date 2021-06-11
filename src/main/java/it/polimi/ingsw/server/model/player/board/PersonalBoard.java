@@ -368,7 +368,7 @@ public class PersonalBoard {
      * @return a int indicating how many of the given {@link Resource resource} the player has in all the {@link StorageUnit deposits}
      */
     public int getNumberOf(Resource type) {
-        return strongBox.getNumberOf(type)+warehouseLeadersDepots.getNumberOf(type);
+        return strongBox.getNumberOf(type) + warehouseLeadersDepots.getNumberOf(type);
     }
 
     /**

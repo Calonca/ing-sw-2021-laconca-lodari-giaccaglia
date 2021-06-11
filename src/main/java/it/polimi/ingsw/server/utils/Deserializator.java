@@ -38,6 +38,7 @@ public class Deserializator extends JsonUtility {
 
     //helper method to build 12 devDecks from an array of 48 devcards
     public static  Map<DevelopmentCardColor, Map<Integer, DevelopmentCardDeck>> devCardsDeckDeserialization() {
+
         int cardsInDeck = 4;
         List<DevelopmentCard> cards = devCardsListDeserialization();
         List<DevelopmentCard> blueCards = cards.stream().filter(card -> card.getCardType() == DevelopmentCardColor.BLUE).collect(Collectors.toList());

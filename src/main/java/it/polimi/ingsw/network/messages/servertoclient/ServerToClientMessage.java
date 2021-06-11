@@ -93,6 +93,7 @@ public abstract class ServerToClientMessage extends NetworkMessage
         elemAdapter.registerSubtype(EndGameInfo.class);
         elemAdapter.registerSubtype(ActiveLeaderBonusInfo.class);
         elemAdapter.registerSubtype(SimpleProductions.class);
+        elemAdapter.registerSubtype(PlayersInfo.class);
 
         return elemAdapter;
     }

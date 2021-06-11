@@ -1,10 +1,7 @@
 package it.polimi.ingsw.client.simplemodel;
 
-import it.polimi.ingsw.network.simplemodel.EndGameInfo;
+import it.polimi.ingsw.network.simplemodel.*;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
-import it.polimi.ingsw.network.simplemodel.SimpleCardShop;
-import it.polimi.ingsw.network.simplemodel.SimpleMarketBoard;
-import it.polimi.ingsw.network.simplemodel.SimpleModelElement;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -28,6 +25,7 @@ public class SimpleModel {
         commonSimpleModelElementsMap.put(SimpleCardShop.class.getSimpleName(), new SimpleCardShop());
         commonSimpleModelElementsMap.put(SimpleMarketBoard.class.getSimpleName(), new SimpleMarketBoard());
         commonSimpleModelElementsMap.put(EndGameInfo.class.getSimpleName(), new EndGameInfo());
+        commonSimpleModelElementsMap.put(PlayersInfo.class.getSimpleName(), new PlayersInfo());
     }
 
     public PlayerCache[] getPlayersCaches() {

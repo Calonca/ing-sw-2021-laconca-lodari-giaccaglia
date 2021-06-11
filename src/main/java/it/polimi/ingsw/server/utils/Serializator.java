@@ -1247,6 +1247,7 @@ public class Serializator extends JsonUtility {
 
         serializeSinglePlayerStatesTransitionTable();
         serializeMultiPlayerStatesTransitionTable();
+        cardShopSerialization();
 
     }
 

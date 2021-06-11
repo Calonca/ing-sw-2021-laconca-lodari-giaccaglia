@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.controller;
 
-import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
@@ -137,6 +136,7 @@ public class Match {
             throw new EventValidationFailedException();
 
         Pair<State, List<Element>> data = gameStrategy.execute(game, event);
+        data.getValue().add(Element.PlayersInfo);
         game.getCurrentPlayer().setCurrentState(data.getKey());
         notifyStateToAllPlayers(data.getValue());
 

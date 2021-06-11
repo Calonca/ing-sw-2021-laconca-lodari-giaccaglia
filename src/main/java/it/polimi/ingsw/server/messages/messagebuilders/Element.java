@@ -45,6 +45,13 @@ public enum Element {
         }
     },
 
+    PlayersInfo(true){
+        @Override
+        public SimpleModelElement buildSimpleModelElement(GameModel gameModel){
+            return new PlayersInfo(GameInfoMessageBuilder.getSimplePlayerInfoMap(gameModel));
+        }
+    },
+
     //--------player elements-----------//
 
         SimplePlayerLeaders(false) {

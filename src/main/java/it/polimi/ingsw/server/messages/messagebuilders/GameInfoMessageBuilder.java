@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.messages.messagebuilders;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.simplemodel.ActiveLeaderBonusInfo;
 import it.polimi.ingsw.network.simplemodel.EndGameInfo;
+import it.polimi.ingsw.network.simplemodel.PlayersInfo;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.player.Player;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class GameInfoMessageBuilder {
 
@@ -99,6 +101,35 @@ public class GameInfoMessageBuilder {
 
         ).collect(Collectors.toList());
 
+    }
+
+    public static Map<Integer, PlayersInfo.SimplePlayerInfo> getSimplePlayerInfoMap(GameModel gameModel){
+
+        int numOfPlayers = gameModel.getMatchPlayers().size();
+
+        Map<Integer, PlayersInfo.SimplePlayerInfo> simplePlayerInfoMap = IntStream.range(0, numOfPlayers).boxed().collect(Collectors.toMap(
+
+                playerIndex -> playerIndex,
+
+                playerIndex -> {
+
+                    Player player = gameModel.getMatchPlayers().get(playerIndex);
+                    int currentVictoryPoints = player.getCurrentGamePoints();
+                    int currentPosition = player.getPlayerPosition();
+                    int currentLorenzoPosition = player.getLorenzoPosition();
+                    boolean isOnline = player.isOnline();
+
+                    PlayersInfo.SimplePlayerInfo playerInfo = new PlayersInfo.SimplePlayerInfo(
+                            currentVictoryPoints,
+                            currentPosition,
+                            currentLorenzoPosition,
+                            isOnline,
+                            playerIndex);
+                    return playerInfo;
+                }
+        ));
+
+        return simplePlayerInfoMap;
     }
 
 }
