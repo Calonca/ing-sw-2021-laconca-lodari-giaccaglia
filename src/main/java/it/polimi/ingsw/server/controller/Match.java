@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller;
 
+import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Match {
+
     private final UUID matchId;
     private final List<User> onlineUsers = new ArrayList<>();
     private final List<String> offlineUsers = new ArrayList<>();
@@ -71,7 +73,9 @@ public class Match {
         game.start();
         game.getCurrentPlayer().setCurrentState(State.SETUP_PHASE);
         List<Element> elems = new ArrayList<>(Arrays.asList(Element.values()));
-        notifyStateToAllPlayers(elems);
+
+
+        notifyStateToAllPlayers(elems, game.getCurrentPlayer());
 
     }
 
@@ -136,37 +140,57 @@ public class Match {
             throw new EventValidationFailedException();
 
         Pair<State, List<Element>> data = gameStrategy.execute(game, event);
+        String nicknameOfPlayerSendingEvent =((Event) event).getPlayerNickname();
+
+        Player playerSendingEvent = game.getPlayer(nicknameOfPlayerSendingEvent).get();
         data.getValue().add(Element.PlayersInfo);
-        game.getCurrentPlayer().setCurrentState(data.getKey());
-        notifyStateToAllPlayers(data.getValue());
+
+        playerSendingEvent.setCurrentState(data.getKey());
+
+
+
+        notifyStateToAllPlayers(data.getValue(), playerSendingEvent);
 
         //Todo check for better way
-        if (game.getCurrentPlayer().getCurrentState().equals(State.IDLE)) {
+        if (playerSendingEvent.getCurrentState().equals(State.IDLE)) {
 
-            game.setCurrentPlayer(game.getNextPlayer());
+            if(game.getCurrentPlayer().equals(playerSendingEvent)) {
 
-            if (game.getCurrentPlayer().getCurrentState().equals(State.SETUP_PHASE)){
-                List<Element> elems = new ArrayList<>(Arrays.asList(Element.values()));
-                notifyStateToAllPlayers(elems);
+                game.setCurrentPlayer(game.getNextPlayer());
+
+                if (game.getCurrentPlayer().getCurrentState().equals(State.SETUP_PHASE)) {
+
+                    List<Element> elems = new ArrayList<>(Arrays.asList(Element.values()));
+
+                    nicknameOfPlayerSendingEvent = ((Event) event).getPlayerNickname();
+                    playerSendingEvent = game.getPlayer(nicknameOfPlayerSendingEvent).get();
+
+                    notifyStateToAllPlayers(elems, playerSendingEvent);
+
+                } else {
+                    IDLE IDLEStrategy = new IDLE();
+                    Pair<State, List<Element>> data2 = IDLEStrategy.execute(game, null);
+                    game.getCurrentPlayer().setCurrentState(data2.getKey());
+
+                    nicknameOfPlayerSendingEvent = ((Event) event).getPlayerNickname();
+                    playerSendingEvent = game.getPlayer(nicknameOfPlayerSendingEvent).get();
+
+                    notifyStateToAllPlayers(data.getValue(), playerSendingEvent);
+                }
             }
 
-            else {
-                IDLE IDLEStrategy = new IDLE();
-                Pair<State, List<Element>> data2 = IDLEStrategy.execute(game, null);
-                game.getCurrentPlayer().setCurrentState(data2.getKey());
-                notifyStateToAllPlayers(data2.getValue());
-            }
 
         }
 
     }
 
-    public void notifyStateToAllPlayers(List<Element> elems){
+    public void notifyStateToAllPlayers(List<Element> elems, Player playerNotifying){
 
-        State state = getGame().getCurrentPlayer().getCurrentState();
+        State state = playerNotifying.getCurrentState();
+
         clientsStream().forEach(clientHandler -> {
 
-            StateInNetwork stateInNetwork = state.toStateMessage(getGame(), elems);
+            StateInNetwork stateInNetwork = state.toStateMessage(getGame(), elems, game.getPlayerIndex(playerNotifying));
 
             try {
                 clientHandler.sendAnswerMessage(stateInNetwork);

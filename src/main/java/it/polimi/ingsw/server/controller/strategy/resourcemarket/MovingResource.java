@@ -22,13 +22,16 @@ public class MovingResource implements GameStrategy {
 
     public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event)
     {
+
         MoveResourceEvent moveResourceEvent= (MoveResourceEvent) event;
 
-        int startPos = (moveResourceEvent.getStartPos());
-        int endPos = (moveResourceEvent.getEndPos());
+        int startPos = moveResourceEvent.getStartPos();
+        int endPos = moveResourceEvent.getEndPos();
+        String playerNickname = moveResourceEvent.getPlayerNickname();
 
         if(startPos!=endPos)
-            gamemodel.getCurrentPlayer().getPersonalBoard().move(startPos, endPos);
+            gamemodel.getPlayer(playerNickname).get().getPersonalBoard().move(startPos, endPos);
+
 
         elementsToUpdate.add(Element.SimpleWareHouseLeadersDepot);
         elementsToUpdate.add(Element.SimpleDiscardBox);

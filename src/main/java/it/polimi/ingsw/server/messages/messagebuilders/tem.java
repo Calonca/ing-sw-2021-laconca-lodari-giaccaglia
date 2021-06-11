@@ -36,7 +36,7 @@ public class tem {
         elements.add(Element.EndGameInfo);
 
         State state = State.SETUP_PHASE;
-        StateInNetwork stateInNetwork = state.toStateMessage(model, elements);
+        StateInNetwork stateInNetwork = state.toStateMessage(model, elements, model.getPlayerIndex(model.getCurrentPlayer()));
         String stateInNet = stateInNetwork.serialized();
 
         System.out.println(JsonUtility.toPrettyFormat(stateInNet));
