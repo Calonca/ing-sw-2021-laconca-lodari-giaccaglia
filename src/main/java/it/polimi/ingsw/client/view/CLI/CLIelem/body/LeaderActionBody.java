@@ -50,6 +50,7 @@ public class LeaderActionBody extends CLIelem {
                 InitialOrFinalPhaseEvent discard = new InitialOrFinalPhaseEvent(0, l.getCardId());
                 client.getServerHandler().sendCommandMessage(new EventMessage(discard));
             });
+            discardOption.setEnabled(!l.getNetworkLeaderCard().isLeaderActive());
             optionList.addElem(discardOption);
 
             optionList.setFirstIdx(i*2);

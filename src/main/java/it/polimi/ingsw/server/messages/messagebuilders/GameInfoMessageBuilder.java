@@ -114,7 +114,7 @@ public class GameInfoMessageBuilder {
 
                 playerIndex -> {
 
-                    Player player = gameModel.getMatchPlayers().get(playerIndex);
+                    Player player = gameModel.getPlayer(playerIndex).get();
                     int currentVictoryPoints = player.getCurrentGamePoints();
                     int currentPosition = player.getPlayerPosition();
                     int currentLorenzoPosition = player.getLorenzoPosition();

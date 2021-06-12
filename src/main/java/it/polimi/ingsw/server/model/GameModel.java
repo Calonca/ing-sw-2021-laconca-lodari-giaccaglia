@@ -243,6 +243,17 @@ public class GameModel {
                 .findAny();
     }
 
+
+    /**
+     * Returns the {@link Player player} with the given index.
+     * @param playerIndex the unique index of the player.
+     * @return the {@link Player player} with the given nickname.
+     */
+    public Optional<Player> getPlayer(int playerIndex) {
+        return Optional.ofNullable(players.get(playerIndex));
+    }
+
+
     /**
      * Method to get a <em>playerNumber</em> associated with a Player.
      * @param player Player to determine the <em>playerNumber</em>
@@ -305,8 +316,6 @@ public class GameModel {
 
     }
 
-
-
     /**
      * @return a list of currently online {@link Player Players}
      */
@@ -322,6 +331,8 @@ public class GameModel {
     public Map<Integer, Player> getMatchPlayers(){
         return players;
     }
+
+
 
    /**
     * Returns the {@link State state} of the game of the current player.<br>

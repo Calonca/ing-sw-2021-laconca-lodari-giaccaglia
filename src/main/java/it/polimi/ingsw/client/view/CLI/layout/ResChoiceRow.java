@@ -7,7 +7,6 @@ import it.polimi.ingsw.client.view.CLI.layout.drawables.ResourceCLI;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Column;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,12 +17,16 @@ public class ResChoiceRow extends GridElem {
     private int arrowPos;
     private final List<ResourceAsset> in;
     private final List<ResourceAsset> out;
+    private final List<Integer> chosenInputPos;
+    private final List<Integer> chosenOutputRes;
     private Runnable outRunnable;
 
     public ResChoiceRow(int arrowPos, List<ResourceAsset> in, List<ResourceAsset> out) {
         this.arrowPos = arrowPos;
         this.in = in;
         this.out = out;
+        this.chosenInputPos = new ArrayList<>();
+        this.chosenOutputRes = new ArrayList<>();
     }
 
     public void setOnChosenOutput(Runnable r) {
@@ -52,6 +55,14 @@ public class ResChoiceRow extends GridElem {
             return Optional.empty();
         ResourceAsset res = arrowPos <= in.size() ? in.get(arrowPos) : out.get(arrowPos - in.size());
         return Optional.ofNullable(res);
+    }
+
+    private void setPointedResource(ResourceAsset res){
+        if (arrowPos <= in.size()) {
+            in.set(arrowPos, res);
+        } else {
+            out.set(arrowPos - in.size(), res);
+        }
     }
 
     private Row selectedResourcesRow(){
@@ -112,7 +123,13 @@ public class ResChoiceRow extends GridElem {
         return arrowPos;
     }
 
-    public void moveToNextIndex() {
+    public void setNextInputPos(int pos, ResourceAsset res)
+    {
+        if (res!=null)
+        {
+            setPointedResource(res);
+        }
+        chosenInputPos.add(pos);
         arrowPos++;
     }
 
@@ -132,14 +149,12 @@ public class ResChoiceRow extends GridElem {
     }
 
 
-
     @Override
     public void addToCanvas(Canvas canvas, int x, int y) {
         Column column = getColumn();
         column.addToCanvas(canvas,x,y);
     }
 
-    @NotNull
     private Column getColumn() {
         Column column = new Column();
         column.addElem(selectedResourcesRow());
@@ -152,6 +167,14 @@ public class ResChoiceRow extends GridElem {
             choosingOutRow.setFirstIdx(0);
         }
         return column;
+    }
+
+    public List<Integer> getChosenInputPos() {
+        return chosenInputPos;
+    }
+
+    public List<Integer> getChosenOutputRes() {
+        return chosenOutputRes;
     }
 
     @Override

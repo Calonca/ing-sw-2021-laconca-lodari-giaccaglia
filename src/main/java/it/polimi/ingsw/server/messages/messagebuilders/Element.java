@@ -128,7 +128,11 @@ public enum Element {
         SimpleProductions(false){
         @Override
         public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate){
-            return new SimpleProductions(SimpleProductionsMessageBuilder.simpleProductionsMap(gameModel));
+            return new SimpleProductions(
+
+                    SimpleProductionsMessageBuilder.simpleProductionsMap(gameModel),
+                    gameModel.getPlayer(playerRequestingUpdate).get().getPersonalBoard().getLastSelectedProductionPosition());
+
            }
         },
 

@@ -1,11 +1,9 @@
 package it.polimi.ingsw.server.messages.messagebuilders;
 
-import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.simplemodel.SimpleProductions;
 import it.polimi.ingsw.server.model.GameModel;
 import javafx.util.Pair;
 
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
