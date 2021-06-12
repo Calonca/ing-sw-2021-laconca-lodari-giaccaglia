@@ -40,7 +40,7 @@ public class GameModel {
     private Map<Integer, Player> onlinePlayers;
 
     /**
-     * This game market to store <em>MarketBoard</em> marbles for {@link State#SHOWING_MARKET_RESOURCES} <em>Game phase</em>
+     * This game market to store <em>MarketBoard</em> marbles for {@link State#CHOOSING_MARKET_LINE} <em>Game phase</em>
      */
     private MarketBoard resourcesMarket;
 

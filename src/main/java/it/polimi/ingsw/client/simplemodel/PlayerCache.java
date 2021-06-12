@@ -11,10 +11,10 @@ import java.util.Optional;
 
 public class PlayerCache {
 
-    String currentState;
+    private String currentState;
     private final PropertyChangeSupport support;
 
-    Map<String , SimpleModelElement> playerSimpleModelElementsMap = new HashMap<>();
+    private Map<String , SimpleModelElement> playerSimpleModelElementsMap = new HashMap<>();
 
     public void addPropertyChangeListener(PropertyChangeListener pcl) {
         support.addPropertyChangeListener(pcl);
@@ -24,8 +24,9 @@ public class PlayerCache {
         support.removePropertyChangeListener(pcl);
     }
 
-    public void updateState(String state, List<SimpleModelElement> elems) {
-        elems.forEach(this::updateSimpleModelElement);
+    public void updateState(String state, List<SimpleModelElement> elements) {
+
+        elements.forEach(this::updateSimpleModelElement);
         String oldState = currentState;
         currentState = state;
         support.firePropertyChange(currentState,"old:"+oldState,currentState);
@@ -63,6 +64,10 @@ public class PlayerCache {
         playerSimpleModelElementsMap.put(SimpleDiscardBox.class.getSimpleName(), new SimpleDiscardBox());
         playerSimpleModelElementsMap.put(ActiveLeaderBonusInfo.class.getSimpleName(), new ActiveLeaderBonusInfo());
         playerSimpleModelElementsMap.put(SimpleProductions.class.getSimpleName(), new SimpleProductions());
+
+        if(SimpleModel.getNumOfPlayers() == 1)
+            playerSimpleModelElementsMap.put(SimpleSoloActionToken.class.getSimpleName(), new SimpleSoloActionToken());
+
 
         SimplePlayerLeaders playerLeadersElement = ((SimplePlayerLeaders) playerSimpleModelElementsMap.get(SimplePlayerLeaders.class.getSimpleName()));
         SimpleCardCells simpleCardCells = ((SimpleCardCells) playerSimpleModelElementsMap.get(SimpleCardCells.class.getSimpleName()));

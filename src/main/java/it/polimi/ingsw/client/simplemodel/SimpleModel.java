@@ -10,15 +10,18 @@ import java.util.stream.IntStream;
 
 public class SimpleModel {
 
-    Map<String , SimpleModelElement> commonSimpleModelElementsMap = new HashMap<>();
+    private static int numOfPlayers;
 
-    List<PlayerCache> playersCacheList;
+    private Map<String , SimpleModelElement> commonSimpleModelElementsMap = new HashMap<>();
+
+    private List<PlayerCache> playersCacheList;
 
     private final PropertyChangeSupport support;
 
     public SimpleModel(int numberOfPlayers){
         playersCacheList = new ArrayList<>(numberOfPlayers);
         support = new PropertyChangeSupport(this);
+        numOfPlayers = numberOfPlayers;
 
         IntStream.range(0, numberOfPlayers).forEach(i -> playersCacheList.add(new PlayerCache()));
 
@@ -72,5 +75,8 @@ public class SimpleModel {
         getPlayerCache(stateInNetwork.getPlayerNumber()).updateState(stateInNetwork.getState(),stateInNetwork.getPlayerSimpleModelElements());
     }
 
+    public static int getNumOfPlayers(){
+        return numOfPlayers;
+    }
 
 }
