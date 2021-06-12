@@ -55,7 +55,11 @@ public class SimpleCardShop extends SimpleModelElement{
         return Optional.ofNullable(simpleCardShop.get(color).get(level).get(0));
     }
 
-    public Optional<DevelopmentCardAsset> getCardBack(NetworkDevelopmentCardColor color, int level){
+    public int getStackHeight(NetworkDevelopmentCardColor color, int level){
+        return simpleCardShop.get(color).get(level).size();
+    }
+
+    public Optional<DevelopmentCardAsset> getSecondCard(NetworkDevelopmentCardColor color, int level){
         return Optional.ofNullable(simpleCardShop.get(color).get(level).get(1));
     }
 

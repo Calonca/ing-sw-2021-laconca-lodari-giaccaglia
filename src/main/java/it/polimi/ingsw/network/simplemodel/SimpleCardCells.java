@@ -5,10 +5,7 @@ import it.polimi.ingsw.network.assets.LeaderCardAsset;
 import it.polimi.ingsw.network.assets.leaders.NetworkProductionLeaderCard;
 import javafx.util.Pair;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -97,6 +94,10 @@ public class SimpleCardCells extends SimpleModelElement{
                 e -> e.getValue().isEmpty()?Optional.empty():Optional.ofNullable(e.getValue().get(0))
         ));
 
+    }
+
+    public Optional<Integer> getCellHeight(int pos){
+        return Optional.ofNullable(devCardsCells.get(pos)).map(List::size);
     }
 
     public Map<Integer, LeaderCardAsset> getActiveProductionLeaders(){

@@ -5,16 +5,36 @@ import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 import it.polimi.ingsw.client.view.CLI.textUtil.StringUtil;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DrawableDevCard {
 
 
-    public static Drawable fromDevCardAsset(NetworkDevelopmentCard card){
+    public static Drawable fromDevCardAsset(NetworkDevelopmentCard card,int stackHeight){
 
         if (card==null) {
+            //Less code would be used if the string was generated from code but by writing the entire string
+            //gives an immediate representation of its look in the cli
+            final String noCardText = """
+                       ╔════════════════════════╗
+                       ║                        ║
+                       ║                        ║
+                       ║                        ║
+                       ║                        ║
+                       ║                        ║
+                       ║                        ║
+                       ║        No Card         ║
+                       ║                        ║
+                       ║                        ║
+                       ║                        ║
+                       ║                        ║
+                       ║                        ║
+                       ║                        ║
+                       ╚════════════════════════╝
+                    """;
             Drawable drawable1 = new Drawable();
-            drawable1.add(0, "No card");
+            drawable1.add(0, noCardText);
             return drawable1;
         }
 
@@ -42,17 +62,33 @@ public class DrawableDevCard {
         drawable.add(Drawable.copyShifted(0,drawable.getHeight(),production));
 
         drawable.add(0,"╚════════════════════════╝");
-        //drawable.add(0,"elevation1",c, back);
-        //drawable.add(0,"elevation2",c, back);
-        //drawable.add(0,"elevation3",c, back);
+        drawable = Drawable.copyShifted(stackHeight-1,0,drawable);
+        for (int i = 0;i<stackHeight-1;i++)
+            drawable.add(new DrawableLine(i,0,"""
+                    ╔
+                    ║
+                    ║
+                    ║
+                    ║
+                    ║
+                    ║
+                    ║
+                    ║
+                    ║
+                    ║
+                    ║
+                    ║
+                    ║
+                    ╚
+                    """));
 
         return drawable;
     }
 
     public static int width(){
-        return fromDevCardAsset(new NetworkDevelopmentCard()).getWidth();
+        return fromDevCardAsset(null,0).getWidth()+3;
     }
     public static int height(){
-        return fromDevCardAsset(new NetworkDevelopmentCard()).getHeight();
+        return fromDevCardAsset(null,0).getHeight()+3;
     }
 }

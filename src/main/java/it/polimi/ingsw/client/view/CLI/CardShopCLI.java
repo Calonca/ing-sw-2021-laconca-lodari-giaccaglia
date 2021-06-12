@@ -33,13 +33,14 @@ public class CardShopCLI extends CardShopViewBuilder {
         for (int i = 3; i >= 1; i--) {
             Row verTest = new Row();
             for (int color = 0; color< NetworkDevelopmentCardColor.values().length-1; color++) {
+                final NetworkDevelopmentCardColor cardColor = NetworkDevelopmentCardColor.fromInt(color);
                 NetworkDevelopmentCard netCard = getSimpleCardShop()
-                        .getCardFront(NetworkDevelopmentCardColor.fromInt(color), i)
+                        .getCardFront(cardColor, i)
                         .map(DevelopmentCardAsset::getDevelopmentCard)
                         .orElse(null);
+                int stackHeight = getSimpleCardShop().getStackHeight(cardColor,i);
                 int finalI = i;
-                int finalColor = color;
-                Option o = Option.from(DrawableDevCard.fromDevCardAsset(netCard), () -> sendChosenCard(finalColor, finalI));
+                Option o = Option.from(DrawableDevCard.fromDevCardAsset(netCard,stackHeight), () -> sendChosenCard(cardColor.ordinal(), finalI));
                 o.setEnabled(netCard != null && netCard.isSelectable());
                 verTest.addElem(o);
             }
@@ -63,7 +64,7 @@ public class CardShopCLI extends CardShopViewBuilder {
         PersonalBoardBody board = new PersonalBoardBody(getThisPlayerCache(), PersonalBoardBody.Mode.SELECT_CARD_SHOP);
         NetworkDevelopmentCard card = getSimpleCardShop().getPurchasedCard().map(DevelopmentCardAsset::getDevelopmentCard).orElseThrow();
 
-        GridElem chosenCard = Option.noNumber(DrawableDevCard.fromDevCardAsset(card));
+        GridElem chosenCard = Option.noNumber(DrawableDevCard.fromDevCardAsset(card,0));
         List<ResourceAsset> costs = card.getCostList().stream().flatMap(p -> Stream.generate(p::getKey).limit(p.getValue()))
                 .sorted(Comparator.comparing(ResourceAsset::getResourceNumber)).collect(Collectors.toList());
         ResChoiceRow choices = new ResChoiceRow(0,costs,new ArrayList<>());
@@ -87,7 +88,7 @@ public class CardShopCLI extends CardShopViewBuilder {
         PersonalBoardBody board = new PersonalBoardBody(getThisPlayerCache(), PersonalBoardBody.Mode.CHOOSE_POS_FOR_CARD);
         Row chosenCard = new Row();
         NetworkDevelopmentCard card = getSimpleCardShop().getPurchasedCard().map(DevelopmentCardAsset::getDevelopmentCard).orElseThrow();
-        chosenCard.addElem(Option.noNumber(DrawableDevCard.fromDevCardAsset(card)));
+        chosenCard.addElem(Option.noNumber(DrawableDevCard.fromDevCardAsset(card,0)));
         board.setTop(chosenCard);
         board.initializeBuyOrChoosePos();
         SimpleCardCells simpleCardCells = getThisPlayerCache().getElem(SimpleCardCells.class).orElseThrow();

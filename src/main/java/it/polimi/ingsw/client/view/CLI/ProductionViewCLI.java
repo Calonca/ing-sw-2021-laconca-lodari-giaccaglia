@@ -1,14 +1,24 @@
 package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.PersonalBoardBody;
+import it.polimi.ingsw.client.view.CLI.layout.GridElem;
+import it.polimi.ingsw.client.view.CLI.layout.Option;
+import it.polimi.ingsw.client.view.CLI.layout.ResChoiceRow;
+import it.polimi.ingsw.client.view.CLI.layout.SizedBox;
+import it.polimi.ingsw.client.view.CLI.layout.drawables.DrawableDevCard;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.FaithTrackGridElem;
 import it.polimi.ingsw.client.view.abstractview.ProductionViewBuilder;
+import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
+import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
+import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.simplemodel.SimpleCardCells;
 import it.polimi.ingsw.network.simplemodel.SimpleFaithTrack;
 import it.polimi.ingsw.network.simplemodel.SimpleProductions;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ProductionViewCLI extends ProductionViewBuilder implements CLIBuilder {
 
@@ -27,19 +37,20 @@ public class ProductionViewCLI extends ProductionViewBuilder implements CLIBuild
 
     @Override
     public void choosingResForProduction() {
-        PersonalBoardBody board = new PersonalBoardBody(getThisPlayerCache(), PersonalBoardBody.Mode.SELECT_CARD_SHOP);
-        SimpleFaithTrack[] simpleFaithTracks = Arrays.stream(getSimpleModel().getPlayersCaches())
-                .map(c->c.getElem(SimpleFaithTrack.class).orElseThrow()).toArray(SimpleFaithTrack[]::new);
-        board.setTop(new FaithTrackGridElem(getThisPlayerCache().getElem(SimpleFaithTrack.class).orElseThrow(),simpleFaithTracks));
-        Row prodsRow = new Row();
+        PersonalBoardBody board = new PersonalBoardBody(getThisPlayerCache(), PersonalBoardBody.Mode.SELECT_RES_FOR_PROD);
+        SimpleCardCells simpleCardCells = getThisPlayerCache().getElem(SimpleCardCells.class).orElseThrow();
+        int lastSelectedProduction = simpleCardCells.getSimpleProductions().getLastSelectedProductionPosition();
+        Map<ResourceAsset, Integer> inputRes = new HashMap<>();// cardCells.getProductionAtPos(lastSelectedProduction).map(p->p.getInputResources()).orElse(new HashMap<>());
+        Map<ResourceAsset, Integer> outputRes = new HashMap<>();
+        List<ResourceAsset> input = inputRes.entrySet().stream().flatMap(p -> Stream.generate(p::getKey).limit(p.getValue())).collect(Collectors.toList());
+        ResChoiceRow choices = new ResChoiceRow(0,input,new ArrayList<>());
+        Row top = new Row(Stream.of(new SizedBox(1,0),choices));
+        board.setTop(top);
+        Row prodsRow = board.productionsBuilder(simpleCardCells);
         board.setProductions(prodsRow);
-        //NetworkDevelopmentCard card = getSimpleCardShop().getPurchasedCard().map(DevelopmentCardAsset::getDevelopmentCard).orElseThrow();
-        //prodsRow.addElem(Option.noNumber(DrawableDevCard.fromDevCardAsset(card)));
-        //List<ResourceAsset> costs = card.getCostList().stream().flatMap(p -> Stream.generate(p::getKey).limit(p.getValue()))
-        //        .sorted(Comparator.comparing(ResourceAsset::getResourceNumber)).collect(Collectors.toList());
-        //board.setResChoiceRow(new ResChoiceRow(0,costs,new ArrayList<>()));
+        board.setResChoiceRow(choices);
         board.initializeBuyOrChoosePos();
-        board.setMessage("Select resources for the production, only working for warehouse for now");
+        board.setMessage("Select the resources for the production");
         getCLIView().setBody(board);
         getCLIView().show();
     }

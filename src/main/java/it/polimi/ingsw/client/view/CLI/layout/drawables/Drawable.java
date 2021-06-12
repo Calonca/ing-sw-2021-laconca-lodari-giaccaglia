@@ -48,13 +48,6 @@ public class Drawable {
         return dList;
     }
 
-    public static Drawable disabledDrawableList(Drawable drawable){
-        Drawable dList = Drawable.copyShifted(0,0, drawable);
-        dList.get().forEach(e->e.setColor(Color.DISABLED));
-        dList.get().forEach(e->e.setBackground(Background.DEFAULT));
-        return dList;
-    }
-
     public Drawable(DrawableLine first, Drawable second) {
         drawableLines = Stream.concat(Stream.of(first),second.drawableLines.stream()).collect(Collectors.toList());
     }

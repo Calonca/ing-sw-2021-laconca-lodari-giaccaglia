@@ -56,7 +56,29 @@ public class PersonalBoardBody extends CLIelem {
             }
         },
         SELECT_CARD_SHOP(){
+            @Override
+            public String getString(PersonalBoardBody board) {
 
+                board.root = new Column();
+
+                board.root.addElem(board.top);
+
+                Row depotsAndProds = board.root.addAndGetRow();
+                depotsAndProds.setAlignment(GridElem.Alignment.CANVAS_CENTER_VERTICAL);
+
+                Column depots = depotsAndProds.addAndGetColumn();
+                depots.addElemNoIndexChange(board.wareHouseLeadersDepot);
+
+                depots.addElem(new SizedBox(0,2));
+                depots.addElem(board.strongBox);
+
+                depotsAndProds.addElem(board.productions);
+
+                depotsAndProds.selectInEnabledOption(cli,board.message);
+                return  CanvasBody.fromGrid(board.root).toString();
+            }
+        },
+        SELECT_RES_FOR_PROD(){
             @Override
             public String getString(PersonalBoardBody board) {
 
@@ -209,7 +231,6 @@ public class PersonalBoardBody extends CLIelem {
     }
 
     public Row productionsBuilder(SimpleCardCells simpleCardCells){
-        SimpleProductions simpleProductions = simpleCardCells.getSimpleProductions();
         Map<Integer,Optional<NetworkDevelopmentCard>> frontCards=simpleCardCells.getDevCardsCells().entrySet().stream()
                 .collect(Collectors.toMap(Map.Entry::getKey, e->e.getValue().map(DevelopmentCardAsset::getDevelopmentCard)));
         Option basicProdOption = simpleCardCells.getSimpleProductions().getProductionAtPos(0).map(p->{
@@ -221,16 +242,21 @@ public class PersonalBoardBody extends CLIelem {
             basicProdDrawable.add(0,"╚════════════════════════╝");
             Option o = Option.from(basicProdDrawable,getProdRunnable(0));
             o.setMode(Option.VisMode.NUMBER_TO_BOTTOM);
-            setProdAvailable(simpleCardCells, simpleProductions, 0, o);
+            o.setSelected(p.isSelected());
+            setProdAvailable(simpleCardCells, 0, o);
             return o;
         }).orElse(null);
 
 
         Stream<Option> normalProdsList = frontCards.entrySet().stream().map(e-> {
             int prodPos = e.getKey();
-            Option cell = prodOption( getProdRunnable(prodPos),
-                    e.getValue().orElse(null));
-            setProdAvailable(simpleCardCells, simpleProductions, prodPos, cell);
+            Option cell = prodOption(
+                    getProdRunnable(prodPos),
+                    e.getValue().orElse(null),
+                    simpleCardCells.getCellHeight(e.getKey()).orElse(0)
+            );
+            setProdAvailable(simpleCardCells, prodPos, cell);
+            cell.setSelected(cell.isSelected());
             return cell;
         });
         return new Row(Stream.concat(Stream.ofNullable(basicProdOption),normalProdsList));
@@ -247,11 +273,11 @@ public class PersonalBoardBody extends CLIelem {
         };
     }
 
-    private void setProdAvailable(SimpleCardCells simpleCardCells, SimpleProductions simpleProductions, int prodPos, Option cell) {
+    private void setProdAvailable(SimpleCardCells simpleCardCells, int prodPos, Option cell) {
         if (mode.equals(Mode.CHOOSE_POS_FOR_CARD))
             cell.setEnabled(simpleCardCells.isSpotAvailable(prodPos));
         else if (mode.equals(Mode.CHOOSE_PRODUCTION))
-            cell.setEnabled(simpleProductions.isProductionAtPositionAvailable(prodPos).orElse(false));
+            cell.setEnabled(simpleCardCells.getSimpleProductions().isProductionAtPositionAvailable(prodPos).orElse(false));
         else cell.setMode(Option.VisMode.NO_NUMBER);
     }
 
@@ -374,8 +400,8 @@ public class PersonalBoardBody extends CLIelem {
                 && pair.getValue().equals(false);
     }
 
-    public static Option prodOption(Runnable r, NetworkDevelopmentCard card){
-        Drawable d = DrawableDevCard.fromDevCardAsset(card);
+    public static Option prodOption(Runnable r, NetworkDevelopmentCard card,int stackHeight){
+        Drawable d = DrawableDevCard.fromDevCardAsset(card,stackHeight);
         Option o = Option.from(d,r);
         o.setMode(Option.VisMode.NUMBER_TO_BOTTOM);
         return o;
