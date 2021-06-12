@@ -44,7 +44,7 @@ public class SetupBody extends CLIelem {
         List<ResourceAsset> outputs =
                 Stream.concat(
                         chosenRes.stream(),
-                        Stream.generate(()->ResourceAsset.TOCHOOSE).limit(resToChoose)
+                        Stream.generate(()->ResourceAsset.TO_CHOOSE).limit(resToChoose)
                 ).collect(Collectors.toList());
         ResChoiceRow resChoiceRow = new ResChoiceRow(chosenRes.size(),new ArrayList<>(), outputs);
         resChoiceRow.setOnChosenOutput(()->{

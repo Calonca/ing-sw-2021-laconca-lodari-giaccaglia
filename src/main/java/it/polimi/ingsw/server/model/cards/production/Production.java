@@ -4,7 +4,6 @@ import it.polimi.ingsw.server.model.Resource;
 
 
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * Class to apply the production cards logic
@@ -60,7 +59,7 @@ public class Production {
     public void performChoiceOnInput(Resource resource)
     {
         input[resource.getResourceNumber()]++;
-        input[Resource.TOCHOOSE.getResourceNumber()]--;
+        input[Resource.TO_CHOOSE.getResourceNumber()]--;
     }
 
     /**
@@ -68,9 +67,9 @@ public class Production {
      */
     public boolean choiceCanBeMadeOnInput()
     {
-        if (input.length<Resource.TOCHOOSE.getResourceNumber()+1)
+        if (input.length<Resource.TO_CHOOSE.getResourceNumber()+1)
             return false;
-        else return this.input[Resource.TOCHOOSE.getResourceNumber()] != 0;
+        else return this.input[Resource.TO_CHOOSE.getResourceNumber()] != 0;
     }
 
     /**
@@ -80,7 +79,7 @@ public class Production {
     public void performChoiceOnOutput(Resource resource)
     {
         output[resource.getResourceNumber()]++;
-        output[Resource.TOCHOOSE.getResourceNumber()]--;
+        output[Resource.TO_CHOOSE.getResourceNumber()]--;
     }
 
     /**
@@ -126,10 +125,10 @@ public class Production {
      */
     public boolean choiceCanBeMadeOnOutput()
     {
-        if (output.length<Resource.TOCHOOSE.getResourceNumber()+1)
+        if (output.length<Resource.TO_CHOOSE.getResourceNumber()+1)
             return false;
         else
-            return this.output[Resource.TOCHOOSE.getResourceNumber()] != 0;
+            return this.output[Resource.TO_CHOOSE.getResourceNumber()] != 0;
     }
 
     public void resetChoice()

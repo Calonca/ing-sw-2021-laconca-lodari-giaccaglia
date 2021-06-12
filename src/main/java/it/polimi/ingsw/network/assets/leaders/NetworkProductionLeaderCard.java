@@ -1,6 +1,9 @@
 package it.polimi.ingsw.network.assets.leaders;
 
+import it.polimi.ingsw.network.assets.resources.ResourceAsset;
+
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class NetworkProductionLeaderCard extends NetworkLeaderCard {
 
@@ -18,12 +21,12 @@ public class NetworkProductionLeaderCard extends NetworkLeaderCard {
         this.productionOutputResources = productionOutputResources;
     }
 
-    public List<Integer> getProductionInputResources() {
-        return productionInputResources;
+    public List<ResourceAsset> getProductionInputResources() {
+        return productionInputResources.stream().map(ResourceAsset::fromInt).collect(Collectors.toList());
     }
 
-    public List<Integer> getProductionOutputResources() {
-        return productionOutputResources;
+    public List<ResourceAsset> getProductionOutputResources() {
+        return productionOutputResources.stream().map(ResourceAsset::fromInt).collect(Collectors.toList());
     }
 
 }

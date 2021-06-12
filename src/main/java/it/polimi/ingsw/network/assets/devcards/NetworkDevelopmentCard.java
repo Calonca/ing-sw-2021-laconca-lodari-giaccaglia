@@ -5,6 +5,7 @@ import it.polimi.ingsw.server.model.Resource;
 import javafx.util.Pair;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class NetworkDevelopmentCard {
 
@@ -49,12 +50,12 @@ public class NetworkDevelopmentCard {
         return victoryPoints;
     }
 
-    public List<Integer> getInputResources(){
-        return inputResources;
+    public List<ResourceAsset> getInputResources(){
+        return inputResources.stream().map(ResourceAsset::fromInt).collect(Collectors.toList());
     }
 
-    public List<Integer> getOutputResources(){
-        return outputResources;
+    public List<ResourceAsset> getOutputResources(){
+        return outputResources.stream().map(ResourceAsset::fromInt).collect(Collectors.toList());
     }
 
 

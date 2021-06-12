@@ -116,7 +116,7 @@ public class ResChoiceRow extends GridElem {
     }
 
     private int numOfOutputChoices(){
-        return (int) out.stream().filter(r->r.equals(ResourceAsset.TOCHOOSE)).count();
+        return (int) out.stream().filter(r->r.equals(ResourceAsset.TO_CHOOSE)).count();
     }
 
     public int getIndex() {

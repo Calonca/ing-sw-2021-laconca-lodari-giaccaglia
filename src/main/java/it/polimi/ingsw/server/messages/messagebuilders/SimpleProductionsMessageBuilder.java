@@ -10,9 +10,9 @@ import java.util.stream.Collectors;
 public class SimpleProductionsMessageBuilder {
 
     public static Map<Integer, SimpleProductions.SimpleProduction> simpleProductionsMap(GameModel gameModel){
+
    //      position                     inputs                 outputs        isAvailable   isSelected
         Map<Integer, Pair<Pair<Map<Integer, Integer>, Map<Integer, Integer>>, Pair<Boolean, Boolean>>> productionsMap = gameModel.getCurrentPlayer().getPersonalBoard().getSimpleProductionsMap();
-
 
         return productionsMap.keySet().stream().collect(Collectors.toMap(
                 index -> index, //production index

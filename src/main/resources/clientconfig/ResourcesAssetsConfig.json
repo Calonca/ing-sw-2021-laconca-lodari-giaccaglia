@@ -1,34 +1,34 @@
 {
-  "BADFAITH": {
+  "GOLD": {
+    "key": 0,
+    "value": "/assets/resources/GOLD.png"
+  },
+  "BAD_FAITH": {
     "key": 5,
     "value": "/assets/resources/FAITH.png"
-  },
-  "SHIELD": {
-    "key": 2,
-    "value": "/assets/resources/SHIELD.png"
   },
   "FAITH": {
     "key": 4,
     "value": "/assets/resources/FAITH.png"
   },
-  "EMPTY": {
-    "key": 7,
-    "value": "/assets/resources/EMPTY.png"
+  "STONE": {
+    "key": 3,
+    "value": "/assets/resources/STONE.png"
   },
   "SERVANT": {
     "key": 1,
     "value": "/assets/resources/SERVANT.png"
   },
-  "TOCHOOSE": {
+  "SHIELD": {
+    "key": 2,
+    "value": "/assets/resources/SHIELD.png"
+  },
+  "TO_CHOOSE": {
     "key": 6,
     "value": "/assets/resources/DUMMY_PATH"
   },
-  "GOLD": {
-    "key": 0,
-    "value": "/assets/resources/GOLD.png"
-  },
-  "STONE": {
-    "key": 3,
-    "value": "/assets/resources/STONE.png"
+  "EMPTY": {
+    "key": 7,
+    "value": "/assets/resources/EMPTY.png"
   }
 }

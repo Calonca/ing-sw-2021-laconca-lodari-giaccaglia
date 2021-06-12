@@ -15,8 +15,8 @@ import java.util.Map;
 /**
  * Enum class for resources. Resources order is the same as in Box.
  * New resources are to be added after STONE.
- * For each TOCHOOSE the player will perform a choice, selecting a basic resource.
- * Each BADFAITH point will be consumed and all other players will advance on the FaithTrack.
+ * For each TO_CHOOSE the player will perform a choice, selecting a basic resource.
+ * Each BAD_FAITH point will be consumed and all other players will advance on the FaithTrack.
  */
 
 public enum ResourceAsset
@@ -26,8 +26,8 @@ public enum ResourceAsset
     SHIELD(2, Paths.get("/assets/resources/SHIELD.png")),
     STONE(3, Paths.get("/assets/resources/STONE.png")),
     FAITH(4, Paths.get("/assets/resources/FAITH.png")),
-    BADFAITH(5,Paths.get("/assets/resources/FAITH.png")),
-    TOCHOOSE(6, Paths.get("/assets/resources/DUMMY_PATH")),
+    BAD_FAITH(5,Paths.get("/assets/resources/FAITH.png")),
+    TO_CHOOSE(6, Paths.get("/assets/resources/DUMMY_PATH")),
     EMPTY(7, Paths.get("/assets/resources/EMPTY.png"));
 
 

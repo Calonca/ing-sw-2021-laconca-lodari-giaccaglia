@@ -255,7 +255,7 @@ public class PersonalBoard {
     public Boolean[] getSelectedProduction(){return prodsSelected.stream().filter(Optional::isPresent).flatMap(Optional::stream).toArray(Boolean[]::new);}
 
     /**
-     * Resets the {@link Resource resources} chosen to {@link Resource#TOCHOOSE} for all the {@link Production productions} that have choices.
+     * Resets the {@link Resource resources} chosen to {@link Resource#TO_CHOOSE} for all the {@link Production productions} that have choices.
      * Should be called at the end of the turn
      */
     public void resetChoices(){
@@ -263,7 +263,7 @@ public class PersonalBoard {
     }
 
     /**
-     * Resets the {@link Resource resources} chosen to {@link Resource#TOCHOOSE} for all the {@link Production productions} that have choices
+     * Resets the {@link Resource resources} chosen to {@link Resource#TO_CHOOSE} for all the {@link Production productions} that have choices
      */
     public void resetSelectedProductions(){
         IntStream.range(0,prodsSelected.size())

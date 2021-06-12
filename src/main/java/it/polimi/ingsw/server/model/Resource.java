@@ -6,8 +6,8 @@ import java.util.stream.Stream;
 /**
  * Enum class for resources. Resources order is the same as in Box.
  * New resources are to be added after STONE.
- * For each TOCHOOSE the player will perform a choice, selecting a basic resource.
- * Each BADFAITH point will be consumed and all other players will advance on the FaithTrack.
+ * For each TO_CHOOSE the player will perform a choice, selecting a basic resource.
+ * Each BAD_FAITH point will be consumed and all other players will advance on the FaithTrack.
  */
 
 public enum Resource
@@ -17,8 +17,8 @@ public enum Resource
     SHIELD(2),
     STONE(3),
     FAITH(4),
-    BADFAITH(5),
-    TOCHOOSE(6),
+    BAD_FAITH(5),
+    TO_CHOOSE(6),
     EMPTY(7);
 
     private final int resourceNumber;

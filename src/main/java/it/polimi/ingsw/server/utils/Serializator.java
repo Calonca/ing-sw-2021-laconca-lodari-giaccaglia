@@ -1254,17 +1254,17 @@ public class Serializator extends JsonUtility {
         leaderCardsArraySerialization();
         devCardsAssetsMapSerialization();
         networkLeaderCardsAssetsMapSerialization();
-        serializeResources();
+
         serializeMarbles();
          serializeSinglePlayerStatesTransitionTable();
         serializeMultiPlayerStatesTransitionTable();
         cardShopSerialization();
- */
-
         serializeTokensAssets();
         it.polimi.ingsw.client.json.Deserializator.initializeActionTokenFromConfig();
         List<ActionTokenAsset> assets = Arrays.asList(ActionTokenAsset.values().clone());
         int cioa= 5;
+ */
+        serializeResources();
 
     }
 

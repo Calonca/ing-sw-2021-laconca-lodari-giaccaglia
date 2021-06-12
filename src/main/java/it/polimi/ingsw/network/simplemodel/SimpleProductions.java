@@ -1,13 +1,9 @@
 package it.polimi.ingsw.network.simplemodel;
 
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
-import it.polimi.ingsw.server.model.Resource;
-import javafx.util.Pair;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class SimpleProductions extends SimpleModelElement{
@@ -129,14 +125,14 @@ public class SimpleProductions extends SimpleModelElement{
 
             return inputResources.keySet()
                     .stream()
-                    .anyMatch(resourceInt -> resourceInt.equals(ResourceAsset.TOCHOOSE.getResourceNumber()));
+                    .anyMatch(resourceInt -> resourceInt.equals(ResourceAsset.TO_CHOOSE.getResourceNumber()));
         }
 
         public boolean choicesCanBeMadeOnOutput(){
 
             return outputResources.keySet()
                     .stream()
-                    .anyMatch(resourceInt -> resourceInt.equals(ResourceAsset.TOCHOOSE.getResourceNumber()));
+                    .anyMatch(resourceInt -> resourceInt.equals(ResourceAsset.TO_CHOOSE.getResourceNumber()));
 
         }
 

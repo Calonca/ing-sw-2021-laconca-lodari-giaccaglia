@@ -9,12 +9,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public enum ResourceCLI {
+
     GOLD(ResourceAsset.GOLD,"GO", "Gold", "  Gold   ", Color.GOLD, Background.ANSI_GOLD_BACKGROUND),
     SERVANT(ResourceAsset.SERVANT, "SE", "Servant", " Servant ",Color.SERVANT,Background.ANSI_PURPLE_BACKGROUND),
     SHIELD(ResourceAsset.SHIELD, "SH", "Shield", " Shield  ",Color.SHIELD,Background.ANSI_CYAN_BACKGROUND),
     STONE(ResourceAsset.STONE, "ST", "Stone", "  Stone  ",Color.STONE,Background.ANSI_BRIGHT_BLACK_BACKGROUND),
     FAITH(ResourceAsset.FAITH, "FA", "Faith",      "  Faith  ",Color.RED,Background.ANSI_RED_BACKGROUND),
-    TO_CHOSE(ResourceAsset.TOCHOOSE, "??", "To choose", "To choose",Color.BRIGHT_WHITE,Background.ANSI_BLACK_BACKGROUND),
+    TO_CHOSE(ResourceAsset.TO_CHOOSE, "??", "To choose", "To choose",Color.BRIGHT_WHITE,Background.ANSI_BLACK_BACKGROUND),
     EMPTY(ResourceAsset.EMPTY, "EE", "Empty", "  Empty  ",Color.DEFAULT,Background.DEFAULT);
 
 
