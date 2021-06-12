@@ -132,6 +132,10 @@ public class CLI {
     }
 
     public void runOnIntInput(String message, String errorMessage, int min, int max, Runnable r1){
+        runOnIntInput(message, errorMessage, min, max, r1, null);
+    }
+
+    public void runOnIntInput(String message, String errorMessage, int min, int max, Runnable r1,Runnable onEnter){
         inputMessage = message;
         afterInput = ()->{
             try
@@ -146,36 +150,44 @@ public class CLI {
                     else {
                         this.errorMessage += ", insert a SMALLER number!";
                     }
-                    runOnIntInput(message,errorMessage,min,max,r1);
+                    runOnIntInput(message,errorMessage,min,max,r1,onEnter);
                     show();
                 }else {
                     lastInt = choice;
                     r1.run();
                 }
             }
-            catch (NumberFormatException e){
-                this.errorMessage = errorMessage+", insert a NUMBER!";
-                runOnIntInput(message,errorMessage,min,max,r1);
+            catch (NumberFormatException e) {
+                if (onEnter != null)
+                    onEnter.run();
+                else{
+                    this.errorMessage = errorMessage + ", insert a NUMBER!";
+                runOnIntInput(message, errorMessage, min, max, r1, onEnter);
                 show();
+                }
             }
         };
     }
-    public void runOnIntListInput(String message, String errorMessage, IntStream possibleValues, Runnable r1){
 
+    public void runOnIntListInput(String message, String errorMessage, IntStream possibleValues, Runnable onInt){
+        runOnIntListInput(message, errorMessage, possibleValues, onInt,null);
+    }
+
+    public void runOnIntListInput(String message, String errorMessage, IntStream possibleValues, Runnable onInt,Runnable onEnter){
         int[] supplier = possibleValues.toArray();
         int max = Arrays.stream(supplier).max().orElse(0);
         int min = Arrays.stream(supplier).min().orElse(0);
         Runnable r2 = ()->{
             if (Arrays.stream(supplier).noneMatch(i->i==getLastInt())) {
                 this.errorMessage = errorMessage+", select an active option";
-                runOnIntListInput(message,errorMessage, Arrays.stream(supplier),r1);
+                runOnIntListInput(message,errorMessage, Arrays.stream(supplier),onInt,onEnter);
                 show();
             }
             else {
-                r1.run();
+                onInt.run();
             }
         };
-        runOnIntInput(message,errorMessage,min,max,r2);
+        runOnIntInput(message,errorMessage,min,max,r2,onEnter);
     }
 
 

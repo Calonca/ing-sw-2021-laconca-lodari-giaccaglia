@@ -8,8 +8,11 @@ import it.polimi.ingsw.client.view.CLI.layout.SizedBox;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.Drawable;
 import it.polimi.ingsw.client.view.abstractview.MiddlePhaseViewBuilder;
 import it.polimi.ingsw.network.simplemodel.SimpleCardShop;
+import org.jetbrains.annotations.NotNull;
 
 public class MiddlePhaseCLI extends MiddlePhaseViewBuilder implements CLIBuilder {
+
+    int timesEnterPressed=0;
 
     @Override
     public void run() {
@@ -49,7 +52,7 @@ public class MiddlePhaseCLI extends MiddlePhaseViewBuilder implements CLIBuilder
         row.addElem(middlePhaseOption(buyCard,()-> sendMessage(Choice.CARD_SHOP), simpleCardShop.getIsAnyCardPurchasable()));
         row.addElem(new SizedBox(2,0));
 
-        row.selectInEnabledOption(getCLIView(),"Select a middle phase option");
+        row.selectInEnabledOption(getCLIView(), "Select a middle phase option");
 
         getCLIView().setBody(CanvasBody.centered(row));
         getCLIView().show();

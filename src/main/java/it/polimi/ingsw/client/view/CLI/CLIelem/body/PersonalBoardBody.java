@@ -9,6 +9,7 @@ import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Column;
 import it.polimi.ingsw.client.view.CLI.layout.GridElem;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
 import it.polimi.ingsw.client.view.CLI.textUtil.Background;
+import it.polimi.ingsw.client.view.CLI.textUtil.StringUtil;
 import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ProductionViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
@@ -213,8 +214,12 @@ public class PersonalBoardBody extends CLIelem {
         Map<Integer,Optional<NetworkDevelopmentCard>> frontCards=simpleCardCells.getDevCardsCells().entrySet().stream()
                 .collect(Collectors.toMap(Map.Entry::getKey, e->e.getValue().map(DevelopmentCardAsset::getDevelopmentCard)));
         Option basicProdOption = simpleCardCells.getSimpleProductions().getProductionAtPos(0).map(p->{
-            Drawable basicProdDrawable = DrawableProduction
-                    .fromInputAndOutput(new ArrayList<>(p.getInputResources().values()),new ArrayList<>(p.getOutputResources().values()));
+            Drawable basicProdDrawable = new Drawable();
+            basicProdDrawable.add(0,"╔═ Basic Production ═════╗");
+            basicProdDrawable.add(Drawable.copyShifted(0,1,DrawableProduction
+                    .fromInputAndOutput(new ArrayList<>(p.getInputResources().values()),new ArrayList<>(p.getOutputResources().values()))
+            ));
+            basicProdDrawable.add(0,"╚════════════════════════╝");
             Option o = Option.from(basicProdDrawable,getProdRunnable(0));
             setProdAvailable(simpleCardCells, simpleProductions, 0, o);
             return o;
