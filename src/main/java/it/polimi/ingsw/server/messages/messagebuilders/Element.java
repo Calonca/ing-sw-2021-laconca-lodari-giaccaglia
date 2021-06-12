@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.messages.messagebuilders;
 
+import it.polimi.ingsw.client.simplemodel.SimpleModel;
 import it.polimi.ingsw.network.simplemodel.EndGameInfo;
 import it.polimi.ingsw.network.simplemodel.*;
 import it.polimi.ingsw.server.model.GameModel;
@@ -129,6 +130,16 @@ public enum Element {
         public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate){
             return new SimpleProductions(SimpleProductionsMessageBuilder.simpleProductionsMap(gameModel));
            }
+        },
+
+        SimpleSoloActionToken(false){
+        @Override
+            public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate){
+            return new SimpleSoloActionToken(
+
+                    UUID.nameUUIDFromBytes(gameModel.showLastActivatedSoloActionToken().name().getBytes(StandardCharsets.UTF_8))
+            );
+        }
         };
 
         private final boolean isCommonElement;

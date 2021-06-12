@@ -16,6 +16,7 @@ import java.util.*;
  * }<br>
  */
 public class CommonData {
+
     public static String matchesDataString = "matchesData";
     public static String thisMatchData = "thisMatchData";
     public static String currentPlayerString = "currentPlayer";
