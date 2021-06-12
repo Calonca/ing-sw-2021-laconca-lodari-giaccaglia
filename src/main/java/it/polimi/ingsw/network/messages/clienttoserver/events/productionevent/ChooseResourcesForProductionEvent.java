@@ -11,12 +11,9 @@ public class ChooseResourcesForProductionEvent extends Event {
     protected List<Integer> inputPositionsToChoose;
     protected List<Integer> outputResourceToChoose;
 
-    public ChooseResourcesForProductionEvent(List<Integer> inputPositionsToChoose){
-       this.inputPositionsToChoose = inputPositionsToChoose;
-    }
-
-    public ChooseResourcesForProductionEvent(List<Integer> inputPositionsToChoose, List<Integer> outputPositionsToChoose){
+    public ChooseResourcesForProductionEvent(List<Integer> inputPositionsToChoose, List<Integer> outputResourceToChoose){
         this.inputPositionsToChoose = inputPositionsToChoose;
+        this.outputResourceToChoose = outputResourceToChoose;
     }
 
 
