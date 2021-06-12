@@ -21,6 +21,7 @@ public class SinglePlayerDeck {
      */
     public SinglePlayerDeck() {
         shuffleActionTokens();
+        lastActivatedToken = SoloActionToken.EMPTY;
     }
 
     /**

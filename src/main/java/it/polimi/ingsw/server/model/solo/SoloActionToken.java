@@ -102,6 +102,11 @@ public enum SoloActionToken {
             gameModel.addFaithPointToOtherPlayers();
             gameModel.addFaithPointToOtherPlayers();
         }
+    },
+
+    EMPTY {
+        @Override
+        public void applyEffect(GameModel gameModel) {}
     };
 
     /**

@@ -153,7 +153,7 @@ public enum ActionTokenAsset {
 
     },
 
-    INVALID(Paths.get("assets/tokens/TOKEN_BACK.png")){
+    EMPTY(Paths.get("assets/tokens/TOKEN_BACK.png")){
 
         String effectDescription = "Invalid token request!";
 
@@ -197,7 +197,7 @@ public enum ActionTokenAsset {
         return Arrays.stream(vals)
                 .filter(token -> UUID.nameUUIDFromBytes(token.name().getBytes(StandardCharsets.UTF_8)).equals(tokenId))
                 .findFirst()
-                .orElse(INVALID);
+                .orElse(EMPTY);
     }
 
 

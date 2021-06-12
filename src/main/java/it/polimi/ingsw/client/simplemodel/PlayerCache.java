@@ -70,9 +70,11 @@ public class PlayerCache {
 
 
         SimplePlayerLeaders playerLeadersElement = ((SimplePlayerLeaders) playerSimpleModelElementsMap.get(SimplePlayerLeaders.class.getSimpleName()));
+        SimpleProductions simpleProductions = ((SimpleProductions) playerSimpleModelElementsMap.get(SimpleProductions.class.getSimpleName()));
         SimpleCardCells simpleCardCells = ((SimpleCardCells) playerSimpleModelElementsMap.get(SimpleCardCells.class.getSimpleName()));
 
         simpleCardCells.setSimplePlayerLeaders(playerLeadersElement);
+        simpleCardCells.setSimpleProductions(simpleProductions);
 
     }
 
