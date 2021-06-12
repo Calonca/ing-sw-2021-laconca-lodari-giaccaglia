@@ -84,8 +84,10 @@ public class ResChoiceRow extends GridElem {
             ResourceAsset resAsset;
             if (i<in.size())
                  resAsset = in.get(i);
-                else
-            resAsset = out.get(i-in.size());
+            else
+                resAsset = out.get(i-in.size());
+            if (!(in.isEmpty()||out.isEmpty()) && i==in.size())
+                row.addElem(Option.noNumber(" -> "));
             Drawable dl = ResourceCLI.fromAsset(resAsset).toBigDrawableList(i==arrowPos);
             row.addElem(Option.noNumber(dl));
             row.addElem(new SizedBox(1, 0));

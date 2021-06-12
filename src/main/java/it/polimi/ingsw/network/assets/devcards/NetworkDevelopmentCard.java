@@ -3,7 +3,10 @@ package it.polimi.ingsw.network.assets.devcards;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.server.model.Resource;
 import javafx.util.Pair;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -50,12 +53,12 @@ public class NetworkDevelopmentCard {
         return victoryPoints;
     }
 
-    public List<ResourceAsset> getInputResources(){
-        return inputResources.stream().map(ResourceAsset::fromInt).collect(Collectors.toList());
+    public Map<ResourceAsset,Integer> getInputResources(){
+        return new HashMap<>();// inputResources.stream().map(ResourceAsset::fromInt).collect(Collectors.toList());
     }
 
-    public List<ResourceAsset> getOutputResources(){
-        return outputResources.stream().map(ResourceAsset::fromInt).collect(Collectors.toList());
+    public Map<ResourceAsset,Integer> getOutputResources(){
+        return new HashMap<>();//return outputResources.stream().map(ResourceAsset::fromInt).collect(Collectors.toList());
     }
 
 

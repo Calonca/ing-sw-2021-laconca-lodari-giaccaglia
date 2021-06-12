@@ -1,11 +1,11 @@
 package it.polimi.ingsw.client.view.GUI;
 
-import it.polimi.ingsw.server.messages.messagebuilders.tem;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -13,6 +13,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.*;
 import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Translate;
 import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -70,7 +71,9 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
 
         Group parent = new Group();
 
-        Rectangle board = new Rectangle(2402, 1717);
+        final int boardWidth=2402;
+        final int boardHeight=1717;
+        Rectangle board = new Rectangle(boardHeight, boardHeight);
         Image boardPic = new Image("assets/board/biggerboard.png");
         board.setFill(new ImagePattern(boardPic));
         board.setTranslateX(-500);
@@ -186,7 +189,21 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
             GUI.removeLast();
         });
 
-        System.out.println(GUI.getRealPane().getChildren());
+        scene.setOnKeyPressed(e-> {
+            if (e.getCode() == KeyCode.W || e.getCode() == KeyCode.DOWN){
+                Translate t = new Translate();
+                t.setZ(-100);
+                camera.getTransforms().add(t);
+            }
+        });
+
+        scene.setOnKeyPressed(e-> {
+            if (e.getCode() == KeyCode.S || e.getCode() == KeyCode.UP){
+                Translate t = new Translate();
+                t.setZ(100);
+                camera.getTransforms().add(t);
+            }
+        });
 
         viewMarket.setId("showButton");
         viewCardShop.setId("showButton");
@@ -259,99 +276,92 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
      * @throws IOException if res is not an adequate parameter
      */
     public static List<double[]> getGeneratedModel(String res) throws IOException {
-        Scanner inputStream = null;
         List<Double> verts=new ArrayList<>();
         List<Integer> smoothings=new ArrayList<>();
 
 
-            String path="/assets/3dAssets/" + res + ".OBJ";
-            InputStreamReader reader = new InputStreamReader(tem.class.getResourceAsStream(path));
+        String path="/assets/3dAssets/" + res + ".OBJ";
+        InputStreamReader reader = new InputStreamReader(BoardView3D.class.getResourceAsStream(path));
 
-            Scanner br=new Scanner(reader);
-            br.nextLine();
-            br.nextLine();
+        Scanner br=new Scanner(reader);
+        br.nextLine();
+        br.nextLine();
 
-            String line;
-            String[] numbers;
+        String line;
+        String[] numbers;
 
-            int i=0;
-            while (br.hasNextLine())
+        while (br.hasNextLine())
+        {
+            line=br.nextLine();
+            if(line.isEmpty())
+                break;
+            line=line.substring(2);
+            numbers= line.split("\\d\\s+");
+
+            for (String number : numbers) verts.add(Double.valueOf(number));
+
+        }
+        while (br.hasNextLine())
+        {
+            line=br.nextLine();
+            if(line.isEmpty())
+                break;
+
+        }
+        while (br.hasNextLine())
+        {
+            line=br.nextLine();
+            if(line.isEmpty())
+                break;
+
+        }
+        br.nextLine();
+        while (br.hasNextLine())
+        {
+            line=br.nextLine();
+            if (line.isEmpty())
+                break;
+            if (line.length()>3)
+            line=line.substring(2);
+            if(line.charAt(0)!='s')
             {
-                line=br.nextLine();
-                if(line.isEmpty())
-                    break;
-                line=line.substring(2);
-                numbers= line.split("\\d\\s+");
-
-                for (String number : numbers) verts.add(Double.valueOf(number));
-
-            }
-            while (br.hasNextLine())
-            {
-                line=br.nextLine();
-                if(line.isEmpty())
-                    break;
-
-            }
-            while (br.hasNextLine())
-            {
-                line=br.nextLine();
-                if(line.isEmpty())
-                    break;
-
-            }
-            br.nextLine();
-            while (br.hasNextLine())
-            {
-                line=br.nextLine();
-                if (line.isEmpty())
-                    break;
-                if (line.length()>3)
-                line=line.substring(2);
-                if(line.charAt(0)!='s')
+                numbers= line.split("/\\d\\d?\\d?\\d?\\d?\\s?+");
+                for(String toAdd : numbers)
                 {
-                    numbers= line.split("/\\d\\d?\\d?\\d?\\d?\\s?+");
-                    for(String toAdd : numbers)
-                    {
-                        smoothings.add(Integer.valueOf(toAdd));
-                        smoothings.add(0);
-                        System.out.println(toAdd);
+                    smoothings.add(Integer.valueOf(toAdd));
+                    smoothings.add(0);
+                    System.out.println(toAdd);
 
-                    }
                 }
-
-
             }
 
 
+        }
 
 
-            // Covert the lists to double arrays
+        // Covert the lists to double arrays
+        List<double[]> vertsAndSmoothing=new ArrayList<>();
+        // print out just for verification
+        double[] vertArray = new double[verts.size()];
+        // ArrayList to Array Conversion
+        for (int k =0; k < verts.size(); k++)
+            vertArray[k] = verts.get(k);
+
+        vertsAndSmoothing.add(vertArray);
+
+        double[] intArray = new double[smoothings.size()];
+        // ArrayList to Array Conversion
+        for (int k =0; k < smoothings.size(); k++)
+            intArray[k] = smoothings.get(k);
 
 
+        //System.out.println(toReturnInt.size());
+        vertsAndSmoothing.add(intArray);
 
-            List<double[]> vertsAndSmoothing=new ArrayList<>();
-            // print out just for verification
-            double[] vertArray = new double[verts.size()];
-            // ArrayList to Array Conversion
-            for (int k =0; k < verts.size(); k++)
-                vertArray[k] = verts.get(k);
+        //System.out.println(Arrays.toString(vertsAndSmoothing.get(0)));
+        //System.out.println(Arrays.toString(vertsAndSmoothing.get(1)));
 
-            vertsAndSmoothing.add(vertArray);
-
-            double[] intArray = new double[smoothings.size()];
-            // ArrayList to Array Conversion
-            for (int k =0; k < smoothings.size(); k++)
-                intArray[k] = smoothings.get(k);
-
-
-            //System.out.println(toReturnInt.size());
-            vertsAndSmoothing.add(intArray);
-
-            //System.out.println(Arrays.toString(vertsAndSmoothing.get(0)));
-            //System.out.println(Arrays.toString(vertsAndSmoothing.get(1)));
-
-            return vertsAndSmoothing;
+        return vertsAndSmoothing;
     }
 
 }

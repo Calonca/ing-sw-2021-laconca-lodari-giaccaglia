@@ -237,7 +237,7 @@ public class PersonalBoardBody extends CLIelem {
             Drawable basicProdDrawable = new Drawable();
             basicProdDrawable.add(0,"╔═ Basic Production ═════╗");
             basicProdDrawable.add(Drawable.copyShifted(0,1,DrawableProduction
-                    .fromInputAndOutput(new ArrayList<>(p.getInputResources().values()),new ArrayList<>(p.getOutputResources().values()))
+                    .fromInputAndOutput(p.getInputResources(),p.getOutputResources())
             ));
             basicProdDrawable.add(0,"╚════════════════════════╝");
             Option o = Option.from(basicProdDrawable,getProdRunnable(0));

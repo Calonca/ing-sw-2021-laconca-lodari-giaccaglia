@@ -40,10 +40,11 @@ public class ProductionViewCLI extends ProductionViewBuilder implements CLIBuild
         PersonalBoardBody board = new PersonalBoardBody(getThisPlayerCache(), PersonalBoardBody.Mode.SELECT_RES_FOR_PROD);
         SimpleCardCells simpleCardCells = getThisPlayerCache().getElem(SimpleCardCells.class).orElseThrow();
         int lastSelectedProduction = simpleCardCells.getSimpleProductions().getLastSelectedProductionPosition();
-        Map<ResourceAsset, Integer> inputRes = new HashMap<>();// cardCells.getProductionAtPos(lastSelectedProduction).map(p->p.getInputResources()).orElse(new HashMap<>());
-        Map<ResourceAsset, Integer> outputRes = new HashMap<>();
+        Map<ResourceAsset, Integer> inputRes =  simpleCardCells.getProductionAtPos(lastSelectedProduction).map(SimpleProductions.SimpleProduction::getInputResources).orElse(new HashMap<>());
+        Map<ResourceAsset, Integer> outputRes = simpleCardCells.getProductionAtPos(lastSelectedProduction).map(SimpleProductions.SimpleProduction::getOutputResources).orElse(new HashMap<>());
         List<ResourceAsset> input = inputRes.entrySet().stream().flatMap(p -> Stream.generate(p::getKey).limit(p.getValue())).collect(Collectors.toList());
-        ResChoiceRow choices = new ResChoiceRow(0,input,new ArrayList<>());
+        List<ResourceAsset> output = outputRes.entrySet().stream().flatMap(p -> Stream.generate(p::getKey).limit(p.getValue())).collect(Collectors.toList());
+        ResChoiceRow choices = new ResChoiceRow(0,input,output);
         Row top = new Row(Stream.of(new SizedBox(1,0),choices));
         board.setTop(top);
         Row prodsRow = board.productionsBuilder(simpleCardCells);
