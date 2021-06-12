@@ -28,13 +28,4 @@ public class SetupPhase extends SetupPhaseViewBuilder implements CLIBuilder {
         getCLIView().show();
     }
 
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals(State.IDLE.name()))
-            getClient().changeViewBuilder(new IDLEViewBuilder());
-        else{
-            Gson builder = new GsonBuilder().registerTypeHierarchyAdapter(Path.class, new JsonUtility.PathConverter()).setPrettyPrinting().create();
-            System.out.println("Setup received: "+evt.getPropertyName()+builder.toJson(evt.getNewValue()));
-        }
-    }
 }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.strategy.resourcemarket;
 
+import it.polimi.ingsw.server.controller.EndGameReason;
 import it.polimi.ingsw.server.controller.strategy.FinalStrategy;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
@@ -18,33 +19,30 @@ import java.util.List;
  */
 public class DiscardingResources implements GameStrategy {
 
-    private final List<Element> elementsToUpdate = new ArrayList<>();
-    private transient GameModel gameModel;
+    public Pair<State, List<Element>> execute(GameModel gameModel, Validable event) {
 
-    public Pair<State, List<Element>> execute(GameModel gameModel, Validable event)
-    {
-
+        List<Element> elementsToUpdate = new ArrayList<>();
         int positionsToAdd;
+
+
         elementsToUpdate.add(Element.SimpleDiscardBox);
         elementsToUpdate.add(Element.SimpleFaithTrack);
         elementsToUpdate.add(Element.SimplePlayerLeaders);
 
-        this.gameModel = gameModel;
         PersonalBoard currentBoard = gameModel.getCurrentPlayer().getPersonalBoard();
 
         currentBoard.discardResources();
 
         positionsToAdd = currentBoard.getBadFaithToAdd();
 
-        for(int i=0; i<positionsToAdd; i++)
-        {
+        for (int i = 0; i < positionsToAdd; i++) {
 
             gameModel.addFaithPointToOtherPlayers();
             gameModel.handleVaticanReport();
 
-            if(gameModel.checkTrackStatus()) {
+            if (gameModel.checkTrackStatus()) {
 
-                handleCommonEndGameStrategy();
+                handleCommonEndGameStrategy(gameModel);
 
                 return new Pair<>(State.IDLE, elementsToUpdate);
 
@@ -55,28 +53,31 @@ public class DiscardingResources implements GameStrategy {
 
 
         positionsToAdd = currentBoard.getFaithToAdd();
-        for(int i=0; i<positionsToAdd; i++)
-        {
+
+        for(int i = 0; i < positionsToAdd; i++) {
             gameModel.getCurrentPlayer().moveOnePosition();
             gameModel.handleVaticanReport();
 
-            if(gameModel.checkTrackStatus()) {
+            if (gameModel.checkTrackStatus()) {
 
-                handleCommonEndGameStrategy();
+                if (gameModel.isSinglePlayer()) {
 
-                return new Pair<>(State.IDLE, elementsToUpdate);
+                    String endGameReason = EndGameReason.TRACK_END_SOLO.getEndGameReason();
+                    return FinalStrategy.handleSinglePlayerEndGameStrategy(elementsToUpdate, gameModel, endGameReason);
+                }
+
+                FinalStrategy.setMacroGamePhase(gameModel, elementsToUpdate);
+
             }
-
         }
 
-        currentBoard.setFaithToZero();
+            currentBoard.setFaithToZero();
 
 
-        return FinalStrategy.handleCommonEndGameStrategy(elementsToUpdate,gameModel);
-
+            return FinalStrategy.handleCommonEndGameStrategy(elementsToUpdate, gameModel);
     }
 
-    private void handleCommonEndGameStrategy(){
+    private void handleCommonEndGameStrategy(GameModel gameModel){
 
         if (gameModel.getMacroGamePhase().equals(GameModel.MacroGamePhase.ActiveGame))
             gameModel.setMacroGamePhase(GameModel.MacroGamePhase.LastTurn);
@@ -85,4 +86,5 @@ public class DiscardingResources implements GameStrategy {
             gameModel.setMacroGamePhase(GameModel.MacroGamePhase.GameEnded);
 
     }
+
 }

@@ -81,25 +81,16 @@ public enum MarbleAsset {
 
     public static MarbleAsset fromUUID(UUID marbleId){
        return Arrays.stream(vals)
-               .filter(marble -> UUID.nameUUIDFromBytes(marble.getName().getBytes(StandardCharsets.UTF_8)).equals(marbleId))
+               .filter(marble -> UUID.nameUUIDFromBytes(marble.name().getBytes(StandardCharsets.UTF_8)).equals(marbleId))
                .findFirst()
                .orElse(INVALID);
     }
 
-    public String getName() {
-        return this.name();
-    }
 
 
     public void setPath(Path path){
         this.marbleAssetPath = path;
     }
 
-    public static void initializeMarblesFromConfig(String path){
-        Gson gson = new GsonBuilder().enableComplexMapKeySerialization().registerTypeHierarchyAdapter(Path.class, new JsonUtility.PathConverter()).create();
-        Type type = new TypeToken <Map<MarbleAsset, Path>>(){}.getType();
-        Map<MarbleAsset, Path> marblesMap = Deserializator.deserialize(path, type, gson);
-        marblesMap.forEach(MarbleAsset::setPath);
-    }
 
 }

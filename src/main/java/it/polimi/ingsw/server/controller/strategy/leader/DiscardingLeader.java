@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.controller.strategy.leader;
 
+import it.polimi.ingsw.server.controller.EndGameReason;
+import it.polimi.ingsw.server.controller.strategy.FinalStrategy;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.messages.clienttoserver.events.InitialOrFinalPhaseEvent;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
@@ -22,6 +24,7 @@ public class DiscardingLeader implements GameStrategy {
     {
 
         State currentState = gamemodel.getCurrentPlayer().getCurrentState();
+
         State nextPossibleState = currentState.equals(State.INITIAL_PHASE) ? State.MIDDLE_PHASE : State.IDLE;
         elementsToUpdate.add(Element.SimpleFaithTrack);
         elementsToUpdate.add(Element.SimplePlayerLeaders);
@@ -35,11 +38,27 @@ public class DiscardingLeader implements GameStrategy {
 
             if(gamemodel.checkTrackStatus()) {
 
-                if(gamemodel.getMacroGamePhase().equals(GameModel.MacroGamePhase.ActiveGame))
-                    gamemodel.setMacroGamePhase(GameModel.MacroGamePhase.LastTurn);
+                String endGameReason;
 
-                else if(gamemodel.getPlayerIndex(gamemodel.getCurrentPlayer()) == (gamemodel.getOnlinePlayers().size() - 1))
-                    gamemodel.setMacroGamePhase(GameModel.MacroGamePhase.GameEnded);
+                if(gamemodel.isSinglePlayer()){
+
+                   endGameReason = EndGameReason.LORENZO_REACHED_END.getEndGameReason();
+                    elementsToUpdate.add(Element.EndGameInfo);
+                   return FinalStrategy.handleSinglePlayerEndGameStrategy(elementsToUpdate, gamemodel, endGameReason);
+
+                }
+
+
+                if(gamemodel.getPlayersEndingTheGame().size()>1)
+                    endGameReason = EndGameReason.MULTIPLE_TRACK_END.getEndGameReason();
+
+                else
+                    endGameReason = EndGameReason.TRACK_END.getEndGameReason();
+
+
+                gamemodel.getThisMatch().setReasonOfGameEnd(endGameReason);
+
+                FinalStrategy.setMacroGamePhase(gamemodel, elementsToUpdate);
 
                 return new Pair<>(State.IDLE, elementsToUpdate);
 
@@ -54,6 +73,5 @@ public class DiscardingLeader implements GameStrategy {
 
         return null;
     }
-
 
 }

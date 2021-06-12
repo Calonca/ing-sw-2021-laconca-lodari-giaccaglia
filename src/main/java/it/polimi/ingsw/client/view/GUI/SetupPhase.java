@@ -255,5 +255,4 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
     }
 
 
-
 }

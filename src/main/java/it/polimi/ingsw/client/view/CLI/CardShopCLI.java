@@ -4,6 +4,9 @@ import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.PersonalBoardBody;
 import it.polimi.ingsw.client.view.CLI.layout.*;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.DrawableDevCard;
+import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Column;
+import it.polimi.ingsw.client.view.CLI.layout.GridElem;
+import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
 import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
 import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
@@ -67,7 +70,7 @@ public class CardShopCLI extends CardShopViewBuilder {
         Row top = new Row(Stream.of(new SizedBox(10,0),chosenCard,choices));
         board.setTop(top);
         SimpleCardCells simpleCardCells = getThisPlayerCache().getElem(SimpleCardCells.class).orElseThrow();
-        Row prodsRow = board.productionsBuilder(simpleCardCells,null);
+        Row prodsRow = board.productionsBuilder(simpleCardCells);
         board.setProductions(prodsRow);
         board.setResChoiceRow(choices);
         board.initializeBuyOrChoosePos();
@@ -88,7 +91,7 @@ public class CardShopCLI extends CardShopViewBuilder {
         board.setTop(chosenCard);
         board.initializeBuyOrChoosePos();
         SimpleCardCells simpleCardCells = getThisPlayerCache().getElem(SimpleCardCells.class).orElseThrow();
-        Row prodsRow = board.productionsBuilder(simpleCardCells, null);
+        Row prodsRow = board.productionsBuilder(simpleCardCells);
         board.setProductions(prodsRow);
         board.setMessage("Choose a position for the card");
         getCLIView().setBody(board);

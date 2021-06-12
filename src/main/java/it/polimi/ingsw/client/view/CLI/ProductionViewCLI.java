@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.PersonalBoardBody;
-import it.polimi.ingsw.client.view.CLI.layout.Row;
+import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.FaithTrackGridElem;
 import it.polimi.ingsw.client.view.abstractview.ProductionViewBuilder;
 import it.polimi.ingsw.network.simplemodel.SimpleCardCells;
@@ -19,7 +19,7 @@ public class ProductionViewCLI extends ProductionViewBuilder implements CLIBuild
         board.initializeBuyOrChoosePos();
         SimpleCardCells simpleCardCells = getThisPlayerCache().getElem(SimpleCardCells.class).orElseThrow();
         SimpleProductions simpleProductions = getThisPlayerCache().getElem(SimpleProductions.class).orElseThrow();
-        Row prodsRow = board.productionsBuilder(simpleCardCells, simpleProductions);
+        Row prodsRow = board.productionsBuilder(simpleCardCells);
         board.setProductions(prodsRow);
         board.setMessage("Select a production");
         getCLIView().setBody(board);

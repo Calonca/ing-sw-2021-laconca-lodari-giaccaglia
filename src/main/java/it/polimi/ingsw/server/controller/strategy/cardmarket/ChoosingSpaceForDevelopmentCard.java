@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.strategy.cardmarket;
 
+import it.polimi.ingsw.server.controller.EndGameReason;
 import it.polimi.ingsw.server.controller.strategy.FinalStrategy;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
@@ -41,9 +42,24 @@ public class ChoosingSpaceForDevelopmentCard implements GameStrategy {
         elementsToUpdate.add(Element.SimplePlayerLeaders);
         elementsToUpdate.add(Element.SimpleProductions);
 
-        if((
-                gamemodel.isSomeDevCardColourOutOfStock() && gamemodel.isSinglePlayer()) ||
-                (gamemodel.getCurrentPlayer().getPersonalBoard().playerHasSevenCards() && !gamemodel.isSinglePlayer())){
+        if(gamemodel.isSinglePlayer() && (gamemodel.isSomeDevCardColourOutOfStock() || currentBoard.playerHasSevenCards())) {
+            String endGameReason = null;
+            elementsToUpdate.add(Element.EndGameInfo);
+
+            if (gamemodel.isSomeDevCardColourOutOfStock())
+                endGameReason = EndGameReason.NO_MORE_DEVCARD_TYPE.getEndGameReason();
+
+            else if (currentBoard.playerHasSevenCards())
+                endGameReason = EndGameReason.SEVENTH_CARD_PURCHASED_SOLO.getEndGameReason();
+
+            FinalStrategy.handleSinglePlayerEndGameStrategy(elementsToUpdate, gamemodel, endGameReason);
+        }
+
+
+
+        else if (currentBoard.playerHasSevenCards() && !gamemodel.isSinglePlayer())
+
+        {
 
                 int currentPlayerIndex = gamemodel.getPlayerPosition(gamemodel.getCurrentPlayer());
 
@@ -54,11 +70,11 @@ public class ChoosingSpaceForDevelopmentCard implements GameStrategy {
 
                 gamemodel.setPlayersEndingTheGame(player);
 
-                if(gamemodel.getMacroGamePhase().equals(GameModel.MacroGamePhase.ActiveGame))
-                    gamemodel.setMacroGamePhase(GameModel.MacroGamePhase.LastTurn);
+                String reasonOfEnd = EndGameReason.SEVENTH_CARD_PURCHASED.getEndGameReason();
 
-                else if(gamemodel.getPlayerIndex(gamemodel.getCurrentPlayer()) == (gamemodel.getOnlinePlayers().size() - 1))
-                    gamemodel.setMacroGamePhase(GameModel.MacroGamePhase.GameEnded);
+                gamemodel.getThisMatch().setReasonOfGameEnd(reasonOfEnd);
+
+                FinalStrategy.setMacroGamePhase(gamemodel, elementsToUpdate);
 
         }
 

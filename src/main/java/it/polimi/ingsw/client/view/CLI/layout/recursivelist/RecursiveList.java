@@ -1,6 +1,8 @@
-package it.polimi.ingsw.client.view.CLI.layout;
+package it.polimi.ingsw.client.view.CLI.layout.recursivelist;
 
 import it.polimi.ingsw.client.view.CLI.CLI;
+import it.polimi.ingsw.client.view.CLI.layout.GridElem;
+import it.polimi.ingsw.client.view.CLI.layout.Option;
 
 import java.util.ArrayList;
 import java.util.List;
