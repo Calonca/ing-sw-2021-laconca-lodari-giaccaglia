@@ -1269,9 +1269,8 @@ public class Serializator extends JsonUtility {
         int cioa= 5;
           serializeResources();
         leaderCardsArraySerialization();
- */
 
-        leaderCardsArraySerialization();
+       leaderCardsArraySerialization();
         devCardsAssetsMapSerialization();
         networkLeaderCardsAssetsMapSerialization();
 
@@ -1280,6 +1279,9 @@ public class Serializator extends JsonUtility {
         serializeMultiPlayerStatesTransitionTable();
         cardShopSerialization();
         serializeTokensAssets();
+ */
+
+
 
 
     }
