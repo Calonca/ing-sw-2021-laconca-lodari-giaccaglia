@@ -14,9 +14,9 @@ import java.util.stream.Collectors;
 
 public class CardShopMessageBuilder {
 
-    public static Map<NetworkDevelopmentCardColor, Map<Integer, List<DevelopmentCardAsset>>> cardShopAdapter(GameModel gameModel) {
+    public static Map<NetworkDevelopmentCardColor, Map<Integer, Pair<Integer, List<DevelopmentCardAsset>>>> cardShopAdapter(GameModel gameModel) {
 
-        Map<DevelopmentCardColor, Map<Integer, List<DevelopmentCard>>> simpleCardShop = gameModel.getSimpleCardShop();
+        Map<DevelopmentCardColor, Map<Integer, Pair<Integer, List<DevelopmentCard>>>> simpleCardShop = gameModel.getSimpleCardShop();
 
         return simpleCardShop
                 .keySet()
@@ -34,9 +34,11 @@ public class CardShopMessageBuilder {
 
                                         intKey -> {
 
+                                            Pair<Integer, List<DevelopmentCard>> deckPair = simpleCardShop.get(colorKey).get(intKey);
+
                                             List<DevelopmentCardAsset> netCards = (simpleCardShop
                                                     .get(colorKey)
-                                                    .get(intKey)
+                                                    .get(intKey).getValue()
                                                     .stream()
                                                     .map(devCard -> Cards.getCardAsset(devCard.getCardId()))
                                                     .filter(Optional::isPresent)
@@ -50,7 +52,9 @@ public class CardShopMessageBuilder {
                                                 cardOnTop.getDevelopmentCard().setSelectable(isPurchasable);
                                             }
 
-                                            return netCards;
+                                            int deckSize = deckPair.getKey();
+
+                                            return new Pair<>(deckSize,netCards);
                                         }
                                 ))));
     }

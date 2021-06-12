@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public class SimpleCardShop extends SimpleModelElement{
 
-    private Map<NetworkDevelopmentCardColor, Map<Integer, List<DevelopmentCardAsset> >> simpleCardShop;
+    private Map<NetworkDevelopmentCardColor, Map<Integer, Pair<Integer, List<DevelopmentCardAsset> >>> simpleCardShop;
 
     private DevelopmentCardAsset purchasedCard = null;
 
@@ -21,8 +21,8 @@ public class SimpleCardShop extends SimpleModelElement{
     private boolean anyCardPurchasable;
 
     public SimpleCardShop(){}
-
-    public SimpleCardShop(Map<NetworkDevelopmentCardColor, Map<Integer, List<DevelopmentCardAsset>>> simpleCardShop, DevelopmentCardAsset purchasedCard, List<Pair<ResourceAsset,Integer>> costListWithDiscounts) {
+                                                                            //size      //first 2 cards
+    public SimpleCardShop(Map<NetworkDevelopmentCardColor, Map<Integer, Pair<Integer, List<DevelopmentCardAsset>>>> simpleCardShop, DevelopmentCardAsset purchasedCard, List<Pair<ResourceAsset,Integer>> costListWithDiscounts) {
         this.simpleCardShop = simpleCardShop;
         this.purchasedCard = purchasedCard;
         this.costListWithDiscounts = costListWithDiscounts;
@@ -30,6 +30,7 @@ public class SimpleCardShop extends SimpleModelElement{
     }
 
     private boolean isAnyCardPurchasable() {
+
         return simpleCardShop.keySet().stream()
                 .anyMatch(color ->
 
@@ -37,7 +38,7 @@ public class SimpleCardShop extends SimpleModelElement{
 
                                 .anyMatch(cards ->
 
-                                        cards.stream().anyMatch(asset -> asset.getDevelopmentCard().isSelectable())));
+                                        cards.getValue().stream().anyMatch(asset -> asset.getDevelopmentCard().isSelectable())));
     }
 
     @Override
@@ -52,15 +53,15 @@ public class SimpleCardShop extends SimpleModelElement{
 
 
     public Optional<DevelopmentCardAsset> getCardFront(NetworkDevelopmentCardColor color, int level){
-        return Optional.ofNullable(simpleCardShop.get(color).get(level).get(0));
+        return Optional.ofNullable(simpleCardShop.get(color).get(level).getValue().get(0));
     }
 
     public int getStackHeight(NetworkDevelopmentCardColor color, int level){
-        return simpleCardShop.get(color).get(level).size();
+        return simpleCardShop.get(color).get(level).getKey();
     }
 
     public Optional<DevelopmentCardAsset> getSecondCard(NetworkDevelopmentCardColor color, int level){
-        return Optional.ofNullable(simpleCardShop.get(color).get(level).get(1));
+        return Optional.ofNullable(simpleCardShop.get(color).get(level).getValue().get(1));
     }
 
     public Optional<DevelopmentCardAsset> getPurchasedCard(){

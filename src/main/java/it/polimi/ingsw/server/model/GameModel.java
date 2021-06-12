@@ -12,6 +12,7 @@ import it.polimi.ingsw.server.model.player.board.*;
 import it.polimi.ingsw.server.model.player.leaders.Leader;
 import it.polimi.ingsw.server.model.player.track.*;
 import it.polimi.ingsw.server.model.solo.*;
+import javafx.util.Pair;
 
 import javax.crypto.Mac;
 import java.io.IOException;
@@ -218,7 +219,7 @@ public class GameModel {
         return cardShop;
     }
 
-    public Map<DevelopmentCardColor, Map<Integer, List<DevelopmentCard>>> getSimpleCardShop(){
+    public Map<DevelopmentCardColor, Map<Integer, Pair<Integer,List<DevelopmentCard>>>> getSimpleCardShop(){
         return cardShop.getSimpleCardShop();
     }
 

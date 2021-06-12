@@ -10,7 +10,6 @@ public class DevelopmentCardAsset extends CardAsset{
 
     private NetworkDevelopmentCard networkDevelopmentCard;
 
-
     public DevelopmentCardAsset(){}
 
     public DevelopmentCardAsset(NetworkDevelopmentCard networkDevelopmentCard, String frontPurchasable, String backPurchasable, String frontNotPurchasable, String backNotPurchasable, UUID cardId){

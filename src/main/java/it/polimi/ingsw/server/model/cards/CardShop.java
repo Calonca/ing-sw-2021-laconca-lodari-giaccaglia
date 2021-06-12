@@ -8,6 +8,7 @@ import java.util.stream.IntStream;
 import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.server.utils.Deserializator;
 import it.polimi.ingsw.server.model.solo.SoloActionToken;
+import javafx.util.Pair;
 
 /**
  * Represents a matrix like data structure to store the purchasable {@link DevelopmentCard DevelopmentCards} during
@@ -163,7 +164,7 @@ public class CardShop {
                 .allMatch(DevelopmentCardDeck::isDeckEmpty);
     }
 
-    public Map<DevelopmentCardColor, Map<Integer, List<DevelopmentCard>>> getSimpleCardShop(){
+    public Map<DevelopmentCardColor, Map<Integer, Pair<Integer, List<DevelopmentCard>>>> getSimpleCardShop(){
 
         return devDecks.keySet()
                 .stream()
@@ -172,7 +173,11 @@ public class CardShop {
                     devDecks.get(colorKey)
                             .keySet()
                             .stream()
-                            .collect(Collectors.toMap(intKey -> intKey, intKey-> {
+                            .collect(Collectors.toMap(intKey -> intKey,
+
+                                    intKey-> {
+
+
 
                               int deckSize = devDecks.get(colorKey).get(intKey).getDeckSize();
 
@@ -180,7 +185,7 @@ public class CardShop {
                               int startOfRange = (deckSize>2) ? (deckSize-2) : 0;
 
 
-                              return IntStream.range(startOfRange, deckSize)
+                              List<DevelopmentCard> cards = IntStream.range(startOfRange, deckSize)
                                         .boxed()
                                         .sorted(Collections.reverseOrder())
                                         .map(
@@ -188,7 +193,10 @@ public class CardShop {
                                         .filter(Optional::isPresent).map(Optional::get)
                                         .collect(Collectors.toList());
 
+                              return new Pair<>(deckSize, cards);
+
                             }
+
                         ))));
 
     }
