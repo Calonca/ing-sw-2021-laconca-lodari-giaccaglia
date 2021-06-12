@@ -135,17 +135,9 @@ public class PersonalBoard {
 
                     Optional<Production> production = productions.get(productionIndex);
 
-                    Map<Integer, Integer> inputs = production.map(value -> IntStream.range(0, value.getInputs().length).boxed().collect(Collectors.toMap(
-                            resourceNumber -> resourceNumber,
+                    Map<Integer, Integer> inputs = production.isPresent() ? production.get().getInputsMap() : new HashMap<>();
 
-                            resourceNumber -> value.getInputs()[resourceNumber]
-                    ))).orElseGet(HashMap::new);
-
-                    Map<Integer, Integer> outputs = production.map(value -> IntStream.range(0, value.getOutputs().length).boxed().collect(Collectors.toMap(
-                            resourceNumber -> resourceNumber,
-
-                            resourceNumber -> value.getOutputs()[resourceNumber]
-                    ))).orElseGet(HashMap::new);
+                    Map<Integer, Integer> outputs = production.isPresent() ? production.get().getOutputsMap() : new HashMap<>();
 
                     boolean isAvailable = production.isPresent() && hasResources(production.get().getInputs());
 

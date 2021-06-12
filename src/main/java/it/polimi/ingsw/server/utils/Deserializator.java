@@ -6,16 +6,14 @@ import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.RuntimeTypeAdapterFactory;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import it.polimi.ingsw.network.assets.leaders.*;
-import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
-import it.polimi.ingsw.network.assets.tokens.ActionTokenAsset;
 import it.polimi.ingsw.network.jsonUtils.UUIDTypeAdapter;
+import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.cards.*;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.server.model.market.MarketBoard;
 import it.polimi.ingsw.server.model.player.leaders.*;
 import it.polimi.ingsw.server.model.player.track.FaithTrack;
 import it.polimi.ingsw.server.model.states.StatesTransitionTable;
-import javafx.util.Pair;
 
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
@@ -184,8 +182,13 @@ public class Deserializator extends JsonUtility {
 
                 String jsonString = Serializator.serialize(leader);
                 NetworkProductionLeaderCard productionLeaderCard = Deserializator.deserializeFromString(jsonString, NetworkProductionLeaderCard.class, gson);
-                productionLeaderCard.setProductionInputResources(((ProductionLeader) leader).getProductionInputs());
-                productionLeaderCard.setProductionOutputResources(((ProductionLeader) leader).getProductionOutputs());
+
+                Map<Integer,Integer> inputsMap = ((ProductionLeader) leader).getProductionInputsMap();
+                Map<Integer,Integer> outputsMap = ((ProductionLeader) leader).getProductionOutputsMap();
+
+
+                productionLeaderCard.setProductionInputResources(inputsMap);
+                productionLeaderCard.setProductionOutputResources(outputsMap);
 
 
                 return productionLeaderCard;
@@ -224,8 +227,7 @@ public class Deserializator extends JsonUtility {
     }
 
     public static List<NetworkDevelopmentCard> networkDevCardsListDeserialization(){
-        NetworkDevelopmentCard[] cardsArray = deserialize(readConfigPathString + "cardsfixed.json",
-                NetworkDevelopmentCard[].class, gson);
+        NetworkDevelopmentCard[] cardsArray = deserialize(readConfigPathString + "cardsfixed.json", NetworkDevelopmentCard[].class, gson);
         return (Arrays.asList(cardsArray));
     }
 

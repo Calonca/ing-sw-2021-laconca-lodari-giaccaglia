@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.messages.messagebuilders;
 
 import it.polimi.ingsw.network.simplemodel.SimpleProductions;
 import it.polimi.ingsw.server.model.GameModel;
+import it.polimi.ingsw.server.model.Resource;
 import javafx.util.Pair;
 
 import java.util.Map;
@@ -25,10 +26,7 @@ public class SimpleProductionsMessageBuilder {
                     Boolean isAvailable = booleanPair.getKey();
                     Boolean isSelected = booleanPair.getValue();
 
-                    Map<Integer, Integer> inputResources = inputsAndOutPutsResourcesInts.getKey();
-                    Map<Integer, Integer> outputsResources = inputsAndOutPutsResourcesInts.getValue();
-
-                    SimpleProductions.SimpleProduction simpleProduction = new SimpleProductions.SimpleProduction(inputResources, outputsResources, isAvailable, isSelected);
+                    SimpleProductions.SimpleProduction simpleProduction = new SimpleProductions.SimpleProduction(inputsAndOutPutsResourcesInts.getKey(), inputsAndOutPutsResourcesInts.getValue(), isAvailable, isSelected);
 
                    return simpleProduction;
                 }

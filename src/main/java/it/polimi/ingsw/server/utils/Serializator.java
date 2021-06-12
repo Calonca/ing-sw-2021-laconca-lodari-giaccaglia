@@ -56,7 +56,9 @@ public class Serializator extends JsonUtility {
     private static Map<UUID , DevelopmentCardAsset> devCardsAssetsBuilder() {
 
         Map<UUID, NetworkDevelopmentCard> cardsFromJsonHandlerMap = networkDevCardsMap();
+
         return cardsFromJsonHandlerMap.keySet().stream().map(id -> {
+
             NetworkDevelopmentCard card = cardsFromJsonHandlerMap.get(id);
             String cardPathSuffix = card.getCardType().toString() + "_" + card.getVictoryPoints() + ".png";
             String frontPurchasable = frontDevCardPathString + cardPathSuffix;
@@ -64,6 +66,7 @@ public class Serializator extends JsonUtility {
             String frontNotPurchasable = frontDevCardGrayedOutPathString + cardPathSuffix;
             String backNotPurchasable = backDevCardGrayedOutPathString + cardPathSuffix;
             return new DevelopmentCardAsset(card, frontPurchasable, backPurchasable, frontNotPurchasable, backNotPurchasable , id);
+
         }).collect(Collectors.toMap(DevelopmentCardAsset::getCardId, Function.identity()));
 
     }
@@ -1178,6 +1181,7 @@ public class Serializator extends JsonUtility {
     }
 
     public static void leaderCardsMapSerialization(){
+
         RuntimeTypeAdapterFactory<Leader> jsonToLeaderListAdapter = RuntimeTypeAdapterFactory.of(Leader.class, "type");
 
         //Register here all the Leader types
@@ -1263,8 +1267,20 @@ public class Serializator extends JsonUtility {
         it.polimi.ingsw.client.json.Deserializator.initializeActionTokenFromConfig();
         List<ActionTokenAsset> assets = Arrays.asList(ActionTokenAsset.values().clone());
         int cioa= 5;
+          serializeResources();
+        leaderCardsArraySerialization();
  */
-        serializeResources();
+
+        leaderCardsArraySerialization();
+        devCardsAssetsMapSerialization();
+        networkLeaderCardsAssetsMapSerialization();
+
+        serializeMarblesAssets();
+        serializeSinglePlayerStatesTransitionTable();
+        serializeMultiPlayerStatesTransitionTable();
+        cardShopSerialization();
+        serializeTokensAssets();
+
 
     }
 

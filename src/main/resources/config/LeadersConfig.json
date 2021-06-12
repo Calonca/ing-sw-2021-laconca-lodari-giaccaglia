@@ -40,7 +40,7 @@
       ]
     },
     "state": "INACTIVE",
-    "victoryPoints": 4,
+    "points": 4,
     "requirementsResources": [],
     "requirementsCards": [
       {
@@ -91,7 +91,7 @@
       ]
     },
     "state": "INACTIVE",
-    "victoryPoints": 4,
+    "points": 4,
     "requirementsResources": [],
     "requirementsCards": [
       {
@@ -142,7 +142,7 @@
       ]
     },
     "state": "INACTIVE",
-    "victoryPoints": 4,
+    "points": 4,
     "requirementsResources": [],
     "requirementsCards": [
       {
@@ -193,7 +193,7 @@
       ]
     },
     "state": "INACTIVE",
-    "victoryPoints": 4,
+    "points": 4,
     "requirementsResources": [],
     "requirementsCards": [
       {
@@ -207,7 +207,7 @@
     "type": "it.polimi.ingsw.server.model.player.leaders.MarketLeader",
     "bonus": "GOLD",
     "state": "INACTIVE",
-    "victoryPoints": 5,
+    "points": 5,
     "requirementsResources": [],
     "requirementsCards": [
       {
@@ -225,7 +225,7 @@
     "type": "it.polimi.ingsw.server.model.player.leaders.MarketLeader",
     "bonus": "STONE",
     "state": "INACTIVE",
-    "victoryPoints": 5,
+    "points": 5,
     "requirementsResources": [],
     "requirementsCards": [
       {
@@ -243,7 +243,7 @@
     "type": "it.polimi.ingsw.server.model.player.leaders.MarketLeader",
     "bonus": "SHIELD",
     "state": "INACTIVE",
-    "victoryPoints": 5,
+    "points": 5,
     "requirementsResources": [],
     "requirementsCards": [
       {
@@ -261,7 +261,7 @@
     "type": "it.polimi.ingsw.server.model.player.leaders.MarketLeader",
     "bonus": "SERVANT",
     "state": "INACTIVE",
-    "victoryPoints": 5,
+    "points": 5,
     "requirementsResources": [],
     "requirementsCards": [
       {
@@ -293,7 +293,7 @@
       "type": "GOLD"
     },
     "state": "INACTIVE",
-    "victoryPoints": 3,
+    "points": 3,
     "requirementsResources": [
       {
         "key": "SHIELD",
@@ -316,12 +316,12 @@
           "value": false
         }
       ],
-      "globalPositionOfFirstElement": 0,
+      "globalPositionOfFirstElement": 6,
       "numberOfOccupiedSpots": 0,
       "type": "SHIELD"
     },
     "state": "INACTIVE",
-    "victoryPoints": 3,
+    "points": 3,
     "requirementsResources": [
       {
         "key": "SERVANT",
@@ -349,7 +349,7 @@
       "type": "SERVANT"
     },
     "state": "INACTIVE",
-    "victoryPoints": 3,
+    "points": 3,
     "requirementsResources": [
       {
         "key": "STONE",
@@ -377,7 +377,7 @@
       "type": "STONE"
     },
     "state": "INACTIVE",
-    "victoryPoints": 3,
+    "points": 3,
     "requirementsResources": [
       {
         "key": "GOLD",
@@ -394,7 +394,7 @@
       "value": 1
     },
     "state": "INACTIVE",
-    "victoryPoints": 2,
+    "points": 2,
     "requirementsResources": [],
     "requirementsCards": [
       {
@@ -415,7 +415,7 @@
       "value": 1
     },
     "state": "INACTIVE",
-    "victoryPoints": 2,
+    "points": 2,
     "requirementsResources": [],
     "requirementsCards": [
       {
@@ -436,7 +436,7 @@
       "value": 1
     },
     "state": "INACTIVE",
-    "victoryPoints": 2,
+    "points": 2,
     "requirementsResources": [],
     "requirementsCards": [
       {
@@ -457,7 +457,7 @@
       "value": 1
     },
     "state": "INACTIVE",
-    "victoryPoints": 2,
+    "points": 2,
     "requirementsResources": [],
     "requirementsCards": [
       {

@@ -125,8 +125,8 @@ public class DrawableLeader {
     }
 
     public static void addAbility(Drawable top, NetworkProductionLeaderCard ldCard){
-        Drawable production = DrawableProduction.fromInputAndOutput(ldCard.getProductionInputResources(),ldCard.getProductionOutputResources());
-        top.add(Drawable.copyShifted(0,top.getHeight(),production));
+      Drawable production = DrawableProduction.fromInputAndOutput(ldCard.getProductionInputResources(),ldCard.getProductionOutputResources());
+      top.add(Drawable.copyShifted(0,top.getHeight(),production));
     }
 
     public static void addAbility(Drawable top, NetworkDepositLeaderCard ldCard){

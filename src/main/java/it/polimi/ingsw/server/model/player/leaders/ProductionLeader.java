@@ -8,6 +8,7 @@ import javafx.util.Pair;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -44,13 +45,15 @@ public class ProductionLeader extends Leader
         gamemodel.getCurrentPlayer().getPersonalBoard().addProduction(production);
     }
 
-    public List<Integer> getProductionInputs(){
-        return Arrays.stream(production.getInputs()).boxed().collect(Collectors.toList());
+
+    public Map<Integer,Integer> getProductionInputsMap(){
+        return production.getInputsMap();
     }
 
-    public List<Integer> getProductionOutputs(){
-        return Arrays.stream(production.getOutputs()).boxed().collect(Collectors.toList());
+    public Map<Integer,Integer> getProductionOutputsMap(){
+        return production.getOutputsMap();
     }
+
 
 
 }

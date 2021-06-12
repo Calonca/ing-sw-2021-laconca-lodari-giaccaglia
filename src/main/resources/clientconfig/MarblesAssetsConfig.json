@@ -1,9 +1,9 @@
 {
-  "INVALID": "/assets/marbles/dummy.png",
   "PURPLE": "/assets/marbles/Masters of Renaissance_Marbles_PURPLE.png",
-  "WHITE": "/assets/marbles/Masters of Renaissance_Marbles_WHITE.png",
+  "GRAY": "/assets/marbles/Masters_of_Renaissance_Marbles_GRAY.png",
+  "RED": "/assets/marbles/Masters of Renaissance_Marbles_RED.png",
   "BLUE": "/assets/marbles/Masters of Renaissance_Marbles_BLUE.png",
   "YELLOW": "/assets/marbles/Masters of Renaissance_Marbles_YELLOW.png",
-  "RED": "/assets/marbles/Masters of Renaissance_Marbles_RED.png",
-  "GRAY": "/assets/marbles/Masters_of_Renaissance_Marbles_GRAY.png"
+  "WHITE": "/assets/marbles/Masters of Renaissance_Marbles_WHITE.png",
+  "INVALID": "/assets/marbles/dummy.png"
 }

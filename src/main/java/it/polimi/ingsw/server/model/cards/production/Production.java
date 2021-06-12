@@ -4,6 +4,10 @@ import it.polimi.ingsw.server.model.Resource;
 
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Class to apply the production cards logic
@@ -119,6 +123,33 @@ public class Production {
     public int[] getInputs(){
         return input;
     }
+
+    public Map<Integer, Integer> getInputsMap(){
+
+        Map<Integer, Integer> inputsMap = IntStream.range(0, input.length).boxed().collect(Collectors.toMap(
+
+                resourceNumber -> resourceNumber,
+                resourceNumber -> input[resourceNumber]
+
+        ));
+
+        return inputsMap;
+
+    }
+
+    public Map<Integer, Integer> getOutputsMap()
+    {
+        Map<Integer, Integer> outputsMap = IntStream.range(0, output.length).boxed().collect(Collectors.toMap(
+
+                resourceNumber -> resourceNumber,
+                resourceNumber -> output[resourceNumber]
+
+        ));
+
+        return outputsMap;
+
+    }
+
 
     /**
      * This method returns TRUE if there are any other resources to be chosen from output

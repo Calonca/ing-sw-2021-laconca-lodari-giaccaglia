@@ -3,12 +3,11 @@ package it.polimi.ingsw.network.assets.devcards;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.server.model.Resource;
 import javafx.util.Pair;
-
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class NetworkDevelopmentCard {
 
@@ -17,8 +16,8 @@ public class NetworkDevelopmentCard {
      */
     private NetworkDevelopmentCardColor cardType;
     private List<Pair<ResourceAsset,Integer>> costList;
-    private List<Integer> inputResources;
-    private List<Integer> outputResources;
+    private Map<Integer, Integer> productionInputResources;
+    private Map<Integer, Integer> productionOutputResources;
     private int victoryPoints;
     private int level;
     private UUID cardId;
@@ -41,6 +40,7 @@ public class NetworkDevelopmentCard {
     public boolean isSelectable(){
         return selectable;
     }
+
     public NetworkDevelopmentCardColor getCardType() {
         return cardType;
     }
@@ -53,14 +53,18 @@ public class NetworkDevelopmentCard {
         return victoryPoints;
     }
 
-    public Map<ResourceAsset,Integer> getInputResources(){
-        return new HashMap<>();// inputResources.stream().map(ResourceAsset::fromInt).collect(Collectors.toList());
+
+    public Map<ResourceAsset, Integer> getProductionInputResources() {
+        return productionInputResources.entrySet().stream().collect(Collectors.toMap(
+                entry -> ResourceAsset.fromInt(entry.getKey()),
+                Map.Entry::getValue
+        ));
     }
 
-    public Map<ResourceAsset,Integer> getOutputResources(){
-        return new HashMap<>();//return outputResources.stream().map(ResourceAsset::fromInt).collect(Collectors.toList());
+    public Map<ResourceAsset, Integer> getProductionOutputResources() {
+        return productionOutputResources.entrySet().stream().collect(Collectors.toMap(
+                entry -> ResourceAsset.fromInt(entry.getKey()),
+                Map.Entry::getValue
+        ));
     }
-
-
-
 }

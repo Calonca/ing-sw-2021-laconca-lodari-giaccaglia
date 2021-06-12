@@ -95,8 +95,8 @@ public class GameInfoMessageBuilder {
             ProductionLeader leader = ((ProductionLeader) productionLeader);
 
                 return new ActiveLeaderBonusInfo.SimpleProductionBonus(
-                        leader.getProductionInputs().stream().map(ResourceAsset::fromInt).collect(Collectors.toList()),
-                leader.getProductionOutputs().stream().map(ResourceAsset::fromInt).collect(Collectors.toList()));
+                        leader.getProductionInputsMap().keySet().stream().map(ResourceAsset::fromInt).collect(Collectors.toList()),
+                        leader.getProductionOutputsMap().keySet().stream().map(ResourceAsset::fromInt).collect(Collectors.toList()));
 
                 }
 

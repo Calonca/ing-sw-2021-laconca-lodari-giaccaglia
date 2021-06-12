@@ -1,12 +1,4 @@
 {
-  "EMPTY": {
-    "key": "assets/tokens/TOKEN_BACK.png",
-    "value": "Invalid token request!"
-  },
-  "ADD2FAITH": {
-    "key": "assets/tokens/ADD2FAITH.png",
-    "value": "The Black Cross token is moved forward by 2 spaces!"
-  },
   "SHUFFLE_ADD1FAITH": {
     "key": "assets/tokens/SHUFFLE_ADD1FAITH.png",
     "value": "The Black Cross token is movedforward by 1 space andall the Solo Action tokens are shuffled!."
@@ -15,16 +7,24 @@
     "key": "assets/tokens/DISCARD2GREEN.png",
     "value": "You have to discard 2 Green Development Cards from the bottom of the grid, from the lowest level to the highest (if there are no more Level I cards, you must discard the Level II cards, and so on)."
   },
+  "ADD2FAITH": {
+    "key": "assets/tokens/ADD2FAITH.png",
+    "value": "The Black Cross token is moved forward by 2 spaces!"
+  },
   "DISCARD2BLUE": {
     "key": "assets/tokens/DISCARD2BLUE.png",
     "value": "You have to discard 2 Blue Development Cards from the bottom of the grid, from the lowest level to the highest (if there are no more Level I cards, you must discard the Level II cards, and so on)."
+  },
+  "DISCARD2PURPLE": {
+    "key": "assets/tokens/DISCARD2PURPLE.png",
+    "value": "You have to discard 2 Purple Development Cards from the bottom of the grid, from the lowest level to the highest (if there are no more Level I cards, you must discard the Level II cards, and so on)."
   },
   "DISCARD2YELLOW": {
     "key": "assets/tokens/DISCARD2YELLOW.png",
     "value": "You have to discard 2 Yellow Development Cards from the bottom of the grid, from the lowest level to the highest (if there are no more Level I cards, you must discard the Level II cards, and so on)."
   },
-  "DISCARD2PURPLE": {
-    "key": "assets/tokens/DISCARD2PURPLE.png",
-    "value": "You have to discard 2 Purple Development Cards from the bottom of the grid, from the lowest level to the highest (if there are no more Level I cards, you must discard the Level II cards, and so on)."
+  "EMPTY": {
+    "key": "assets/tokens/TOKEN_BACK.png",
+    "value": "Invalid token request!"
   }
 }

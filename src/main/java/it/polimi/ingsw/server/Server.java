@@ -12,7 +12,7 @@ public class Server
     /**
      * The socket port where the server listens to client connections.
      */
-    public static int SOCKET_PORT = 7870;
+    public static int SOCKET_PORT = 7871;
 
 
     public static void main(String[] args)
