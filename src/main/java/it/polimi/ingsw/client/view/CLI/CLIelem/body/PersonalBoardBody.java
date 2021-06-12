@@ -4,10 +4,10 @@ import it.polimi.ingsw.client.simplemodel.PlayerCache;
 import it.polimi.ingsw.client.simplemodel.SimpleModel;
 import it.polimi.ingsw.client.view.CLI.CLIelem.CLIelem;
 import it.polimi.ingsw.client.view.CLI.layout.*;
-import it.polimi.ingsw.client.view.CLI.layout.drawables.Drawable;
-import it.polimi.ingsw.client.view.CLI.layout.drawables.DrawableDevCard;
-import it.polimi.ingsw.client.view.CLI.layout.drawables.FaithTrackGridElem;
-import it.polimi.ingsw.client.view.CLI.layout.drawables.ResourceCLI;
+import it.polimi.ingsw.client.view.CLI.layout.drawables.*;
+import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Column;
+import it.polimi.ingsw.client.view.CLI.layout.GridElem;
+import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
 import it.polimi.ingsw.client.view.CLI.textUtil.Background;
 import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ProductionViewBuilder;
@@ -17,6 +17,7 @@ import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.simplemodel.*;
 import javafx.util.Pair;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -207,24 +208,46 @@ public class PersonalBoardBody extends CLIelem {
 
     }
 
-    public Row productionsBuilder(SimpleCardCells simpleCardCells, SimpleProductions simpleProductions){
+    public Row productionsBuilder(SimpleCardCells simpleCardCells){
+        SimpleProductions simpleProductions = simpleCardCells.getSimpleProductions();
         Map<Integer,Optional<NetworkDevelopmentCard>> frontCards=simpleCardCells.getDevCardsCells().entrySet().stream()
                 .collect(Collectors.toMap(Map.Entry::getKey, e->e.getValue().map(DevelopmentCardAsset::getDevelopmentCard)));
-        return new Row(frontCards.entrySet().stream().map(e-> {
-            Option cell = prodOption( ()->{
-            if (mode.equals(Mode.CHOOSE_POS_FOR_CARD))
-                CardShopViewBuilder.sendCardPlacementPosition(e.getKey());
-            else if (mode.equals(Mode.CHOOSE_PRODUCTION))
-                    ProductionViewBuilder.sendChosenProduction(e.getKey());
-                    },
+        Option basicProdOption = simpleCardCells.getSimpleProductions().getProductionAtPos(0).map(p->{
+            Drawable basicProdDrawable = DrawableProduction
+                    .fromInputAndOutput(new ArrayList<>(p.getInputResources().values()),new ArrayList<>(p.getOutputResources().values()));
+            Option o = Option.from(basicProdDrawable,getProdRunnable(0));
+            setProdAvailable(simpleCardCells, simpleProductions, 0, o);
+            return o;
+        }).orElse(null);
+
+
+        Stream<Option> normalProdsList = frontCards.entrySet().stream().map(e-> {
+            int prodPos = e.getKey();
+            Option cell = prodOption( getProdRunnable(prodPos),
                     e.getValue().orElse(null));
-            if (mode.equals(Mode.CHOOSE_POS_FOR_CARD))
-                cell.setEnabled(simpleCardCells.isSpotAvailable(e.getKey()));
-            else if (mode.equals(Mode.CHOOSE_PRODUCTION))
-                cell.setEnabled(simpleProductions.isProductionAtPositionAvailable(e.getKey()).orElse(false));
-            else cell.setMode(Option.VisMode.NO_NUMBER);
+            setProdAvailable(simpleCardCells, simpleProductions, prodPos, cell);
             return cell;
-        }));
+        });
+        return new Row(Stream.concat(Stream.ofNullable(basicProdOption),normalProdsList));
+    }
+
+    @NotNull
+    private Runnable getProdRunnable(int prodPos) {
+        return () -> {
+            if (mode.equals(Mode.CHOOSE_POS_FOR_CARD)) {
+                CardShopViewBuilder.sendCardPlacementPosition(prodPos);
+            } else if (mode.equals(Mode.CHOOSE_PRODUCTION)) {
+                ProductionViewBuilder.sendChosenProduction(prodPos);
+            }
+        };
+    }
+
+    private void setProdAvailable(SimpleCardCells simpleCardCells, SimpleProductions simpleProductions, int prodPos, Option cell) {
+        if (mode.equals(Mode.CHOOSE_POS_FOR_CARD))
+            cell.setEnabled(simpleCardCells.isSpotAvailable(prodPos));
+        else if (mode.equals(Mode.CHOOSE_PRODUCTION))
+            cell.setEnabled(simpleProductions.isProductionAtPositionAvailable(prodPos).orElse(false));
+        else cell.setMode(Option.VisMode.NO_NUMBER);
     }
 
     public static Row strongBoxBuilder(SimpleStrongBox simpleStrongBox, PersonalBoardBody board){
