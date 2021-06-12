@@ -255,5 +255,8 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
     }
 
 
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
 
+    }
 }

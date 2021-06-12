@@ -8,7 +8,9 @@ import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import it.polimi.ingsw.network.assets.leaders.*;
 import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
+import it.polimi.ingsw.network.assets.tokens.ActionTokenAsset;
 import it.polimi.ingsw.network.jsonUtils.UUIDTypeAdapter;
+import it.polimi.ingsw.network.simplemodel.SimpleSoloActionToken;
 import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.server.model.Resource;
@@ -18,6 +20,8 @@ import it.polimi.ingsw.server.model.player.board.LeaderDepot;
 import it.polimi.ingsw.server.model.player.leaders.*;
 import it.polimi.ingsw.server.model.states.StatesTransitionTable;
 import javafx.util.Pair;
+
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.nio.file.Path;
@@ -1195,11 +1199,21 @@ public class Serializator extends JsonUtility {
         serialize("src/main/resources/config/LeadersCardMapConfig.json", Deserializator.leadersCardMapBuilder(), type, customGson);
     }
 
-    public static void serializeMarbles(){
+    public static void serializeMarblesAssets(){
         Map<MarbleAsset, Path> marbles = Arrays.stream(MarbleAsset.values()).collect(Collectors.toMap(marble -> marble, MarbleAsset::getPath));
         Gson customGson = gsonBuilder.enableComplexMapKeySerialization().registerTypeHierarchyAdapter(Path.class, new PathConverter()).setPrettyPrinting().create();
         String path = "src/main/resources/clientconfig/MarblesAssetsConfig.json";
         serialize(path ,marbles, Map.class, customGson);
+    }
+
+    public static void serializeTokensAssets(){
+
+        Map<ActionTokenAsset, Pair<Path, String>> tokens = Arrays.stream(ActionTokenAsset.values()).collect(Collectors.toMap(token -> token,
+                token -> new Pair<>(token.getFrontPath(), token.getEffectDescription())));
+        Gson customGson = gsonBuilder.enableComplexMapKeySerialization().registerTypeHierarchyAdapter(Path.class, new PathConverter()).setPrettyPrinting().create();
+        String path = "src/main/resources/clientconfig/TokenAssetsConfig.json";
+        serialize(path ,tokens, Map.class, customGson);
+
     }
 
     public static void serializeResources(){
@@ -1242,12 +1256,15 @@ public class Serializator extends JsonUtility {
         networkLeaderCardsAssetsMapSerialization();
         serializeResources();
         serializeMarbles();
-
- */
-
-        serializeSinglePlayerStatesTransitionTable();
+         serializeSinglePlayerStatesTransitionTable();
         serializeMultiPlayerStatesTransitionTable();
         cardShopSerialization();
+ */
+
+        serializeTokensAssets();
+        it.polimi.ingsw.client.json.Deserializator.initializeActionTokenFromConfig();
+        List<ActionTokenAsset> assets = Arrays.asList(ActionTokenAsset.values().clone());
+        int cioa= 5;
 
     }
 

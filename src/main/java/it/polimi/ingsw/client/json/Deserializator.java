@@ -7,11 +7,13 @@ import it.polimi.ingsw.network.assets.CardAsset;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import it.polimi.ingsw.network.assets.leaders.*;
 import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
+import it.polimi.ingsw.network.assets.tokens.ActionTokenAsset;
 import it.polimi.ingsw.network.jsonUtils.UUIDTypeAdapter;
 import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.server.model.player.leaders.Leader;
+import javafx.util.Pair;
 
 import java.lang.reflect.Type;
 import java.nio.file.Path;
@@ -61,6 +63,23 @@ public class Deserializator extends JsonUtility {
         Type type = new TypeToken<Map<UUID, LeaderCardAsset> >(){}.getType();
         return deserialize(clientConfigPathString + "NetLeaderCardsAssetsMap.json", type ,customGson);
 
+    }
+
+    public static void initializeMarblesFromConfig(){
+        Gson gson = new GsonBuilder().enableComplexMapKeySerialization().registerTypeHierarchyAdapter(Path.class, new JsonUtility.PathConverter()).create();
+        Type type = new TypeToken <Map<MarbleAsset, Path>>(){}.getType();
+        Map<MarbleAsset, Path> marblesMap = it.polimi.ingsw.server.utils.Deserializator.deserialize(clientConfigPathString + "MarblesAssetsConfig.json", type, gson);
+        marblesMap.forEach(MarbleAsset::setPath);
+    }
+
+    public static void initializeActionTokenFromConfig(){
+        Gson gson = new GsonBuilder().enableComplexMapKeySerialization().registerTypeHierarchyAdapter(Path.class, new JsonUtility.PathConverter()).create();
+        Type type = new TypeToken<Map<ActionTokenAsset, Pair<Path, String>>>(){}.getType();
+        Map<ActionTokenAsset, Pair<Path, String>> tokensMap = it.polimi.ingsw.client.json.Deserializator.deserialize(clientConfigPathString + "TokenAssetsConfig.json", type, gson);
+        tokensMap.forEach((asset, value) -> {
+            asset.setFrontPath(value.getKey());
+            asset.setEffectDescription(value.getValue());
+        });
     }
 
 }

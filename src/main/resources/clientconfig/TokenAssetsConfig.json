@@ -1,0 +1,30 @@
+{
+  "DISCARD2GREEN": {
+    "key": "assets/tokens/DISCARD2GREEN.png",
+    "value": ""
+  },
+  "SHUFFLE_ADD1FAITH": {
+    "key": "assets/tokens/SHUFFLE_ADD1FAITH.png",
+    "value": ""
+  },
+  "INVALID": {
+    "key": "assets/tokens/TOKEN_BACK.png",
+    "value": "Invalid token request!"
+  },
+  "ADD2FAITH": {
+    "key": "assets/tokens/ADD2FAITH.png",
+    "value": ""
+  },
+  "DISCARD2BLUE": {
+    "key": "assets/tokens/DISCARD2BLUE.png",
+    "value": ""
+  },
+  "DISCARD2PURPLE": {
+    "key": "assets/tokens/DISCARD2PURPLE.png",
+    "value": ""
+  },
+  "DISCARD2YELLOW": {
+    "key": "assets/tokens/DISCARD2YELLOW.png",
+    "value": ""
+  }
+}
