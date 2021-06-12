@@ -4,6 +4,8 @@ import it.polimi.ingsw.client.view.CLI.CLI;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.Canvas;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.Drawable;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.ResourceCLI;
+import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Column;
+import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import org.jetbrains.annotations.NotNull;
 
