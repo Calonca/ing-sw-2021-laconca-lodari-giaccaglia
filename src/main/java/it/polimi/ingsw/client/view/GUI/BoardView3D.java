@@ -1,5 +1,10 @@
 package it.polimi.ingsw.client.view.GUI;
 
+import it.polimi.ingsw.client.view.GUI.board.CamState;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
@@ -14,6 +19,7 @@ import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.*;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
+import javafx.util.Duration;
 import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,13 +31,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupPhaseViewBuilder implements GUIView{
 
-    Camera camera;
     public AnchorPane boardPane;
     double buttonStartingX=100;
     double width=1800;
     double len=1000;
-    Box toPut;
-
+    private static CamState camState = CamState.TOP;
 
     @Override
     public void run() {
@@ -67,22 +71,22 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        PerspectiveCamera testCamera = new PerspectiveCamera();
+        PerspectiveCamera camera = new PerspectiveCamera();
 
         Group parent = new Group();
 
         final int boardWidth=2402;
         final int boardHeight=1717;
-        Rectangle board = new Rectangle(boardHeight, boardHeight);
+        Rectangle board = new Rectangle(boardWidth, boardHeight);
         Image boardPic = new Image("assets/board/biggerboard.png");
         board.setFill(new ImagePattern(boardPic));
-        board.setTranslateX(-500);
-        board.setTranslateY(-500);
-        board.setTranslateZ(3000);
+        board.setTranslateX(-300);
+        board.setTranslateY(-320);
+        board.setTranslateZ(1500);
         parent.getChildren().add(board);
 
         Color color = Color.GRAY;
-        MeshView stone = objConverter("default");
+        MeshView stone = objConverter("stone");
         setMaterial(stone, color,false);
         Point3D boardTopLeft = board.localToParent(new Point3D(0,0,0));
 
@@ -131,9 +135,15 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
 
 
         SubScene scene = new SubScene(parent, width, len);
-        testCamera.setTranslateZ(-1000);
-        scene.setCamera(testCamera);
+        scene.setCamera(camera);
 
+
+
+
+        getClient().getStage().getScene().setOnKeyPressed(e-> {
+            KeyCode pressed = e.getCode();
+            camState.animateWithKeyCode(camera,pressed);
+        });
 
 
         Button viewCardShop=new Button();
@@ -149,16 +159,18 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
                 viewCardShop.setDisable(true);
                 return;
             }
-            else
+            else {
                 viewCardShop.setDisable(false);
+            }
             CardShopGUI cs=new CardShopGUI();
             cs.run();
         });
 
         viewCardShop.setOnMouseExited( p ->
         {
-            if(ViewPersonalBoard.getController().isMarket()|| ViewPersonalBoard.getController().isCardShopOpen())
+            if(ViewPersonalBoard.getController().isMarket()|| ViewPersonalBoard.getController().isCardShopOpen()) {
                 return;
+            }
             GUI.removeLast();
 
         });
@@ -176,34 +188,21 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
                 viewMarket.setDisable(true);
                 return;
             }
-            else
+            else {
                 viewMarket.setDisable(false);
+            }
             ResourceMarketGUI cs=new ResourceMarketGUI();
             cs.run();
         });
 
         viewMarket.setOnMouseExited( p ->
         {
-            if(ViewPersonalBoard.getController().isMarket()|| ViewPersonalBoard.getController().isCardShopOpen())
+            if(ViewPersonalBoard.getController().isMarket()|| ViewPersonalBoard.getController().isCardShopOpen()) {
                 return;
+            }
             GUI.removeLast();
         });
 
-        scene.setOnKeyPressed(e-> {
-            if (e.getCode() == KeyCode.W || e.getCode() == KeyCode.DOWN){
-                Translate t = new Translate();
-                t.setZ(-100);
-                camera.getTransforms().add(t);
-            }
-        });
-
-        scene.setOnKeyPressed(e-> {
-            if (e.getCode() == KeyCode.S || e.getCode() == KeyCode.UP){
-                Translate t = new Translate();
-                t.setZ(100);
-                camera.getTransforms().add(t);
-            }
-        });
 
         viewMarket.setId("showButton");
         viewCardShop.setId("showButton");
@@ -213,6 +212,10 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
     }
 
 
+    public static void setCamState(CamState camState) {
+        BoardView3D.camState = camState;
+    }
+
     /**
      * Converts an obj file to a MeshView
      */
@@ -220,7 +223,7 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
 
         double[] stoneVertsGenerated = new double[0];
         try {
-            stoneVertsGenerated=getGeneratedModel("table").get(0);
+            stoneVertsGenerated=getGeneratedModel(fileName).get(0);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -232,7 +235,7 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
         int[] facesStartingFrom1Generated = new int[0];
         try {
 
-            double[] listToInt=getGeneratedModel("table").get(1);
+            double[] listToInt=getGeneratedModel(fileName).get(1);
             //todo is it possible to avoid cast?
             facesStartingFrom1Generated=new int[listToInt.length];
             for(int i=0;i< listToInt.length;i++)
@@ -330,7 +333,7 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
                 {
                     smoothings.add(Integer.valueOf(toAdd));
                     smoothings.add(0);
-                    System.out.println(toAdd);
+                    //System.out.println(toAdd);
 
                 }
             }
@@ -365,3 +368,5 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
     }
 
 }
+
+
