@@ -18,10 +18,9 @@ public class ProductionViewCLI extends ProductionViewBuilder implements CLIBuild
         board.initializeFaithTrack(getSimpleModel());
         board.initializeBuyOrChoosePos();
         SimpleCardCells simpleCardCells = getThisPlayerCache().getElem(SimpleCardCells.class).orElseThrow();
-        SimpleProductions simpleProductions = getThisPlayerCache().getElem(SimpleProductions.class).orElseThrow();
         Row prodsRow = board.productionsBuilder(simpleCardCells);
         board.setProductions(prodsRow);
-        board.setMessage("Select a production");
+        board.setMessage("Select a production or press ENTER to produce");
         getCLIView().setBody(board);
         getCLIView().show();
     }

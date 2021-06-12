@@ -117,7 +117,7 @@ public class PersonalBoardBody extends CLIelem {
                 depots.addElem(board.strongBox);
 
                 depotsAndProds.addElem(board.productions);
-                board.productions.selectInEnabledOption(cli,board.message);
+                board.productions.selectInEnabledOption(cli,board.message, ProductionViewBuilder::sendProduce);
                 return  CanvasBody.fromGrid(board.root).toString();
             }
         };
@@ -141,7 +141,6 @@ public class PersonalBoardBody extends CLIelem {
 
     Integer lastSelectedPosition;
     Map<Integer, List<Integer>> movPos;
-    List<Integer> selectedResPos=new ArrayList<>();
     ResChoiceRow resChoiceRow;
 
     public PersonalBoardBody(PlayerCache cache, Mode mode) {
@@ -221,6 +220,7 @@ public class PersonalBoardBody extends CLIelem {
             ));
             basicProdDrawable.add(0,"╚════════════════════════╝");
             Option o = Option.from(basicProdDrawable,getProdRunnable(0));
+            o.setMode(Option.VisMode.NUMBER_TO_BOTTOM);
             setProdAvailable(simpleCardCells, simpleProductions, 0, o);
             return o;
         }).orElse(null);
@@ -264,7 +264,11 @@ public class PersonalBoardBody extends CLIelem {
                             numAndSel(e).getKey() > numAndSel(e).getValue() &&
                             board.resChoiceRow.getPointedResource().isPresent() &&
                             board.resChoiceRow.getPointedResource().get().equals(e.getValue().getKey());
-                    Option strongOption = board.optionFromAsset(e.getValue().getKey(), numAndSel(e).getKey(), numAndSel(e).getValue(),selectable,e.getKey() );
+                    Option strongOption = board.optionFromAsset(e.getValue().getKey(), numAndSel(e).getKey(),
+                            numAndSel(e).getValue()+(board.resChoiceRow!=null?
+                                    (int)board.resChoiceRow.getChosenInputPos().stream().filter(p->p.equals(e.getKey())).count():
+                                    0)
+                            ,selectable,e.getKey() );
                     if (board.mode.equals(Mode.MOVING_RES))
                         strongOption.setEnabled(false);
                     return strongOption;
@@ -299,13 +303,12 @@ public class PersonalBoardBody extends CLIelem {
             };
         }else if (mode.equals(Mode.SELECT_CARD_SHOP)){
             r= ()->{
-                selectedResPos.add(globalPos);
-                resChoiceRow.moveToNextIndex();
+                resChoiceRow.setNextInputPos(globalPos,asset);
                 initializeBuyOrChoosePos();
                 cli.show();
                 message = "All resources selected, buying card...";
                 if (resChoiceRow.getPointedResource().isEmpty()){
-                    CardShopViewBuilder.sendResourcesToBuy(selectedResPos);
+                    CardShopViewBuilder.sendResourcesToBuy(resChoiceRow.getChosenInputPos());
                 }
             };
         }
@@ -314,7 +317,7 @@ public class PersonalBoardBody extends CLIelem {
         if (mode.equals(Mode.MOVING_RES)) {
             o.setSelected(lastSelectedPosition != null && lastSelectedPosition == globalPos);
         }else if (mode.equals(Mode.SELECT_CARD_SHOP)) {
-            o.setSelected(selectedResPos.contains(globalPos));
+            o.setSelected(resChoiceRow.getChosenInputPos().contains(globalPos));
         }
         return o;
     }
