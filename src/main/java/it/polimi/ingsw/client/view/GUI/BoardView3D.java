@@ -203,7 +203,7 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
 
         double[] stoneVertsGenerated = new double[0];
         try {
-            stoneVertsGenerated=getGeneratedModel("faith").get(0);
+            stoneVertsGenerated=getGeneratedModel("table").get(0);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -215,7 +215,7 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
         int[] facesStartingFrom1Generated = new int[0];
         try {
 
-            double[] listToInt=getGeneratedModel("faith").get(1);
+            double[] listToInt=getGeneratedModel("table").get(1);
             //todo is it possible to avoid cast?
             facesStartingFrom1Generated=new int[listToInt.length];
             for(int i=0;i< listToInt.length;i++)
@@ -308,15 +308,18 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
                     break;
                 if (line.length()>3)
                 line=line.substring(2);
-
-                numbers= line.split("/\\d\\d?\\d?\\d?\\d?\\s?+");
-                for(String toAdd : numbers)
+                if(line.charAt(0)!='s')
                 {
-                    smoothings.add(Integer.valueOf(toAdd));
-                    smoothings.add(0);
-                    System.out.println(toAdd);
+                    numbers= line.split("/\\d\\d?\\d?\\d?\\d?\\s?+");
+                    for(String toAdd : numbers)
+                    {
+                        smoothings.add(Integer.valueOf(toAdd));
+                        smoothings.add(0);
+                        System.out.println(toAdd);
 
+                    }
                 }
+
 
             }
 
