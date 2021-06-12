@@ -235,7 +235,7 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
 
         double[] stoneVertsGenerated = new double[0];
         try {
-            stoneVertsGenerated=getStoneVertsGenerated();
+            stoneVertsGenerated=getStoneVertsGenerated("stone");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -244,11 +244,7 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
         Float[] stoneVertsF = Arrays.stream(stoneVertsGenerated).mapToObj(v->(float)v).toArray(Float[]::new);
         float[] fA = ArrayUtils.toPrimitive(stoneVertsF);
 
-        try {
-            getStoneVertsGenerated();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
 
         Integer[] facesFromZeroBoxed = Arrays.stream(facesStartingFrom1).boxed()
                 .map(i->i==0?0:i-1)
@@ -275,11 +271,13 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
         shield.setMaterial(shieldMaterial);
     }
 
-    public static double[] getStoneVertsGenerated() throws IOException {
+    public static double[] getStoneVertsGenerated(String res) throws IOException {
+        Scanner inputStream = null;
+        List<Double> toReturn=new ArrayList<>();
+        List<Integer> toReturnInt=new ArrayList<>();
 
-            List<Double> toReturn=new ArrayList<>();
 
-            String path="/assets/3dAssets/stone.OBJ";
+            String path="/assets/3dAssets/" + res + ".OBJ";
             InputStreamReader reader = new InputStreamReader(tem.class.getResourceAsStream(path));
 
             Scanner br=new Scanner(reader);
@@ -289,6 +287,7 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
             String line;
             String[] numbers;
 
+            int i=0;
             while (true)
             {
                 line=br.nextLine();
@@ -301,6 +300,9 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
 
             }
             // Covert the lists to double arrays
+
+
+
 
             // print out just for verification
             double[] arr = new double[toReturn.size()];
