@@ -1,22 +1,28 @@
 package it.polimi.ingsw.network.simplemodel;
 
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
+import it.polimi.ingsw.server.model.Resource;
 import javafx.util.Pair;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class SimpleProductions extends SimpleModelElement{
 
 
 //          position          production
-    private Map<Integer, SimpleProduction>availableProductions;
+    private Map<Integer, SimpleProduction> availableProductions;
+
+    private int lastSelectedProductionPosition;
 
     public SimpleProductions(){}
 
-    public SimpleProductions(Map<Integer, SimpleProduction> availableProductions){
+    public SimpleProductions(Map<Integer, SimpleProduction> availableProductions, int lastSelectedProductionPosition){
         this.availableProductions = availableProductions;
+        this.lastSelectedProductionPosition = lastSelectedProductionPosition;
     }
 
     @Override
@@ -24,6 +30,7 @@ public class SimpleProductions extends SimpleModelElement{
 
        SimpleProductions serverElement = (SimpleProductions) element;
        this.availableProductions = serverElement.availableProductions;
+       this.lastSelectedProductionPosition = serverElement.lastSelectedProductionPosition;
 
     }
 
@@ -56,6 +63,10 @@ public class SimpleProductions extends SimpleModelElement{
         else return Optional.of(productionAtPos);
     }
 
+    public int getLastSelectedProductionPosition(){
+        return lastSelectedProductionPosition;
+    }
+
     public static class SimpleProduction{
 
         private final Map<Integer, Integer> inputResources;
@@ -71,9 +82,15 @@ public class SimpleProductions extends SimpleModelElement{
             this.isSelected = isSelected;
 
         }
-        //         resNum   quantity
-        public Map<Integer, Integer> getInputResources() {
-            return inputResources;
+
+        //         resAsset   quantity
+        public Map<ResourceAsset, Integer> getInputResources() {
+
+            return inputResources.entrySet().stream().collect(Collectors.toMap(
+                    entry -> ResourceAsset.fromInt(entry.getKey()),
+                    Map.Entry::getValue
+            ));
+
         }
 
         public int getResourceInputQuantity(int resourceNumber){
@@ -84,8 +101,12 @@ public class SimpleProductions extends SimpleModelElement{
             return inputResources.get(resourceNumber);
         }
 
-        public Map<Integer, Integer> getOutputResources() {
-            return outputResources;
+        public Map<ResourceAsset, Integer> getOutputResources() {
+
+            return outputResources.entrySet().stream().collect(Collectors.toMap(
+                    entry -> ResourceAsset.fromInt(entry.getKey()),
+                    Map.Entry::getValue
+            ));
         }
 
         public int getResourceOutputQuantity(int resourceNumber){

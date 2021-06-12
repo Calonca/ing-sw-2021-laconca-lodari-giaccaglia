@@ -65,7 +65,7 @@ public class ChoosingSpaceForDevelopmentCard implements GameStrategy {
 
                 Map<Integer, Player> player = gamemodel.getMatchPlayers().keySet().stream().filter(playerIndex -> playerIndex.equals(currentPlayerIndex)).collect(Collectors.toMap(
                         playerIndex -> playerIndex,
-                        playerIndex -> gamemodel.getMatchPlayers().get(playerIndex)
+                        playerIndex -> gamemodel.getPlayer(playerIndex).get()
                 ));
 
                 gamemodel.setPlayersEndingTheGame(player);

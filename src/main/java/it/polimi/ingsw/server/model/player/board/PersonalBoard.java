@@ -101,6 +101,7 @@ public class PersonalBoard {
         prodsSelected.add(Optional.empty());
         discounts=new int[4];
         historyOfInputResourcesForProduction = new HashMap<>();
+        lastSelectedProductionPosition = -1;
     }
 
     /**

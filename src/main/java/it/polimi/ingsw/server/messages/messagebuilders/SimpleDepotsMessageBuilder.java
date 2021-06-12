@@ -18,7 +18,7 @@ public class SimpleDepotsMessageBuilder {
 
     public static Map<Integer, List<Pair<ResourceAsset, Boolean>>> getSimpleWarehouseLeadersDepots(GameModel gameModel, int playerRequestingUpdate){
 
-        Map<Integer, List<Pair<Resource, Boolean>>> warehouse = gameModel.getMatchPlayers().get(playerRequestingUpdate).getPersonalBoard().getSimpleWarehouseLeadersDepots();
+        Map<Integer, List<Pair<Resource, Boolean>>> warehouse = gameModel.getPlayer(playerRequestingUpdate).get().getPersonalBoard().getSimpleWarehouseLeadersDepots();
 
        return warehouse.keySet().stream()
                .collect(Collectors.toMap(
@@ -60,8 +60,8 @@ public class SimpleDepotsMessageBuilder {
 
     public static Map<Integer, List<Integer>> getAvailableMovingPositionsForResourceInWarehouseAtPos(GameModel gameModel, int playerRequestingUpdate){
 
-        int warehouseDepotSpaces = gameModel.getMatchPlayers().get(playerRequestingUpdate).getPersonalBoard().getWarehouseLeadersDepots().getNumOfCellsInAllDepots();
-        PersonalBoard playerPersonalBoard = gameModel.getMatchPlayers().get(playerRequestingUpdate).getPersonalBoard();
+        int warehouseDepotSpaces = gameModel.getPlayer(playerRequestingUpdate).get().getPersonalBoard().getWarehouseLeadersDepots().getNumOfCellsInAllDepots();
+        PersonalBoard playerPersonalBoard = gameModel.getPlayer(playerRequestingUpdate).get().getPersonalBoard();
 
         List<Integer> positions= IntStream.range(0, warehouseDepotSpaces).boxed().collect(Collectors.toList());
 
@@ -118,7 +118,7 @@ public class SimpleDepotsMessageBuilder {
         //    leaderDepotSpot   resourceType
     public static Map<Integer, ResourceAsset> getResourcesTypesOfLeaderDepots(GameModel gameModel, int playerRequestingUpdate){
 
-        WarehouseLeadersDepots currentDepots = gameModel.getMatchPlayers().get(playerRequestingUpdate).getPersonalBoard().getWarehouseLeadersDepots();
+        WarehouseLeadersDepots currentDepots = gameModel.getPlayer(playerRequestingUpdate).get().getPersonalBoard().getWarehouseLeadersDepots();
 
         int numberOfDepots = currentDepots.getNumOfCellsInAllDepots();
         if(numberOfDepots>6) {
