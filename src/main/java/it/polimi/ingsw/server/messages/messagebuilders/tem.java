@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.messages.messagebuilders;
 
 import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.client.simplemodel.SimpleModel;
+import it.polimi.ingsw.client.view.GUI.BoardView3D;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
 import it.polimi.ingsw.network.simplemodel.*;
@@ -9,83 +10,63 @@ import it.polimi.ingsw.server.controller.Match;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.states.State;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import static it.polimi.ingsw.network.messages.servertoclient.ServerToClientMessage.elementAdapter;
 
 public class tem {
 
-    public static List<Element> elements = new ArrayList<>();
+    public static double[] getStoneVertsGenerated(){
 
+        List<Double> toReturn=new ArrayList<>();
 
+        String path="/assets/3dAssets/stone.OBJ";
+        InputStreamReader reader = new InputStreamReader(tem.class.getResourceAsStream(path));
 
-    public static void main(String[] args) {
+        Scanner br=new Scanner(reader);
+        br.nextLine();
+        br.nextLine();
 
+        String line;
+        String[] numbers;
 
-        List<String> players = new ArrayList<>();
-        players.add("player1");
-        players.add("player2");
-        GameModel model = new GameModel(players, false, new Match(2));
-      //  CardAssetsContainer.setCardAssetsContainer(Deserializator.networkDevCardsAssetsDeserialization());
-        elements.add(Element.SimplePlayerLeaders);
-        //elements.add(Element.TestElem);
-        elements.add(Element.SimpleCardShop);
-        elements.add(Element.SimpleFaithTrack);
-        elements.add(Element.EndGameInfo);
+        while (true)
+        {
+            line=br.nextLine();
+            if(line.isEmpty())
+                break;
+            line=line.substring(2);
+            numbers= line.split("\\d\\s+");
 
-        State state = State.SETUP_PHASE;
-        StateInNetwork stateInNetwork = state.toStateMessage(model, elements, model.getPlayerIndex(model.getCurrentPlayer()));
-        String stateInNet = stateInNetwork.serialized();
+            for (String number : numbers) toReturn.add(Double.valueOf(number));
 
-        System.out.println(JsonUtility.toPrettyFormat(stateInNet));
-
-
-        StateInNetwork deserializedStateInNetworl = JsonUtility.deserializeFromString(stateInNet, StateInNetwork.class, new GsonBuilder().registerTypeHierarchyAdapter(Path.class, new JsonUtility.PathConverter()).registerTypeAdapterFactory(elementAdapter()).create());
-        List<SimpleModelElement> commonlist = deserializedStateInNetworl.getCommonSimpleModelElements();
-        List<SimpleModelElement> playerList = deserializedStateInNetworl.getPlayerSimpleModelElements();
-        int player = stateInNetwork.getPlayerNumber();
-        SimpleModel simpleModel = new SimpleModel(2);
-
-        for(SimpleModelElement element : commonlist){
-            simpleModel.updateSimpleModelElement(element.getClass().getSimpleName(), element);
         }
+        // Covert the lists to double arrays
 
-        for(SimpleModelElement element : playerList){
-            simpleModel.getPlayerCache(player).updateSimpleModelElement(element);
-        }
+        // print out just for verification
+        double[] arr = new double[toReturn.size()];
 
-        int ciao = 5;
+        // ArrayList to Array Conversion
+        for (int k =0; k < toReturn.size(); k++)
+            arr[k] = toReturn.get(k);
+        return arr;
+    }
 
+
+
+    public static void main(String[] args){
+
+        double[] stones = getStoneVertsGenerated();
+        int ciao= 9;
 
     }
 }
 
-/*
 
-SETUP
-(
 
-                    gameModel.getPlayerIndex(gameModel.getCurrentPlayer()),
-
-                    gameModel.getCurrentPlayer().getLeadersUUIDs(),
-
-                    Util.resourcesToChooseOnSetup(gameModel.getPlayerIndex(gameModel.getCurrentPlayer())),
-
-                    gameModel.getMatchID(),
-
-                    gameModel.getOnlinePlayers().values().stream().map(Player::getNickName).toArray(String[]::new)
-                    );
-
-INITIAL
-                    SimpleDepotsMessageBuilder.getSimpleWarehouseLeadersDepots(gameModel.getCurrentPlayer().getPersonalBoard().getSimpleWarehouseLeadersDepots()),
-
-                    SimpleDepotsMessageBuilder.getSimpleStrongBox(gameModel.getCurrentPlayer().getPersonalBoard().getSimpleStrongBox()),
-
-                    SimpleCardsCellsMessageBuilder.cardCellsAdapter(gameModel.getCurrentPlayer().getPersonalBoard().getDevCardsCells()),
-
-                    gameModel.getCurrentPlayer().getSerializedFaithTrack()
- *
- */
 

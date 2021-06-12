@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.GUI;
 
-
+import it.polimi.ingsw.network.jsonUtils.JsonUtility;
+import it.polimi.ingsw.server.messages.messagebuilders.tem;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXMLLoader;
@@ -275,24 +276,19 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
     }
 
     public static double[] getStoneVertsGenerated() throws IOException {
-        Scanner inputStream = null;
-        List<Double> toReturn=new ArrayList<>();
 
-        try
-        {
-            URL url = BoardView3D.class.getResource("stone.OBJ");
-            String path="C:\\Users\\gianm\\Documents\\GitHub\\A\\src\\main\\resources\\assets\\3dAssets\\stone.OBJ";
-            File file = new File(path);
-            //File file = new File(url.getPath());  doesnt work. needs relative path???
+            List<Double> toReturn=new ArrayList<>();
 
-            Scanner br=new Scanner(file);
+            String path="/assets/3dAssets/stone.OBJ";
+            InputStreamReader reader = new InputStreamReader(tem.class.getResourceAsStream(path));
+
+            Scanner br=new Scanner(reader);
             br.nextLine();
             br.nextLine();
 
-            String line = null;
-            String[] numbers = null;
+            String line;
+            String[] numbers;
 
-            int i=0;
             while (true)
             {
                 line=br.nextLine();
@@ -306,27 +302,13 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
             }
             // Covert the lists to double arrays
 
-
-
-
             // print out just for verification
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        finally
-        {
-            if (inputStream != null)
-            {
-                inputStream.close();
-            }
-        }
-        double[] arr = new double[toReturn.size()];
+            double[] arr = new double[toReturn.size()];
 
-        // ArrayList to Array Conversion
-        for (int k =0; k < toReturn.size(); k++)
-            arr[k] = toReturn.get(k);
-        return arr;
-    }
+            // ArrayList to Array Conversion
+            for (int k =0; k < toReturn.size(); k++)
+                arr[k] = toReturn.get(k);
+            return arr;
+        }
+
 }

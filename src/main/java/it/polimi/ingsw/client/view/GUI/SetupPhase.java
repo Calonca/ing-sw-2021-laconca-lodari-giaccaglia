@@ -175,7 +175,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
 
         spawnResourceSupply();
 
-        Label leaders=new Label("SELECT TWO LEADERS TO DISCARD");
+        Label leaders=new Label("SELECT TWO LEADERS");
         leaders.setLayoutX(width/2+100);
         leaders.setLayoutY(len/2);
         setupAnchor.getChildren().add(leaders);
