@@ -85,6 +85,10 @@ public class SimpleCardCells extends SimpleModelElement{
 
     }
 
+    public SimpleProductions getSimpleProductions() {
+        return simpleProductions;
+    }
+
     public Map<Integer, Optional<DevelopmentCardAsset>> getDevCardsCells(){
 
         return devCardsCells.entrySet().stream().collect(Collectors.toMap(

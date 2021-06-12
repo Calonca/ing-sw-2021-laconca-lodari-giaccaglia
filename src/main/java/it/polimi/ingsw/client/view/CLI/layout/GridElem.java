@@ -1,7 +1,8 @@
 package it.polimi.ingsw.client.view.CLI.layout;
 
+import it.polimi.ingsw.client.view.CLI.layout.Option;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.Canvas;
-import javafx.util.Pair;
+import it.polimi.ingsw.client.view.CLI.layout.recursivelist.RecursiveList;
 
 import java.util.List;
 import java.util.Optional;

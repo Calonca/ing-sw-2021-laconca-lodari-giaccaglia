@@ -2,8 +2,8 @@ package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.PersonalBoardBody;
-import it.polimi.ingsw.client.view.CLI.layout.Column;
-import it.polimi.ingsw.client.view.CLI.layout.Row;
+import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Column;
+import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
 import it.polimi.ingsw.client.view.CLI.layout.SizedBox;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.MarbleCLI;
 import it.polimi.ingsw.client.view.CLI.layout.Option;
@@ -87,7 +87,7 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
         board.initializeMove();
         board.setStrongBox(PersonalBoardBody.strongBoxBuilder(getThisPlayerCache().getElem(SimpleStrongBox.class).orElseThrow(), board));
         SimpleCardCells simpleCardCells = getThisPlayerCache().getElem(SimpleCardCells.class).orElseThrow();
-        Row prodsRow = board.productionsBuilder(simpleCardCells, null);
+        Row prodsRow = board.productionsBuilder(simpleCardCells);
         board.setProductions(prodsRow);
         board.setMessage("Select move starting position or discard resources");
         getCLIView().setBody(board);

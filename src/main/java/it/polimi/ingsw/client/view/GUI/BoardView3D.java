@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.GUI;
 
+import it.polimi.ingsw.client.view.GUI.GUIelem.Model3DHelper;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXMLLoader;
@@ -19,10 +20,13 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.beans.PropertyChangeEvent;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.ResourceBundle;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupPhaseViewBuilder implements GUIView{
@@ -203,68 +207,6 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
      * Converts an obj file to a MeshView
      */
     public static MeshView objConverter(String fileName){
-        double[] stoneVerts = {
-                3.062532   ,76.594849,  -56.465309  ,
-                67.669304  ,76.594849,  -63.522388 ,
-                3.062532   ,32.202782,  -56.465309  ,
-                67.669304  ,76.594849,  -63.522388 ,
-                67.669304  ,32.202782,  -63.522388 ,
-                3.062532   ,32.202782, -56.465309  ,
-                3.062532   ,76.594849, -45.819756  ,
-                3.062532   ,76.594849, -56.465309  ,
-                3.062532   ,32.202782, -45.819756  ,
-                3.062532   ,76.594849, -56.465309  ,
-                3.062532   ,32.202782, -56.465309  ,
-                3.062532   ,32.202782, -45.819756  ,
-                -73.878632 ,76.594849, -16.471294,
-                3.062532   ,76.594849, -45.819756  ,
-                -73.878632 ,32.202782, -16.471294,
-                3.062532   ,76.594849, -45.819756  ,
-                3.062532   ,32.202782, -45.819756  ,
-                -73.878632 ,32.202782, -16.471294,
-                -64.350311 ,76.594849, 75.797974 ,
-                -73.878632 ,76.594849, -16.471294,
-                -64.350311 ,32.202782, 75.797974 ,
-                -73.878632 ,76.594849, -16.471294,
-                -73.878632 ,32.202782, -16.471294,
-                -64.350311 ,32.202782, 75.797974 ,
-                64.434578  ,76.594849, 106.480774 ,
-                -64.350311 ,76.594849, 75.797974 ,
-                64.434578  ,32.202782, 106.480774 ,
-                -64.350311 ,76.594849, 75.797974 ,
-                -64.350311 ,32.202782, 75.797974 ,
-                64.434578  ,32.202782, 106.480774 ,
-                67.669304  ,76.594849, -63.522388 ,
-                64.434578  ,76.594849, 106.480774 ,
-                67.669304  ,32.202782, -63.522388 ,
-                64.434578  ,76.594849, 106.480774 ,
-                64.434578  ,32.202782, 106.480774 ,
-                67.669304  ,32.202782, -63.522388 ,
-                67.669304  ,32.202782, -63.522388 ,
-                3.062532   ,32.202782, -45.819756  ,
-                3.062532   ,32.202782, -56.465309  ,
-                64.434578  ,32.202782, 106.480774 ,
-                3.062532   ,32.202782, -45.819756  ,
-                67.669304  ,32.202782, -63.522388 ,
-                64.434578  ,32.202782, 106.480774 ,
-                -64.350311 ,32.202782, 75.797974 ,
-                3.062532   ,32.202782, -45.819756  ,
-                3.062532   ,32.202782, -45.819756  ,
-                -64.350311 ,32.202782, 75.797974 ,
-                -73.878632 ,32.202782, -16.471294,
-                3.062532   ,76.594849, -45.819756  ,
-                67.669304  ,76.594849, -63.522388 ,
-                3.062532   ,76.594849, -56.465309  ,
-                3.062532   ,76.594849, -45.819756  ,
-                64.434578  ,76.594849, 106.480774 ,
-                67.669304  ,76.594849, -63.522388 ,
-                -64.350311 ,76.594849, 75.797974 ,
-                64.434578  ,76.594849, 106.480774 ,
-                3.062532   ,76.594849, -45.819756  ,
-                -64.350311 ,76.594849, 75.797974 ,
-                3.062532   ,76.594849, -45.819756  ,
-                -73.878632 ,76.594849, -16.471294
-        };
 
         int[] facesStartingFrom1 = {
                 1,0,  2,0,  3,0,
@@ -289,8 +231,23 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
                 58,0, 59,0, 60,0
         };
 
-        Float[] stoneVertsF = Arrays.stream(stoneVerts).mapToObj(v->(float)v).toArray(Float[]::new);
+
+        double[] stoneVertsGenerated = new double[0];
+        try {
+            stoneVertsGenerated=getStoneVertsGenerated();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        for (double value : stoneVertsGenerated) System.out.println(value);
+
+        Float[] stoneVertsF = Arrays.stream(stoneVertsGenerated).mapToObj(v->(float)v).toArray(Float[]::new);
         float[] fA = ArrayUtils.toPrimitive(stoneVertsF);
+
+        try {
+            getStoneVertsGenerated();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         Integer[] facesFromZeroBoxed = Arrays.stream(facesStartingFrom1).boxed()
                 .map(i->i==0?0:i-1)
@@ -315,5 +272,61 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
         Color c = selected?c2:color;
         PhongMaterial shieldMaterial = new PhongMaterial(c);
         shield.setMaterial(shieldMaterial);
+    }
+
+    public static double[] getStoneVertsGenerated() throws IOException {
+        Scanner inputStream = null;
+        List<Double> toReturn=new ArrayList<>();
+
+        try
+        {
+            URL url = BoardView3D.class.getResource("stone.OBJ");
+            String path="C:\\Users\\gianm\\Documents\\GitHub\\A\\src\\main\\resources\\assets\\3dAssets\\stone.OBJ";
+            File file = new File(path);
+            //File file = new File(url.getPath());  doesnt work. needs relative path???
+
+            Scanner br=new Scanner(file);
+            br.nextLine();
+            br.nextLine();
+
+            String line = null;
+            String[] numbers = null;
+
+            int i=0;
+            while (true)
+            {
+                line=br.nextLine();
+                if(line.isEmpty())
+                    break;
+                line=line.substring(2);
+                numbers= line.split("\\d\\s+");
+
+                for (String number : numbers) toReturn.add(Double.valueOf(number));
+
+            }
+            // Covert the lists to double arrays
+
+
+
+
+            // print out just for verification
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            if (inputStream != null)
+            {
+                inputStream.close();
+            }
+        }
+        double[] arr = new double[toReturn.size()];
+
+        // ArrayList to Array Conversion
+        for (int k =0; k < toReturn.size(); k++)
+            arr[k] = toReturn.get(k);
+        return arr;
     }
 }

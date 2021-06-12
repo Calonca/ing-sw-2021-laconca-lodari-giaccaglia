@@ -2,8 +2,8 @@ package it.polimi.ingsw.client.view.CLI.CLIelem.body;
 
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.view.CLI.CLIelem.CLIelem;
-import it.polimi.ingsw.client.view.CLI.layout.Column;
-import it.polimi.ingsw.client.view.CLI.layout.Row;
+import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Column;
+import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
 import it.polimi.ingsw.client.view.CLI.layout.SizedBox;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.DrawableLeader;
 import it.polimi.ingsw.client.view.CLI.layout.Option;
