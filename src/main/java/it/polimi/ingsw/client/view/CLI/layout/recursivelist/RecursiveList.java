@@ -35,6 +35,11 @@ public abstract class RecursiveList extends GridElem {
         elems.add(elem);
     }
 
+    public void updateElem(int pos, GridElem elem){
+        elem.setFirstIdx(getNextElemIndex());
+        elems.set(pos, elem);
+    }
+
     public void addElemNoIndexChange(GridElem elem){
         elems.add(elem);
     }

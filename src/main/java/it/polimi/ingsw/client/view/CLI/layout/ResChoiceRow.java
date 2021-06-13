@@ -9,11 +9,10 @@ import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class ResChoiceRow extends GridElem {
+public class ResChoiceRow {
 
     private int arrowPos;
     private final List<ResourceAsset> in;
@@ -38,14 +37,12 @@ public class ResChoiceRow extends GridElem {
         outRunnable = r;
     }
 
-    private Row choosingOutput(Runnable r){
+    private Row choosingOutputRow(){
         Row resToChooseFrom = new Row();
 
         List<Drawable> optionsDwList = ResourceCLI.toList();
-        for (int i = 0, optionsDwListSize = optionsDwList.size(); i < optionsDwListSize; i++) {
-            arrowPos = i;
-            Drawable drawable = optionsDwList.get(i);
-            Option o = Option.from(drawable, r);
+        for (Drawable drawable : optionsDwList) {
+            Option o = Option.from(drawable, outRunnable);
             o.setMode(Option.VisMode.NUMBER_TO_BOTTOM);
             resToChooseFrom.addElem(o);
         }
@@ -133,51 +130,30 @@ public class ResChoiceRow extends GridElem {
     public void setNextInputPos(int pos, ResourceAsset res)
     {
         if (res!=null)
-        {
             setPointedResource(res);
-        }
-        chosenInputPos.add(pos);
-        if (choosingInput())
+
+        if (choosingInput()) {
+            chosenInputPos.add(pos);
             arrowPos++;
-        else{
+        }
+        else {
+            if (res!=null)
+                chosenOutputRes.add(res.ordinal());
             int firstToChoose  =  out.indexOf(ResourceAsset.TO_CHOOSE);
             arrowPos = in.size()+ (firstToChoose==-1?out.size():firstToChoose);
         }
 
     }
 
-    @Override
-    public int getNextElemIndex() {
-        return getFirstIdx();
-    }
-
-    @Override
-    public Optional<Option> getOptionWithIndex(int i) {
-        return Optional.empty();
-    }
-
-    @Override
-    public List<Option> getAllEnabledOption() {
-        return new ArrayList<>();
-    }
-
-
-    @Override
-    public void addToCanvas(Canvas canvas, int x, int y) {
-        Column column = getColumn();
-        column.addToCanvas(canvas,x,y);
-    }
-
-    private Column getColumn() {
+    public Column getGridElem() {
         Column column = new Column();
         column.addElem(selectedResourcesRow());
         if (getPointedResource().isPresent())
             column.addElem(arrowHead());
         if (numOfOutputChoices() > 0 && !choosingInput()){
             column.addElem(arrowBody());
-            Row choosingOutRow = choosingOutput(outRunnable);
+            Row choosingOutRow = choosingOutputRow();
             column.addElem(choosingOutRow);
-            choosingOutRow.setFirstIdx(0);
         }
         return column;
     }
@@ -190,13 +166,4 @@ public class ResChoiceRow extends GridElem {
         return chosenOutputRes;
     }
 
-    @Override
-    public int getMinWidth() {
-        return getColumn().getMinWidth();
-    }
-
-    @Override
-    public int getMinHeight() {
-        return getColumn().getMinHeight();
-    }
 }
