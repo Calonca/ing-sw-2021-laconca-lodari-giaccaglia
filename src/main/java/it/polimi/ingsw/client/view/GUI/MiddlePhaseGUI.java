@@ -69,14 +69,14 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        //todo remove runlater
         cardButton.setOnAction( p ->
         {
             ViewPersonalBoard.getController().isCardShopOpen(true);
             sendChoice(Choice.CARD_SHOP);
 
         });
-        SimpleCardShop simpleCardShop=getSimpleModel().getElem(SimpleCardShop.class).orElseThrow();
-        if(!simpleCardShop.getIsAnyCardPurchasable())
+        if(!ViewPersonalBoard.getController().isCardShopOpen())
             cardButton.setDisable(true);
 
 
