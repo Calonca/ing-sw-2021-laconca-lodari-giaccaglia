@@ -286,15 +286,22 @@ public class PersonalBoardBody extends CLIelem {
 
         Stream<Option> optionList = strongBoxMap.entrySet().stream().sorted(Map.Entry.comparingByKey())
                 .map(e-> {
-                    boolean selectable = board.mode.equals(Mode.SELECT_CARD_SHOP) &&
-                            numAndSel(e).getKey() > numAndSel(e).getValue() &&
-                            board.resChoiceRow.getPointedResource().isPresent() &&
-                            board.resChoiceRow.getPointedResource().get().equals(e.getValue().getKey());
-                    Option strongOption = board.optionFromAsset(e.getValue().getKey(), numAndSel(e).getKey(),
+                    boolean selectable = false;
+                    if (board.mode.equals(Mode.SELECT_CARD_SHOP))
+                        selectable = numAndSel(e).getKey() > numAndSel(e).getValue() &&
+                                board.resChoiceRow.getPointedResource().isPresent() &&
+                                board.resChoiceRow.getPointedResource().get().equals(e.getValue().getKey());
+                    else if (board.mode.equals(Mode.SELECT_RES_FOR_PROD))
+                        selectable = true;
+                    else selectable = false;
+                    Option strongOption = board.optionFromAsset(
+                            e.getValue().getKey(),
+                            numAndSel(e).getKey(),
                             numAndSel(e).getValue()+(board.resChoiceRow!=null?
                                     (int)board.resChoiceRow.getChosenInputPos().stream().filter(p->p.equals(e.getKey())).count():
                                     0)
-                            ,selectable,e.getKey() );
+                            ,selectable,
+                                e.getKey() );
                     if (board.mode.equals(Mode.MOVING_RES))
                         strongOption.setEnabled(false);
                     return strongOption;
