@@ -29,6 +29,10 @@ public class ResChoiceRow extends GridElem {
         this.chosenOutputRes = new ArrayList<>();
     }
 
+    public boolean choosingInput(){
+        return in.size()>chosenInputPos.size();
+    }
+
     public void setOnChosenOutput(Runnable r) {
         outRunnable = r;
     }
@@ -45,7 +49,7 @@ public class ResChoiceRow extends GridElem {
             resToChooseFrom.addElem(o);
         }
 
-        //resToChooseFrom.setAlignment(GridElem.Alignment.CANVAS_CENTER_VERTICAL);
+        resToChooseFrom.setAlignment(GridElem.Alignment.CANVAS_CENTER_VERTICAL);
         return resToChooseFrom;
     }
 
@@ -58,7 +62,7 @@ public class ResChoiceRow extends GridElem {
     }
 
     private void setPointedResource(ResourceAsset res){
-        if (arrowPos <= in.size()) {
+        if (choosingInput()) {
             in.set(arrowPos, res);
         } else {
             out.set(arrowPos - in.size(), res);
@@ -162,7 +166,7 @@ public class ResChoiceRow extends GridElem {
         column.addElem(selectedResourcesRow());
         if (getPointedResource().isPresent())
             column.addElem(arrowHead());
-        if (numOfOutputChoices() > 0){
+        if (numOfOutputChoices() > 0 && !choosingInput()){
             column.addElem(arrowBody());
             Row choosingOutRow = choosingOutput(outRunnable);
             column.addElem(choosingOutRow);
