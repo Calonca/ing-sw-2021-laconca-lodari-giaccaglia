@@ -7,9 +7,9 @@ import it.polimi.ingsw.client.view.CLI.layout.*;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.*;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Column;
 import it.polimi.ingsw.client.view.CLI.layout.GridElem;
+import it.polimi.ingsw.client.view.CLI.layout.recursivelist.RecursiveList;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
 import it.polimi.ingsw.client.view.CLI.textUtil.Background;
-import it.polimi.ingsw.client.view.CLI.textUtil.StringUtil;
 import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ProductionViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
@@ -61,6 +61,7 @@ public class PersonalBoardBody extends CLIelem {
 
                 board.root = new Column();
 
+                board.top.updateElem(2,board.resChoiceRow.getGridElem());
                 board.root.addElem(board.top);
 
                 Row depotsAndProds = board.root.addAndGetRow();
@@ -84,7 +85,7 @@ public class PersonalBoardBody extends CLIelem {
 
                 board.root = new Column();
 
-                board.root.addElem(board.top);
+                board.root.addElem(board.resChoiceRow.getGridElem());
 
                 Row depotsAndProds = board.root.addAndGetRow();
                 depotsAndProds.setAlignment(GridElem.Alignment.CANVAS_CENTER_VERTICAL);
@@ -97,7 +98,7 @@ public class PersonalBoardBody extends CLIelem {
 
                 depotsAndProds.addElem(board.productions);
 
-                depotsAndProds.selectInEnabledOption(cli,board.message);
+                board.root.selectInEnabledOption(cli,board.message);
                 return  CanvasBody.fromGrid(board.root).toString();
             }
         },
@@ -151,7 +152,7 @@ public class PersonalBoardBody extends CLIelem {
 
     Column root = new Column();
 
-    GridElem top;
+    RecursiveList top;
     Column discardBox;
     Row strongBox;
     Column wareHouseLeadersDepot;
@@ -170,8 +171,8 @@ public class PersonalBoardBody extends CLIelem {
         this.mode=mode;
     }
 
-    public void setTop(GridElem faithTrack) {
-        this.top = faithTrack;
+    public void setTop(RecursiveList top) {
+        this.top = top;
     }
 
     public void setResChoiceRow(ResChoiceRow resChoiceRow) {
@@ -345,15 +346,7 @@ public class PersonalBoardBody extends CLIelem {
                 }
             };
         } else if (mode.equals(Mode.SELECT_RES_FOR_PROD)){
-            r= ()->{
-                resChoiceRow.setNextInputPos(globalPos,asset);
-                initializeBuyOrChoosePos();
-                message = "Select resources for production";
-                cli.show();
-                if (resChoiceRow.getPointedResource().isEmpty()){
-                    ProductionViewBuilder.sendChosenResources(resChoiceRow.getChosenInputPos(),resChoiceRow.getChosenOutputRes());
-                }
-            };
+            r = getSelectedForProdRunnable(asset, globalPos);
         }
         Option o = Option.from(dw, r);
         o.setEnabled(selectable);
@@ -363,6 +356,31 @@ public class PersonalBoardBody extends CLIelem {
             o.setSelected(resChoiceRow.getChosenInputPos().contains(globalPos));
         }
         return o;
+    }
+
+    @NotNull
+    private Runnable getSelectedForProdRunnable(ResourceAsset asset, int globalPos) {
+        Runnable r;
+        r= ()->{
+            if (resChoiceRow.choosingInput()) {
+                resChoiceRow.setNextInputPos(globalPos, asset);
+                message = "Select resources for production";
+                if (!resChoiceRow.choosingInput()) {
+                    resChoiceRow.setOnChosenOutput(getSelectedForProdRunnable(ResourceAsset.fromInt(cli.getLastInt()),0));
+                    message = "Select output resources 1";
+                }
+            } else {
+                resChoiceRow.setNextInputPos(0,ResourceAsset.fromInt(cli.getLastInt()));
+                resChoiceRow.setOnChosenOutput(getSelectedForProdRunnable(ResourceAsset.fromInt(cli.getLastInt()),0));
+                message = "Select output resources";
+            }
+
+            initializeBuyOrChoosePos();
+            cli.show();
+            if (resChoiceRow.getPointedResource().isEmpty())
+                ProductionViewBuilder.sendChosenResources(resChoiceRow.getChosenInputPos(),resChoiceRow.getChosenOutputRes());
+        };
+        return r;
     }
 
     public void initializeMove() {
@@ -433,7 +451,9 @@ public class PersonalBoardBody extends CLIelem {
     public void initializeFaithTrack(SimpleModel simpleModel) {
         SimpleFaithTrack[] simpleFaithTracks = Arrays.stream(simpleModel.getPlayersCaches())
                 .map(c->c.getElem(SimpleFaithTrack.class).orElseThrow()).toArray(SimpleFaithTrack[]::new);
-        setTop(new FaithTrackGridElem(getThisPlayerCache().getElem(SimpleFaithTrack.class).orElseThrow(),simpleFaithTracks));
+        Column topColumn = new Column();
+        topColumn.addElem(new FaithTrackGridElem(getThisPlayerCache().getElem(SimpleFaithTrack.class).orElseThrow(),simpleFaithTracks));
+        setTop(topColumn);
     }
 
     @Override

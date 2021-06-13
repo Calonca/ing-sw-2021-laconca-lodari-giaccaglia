@@ -52,7 +52,7 @@ public class SetupBody extends CLIelem {
             resToChoose-=1;
             cli.show();
         });
-        layout.addElem(resChoiceRow);
+        layout.addElem(resChoiceRow.getGridElem());
         Row selectingLeaderRow = new Row();
         if (!resAreChosen()) {
             layout.selectAndRunOption(cli);

@@ -45,7 +45,7 @@ public class ProductionViewCLI extends ProductionViewBuilder implements CLIBuild
         List<ResourceAsset> input = inputRes.entrySet().stream().flatMap(p -> Stream.generate(p::getKey).limit(p.getValue())).collect(Collectors.toList());
         List<ResourceAsset> output = outputRes.entrySet().stream().flatMap(p -> Stream.generate(p::getKey).limit(p.getValue())).collect(Collectors.toList());
         ResChoiceRow choices = new ResChoiceRow(0,input,output);
-        Row top = new Row(Stream.of(new SizedBox(1,0),choices));
+        Row top = new Row(Stream.of(new SizedBox(1,0),choices.getGridElem()));
         board.setTop(top);
         Row prodsRow = board.productionsBuilder(simpleCardCells);
         board.setProductions(prodsRow);

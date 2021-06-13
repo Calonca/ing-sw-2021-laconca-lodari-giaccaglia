@@ -68,7 +68,7 @@ public class CardShopCLI extends CardShopViewBuilder {
         List<ResourceAsset> costs = card.getCostList().stream().flatMap(p -> Stream.generate(p::getKey).limit(p.getValue()))
                 .sorted(Comparator.comparing(ResourceAsset::getResourceNumber)).collect(Collectors.toList());
         ResChoiceRow choices = new ResChoiceRow(0,costs,new ArrayList<>());
-        Row top = new Row(Stream.of(new SizedBox(10,0),chosenCard,choices));
+        Row top = new Row(Stream.of(new SizedBox(10,0),chosenCard,choices.getGridElem()));
         board.setTop(top);
         SimpleCardCells simpleCardCells = getThisPlayerCache().getElem(SimpleCardCells.class).orElseThrow();
         Row prodsRow = board.productionsBuilder(simpleCardCells);

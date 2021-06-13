@@ -67,7 +67,7 @@ public enum ResourceAsset
      * @return a {@link ResourceAsset}
      */
     public static ResourceAsset fromInt(int rNum){
-        return rNum>vals.length||rNum<0 ? EMPTY: vals[rNum];
+        return rNum>=vals.length||rNum<0 ? EMPTY: vals[rNum];
     }
 
     public int getResourceNumber()
