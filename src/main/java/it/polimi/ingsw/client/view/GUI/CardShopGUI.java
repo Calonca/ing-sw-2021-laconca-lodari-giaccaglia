@@ -109,12 +109,7 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
             int temp=0;
 
 
-            if(!ViewPersonalBoard.getController().isCardShopOpen())
-            {
-                    error.setOpacity(1);
-                    return;
 
-            }
             int selectedCards=0;
             error.setOpacity(0);
             for(Boolean prod : selectedSceneCards)
@@ -179,6 +174,7 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
                 }
                 else
                     tempImage = new ImageView(new Image("assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_BLUE_1.png"));
+                //todo remove grid to remove buttons
 
 
                 sceneCard = new Button();
@@ -214,7 +210,7 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
 
             if(c.getAddedSubList().get(0))
             {
-                ViewPersonalBoard.getController().highlightTrue(selectedSceneCards,scenesCardsToChoose);
+                //ViewPersonalBoard.getController().highlightTrue(selectedSceneCards,scenesCardsToChoose);
                 for (Boolean aBoolean : selectedSceneCards)
                     if (aBoolean)
                         System.out.println(selectedSceneCards.indexOf(aBoolean));
@@ -222,7 +218,7 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
             }
             else
                 {
-                ViewPersonalBoard.getController().dehighlightTrue(selectedSceneCards,scenesCardsToChoose);
+                //ViewPersonalBoard.getController().dehighlightTrue(selectedSceneCards,scenesCardsToChoose);
 
             }
 
@@ -250,7 +246,6 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
                     System.out.println("chicken");
                 });
 
-        cardsAnchor.getChildren().add(backButton);
         cardsAnchor.getChildren().add(error);
         errorChoice.setOpacity(0);
         errorChoice.setLayoutX(width/3);

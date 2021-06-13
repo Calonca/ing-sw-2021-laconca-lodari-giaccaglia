@@ -6,6 +6,7 @@ import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.paint.Color;
@@ -61,6 +62,42 @@ public class ButtonSelectionModel {
                         //todo get observer on productionboard to update board
                     }
                     else if(!selected.get(scenesLeadersToChoose.indexOf(sceneButton)))
+                    {
+                        if(booleanCount<maxselection)
+                            selected.set(scenesLeadersToChoose.indexOf(sceneButton),true);
+                    }
+                    else
+                    {
+                        selected.set(scenesLeadersToChoose.indexOf(sceneButton),false);
+                    }
+                }
+            });
+
+        }}
+
+
+
+
+
+    public void cardSelectorFromImage(List<Boolean> selected,List<ImageView> scenesLeadersToChoose,int maxselection)
+    {
+
+        //SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).get();
+        //List<LeaderCardAsset> leaderpics=simplePlayerLeaders.getPlayerLeaders();
+
+
+        for (ImageView sceneButton : scenesLeadersToChoose) {
+
+
+            //sceneButton.setGraphic(temp);
+            sceneButton.setOnMouseClicked(e ->
+            {
+                int booleanCount=0;
+                for (Boolean aBoolean : selected)
+                    if (aBoolean)
+                        booleanCount++;
+                {
+                    if(!selected.get(scenesLeadersToChoose.indexOf(sceneButton)))
                     {
                         if(booleanCount<maxselection)
                             selected.set(scenesLeadersToChoose.indexOf(sceneButton),true);
@@ -147,6 +184,53 @@ public class ButtonSelectionModel {
     }
 
 
+    public void bindDispenserFromImage(List<Integer> control,List<ImageView> selected,int maxSelection)
+    {
+
+        //SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).get();
+        //List<LeaderCardAsset> leaderpics=simplePlayerLeaders.getPlayerLeaders();
+        Button temp;
+
+        for (int i=0; i<selected.size();i++)
+        {
+
+            selected.get(i).setDisable(false);
+
+            int finalI = i;
+            if(allowedRes[finalI]==0)
+            {
+                selected.get(finalI).setDisable(true);
+            }
+            selected.get(i).setOnMouseClicked(p ->
+            {
+                int currentSelected=0;
+
+                for (Integer integer : control) currentSelected += integer;
+                if(currentSelected==maxSelection)
+                    return;
+                if(allowedRes[finalI]==0)
+                {
+                    selected.get(finalI).setDisable(true);
+                    return;
+                }
+                else
+                {
+                    allowedRes[finalI]--;
+                    control.set(finalI,control.get(finalI)+1);
+                }
+
+                if(!moving)
+                {
+                    transferring=true;
+                    // totransfer=selected.get(finalI).getResource();
+                }
+                else
+                {
+                    System.out.println("PUT YOUR RESOURCE BACK FIRST!");
+                }
+            });
+        }
+    }
 
     public void highlightFalse(List<Boolean> selected,List<Button> resourcesToMove)
     {
@@ -169,19 +253,19 @@ public class ButtonSelectionModel {
     }
 
 
-    public void highlightTrue(List<Boolean> selected,List<Button> resourcesToMove)
+    public void highlightTrue(List<Boolean> selected,List<ImageView> elementsToHighlight)
     {
 
         //SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).get();
         //List<LeaderCardAsset> leaderpics=simplePlayerLeaders.getPlayerLeaders();
 
 
-        for (Button sceneButton : resourcesToMove) {
+        for (ImageView sceneButton : elementsToHighlight) {
 
 
-            if(selected.get(resourcesToMove.indexOf(sceneButton)))
+            if(selected.get(elementsToHighlight.indexOf(sceneButton)))
             {
-                resourcesToMove.get(resourcesToMove.indexOf(sceneButton)).setStyle(" -fx-background-color: #fefe33;     -fx-border-radius: 1 ;");
+                elementsToHighlight.get(elementsToHighlight.indexOf(sceneButton)).setStyle(" -fx-background-color: #fefe33;     -fx-border-radius: 1 ;");
             }
 
 
@@ -189,14 +273,14 @@ public class ButtonSelectionModel {
 
     }
 
-    public void dehighlightTrue(List<Boolean> selected,List<Button> resourcesToMove)
+    public void dehighlightTrue(List<Boolean> selected,List<ImageView> resourcesToMove)
     {
 
         //SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).get();
         //List<LeaderCardAsset> leaderpics=simplePlayerLeaders.getPlayerLeaders();
 
 
-        for (Button sceneButton : resourcesToMove) {
+        for (ImageView sceneButton : resourcesToMove) {
 
 
             if(!selected.get(resourcesToMove.indexOf(sceneButton)))

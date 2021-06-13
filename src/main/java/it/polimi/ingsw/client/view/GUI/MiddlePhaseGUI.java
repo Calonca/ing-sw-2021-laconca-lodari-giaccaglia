@@ -76,7 +76,8 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
             sendChoice(Choice.CARD_SHOP);
 
         });
-        if(!ViewPersonalBoard.getController().isCardShopOpen())
+        SimpleCardShop simpleCardShop=getSimpleModel().getElem(SimpleCardShop.class).orElseThrow();
+        if(!simpleCardShop.getIsAnyCardPurchasable())
             cardButton.setDisable(true);
 
 
