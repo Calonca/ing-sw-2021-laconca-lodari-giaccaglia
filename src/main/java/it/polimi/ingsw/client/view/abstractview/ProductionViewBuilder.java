@@ -31,7 +31,7 @@ public abstract class ProductionViewBuilder extends ViewBuilder{
         getClient().getServerHandler().sendCommandMessage(new EventMessage(new FinalProductionPhaseEvent()));
     }
 
-    public void sendChosenResource(List<Integer> chosenInputPos,List<Integer> chosenOutputRes){
+    public static void sendChosenResources(List<Integer> chosenInputPos,List<Integer> chosenOutputRes){
         getClient().getServerHandler().sendCommandMessage(new EventMessage(new ChooseResourcesForProductionEvent(chosenInputPos,chosenOutputRes)));
     }
 

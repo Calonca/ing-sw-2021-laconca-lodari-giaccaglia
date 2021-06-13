@@ -9,6 +9,7 @@ import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,7 +58,7 @@ public class ResChoiceRow extends GridElem {
     public Optional<ResourceAsset> getPointedResource(){
         if (arrowPos>=in.size()+out.size())
             return Optional.empty();
-        ResourceAsset res = arrowPos <= in.size() ? in.get(arrowPos) : out.get(arrowPos - in.size());
+        ResourceAsset res = arrowPos < in.size() ? in.get(arrowPos) : out.get(arrowPos - in.size());
         return Optional.ofNullable(res);
     }
 
@@ -136,7 +137,13 @@ public class ResChoiceRow extends GridElem {
             setPointedResource(res);
         }
         chosenInputPos.add(pos);
-        arrowPos++;
+        if (choosingInput())
+            arrowPos++;
+        else{
+            int firstToChoose  =  out.indexOf(ResourceAsset.TO_CHOOSE);
+            arrowPos = in.size()+ (firstToChoose==-1?out.size():firstToChoose);
+        }
+
     }
 
     @Override

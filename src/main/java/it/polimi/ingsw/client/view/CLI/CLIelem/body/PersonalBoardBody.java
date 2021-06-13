@@ -331,10 +331,20 @@ public class PersonalBoardBody extends CLIelem {
             r= ()->{
                 resChoiceRow.setNextInputPos(globalPos,asset);
                 initializeBuyOrChoosePos();
+                message = "Select resources to buy the card";
                 cli.show();
-                message = "All resources selected, buying card...";
                 if (resChoiceRow.getPointedResource().isEmpty()){
                     CardShopViewBuilder.sendResourcesToBuy(resChoiceRow.getChosenInputPos());
+                }
+            };
+        } else if (mode.equals(Mode.SELECT_RES_FOR_PROD)){
+            r= ()->{
+                resChoiceRow.setNextInputPos(globalPos,asset);
+                initializeBuyOrChoosePos();
+                message = "Select resources for production";
+                cli.show();
+                if (resChoiceRow.getPointedResource().isEmpty()){
+                    ProductionViewBuilder.sendChosenResources(resChoiceRow.getChosenInputPos(),resChoiceRow.getChosenOutputRes());
                 }
             };
         }
@@ -373,16 +383,17 @@ public class PersonalBoardBody extends CLIelem {
         List<Row> rows = new ArrayList<>();
         int pos=0;
         for (Map.Entry<Integer, List<Pair<ResourceAsset, Boolean>>> e : toSort) {//Loop in rows
-            int finalPos = pos;
+            int rowStart = pos;
             Row row1 = new Row(IntStream.range(0,e.getValue().size())
              .mapToObj(i -> {
                  boolean selectable;
                  Pair<ResourceAsset,Boolean> pair = e.getValue().get(i);
-                 if (body.mode.equals(Mode.MOVING_RES)) selectable = body.getSelectableMove(body, finalPos + i);
+                 if (body.mode.equals(Mode.MOVING_RES)) selectable = body.getSelectableMove(body, rowStart + i);
                  else if (body.mode.equals(Mode.SELECT_CARD_SHOP)) selectable = body.getSelected(pair);
+                 else if (body.mode.equals(Mode.SELECT_RES_FOR_PROD)) selectable = body.getSelectableInProd(rowStart+i);
                  else selectable = false;
 
-                 return body.optionFromAsset(pair.getKey(), 1, 0,selectable , finalPos + i);
+                 return body.optionFromAsset(pair.getKey(), 1, 0,selectable , rowStart + i);
              }));
             rows.add(row1);
             pos+=e.getValue().size();
@@ -392,6 +403,11 @@ public class PersonalBoardBody extends CLIelem {
             wareGrid.addElem(row);
         }
         return wareGrid;
+    }
+
+    private boolean getSelectableInProd(Integer gPos){
+        return cache.getElem(SelectablePositions.class).orElseThrow()
+                .getUpdatedSelectablePositions(resChoiceRow.getChosenInputPos()).contains(gPos);
     }
 
     private boolean getSelected(Pair<ResourceAsset, Boolean> pair) {
