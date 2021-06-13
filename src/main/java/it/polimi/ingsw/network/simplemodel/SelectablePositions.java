@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.simplemodel;
 
-import javafx.util.Pair;
 import org.apache.commons.lang3.tuple.MutablePair;
 
 import java.util.HashMap;
