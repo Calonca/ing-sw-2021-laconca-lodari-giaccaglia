@@ -30,6 +30,7 @@ public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.m
      * @param gameModel {@link GameModel} of the event's current game on which event validation has to be performed.
      */
     private void initializeMiddlePhaseEventValidation(GameModel gameModel){
+        currentPlayerPersonalBoard = gameModel.getCurrentPlayer().getPersonalBoard();
         lastSelectedProductionPosition = currentPlayerPersonalBoard.getLastSelectedProductionPosition();
         this.currentPlayerPersonalBoard = gameModel.getCurrentPlayer().getPersonalBoard();
     }
