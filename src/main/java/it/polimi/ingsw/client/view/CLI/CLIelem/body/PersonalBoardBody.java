@@ -432,7 +432,7 @@ public class PersonalBoardBody extends CLIelem {
 
     private boolean getSelectableInProd(Integer gPos){
         return cache.getElem(SelectablePositions.class).orElseThrow()
-                .getUpdatedSelectablePositions(resChoiceRow.getChosenInputPos()).contains(gPos);
+                .getUpdatedSelectablePositions(resChoiceRow.getChosenInputPos()).containsKey(gPos);
     }
 
     private boolean getSelected(Pair<ResourceAsset, Boolean> pair) {

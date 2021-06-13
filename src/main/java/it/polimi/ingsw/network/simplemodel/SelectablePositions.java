@@ -1,65 +1,172 @@
 package it.polimi.ingsw.network.simplemodel;
 
+import it.polimi.ingsw.network.assets.resources.ResourceAsset;
+import javafx.util.Pair;
 import org.apache.commons.lang3.tuple.MutablePair;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.getThisPlayerCache;
 
 public class SelectablePositions extends SimpleModelElement{
 
-    Map<Integer, MutablePair<Integer, Boolean>> selectablePositions;
+    private Map<Pair<Integer, ResourceAsset>, MutablePair<Integer, Boolean>> selectablePositions;
+
+    private transient List<ResourceAsset> resourcesToChoose;
+
+    //         position  numOfSelected
+    private transient Map<Integer, Integer>selectedResourcesMap;
+
+             // position  numOfSelected
+    private transient Map<Integer, Integer> resourcesOriginalAvailability;
+
+    private transient int indexOfCurrentResourceToChoose;
 
     public SelectablePositions(){
+
         selectablePositions = new HashMap<>();
+        selectedResourcesMap = new HashMap<>();
+        resourcesOriginalAvailability = new HashMap<>();
+        resourcesToChoose = new ArrayList<>();
+
     }
 
-    public SelectablePositions(Map<Integer, MutablePair<Integer, Boolean>> selectableWarehousePositions, Map<Integer, MutablePair<Integer, Boolean>> selectableStrongBoxPositions){
+    public SelectablePositions(Map<Pair<Integer, ResourceAsset>, MutablePair<Integer, Boolean>> selectableWarehousePositions, Map<Pair<Integer, ResourceAsset>, MutablePair<Integer, Boolean>> selectableStrongBoxPositions){
 
         selectablePositions = new HashMap<>();
         selectablePositions.putAll(selectableWarehousePositions);
         selectablePositions.putAll(selectableStrongBoxPositions);
+        resourcesToChoose = new ArrayList<>();
+        resourcesOriginalAvailability = new HashMap<>();
+        selectedResourcesMap = new HashMap<>();
+
+
     }
 
     @Override
     public void update(SimpleModelElement element) {
         SelectablePositions serverElement = (SelectablePositions) element;
         selectablePositions = serverElement.selectablePositions;
+        buildResourcesOriginalAvailability();
+        buildResourcesToChooseList();
     }
 
-    public List<Integer> getUpdatedSelectablePositions(List<Integer> chosenInputPos){
+    //        position  numOfSelectable
+    public Map<Integer,Integer> getUpdatedSelectablePositions(List<Integer> chosenInputPos){
+
         updateAvailability(chosenInputPos);
+
         return getSelectablePositions();
+
     }
 
     private void updateAvailability(List<Integer> chosenInputPos){
 
-        chosenInputPos.forEach(position -> {
+        buildSelectedResourcesMap(chosenInputPos);
 
-            MutablePair<Integer, Boolean> pair = selectablePositions.get(position);
+        resourcesOriginalAvailability.keySet().forEach(
+                position -> {
 
-            pair.setLeft(pair.getLeft() - 1);
+                    int updatedAvailability;
 
-            if(pair.getLeft() == 0)
-                pair.setRight(false);
+                    if(selectedResourcesMap.containsKey(position))
+                        updatedAvailability = selectedResourcesMap.get(position);
 
-        });
+                    else
+                        updatedAvailability = resourcesOriginalAvailability.get(position);
+
+                    Pair<Integer, ResourceAsset> mapKey = getKeyFromPos(position);
+                    MutablePair<Integer, Boolean> mapValue = selectablePositions.get(mapKey);
+                    mapValue.setLeft(updatedAvailability);
+                    if(mapValue.getLeft() == 0)
+                        mapValue.setRight(false);
+
+                }
+        );
+
     }
 
-    public List<Integer> getSelectablePositions(){
+    private Pair<Integer, ResourceAsset> getKeyFromPos(int pos){
 
-        List<Integer> positions = selectablePositions.keySet()
+        Pair<Integer, ResourceAsset> mapKey =  selectablePositions
+                .keySet()
                 .stream()
-                .filter(position -> selectablePositions.get(position).getValue())
+                .filter(pair -> (pair.getKey().equals(pos)))
+                .findFirst()
+                .get();
+
+        return mapKey;
+    }
+
+    public Map<Integer, Integer> getSelectablePositions(){
+
+        ResourceAsset nextResourceToChoose = resourcesToChoose.get(indexOfCurrentResourceToChoose);
+        Map<Integer, Integer> selectablePositionsMap = selectablePositions.keySet()
+                .stream()
+                .filter(pair -> pair.getValue().equals(nextResourceToChoose))
+                .filter(pair -> selectablePositions.get(pair).getValue())
+                .collect(Collectors.toMap
+                        (
+                                Pair::getKey,
+                                pair -> selectablePositions.get(pair).getLeft()
+                        ));
+
+        indexOfCurrentResourceToChoose = resourcesToChoose.size()> indexOfCurrentResourceToChoose ? indexOfCurrentResourceToChoose++ : indexOfCurrentResourceToChoose;
+        return selectablePositionsMap;
+
+    }
+
+    private void buildResourcesToChooseList(){
+
+        SimpleCardCells simpleCardCells = getThisPlayerCache().getElem(SimpleCardCells.class).orElseThrow();
+        int lastSelectedProduction = simpleCardCells.getSimpleProductions().getLastSelectedProductionPosition();
+
+        Map<ResourceAsset, Integer> inputRes =  simpleCardCells.getProductionAtPos(lastSelectedProduction).map(SimpleProductions.SimpleProduction::getInputResources).orElse(new HashMap<>());
+
+        resourcesToChoose = inputRes.entrySet()
+                .stream()
+                .flatMap(p -> Stream.generate(p::getKey).limit(p.getValue()))
                 .collect(Collectors.toList());
 
-        return positions;
     }
 
+    private void buildResourcesOriginalAvailability(){
+
+        resourcesOriginalAvailability = selectablePositions
+                .keySet()
+                .stream()
+                .map(Pair::getKey)
+                .collect(Collectors.toMap(
+                position -> position,
+                position -> selectablePositions.get(getKeyFromPos(position)).getKey()
+        ));
+
+    }
+
+    private void buildSelectedResourcesMap(List<Integer> chosenInputPositions){
+
+        selectedResourcesMap = chosenInputPositions
+
+                .stream()
+                .collect(Collectors.toMap(
+
+                        position -> position,
+
+                        position -> chosenInputPositions
+                                .stream()
+                                .filter(positionToFind -> positionToFind.equals(position))
+                                .mapToInt(positionToFind -> 1).sum(),
+
+                        (position1, position2) -> position1
 
 
+        ));
 
-
+    }
 
 }

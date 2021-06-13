@@ -49,7 +49,7 @@ public class ChoosingResourceForProduction implements GameStrategy {
             elementsToUpdate.add(Element.SimpleFaithTrack);
 
 
-            return new Pair<>(State.CHOOSING_RESOURCE_FOR_PRODUCTION, elementsToUpdate);
+            return new Pair<>(State.CHOOSING_PRODUCTION, elementsToUpdate);
 
     }
 

@@ -9,8 +9,6 @@ public class SimpleStrongBox extends SimpleModelElement {
 
     private Map<Integer, Pair<ResourceAsset, Pair<Integer, Integer>>> simpleStrongBox;
 
-
-
     public SimpleStrongBox(){}
 
     public SimpleStrongBox(Map<Integer, Pair<ResourceAsset, Pair<Integer, Integer>>>  simpleStrongBox){

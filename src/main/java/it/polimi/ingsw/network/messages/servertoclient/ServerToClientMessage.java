@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.messages.servertoclient;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.simplemodel.EndGameInfo;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.network.messages.NetworkMessage;
@@ -9,8 +10,11 @@ import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
 import it.polimi.ingsw.RuntimeTypeAdapterFactory;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
 import it.polimi.ingsw.network.simplemodel.*;
+import javafx.util.Pair;
+import org.apache.commons.lang3.tuple.MutablePair;
 
 import java.nio.file.Path;
+import java.util.Map;
 import java.util.UUID;
 
 import static it.polimi.ingsw.network.jsonUtils.JsonUtility.serialize;
@@ -70,7 +74,7 @@ public abstract class ServerToClientMessage extends NetworkMessage
         s2cAdapter.registerSubtype(StateInNetwork.class);
 
         Gson gson1 = new GsonBuilder()
-                .registerTypeAdapterFactory(s2cAdapter)
+                .registerTypeAdapterFactory(s2cAdapter).enableComplexMapKeySerialization()
                 .registerTypeAdapterFactory(elementAdapter()).registerTypeHierarchyAdapter(Path.class, new JsonUtility.PathConverter())
                 .create();
 
@@ -80,6 +84,7 @@ public abstract class ServerToClientMessage extends NetworkMessage
 
 
     public static RuntimeTypeAdapterFactory<SimpleModelElement> elementAdapter(){
+
         RuntimeTypeAdapterFactory<SimpleModelElement> elemAdapter = RuntimeTypeAdapterFactory.of(SimpleModelElement.class);
 
         elemAdapter.registerSubtype(SimplePlayerLeaders.class);
@@ -99,7 +104,6 @@ public abstract class ServerToClientMessage extends NetworkMessage
 
         return elemAdapter;
     }
-
 
 
 }

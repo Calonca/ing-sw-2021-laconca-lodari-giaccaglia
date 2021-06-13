@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.messages.messagebuilders;
 
 import it.polimi.ingsw.client.simplemodel.SimpleModel;
+import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.simplemodel.EndGameInfo;
 import it.polimi.ingsw.network.simplemodel.*;
 import it.polimi.ingsw.server.model.GameModel;
@@ -148,7 +149,6 @@ public enum Element {
         },
 
         SelectablePositions(false){
-
         @Override
         public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate){
                 State currentPlayerState = gameModel.getCurrentPlayer().getCurrentState();
@@ -158,7 +158,6 @@ public enum Element {
 
                             SimpleDepotsMessageBuilder.getSelectableWarehousePositionsForProduction(gameModel),
                             SimpleDepotsMessageBuilder.getSelectableStrongBoxPositionsForProduction(gameModel)
-
                     );
 
                 else if(currentPlayerState.equals(State.CHOOSING_RESOURCES_FOR_DEVCARD))
@@ -169,7 +168,7 @@ public enum Element {
                     );
 
                 return new SelectablePositions();
-        }
+                }
         };
 
         private final boolean isCommonElement;

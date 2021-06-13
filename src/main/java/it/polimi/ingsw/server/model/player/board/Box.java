@@ -120,7 +120,7 @@ public class Box implements StorageUnit {
      */
     public int globalPositionOfRes(Resource res){return globalPosition+res.getResourceNumber();}
 
-    public int globalToLocalPos(int localPos){
+    public int localToGlobalPos(int localPos){
         return localPos+globalPosition;
     }
 

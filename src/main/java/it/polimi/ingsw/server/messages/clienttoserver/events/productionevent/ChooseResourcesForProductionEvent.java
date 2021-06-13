@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.messages.clienttoserver.events.productionevent.ChooseResourcesForProductionEvent implements Validable {
 
@@ -20,8 +21,8 @@ public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.m
      * {@link GameModel} of the event's current game on which event validation has to be performed.
      */
     private transient PersonalBoard currentPlayerPersonalBoard;
-    private final int[] resourcesToConvertArray = new int[4];
-    List<Pair<Integer, Integer>> selectedResourcesPairList;  // Pair : key -> resource position ; value -> number of selected resources
+    private final int[] resourcesToConvertArray = new int[7];
+    private List<Pair<Integer, Integer>> selectedResourcesPairList;  // Pair : key -> resource position ; value -> number of selected resources
     int lastSelectedProductionPosition;
 
     /**
@@ -39,8 +40,9 @@ public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.m
     public boolean validate(GameModel gameModel) {
 
         initializeMiddlePhaseEventValidation(gameModel);
-        buildResourcesArray();
         buildResourcesPairList();
+        buildResourcesArray();
+
 
 
         return isGameStarted(gameModel)
@@ -86,9 +88,19 @@ public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.m
     }
 
     private boolean checkPositionOfResourcesToConvert(){
-        return inputPositionsToChoose.stream()
-                .anyMatch(position ->
-                        !currentPlayerPersonalBoard.getResourceAtPosition(position).equals(Resource.fromIntFixed(inputPositionsToChoose.get(position))));
+
+        return IntStream.range(0, inputPositionsToChoose.size())
+                .boxed()
+                .allMatch(
+                        index -> {
+
+                            int globalPos = inputPositionsToChoose.get(index);
+                            int localPos = globalPos>=0 ? globalPos : globalPos + 8;
+                            return currentPlayerPersonalBoard.getResourceAtPosition(inputPositionsToChoose.get(index))
+                                .equals
+                                        (Resource.fromIntFixed(localPos));
+                        });
+
     }
 
     private boolean checkTypeOfResourcesToConvert(){
@@ -96,7 +108,7 @@ public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.m
     }
 
     private boolean checkResourcesPositionIndexes(){
-        return inputPositionsToChoose.stream().anyMatch(i -> ( i<-8 || (i>-5 && i<0) ));
+        return inputPositionsToChoose.stream().noneMatch(i -> ( i<-8 || (i>-5 && i<0) ));
     }
 
     private boolean checkPositionsValidity(){
@@ -108,7 +120,7 @@ public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.m
 
                     if(position>=-8 && position<-4) {
                             Resource resourceAtPos = currentPlayerPersonalBoard.getResourceAtPosition(position);
-                            return currentPlayerPersonalBoard.getStrongBox().getNumberOf(resourceAtPos) == positionOccurrences;
+                            return currentPlayerPersonalBoard.getStrongBox().getNumberOf(resourceAtPos) >= positionOccurrences;
                         }
                     else if(positionOccurrences>1)
                         return false;
@@ -164,8 +176,9 @@ public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.m
                 position -> {
 
                     int positionOccurrences = inputPositionsToChoose.stream().filter(positionToFind -> positionToFind.equals(position)).mapToInt(positionToFind -> 1).sum();
+                    int localPos = position>=0 ? position : position + 8;
 
-                    return new Pair<>(position, positionOccurrences);
+                    return new Pair<>(localPos, positionOccurrences);
                 }
 
         ).collect(Collectors.toList());
@@ -179,7 +192,20 @@ public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.m
 
     }
 
-    public List<Pair<Integer, Integer>> getSelectedResourcesPairList(){ return selectedResourcesPairList;}
+    public List<Pair<Integer, Integer>> getSelectedResourcesPairList(){
+
+        return inputPositionsToChoose.stream().map(
+                position -> {
+
+                    int positionOccurrences = inputPositionsToChoose.stream().filter(positionToFind -> positionToFind.equals(position)).mapToInt(positionToFind -> 1).sum();
+
+                    return new Pair<>(position, positionOccurrences);
+                }
+
+        ).collect(Collectors.toList());
+
+    }
+
 
 
 

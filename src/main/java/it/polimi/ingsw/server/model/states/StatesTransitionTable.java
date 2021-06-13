@@ -91,7 +91,7 @@ public class StatesTransitionTable {
         eventsAndStrategy.put(name(ToggleProductionAtPosition.class), new TogglingForProduction());
 
         //Produce or go back to Middle Phase
-        eventsAndStrategy.put(name(FinalProductionStrategy.class), new FinalProductionStrategy());
+        eventsAndStrategy.put(name(FinalProductionPhaseEvent.class), new FinalProductionStrategy());
 
         statesTransitionTable.table.put(State.CHOOSING_PRODUCTION, eventsAndStrategy);
         eventsAndStrategy = new HashMap<>();

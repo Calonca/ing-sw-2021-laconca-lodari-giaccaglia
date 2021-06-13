@@ -1275,11 +1275,13 @@ public class Serializator extends JsonUtility {
         networkLeaderCardsAssetsMapSerialization();
 
         serializeMarblesAssets();
-        serializeSinglePlayerStatesTransitionTable();
-        serializeMultiPlayerStatesTransitionTable();
+
         cardShopSerialization();
         serializeTokensAssets();
  */
+        serializeSinglePlayerStatesTransitionTable();
+        serializeMultiPlayerStatesTransitionTable();
+
 
 
 

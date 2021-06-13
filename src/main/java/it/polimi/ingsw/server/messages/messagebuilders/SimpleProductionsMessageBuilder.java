@@ -1,11 +1,17 @@
 package it.polimi.ingsw.server.messages.messagebuilders;
 
+import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.simplemodel.SimpleProductions;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
+import it.polimi.ingsw.server.model.cards.production.Production;
+import it.polimi.ingsw.server.model.player.board.PersonalBoard;
 import javafx.util.Pair;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class SimpleProductionsMessageBuilder {
@@ -34,4 +40,5 @@ public class SimpleProductionsMessageBuilder {
         ));
 
     }
+
 }

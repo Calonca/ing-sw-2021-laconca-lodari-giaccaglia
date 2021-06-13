@@ -51,6 +51,8 @@ public class SimpleProductions extends SimpleModelElement{
 
     public Optional<SimpleProduction> getProductionAtPos(int productionPosition){
 
+        if(availableProductions == null)
+            return Optional.empty();
         SimpleProduction productionAtPos = availableProductions.get(productionPosition);
 
         if(productionAtPos == null)
