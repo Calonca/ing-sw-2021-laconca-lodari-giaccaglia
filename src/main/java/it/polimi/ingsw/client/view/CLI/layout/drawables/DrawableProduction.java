@@ -25,6 +25,8 @@ public class DrawableProduction {
                         out.getOrDefault(resCLI.getRes(),0))
                 ));
 
+        inOutMap.remove(ResourceCLI.EMPTY);
+
         inOutMap.forEach((res, inOut) -> {
             Drawable dw = new Drawable();
             dw.add(new DrawableLine(0, res.ordinal(), "║ "));
