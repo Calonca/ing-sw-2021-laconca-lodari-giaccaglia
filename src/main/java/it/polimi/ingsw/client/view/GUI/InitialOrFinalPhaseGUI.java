@@ -5,7 +5,6 @@ import it.polimi.ingsw.network.assets.LeaderCardAsset;
 import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.events.InitialOrFinalPhaseEvent;
 import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
-import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -16,9 +15,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
@@ -45,7 +41,7 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
     double cardLen=len*(3.0/4);
     List<UUID> leadersUUIDs=new ArrayList<>();
     double cardsStartingX=70;
-    List<Button> sceneLeaders=new ArrayList<>();
+    List<ImageView> sceneLeadersImageView =new ArrayList<>();
 
 
 
@@ -72,25 +68,7 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
 
 
 
-    public void bindPicturesFromAssets(SimplePlayerLeaders simplePlayerLeaders)
-    {
-        Path path;
-        for(int i=0; i<sceneLeaders.size();i++)
-        {
-            if(!simplePlayerLeaders.getPlayerLeaders().get(i).getNetworkLeaderCard().isLeaderActive())
-            {
-                if(simplePlayerLeaders.getPlayerLeaders().get(i).getNetworkLeaderCard().isPlayable())
-                    path= simplePlayerLeaders.getPlayerLeaders().get(i).getCardPaths().getKey();
-                else
-                    path= simplePlayerLeaders.getPlayerLeaders().get(i).getInactiveCardPaths().getKey();
-                ImageView tempImage = new ImageView(new Image(path.toString(), true));
-                tempImage.setFitHeight(cardLen);
-                tempImage.setPreserveRatio(true);
-                sceneLeaders.get(i).setGraphic(tempImage);
-            }
-        }
 
-    }
 
     public SubScene getRoot() {
         FXMLLoader loader = new FXMLLoader();
@@ -122,7 +100,7 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
                 temp.setPreserveRatio(true);
                 temp.setFitHeight(cardLen);
                 resultList.add(temp);}
-            }
+        }
         return resultList;
 
     }
@@ -133,28 +111,26 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
         javafx.collections.ObservableList<Boolean> selectedLeaders;
         selectedLeaders=javafx.collections.FXCollections.observableArrayList();
 
-        int currentSize=((Pane)getClient().getStage().getScene().getRoot()).getChildren().size();
 
         SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).orElseThrow();
 
-        Button leaderBut;
+        ImageView leaderBut;
         for(int i=0;i<getSetupLeaderIcons().size();i++)
         {
-            leaderBut= new Button();
+            leaderBut= getSetupLeaderIcons().get(i);
             leaderBut.setLayoutY(cardsY);
             leaderBut.setLayoutX(cardsStartingX+i*(cardLen*(462.0/709)+paddingBetweenCards));
-            leaderBut.setGraphic(getSetupLeaderIcons().get(i));
             leaderBut.setId("leaderButton");
             leaderBut.setRotate(Math.random() * (cardTilt - -cardTilt + 1) + -1 );
             leaderPane.getChildren().add(leaderBut);
-            sceneLeaders.add(leaderBut);
+            sceneLeadersImageView.add(leaderBut);
         }
 
         for(int i=0; i<getSetupLeaderIcons().size();i++)
             selectedLeaders.add(false);
 
 
-        ViewPersonalBoard.getController().cardSelector(selectedLeaders,sceneLeaders,1);
+        ViewPersonalBoard.getController().cardSelectorFromImage(selectedLeaders, sceneLeadersImageView,1);
 
         List<Button> controlButtons=new ArrayList<>();
 
@@ -183,9 +159,9 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
                 if(b)
                 {
 
-                  InitialOrFinalPhaseEvent discard = new InitialOrFinalPhaseEvent(0,simplePlayerLeaders.getPlayerLeaders().get(selectedLeaders.indexOf(b)).getCardId());
-                  getClient().getServerHandler().sendCommandMessage(new EventMessage(discard));
-                  GUI.removeLast();
+                    InitialOrFinalPhaseEvent discard = new InitialOrFinalPhaseEvent(0,simplePlayerLeaders.getPlayerLeaders().get(selectedLeaders.indexOf(b)).getCardId());
+                    getClient().getServerHandler().sendCommandMessage(new EventMessage(discard));
+                    GUI.removeLast();
                 }
 
 
@@ -217,14 +193,14 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
             c.next();
             if(c.getAddedSubList().get(0))
             {
-                sceneLeaders.get(c.getFrom()).setLayoutY(sceneLeaders.get(c.getFrom()).getLayoutY()-30);
+                sceneLeadersImageView.get(c.getFrom()).setLayoutY(sceneLeadersImageView.get(c.getFrom()).getLayoutY()-30);
                 if(simplePlayerLeaders.getPlayerLeaders().get(c.getFrom()).getNetworkLeaderCard().isPlayable())
                     playButton.setDisable(false);
                 discardButton.setDisable(false);
             }
             else
             {
-                sceneLeaders.get(c.getFrom()).setLayoutY(sceneLeaders.get(c.getFrom()).getLayoutY()+30);
+                sceneLeadersImageView.get(c.getFrom()).setLayoutY(sceneLeadersImageView.get(c.getFrom()).getLayoutY()+30);
                 playButton.setDisable(true);
                 discardButton.setDisable(true);
             }
