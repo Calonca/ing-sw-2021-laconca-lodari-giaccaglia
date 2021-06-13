@@ -4,9 +4,8 @@ import it.polimi.ingsw.server.model.cards.production.Production;
 import it.polimi.ingsw.server.model.Resource;
 import javafx.util.Pair;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Class for Development Cards. Since the color is not strictly tied to the input/output we totally decoupled that
@@ -77,6 +76,21 @@ public class DevelopmentCard
 
     public List<Pair<Resource,Integer>> getCostList(){
         return costList;
+    }
+
+    public Map<Resource, Integer> getCostMap(){
+
+        Map<Resource, Integer> map = costList.stream().collect(Collectors.toMap(
+
+                Pair::getKey,
+                Pair::getValue
+        ));
+
+        Arrays.stream(Resource.values())
+                .filter(resource -> !map.containsKey(resource))
+                .forEach(resource -> map.put(resource, 0));
+
+        return map;
     }
 
     public Production getProduction(){return production;}

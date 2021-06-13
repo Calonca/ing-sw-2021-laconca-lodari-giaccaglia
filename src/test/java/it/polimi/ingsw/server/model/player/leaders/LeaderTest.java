@@ -69,6 +69,7 @@ public class LeaderTest
         gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().removeResources(new int[]{30,0,0,0});
 
         gamemodel.getCurrentPlayer().getPersonalBoard().addDevelopmentCardToCell(testcard,1);
+
         //HA CARTA MA NON RISORSA
         leadertestD = new DepositLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, depotTest);
         assertFalse(gamemodel.getCurrentPlayer().getPersonalBoard().isLeaderRequirementsSatisfied(leadertestD));
@@ -160,7 +161,7 @@ public class LeaderTest
         Pair<DevelopmentCardColor, Integer> cardcostTest = new Pair<>(DevelopmentCardColor.BLUE, 1);
         DevelopmentCard testcard= new DevelopmentCard(1,DevelopmentCardColor.BLUE,new Production(new int[]{0,0,0,0,0,0,2},new int[]{0,0,0,0,0,1,1}));
 
-        List<Pair<Resource, Integer>> requirementsTest = new ArrayList<Pair<Resource, Integer>>();
+        List<Pair<Resource, Integer>> requirementsTest = new ArrayList<>();
         List<Pair<DevelopmentCardColor, Integer>> requirementsCardsTest = new ArrayList<Pair<DevelopmentCardColor, Integer>>();
 
         requirementsTest.add(costTest);

@@ -61,7 +61,7 @@ public class Deserializator extends JsonUtility {
 
         Gson customGson = new GsonBuilder().enableComplexMapKeySerialization().registerTypeAdapterFactory(jsonToNetworkLeaderListAdapter).registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).registerTypeHierarchyAdapter(Path.class, new PathConverter()).setPrettyPrinting().create();
         Type type = new TypeToken<Map<UUID, LeaderCardAsset> >(){}.getType();
-        return deserialize(clientConfigPathString + "NetLeaderCardsAssetsMap.json", type ,customGson);
+        return deserialize(clientConfigPathString + "ClientNetLeaderCardsAssetsMap.json", type ,customGson);
 
     }
 

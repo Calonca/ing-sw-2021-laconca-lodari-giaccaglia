@@ -5,6 +5,7 @@ package it.polimi.ingsw.server.controller;
  */
 
 public class EventValidationFailedException extends Exception{
+
     EventValidationFailedException(){super();}
 
     EventValidationFailedException(String message){

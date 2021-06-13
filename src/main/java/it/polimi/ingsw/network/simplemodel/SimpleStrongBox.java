@@ -7,7 +7,9 @@ import java.util.Map;
 
 public class SimpleStrongBox extends SimpleModelElement {
 
-    Map<Integer, Pair<ResourceAsset, Pair<Integer, Integer>>> simpleStrongBox;
+    private Map<Integer, Pair<ResourceAsset, Pair<Integer, Integer>>> simpleStrongBox;
+
+
 
     public SimpleStrongBox(){}
 
@@ -25,6 +27,5 @@ public class SimpleStrongBox extends SimpleModelElement {
         SimpleStrongBox serverStrongBox = (SimpleStrongBox) element;
         this.simpleStrongBox = serverStrongBox.simpleStrongBox;
     }
-
 
 }

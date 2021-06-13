@@ -68,8 +68,8 @@ public class StatesTransitionTable {
         //Idle Phase
         eventsAndStrategy.put(null, new IDLE());
         eventsAndStrategy.put(name(MoveResourceEvent.class), new MovingResource());
-
         statesTransitionTable.table.put(State.IDLE, eventsAndStrategy);
+
         eventsAndStrategy = new HashMap<>();
 
 

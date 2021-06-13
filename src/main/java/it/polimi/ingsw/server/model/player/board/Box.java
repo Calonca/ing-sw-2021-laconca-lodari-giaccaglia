@@ -120,6 +120,11 @@ public class Box implements StorageUnit {
      */
     public int globalPositionOfRes(Resource res){return globalPosition+res.getResourceNumber();}
 
+    public int globalToLocalPos(int localPos){
+        return localPos+globalPosition;
+    }
+
+
 
     /** Returns how many {@link Resource resources} flagged for the next action there are in the {@link StorageUnit}
      * @return Number of selected {@link Resource resource}
@@ -138,7 +143,7 @@ public class Box implements StorageUnit {
     }
 
     public int getNumOfResourcesTypes(){
-        return nResAtPos.length;
+        return length;
     }
 
     /**
@@ -185,6 +190,8 @@ public class Box implements StorageUnit {
      * @return number of {@link Resource resources} of the given type in the deposit
      */
     public int getNumberOf(Resource type){
+        if(type.equals(Resource.EMPTY))
+            return 0;
         return nResAtPos[type.getResourceNumber()];
     }
 
@@ -197,6 +204,8 @@ public class Box implements StorageUnit {
         nResAtPos = IntStream.range(0, length).map((i)->nResAtPos[i]-nSel[i]).toArray();
         nSel = IntStream.generate(()->0).limit(nSel.length).toArray();
     }
+
+
 
 
 }

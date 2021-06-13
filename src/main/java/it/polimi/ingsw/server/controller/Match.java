@@ -73,10 +73,8 @@ public class Match {
         this.game = new GameModel(onlineUsers.stream().map(u->u.nickname).collect(Collectors.toList()), onlineUsers.size()==1,this);
         game.start();
         game.getCurrentPlayer().setCurrentState(State.SETUP_PHASE);
-        List<Element> elems = new ArrayList<>(Arrays.asList(Element.values()));
-
-
-        notifyStateToAllPlayers(elems, game.getCurrentPlayer());
+        List<Element> elements = new ArrayList<>(Arrays.asList(Element.values()));
+        notifyStateToAllPlayers(elements, game.getCurrentPlayer());
 
     }
 
@@ -88,11 +86,17 @@ public class Match {
 
     public ClientHandler currentPlayerClientHandler(){
 
-        return currentUser().map(user->user.clientHandler).orElse(onlineUsers.get(0).clientHandler);
+        return currentUser()
+                .map(user->user.clientHandler)
+                .orElse(onlineUsers.get(0).clientHandler);
     }
 
     boolean isSetupPhase(){
-        return game.getOnlinePlayers().values().stream().map(Player::getCurrentState).anyMatch(state -> state.equals(State.SETUP_PHASE));
+        return game.getOnlinePlayers()
+                .values()
+                .stream()
+                .map(Player::getCurrentState)
+                .anyMatch(state -> state.equals(State.SETUP_PHASE));
     }
 
     public UUID getMatchId() {
@@ -163,8 +167,8 @@ public class Match {
 
                     List<Element> elems = new ArrayList<>(Arrays.asList(Element.values()));
 
-                    nicknameOfPlayerSendingEvent = ((Event) event).getPlayerNickname();
-                    playerSendingEvent = game.getPlayer(nicknameOfPlayerSendingEvent).get();
+                   // nicknameOfPlayerSendingEvent = ((Event) event).getPlayerNickname();
+                    playerSendingEvent = game.getCurrentPlayer();
 
                     notifyStateToAllPlayers(elems, playerSendingEvent);
 

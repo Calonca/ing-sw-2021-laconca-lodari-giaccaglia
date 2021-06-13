@@ -16,16 +16,13 @@ public class SimpleCardShop extends SimpleModelElement{
 
     private DevelopmentCardAsset purchasedCard = null;
 
-    private List<Pair<ResourceAsset,Integer>> costListWithDiscounts;
-
     private boolean anyCardPurchasable;
 
     public SimpleCardShop(){}
                                                                             //size      //first 2 cards
-    public SimpleCardShop(Map<NetworkDevelopmentCardColor, Map<Integer, Pair<Integer, List<DevelopmentCardAsset>>>> simpleCardShop, DevelopmentCardAsset purchasedCard, List<Pair<ResourceAsset,Integer>> costListWithDiscounts) {
+    public SimpleCardShop(Map<NetworkDevelopmentCardColor, Map<Integer, Pair<Integer, List<DevelopmentCardAsset>>>> simpleCardShop, DevelopmentCardAsset purchasedCard) {
         this.simpleCardShop = simpleCardShop;
         this.purchasedCard = purchasedCard;
-        this.costListWithDiscounts = costListWithDiscounts;
         anyCardPurchasable = isAnyCardPurchasable();
     }
 
@@ -46,7 +43,6 @@ public class SimpleCardShop extends SimpleModelElement{
         SimpleCardShop serverCardShop = (SimpleCardShop) element;
         this.simpleCardShop = serverCardShop.simpleCardShop;
         this.purchasedCard = serverCardShop.purchasedCard;
-        this.costListWithDiscounts = serverCardShop.costListWithDiscounts;
         this.anyCardPurchasable = isAnyCardPurchasable();
 
     }
@@ -72,7 +68,5 @@ public class SimpleCardShop extends SimpleModelElement{
         return anyCardPurchasable;
     }
 
-    public List<Pair<ResourceAsset,Integer>> getCostListWithDiscounts(){
-        return costListWithDiscounts;
-    }
+
 }
