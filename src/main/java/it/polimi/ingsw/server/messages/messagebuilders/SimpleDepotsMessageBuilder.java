@@ -1,13 +1,17 @@
 package it.polimi.ingsw.server.messages.messagebuilders;
 
+import com.google.gson.internal.$Gson$Preconditions;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
+import it.polimi.ingsw.server.model.cards.production.Production;
 import it.polimi.ingsw.server.model.player.board.Box;
 import it.polimi.ingsw.server.model.player.board.PersonalBoard;
 import it.polimi.ingsw.server.model.player.board.WarehouseLeadersDepots;
 import javafx.util.Pair;
+import org.apache.commons.lang3.tuple.MutablePair;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -96,6 +100,7 @@ public class SimpleDepotsMessageBuilder {
     }
 
     public static Pair<Integer, List<Integer>> getAvailableMovingPositionsForResourceAtPos(PersonalBoard board, int position, Resource res){
+
         List<Integer> positions = board.getWarehouseLeadersDepots().availableMovingPositionsForResource(res).boxed().collect(Collectors.toList());
         if(!res.equals(Resource.EMPTY))
             positions.add(position);  //selected resource can be deselected
@@ -115,7 +120,7 @@ public class SimpleDepotsMessageBuilder {
 
     }
 
-        //    leaderDepotSpot   resourceType
+           //    leaderDepotSpot   resourceType
     public static Map<Integer, ResourceAsset> getResourcesTypesOfLeaderDepots(GameModel gameModel, int playerRequestingUpdate){
 
         WarehouseLeadersDepots currentDepots = gameModel.getPlayer(playerRequestingUpdate).get().getPersonalBoard().getWarehouseLeadersDepots();
@@ -140,5 +145,117 @@ public class SimpleDepotsMessageBuilder {
         else return new HashMap<>();
 
     }
+
+    //            position      numOfRes  isSelectable
+    public static Map<Integer, MutablePair<Integer, Boolean>> getSelectableWarehousePositionsForDevCardPurchase(GameModel gameModel) {
+
+        WarehouseLeadersDepots warehouseLeadersDepots = gameModel.getCurrentPlayer().getPersonalBoard().getWarehouseLeadersDepots();
+        Map<Integer, Integer> devCardCostMap = CardShopMessageBuilder.costMapOfPurchasedCardWithDiscounts(gameModel);
+        return getSelectableWarehousePositions(warehouseLeadersDepots, devCardCostMap);
+
+    }
+
+    //            position      numOfRes  isSelectable
+    public static Map<Integer, MutablePair<Integer, Boolean>> getSelectableWarehousePositionsForProduction(GameModel gameModel) {
+
+        PersonalBoard playerBoard = gameModel.getCurrentPlayer().getPersonalBoard();
+        int lastSelectedProduction =  playerBoard.getLastSelectedProductionPosition();
+
+        Production production = playerBoard.getProductionFromPosition(lastSelectedProduction).get();
+
+        Map<Integer, Integer> productionInputsMap = production.getInputsMap();
+
+        return getSelectableWarehousePositions(playerBoard.getWarehouseLeadersDepots(), productionInputsMap);
+
+    }
+
+    //            position      numOfRes  isSelectable
+    public static Map<Integer, MutablePair<Integer, Boolean>> getSelectableStrongBoxPositionsForDevCardPurchase(GameModel gameModel) {
+
+        Map<Integer, Integer> devCardCostMap = CardShopMessageBuilder.costMapOfPurchasedCardWithDiscounts(gameModel);
+        Box strongBox = gameModel.getCurrentPlayer().getPersonalBoard().getStrongBox();
+
+        return getSelectableStrongBoxPositions(strongBox, devCardCostMap);
+
+    }
+
+    //            position      numOfRes  isSelectable
+    public static Map<Integer, MutablePair<Integer, Boolean>> getSelectableStrongBoxPositionsForProduction(GameModel gameModel) {
+
+        PersonalBoard playerBoard = gameModel.getCurrentPlayer().getPersonalBoard();
+        int lastSelectedProduction =  playerBoard.getLastSelectedProductionPosition();
+
+        Production production = playerBoard.getProductionFromPosition(lastSelectedProduction).get();
+
+        Map<Integer, Integer> productionInputsMap = production.getInputsMap();
+
+        return getSelectableStrongBoxPositions(playerBoard.getStrongBox(), productionInputsMap);
+
+    }
+
+    //            position      numOfRes  isSelectable
+     private static Map<Integer, MutablePair<Integer, Boolean>> getSelectableWarehousePositions(WarehouseLeadersDepots warehouseLeadersDepots,  Map<Integer, Integer> resourcesToChoose){
+
+
+        int warehouseCells = warehouseLeadersDepots.getNumOfCellsInAllDepots();
+
+         Map<Integer, MutablePair<Integer, Boolean>> map = IntStream.range(0, warehouseCells).boxed().collect(Collectors.toMap(
+                position -> position,
+                position -> {
+
+                    Resource resourceAtPos = warehouseLeadersDepots.getResourceAt(position);
+
+                    int resourceNumber = resourceAtPos.getResourceNumber();
+
+                    int numOfResource = resourceAtPos.equals(Resource.EMPTY) ? 0 : 1;
+
+                    Boolean isSelectable = !resourceAtPos.equals(Resource.EMPTY) && resourcesToChoose.get(resourceNumber)>0 && !warehouseLeadersDepots.getSelected(resourceNumber);
+
+                    return new MutablePair<>(numOfResource, isSelectable);
+
+                }
+        ));
+
+         return map;
+
+    }
+
+    //                position      numOfRes  isSelectable
+    private static Map<Integer, MutablePair<Integer, Boolean>> getSelectableStrongBoxPositions(Box strongBox, Map<Integer, Integer> resourcesToChoose){
+
+
+        int strongBoxCells = strongBox.getNumOfResourcesTypes();
+
+        Map<Integer, MutablePair<Integer, Boolean>> map = IntStream.range(0, strongBoxCells).boxed().collect(Collectors.toMap(
+
+                strongBox::globalToLocalPos,
+                localPos -> {
+
+                    int globalPos = strongBox.globalToLocalPos(localPos);
+                    Resource resourceAtPos = strongBox.getResourceAt(globalPos);
+
+                    Boolean isSelectable = resourcesToChoose.get(resourceAtPos.getResourceNumber())>0 && (strongBox.getNSelected(resourceAtPos)!=strongBox.getNumberOf(resourceAtPos));
+
+                    int numOfResources = strongBox.getNumberOf(resourceAtPos);
+
+                    return new MutablePair<>(numOfResources, isSelectable);
+
+                }
+        ));
+
+        return map;
+
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 }

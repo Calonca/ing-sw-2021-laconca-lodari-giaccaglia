@@ -64,9 +64,8 @@ public class PlayerCache {
         playerSimpleModelElementsMap.put(SimpleDiscardBox.class.getSimpleName(), new SimpleDiscardBox());
         playerSimpleModelElementsMap.put(ActiveLeaderBonusInfo.class.getSimpleName(), new ActiveLeaderBonusInfo());
         playerSimpleModelElementsMap.put(SimpleProductions.class.getSimpleName(), new SimpleProductions());
-
-        if(SimpleModel.getNumOfPlayers() == 1)
-            playerSimpleModelElementsMap.put(SimpleSoloActionToken.class.getSimpleName(), new SimpleSoloActionToken());
+        playerSimpleModelElementsMap.put(SelectablePositions.class.getSimpleName(), new SelectablePositions());
+        playerSimpleModelElementsMap.put(SimpleSoloActionToken.class.getSimpleName(), new SimpleSoloActionToken());
 
 
         SimplePlayerLeaders playerLeadersElement = ((SimplePlayerLeaders) playerSimpleModelElementsMap.get(SimplePlayerLeaders.class.getSimpleName()));

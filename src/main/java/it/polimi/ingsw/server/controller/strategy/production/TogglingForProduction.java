@@ -39,8 +39,10 @@ public class TogglingForProduction implements GameStrategy {
 
         int lastSelectedProduction = playerBoard.getLastSelectedProductionPosition();
 
-        if(lastSelectedProduction == productionPosition) // player enabled a production
+        if (lastSelectedProduction == productionPosition) {         // player enabled a production
+            elementsToUpdate.add(Element.SelectablePositions);
             return new Pair<>(State.CHOOSING_RESOURCE_FOR_PRODUCTION, elementsToUpdate);
+         }
 
 
         return new Pair<>(State.CHOOSING_PRODUCTION, elementsToUpdate);

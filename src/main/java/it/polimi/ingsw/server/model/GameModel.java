@@ -29,7 +29,6 @@ public class GameModel {
 
     private final Match match;
 
-
     /**
      * List of current game registered players after lobby creation.
      */
@@ -481,6 +480,8 @@ public class GameModel {
     }
 
     public SoloActionToken showLastActivatedSoloActionToken(){
+        if(!isSinglePlayer)
+            return SoloActionToken.EMPTY;
         return soloDeck.showLastActivatedToken();
     }
 

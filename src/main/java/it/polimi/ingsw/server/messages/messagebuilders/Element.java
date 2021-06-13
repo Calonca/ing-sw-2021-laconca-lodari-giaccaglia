@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.simplemodel.SimpleModel;
 import it.polimi.ingsw.network.simplemodel.EndGameInfo;
 import it.polimi.ingsw.network.simplemodel.*;
 import it.polimi.ingsw.server.model.GameModel;
+import it.polimi.ingsw.server.model.states.State;
 
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -17,8 +18,7 @@ public enum Element {
         public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate) {
             return new SimpleCardShop(
                     CardShopMessageBuilder.cardShopAdapter(gameModel),
-                    CardShopMessageBuilder.purchasedCardAdapter(gameModel),
-                    CardShopMessageBuilder.costListOfPurchasedCardWithDiscounts(gameModel));
+                    CardShopMessageBuilder.purchasedCardAdapter(gameModel));
         }
 
     },
@@ -137,12 +137,38 @@ public enum Element {
         },
 
         SimpleSoloActionToken(false){
+
         @Override
-            public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate){
+        public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate){
             return new SimpleSoloActionToken(
 
                     UUID.nameUUIDFromBytes(gameModel.showLastActivatedSoloActionToken().name().getBytes(StandardCharsets.UTF_8))
             );
+        }
+        },
+
+        SelectablePositions(false){
+
+        @Override
+        public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate){
+                State currentPlayerState = gameModel.getCurrentPlayer().getCurrentState();
+
+                if(currentPlayerState.equals(State.CHOOSING_RESOURCE_FOR_PRODUCTION))
+                    return new SelectablePositions(
+
+                            SimpleDepotsMessageBuilder.getSelectableWarehousePositionsForProduction(gameModel),
+                            SimpleDepotsMessageBuilder.getSelectableStrongBoxPositionsForProduction(gameModel)
+
+                    );
+
+                else if(currentPlayerState.equals(State.CHOOSING_RESOURCES_FOR_DEVCARD))
+                    return new SelectablePositions(
+
+                            SimpleDepotsMessageBuilder.getSelectableWarehousePositionsForDevCardPurchase(gameModel),
+                            SimpleDepotsMessageBuilder.getSelectableStrongBoxPositionsForDevCardPurchase(gameModel)
+                    );
+
+                return new SelectablePositions();
         }
         };
 

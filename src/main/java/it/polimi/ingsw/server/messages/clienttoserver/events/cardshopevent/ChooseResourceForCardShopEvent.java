@@ -65,7 +65,7 @@ public class ChooseResourceForCardShopEvent extends it.polimi.ingsw.network.mess
     private void applyMarketBonusToRequiredResources(GameModel gameModel){
 
         int [] discounts = gameModel.getCurrentPlayer().getPersonalBoard().getDiscounts();
-        for(int i=0; i<discounts.length; i++)
+        for(int i=0; i<4; i++)
             chosenResourcesAsArray[i] += discounts[i];
 
     }

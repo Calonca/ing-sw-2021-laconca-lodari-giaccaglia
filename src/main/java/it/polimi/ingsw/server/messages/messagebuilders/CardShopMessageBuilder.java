@@ -66,9 +66,10 @@ public class CardShopMessageBuilder {
         return purchasedCard != null ? (DevelopmentCardAsset) Cards.getCardAsset(purchasedCard.getCardId()).orElse(null) : null;
     }
 
-    public static List<Pair<ResourceAsset, Integer>> costListOfPurchasedCardWithDiscounts(GameModel gameModel) {
+        //        resourceInt  amount
+    public static Map<Integer, Integer> costMapOfPurchasedCardWithDiscounts(GameModel gameModel) {
 
-        List<Pair<ResourceAsset, Integer>> costList = new ArrayList<>();
+        Map<Integer, Integer> costList = new HashMap<>();
 
         if (gameModel.getCardShop().getCopyOfPurchasedCard() != null) {
 
@@ -76,15 +77,18 @@ public class CardShopMessageBuilder {
 
             DevelopmentCard purchasedCard = gameModel.getCardShop().getCopyOfPurchasedCard();
 
-            costList = purchasedCard.getCostList().stream().map(pair -> {
+            costList = purchasedCard.getCostMap().entrySet().stream().collect(Collectors.toMap(
 
-                int resourceIntValue = pair.getKey().getResourceNumber();
-                ResourceAsset resourceAsset = ResourceAsset.fromInt(resourceIntValue);
-                Integer updatedCost = pair.getValue() - discounts.get(resourceIntValue);
+                    entry ->  entry.getKey().getResourceNumber(),
 
-                return new Pair<>(resourceAsset, updatedCost);
-            }).collect(Collectors.toList());
+                    entry -> {
 
+                int resourceIntValue = entry.getKey().getResourceNumber();
+                int updatedCost = entry.getValue() - discounts.get(resourceIntValue);
+
+                return updatedCost;
+
+            }));
         }
 
         return costList;

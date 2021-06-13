@@ -36,8 +36,8 @@ public class SimpleFaithTrack extends SimpleModelElement {
 
     @Override
     public void update(SimpleModelElement element){
+
         SimpleFaithTrack serverFaithTrack = (SimpleFaithTrack) element;
-        String config = serverFaithTrack.config;
         //serverFaithTrack = updateTrack(config);
 
         config = serverFaithTrack.config;
