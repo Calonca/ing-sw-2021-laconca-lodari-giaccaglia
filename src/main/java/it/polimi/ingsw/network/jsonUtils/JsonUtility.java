@@ -1,11 +1,6 @@
 package it.polimi.ingsw.network.jsonUtils;
 
 import com.google.gson.*;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
-import it.polimi.ingsw.server.controller.Match;
-import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.server.model.market.MarketBoard;
 import org.apache.commons.io.IOUtils;
 
 import java.io.*;
@@ -15,20 +10,29 @@ import java.nio.file.*;
 import java.util.*;
 import java.util.stream.*;
 
-import static it.polimi.ingsw.server.utils.Deserializator.gson;
-
 public class JsonUtility {
 
- //   private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     public static final String readConfigPathString = "/config/";
     public static final String writeConfigPathString = "src/main/resources/config/";
     public static String serializeVarArgs(Object... o) {
         return serialize(Arrays.stream(o).collect(Collectors.toList()));
     }
 
-    public static <T> T deserialize(String jsonPath, Class<T> destinationClass){
-        Gson gson = new GsonBuilder().enableComplexMapKeySerialization().registerTypeHierarchyAdapter(Path.class, new PathConverter()).setPrettyPrinting().create();
-        return deserialize(jsonPath,destinationClass,gson);
+    public static <T> T deserialize(String jsonPath, Class<T> destinationClass, boolean isPathFromSourceRoot){
+
+        Gson gson = new GsonBuilder()
+                .enableComplexMapKeySerialization()
+                .registerTypeHierarchyAdapter(Path.class, new PathConverter())
+                .setPrettyPrinting()
+                .registerTypeAdapter(UUID.class, new UUIDTypeAdapter())
+                .create();
+
+        if(isPathFromSourceRoot)
+            return deserializeFromSourceRoot(jsonPath,destinationClass,gson);
+
+        else
+            return deserializeFromAbsolutePath(jsonPath, destinationClass, gson);
+
     }
 
     public static <T> T deserialize(JsonElement jsonElement, Type destinationType) {
@@ -36,31 +40,50 @@ public class JsonUtility {
         return gson.fromJson(jsonElement, destinationType);
     }
 
-    public static <T> T deserialize(String jsonPath, Type destinationType, Gson customGson){
+    public static <T> T deserializeFromSourceRoot(String jsonPath, Type destinationType, Gson customGson){
 
         InputStreamReader reader = new InputStreamReader(JsonUtility.class.getResourceAsStream(jsonPath));
 
-        String result = null;
+        String jsonString = null;
         try {
-            result = IOUtils.toString(reader);
+            jsonString = IOUtils.toString(reader);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return customGson.fromJson(result, destinationType);
+        return customGson.fromJson(jsonString, destinationType);
     }
 
-    public static <T> T deserialize(String jsonPath, Class<T> destinationClass, Gson customGson) {
+    public static <T> T deserializeFromSourceRoot(String jsonPath, Class<T> destinationClass, Gson customGson) {
 
         InputStreamReader reader = new InputStreamReader(JsonUtility.class.getResourceAsStream(jsonPath));
 
-        String result = null;
+        String jsonString = null;
         try {
-            result = IOUtils.toString(reader);
+            jsonString = IOUtils.toString(reader);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return deserializeFromString(result, destinationClass, customGson);
+        return deserializeFromString(jsonString, destinationClass, customGson);
+    }
+
+    public static <T> T deserializeFromAbsolutePath(String name, Class<T> destinationClass, Gson customGson) {
+
+        String jsonString = null;
+
+        File f = new File(name);
+
+        String absolutePath = f.getAbsolutePath();
+
+        try {
+
+
+            jsonString = Files.readString(Path.of(absolutePath), StandardCharsets.US_ASCII);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return deserializeFromString(jsonString, destinationClass, customGson);
     }
 
     public static <T> T deserializeFromString(String jsonString, Class<T> destinationClass, Gson customGson){
@@ -115,11 +138,8 @@ public class JsonUtility {
 
     public static <T> void serializeBigObject(String jsonPath, T object, Class<T> classToSerialize, Gson customGson) throws IOException {
 
-
         FileWriter writer = new FileWriter(jsonPath);
         customGson.toJson(object, writer);
-
-
         writer.flush();
         writer.close();
 

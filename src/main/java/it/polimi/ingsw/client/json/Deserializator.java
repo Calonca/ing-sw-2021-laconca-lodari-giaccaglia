@@ -24,12 +24,12 @@ public class Deserializator extends JsonUtility {
 
     //helper method to initialize gameModel list of 16 cards.leaders
     public static List<NetworkLeaderCard> leaderCardsDeserialization() {
-        NetworkLeaderCard[] leaders = deserialize(clientConfigPathString + "LeadersConfig.json", NetworkLeaderCard[].class, new Gson());
+        NetworkLeaderCard[] leaders = deserialize(clientConfigPathString + "LeadersConfig.json", NetworkLeaderCard[].class, true);
         return (Arrays.asList(leaders));
     }
     //helper method to load a 48 devcards array from json
     public static List<NetworkDevelopmentCard> devCardsListDeserialization() {
-        NetworkDevelopmentCard[] cardsArray = deserialize(clientConfigPathString + "DevelopmentCardConfig.json", NetworkDevelopmentCard[].class);
+        NetworkDevelopmentCard[] cardsArray = deserialize(clientConfigPathString + "DevelopmentCardConfig.json", NetworkDevelopmentCard[].class, true);
         return (Arrays.asList(cardsArray));
     }
 
@@ -41,7 +41,7 @@ public class Deserializator extends JsonUtility {
 
         Type type = new TypeToken<Map<UUID, DevelopmentCardAsset> >(){}.getType();
         Gson customGson = new GsonBuilder().enableComplexMapKeySerialization().registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).registerTypeHierarchyAdapter(Path.class, new PathConverter()).setPrettyPrinting().create();
-        return deserialize(clientConfigPathString + "ClientDevCardsAssetsMapConfig.json", type ,customGson);
+        return deserializeFromSourceRoot(clientConfigPathString + "ClientDevCardsAssetsMapConfig.json", type ,customGson);
 
     }
 
@@ -58,21 +58,21 @@ public class Deserializator extends JsonUtility {
 
         Gson customGson = new GsonBuilder().enableComplexMapKeySerialization().registerTypeAdapterFactory(jsonToNetworkLeaderListAdapter).registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).registerTypeHierarchyAdapter(Path.class, new PathConverter()).setPrettyPrinting().create();
         Type type = new TypeToken<Map<UUID, LeaderCardAsset> >(){}.getType();
-        return deserialize(clientConfigPathString + "ClientNetLeaderCardsAssetsMap.json", type ,customGson);
+        return deserializeFromSourceRoot(clientConfigPathString + "ClientNetLeaderCardsAssetsMap.json", type ,customGson);
 
     }
 
     public static void initializeMarblesFromConfig(){
         Gson gson = new GsonBuilder().enableComplexMapKeySerialization().registerTypeHierarchyAdapter(Path.class, new JsonUtility.PathConverter()).create();
         Type type = new TypeToken <Map<MarbleAsset, Path>>(){}.getType();
-        Map<MarbleAsset, Path> marblesMap = it.polimi.ingsw.server.utils.Deserializator.deserialize(clientConfigPathString + "MarblesAssetsConfig.json", type, gson);
+        Map<MarbleAsset, Path> marblesMap = it.polimi.ingsw.server.utils.Deserializator.deserializeFromSourceRoot(clientConfigPathString + "MarblesAssetsConfig.json", type, gson);
         marblesMap.forEach(MarbleAsset::setPath);
     }
 
     public static void initializeActionTokenFromConfig(){
         Gson gson = new GsonBuilder().enableComplexMapKeySerialization().registerTypeHierarchyAdapter(Path.class, new JsonUtility.PathConverter()).create();
         Type type = new TypeToken<Map<ActionTokenAsset, Pair<Path, String>>>(){}.getType();
-        Map<ActionTokenAsset, Pair<Path, String>> tokensMap = it.polimi.ingsw.client.json.Deserializator.deserialize(clientConfigPathString + "TokenAssetsConfig.json", type, gson);
+        Map<ActionTokenAsset, Pair<Path, String>> tokensMap = it.polimi.ingsw.client.json.Deserializator.deserializeFromSourceRoot(clientConfigPathString + "TokenAssetsConfig.json", type, gson);
         tokensMap.forEach((asset, value) -> {
             asset.setFrontPath(value.getKey());
             asset.setEffectDescription(value.getValue());

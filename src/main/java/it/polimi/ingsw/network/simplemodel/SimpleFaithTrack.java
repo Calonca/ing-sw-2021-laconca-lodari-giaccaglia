@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.simplemodel;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.server.model.player.track.FaithTrack;
 import org.apache.commons.lang3.tuple.MutablePair;
 
 import java.util.List;

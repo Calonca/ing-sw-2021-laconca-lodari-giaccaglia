@@ -32,6 +32,7 @@ public class Server
 
         while (true) {
             try {
+
                 /* accepts connections; for every connection we accept,
                  * create a new Thread executing a ClientHandler */
                 Socket client = socket.accept();

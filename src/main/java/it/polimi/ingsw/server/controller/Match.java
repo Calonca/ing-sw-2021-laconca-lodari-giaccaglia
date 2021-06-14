@@ -21,7 +21,7 @@ public class Match {
 
     private final UUID matchId;
     private final List<User> onlineUsers = new ArrayList<>();
-    private final List<String> offlineUsers = new ArrayList<>();
+    private final List<User> offlineUsers = new ArrayList<>();
     private GameModel game;
     private final int maxPlayers;
     private final Date createdTime;
@@ -42,7 +42,6 @@ public class Match {
         }
 
     }
-
     public String getPlayerNicknameFromHandler(ClientHandler clientHandler){
 
         String playerNickname = onlineUsers.stream()
@@ -61,6 +60,15 @@ public class Match {
         reasonOfGameEnd = "";
     }
 
+    public void setOfflineUser(ClientHandler clientHandler){
+        Optional<User> optUser = onlineUsers.stream().filter(user -> user.clientHandler.equals(clientHandler)).findFirst();
+        if(optUser.isPresent()){
+            User user = optUser.get();
+            onlineUsers.remove(user);
+            offlineUsers.add(user);
+        }
+    }
+
     boolean canAddPlayer(){
         return onlineUsers.size()<maxPlayers;
     }
@@ -68,7 +76,6 @@ public class Match {
     void addPlayer(String nickname, ClientHandler clientHandler){
         onlineUsers.add(new User(nickname,clientHandler));
     }
-
 
     public void startGame() {
 
@@ -149,6 +156,7 @@ public class Match {
             throw new EventValidationFailedException();
 
         Pair<State, List<Element>> data = gameStrategy.execute(game, event);
+
         String nicknameOfPlayerSendingEvent =((Event) event).getPlayerNickname();
 
         Player playerSendingEvent = game.getPlayer(nicknameOfPlayerSendingEvent).get();
@@ -183,7 +191,6 @@ public class Match {
 
                     nicknameOfPlayerSendingEvent = ((Event) event).getPlayerNickname();
                     playerSendingEvent = game.getPlayer(nicknameOfPlayerSendingEvent).get();
-
                     notifyStateToAllPlayers(data.getValue(), playerSendingEvent);
                 }
             }
@@ -224,6 +231,14 @@ public class Match {
 
     public void setReasonOfGameEnd(String reasonOfGameEnd){
         this.reasonOfGameEnd = reasonOfGameEnd;
+    }
+
+    public Date getCreatedTime(){
+        return createdTime;
+    }
+
+    public boolean areAllPlayersOffline(){
+        return onlineUsers.isEmpty();
     }
 
 

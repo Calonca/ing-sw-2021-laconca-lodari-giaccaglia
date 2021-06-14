@@ -5,6 +5,7 @@ import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
 import it.polimi.ingsw.network.messages.servertoclient.EventNotValid;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.controller.EventValidationFailedException;
+import it.polimi.ingsw.server.controller.SessionController;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 
 import java.io.IOException;
@@ -18,12 +19,14 @@ public class EventMessage extends ClientToServerMessage implements ServerMessage
 
     @Override
     public void processMessage(ClientHandler clientHandler) throws IOException {
-        clientHandler.getMatch().ifPresent(m-> {
+        clientHandler.getMatch().ifPresent(match-> {
             try {
 
-                ((Event) event).setPlayerNickname(m.getPlayerNicknameFromHandler(clientHandler));
-                m.validateEvent(event);
-                m.transitionToNextState(event);
+                ((Event) event).setPlayerNickname(match.getPlayerNicknameFromHandler(clientHandler));
+                match.validateEvent(event);
+                match.transitionToNextState(event);
+                SessionController.getInstance().saveMatch(match);
+
             } catch (EventValidationFailedException e) {
                 try {
                     clientHandler.sendAnswerMessage(new EventNotValid(this));

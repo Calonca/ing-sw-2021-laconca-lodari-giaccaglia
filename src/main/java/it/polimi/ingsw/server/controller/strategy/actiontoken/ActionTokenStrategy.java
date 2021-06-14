@@ -15,7 +15,6 @@ public class ActionTokenStrategy implements GameStrategy {
     public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event) {
 
         gamemodel.activateSoloActionToken();
-
         return null;
     }
 

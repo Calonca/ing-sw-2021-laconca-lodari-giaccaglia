@@ -23,6 +23,7 @@ public class ClientHandler implements Runnable
     private ObjectOutputStream output;
     private ObjectInputStream input;
     private Optional<Match> match=Optional.empty();
+    private String playerNickname;
 
 
     /**
@@ -60,7 +61,9 @@ public class ClientHandler implements Runnable
 
         try {
             handleClientConnection();
+
         } catch (IOException e) {
+            notifyDisconnection();
             System.out.println("client " + client.getInetAddress() + " connection dropped");
         }
 
@@ -112,5 +115,10 @@ public class ClientHandler implements Runnable
     public void sendAnswerMessage(ServerToClientMessage answerMsg) throws IOException
     {
         output.writeObject(answerMsg.serialized());
+    }
+
+    private void notifyDisconnection()
+    {
+        match.ifPresent(value -> SessionController.getInstance().setPlayerOffline(this));
     }
 }

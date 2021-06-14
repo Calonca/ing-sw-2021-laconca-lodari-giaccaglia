@@ -83,7 +83,7 @@ public enum ResourceAsset
         Gson gson = new GsonBuilder().enableComplexMapKeySerialization().registerTypeHierarchyAdapter(Path.class, new JsonUtility.PathConverter()).create();
         Type type = new TypeToken<Map<ResourceAsset, Pair<Integer, Path>>>(){}.getType();
 
-        Map<ResourceAsset, Pair<Integer, Path>> resourcesMap = Deserializator.deserialize(path, type, gson);
+        Map<ResourceAsset, Pair<Integer, Path>> resourcesMap = Deserializator.deserializeFromSourceRoot(path, type, gson);
         resourcesMap.forEach((key, pair) -> {
             key.setResourceNumber(pair.getKey());
             key.setResourcePath(pair.getValue());
