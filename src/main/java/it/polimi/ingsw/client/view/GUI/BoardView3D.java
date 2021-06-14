@@ -1,10 +1,10 @@
 package it.polimi.ingsw.client.view.GUI;
 
 import it.polimi.ingsw.client.view.GUI.board.CamState;
-import javafx.animation.Interpolator;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
+import it.polimi.ingsw.client.view.GUI.util.DragAndDropHandler;
+import it.polimi.ingsw.client.view.GUI.util.ResourceGUI;
+import it.polimi.ingsw.network.assets.resources.ResourceAsset;
+import it.polimi.ingsw.network.simplemodel.SimpleWarehouseLeadersDepot;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
@@ -13,21 +13,17 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.*;
 import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Translate;
-import javafx.util.Duration;
-import org.apache.commons.lang3.ArrayUtils;
+import javafx.util.Pair;
 import org.jetbrains.annotations.NotNull;
 
 import java.beans.PropertyChangeEvent;
 import java.io.*;
 import java.net.URL;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupPhaseViewBuilder implements GUIView{
 
@@ -85,65 +81,29 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
         board.setTranslateZ(1500);
         parent.getChildren().add(board);
 
-        Color color = Color.GRAY;
-        MeshView stone = objConverter("stone");
-        setMaterial(stone, color,false);
-        Point3D boardTopLeft = board.localToParent(new Point3D(0,0,0));
+        int shift = 200;
+        int rNum = 0;
+        Shape3D stone = addAndGetShape(parent, board, ResourceGUI.STONE,new Point3D(shift*rNum,shift*rNum,0));
+        rNum++;
+        Shape3D gold = addAndGetShape(parent, board, ResourceGUI.GOLD,new Point3D(shift*rNum,shift*rNum,0));
+        rNum++;
+        Shape3D servant = addAndGetShape(parent, board, ResourceGUI.SERVANT,new Point3D(shift*rNum,shift*rNum,0));
 
-        stone.setTranslateX(boardTopLeft.getX());
-        stone.setTranslateY(boardTopLeft.getY());
-        stone.setTranslateZ(boardTopLeft.getZ());
-        Rotate rotate1 = new Rotate(270   ,new Point3D(1,0,0));
-        Rotate rotate2 = new Rotate(270   ,new Point3D(0,1,0));
-        stone.getTransforms().addAll(rotate1,rotate2);
-        parent.getChildren().add(stone);
+        DragAndDropHandler ddHandler = new DragAndDropHandler();
+        ddHandler.addShape(ResourceGUI.GOLD,gold,()->{},true);
+        ddHandler.addShape(ResourceGUI.SERVANT,servant,()->{},true);
 
+        ddHandler.startDragAndDrop(parent,board, stone,ResourceGUI.STONE.generateShape());
 
-
-
-        AtomicBoolean dragStarted = new AtomicBoolean(false);
-        stone.setOnDragDetected((MouseEvent event)-> {
-            if (!dragStarted.get()) {
-                dragStarted.set(true);
-                setMaterial(stone,color,true);
-            }
-            stone.setMouseTransparent(true);
-            board.setMouseTransparent(false);
-            stone.setCursor(Cursor.MOVE);
-            stone.startFullDrag();
-        });
-
-        stone.setOnMouseReleased((MouseEvent event)-> {
-            stone.setMouseTransparent(false);
-            dragStarted.set(false);
-            setMaterial(stone,color,false);
-            board.setMouseTransparent(true);
-            stone.setCursor(Cursor.DEFAULT);
-        });
-
-        board.setOnMouseDragOver((MouseEvent event)->{
-            Point3D stoneCoords = event.getPickResult().getIntersectedPoint();
-            stoneCoords = board.localToParent(stoneCoords);
-
-            //stoneCoords = boardTopLeft;
-            stone.setTranslateX(stoneCoords.getX());
-            stone.setTranslateY(stoneCoords.getY());
-            stone.setTranslateZ(stoneCoords.getZ());
-            //Translate translate = new Translate(stoneCoords.getX(),stoneCoords.getY(),stoneCoords.getZ());
-            //shield.getTransforms().add(translate);
-        });
-
-
-        SubScene scene = new SubScene(parent, width, len);
-        scene.setCamera(camera);
-
-
-
+        wareBuilder(parent,board);
 
         getClient().getStage().getScene().setOnKeyPressed(e-> {
             KeyCode pressed = e.getCode();
             camState.animateWithKeyCode(camera,pressed);
         });
+
+        SubScene scene = new SubScene(parent, width, len);
+        scene.setCamera(camera);
 
 
         Button viewCardShop=new Button();
@@ -211,161 +171,57 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
         boardPane.getChildren().add(scene);
     }
 
+    private void wareBuilder(Group parent, Rectangle board){
+        DragAndDropHandler dropHandler = new DragAndDropHandler();
+        final double xToStart = 100;
+        final double yToStart = 800;
+        final double wareWidth = 500;
+        final double lineHeight = 150;
+        SimpleWarehouseLeadersDepot simpleWarehouseLeadersDepot = getThisPlayerCache().getElem(SimpleWarehouseLeadersDepot.class).orElseThrow();
+
+        int lineN = 0;
+        for (Map.Entry<Integer, List<Pair<ResourceAsset, Boolean>>> line: simpleWarehouseLeadersDepot.getDepots().entrySet()){
+            int finalLineN = lineN;
+            AtomicInteger nInLine = new AtomicInteger();
+            line.getValue().forEach(e->{
+                double x  = xToStart+(wareWidth/(1+line.getValue().size())*(1+nInLine.get()));
+                Point3D shift = new Point3D(x,yToStart+lineHeight* finalLineN,0);
+                nInLine.getAndIncrement();
+                ResourceGUI resourceGUI = ResourceGUI.fromAsset(e.getKey());
+                Shape3D testShape = addAndGetShape(parent,board,resourceGUI,shift);
+                dropHandler.addShape(resourceGUI,testShape,()->{},true);
+                testShape.setOnMouseEntered((MouseEvent event)-> {
+                    //dropHandler.startDragAndDrop(parent,board,testShape, resourceGUI.generateShape());
+                    System.out.println("Entered in line "+line.getKey()+", position "+nInLine.get());
+                });
+            });
+            lineN++;
+        }
+        //dropHandler.startDragAndDropOnEach(parent,board);
+    }
+
+    @NotNull
+    private Shape3D addAndGetShape(Group parent, Rectangle board, ResourceGUI res,Point3D shift) {
+        Shape3D stoneMesh = res.generateShape();
+
+        Point3D boardTopLeft = board.localToParent(new Point3D(0,0,0));
+        stoneMesh.setTranslateX(boardTopLeft.getX()+shift.getX());
+        stoneMesh.setTranslateY(boardTopLeft.getY()+shift.getY());
+        stoneMesh.setTranslateZ(boardTopLeft.getZ()+shift.getZ());
+        Rotate rotate1 = new Rotate(270   ,new Point3D(1,0,0));
+        Rotate rotate2 = new Rotate(270   ,new Point3D(0,1,0));
+        stoneMesh.getTransforms().addAll(rotate1,rotate2);
+        parent.getChildren().add(stoneMesh);
+        return stoneMesh;
+    }
+
 
     public static void setCamState(CamState camState) {
         BoardView3D.camState = camState;
     }
 
-    /**
-     * Converts an obj file to a MeshView
-     */
-    public static MeshView objConverter(String fileName){
-
-        double[] stoneVertsGenerated = new double[0];
-        try {
-            stoneVertsGenerated=getGeneratedModel(fileName).get(0);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        Float[] stoneVertsF = Arrays.stream(stoneVertsGenerated).mapToObj(v->(float)v).toArray(Float[]::new);
-        float[] fA = ArrayUtils.toPrimitive(stoneVertsF);
 
 
-        int[] facesStartingFrom1Generated = new int[0];
-        try {
-
-            double[] listToInt=getGeneratedModel(fileName).get(1);
-            //todo is it possible to avoid cast?
-            facesStartingFrom1Generated=new int[listToInt.length];
-            for(int i=0;i< listToInt.length;i++)
-                facesStartingFrom1Generated[i]=(int) listToInt[i];
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        Integer[] facesFromZeroBoxed = Arrays.stream(facesStartingFrom1Generated).boxed()
-                .map(i->i==0?0:i-1)
-                .toArray(Integer[]::new);
-        int[] facesFromZero = ArrayUtils.toPrimitive(facesFromZeroBoxed);
-
-        TriangleMesh stone = new TriangleMesh();
-        stone.getPoints().setAll(fA);
-        stone.getTexCoords().addAll(0,0);
-        stone.getFaces().addAll(facesFromZero);
-
-
-
-        return new MeshView(stone);
-    }
-
-    @NotNull
-    private void setMaterial(Shape3D shield, Color color, boolean selected) {
-        Color c2 = Color.hsb(color.getHue(),
-                0.3,
-                1);
-        Color c = selected?c2:color;
-        PhongMaterial shieldMaterial = new PhongMaterial(c);
-        shield.setMaterial(shieldMaterial);
-    }
-
-
-    /**
-     * The method dinamically gets the path of the given resource name
-     * @param res is a resource which .OBJ exist
-     * @return the corresponding value for 3D models
-     * @throws IOException if res is not an adequate parameter
-     */
-    public static List<double[]> getGeneratedModel(String res) throws IOException {
-        List<Double> verts=new ArrayList<>();
-        List<Integer> smoothings=new ArrayList<>();
-
-
-        String path="/assets/3dAssets/" + res + ".OBJ";
-        InputStreamReader reader = new InputStreamReader(BoardView3D.class.getResourceAsStream(path));
-
-        Scanner br=new Scanner(reader);
-        br.nextLine();
-        br.nextLine();
-
-        String line;
-        String[] numbers;
-
-        while (br.hasNextLine())
-        {
-            line=br.nextLine();
-            if(line.isEmpty())
-                break;
-            line=line.substring(2);
-            numbers= line.split("\\d\\s+");
-
-            for (String number : numbers) verts.add(Double.valueOf(number));
-
-        }
-        while (br.hasNextLine())
-        {
-            line=br.nextLine();
-            if(line.isEmpty())
-                break;
-
-        }
-        while (br.hasNextLine())
-        {
-            line=br.nextLine();
-            if(line.isEmpty())
-                break;
-
-        }
-        br.nextLine();
-        while (br.hasNextLine())
-        {
-            line=br.nextLine();
-            if (line.isEmpty())
-                break;
-            if (line.length()>3)
-            line=line.substring(2);
-            if(line.charAt(0)!='s')
-            {
-                numbers= line.split("/\\d\\d?\\d?\\d?\\d?\\s?+");
-                for(String toAdd : numbers)
-                {
-                    smoothings.add(Integer.valueOf(toAdd));
-                    smoothings.add(0);
-                    //System.out.println(toAdd);
-
-                }
-            }
-
-
-        }
-
-
-        // Covert the lists to double arrays
-        List<double[]> vertsAndSmoothing=new ArrayList<>();
-        // print out just for verification
-        double[] vertArray = new double[verts.size()];
-        // ArrayList to Array Conversion
-        for (int k =0; k < verts.size(); k++)
-            vertArray[k] = verts.get(k);
-
-        vertsAndSmoothing.add(vertArray);
-
-        double[] intArray = new double[smoothings.size()];
-        // ArrayList to Array Conversion
-        for (int k =0; k < smoothings.size(); k++)
-            intArray[k] = smoothings.get(k);
-
-
-        //System.out.println(toReturnInt.size());
-        vertsAndSmoothing.add(intArray);
-
-        //System.out.println(Arrays.toString(vertsAndSmoothing.get(0)));
-        //System.out.println(Arrays.toString(vertsAndSmoothing.get(1)));
-
-        return vertsAndSmoothing;
-    }
 
 }
 
