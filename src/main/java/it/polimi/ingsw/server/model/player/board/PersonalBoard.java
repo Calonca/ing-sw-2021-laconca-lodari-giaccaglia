@@ -52,7 +52,7 @@ public class PersonalBoard {
      * that are initialized to Optional.empty() before being set
      * and then the ones from {@link ProductionLeader cards.leaders}
      */
-    private List<Optional<Production>> productions;
+    private Map<Integer, Production> productions;
     /**
      * An array of the spots where the player can place cards
      */
@@ -60,7 +60,7 @@ public class PersonalBoard {
     /**
      * A list that stores if a {@link Production} is selected, it has the same order of {@link #productions}
      */
-    private List<Optional<Boolean>> prodsSelected;
+    private Map<Integer, Boolean> prodsSelected;
 
     private Map<Integer, List<Integer>> historyOfInputResourcesForProduction;  //key -> position of production; value -> position of chosen resources
 
@@ -89,19 +89,13 @@ public class PersonalBoard {
         /*strongBox.addResources(new int[]{20,15,12,30});   //to test CardShop
         warehouseLeadersDepots.addResource(new Pair<>(0,Resource.GOLD));
         warehouseLeadersDepots.addResource(new Pair<>(1,Resource.SERVANT));
-        warehouseLeadersDepots.addResource(new Pair<>(3,Resource.STONE));
+        warehouseLeadersDepots.addResource(new Pair<>(3,Resource.STONE)); */
 
-         */
 
-        productions = Stream.of(Optional.of(Production.basicProduction())).collect(Collectors.toList());
-        productions.add(Optional.empty());
-        productions.add(Optional.empty());
-        productions.add(Optional.empty());
+        productions = Stream.of((Production.basicProduction())).collect(Collectors.toMap(production  -> 0, production -> production));
         cardCells = Stream.generate(ProductionCardCell::new).limit(3).toArray(ProductionCardCell[]::new);
-        prodsSelected = Stream.of(Optional.of(false)).collect(Collectors.toList());
-        prodsSelected.add(Optional.empty());
-        prodsSelected.add(Optional.empty());
-        prodsSelected.add(Optional.empty());
+        prodsSelected = new HashMap<>();
+        prodsSelected.put(0, false); //basic production
         discounts=new int[8];
         historyOfInputResourcesForProduction = new HashMap<>();
         lastSelectedProductionPosition = -1;
@@ -116,8 +110,12 @@ public class PersonalBoard {
     }
 
     public Optional<Production> getProductionFromPosition(int position){
-        if(position >= 0 && position < productions.size())
-            return productions.get(position);
+
+        int productionsLastPosition = productions.keySet().stream().mapToInt(pos -> pos).max().getAsInt();
+
+        if(position >= 0 && position <= productionsLastPosition)
+            return Optional.of(productions.get(position));
+
         else return Optional.empty();
     }
 
@@ -132,20 +130,22 @@ public class PersonalBoard {
 
     public Map<Integer, Pair <Pair<Map<Integer, Integer> , Map<Integer, Integer>>, Pair<Boolean, Boolean>>> getSimpleProductionsMap(){
 
-        return IntStream.range(0, productions.size()).boxed().collect(Collectors.toMap(
+        int productionsLastPosition = productions.keySet().stream().mapToInt(pos -> pos).max().getAsInt();
+
+        if(productionsLastPosition<cardCells.length + 2)
+            productionsLastPosition = cardCells.length + 2;
+
+        return IntStream.rangeClosed(0, productionsLastPosition).boxed().collect(Collectors.toMap(
                 productionIndex-> productionIndex,
                 productionIndex -> {
 
-                    Optional<Production> production = productions.get(productionIndex);
+                    Map<Integer, Integer> inputs =  productions.containsKey(productionIndex) ? productions.get(productionIndex).getInputsMap() : new HashMap<>();
 
-                    Map<Integer, Integer> inputs = production.isPresent() ? production.get().getInputsMap() : new HashMap<>();
+                    Map<Integer, Integer> outputs = productions.containsKey(productionIndex) ?  productions.get(productionIndex).getOutputsMap() : new HashMap<>();
 
-                    Map<Integer, Integer> outputs = production.isPresent() ? production.get().getOutputsMap() : new HashMap<>();
+                    boolean isAvailable =  productions.containsKey(productionIndex) && hasResources( productions.get(productionIndex).getInputs());
 
-                    boolean isAvailable = production.isPresent() && hasResources(production.get().getInputs());
-
-                    boolean isSelected = prodsSelected.get(productionIndex).isPresent() && prodsSelected.get(productionIndex).get();
-
+                    boolean isSelected = prodsSelected.containsKey(productionIndex) && prodsSelected.get(productionIndex);
 
                     Pair<Map<Integer, Integer>, Map<Integer, Integer>> inputsAndOutPuts = new Pair<>(inputs, outputs);
 
@@ -165,10 +165,17 @@ public class PersonalBoard {
     public void produce(){
 
         removeSelected();
-        int[] resources = IntStream.range(0,prodsSelected.size()).filter((pos)->prodsSelected.get(pos).isPresent())
-                .filter((pos)->prodsSelected.get(pos).get())
-                .mapToObj((pos)->productions.get(pos).get().getOutputs())
+
+        int productionsLastPosition = productions.keySet().stream().mapToInt(pos -> pos).max().getAsInt();
+
+        if(productionsLastPosition<cardCells.length + 2)
+            productionsLastPosition = cardCells.length + 2;
+
+        int[] resources = IntStream.rangeClosed(0,productionsLastPosition).filter((pos)->prodsSelected.containsKey(pos))
+                .filter((pos)->prodsSelected.get(pos))
+                .mapToObj((pos)->productions.get(pos).getOutputs())
                 .reduce(IntStream.generate(()->0).limit(6).toArray(),(a,b)-> Util.sumArray(a,b,6));
+
         faithPointsToAdd = resources[4];
         badFaithToAdd = resources[5];
         strongBox.addResources(Arrays.stream(resources).limit(Resource.nRes).toArray());
@@ -224,11 +231,18 @@ public class PersonalBoard {
      * @return an {@link OptionalInt} of the first {@link Production production} where the player can choose a {@link Resource}
      */
     public Optional<Production> firstProductionSelectedWithChoice(){
-        return IntStream.range(0,productions.size())
-                .filter((i)->productions.get(i).isPresent())
-                .filter((i)-> prodsSelected.get(i).get())
-                .filter((i)->productions.get(i).get().choiceCanBeMade())
-                .mapToObj((i)->productions.get(i).get()).findFirst();
+
+        int productionsLastPosition = productions.keySet().stream().mapToInt(pos -> pos).max().getAsInt();
+
+        if(productionsLastPosition<cardCells.length + 2)
+            productionsLastPosition = cardCells.length + 2;
+
+
+        return IntStream.rangeClosed(0,productionsLastPosition)
+                .filter((i)-> prodsSelected.containsKey(i))
+                .filter((i) -> prodsSelected.get(i))
+                .filter((i)->productions.get(i).choiceCanBeMade())
+                .mapToObj((i)->productions.get(i)).findFirst();
     }
 
     /**
@@ -238,8 +252,28 @@ public class PersonalBoard {
      * @return an array which values are true for available productions
      */
     public Boolean[] getAvailableProductions(){
-        return productions.stream().map((prod)-> prod.filter(production -> hasResources(production.getInputs())).isPresent()).toArray(Boolean[]::new);
+
+        int productionsLastPosition = productions.keySet().stream().mapToInt(pos -> pos).max().getAsInt();
+
+        if(productionsLastPosition<cardCells.length + 2)
+            productionsLastPosition = cardCells.length + 2;
+
+        return IntStream.rangeClosed(0, productionsLastPosition)
+                .boxed()
+                .map(index -> {
+
+                    if(productions.containsKey(index))
+                        return hasResources(productions.get(index).getInputs());
+                    else return false;
+
+                })
+                .toArray(Boolean[]::new);
+
     }
+
+
+
+
 
     /**
      * Returns an array of the length of the {@link Production production} list,
@@ -247,23 +281,33 @@ public class PersonalBoard {
      * at that position will be used in this turn
      * @return an array which values are true for selected productions
      */
-    public Boolean[] getSelectedProduction(){return prodsSelected.stream().filter(Optional::isPresent).flatMap(Optional::stream).toArray(Boolean[]::new);}
+    public Boolean[] getSelectedProduction(){
+
+        int productionsLastPosition = prodsSelected.keySet().stream().mapToInt(pos -> pos).max().getAsInt();
+
+        if(productionsLastPosition<cardCells.length + 2)
+            productionsLastPosition = cardCells.length + 2;
+
+        return IntStream.rangeClosed(0, productionsLastPosition)
+                .boxed()
+                .map(index -> prodsSelected.getOrDefault(index, false))
+                .toArray(Boolean[]::new);
+
+    }
 
     /**
      * Resets the {@link Resource resources} chosen to {@link Resource#TO_CHOOSE} for all the {@link Production productions} that have choices.
      * Should be called at the end of the turn
      */
     public void resetChoices(){
-        productions.stream().flatMap(Optional::stream).filter(Production::choiceCanBeMade).forEach(Production::resetChoice);
+        productions.values().stream().filter(Production::choiceCanBeMade).forEach(Production::resetChoice);
     }
 
     /**
      * Resets the {@link Resource resources} chosen to {@link Resource#TO_CHOOSE} for all the {@link Production productions} that have choices
      */
     public void resetSelectedProductions(){
-        IntStream.range(0,prodsSelected.size())
-                .filter((pos)->prodsSelected.get(pos).isPresent())
-                .forEach((pos)->prodsSelected.set(pos,Optional.of(false)));
+        prodsSelected.keySet().forEach(pos -> prodsSelected.put(pos, false));
     }
 
     /**
@@ -272,17 +316,22 @@ public class PersonalBoard {
      * @param pos position of a production
      */
     public void toggleSelectProductionAt(int pos) {
-        prodsSelected.set(pos,
-                prodsSelected.get(pos).map((op)->!op)
-        );
 
-        if(prodsSelected.get(pos).get())   //production enabled
+        int productionsLastPosition = prodsSelected.keySet().stream().mapToInt(position -> position).max().getAsInt();
+
+
+        if(pos>productionsLastPosition || !productions.containsKey(pos))
+            return;
+
+        prodsSelected.put(pos, !prodsSelected.get(pos));
+
+        if(prodsSelected.containsKey(pos))   //production enabled
             lastSelectedProductionPosition = pos;
 
-        if(!prodsSelected.get(pos).get()  && historyOfInputResourcesForProduction.containsKey(pos)) {  //disable production, revert selected resources
+        if(!prodsSelected.containsKey(pos) && historyOfInputResourcesForProduction.containsKey(pos)) {  //disable production, revert selected resources
 
             List<Integer> positionsOfResourcesToDeselect = historyOfInputResourcesForProduction.get(pos);
-            Production toggledProduction = productions.get(pos).get();
+            Production toggledProduction = productions.get(pos);
             positionsOfResourcesToDeselect.forEach(this::deselectResourceAt);
 
             resetHistoryOfProductionResources(pos);
@@ -302,22 +351,26 @@ public class PersonalBoard {
     }
 
 
-
-
-
-
     /**
      * Flags the {@link Production production} at the given position as selected,
      * meaning that it will be used in the current turn
      * @param pos position of a production
      */
-    public void selectProductionAt(int pos) {prodsSelected.set(pos,Optional.of(true));}
+    public void selectProductionAt(int pos) {
+        if(!productions.containsKey(pos))
+            return;
+        prodsSelected.put(pos,true);}
     /**
      * Flags the {@link Production production} at the given position as deselected,
      * meaning that it will not be used in the current turn
      * @param pos position of a production
      */
-    public void deselectProductionAt(int pos) {prodsSelected.set(pos,Optional.of(false));}
+    public void deselectProductionAt(int pos) {
+
+        if(pos>= productions.size())
+            return;
+
+        prodsSelected.put(pos,false);}
 
     /**
      * Adds a {@link Production production} to the list of productions
@@ -325,8 +378,11 @@ public class PersonalBoard {
      */
     public void addProduction(Production production)
     {
-        productions.add(Optional.of(production));
-        prodsSelected.add(Optional.of(false));
+
+        int productionsLastPosition = productions.keySet().stream().mapToInt(pos -> pos).max().getAsInt();
+
+        productions.put(productionsLastPosition+1, production);
+        prodsSelected.put(productionsLastPosition+1, false);
     }
 
     /**
@@ -336,8 +392,9 @@ public class PersonalBoard {
      * @param pos position starting from 0 of the representing a spot on the PersonalBoard
      */
     public void addDevelopmentCardToCell(DevelopmentCard card, int pos) {
-        productions.set(pos+1,Optional.of(card.getProduction()));
-        prodsSelected.set(pos+1,Optional.of(false));
+
+        productions.put(pos+1, card.getProduction());
+        prodsSelected.put(pos+1, false);
         cardCells[pos].addToTop(card);
     }
 
@@ -379,9 +436,15 @@ public class PersonalBoard {
      * @return number of {@link Resource resources} to select remaining to activate {@link Production production}
      */
     public int remainingToSelectForProduction(){
+
+        int productionsLastPosition = productions.keySet().stream().mapToInt(pos -> pos).max().getAsInt();
+
+        if(productionsLastPosition<cardCells.length + 2)
+            productionsLastPosition = cardCells.length + 2;
+
         return  Math.max(0,
-                IntStream.range(0,productions.size()).filter((pos)->productions.get(pos).isPresent())
-                .filter((pos)->prodsSelected.get(pos).get()).map((pos)->productions.get(pos).get().getNumOfResInInput())
+                IntStream.rangeClosed(0,productionsLastPosition).filter((pos) -> prodsSelected.containsKey(pos))
+                .filter((pos)->prodsSelected.get(pos)).map((pos)->productions.get(pos).getNumOfResInInput())
                 .reduce(0,Integer::sum)
                 -
                 (warehouseLeadersDepots.getTotalSelected()+strongBox.getTotalSelected()));
@@ -463,11 +526,18 @@ public class PersonalBoard {
         firstProductionSelectedWithChoice().ifPresent((production)-> {
             Resource res = storageUnitFromPos(resPos).getResourceAt(resPos);
 
-            int productionPosition = productions.indexOf(firstProductionSelectedWithChoice());
+            Production firstProductionSelectedWithChoice = firstProductionSelectedWithChoice().get();
+
+            int productionPosition = productions.entrySet()
+                    .stream()
+                    .filter(entry -> entry.getValue().equals(firstProductionSelectedWithChoice))
+                    .findFirst()
+                    .get()
+                    .getKey();
 
             if(historyOfInputResourcesForProduction.containsKey(productionPosition)) {
 
-              List<Integer> chosenResourcesPositions =   historyOfInputResourcesForProduction.get(productionPosition);
+              List<Integer> chosenResourcesPositions = historyOfInputResourcesForProduction.get(productionPosition);
               chosenResourcesPositions.add(resPos);
 
             }

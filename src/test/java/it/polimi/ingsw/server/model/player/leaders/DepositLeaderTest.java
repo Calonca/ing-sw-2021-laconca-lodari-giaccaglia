@@ -42,8 +42,8 @@ public class DepositLeaderTest
 
         leadertest.activate(gamemodel);
         assertEquals(LeaderState.ACTIVE, leadertest.getState());
-        assertEquals(Resource.EMPTY,player.getPersonalBoard().getWarehouseLeadersDepots().getResourceAt(0));
-        assertEquals(Resource.EMPTY,player.getPersonalBoard().getWarehouseLeadersDepots().getResourceAt(1));
+        assertEquals(Resource.EMPTY, player.getPersonalBoard().getWarehouseLeadersDepots().getResourceAt(0));
+        assertEquals(Resource.EMPTY, player.getPersonalBoard().getWarehouseLeadersDepots().getResourceAt(1));
 
         leadertest = new DepositLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, depotTest);
         leadertest.discard(gamemodel);
