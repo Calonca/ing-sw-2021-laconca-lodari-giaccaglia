@@ -1,9 +1,7 @@
 package it.polimi.ingsw.client.json;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
-import it.polimi.ingsw.RuntimeTypeAdapterFactory;
-import it.polimi.ingsw.client.messages.servertoclient.ClientMessage;
-import it.polimi.ingsw.network.assets.CardAsset;
+import it.polimi.ingsw.server.utils.RuntimeTypeAdapterFactory;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import it.polimi.ingsw.network.assets.leaders.*;
 import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
@@ -12,7 +10,6 @@ import it.polimi.ingsw.network.jsonUtils.UUIDTypeAdapter;
 import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
-import it.polimi.ingsw.server.model.player.leaders.Leader;
 import javafx.util.Pair;
 
 import java.lang.reflect.Type;

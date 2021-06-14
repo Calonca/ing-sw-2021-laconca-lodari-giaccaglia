@@ -24,10 +24,11 @@ public class Match {
     private final List<String> offlineUsers = new ArrayList<>();
     private GameModel game;
     private final int maxPlayers;
-    private Date createdTime;
+    private final Date createdTime;
     private String reasonOfGameEnd;
 
-    private class User{
+    private static class User{
+
         String nickname;
         transient ClientHandler clientHandler;
 
@@ -57,6 +58,7 @@ public class Match {
         matchId = UUID.randomUUID();
         this.maxPlayers = maxPlayers;
         createdTime = new Date(System.currentTimeMillis());
+        reasonOfGameEnd = "";
     }
 
     boolean canAddPlayer(){
@@ -126,6 +128,8 @@ public class Match {
     public GameModel getGame(){
         return game;
     }
+
+
     public void reconnectPlayer(String nickname){
         game.getOfflinePlayers().values().stream().filter(player -> player.getNickName().equals(nickname)).findFirst()
                 .ifPresent((p)->

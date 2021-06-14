@@ -108,7 +108,7 @@ public class Production {
     /**
      * Return an array with the outputs of the production
      * @return an array of int with the outputs of the production.
-     * In position i of the array there is the number of resources of type i in the enum ordering
+     * In position i of the array there is the number of resources of resourceType i in the enum ordering
      */
     public int[] getOutputs(){
         return output;
@@ -118,7 +118,7 @@ public class Production {
     /**
      * Return an array with the inputs of the production
      * @return an array of int with the inputs of the production.
-     * In position i of the array there is the number of resources of type i in the enum ordering
+     * In position i of the array there is the number of resources of resourceType i in the enum ordering
      */
     public int[] getInputs(){
         return input;

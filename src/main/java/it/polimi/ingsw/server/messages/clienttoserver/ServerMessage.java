@@ -3,7 +3,7 @@ package it.polimi.ingsw.server.messages.clienttoserver;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.server.ClientHandler;
-import it.polimi.ingsw.RuntimeTypeAdapterFactory;
+import it.polimi.ingsw.server.utils.RuntimeTypeAdapterFactory;
 import it.polimi.ingsw.server.messages.clienttoserver.events.*;
 import it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent.ChooseCardEvent;
 import it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent.ChooseCardPositionEvent;

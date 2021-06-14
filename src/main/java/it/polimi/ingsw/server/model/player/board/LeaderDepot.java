@@ -17,6 +17,6 @@ public class LeaderDepot extends Depot {
     }
 
     public int geResourceType(){
-        return type.getResourceNumber();
+        return resourceType.getResourceNumber();
     }
 }

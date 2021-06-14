@@ -2,6 +2,8 @@ package it.polimi.ingsw.network.jsonUtils;
 
 import com.google.gson.*;
 import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import it.polimi.ingsw.server.controller.Match;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.market.MarketBoard;
 import org.apache.commons.io.IOUtils;
@@ -12,6 +14,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.*;
 import java.util.stream.*;
+
+import static it.polimi.ingsw.server.utils.Deserializator.gson;
 
 public class JsonUtility {
 
@@ -96,6 +100,7 @@ public class JsonUtility {
     }
 
     public static <T> void serialize(String jsonPath, T Object , Class<T> classToSerialize, Gson customGson) {
+
         String jsonString = serialize(Object, classToSerialize, customGson);
 
         try {
@@ -106,6 +111,18 @@ public class JsonUtility {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static <T> void serializeBigObject(String jsonPath, T object, Class<T> classToSerialize, Gson customGson) throws IOException {
+
+
+        FileWriter writer = new FileWriter(jsonPath);
+        customGson.toJson(object, writer);
+
+
+        writer.flush();
+        writer.close();
+
     }
 
     public static String toPrettyFormat(String jsonString)

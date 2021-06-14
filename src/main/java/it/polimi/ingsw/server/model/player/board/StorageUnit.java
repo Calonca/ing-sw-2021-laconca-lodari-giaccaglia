@@ -7,7 +7,7 @@ import javafx.util.Pair;
 /**
  * Interface to facilitate moving {@link Resource resources} between storage units
  */
-interface StorageUnit {
+public interface StorageUnit {
 
     /**
      * Removes the {@link Resource resource} at the given global position from the {@link StorageUnit}

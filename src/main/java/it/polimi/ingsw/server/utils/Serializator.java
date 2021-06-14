@@ -2,29 +2,30 @@ package it.polimi.ingsw.server.utils;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
-import it.polimi.ingsw.RuntimeTypeAdapterFactory;
 import it.polimi.ingsw.network.assets.*;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
-import it.polimi.ingsw.network.assets.leaders.*;
 import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.assets.tokens.ActionTokenAsset;
 import it.polimi.ingsw.network.jsonUtils.UUIDTypeAdapter;
-import it.polimi.ingsw.network.simplemodel.SimpleSoloActionToken;
+import it.polimi.ingsw.server.controller.Match;
+import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.cards.*;
 import it.polimi.ingsw.server.model.cards.production.Production;
 import it.polimi.ingsw.server.model.player.board.LeaderDepot;
+import it.polimi.ingsw.server.model.player.board.StorageUnit;
 import it.polimi.ingsw.server.model.player.leaders.*;
+import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.server.model.states.StatesTransitionTable;
 import javafx.util.Pair;
 
-import java.awt.event.ActionListener;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.nio.file.Path;
+import java.text.DateFormat;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -97,14 +98,15 @@ public class Serializator extends JsonUtility {
 
     public static void networkLeaderCardsAssetsMapSerialization(){
 
-        RuntimeTypeAdapterFactory<NetworkLeaderCard> jsonToNetworkLeaderListAdapter = RuntimeTypeAdapterFactory.of(NetworkLeaderCard.class);
+        Gson customGson =
+                gsonBuilder
+                .enableComplexMapKeySerialization()
+                .registerTypeAdapterFactory(GsonAdapters.gsonNetworkLeaderAdapter)
+                .registerTypeAdapter(UUID.class, new UUIDTypeAdapter())
+                .registerTypeHierarchyAdapter(Path.class, new PathConverter())
+                .setPrettyPrinting()
+                .create();
 
-        jsonToNetworkLeaderListAdapter.registerSubtype(NetworkDepositLeaderCard.class);
-        jsonToNetworkLeaderListAdapter.registerSubtype(NetworkMarketLeaderCard.class);
-        jsonToNetworkLeaderListAdapter.registerSubtype(NetworkProductionLeaderCard.class);
-        jsonToNetworkLeaderListAdapter.registerSubtype(NetworkDevelopmentDiscountLeaderCard.class);
-
-        Gson customGson = gsonBuilder.enableComplexMapKeySerialization().registerTypeAdapterFactory(jsonToNetworkLeaderListAdapter).registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).registerTypeHierarchyAdapter(Path.class, new PathConverter()).setPrettyPrinting().create();
         serialize(writeConfigPathString + "NetworkLeaderCardsAssetsMap.json", networkLeaderCardsAssetsMapBuilder(), Map.class, customGson);
     }
 
@@ -1156,17 +1158,9 @@ public class Serializator extends JsonUtility {
         series2.add(new DevelopmentDiscountLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,costTest));
 
 
-        RuntimeTypeAdapterFactory<Leader> jsonToLeaderListAdapter = RuntimeTypeAdapterFactory.of(Leader.class, "type");
-
-        //Register here all the Leader types
-        jsonToLeaderListAdapter.registerSubtype(DepositLeader.class , DepositLeader.class.getName());
-        jsonToLeaderListAdapter.registerSubtype(MarketLeader.class, MarketLeader.class.getName());
-        jsonToLeaderListAdapter.registerSubtype(ProductionLeader.class, ProductionLeader.class.getName());
-        jsonToLeaderListAdapter.registerSubtype(DevelopmentDiscountLeader.class, DevelopmentDiscountLeader.class.getName());
-
 
         Gson gson1 = gsonBuilder
-                .registerTypeAdapterFactory(jsonToLeaderListAdapter).setPrettyPrinting()
+                .registerTypeAdapterFactory(GsonAdapters.gsonLeaderAdapter).setPrettyPrinting()
                 .create();
 
         serialize(writeConfigPathString +"LeadersConfig.json", series2.toArray(Leader[]::new), Leader[].class, gson1);
@@ -1180,19 +1174,14 @@ public class Serializator extends JsonUtility {
         //   Leader[] cards.leaders = deserialize("src/main/resources/config/LeadersConfig.json" , Leader[].class);
     }
 
+
+
+
     public static void leaderCardsMapSerialization(){
-
-        RuntimeTypeAdapterFactory<Leader> jsonToLeaderListAdapter = RuntimeTypeAdapterFactory.of(Leader.class, "type");
-
-        //Register here all the Leader types
-        jsonToLeaderListAdapter.registerSubtype(DepositLeader.class , DepositLeader.class.getName());
-        jsonToLeaderListAdapter.registerSubtype(MarketLeader.class, MarketLeader.class.getName());
-        jsonToLeaderListAdapter.registerSubtype(ProductionLeader.class, ProductionLeader.class.getName());
-        jsonToLeaderListAdapter.registerSubtype(DevelopmentDiscountLeader.class, DevelopmentDiscountLeader.class.getName());
 
 
         Gson customGson = new GsonBuilder().enableComplexMapKeySerialization()
-                .registerTypeAdapterFactory(jsonToLeaderListAdapter)
+                .registerTypeAdapterFactory(GsonAdapters.gsonLeaderAdapter)
                 .registerTypeAdapter(UUID.class, new UUIDTypeAdapter())
                 .registerTypeHierarchyAdapter(Path.class, new PathConverter())
                 .enableComplexMapKeySerialization()
@@ -1233,23 +1222,47 @@ public class Serializator extends JsonUtility {
 
     private static void serializeSinglePlayerStatesTransitionTable () {
 
+        Gson customGson = new GsonBuilder()
+                .registerTypeAdapterFactory(GsonAdapters.gsonStrategyAdapter).setPrettyPrinting()
+                .create();
+
         JsonUtility.serialize(
                 JsonUtility.writeConfigPathString + StatesTransitionTable.singlePLayerTableFile,
                 StatesTransitionTable.setupCommonStatesTransitionTable(),
                 StatesTransitionTable.class,
-                StatesTransitionTable.jsonWithAdapter()
+                customGson
         );
 
     }
 
     private static void serializeMultiPlayerStatesTransitionTable() {
 
+        Gson customGson = new GsonBuilder()
+                .registerTypeAdapterFactory(GsonAdapters.gsonStrategyAdapter).setPrettyPrinting()
+                .create();
+
         JsonUtility.serialize(
                 JsonUtility.writeConfigPathString + StatesTransitionTable.multiPLayerTableFile,
                 StatesTransitionTable.setupCommonStatesTransitionTable(),
                 StatesTransitionTable.class,
-                StatesTransitionTable.jsonWithAdapter()
+                customGson
         );
+
+    }
+
+    public static void serializeMatch(Match match, String path) throws IOException {
+
+        Gson customGson = new GsonBuilder()
+                .enableComplexMapKeySerialization()
+                .registerTypeAdapterFactory(GsonAdapters.gsonLeaderAdapter)
+                .registerTypeAdapterFactory(GsonAdapters.gsonDepotAdapter)
+                .registerTypeAdapterFactory(GsonAdapters.gsonStrategyAdapter)
+                .registerTypeAdapter(UUID.class, new UUIDTypeAdapter())
+                .setPrettyPrinting()
+                .setDateFormat(DateFormat.FULL, DateFormat.FULL)
+                .create();
+
+        JsonUtility.serializeBigObject(path, match, Match.class, customGson);
 
     }
 
@@ -1278,9 +1291,14 @@ public class Serializator extends JsonUtility {
 
         cardShopSerialization();
         serializeTokensAssets();
- */
+
         serializeSinglePlayerStatesTransitionTable();
         serializeMultiPlayerStatesTransitionTable();
+        Match matchDeserialized = Deserializator.deserializeMatch("/savedMatches/pa|076cc1e7-5606-4710-92a9-fd907f564b5e.json");
+
+ */
+
+
 
 
 

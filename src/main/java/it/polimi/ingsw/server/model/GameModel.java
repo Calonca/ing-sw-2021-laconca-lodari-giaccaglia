@@ -27,7 +27,7 @@ public class GameModel {
      */
     private Player currentPlayer;
 
-    private final Match match;
+    private transient Match match;
 
     /**
      * List of current game registered players after lobby creation.
@@ -496,8 +496,8 @@ public class GameModel {
 
     /**
      * Removes the given number of {@link DevelopmentCard development cards}
-     * of the given {@link DevelopmentCardColor type} from the {@link CardShop development card shop}.
-     * @param card type of card to discard.
+     * of the given {@link DevelopmentCardColor resourceType} from the {@link CardShop development card shop}.
+     * @param card resourceType of card to discard.
      * @param amount number of cards to discard.
      */
     public void discardCardFromShop(DevelopmentCardColor card, int amount){
@@ -626,8 +626,8 @@ public class GameModel {
         return player.getLorenzoPosition();
     }
 
-    public UUID getMatchID() {
-        return match.getMatchId();
+    public void setMatch(Match match){
+        this.match = match;
     }
 
     public Match getThisMatch(){

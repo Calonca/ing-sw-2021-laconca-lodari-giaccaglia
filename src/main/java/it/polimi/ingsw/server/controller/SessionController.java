@@ -1,18 +1,13 @@
 package it.polimi.ingsw.server.controller;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+
 import it.polimi.ingsw.network.messages.servertoclient.MatchesData;
-import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
 import it.polimi.ingsw.server.ClientHandler;
-import it.polimi.ingsw.server.messages.messagebuilders.Element;
-import it.polimi.ingsw.server.model.states.State;
+import it.polimi.ingsw.server.utils.Serializator;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -109,12 +104,11 @@ public class SessionController {
     }
 
     public void saveMatch(Match match) throws IOException {
+
         String gameName = match.getSaveName();
-        Writer writer = new FileWriter("src/main/resources/savedMatches/"+gameName+".json");
-        Gson gson = new GsonBuilder().create();
-        gson.toJson(match, writer);
-        writer.flush(); //flush data to file
-        writer.close(); //close write
+        String path = "src/main/resources/savedMatches/" + gameName + ".json";
+        Serializator.serializeMatch(match, path);
+
     }
 
     public Optional<Match> loadMatch(UUID gameId) {
@@ -126,9 +120,11 @@ public class SessionController {
     }
 
     public void deleteGame(UUID gameId){
+
         File folder = new File("src/main/resources/savedMatches/");
         Arrays.stream(folder.listFiles()).filter(File::isFile)
                 .filter(file -> file.getName().contains(gameId.toString()))
                 .findFirst().ifPresent(File::delete);
     }
+
 }

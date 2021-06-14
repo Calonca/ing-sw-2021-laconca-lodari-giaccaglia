@@ -3,7 +3,7 @@ package it.polimi.ingsw.client.messages.servertoclient;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.client.ServerHandler;
-import it.polimi.ingsw.RuntimeTypeAdapterFactory;
+import it.polimi.ingsw.server.utils.RuntimeTypeAdapterFactory;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.network.messages.servertoclient.ServerToClientMessage;
 

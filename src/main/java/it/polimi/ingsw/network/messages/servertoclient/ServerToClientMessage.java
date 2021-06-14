@@ -2,19 +2,15 @@ package it.polimi.ingsw.network.messages.servertoclient;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.simplemodel.EndGameInfo;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.network.messages.NetworkMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
-import it.polimi.ingsw.RuntimeTypeAdapterFactory;
+import it.polimi.ingsw.server.utils.RuntimeTypeAdapterFactory;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
 import it.polimi.ingsw.network.simplemodel.*;
-import javafx.util.Pair;
-import org.apache.commons.lang3.tuple.MutablePair;
 
 import java.nio.file.Path;
-import java.util.Map;
 import java.util.UUID;
 
 import static it.polimi.ingsw.network.jsonUtils.JsonUtility.serialize;
@@ -59,7 +55,7 @@ public abstract class ServerToClientMessage extends NetworkMessage
 
     /**
      * Method used for serialization.
-     * @return a json string representing the message and it's type.
+     * @return a json string representing the message and it's resourceType.
      */
     public String serialized()
     {

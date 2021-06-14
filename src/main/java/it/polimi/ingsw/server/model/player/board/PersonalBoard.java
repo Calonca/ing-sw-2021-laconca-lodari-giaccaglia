@@ -417,11 +417,11 @@ public class PersonalBoard {
 
     /**
      * Returns how many of the given {@link Resource resource} the player has in all the {@link StorageUnit deposits}
-     * @param type a {@link Resource resource}, should be a "physical" {@link Resource resource} for a meaningful call
+     * @param resourceType a {@link Resource resource}, should be a "physical" {@link Resource resource} for a meaningful call
      * @return a int indicating how many of the given {@link Resource resource} the player has in all the {@link StorageUnit deposits}
      */
-    public int getNumberOf(Resource type) {
-        return strongBox.getNumberOf(type) + warehouseLeadersDepots.getNumberOf(type);
+    public int getNumberOf(Resource resourceType) {
+        return strongBox.getNumberOf(resourceType) + warehouseLeadersDepots.getNumberOf(resourceType);
     }
 
     /**

@@ -3,14 +3,14 @@ package it.polimi.ingsw.server.utils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import it.polimi.ingsw.RuntimeTypeAdapterFactory;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import it.polimi.ingsw.network.assets.leaders.*;
 import it.polimi.ingsw.network.jsonUtils.UUIDTypeAdapter;
-import it.polimi.ingsw.server.model.Resource;
+import it.polimi.ingsw.server.controller.Match;
 import it.polimi.ingsw.server.model.cards.*;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.server.model.market.MarketBoard;
+import it.polimi.ingsw.server.model.player.board.StorageUnit;
 import it.polimi.ingsw.server.model.player.leaders.*;
 import it.polimi.ingsw.server.model.player.track.FaithTrack;
 import it.polimi.ingsw.server.model.states.StatesTransitionTable;
@@ -18,6 +18,7 @@ import it.polimi.ingsw.server.model.states.StatesTransitionTable;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
+import java.text.DateFormat;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -120,16 +121,8 @@ public class Deserializator extends JsonUtility {
     //helper method to initialize gameModel list of 16 leaders
     public static List<Leader> leaderCardsDeserialization(){
 
-        RuntimeTypeAdapterFactory<Leader> jsonToLeaderListAdapter = RuntimeTypeAdapterFactory.of(Leader.class, "type");
-
-        //Register here all the Leader types
-        jsonToLeaderListAdapter.registerSubtype(DepositLeader.class , DepositLeader.class.getName());
-        jsonToLeaderListAdapter.registerSubtype(MarketLeader.class, MarketLeader.class.getName());
-        jsonToLeaderListAdapter.registerSubtype(ProductionLeader.class, ProductionLeader.class.getName());
-        jsonToLeaderListAdapter.registerSubtype(DevelopmentDiscountLeader.class, DevelopmentDiscountLeader.class.getName());
-
         Gson gson = new GsonBuilder()
-                .registerTypeAdapterFactory(jsonToLeaderListAdapter)
+                .registerTypeAdapterFactory(GsonAdapters.gsonLeaderAdapter)
                 .create();
 
         Leader[] leaders = deserialize(readConfigPathString + "LeadersConfig.json", Leader[].class, gson);
@@ -138,14 +131,6 @@ public class Deserializator extends JsonUtility {
     }
 
     public static Map<UUID, NetworkLeaderCard> networkLeaderCardsDeserialization(){
-
-
-        RuntimeTypeAdapterFactory<NetworkLeaderCard> jsonToNetworkLeaderListAdapter = RuntimeTypeAdapterFactory.of(NetworkLeaderCard.class);
-
-        jsonToNetworkLeaderListAdapter.registerSubtype(NetworkDepositLeaderCard.class);
-        jsonToNetworkLeaderListAdapter.registerSubtype(NetworkMarketLeaderCard.class);
-        jsonToNetworkLeaderListAdapter.registerSubtype(NetworkProductionLeaderCard.class);
-        jsonToNetworkLeaderListAdapter.registerSubtype(NetworkDevelopmentDiscountLeaderCard.class);
 
         Map<UUID, Leader> modelLeadersMap = leadersCardMapDeserialization();
 
@@ -241,16 +226,8 @@ public class Deserializator extends JsonUtility {
 
     public static Map<UUID, Leader> leadersCardMapDeserialization(){
 
-        RuntimeTypeAdapterFactory<Leader> jsonToLeaderListAdapter = RuntimeTypeAdapterFactory.of(Leader.class, "type");
-
-        //Register here all the Leader types
-        jsonToLeaderListAdapter.registerSubtype(DepositLeader.class , DepositLeader.class.getName());
-        jsonToLeaderListAdapter.registerSubtype(MarketLeader.class, MarketLeader.class.getName());
-        jsonToLeaderListAdapter.registerSubtype(ProductionLeader.class, ProductionLeader.class.getName());
-        jsonToLeaderListAdapter.registerSubtype(DevelopmentDiscountLeader.class, DevelopmentDiscountLeader.class.getName());
-
         Gson customGson = new GsonBuilder()
-                .registerTypeAdapterFactory(jsonToLeaderListAdapter)
+                .registerTypeAdapterFactory(GsonAdapters.gsonLeaderAdapter)
                 .registerTypeAdapter(UUID.class, new UUIDTypeAdapter())
                 .registerTypeHierarchyAdapter(Path.class, new PathConverter())
                 .enableComplexMapKeySerialization()
@@ -262,19 +239,47 @@ public class Deserializator extends JsonUtility {
     }
 
     public static StatesTransitionTable deserializeSinglePlayerStatesTransitionTable() {
+
+        Gson customGson = new GsonBuilder()
+                .registerTypeAdapterFactory(GsonAdapters.gsonStrategyAdapter).setPrettyPrinting()
+                .create();
+
         return JsonUtility.deserialize(
                 JsonUtility.readConfigPathString + StatesTransitionTable.singlePLayerTableFile,
                 StatesTransitionTable.class,
-                StatesTransitionTable.jsonWithAdapter()
+                customGson
         );
     }
 
     public static StatesTransitionTable deserializeMultiPlayerStatesTransitionTable() {
+
+        Gson customGson = new GsonBuilder()
+                .registerTypeAdapterFactory(GsonAdapters.gsonStrategyAdapter).setPrettyPrinting()
+                .create();
+
         return JsonUtility.deserialize(
                 JsonUtility.readConfigPathString + StatesTransitionTable.multiPLayerTableFile,
                 StatesTransitionTable.class,
-                StatesTransitionTable.jsonWithAdapter()
+                customGson
         );
+    }
+
+    public static Match deserializeMatch(String path){
+
+
+        Gson customGson = new GsonBuilder()
+                .enableComplexMapKeySerialization()
+                .registerTypeAdapterFactory(GsonAdapters.gsonLeaderAdapter)
+                .registerTypeAdapterFactory(GsonAdapters.gsonDepotAdapter)
+                .registerTypeAdapterFactory(GsonAdapters.gsonStrategyAdapter)
+                .registerTypeAdapter(UUID.class, new UUIDTypeAdapter())
+                .setDateFormat(DateFormat.FULL, DateFormat.FULL)
+                .setPrettyPrinting().create();
+
+        Match match = JsonUtility.deserialize(path, Match.class, customGson);
+        match.getGame().setMatch(match);
+
+        return match;
     }
 
 

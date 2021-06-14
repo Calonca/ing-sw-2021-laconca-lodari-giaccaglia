@@ -15,7 +15,7 @@ public abstract class Depot{
     /**
      * A pair of Resource and boolean that indicates if the resource is selected for the next action, meaning that it will be used in the next action
      */
-    private final List<Pair<Resource,Boolean>> res_sel;
+    private List<Pair<Resource,Boolean>> res_sel;
     /**
      * the global position of the first cell of the depot
      */
@@ -27,17 +27,19 @@ public abstract class Depot{
     /**
      * Type of the resource that this depot can contain
      */
-    protected Resource type;
+    protected Resource resourceType;
 
+
+    public Depot(){}
     /**
      * Creates a depot with parameters
      * @param length the size of the depot, must be greater than zero
      * @param globalPositionOfFirstElement Resources in the depot have a global position to make it easier to move them between depots
-     * @param type the newly created depot will only accept Resources of this type, can be Resource.EMPTY
+     * @param resourceType the newly created depot will only accept Resources of this resourceType, can be Resource.EMPTY
      */
-    public Depot(int length, int globalPositionOfFirstElement, Resource type){
+    public Depot(int length, int globalPositionOfFirstElement, Resource resourceType){
         res_sel = Stream.generate(()-> new Pair<>(Resource.EMPTY,false)).limit(length).collect(Collectors.toList());
-        this.type = type;
+        this.resourceType = resourceType;
         this.globalPositionOfFirstElement = globalPositionOfFirstElement;
     }
 
@@ -51,11 +53,11 @@ public abstract class Depot{
 
 
     /**
-     * Sets the type of the resource stored in depot to the given type
-     * @param type type of the Resources that can be stored in the depot
+     * Sets the resourceType of the resource stored in depot to the given resourceType
+     * @param resourceType resourceType of the Resources that can be stored in the depot
      */
-    void setType(Resource type){
-        this.type=type;
+    void setResourceType(Resource resourceType){
+        this.resourceType = resourceType;
     }
 
     /**
@@ -108,7 +110,7 @@ public abstract class Depot{
      * @return an IntStream of the positions this depot where you can move the given resource
      */
     public IntStream availableSpotsFor(Resource resource){
-        if (!resource.equals(Resource.EMPTY) && (type.equals(resource)||type.equals(Resource.EMPTY)))
+        if (!resource.equals(Resource.EMPTY) && (resourceType.equals(resource)|| resourceType.equals(Resource.EMPTY)))
             return IntStream.range(0, getSize()).
                     filter((pos)->
                         !res_sel.get(pos).getValue()&&//isNotSelected
@@ -140,7 +142,7 @@ public abstract class Depot{
      * @param pos_Res a pair of an integer that represents a global position and a resource, the pair represents the position and resource to add
      */
     void addResource(Pair<Integer,Resource> pos_Res) {
-        if (getOccupiedSpotsInDepotNum()==0) setType(pos_Res.getValue());
+        if (getOccupiedSpotsInDepotNum()==0) setResourceType(pos_Res.getValue());
         numberOfOccupiedSpots +=1;
         res_sel.set(globalToLocalPos(pos_Res.getKey()), new Pair<>(pos_Res.getValue(),false));
     }
@@ -172,12 +174,12 @@ public abstract class Depot{
     }
 
 
-    /** Returns how many {@link Resource resources} of the given type there are
+    /** Returns how many {@link Resource resources} of the given resourceType there are
      * @param type is a {@link Resource}
-     * @return number of {@link Resource resources} of the given type in the deposit
+     * @return number of {@link Resource resources} of the given resourceType in the deposit
      */
     public int getNumberOf(Resource type){
-        if (!type.equals(this.type))
+        if (!type.equals(this.resourceType))
             return 0;
         else return getOccupiedSpotsInDepotNum();
     }

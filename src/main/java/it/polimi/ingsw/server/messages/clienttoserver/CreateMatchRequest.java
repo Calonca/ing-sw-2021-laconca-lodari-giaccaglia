@@ -37,6 +37,8 @@ public class CreateMatchRequest extends it.polimi.ingsw.network.messages.clientt
                          SessionController.getInstance().notifyPlayersInLobby(clientHandler);
                          clientHandler.sendAnswerMessage(new CreatedMatchStatus(this,match.getMatchId(),null));
                          SessionController.getInstance().startMatchAndNotifyStateIfPossible(match);
+                       //  SessionController.getInstance().saveMatch(match);
+
                      } catch (IOException e) {
                          e.printStackTrace();
                      }

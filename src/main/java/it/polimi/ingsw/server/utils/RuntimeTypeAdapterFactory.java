@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package it.polimi.ingsw;
+package it.polimi.ingsw.server.utils;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;
@@ -33,8 +33,8 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
 /**
- * Adapts values whose runtime type may differ from their declaration type. This
- * is necessary when a field's type is not the same type that GSON should create
+ * Adapts values whose runtime resourceType may differ from their declaration resourceType. This
+ * is necessary when a field's resourceType is not the same resourceType that GSON should create
  * when deserializing that field. For example, consider these types:
  * <pre>   {@code
  *   abstract class Shape {
@@ -57,7 +57,7 @@ import com.google.gson.stream.JsonWriter;
  *     Shape topShape;
  *   }
  * }</pre>
- * <p>Without additional type information, the serialized JSON is ambiguous. Is
+ * <p>Without additional resourceType information, the serialized JSON is ambiguous. Is
  * the bottom shape in this drawing a rectangle or a diamond? <pre>   {@code
  *   {
  *     "bottomShape": {
@@ -72,43 +72,43 @@ import com.google.gson.stream.JsonWriter;
  *       "y": 1
  *     }
  *   }}</pre>
- * This class addresses this problem by adding type information to the
- * serialized JSON and honoring that type information when the JSON is
+ * This class addresses this problem by adding resourceType information to the
+ * serialized JSON and honoring that resourceType information when the JSON is
  * deserialized: <pre>   {@code
  *   {
  *     "bottomShape": {
- *       "type": "Diamond",
+ *       "resourceType": "Diamond",
  *       "width": 10,
  *       "height": 5,
  *       "x": 0,
  *       "y": 0
  *     },
  *     "topShape": {
- *       "type": "Circle",
+ *       "resourceType": "Circle",
  *       "radius": 2,
  *       "x": 4,
  *       "y": 1
  *     }
  *   }}</pre>
- * Both the type field name ({@code "type"}) and the type labels ({@code
+ * Both the resourceType field name ({@code "resourceType"}) and the resourceType labels ({@code
  * "Rectangle"}) are configurable.
  *
  * <h3>Registering Types</h3>
- * Create a {@code RuntimeTypeAdapterFactory} by passing the base type and type field
- * name to the {@link #of} factory method. If you don't supply an explicit type
- * field name, {@code "type"} will be used. <pre>   {@code
+ * Create a {@code RuntimeTypeAdapterFactory} by passing the base resourceType and resourceType field
+ * name to the {@link #of} factory method. If you don't supply an explicit resourceType
+ * field name, {@code "resourceType"} will be used. <pre>   {@code
  *   RuntimeTypeAdapterFactory<Shape> shapeAdapterFactory
- *       = RuntimeTypeAdapterFactory.of(Shape.class, "type");
+ *       = RuntimeTypeAdapterFactory.of(Shape.class, "resourceType");
  * }</pre>
  * Next register all of your subtypes. Every subtype must be explicitly
  * registered. This protects your application from injection attacks. If you
- * don't supply an explicit type label, the type's simple name will be used.
+ * don't supply an explicit resourceType label, the resourceType's simple name will be used.
  * <pre>   {@code
  *   shapeAdapterFactory.registerSubtype(Rectangle.class, "Rectangle");
  *   shapeAdapterFactory.registerSubtype(Circle.class, "Circle");
  *   shapeAdapterFactory.registerSubtype(Diamond.class, "Diamond");
  * }</pre>
- * Finally, register the type adapter factory in your application's GSON builder:
+ * Finally, register the resourceType adapter factory in your application's GSON builder:
  * <pre>   {@code
  *   Gson gson = new GsonBuilder()
  *       .registerTypeAdapterFactory(shapeAdapterFactory)
@@ -123,7 +123,7 @@ import com.google.gson.stream.JsonWriter;
  *
  * <h3>Serialization and deserialization</h3>
  * In order to serialize and deserialize a polymorphic object,
- * you must specify the base type explicitly.
+ * you must specify the base resourceType explicitly.
  * <pre>   {@code
  *   Diamond diamond = new Diamond();
  *   String json = gson.toJson(diamond, Shape.class);
@@ -150,36 +150,36 @@ public final class RuntimeTypeAdapterFactory<T> implements TypeAdapterFactory {
     }
 
     /**
-     * Creates a new runtime type adapter using for {@code baseType} using {@code
-     * typeFieldName} as the type field name. Type field names are case sensitive.
-     * {@code maintainType} flag decide if the type will be stored in pojo or not.
+     * Creates a new runtime resourceType adapter using for {@code baseType} using {@code
+     * typeFieldName} as the resourceType field name. Type field names are case sensitive.
+     * {@code maintainType} flag decide if the resourceType will be stored in pojo or not.
      */
     public static <T> RuntimeTypeAdapterFactory<T> of(Class<T> baseType, String typeFieldName, boolean maintainType) {
         return new RuntimeTypeAdapterFactory<T>(baseType, typeFieldName, maintainType);
     }
 
     /**
-     * Creates a new runtime type adapter using for {@code baseType} using {@code
-     * typeFieldName} as the type field name. Type field names are case sensitive.
+     * Creates a new runtime resourceType adapter using for {@code baseType} using {@code
+     * typeFieldName} as the resourceType field name. Type field names are case sensitive.
      */
     public static <T> RuntimeTypeAdapterFactory<T> of(Class<T> baseType, String typeFieldName) {
         return new RuntimeTypeAdapterFactory<T>(baseType, typeFieldName, false);
     }
 
     /**
-     * Creates a new runtime type adapter for {@code baseType} using {@code "type"} as
-     * the type field name.
+     * Creates a new runtime resourceType adapter for {@code baseType} using {@code "resourceType"} as
+     * the resourceType field name.
      */
     public static <T> RuntimeTypeAdapterFactory<T> of(Class<T> baseType) {
         return new RuntimeTypeAdapterFactory<T>(baseType, "type", false);
     }
 
     /**
-     * Registers {@code type} identified by {@code label}. Labels are case
+     * Registers {@code resourceType} identified by {@code label}. Labels are case
      * sensitive.
      *
-     * @throws IllegalArgumentException if either {@code type} or {@code label}
-     *     have already been registered on this type adapter.
+     * @throws IllegalArgumentException if either {@code resourceType} or {@code label}
+     *     have already been registered on this resourceType adapter.
      */
     public RuntimeTypeAdapterFactory<T> registerSubtype(Class<? extends T> type, String label) {
         if (type == null || label == null) {
@@ -194,11 +194,11 @@ public final class RuntimeTypeAdapterFactory<T> implements TypeAdapterFactory {
     }
 
     /**
-     * Registers {@code type} identified by its {@link Class#getSimpleName simple
+     * Registers {@code resourceType} identified by its {@link Class#getSimpleName simple
      * name}. Labels are case sensitive.
      *
-     * @throws IllegalArgumentException if either {@code type} or its simple name
-     *     have already been registered on this type adapter.
+     * @throws IllegalArgumentException if either {@code resourceType} or its simple name
+     *     have already been registered on this resourceType adapter.
      */
     public RuntimeTypeAdapterFactory<T> registerSubtype(Class<? extends T> type) {
         return registerSubtype(type, type.getSimpleName());

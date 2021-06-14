@@ -2,7 +2,7 @@ package it.polimi.ingsw.server.model.states;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import it.polimi.ingsw.RuntimeTypeAdapterFactory;
+import it.polimi.ingsw.server.utils.RuntimeTypeAdapterFactory;
 import it.polimi.ingsw.server.controller.strategy.*;
 import it.polimi.ingsw.server.controller.strategy.cardmarket.*;
 import it.polimi.ingsw.server.controller.strategy.leader.*;
@@ -156,33 +156,5 @@ public class StatesTransitionTable {
         return statesTransitionTable;
     }
 
-
-
-    public static Gson jsonWithAdapter(){
-
-        RuntimeTypeAdapterFactory<GameStrategy> strategyAdapter = RuntimeTypeAdapterFactory.of(GameStrategy.class);
-
-        strategyAdapter.registerSubtype(IDLE.class);
-        strategyAdapter.registerSubtype(ExecuteLeaderAction.class);
-        strategyAdapter.registerSubtype(Middle.class);
-        strategyAdapter.registerSubtype(ActivatingLeader.class);
-        strategyAdapter.registerSubtype(DiscardingLeader.class);
-        strategyAdapter.registerSubtype(AcquiringDevelopmentCard.class);
-        strategyAdapter.registerSubtype(ChoosingSpaceForDevelopmentCard.class);
-        strategyAdapter.registerSubtype(PayingResourcesForDevelopmentCard.class);
-        strategyAdapter.registerSubtype(ChoosingResourceForProduction.class);
-        strategyAdapter.registerSubtype(MovingResource.class);
-        strategyAdapter.registerSubtype(ChoosingMarketBonus.class);
-        strategyAdapter.registerSubtype(DiscardingResources.class);
-        strategyAdapter.registerSubtype(PuttingBallOnLine.class);
-        strategyAdapter.registerSubtype(TogglingForProduction.class);
-        strategyAdapter.registerSubtype(Setup.class);
-        strategyAdapter.registerSubtype(EndGameStrategy.class);
-        strategyAdapter.registerSubtype(FinalProductionStrategy.class);
-
-        return new GsonBuilder()
-                .registerTypeAdapterFactory(strategyAdapter).setPrettyPrinting()
-                .create();
-    }
 
 }

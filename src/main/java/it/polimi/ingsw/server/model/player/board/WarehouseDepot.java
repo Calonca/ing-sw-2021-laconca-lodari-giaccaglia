@@ -4,7 +4,6 @@ import it.polimi.ingsw.server.model.Resource;
 
 public class WarehouseDepot extends Depot {
 
-
     /**
      * Creates a depot of the given dimension and given global position
      * Resource.Empty means that it will change when adding resources to the type of the added resource
@@ -23,6 +22,6 @@ public class WarehouseDepot extends Depot {
     @Override
     void removeResource(int globalPosition) {
         super.removeResource(globalPosition);
-        if (getOccupiedSpotsInDepotNum()==0) setType(Resource.EMPTY);
+        if (getOccupiedSpotsInDepotNum()==0) setResourceType(Resource.EMPTY);
     }
 }
