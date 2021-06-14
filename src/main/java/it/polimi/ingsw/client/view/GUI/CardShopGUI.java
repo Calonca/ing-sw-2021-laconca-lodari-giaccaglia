@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.GUI;
 
 
+import com.sun.scenario.effect.Effect;
 import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.CLI.IDLEViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
@@ -14,6 +15,9 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.SubScene;
 import javafx.scene.control.*;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.Glow;
+import javafx.scene.effect.Shadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -36,14 +40,16 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
     int purchasableCount=0;
     int ROWS=3;
     int COLUMNS=4;
+    double cardsHGap=20;
+    double cardsVGap=20;
     double len=800;
     double width=640;
     double cardTilt=0.1;
     double marketTranslateX=-570;
     double marketTranslateY=110;
-    List<Button> scenePaymentButtons=new ArrayList<>();
-    List<Button> scenesCardsToChoose=new ArrayList<>();
-    javafx.collections.ObservableList<Boolean> scenePaidButtons;
+    List<ImageView> scenesCardsToChoose=new ArrayList<>();
+
+    List<Boolean> availableCards=new ArrayList<>();
 
     javafx.collections.ObservableList<Boolean> selectedSceneCards;
 
@@ -101,8 +107,8 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
 
         Button confirm=new Button();
         confirm.setText("CONFIRM");
-        confirm.setLayoutY(720);
-        confirm.setLayoutX(300);
+        confirm.setLayoutY(len-80);
+        confirm.setLayoutX(width/2);
         confirm.setOnAction(p -> {
 
 
@@ -153,13 +159,10 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
 
-        GridPane cardsGrid=new GridPane();
-        cardsGrid.setLayoutX(5);
-        cardsGrid.setLayoutY(0);
-        Button sceneCard;
-        cardsGrid.setHgap(5);
-        cardsGrid.setVgap(5);
 
+
+
+        Button validationButton= validationButton();
         Path path;
         ImageView tempImage;
         SimpleCardShop simpleCardShop = getSimpleCardShop();
@@ -177,20 +180,39 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
                 //todo remove grid to remove buttons
 
 
-                sceneCard = new Button();
-                sceneCard.setId("developmentCardButton");
-                sceneCard.setRotate(Math.random() * (cardTilt - -cardTilt + 1) + -1 );
+                tempImage.setId("developmentCardButton");
+                tempImage.setRotate(Math.random() * (cardTilt - -cardTilt + 1) + -1 );
 
-                tempImage.setFitWidth((width-80)/4);
+                double cardWidth=(width-90)/COLUMNS;
+                tempImage.setFitWidth(cardWidth);
+
                 tempImage.setPreserveRatio(true);
-                sceneCard.setGraphic(tempImage);
                 //ROWS COLUMNS
-                cardsGrid.add(sceneCard,j,i);
-                scenesCardsToChoose.add(sceneCard);
-                if(!simpleCardShop.getCardFront(NetworkDevelopmentCardColor.fromInt(j),3-i).get().getDevelopmentCard().isSelectable())
-                    sceneCard.setDisable(true);
-                else
-                    purchasableCount++;
+
+                ImageView tempStackImage;
+                int stackHeight = getSimpleCardShop().getStackHeight(NetworkDevelopmentCardColor.fromInt(j),3-i);
+
+                for(int k=1;k<stackHeight;k++)
+                {
+                    path=simpleCardShop.getCardFront(NetworkDevelopmentCardColor.fromInt(j),3-i).get().getCardPaths().getKey();
+                    tempStackImage=new ImageView(new Image(path.toString(), true));
+                    tempStackImage.setLayoutX(20+(cardsHGap+cardWidth)*j);
+                    tempStackImage.setLayoutY(20+(cardsVGap+cardWidth*(741/504.0))*i);
+                    tempStackImage.setRotate(Math.random() * ((5 - -5) + 1) + -5);
+                    tempStackImage.setFitWidth(cardWidth);
+
+                    tempStackImage.setPreserveRatio(true);
+
+                    cardsAnchor.getChildren().add(tempStackImage);
+
+                }
+                cardsAnchor.getChildren().add(tempImage);
+                tempImage.setLayoutX(20+(cardsHGap+cardWidth)*j);
+                tempImage.setLayoutY(20+(cardsVGap+cardWidth*(741/504.0))*i);
+
+                scenesCardsToChoose.add(tempImage);
+                availableCards.add(simpleCardShop.getCardFront(NetworkDevelopmentCardColor.fromInt(j),3-i).get().getDevelopmentCard().isSelectable());
+
             }
         }
 
@@ -202,22 +224,32 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
 
 
 
-        ViewPersonalBoard.getController().cardSelector(selectedSceneCards,scenesCardsToChoose,1);
+        ViewPersonalBoard.getController().cardSelectorFromImage(selectedSceneCards,scenesCardsToChoose,1);
 
         selectedSceneCards.addListener((ListChangeListener<Boolean>) c -> {
             c.next();
             getClient().getStage().getScene().setCursor(ImageCursor.HAND);
+
 
             if(c.getAddedSubList().get(0))
             {
                 //ViewPersonalBoard.getController().highlightTrue(selectedSceneCards,scenesCardsToChoose);
                 for (Boolean aBoolean : selectedSceneCards)
                     if (aBoolean)
-                        System.out.println(selectedSceneCards.indexOf(aBoolean));
-                        //scenesCardsToChoose.get(selectedSceneCards.indexOf(aBoolean)).setLayoutX(scenesCardsToChoose.get(selectedSceneCards.indexOf(aBoolean)).getLayoutX()+10);
+                    {
+                        validationButton.setDisable(!availableCards.get(c.getFrom()));
+                        scenesCardsToChoose.get(c.getFrom()).setLayoutY(scenesCardsToChoose.get(c.getFrom()).getLayoutY()-15);
+                        System.out.println(c.getFrom());
+
+
+                    }
+                            //scenesCardsToChoose.get(selectedSceneCards.indexOf(aBoolean)).setLayoutX(scenesCardsToChoose.get(selectedSceneCards.indexOf(aBoolean)).getLayoutX()+10);
             }
             else
                 {
+                    validationButton.setDisable(false);
+                    scenesCardsToChoose.get(c.getFrom()).setLayoutY(scenesCardsToChoose.get(c.getFrom()).getLayoutY()+15);
+
                 //ViewPersonalBoard.getController().dehighlightTrue(selectedSceneCards,scenesCardsToChoose);
 
             }
@@ -229,28 +261,8 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
 
 
 
-        cardsAnchor.getChildren().add(validationButton());
-        cardsAnchor.getChildren().add(cardsGrid);
+        cardsAnchor.getChildren().add(validationButton);
 
-        error.setOpacity(0);
-        error.setLayoutX(width/3);
-        error.setLayoutY(len-40);
-
-        Button backButton=new Button();
-        backButton.setLayoutY(700);
-        backButton.setLayoutX(234);
-        backButton.setOnAction(p->
-                {
-                    this.getRoot().setTranslateY(-800);
-                    getClient().getStage().show();
-                    System.out.println("chicken");
-                });
-
-        cardsAnchor.getChildren().add(error);
-        errorChoice.setOpacity(0);
-        errorChoice.setLayoutX(width/3);
-        errorChoice.setLayoutY(len-90);
-        cardsAnchor.getChildren().add(errorChoice);
 
         getClient().getStage().show();
         cardsAnchor.setId("pane");

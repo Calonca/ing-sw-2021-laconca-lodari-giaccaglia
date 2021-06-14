@@ -77,14 +77,10 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
 
         });
         SimpleCardShop simpleCardShop=getSimpleModel().getElem(SimpleCardShop.class).orElseThrow();
-        if(!simpleCardShop.getIsAnyCardPurchasable())
-            cardButton.setDisable(true);
 
 
         productionButton.setOnAction( e ->
-        {
-            Platform.runLater(()->getClient().changeViewBuilder(ProductionViewBuilder.getBuilder(false)));
-        });
+                Platform.runLater(()->getClient().changeViewBuilder(ProductionViewBuilder.getBuilder(false))));
 
         resourceMarketButton.setOnAction( e ->
         {
