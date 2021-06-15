@@ -91,7 +91,6 @@ public class PersonalBoard {
         warehouseLeadersDepots.addResource(new Pair<>(1,Resource.SERVANT));
         warehouseLeadersDepots.addResource(new Pair<>(3,Resource.STONE)); */
 
-
         productions = Stream.of((Production.basicProduction())).collect(Collectors.toMap(production  -> 0, production -> production));
         cardCells = Stream.generate(ProductionCardCell::new).limit(3).toArray(ProductionCardCell[]::new);
         prodsSelected = new HashMap<>();
@@ -536,7 +535,6 @@ public class PersonalBoard {
                     .getKey();
 
             if(historyOfInputResourcesForProduction.containsKey(productionPosition)) {
-
               List<Integer> chosenResourcesPositions = historyOfInputResourcesForProduction.get(productionPosition);
               chosenResourcesPositions.add(resPos);
 
@@ -630,7 +628,7 @@ public class PersonalBoard {
      */
      public boolean areDevCardRequirementsSatisfied(DevelopmentCard developmentCard)
      {
-         if(developmentCard == null)
+         if(Objects.isNull(developmentCard))
              return false;
 
          int [] requiredResources = developmentCard.getCostAsArray();
@@ -646,7 +644,7 @@ public class PersonalBoard {
          return IntStream.range(0, cardCells.length).boxed().collect(Collectors.toMap(
                  position -> position + 1,
 
-                 position -> developmentCard != null && cardCells[position].isSpotAvailable(developmentCard)
+                 position -> Objects.nonNull(developmentCard) && cardCells[position].isSpotAvailable(developmentCard)
          ));
 
      }

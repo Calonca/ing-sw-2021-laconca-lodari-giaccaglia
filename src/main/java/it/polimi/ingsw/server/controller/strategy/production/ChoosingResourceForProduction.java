@@ -5,12 +5,14 @@ import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.messages.clienttoserver.events.productionevent.ChooseResourcesForProductionEvent;
 import it.polimi.ingsw.server.messages.messagebuilders.Element;
 import it.polimi.ingsw.server.model.GameModel;
+import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.player.board.PersonalBoard;
 import it.polimi.ingsw.server.model.states.State;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * This implementation allows the user to sequentially select the input and output optional choices. The inputs are
@@ -25,9 +27,10 @@ public class ChoosingResourceForProduction implements GameStrategy {
             PersonalBoard personalBoard = gamemodel.getCurrentPlayer().getPersonalBoard();
 
             ChooseResourcesForProductionEvent chooseResourcesForProductionEvent = (ChooseResourcesForProductionEvent) event;
-            List<Pair<Integer, Integer>> chosenResources = chooseResourcesForProductionEvent.getSelectedResourcesPairList();
+            Set<Pair<Integer, Integer>> chosenInputResourcesPositions = chooseResourcesForProductionEvent.getSelectedResourcesPairSet();
+            List<Integer> chosenOutputResources = chooseResourcesForProductionEvent.getOutputResourcesPairList();
 
-            chosenResources.forEach(
+            chosenInputResourcesPositions.forEach(
                     pair -> {
 
                         int resPos = pair.getKey();
@@ -38,12 +41,14 @@ public class ChoosingResourceForProduction implements GameStrategy {
                             for(int i=0; i<numOfResToSelect; i++)
 
                                 personalBoard.getStrongBox().selectResourceAt(resPos);
+
                         }
                         else personalBoard.getWarehouseLeadersDepots().selectResourceAt(resPos);
                     }
 
             );
 
+            chosenOutputResources.forEach(resourceNumber -> personalBoard.performChoiceOnOutput(Resource.fromIntFixed(resourceNumber)));
 
             elementsToUpdate.add(Element.SimpleWareHouseLeadersDepot);
             elementsToUpdate.add(Element.SimpleFaithTrack);

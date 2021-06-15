@@ -7,7 +7,7 @@ public interface Validable {
     boolean validate(GameModel gameModel);
 
     default boolean isGameStarted(GameModel gameModel){
-        return gameModel!=null && gameModel.isGameStarted();
+        return gameModel!=null && gameModel.isGameActive();
     }
 
 }

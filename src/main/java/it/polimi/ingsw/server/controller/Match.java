@@ -42,6 +42,7 @@ public class Match {
         }
 
     }
+
     public String getPlayerNicknameFromHandler(ClientHandler clientHandler){
 
         String playerNickname = onlineUsers.stream()
@@ -61,30 +62,77 @@ public class Match {
     }
 
     public void setOfflineUser(ClientHandler clientHandler){
-        Optional<User> optUser = onlineUsers.stream().filter(user -> user.clientHandler.equals(clientHandler)).findFirst();
+
+        Optional<User> optUser = onlineUsers
+                .stream()
+                .filter(user -> user.clientHandler.equals(clientHandler))
+                .findFirst();
+
         if(optUser.isPresent()){
             User user = optUser.get();
             onlineUsers.remove(user);
             offlineUsers.add(user);
+
+            Player player = game.getPlayer(user.nickname).get();
+            game.setOfflinePlayer(player);
         }
+    }
+
+    //called when reconnecting
+    public void setOnlineUser(String nickName, ClientHandler clientHandler){
+
+        Optional<User> optUser = offlineUsers.stream()
+                .filter(user -> user.nickname.equals(nickName))
+                .findFirst();
+
+        if(optUser.isPresent()){
+
+            User user = optUser.get();
+            offlineUsers.remove(user);
+            User updatedUser = new User(nickName, clientHandler);
+            onlineUsers.add(updatedUser);
+            Player player = game.getPlayer(nickName).get();
+            game.setOnlinePlayer(player);
+
+        }
+
     }
 
     boolean canAddPlayer(){
         return onlineUsers.size()<maxPlayers;
     }
 
+    public boolean isNicknameAvailable(String nickname){
+        return onlineUsers
+                .stream()
+                .noneMatch(user-> user.nickname.equals(nickname));
+    }
+
     void addPlayer(String nickname, ClientHandler clientHandler){
-        onlineUsers.add(new User(nickname,clientHandler));
+        if(offlineUsers.stream().anyMatch(user -> user.nickname.equals(nickname)))
+            setOnlineUser(nickname, clientHandler);
+        else
+            onlineUsers.add(new User(nickname,clientHandler));
     }
 
     public void startGame() {
-
         this.game = new GameModel(onlineUsers.stream().map(u->u.nickname).collect(Collectors.toList()), onlineUsers.size()==1,this);
         game.start();
         game.getCurrentPlayer().setCurrentState(State.SETUP_PHASE);
         List<Element> elements = new ArrayList<>(Arrays.asList(Element.values()));
         notifyStateToAllPlayers(elements, game.getCurrentPlayer());
+    }
 
+    public boolean isGameActive(){
+        return game.isGameActive();
+    }
+
+    public GameModel getGame(){
+        return game;
+    }
+
+    public void stopGame(){
+        game.stop();
     }
 
     private Optional<User> currentUser(){
@@ -94,7 +142,6 @@ public class Match {
     }
 
     public ClientHandler currentPlayerClientHandler(){
-
         return currentUser()
                 .map(user->user.clientHandler)
                 .orElse(onlineUsers.get(0).clientHandler);
@@ -126,22 +173,10 @@ public class Match {
      * Displays matches that the client can join or the current match
      * @param current the current match.
      */
-    public boolean shouldDisplay(Match current){return canAddPlayer()||sameID(current.matchId);}
+    public boolean shouldDisplay(Match current){return canAddPlayer() || sameID(current.matchId);}
 
     public Stream<ClientHandler> clientsStream(){
         return onlineUsers.stream().map(u->u.clientHandler);
-    }
-
-    public GameModel getGame(){
-        return game;
-    }
-
-
-    public void reconnectPlayer(String nickname){
-        game.getOfflinePlayers().values().stream().filter(player -> player.getNickName().equals(nickname)).findFirst()
-                .ifPresent((p)->
-                        game.setOnlinePlayer(p)
-                        );
     }
 
     public void validateEvent(Validable event) throws EventValidationFailedException {
@@ -152,7 +187,8 @@ public class Match {
     public void transitionToNextState(Validable event) throws EventValidationFailedException {
 
         GameStrategy gameStrategy = game.getCurrentPlayer().getStatesTransitionTable().getStrategy(game.getCurrentPlayer().getCurrentState(), event);
-        if (gameStrategy==null)
+
+        if (Objects.isNull(gameStrategy))
             throw new EventValidationFailedException();
 
         Pair<State, List<Element>> data = gameStrategy.execute(game, event);
@@ -163,8 +199,6 @@ public class Match {
         data.getValue().add(Element.PlayersInfo);
 
         playerSendingEvent.setCurrentState(data.getKey());
-
-
 
         notifyStateToAllPlayers(data.getValue(), playerSendingEvent);
 
@@ -217,6 +251,7 @@ public class Match {
 
     }
 
+
     public String getSaveName(){
         return onlineUsers.stream().map(user->user.nickname).reduce("", String::concat).concat("|").concat(matchId.toString());
     }
@@ -240,6 +275,8 @@ public class Match {
     public boolean areAllPlayersOffline(){
         return onlineUsers.isEmpty();
     }
+
+
 
 
 }

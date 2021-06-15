@@ -11,7 +11,7 @@ import javafx.util.Pair;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -22,7 +22,7 @@ public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.m
      */
     private transient PersonalBoard currentPlayerPersonalBoard;
     private final int[] resourcesToConvertArray = new int[7];
-    private List<Pair<Integer, Integer>> selectedResourcesPairList;  // Pair : key -> resource position ; value -> number of selected resources
+    private Set<Pair<Integer, Integer>> selectedResourcesPairSet;  // Pair : key -> resource position ; value -> number of selected resources
     int lastSelectedProductionPosition;
 
     /**
@@ -58,7 +58,7 @@ public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.m
 
     private boolean checkThatResourcesAreNotSelected(){
 
-        return selectedResourcesPairList.stream().allMatch(
+        return selectedResourcesPairSet.stream().allMatch(
                 pair -> {
                     if(pair.getKey()>=-8 && pair.getKey()<=-5){
 
@@ -149,7 +149,7 @@ public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.m
 
     private boolean checkChosenResourceValidity(){
 
-        return outputResourceToChoose.stream().noneMatch(resourceInt -> Resource.fromIntFixed(resourceInt).equals(Resource.EMPTY));
+        return outputResourcesToChoose.stream().noneMatch(resourceInt -> Resource.fromIntFixed(resourceInt).equals(Resource.EMPTY));
 
     }
 
@@ -163,7 +163,7 @@ public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.m
 
         if (production.choiceCanBeMadeOnOutput()) {
 
-            isValidationOk = (outputResourceToChoose.size() == production.getNumOfResInOutput()) && checkChosenResourceValidity();
+            isValidationOk = (outputResourcesToChoose.size() == production.getNumOfResInOutput()) && checkChosenResourceValidity();
 
         }
 
@@ -172,39 +172,45 @@ public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.m
 
     private void buildResourcesPairList(){
 
-        selectedResourcesPairList = inputPositionsToChoose.stream().map(
+        selectedResourcesPairSet = inputPositionsToChoose.stream().map(
                 position -> {
-
                     int positionOccurrences = inputPositionsToChoose.stream().filter(positionToFind -> positionToFind.equals(position)).mapToInt(positionToFind -> 1).sum();
                     int localPos = position>=0 ? position : position + 8;
-
                     return new Pair<>(localPos, positionOccurrences);
                 }
 
-        ).collect(Collectors.toList());
+        ).collect(Collectors.toSet());
+
+
+
+
 
     }
 
     private void buildResourcesArray(){
 
-        for (Pair<Integer, Integer> resourceIntegerPair : selectedResourcesPairList)
+        for (Pair<Integer, Integer> resourceIntegerPair : selectedResourcesPairSet)
             resourcesToConvertArray[resourceIntegerPair.getKey()] += resourceIntegerPair.getValue();
 
     }
 
-    public List<Pair<Integer, Integer>> getSelectedResourcesPairList(){
+    public Set<Pair<Integer, Integer>> getSelectedResourcesPairSet() {
 
         return inputPositionsToChoose.stream().map(
                 position -> {
 
                     int positionOccurrences = inputPositionsToChoose.stream().filter(positionToFind -> positionToFind.equals(position)).mapToInt(positionToFind -> 1).sum();
-
                     return new Pair<>(position, positionOccurrences);
                 }
 
-        ).collect(Collectors.toList());
-
+        ).collect(Collectors.toSet());
     }
+
+    public List<Integer> getOutputResourcesPairList(){
+        return outputResourcesToChoose;
+    }
+
+
 
 
 

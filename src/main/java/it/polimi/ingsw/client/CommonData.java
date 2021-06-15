@@ -84,12 +84,11 @@ public class CommonData {
         support.firePropertyChange(thisMatchData,oldMatchId,matchId);
     }
 
-
-    public void setCurrentnick(String currentnick) {
-        this.currentnick = currentnick;
+    public void setCurrentNick(String currentNick) {
+        this.currentnick = currentNick;
     }
 
-    public String getCurrentnick() {
+    public String getCurrentNick() {
         return this.currentnick;
     }
 

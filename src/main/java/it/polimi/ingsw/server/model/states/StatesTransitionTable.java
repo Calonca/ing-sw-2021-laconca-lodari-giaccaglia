@@ -1,11 +1,7 @@
 package it.polimi.ingsw.server.model.states;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import it.polimi.ingsw.server.utils.RuntimeTypeAdapterFactory;
 import it.polimi.ingsw.server.controller.strategy.*;
 import it.polimi.ingsw.server.controller.strategy.cardmarket.*;
-import it.polimi.ingsw.server.controller.strategy.leader.*;
 import it.polimi.ingsw.server.controller.strategy.production.*;
 import it.polimi.ingsw.server.controller.strategy.resourcemarket.*;
 import it.polimi.ingsw.server.messages.clienttoserver.events.InitialOrFinalPhaseEvent;

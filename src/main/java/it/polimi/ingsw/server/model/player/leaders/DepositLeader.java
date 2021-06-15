@@ -16,6 +16,8 @@ public class DepositLeader extends Leader
 
     private LeaderDepot leaderdepot;
 
+    public DepositLeader(){}
+
     public DepositLeader(LeaderState state, int victoryPoints, List<Pair<Resource,Integer>> requirementsResources, List<Pair<DevelopmentCardColor, Integer>> requirementsCards, LeaderDepot leaderdepot, int requirementsCardsLevel)
     {
         this.state = state;
@@ -28,7 +30,7 @@ public class DepositLeader extends Leader
 
     public DepositLeader(LeaderState state, int victoryPoints, List<Pair<Resource,Integer>> requirementsResources, List<Pair<DevelopmentCardColor, Integer>> requirementsCards, LeaderDepot leaderdepot)
     {
-        this(state, victoryPoints,requirementsResources,requirementsCards,leaderdepot, 1);
+        this(state, victoryPoints,requirementsResources,requirementsCards, leaderdepot, 1);
     }
     /**
      * Basic Leader activation function, but adds a deposit

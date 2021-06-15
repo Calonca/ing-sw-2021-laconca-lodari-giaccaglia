@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public class JoinStatus extends ServerToClientMessage {
     protected UUID joinedMatchUUID;
-    public enum motive {NUM_PLAYERS_NOT_VALID,ALREADY_FULL,OTHER}
+    public enum motive {SUCCESS, NUM_PLAYERS_NOT_VALID, ALREADY_FULL, NOT_EXISTS, NICKNAME_ALREADY_EXISTING, OTHER}
     protected motive m;
     protected int playerIndex;
 

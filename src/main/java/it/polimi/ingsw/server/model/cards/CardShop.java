@@ -1,14 +1,14 @@
 package it.polimi.ingsw.server.model.cards;
 
+import it.polimi.ingsw.server.model.solo.SoloActionToken;
+import it.polimi.ingsw.server.model.states.State;
+import it.polimi.ingsw.server.utils.Deserializator;
+import javafx.util.Pair;
+
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
-import it.polimi.ingsw.server.model.states.State;
-import it.polimi.ingsw.server.utils.Deserializator;
-import it.polimi.ingsw.server.model.solo.SoloActionToken;
-import javafx.util.Pair;
 
 /**
  * Represents a matrix like data structure to store the purchasable {@link DevelopmentCard DevelopmentCards} during
@@ -114,7 +114,7 @@ public class CardShop {
     }
 
     public DevelopmentCard getCopyOfPurchasedCard(){
-        return purchasedCard != null ? (new DevelopmentCard(purchasedCard)) : null;
+        return Objects.nonNull(purchasedCard) ? (new DevelopmentCard(purchasedCard)) : null;
     }
 
 

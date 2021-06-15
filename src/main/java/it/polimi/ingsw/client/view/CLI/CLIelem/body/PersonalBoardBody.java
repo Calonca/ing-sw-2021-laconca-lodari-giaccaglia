@@ -294,7 +294,7 @@ public class PersonalBoardBody extends CLIelem {
                                 board.resChoiceRow.getPointedResource().get().equals(e.getValue().getKey());
                     else if (board.mode.equals(Mode.SELECT_RES_FOR_PROD))
                         selectable = true;
-                    else selectable = false;
+                    else selectable = true;
                     Option strongOption = board.optionFromAsset(
                             e.getValue().getKey(),
                             numAndSel(e).getKey(),

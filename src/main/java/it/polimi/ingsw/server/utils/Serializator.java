@@ -7,6 +7,7 @@ import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.assets.tokens.ActionTokenAsset;
+import it.polimi.ingsw.network.jsonUtils.CommonGsonAdapters;
 import it.polimi.ingsw.network.jsonUtils.UUIDTypeAdapter;
 import it.polimi.ingsw.server.controller.Match;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
@@ -101,7 +102,7 @@ public class Serializator extends JsonUtility {
         Gson customGson =
                 gsonBuilder
                 .enableComplexMapKeySerialization()
-                .registerTypeAdapterFactory(GsonAdapters.gsonNetworkLeaderAdapter)
+                .registerTypeAdapterFactory(CommonGsonAdapters.gsonNetworkLeaderAdapter)
                 .registerTypeAdapter(UUID.class, new UUIDTypeAdapter())
                 .registerTypeHierarchyAdapter(Path.class, new PathConverter())
                 .setPrettyPrinting()

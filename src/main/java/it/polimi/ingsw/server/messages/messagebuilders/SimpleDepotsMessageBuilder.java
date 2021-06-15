@@ -3,51 +3,49 @@ package it.polimi.ingsw.server.messages.messagebuilders;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
+
 import it.polimi.ingsw.server.model.cards.production.Production;
 import it.polimi.ingsw.server.model.player.board.Box;
 import it.polimi.ingsw.server.model.player.board.PersonalBoard;
 import it.polimi.ingsw.server.model.player.board.WarehouseLeadersDepots;
 import javafx.util.Pair;
-import org.apache.commons.lang3.tuple.MutablePair;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.apache.commons.lang3.tuple.MutablePair;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class SimpleDepotsMessageBuilder {
 
-    public static Map<Integer, List<Pair<ResourceAsset, Boolean>>> getSimpleWarehouseLeadersDepots(GameModel gameModel, int playerRequestingUpdate){
+    public static Map<Integer, List<Pair<ResourceAsset, Boolean>>> getSimpleWarehouseLeadersDepots(GameModel gameModel, int playerRequestingUpdate) {
 
         Map<Integer, List<Pair<Resource, Boolean>>> warehouse = gameModel.getPlayer(playerRequestingUpdate).get().getPersonalBoard().getSimpleWarehouseLeadersDepots();
 
-       return warehouse.keySet().stream()
-               .collect(Collectors.toMap(
-               integer -> integer,
-                       integer -> warehouse.get(integer).stream()
-                               .map(resource -> new Pair<>(ResourceAsset.fromInt(resource.getKey().getResourceNumber()), resource.getValue()))
-                               .collect(Collectors.toList())
-       ));
+        return warehouse.keySet().stream()
+                .collect(Collectors.toMap(
+                        integer -> integer,
+                        integer -> warehouse.get(integer).stream()
+                                .map(resource -> new Pair<>(ResourceAsset.fromInt(resource.getKey().getResourceNumber()), resource.getValue()))
+                                .collect(Collectors.toList())
+                ));
     }
 
-    public static  Map<Integer, Pair<ResourceAsset, Pair<Integer, Integer>>>  getSimpleStrongBox(GameModel gameModel){
+    public static Map<Integer, Pair<ResourceAsset, Pair<Integer, Integer>>> getSimpleStrongBox(GameModel gameModel) {
 
         //     Pos           Res        number   selected
-        Map<Integer, Pair<Integer, Pair<Integer, Integer>> >box = gameModel.getCurrentPlayer().getPersonalBoard().getSimpleStrongBox();
-
+        Map<Integer, Pair<Integer, Pair<Integer, Integer>>> box = gameModel.getCurrentPlayer().getPersonalBoard().getSimpleStrongBox();
 
 
         return box.keySet().stream().collect(Collectors.toMap(
 
                 position -> position,
                 position -> new Pair<>(
-                ResourceAsset.fromInt(box.get(position).getKey()), new Pair<>(
-                box.get(position).getValue().getKey(), box.get(position).getValue().getValue()))
+                        ResourceAsset.fromInt(box.get(position).getKey()), new Pair<>(
+                        box.get(position).getValue().getKey(), box.get(position).getValue().getValue()))
         ));
     }
 
-    public static Map<Integer, Pair<ResourceAsset, Integer>> getSimpleDiscardBox(GameModel gameModel){
+    public static Map<Integer, Pair<ResourceAsset, Integer>> getSimpleDiscardBox(GameModel gameModel) {
 
         Map<Integer, Pair<Integer, Integer>> box = gameModel.getCurrentPlayer().getPersonalBoard().getSimpleDiscardBox();
 
@@ -60,12 +58,12 @@ public class SimpleDepotsMessageBuilder {
         ));
     }
 
-    public static Map<Integer, List<Integer>> getAvailableMovingPositionsForResourceInWarehouseAtPos(GameModel gameModel, int playerRequestingUpdate){
+    public static Map<Integer, List<Integer>> getAvailableMovingPositionsForResourceInWarehouseAtPos(GameModel gameModel, int playerRequestingUpdate) {
 
         int warehouseDepotSpaces = gameModel.getPlayer(playerRequestingUpdate).get().getPersonalBoard().getWarehouseLeadersDepots().getNumOfCellsInAllDepots();
         PersonalBoard playerPersonalBoard = gameModel.getPlayer(playerRequestingUpdate).get().getPersonalBoard();
 
-        List<Integer> positions= IntStream.range(0, warehouseDepotSpaces).boxed().collect(Collectors.toList());
+        List<Integer> positions = IntStream.range(0, warehouseDepotSpaces).boxed().collect(Collectors.toList());
 
         Map<Integer, List<Integer>> availablePositions = positions.stream().map(position -> getAvailableMovingPositionsForResourceAtPos(playerPersonalBoard, position,
                 playerPersonalBoard.getWarehouseLeadersDepots().getResourceAt(position)))
@@ -78,7 +76,7 @@ public class SimpleDepotsMessageBuilder {
 
     }
 
-    public static Map<Integer, List<Integer>> getAvailableMovingPositionsForResourceInDiscardBoxAtPos(GameModel gameModel){
+    public static Map<Integer, List<Integer>> getAvailableMovingPositionsForResourceInDiscardBoxAtPos(GameModel gameModel) {
 
         PersonalBoard playerPersonalBoard = gameModel.getCurrentPlayer().getPersonalBoard();
 
@@ -87,7 +85,6 @@ public class SimpleDepotsMessageBuilder {
         Map<Integer, List<Integer>> availablePositions = resourcesPositions.stream().map(
                 position -> getAvailableMovingPositionsForResourceAtPos(playerPersonalBoard, position,
                         playerPersonalBoard.getDiscardBox().getResourceAt(position)))
-
                 .collect(Collectors.toMap(
                         Pair::getKey,
                         Pair::getValue
@@ -97,35 +94,33 @@ public class SimpleDepotsMessageBuilder {
 
     }
 
-    public static Pair<Integer, List<Integer>> getAvailableMovingPositionsForResourceAtPos(PersonalBoard board, int position, Resource res){
+    public static Pair<Integer, List<Integer>> getAvailableMovingPositionsForResourceAtPos(PersonalBoard board, int position, Resource res) {
 
         List<Integer> positions = board.getWarehouseLeadersDepots().availableMovingPositionsForResource(res).boxed().collect(Collectors.toList());
-        if(!res.equals(Resource.EMPTY))
+        if (!res.equals(Resource.EMPTY) && !positions.isEmpty())
             positions.add(position);  //selected resource can be deselected
-
         return new Pair<>(position, positions);
 
     }
 
-    public static boolean isDiscardBoxDiscardable(GameModel gameModel){
+    public static boolean isDiscardBoxDiscardable(GameModel gameModel) {
 
         PersonalBoard board = gameModel.getCurrentPlayer().getPersonalBoard();
         Box discardBox = board.getDiscardBox();
-        List<Integer> positions = IntStream.range(-4, -1).boxed().collect(Collectors.toList());
+        List<Integer> positions = IntStream.range(-4, 0).boxed().collect(Collectors.toList());
 
         return positions.stream().noneMatch(position ->
                 board.getWarehouseLeadersDepots().availableMovingPositionsForResource(discardBox.getResourceAt(position)).findAny().isPresent());
 
     }
 
-           //    leaderDepotSpot   resourceType
-    public static Map<Integer, ResourceAsset> getResourcesTypesOfLeaderDepots(GameModel gameModel, int playerRequestingUpdate){
+    //    leaderDepotSpot   resourceType
+    public static Map<Integer, ResourceAsset> getResourcesTypesOfLeaderDepots(GameModel gameModel, int playerRequestingUpdate) {
 
         WarehouseLeadersDepots currentDepots = gameModel.getPlayer(playerRequestingUpdate).get().getPersonalBoard().getWarehouseLeadersDepots();
 
         int numberOfDepots = currentDepots.getNumOfCellsInAllDepots();
-        if(numberOfDepots>6) {
-
+        if (numberOfDepots > 6) {
             Map<Integer, ResourceAsset> resourcesTypes = IntStream.range(6, numberOfDepots).boxed().collect(Collectors.toMap(
 
                     spotPosition -> spotPosition,
@@ -136,11 +131,8 @@ public class SimpleDepotsMessageBuilder {
                         return ResourceAsset.fromInt(resourceIntValue);
                     }
             ));
-
             return resourcesTypes;
-        }
-
-        else return new HashMap<>();
+        } else return new HashMap<>();
 
     }
 
@@ -157,12 +149,9 @@ public class SimpleDepotsMessageBuilder {
     public static Map<Pair<Integer, ResourceAsset>, MutablePair<Integer, Boolean>> getSelectableWarehousePositionsForProduction(GameModel gameModel) {
 
         PersonalBoard playerBoard = gameModel.getCurrentPlayer().getPersonalBoard();
-        int lastSelectedProduction =  playerBoard.getLastSelectedProductionPosition();
-
+        int lastSelectedProduction = playerBoard.getLastSelectedProductionPosition();
         Production production = playerBoard.getProductionFromPosition(lastSelectedProduction).get();
-
         Map<Integer, Integer> productionInputsMap = production.getInputsMap();
-
         return getSelectableWarehousePositions(playerBoard.getWarehouseLeadersDepots(), productionInputsMap);
 
     }
@@ -181,7 +170,7 @@ public class SimpleDepotsMessageBuilder {
     public static Map<Pair<Integer, ResourceAsset>, MutablePair<Integer, Boolean>> getSelectableStrongBoxPositionsForProduction(GameModel gameModel) {
 
         PersonalBoard playerBoard = gameModel.getCurrentPlayer().getPersonalBoard();
-        int lastSelectedProduction =  playerBoard.getLastSelectedProductionPosition();
+        int lastSelectedProduction = playerBoard.getLastSelectedProductionPosition();
 
         Production production = playerBoard.getProductionFromPosition(lastSelectedProduction).get();
 
@@ -192,12 +181,12 @@ public class SimpleDepotsMessageBuilder {
     }
 
     //                       position                         numOfRes   isSelectable
-     private static Map<Pair<Integer, ResourceAsset>, MutablePair<Integer, Boolean>> getSelectableWarehousePositions(WarehouseLeadersDepots warehouseLeadersDepots,  Map<Integer, Integer> resourcesToChoose){
+    private static Map<Pair<Integer, ResourceAsset>, MutablePair<Integer, Boolean>> getSelectableWarehousePositions(WarehouseLeadersDepots warehouseLeadersDepots, Map<Integer, Integer> resourcesToChoose) {
 
 
         int warehouseCells = warehouseLeadersDepots.getNumOfCellsInAllDepots();
 
-         Map<Pair<Integer, ResourceAsset>, MutablePair<Integer, Boolean>> map = IntStream.range(0, warehouseCells).boxed().collect(Collectors.toMap(
+        Map<Pair<Integer, ResourceAsset>, MutablePair<Integer, Boolean>> map = IntStream.range(0, warehouseCells).boxed().collect(Collectors.toMap(
 
                 position -> {
 
@@ -214,20 +203,30 @@ public class SimpleDepotsMessageBuilder {
 
                     int numOfResource = resourceAtPos.equals(Resource.EMPTY) ? 0 : 1;
 
-                    Boolean isSelectable = !resourceAtPos.equals(Resource.EMPTY) && resourcesToChoose.get(resourceNumber)>0 && !warehouseLeadersDepots.getSelected(resourceNumber);
+                    boolean isSelectable = false;
 
+                    if(!resourceAtPos.equals(Resource.EMPTY)) {
+
+
+                        if (resourcesToChoose.containsKey(Resource.TO_CHOOSE.getResourceNumber())
+                                && resourcesToChoose.get(Resource.TO_CHOOSE.getResourceNumber())>0)
+                            isSelectable = true;
+
+                        else
+                            isSelectable = resourcesToChoose.get(resourceNumber) > 0 && !warehouseLeadersDepots.getSelected(resourceNumber);
+
+                    }
                     return new MutablePair<>(numOfResource, isSelectable);
 
                 }
         ));
 
-         return map;
+        return map;
 
     }
 
     //                      position      numOfRes  isSelectable
-    private static Map<Pair<Integer, ResourceAsset>, MutablePair<Integer, Boolean>> getSelectableStrongBoxPositions(Box strongBox, Map<Integer, Integer> resourcesToChoose){
-
+    private static Map<Pair<Integer, ResourceAsset>, MutablePair<Integer, Boolean>> getSelectableStrongBoxPositions(Box strongBox, Map<Integer, Integer> resourcesToChoose) {
 
         int strongBoxCells = strongBox.getNumOfResourcesTypes();
 
@@ -236,7 +235,7 @@ public class SimpleDepotsMessageBuilder {
                 localPos -> {
 
                     int globalPos = strongBox.localToGlobalPos(localPos);
-                    ResourceAsset resourceAtPost = ResourceAsset.fromInt(strongBox.getResourceAt(localPos).getResourceNumber());
+                    ResourceAsset resourceAtPost = ResourceAsset.fromInt(strongBox.getResourceAt(globalPos).getResourceNumber());
 
                     return new Pair<>(globalPos, resourceAtPost);
 
@@ -246,9 +245,21 @@ public class SimpleDepotsMessageBuilder {
                     int globalPos = strongBox.localToGlobalPos(localPos);
                     Resource resourceAtPos = strongBox.getResourceAt(globalPos);
 
-                    Boolean isSelectable = resourcesToChoose.get(resourceAtPos.getResourceNumber())>0 && (strongBox.getNSelected(resourceAtPos)!=strongBox.getNumberOf(resourceAtPos));
+                    boolean isSelectable = false;
+
+                    if(!resourceAtPos.equals(Resource.EMPTY)) {
+
+                        if (resourcesToChoose.containsKey(Resource.TO_CHOOSE.getResourceNumber())
+                                && resourcesToChoose.get(Resource.TO_CHOOSE.getResourceNumber())>0)
+                            isSelectable = true;
+
+                        else
+                            isSelectable = resourcesToChoose.get(resourceAtPos.getResourceNumber()) > 0 && (strongBox.getNSelected(resourceAtPos) != strongBox.getNumberOf(resourceAtPos));
+
+                    }
 
                     int numOfResources = strongBox.getNumberOf(resourceAtPos);
+
 
                     return new MutablePair<>(numOfResources, isSelectable);
 
@@ -260,14 +271,5 @@ public class SimpleDepotsMessageBuilder {
     }
 
 
-
-
-
-
-
-
-
-
-
-
 }
+

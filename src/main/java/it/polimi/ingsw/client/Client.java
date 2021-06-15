@@ -7,10 +7,7 @@ import it.polimi.ingsw.client.simplemodel.SimpleModel;
 import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.CLI.CLI;
 import it.polimi.ingsw.client.view.CLI.CLIelem.CLIelem;
-import it.polimi.ingsw.client.view.CLI.TestGridBody;
-import it.polimi.ingsw.client.view.GUI.BoardView3D;
 import it.polimi.ingsw.client.view.abstractview.ConnectToServerViewBuilder;
-import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.SetupPhaseViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
@@ -37,6 +34,7 @@ public class Client implements Runnable
     private SimpleModel simpleModel;
     private Stage stage;
     private boolean isCLI;
+
 
     public void setStage(Stage stage) {
         this.stage = stage;
@@ -78,13 +76,12 @@ public class Client implements Runnable
         this.port = port;
     }
 
-
     @Override
     public void run()
     {
         /* Open connection to the server and start a thread for handling
          * communication. */
-        if (ip==null||commonData.getCurrentnick()==null){
+        if (ip==null||commonData.getCurrentNick()==null){
             changeViewBuilder(ConnectToServerViewBuilder.getBuilder(isCLI));
             //changeViewBuilder(new TestGridBody());
             return;}
@@ -169,10 +166,14 @@ public class Client implements Runnable
     }
 
     public void setState(StateInNetwork stateInNetwork){
-        System.out.println("Client " +commonData.getThisPlayerIndex()+" received: "+"client "+stateInNetwork.getPlayerNumber()+" "+stateInNetwork.getState());
-        Gson gson = new GsonBuilder().registerTypeHierarchyAdapter(Path.class, new JsonUtility.PathConverter()).setPrettyPrinting().create();
-        System.out.println(JsonUtility.serialize(stateInNetwork, StateInNetwork.class, gson));
+
+        System.out.println("Client " + commonData.getThisPlayerIndex() + " received: "+"client "+ stateInNetwork.getPlayerNumber() + " "+ stateInNetwork.getState());
+
+        System.out.println(JsonUtility.serialize(stateInNetwork));
+
+
         commonData.setCurrentPlayer(stateInNetwork.getPlayerNumber());
+
         if (simpleModel==null){
             try {
                 int numOfPlayers = getCommonData().playersOfMatch().map(o->o.length).orElse(0);
@@ -180,12 +181,14 @@ public class Client implements Runnable
             }catch (NoSuchElementException e){
                 System.out.println("Received a state before entering a match");
             }
+
             ViewBuilder.setSimpleModel(simpleModel);
         }
+
         simpleModel.updateSimpleModel(stateInNetwork);
         if(stateInNetwork.getPlayerNumber()==commonData.getThisPlayerIndex()
         && stateInNetwork.getState().equals(State.SETUP_PHASE.name()))
-            //SetupPhaseViewBuilder.getBuilder(isCLI);
+            // SetupPhaseViewBuilder.getBuilder(isCLI);
         //changeViewBuilder(new BoardView3D());
             changeViewBuilder(SetupPhaseViewBuilder.getBuilder(isCLI));
     }

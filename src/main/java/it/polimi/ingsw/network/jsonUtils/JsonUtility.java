@@ -91,7 +91,13 @@ public class JsonUtility {
     }
 
     public static <T> String serialize(T Object){
-        Gson gson = new GsonBuilder().enableComplexMapKeySerialization().registerTypeHierarchyAdapter(Path.class, new PathConverter()).setPrettyPrinting().create();
+
+        Gson gson = new GsonBuilder()
+                .enableComplexMapKeySerialization()
+                .registerTypeHierarchyAdapter(Path.class, new PathConverter())
+                .setPrettyPrinting()
+                .create();
+
         return gson.toJson(Object);
     }
 

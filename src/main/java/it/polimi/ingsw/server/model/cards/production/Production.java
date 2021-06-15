@@ -2,9 +2,7 @@ package it.polimi.ingsw.server.model.cards.production;
 
 import it.polimi.ingsw.server.model.Resource;
 
-
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -124,6 +122,7 @@ public class Production {
         return input;
     }
 
+    //         resNum   amount
     public Map<Integer, Integer> getInputsMap(){
 
         Map<Integer, Integer> inputsMap = IntStream.range(0, input.length).boxed().collect(Collectors.toMap(

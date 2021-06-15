@@ -5,15 +5,12 @@ import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.messages.clienttoserver.events.productionevent.ToggleProductionAtPosition;
 import it.polimi.ingsw.server.messages.messagebuilders.Element;
 import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.server.model.Resource;
-import it.polimi.ingsw.server.model.cards.production.Production;
 import it.polimi.ingsw.server.model.player.board.PersonalBoard;
 import it.polimi.ingsw.server.model.states.State;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * This implementation allows the user to toggle selections on the available productions. When a choice is needed, the
@@ -35,6 +32,7 @@ public class TogglingForProduction implements GameStrategy {
         elementsToUpdate.add(Element.SimpleWareHouseLeadersDepot);
         elementsToUpdate.add(Element.SimpleStrongBox);
         elementsToUpdate.add(Element.SimpleProductions);
+        elementsToUpdate.add(Element.SelectablePositions);
 
 
         int lastSelectedProduction = playerBoard.getLastSelectedProductionPosition();

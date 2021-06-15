@@ -2,9 +2,8 @@ package it.polimi.ingsw.server.controller.strategy.cardmarket;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import it.polimi.ingsw.server.utils.RuntimeTypeAdapterFactory;
+import it.polimi.ingsw.network.jsonUtils.CommonGsonAdapters;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
-import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
 import it.polimi.ingsw.network.messages.clienttoserver.events.cardshopevent.ChooseCardEvent;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
@@ -15,7 +14,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class ShowingDevelopmentCardsMarketTest {
 
@@ -26,8 +25,7 @@ public class ShowingDevelopmentCardsMarketTest {
         Event clientEvent = new ChooseCardEvent(2,2);
         String serializedEvent = JsonUtility.serialize(clientEvent);
 
-        RuntimeTypeAdapterFactory<Event> adapter = ClientToServerMessage.eventMessageAdapter();
-        Gson gson = new GsonBuilder().registerTypeAdapterFactory(adapter).create();
+        Gson gson = new GsonBuilder().registerTypeAdapterFactory(CommonGsonAdapters.gsonEventMessageAdapter).create();
 
         Validable serverEvent = JsonUtility.deserializeFromString(serializedEvent, it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent.ChooseCardEvent.class, gson);
 

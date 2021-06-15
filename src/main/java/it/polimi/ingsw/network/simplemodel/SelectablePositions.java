@@ -59,7 +59,8 @@ public class SelectablePositions extends SimpleModelElement{
     //        position  numOfSelectable
     public Map<Integer,Integer> getUpdatedSelectablePositions(List<Integer> chosenInputPos){
 
-        updateAvailability(chosenInputPos);
+        if(!chosenInputPos.isEmpty())
+            updateAvailability(chosenInputPos);
 
         return getSelectablePositions();
 
@@ -108,7 +109,7 @@ public class SelectablePositions extends SimpleModelElement{
         ResourceAsset nextResourceToChoose = resourcesToChoose.get(indexOfCurrentResourceToChoose);
         Map<Integer, Integer> selectablePositionsMap = selectablePositions.keySet()
                 .stream()
-                .filter(pair -> pair.getValue().equals(nextResourceToChoose))
+                .filter(pair -> pair.getValue().equals(nextResourceToChoose) || nextResourceToChoose.equals(ResourceAsset.TO_CHOOSE))
                 .filter(pair -> selectablePositions.get(pair).getValue())
                 .collect(Collectors.toMap
                         (

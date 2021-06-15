@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.json;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
-import it.polimi.ingsw.server.utils.RuntimeTypeAdapterFactory;
+import it.polimi.ingsw.network.jsonUtils.CommonGsonAdapters;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import it.polimi.ingsw.network.assets.leaders.*;
 import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
@@ -47,16 +47,7 @@ public class Deserializator extends JsonUtility {
 
     public static Map<UUID, LeaderCardAsset> networkLeaderCardsAssetsMapDeserialization() {
 
-        RuntimeTypeAdapterFactory<NetworkLeaderCard> jsonToNetworkLeaderListAdapter = RuntimeTypeAdapterFactory.of(NetworkLeaderCard.class);
-
-        jsonToNetworkLeaderListAdapter.registerSubtype(NetworkDepositLeaderCard.class);
-        jsonToNetworkLeaderListAdapter.registerSubtype(NetworkMarketLeaderCard.class);
-        jsonToNetworkLeaderListAdapter.registerSubtype(NetworkProductionLeaderCard.class);
-        jsonToNetworkLeaderListAdapter.registerSubtype(NetworkDevelopmentDiscountLeaderCard.class);
-
-
-
-        Gson customGson = new GsonBuilder().enableComplexMapKeySerialization().registerTypeAdapterFactory(jsonToNetworkLeaderListAdapter).registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).registerTypeHierarchyAdapter(Path.class, new PathConverter()).setPrettyPrinting().create();
+        Gson customGson = new GsonBuilder().enableComplexMapKeySerialization().registerTypeAdapterFactory(CommonGsonAdapters.gsonNetworkLeaderAdapter).registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).registerTypeHierarchyAdapter(Path.class, new PathConverter()).setPrettyPrinting().create();
         Type type = new TypeToken<Map<UUID, LeaderCardAsset> >(){}.getType();
         return deserializeFromSourceRoot(clientConfigPathString + "ClientNetLeaderCardsAssetsMap.json", type ,customGson);
 

@@ -7,19 +7,12 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
@@ -106,7 +99,7 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
                 if(isIPAddr(addressText.getCharacters().toString()))
                     if(Integer.parseInt(portText.getCharacters().toString())<65536)
                     {
-                        getClient().getCommonData().setCurrentnick(nickText.getCharacters().toString());
+                        getClient().getCommonData().setCurrentNick(nickText.getCharacters().toString());
                         getClient().setServerConnection(addressText.getCharacters().toString(),Integer.parseInt(portText.getCharacters().toString()));
                         getClient().run();
                         return;

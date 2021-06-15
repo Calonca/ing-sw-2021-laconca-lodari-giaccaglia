@@ -2,13 +2,10 @@ package it.polimi.ingsw.network.messages.servertoclient;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import it.polimi.ingsw.network.simplemodel.EndGameInfo;
+import it.polimi.ingsw.network.jsonUtils.CommonGsonAdapters;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.network.messages.NetworkMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
-import it.polimi.ingsw.server.utils.RuntimeTypeAdapterFactory;
-import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
-import it.polimi.ingsw.network.simplemodel.*;
 
 import java.nio.file.Path;
 import java.util.UUID;
@@ -60,46 +57,13 @@ public abstract class ServerToClientMessage extends NetworkMessage
     public String serialized()
     {
 
-        RuntimeTypeAdapterFactory<ServerToClientMessage> s2cAdapter = RuntimeTypeAdapterFactory.of(ServerToClientMessage.class);
-
-        //Register here all the message types
-        s2cAdapter.registerSubtype(CreatedMatchStatus.class);
-        s2cAdapter.registerSubtype(JoinStatus.class);
-        s2cAdapter.registerSubtype(MatchesData.class);
-        s2cAdapter.registerSubtype(EventNotValid.class);
-        s2cAdapter.registerSubtype(StateInNetwork.class);
-
         Gson gson1 = new GsonBuilder()
-                .registerTypeAdapterFactory(s2cAdapter).enableComplexMapKeySerialization()
-                .registerTypeAdapterFactory(elementAdapter()).registerTypeHierarchyAdapter(Path.class, new JsonUtility.PathConverter())
+                .registerTypeAdapterFactory(CommonGsonAdapters.gsonServerToClientMessageAdapter).enableComplexMapKeySerialization()
+                .registerTypeAdapterFactory(CommonGsonAdapters.gsonElementAdapter).registerTypeHierarchyAdapter(Path.class, new JsonUtility.PathConverter())
                 .create();
 
         return serialize(this, ServerToClientMessage.class, gson1);
 
     }
-
-
-    public static RuntimeTypeAdapterFactory<SimpleModelElement> elementAdapter(){
-
-        RuntimeTypeAdapterFactory<SimpleModelElement> elemAdapter = RuntimeTypeAdapterFactory.of(SimpleModelElement.class);
-
-        elemAdapter.registerSubtype(SimplePlayerLeaders.class);
-        elemAdapter.registerSubtype(SimpleCardShop.class);
-        elemAdapter.registerSubtype(SimpleCardCells.class);
-        elemAdapter.registerSubtype(SimpleFaithTrack.class);
-        elemAdapter.registerSubtype(SimpleMarketBoard.class);
-        elemAdapter.registerSubtype(SimpleStrongBox.class);
-        elemAdapter.registerSubtype(SimpleDiscardBox.class);
-        elemAdapter.registerSubtype(SimpleWarehouseLeadersDepot.class);
-        elemAdapter.registerSubtype(EndGameInfo.class);
-        elemAdapter.registerSubtype(ActiveLeaderBonusInfo.class);
-        elemAdapter.registerSubtype(SimpleProductions.class);
-        elemAdapter.registerSubtype(PlayersInfo.class);
-        elemAdapter.registerSubtype(SimpleSoloActionToken.class);
-        elemAdapter.registerSubtype(SelectablePositions.class);
-
-        return elemAdapter;
-    }
-
 
 }

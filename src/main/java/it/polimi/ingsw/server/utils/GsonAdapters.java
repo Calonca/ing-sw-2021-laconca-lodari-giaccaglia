@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.utils;
 
-import it.polimi.ingsw.network.assets.leaders.*;
 import it.polimi.ingsw.server.controller.strategy.*;
 import it.polimi.ingsw.server.controller.strategy.cardmarket.AcquiringDevelopmentCard;
 import it.polimi.ingsw.server.controller.strategy.cardmarket.ChoosingSpaceForDevelopmentCard;
@@ -14,6 +13,19 @@ import it.polimi.ingsw.server.controller.strategy.resourcemarket.ChoosingMarketB
 import it.polimi.ingsw.server.controller.strategy.resourcemarket.DiscardingResources;
 import it.polimi.ingsw.server.controller.strategy.resourcemarket.MovingResource;
 import it.polimi.ingsw.server.controller.strategy.resourcemarket.PuttingBallOnLine;
+import it.polimi.ingsw.server.messages.clienttoserver.CreateMatchRequest;
+import it.polimi.ingsw.server.messages.clienttoserver.EventMessage;
+import it.polimi.ingsw.server.messages.clienttoserver.JoinMatchRequest;
+import it.polimi.ingsw.server.messages.clienttoserver.ServerMessage;
+import it.polimi.ingsw.server.messages.clienttoserver.events.*;
+import it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent.ChooseCardEvent;
+import it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent.ChooseCardPositionEvent;
+import it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent.ChooseResourceForCardShopEvent;
+import it.polimi.ingsw.server.messages.clienttoserver.events.marketboardevent.*;
+import it.polimi.ingsw.server.messages.clienttoserver.events.productionevent.ChooseResourcesForProductionEvent;
+import it.polimi.ingsw.server.messages.clienttoserver.events.productionevent.FinalProductionPhaseEvent;
+import it.polimi.ingsw.server.messages.clienttoserver.events.productionevent.ToggleProductionAtPosition;
+import it.polimi.ingsw.server.messages.clienttoserver.events.setupphaseevent.SetupPhaseEvent;
 import it.polimi.ingsw.server.model.player.board.Depot;
 import it.polimi.ingsw.server.model.player.board.LeaderDepot;
 import it.polimi.ingsw.server.model.player.board.WarehouseDepot;
@@ -23,10 +35,11 @@ public class GsonAdapters {
 
 
     public static final RuntimeTypeAdapterFactory<Leader> gsonLeaderAdapter = gsonLeaderAdapter();
-    public static final RuntimeTypeAdapterFactory<NetworkLeaderCard> gsonNetworkLeaderAdapter = gsonNetworkLeaderAdapter();
+
     public static final RuntimeTypeAdapterFactory<Depot> gsonDepotAdapter = gsonDepotAdapter();
     public static final RuntimeTypeAdapterFactory<GameStrategy> gsonStrategyAdapter = gsonStrategyAdapter();
-
+    public static final RuntimeTypeAdapterFactory<Validable> gsonEventMessageAdapter = gsonEventMessageAdapter();
+    public static final RuntimeTypeAdapterFactory<ServerMessage> gsonServerMessageAdapter = gsonServerMessageAdapter();
 
     private static RuntimeTypeAdapterFactory<Leader> gsonLeaderAdapter() {
 
@@ -40,21 +53,6 @@ public class GsonAdapters {
         gsonToLeaderListAdapter.registerSubtype(DevelopmentDiscountLeader.class, DevelopmentDiscountLeader.class.getName());
 
         return gsonToLeaderListAdapter;
-
-    }
-
-
-    private static RuntimeTypeAdapterFactory<NetworkLeaderCard> gsonNetworkLeaderAdapter() {
-
-
-        RuntimeTypeAdapterFactory<NetworkLeaderCard> gsonToNetworkLeaderListAdapter = RuntimeTypeAdapterFactory.of(NetworkLeaderCard.class);
-
-        gsonToNetworkLeaderListAdapter.registerSubtype(NetworkDepositLeaderCard.class);
-        gsonToNetworkLeaderListAdapter.registerSubtype(NetworkMarketLeaderCard.class);
-        gsonToNetworkLeaderListAdapter.registerSubtype(NetworkProductionLeaderCard.class);
-        gsonToNetworkLeaderListAdapter.registerSubtype(NetworkDevelopmentDiscountLeaderCard.class);
-
-        return gsonToNetworkLeaderListAdapter;
 
     }
 
@@ -92,6 +90,50 @@ public class GsonAdapters {
 
         return strategyAdapter;
     }
+
+    private static RuntimeTypeAdapterFactory<Validable> gsonEventMessageAdapter(){
+
+        RuntimeTypeAdapterFactory<Validable> eventMessageAdapter = RuntimeTypeAdapterFactory.of(Validable.class);
+
+        eventMessageAdapter.registerSubtype(TestEvent.class);
+
+        eventMessageAdapter.registerSubtype(MiddlePhaseEvent.class);
+        eventMessageAdapter.registerSubtype(InitialOrFinalPhaseEvent.class);
+        eventMessageAdapter.registerSubtype(EndMiddlePhaseEvent.class);
+
+        eventMessageAdapter.registerSubtype(SetupPhaseEvent.class);
+
+        eventMessageAdapter.registerSubtype(ToggleProductionAtPosition.class);
+        eventMessageAdapter.registerSubtype(ChooseResourcesForProductionEvent.class);
+        eventMessageAdapter.registerSubtype(FinalProductionPhaseEvent.class);
+
+        eventMessageAdapter.registerSubtype(ChooseLineEvent.class);
+        eventMessageAdapter.registerSubtype(ChooseWhiteMarbleConversionEvent.class);
+        eventMessageAdapter.registerSubtype(DiscardResourcesEvent.class);
+        eventMessageAdapter.registerSubtype(MarketBoardEvent.class);
+        eventMessageAdapter.registerSubtype(MoveResourceEvent.class);
+
+        eventMessageAdapter.registerSubtype(ChooseCardEvent.class);
+        eventMessageAdapter.registerSubtype(ChooseCardPositionEvent.class);
+        eventMessageAdapter.registerSubtype(ChooseResourceForCardShopEvent.class);
+
+
+
+        return eventMessageAdapter;
+    }
+
+    private static RuntimeTypeAdapterFactory<ServerMessage> gsonServerMessageAdapter(){
+
+        RuntimeTypeAdapterFactory<ServerMessage> gsonToServerMessageAdapter  = RuntimeTypeAdapterFactory.of(ServerMessage.class);
+
+        gsonToServerMessageAdapter.registerSubtype(CreateMatchRequest .class);
+        gsonToServerMessageAdapter.registerSubtype(JoinMatchRequest .class);
+        gsonToServerMessageAdapter.registerSubtype(EventMessage .class);
+
+        return gsonToServerMessageAdapter;
+
+    }
+
 
 
 }

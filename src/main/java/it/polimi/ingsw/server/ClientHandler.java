@@ -23,8 +23,6 @@ public class ClientHandler implements Runnable
     private ObjectOutputStream output;
     private ObjectInputStream input;
     private Optional<Match> match=Optional.empty();
-    private String playerNickname;
-
 
     /**
      * Initializes a new handler using a specific socket connected to

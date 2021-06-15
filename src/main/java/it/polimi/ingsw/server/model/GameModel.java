@@ -1,24 +1,28 @@
 package it.polimi.ingsw.server.model;
 import com.rits.cloning.Cloner;
+import it.polimi.ingsw.server.controller.Match;
+import it.polimi.ingsw.server.model.cards.CardShop;
+import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
+import it.polimi.ingsw.server.model.market.Marble;
+import it.polimi.ingsw.server.model.market.MarketBoard;
+import it.polimi.ingsw.server.model.market.MarketLine;
+import it.polimi.ingsw.server.model.player.Player;
+import it.polimi.ingsw.server.model.player.board.Box;
+import it.polimi.ingsw.server.model.player.leaders.Leader;
+import it.polimi.ingsw.server.model.player.track.FaithTrack;
+import it.polimi.ingsw.server.model.solo.SinglePlayerDeck;
+import it.polimi.ingsw.server.model.solo.SoloActionToken;
 import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.server.model.states.StatesTransitionTable;
 import it.polimi.ingsw.server.utils.Deserializator;
-import it.polimi.ingsw.server.controller.Match;
-import it.polimi.ingsw.server.model.cards.*;
-import it.polimi.ingsw.server.model.market.*;
-import it.polimi.ingsw.server.model.player.*;
-import it.polimi.ingsw.server.model.player.board.*;
-import it.polimi.ingsw.server.model.player.leaders.Leader;
-import it.polimi.ingsw.server.model.player.track.*;
-import it.polimi.ingsw.server.model.solo.*;
 import javafx.util.Pair;
 
-import javax.crypto.Mac;
 import java.io.IOException;
 import java.util.*;
 import java.util.function.Function;
-import java.util.stream.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class GameModel {
 
@@ -56,7 +60,11 @@ public class GameModel {
     private Map<Integer, Player> playersEndingTheGame = new HashMap<>();
 
     /**
-     * Boolean value indicating if current player has started or is still in setup phase.
+     * Boolean value indicating if current game is active, meaning at least one player is online
+     */
+    private boolean isActiveGame;
+
+    /** Boolean value indicating if current game has started, meaning all players were removed from the lobby.
      */
     private boolean isStarted;
 
@@ -109,7 +117,7 @@ public class GameModel {
 
         if(isSinglePlayer) soloModeInit(players.get(0));
 
-        isStarted = false;
+        isActiveGame = false;
     }
 
     /**
@@ -171,20 +179,28 @@ public class GameModel {
     }
 
     public void start(){
+        this.isActiveGame = true;
 
-        this.isStarted = true;
+        if(!isStarted)
+            isStarted = true;
+
         macroGamePhase = MacroGamePhase.ActiveGame;
+    }
 
+    public void stop(){
+        this.isActiveGame = false;
     }
 
     public void setMacroGamePhase(MacroGamePhase macroGamePhase){
-
         this.macroGamePhase = macroGamePhase;
-
     }
 
     public MacroGamePhase getMacroGamePhase(){
         return this.macroGamePhase;
+    }
+
+    public boolean isGameActive(){
+        return isActiveGame;
     }
 
     public boolean isGameStarted(){
@@ -260,7 +276,7 @@ public class GameModel {
      * @return <em>playerNumber</em> associated with the Player if present, otherwise -1;
      */
     public int getPlayerIndex(Player player){
-        return (player!=null && players.containsValue(player)) ?
+        return (Objects.nonNull(player) && players.containsValue(player)) ?
                 getPlayerIndex(player, players)
                 : -1;
     }
@@ -289,14 +305,17 @@ public class GameModel {
     public void setOfflinePlayer(Player player){
         player.setCurrentStatus(false);
         updateOnlinePlayers();
-        setCurrentPlayer(getNextPlayer());
+
+        if(onlinePlayers.isEmpty())
+            isActiveGame = false;
     }
 
     public void setOnlinePlayer(Player player){
+        player.setCurrentStatus(true);
+        updateOnlinePlayers();
 
-        int playerIndex = getPlayerIndex(player);
-        setPlayerStatus(playerIndex, true);
-
+        if(!isActiveGame)
+            isActiveGame = true;
     }
 
     private int getPlayerIndex(Player player, Map<Integer, Player> playersMap){
@@ -311,8 +330,8 @@ public class GameModel {
      */
     private void updateOnlinePlayers() {
 
-        onlinePlayers = onlinePlayers.keySet().stream().filter(key -> onlinePlayers.get(key).isOnline())
-                .collect(Collectors.toMap(Function.identity(), index -> onlinePlayers.get(index)));
+        onlinePlayers = players.keySet().stream().filter(key -> players.get(key).isOnline())
+                .collect(Collectors.toMap(Function.identity(), index -> players.get(index)));
 
     }
 
@@ -333,7 +352,6 @@ public class GameModel {
     }
 
 
-
    /**
     * Returns the {@link State state} of the game of the current player.<br>
     * The {@link State state} of the game of each player can be different.
@@ -351,10 +369,13 @@ public class GameModel {
 
         int currentPlayerIndex = getPlayerIndex(currentPlayer, onlinePlayers);
 
-        if(currentPlayerIndex == (players.size() -1 ) )
-            return players.get(0);
-        else
-            return players.get(currentPlayerIndex + 1);
+        return players.get(
+                //finds first online player
+                    IntStream.concat(
+                    IntStream.range(currentPlayerIndex + 1, players.size()),
+                    IntStream.range(0,currentPlayerIndex + 1)).boxed().filter(index -> players.get(index).isOnline()).findFirst().get()
+            );
+
 
     }
 
@@ -485,8 +506,6 @@ public class GameModel {
         return soloDeck.showLastActivatedToken();
     }
 
-
-
     /**
      * Performs the action that the opponent in the single player game, Lorenzo il Magnifico has chosen.
      */
@@ -576,28 +595,6 @@ public class GameModel {
      */
     public Box getBoxOfResourcesFromMarketBoard(){
         return resourcesMarket.getMappedResourcesBox();
-    }
-
-    /**
-     * Flags if the {@link Player player} at the given position in the players list is online.
-     * @param playerNumber a position in the players list.
-     * @param currentlyOnline if the status of the {@link Player player} needs to be set to online.
-     */
-    public void setPlayerStatus(int playerNumber, boolean currentlyOnline){
-
-        players.get(playerNumber).setCurrentStatus(currentlyOnline);
-        if(currentlyOnline) {
-            if (onlinePlayers.values().stream()
-                    .noneMatch(player -> player == players.get(playerNumber)))
-                onlinePlayers.put(playerNumber,players.get(playerNumber));
-        }
-        else{
-
-            onlinePlayers = onlinePlayers.keySet().stream()
-                    .filter(index -> players.get(index).isOnline())
-                    .collect(Collectors.toMap(Function.identity(), index -> players.get(index)));
-        }
-
     }
 
     /**

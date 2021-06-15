@@ -221,7 +221,7 @@
       ],
       "globalPositionOfFirstElement": 0,
       "numberOfOccupiedSpots": 0,
-      "type": "SHIELD"
+      "resourceType": "SHIELD"
     },
     "state": "INACTIVE",
     "victoryPoints": 3,
@@ -360,7 +360,7 @@
       ],
       "globalPositionOfFirstElement": 0,
       "numberOfOccupiedSpots": 0,
-      "type": "STONE"
+      "resourceType": "STONE"
     },
     "state": "INACTIVE",
     "victoryPoints": 3,
@@ -430,7 +430,7 @@
       ],
       "globalPositionOfFirstElement": 0,
       "numberOfOccupiedSpots": 0,
-      "type": "GOLD"
+      "resourceType": "GOLD"
     },
     "state": "INACTIVE",
     "victoryPoints": 3,
@@ -458,7 +458,7 @@
       ],
       "globalPositionOfFirstElement": 0,
       "numberOfOccupiedSpots": 0,
-      "type": "SERVANT"
+      "resourceType": "SERVANT"
     },
     "state": "INACTIVE",
     "victoryPoints": 3,

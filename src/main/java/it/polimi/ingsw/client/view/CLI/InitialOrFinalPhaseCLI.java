@@ -7,7 +7,6 @@ import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
 
 public class InitialOrFinalPhaseCLI extends InitialOrFinalPhaseViewBuilder implements CLIBuilder {
 
-
     public InitialOrFinalPhaseCLI(boolean isInitial) {
         super(isInitial);
     }

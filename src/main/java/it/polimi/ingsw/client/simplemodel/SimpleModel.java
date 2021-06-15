@@ -66,6 +66,7 @@ public class SimpleModel {
 
 
     public void updateSimpleModel(StateInNetwork stateInNetwork){
+
         for(SimpleModelElement element : stateInNetwork.getCommonSimpleModelElements()){
             String elemName = element.getClass().getSimpleName();
             updateSimpleModelElement(elemName, element);

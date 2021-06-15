@@ -117,6 +117,7 @@ public class GameModelTest {
         gameModelTest.setOfflinePlayer(player);
         assertEquals(player, gameModelTest.getOfflinePlayers().get(0));
         assertFalse(gameModelTest.isPlayerCurrentlyOnline(0));
+        gameModelTest.setOnlinePlayer(player);
         assertEquals(player,gameModelTest.getNextPlayer());
 
         gameModelTest.setOnlinePlayer(player);

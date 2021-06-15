@@ -24,6 +24,7 @@ import static it.polimi.ingsw.client.simplemodel.State.CHOOSING_POSITION_FOR_RES
 public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIBuilder {
     @Override
     public void run() {
+
         //Todo better wrong event handling
         if (getThisPlayerCache().getCurrentState().equals(CHOOSING_POSITION_FOR_RESOURCES.name())){
             choosePositions();
