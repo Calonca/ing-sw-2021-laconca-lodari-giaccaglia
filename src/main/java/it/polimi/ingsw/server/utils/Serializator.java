@@ -1,39 +1,38 @@
 package it.polimi.ingsw.server.utils;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import it.polimi.ingsw.network.assets.*;
+import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
+import it.polimi.ingsw.network.assets.LeaderCardAsset;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.assets.tokens.ActionTokenAsset;
 import it.polimi.ingsw.network.jsonUtils.CommonGsonAdapters;
+import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.network.jsonUtils.UUIDTypeAdapter;
 import it.polimi.ingsw.server.controller.Match;
-import it.polimi.ingsw.server.controller.strategy.GameStrategy;
-import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
-import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.server.model.Resource;
-import it.polimi.ingsw.server.model.cards.*;
+import it.polimi.ingsw.server.model.cards.CardShop;
+import it.polimi.ingsw.server.model.cards.DevelopmentCard;
+import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
 import it.polimi.ingsw.server.model.cards.production.Production;
 import it.polimi.ingsw.server.model.player.board.LeaderDepot;
-import it.polimi.ingsw.server.model.player.board.StorageUnit;
 import it.polimi.ingsw.server.model.player.leaders.*;
-import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.server.model.states.StatesTransitionTable;
 import javafx.util.Pair;
 
-import java.io.*;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.file.Path;
 import java.text.DateFormat;
 import java.util.*;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
-import java.util.stream.*;
+import java.util.stream.Collectors;
 
-import static it.polimi.ingsw.server.utils.Deserializator.*;
+import static it.polimi.ingsw.server.utils.Deserializator.networkDevCardsMap;
 
 public class Serializator extends JsonUtility {
 
@@ -1175,9 +1174,6 @@ public class Serializator extends JsonUtility {
         //   Leader[] cards.leaders = deserialize("src/main/resources/config/LeadersConfig.json" , Leader[].class);
     }
 
-
-
-
     public static void leaderCardsMapSerialization(){
 
 
@@ -1265,6 +1261,14 @@ public class Serializator extends JsonUtility {
 
         JsonUtility.serializeBigObject(path, match, Match.class, customGson);
 
+    }
+
+    public static void function(long i){
+        System.out.println("long");
+    }
+
+    public static void function(Integer i){
+        System.out.println("integer");
     }
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, IllegalAccessException, InstantiationException {

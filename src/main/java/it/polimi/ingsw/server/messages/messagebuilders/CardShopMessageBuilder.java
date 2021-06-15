@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.messages.messagebuilders;
 
 import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
+import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCardColor;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.simplemodel.Cards;
@@ -62,8 +63,37 @@ public class CardShopMessageBuilder {
     public static DevelopmentCardAsset purchasedCardAdapter(GameModel gameModel) {
 
         DevelopmentCard purchasedCard = gameModel.getCardShop().getCopyOfPurchasedCard();
+        List<Integer> discounts = Arrays.stream((gameModel.getCurrentPlayer().getPersonalBoard().getDiscounts())).boxed().collect(Collectors.toList());
 
-        return purchasedCard != null ? (DevelopmentCardAsset) Cards.getCardAsset(purchasedCard.getCardId()).orElse(null) : null;
+        if(Objects.nonNull(purchasedCard)){
+            DevelopmentCardAsset cardAsset = (DevelopmentCardAsset) Cards.getCardAsset(purchasedCard.getCardId()).orElse(null);
+
+            if(Objects.nonNull(cardAsset)){
+                NetworkDevelopmentCard card = cardAsset.getDevelopmentCard();
+
+                if(discounts.stream().allMatch(discounts.get(0)::equals)){
+                   card.setDiscountedCost(card.getCostList()); //no discounts active
+                }
+                else{
+
+                    List<Pair<ResourceAsset, Integer>> costList = card.getCostList();
+                    List<Pair<ResourceAsset, Integer>> discountedCostList = costList.stream().map(
+
+                            pair -> {
+                                int discountedCost = pair.getValue() - discounts.get(pair.getKey().getResourceNumber());
+                                return new Pair<>(pair.getKey(), discountedCost);
+                            }
+                    ).collect(Collectors.toList());
+
+                    card.setDiscountedCost(discountedCostList);
+                }
+
+                return cardAsset;
+            }
+
+        }
+
+        return null;
     }
 
         //        resourceInt  amount
@@ -85,7 +115,6 @@ public class CardShopMessageBuilder {
 
                 int resourceIntValue = entry.getKey().getResourceNumber();
                 int updatedCost = entry.getValue() - discounts.get(resourceIntValue);
-
                 return updatedCost;
 
             }));

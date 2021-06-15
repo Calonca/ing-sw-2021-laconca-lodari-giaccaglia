@@ -1,13 +1,12 @@
 package it.polimi.ingsw.network.assets.devcards;
 
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
-import it.polimi.ingsw.server.model.Resource;
 import javafx.util.Pair;
+
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class NetworkDevelopmentCard {
 
@@ -16,6 +15,7 @@ public class NetworkDevelopmentCard {
      */
     private NetworkDevelopmentCardColor cardType;
     private List<Pair<ResourceAsset,Integer>> costList;
+    private List<Pair<ResourceAsset, Integer>> discountedCostList; //if there are no discounts, same as costList
     private Map<Integer, Integer> productionInputResources;
     private Map<Integer, Integer> productionOutputResources;
     private int victoryPoints;
@@ -49,10 +49,17 @@ public class NetworkDevelopmentCard {
         return costList;
     }
 
+    public List<Pair<ResourceAsset, Integer>> getDiscountedCostList(){
+        return discountedCostList;
+    }
+
+    public void setDiscountedCost(List<Pair<ResourceAsset, Integer>> discountedCostList){
+        this.discountedCostList = discountedCostList;
+    }
+
     public int getVictoryPoints() {
         return victoryPoints;
     }
-
 
     public Map<ResourceAsset, Integer> getProductionInputResources() {
         return productionInputResources.entrySet().stream().collect(Collectors.toMap(
