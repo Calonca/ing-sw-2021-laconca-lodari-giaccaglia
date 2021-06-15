@@ -171,7 +171,7 @@ public class Option extends GridElem {
     }
 
     private static DrawableLine numberLine(int x, int y, int idx, boolean isEnabled){
-        return new DrawableLine(x,y, StringUtil.twoDigitsRigth(idx)+": ",isEnabled? Color.OPTION:Color.DISABLED, Background.DEFAULT);
+        return new DrawableLine(x,y, StringUtil.twoDigitsRight(idx)+": ",isEnabled? Color.OPTION:Color.DISABLED, Background.DEFAULT);
     }
 
 

@@ -587,6 +587,10 @@ public class GameModel {
         resourcesMarket.convertWhiteMarble(mappedResource);
     }
 
+    public void convertAllWhiteMarblesInPickedLine(int mappedResource){
+       resourcesMarket.convertAllWhiteMarblesInPickedLine(mappedResource);
+    }
+
     /**
      * Returns a {@link Box box} with the resources and faith points taken from the market board after choosing the line
      * and the eventual conversion for the white marbles.<br>

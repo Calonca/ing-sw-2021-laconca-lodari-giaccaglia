@@ -227,6 +227,11 @@ public class MarketBoard {
         whiteMarblesQuantity--;
     }
 
+    public void convertAllWhiteMarblesInPickedLine(int mappedResource){
+        while(whiteMarblesQuantity>0)
+            convertWhiteMarble(mappedResource);
+    }
+
     public Box getMappedResourcesBox(){
         return mappedResources;
     }

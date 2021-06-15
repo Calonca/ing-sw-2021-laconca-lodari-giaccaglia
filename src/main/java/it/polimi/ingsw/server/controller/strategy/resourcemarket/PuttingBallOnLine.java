@@ -5,7 +5,6 @@ import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.messages.clienttoserver.events.marketboardevent.ChooseLineEvent;
 import it.polimi.ingsw.server.messages.messagebuilders.Element;
 import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.market.MarketLine;
 import it.polimi.ingsw.server.model.player.board.Box;
 import it.polimi.ingsw.server.model.states.State;
@@ -33,10 +32,9 @@ public class PuttingBallOnLine implements GameStrategy {
         elementsToUpdate.add(Element.SimpleMarketBoard);
 
         if (gamemodel.areThereWhiteMarblesInPickedLine()){
+
             if (!gamemodel.getCurrentPlayer().moreThanOneMarketBonus() && (gamemodel.getCurrentPlayer().getSingleMarketBonus()>-1)) {
-                for (int i = 0; i < gamemodel.getNumberOfWhiteMarblesInPickedLine(); i++) {
-                    gamemodel.convertWhiteMarbleInPickedLine((gamemodel.getCurrentPlayer().getSingleMarketBonus()));
-                }
+                    gamemodel.convertAllWhiteMarblesInPickedLine((gamemodel.getCurrentPlayer().getSingleMarketBonus()));
             }
             else if (gamemodel.getCurrentPlayer().moreThanOneMarketBonus())
                 return new Pair<>(State.CHOOSING_WHITEMARBLE_CONVERSION, elementsToUpdate);

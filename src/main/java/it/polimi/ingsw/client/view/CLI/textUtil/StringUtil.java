@@ -1,7 +1,5 @@
 package it.polimi.ingsw.client.view.CLI.textUtil;
 
-import it.polimi.ingsw.server.model.states.State;
-
 import java.util.Arrays;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
@@ -19,10 +17,9 @@ public class StringUtil {
         return untilReachingSize(String.valueOf(i),size);
     }
 
-    public static String twoDigitsRigth(int i){
+    public static String twoDigitsRight(int i){
         return i>9? String.valueOf(i) :" "+i;
     }
-
 
     public static String emptyLineWithBorder(int size){
         return "║"+spaces(size-2)+"║";

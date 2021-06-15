@@ -95,7 +95,7 @@ public class ChooseResourceForMarket extends ResourceMarketViewBuilder implement
             int finalI = i;
             tempButton.setOnAction(p->
                     {
-                        ChooseWhiteMarbleConversionEvent event=new ChooseWhiteMarbleConversionEvent(finalI);
+                        ChooseWhiteMarbleConversionEvent event= new ChooseWhiteMarbleConversionEvent(finalI);
                         getClient().getServerHandler().sendCommandMessage(new EventMessage(event));
                         resourcesToChoose--;
                         if(resourcesToChoose==0)
