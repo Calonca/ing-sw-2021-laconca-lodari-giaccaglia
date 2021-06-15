@@ -4,7 +4,9 @@ import it.polimi.ingsw.client.view.CLI.layout.drawables.ResourceCLI;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
+import javafx.scene.shape.MeshView;
 import javafx.scene.shape.Shape3D;
+import javafx.scene.shape.TriangleMesh;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -20,14 +22,13 @@ public enum ResourceGUI {
 
 
     private final ResourceAsset res;
-    private final String objName;
     private final Color color;
-    private Shape3D shape;
+    private final TriangleMesh mesh;
 
     ResourceGUI(ResourceAsset res, String name, Color c) {
         this.res = res;
-        objName = name;
         this.color = c;
+        mesh = ModelImporter.getObjectWithName(name);
     }
 
     public ResourceAsset getRes() {
@@ -35,24 +36,12 @@ public enum ResourceGUI {
     }
 
     public Shape3D generateShape() {
-        shape = ModelImporter.getObjectWithName(objName);
-        shape.setScaleX(0.8);
-        shape.setScaleY(0.8);
-        shape.setScaleZ(0.8);
-        ResourceGUI.getSelected(this,false,false);
-        return shape;
-    }
-
-    public static ResourceGUI getSelected(ResourceGUI res, boolean selected, boolean hoveringOver) {
-        if (res.shape==null)
-            res.generateShape();
-        javafx.scene.paint.Color c2 = javafx.scene.paint.Color.hsb(res.color.getHue(),
-                0.3,
-                1);
-        javafx.scene.paint.Color c = selected?c2:res.color;
-        PhongMaterial shieldMaterial = new PhongMaterial(c);
-        res.shape.setMaterial(shieldMaterial);
-        return res;
+        Shape3D shape3d = new MeshView(mesh);
+        shape3d.setScaleX(0.8);
+        shape3d.setScaleY(0.8);
+        shape3d.setScaleZ(0.8);
+        ResourceGUI.setColor(this,shape3d,false,false);
+        return shape3d;
     }
 
     public static void setColor(ResourceGUI res,Shape3D shape, boolean selected, boolean hoveringOver) {

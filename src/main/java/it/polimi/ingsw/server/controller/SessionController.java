@@ -99,12 +99,12 @@ public class SessionController {
                 ));
     }
 
-    private void reloadServer() {
-        File folder = new File("/Users/pablo/IdeaProjects/ing-sw-2021-laconca-lodari-giaccaglia/src/main/savedMatches");
-        Arrays.stream(folder.listFiles()).filter(File::isFile).forEach((file)->{
-                Match match = Deserializator.deserializeMatch(folder.toString() +'/' + file.getName());
-                matches.put(match.getMatchId(),match);
-        });
+    private void reloadServer() {return;
+        //File folder = new File("/Users/pablo/IdeaProjects/ing-sw-2021-laconca-lodari-giaccaglia/src/main/savedMatches");
+        //Arrays.stream(folder.listFiles()).filter(File::isFile).forEach((file)->{
+        //        Match match = Deserializator.deserializeMatch(folder.toString() +'/' + file.getName());
+        //        matches.put(match.getMatchId(),match);
+        //});
     }
 
     //saved match for a player

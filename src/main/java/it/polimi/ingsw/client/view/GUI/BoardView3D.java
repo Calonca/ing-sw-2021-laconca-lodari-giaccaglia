@@ -11,7 +11,6 @@ import javafx.scene.*;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.*;
@@ -81,21 +80,9 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
         board.setTranslateZ(1500);
         parent.getChildren().add(board);
 
-        int shift = 200;
-        int rNum = 0;
-        Shape3D stone = addAndGetShape(parent, board, ResourceGUI.STONE,new Point3D(shift*rNum,shift*rNum,0));
-        rNum++;
-        Shape3D gold = addAndGetShape(parent, board, ResourceGUI.GOLD,new Point3D(shift*rNum,shift*rNum,0));
-        rNum++;
-        Shape3D servant = addAndGetShape(parent, board, ResourceGUI.SERVANT,new Point3D(shift*rNum,shift*rNum,0));
-
         DragAndDropHandler ddHandler = new DragAndDropHandler();
-        ddHandler.addShape(ResourceGUI.GOLD,gold,()->{},true);
-        ddHandler.addShape(ResourceGUI.SERVANT,servant,()->{},true);
-
-        ddHandler.startDragAndDrop(parent,board, stone,ResourceGUI.STONE.generateShape());
-
-        wareBuilder(parent,board);
+        wareBuilder(parent,board,ddHandler);
+        ddHandler.startDragAndDropOnEach(parent,board);
 
         getClient().getStage().getScene().setOnKeyPressed(e-> {
             KeyCode pressed = e.getCode();
@@ -171,14 +158,15 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
         boardPane.getChildren().add(scene);
     }
 
-    private void wareBuilder(Group parent, Rectangle board){
-        DragAndDropHandler dropHandler = new DragAndDropHandler();
+    private void wareBuilder(Group parent, Rectangle board,DragAndDropHandler dropHandler){
+
         final double xToStart = 100;
         final double yToStart = 800;
         final double wareWidth = 500;
         final double lineHeight = 150;
         SimpleWarehouseLeadersDepot simpleWarehouseLeadersDepot = getThisPlayerCache().getElem(SimpleWarehouseLeadersDepot.class).orElseThrow();
 
+        AtomicInteger gPos = new AtomicInteger();
         int lineN = 0;
         for (Map.Entry<Integer, List<Pair<ResourceAsset, Boolean>>> line: simpleWarehouseLeadersDepot.getDepots().entrySet()){
             int finalLineN = lineN;
@@ -189,15 +177,11 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
                 nInLine.getAndIncrement();
                 ResourceGUI resourceGUI = ResourceGUI.fromAsset(e.getKey());
                 Shape3D testShape = addAndGetShape(parent,board,resourceGUI,shift);
-                dropHandler.addShape(resourceGUI,testShape,()->{},true);
-                testShape.setOnMouseEntered((MouseEvent event)-> {
-                    //dropHandler.startDragAndDrop(parent,board,testShape, resourceGUI.generateShape());
-                    System.out.println("Entered in line "+line.getKey()+", position "+nInLine.get());
-                });
+                dropHandler.addShape(resourceGUI,testShape,()->{},true, gPos.get());
+                gPos.getAndIncrement();
             });
             lineN++;
         }
-        //dropHandler.startDragAndDropOnEach(parent,board);
     }
 
     @NotNull

@@ -25,45 +25,59 @@ public class DragAndDropHandler {
         ResourceGUI resourceGUI;
         Runnable onDrop;
         boolean available;
+        Integer globalPos;
 
-        public Data(Shape3D shape3D, ResourceGUI resourceGUI, Runnable onDrop, boolean available) {
+        public Data(Shape3D shape3D, ResourceGUI resourceGUI, Runnable onDrop, boolean available, Integer globalPos) {
             this.shape3D = shape3D;
             this.resourceGUI = resourceGUI;
             this.onDrop = onDrop;
             this.available = available;
+            this.globalPos = globalPos;
         }
     }
 
     List<Data> shapes;
-    private Shape3D dragged;
 
     public DragAndDropHandler() {
         this.shapes = new ArrayList<>();
     }
 
     public void startDragAndDropOnEach(Group g, Rectangle board){
-        shapes.forEach(s->
-                startDragAndDrop(g,board,s.shape3D,s.resourceGUI.generateShape()));
+        shapes.forEach(s-> {
+            s.shape3D.setOnMouseEntered((MouseEvent event)-> {
+                startDragAndDrop(g,board,s.globalPos);
+            });
+        });
     }
 
-    public void startDragAndDrop(Group g, Rectangle board, Shape3D dragged,Shape3D oldShape) {
-        Data oldShapeData = new Data(oldShape,ResourceGUI.EMPTY,()->{},true);
-        Shape3D initialPosShape = oldShapeData.shape3D;
+    private Optional<Data> dataWithPos(int pos){
+        return shapes.stream().filter(d->d.globalPos==pos).findFirst();
+    }
+
+    public void startDragAndDrop(Group g, Rectangle board, int gPos) {
+        if (dataWithPos(gPos).isEmpty())
+            return;
+        Data draggedData = dataWithPos(gPos).get();
+        final Shape3D dragged = draggedData.shape3D;
+
+        Data oldShapeData = new Data(draggedData.resourceGUI.generateShape(),draggedData.resourceGUI,()->{},true,draggedData.globalPos);
+        Shape3D oldShape = oldShapeData.shape3D;
 
 
         AtomicBoolean dragStarted = new AtomicBoolean(false);
         dragged.setOnDragDetected((MouseEvent event)-> {
             if (!dragStarted.get()) {
                 dragStarted.set(true);
-                ResourceGUI.getSelected(ResourceGUI.STONE,true,false);
-                initialPosShape.setTranslateX(dragged.getTranslateX());
-                initialPosShape.setTranslateY(dragged.getTranslateY());
-                initialPosShape.setTranslateZ(dragged.getTranslateZ());
+                ResourceGUI.setColor(draggedData.resourceGUI,dragged,true,false);
+                oldShape.setTranslateX(dragged.getTranslateX());
+                oldShape.setTranslateY(dragged.getTranslateY());
+                oldShape.setTranslateZ(dragged.getTranslateZ());
                 Rotate rotate1 = new Rotate(270   ,new Point3D(1,0,0));
                 Rotate rotate2 = new Rotate(270   ,new Point3D(0,1,0));
-                initialPosShape.getTransforms().setAll(rotate1,rotate2);
+                oldShape.getTransforms().setAll(rotate1,rotate2);
+                shapes.remove(draggedData);
                 shapes.add(oldShapeData);
-                g.getChildren().add(initialPosShape);
+                g.getChildren().add(oldShape);
             }
             dragged.setMouseTransparent(true);
             shapes.forEach(s->s.shape3D.setMouseTransparent(true));
@@ -82,12 +96,16 @@ public class DragAndDropHandler {
                 dragged.setTranslateY(near.getTranslateY());
                 dragged.setTranslateZ(near.getTranslateZ());
 
-                dragged.setTranslateY(near.getTranslateY());
-                dragged.setTranslateZ(near.getTranslateZ());
+                near.setTranslateX(oldShape.getTranslateX());
+                near.setTranslateY(oldShape.getTranslateY());
+                near.setTranslateZ(oldShape.getTranslateZ());
+
+                draggedData.onDrop.run();
             });
-            ResourceGUI.getSelected(ResourceGUI.STONE,false,false);
-            g.getChildren().remove(initialPosShape);
+            ResourceGUI.setColor(draggedData.resourceGUI,dragged,false,false);
+            g.getChildren().remove(oldShape);
             shapes.remove(oldShapeData);
+            shapes.add(draggedData);
             dragStarted.set(false);
             board.setMouseTransparent(true);
             dragged.setCursor(Cursor.DEFAULT);
@@ -123,7 +141,7 @@ public class DragAndDropHandler {
         return new Point3D(shape.getTranslateX(),shape.getTranslateY(),shape.getTranslateZ());
     }
 
-    public void addShape(ResourceGUI resourceGUI,Shape3D shape3D,Runnable onDrop,boolean available){
-        shapes.add(new Data(shape3D,resourceGUI,onDrop,available));
+    public void addShape(ResourceGUI resourceGUI,Shape3D shape3D,Runnable onDrop,boolean available,int globalPos){
+        shapes.add(new Data(shape3D,resourceGUI,onDrop,available,globalPos));
     }
 }

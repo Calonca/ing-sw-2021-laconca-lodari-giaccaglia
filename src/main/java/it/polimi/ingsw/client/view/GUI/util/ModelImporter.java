@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client.view.GUI.util;
 
-import it.polimi.ingsw.client.view.GUI.BoardView3D;
 import javafx.scene.shape.MeshView;
 import javafx.scene.shape.TriangleMesh;
 import org.apache.commons.lang3.ArrayUtils;
@@ -15,9 +14,10 @@ import java.util.Scanner;
 public class ModelImporter {
 
     /**
-     * Converts an obj file to a MeshView
+     * Converts an obj file to a TriangleMesh
+     * @return
      */
-    public static MeshView getObjectWithName(String fileName){
+    public static TriangleMesh getObjectWithName(String fileName){
 
         double[] stoneVertsGenerated = new double[0];
         try {
@@ -56,7 +56,7 @@ public class ModelImporter {
 
 
 
-        return new MeshView(stone);
+        return stone;
     }
 
 
