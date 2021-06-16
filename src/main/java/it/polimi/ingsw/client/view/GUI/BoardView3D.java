@@ -141,7 +141,6 @@ public class BoardView3D extends SetupPhaseViewBuilder{
 
         DragAndDropHandler ddHandler = new DragAndDropHandler();
         wareBuilder(parent,board,ddHandler);
-        discardBuilder(parent,board,ddHandler);
         ddHandler.startDragAndDropOnEach(parent,board);
 
         getClient().getStage().getScene().setOnKeyPressed(e-> {
