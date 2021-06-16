@@ -1,9 +1,11 @@
 package it.polimi.ingsw.client.view.GUI;
 
 import it.polimi.ingsw.client.view.GUI.board.CamState;
+import it.polimi.ingsw.client.view.GUI.board.Text3d;
 import it.polimi.ingsw.client.view.GUI.util.DragAndDropHandler;
 import it.polimi.ingsw.client.view.GUI.util.ResourceGUI;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
+import it.polimi.ingsw.network.simplemodel.SimpleDiscardBox;
 import it.polimi.ingsw.network.simplemodel.SimpleWarehouseLeadersDepot;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point3D;
@@ -12,9 +14,14 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.*;
+import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Transform;
+import javafx.scene.transform.Translate;
 import javafx.util.Pair;
 import org.jetbrains.annotations.NotNull;
 
@@ -31,6 +38,7 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
     double width=1800;
     double len=1000;
     private static CamState camState = CamState.TOP;
+    public static final boolean moveFreely = true;
 
     @Override
     public void run() {
@@ -82,6 +90,7 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
 
         DragAndDropHandler ddHandler = new DragAndDropHandler();
         wareBuilder(parent,board,ddHandler);
+        discardBuilder(parent,board,ddHandler);
         ddHandler.startDragAndDropOnEach(parent,board);
 
         getClient().getStage().getScene().setOnKeyPressed(e-> {
@@ -153,9 +162,44 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
 
         viewMarket.setId("showButton");
         viewCardShop.setId("showButton");
-        boardPane.getChildren().add(viewCardShop);
         boardPane.getChildren().add(viewMarket);
+        //boardPane.getChildren().add(parent);
         boardPane.getChildren().add(scene);
+    }
+
+    private void discardBuilder(Group parent, Rectangle board,DragAndDropHandler dropHandler){
+        Group discardBoxGroup = new Group();
+        //Box background = new Box(350,900,2);
+        //Translate t = new Translate();
+        //t.setX(20);
+        //t.setY(200);
+        //t.setZ(0);
+        //background.getTransforms().add(t);
+        //background.setMouseTransparent(true);
+        //discardBoxGroup.getChildren().add(background);
+        Point3D initialPos = new Point3D(800,800,0);
+        final double wareWidth = 500;
+        final double lineHeight = 150;
+        SimpleDiscardBox simpleDiscardBox = getThisPlayerCache().getElem(SimpleDiscardBox.class).orElseThrow();
+        int addedLines = 0;
+                        //Pos       //Res           //NOfRes
+        for (Map.Entry<Integer, Pair<ResourceAsset, Integer>> line : simpleDiscardBox.getResourceMap().entrySet()) {
+            Group lineGroup = new Group();
+            Text text = Text3d.from(line.getValue().getValue());
+            text.setLayoutX(100);
+            lineGroup.getChildren().add(text);
+            lineGroup.setTranslateY(lineHeight * addedLines);
+            discardBoxGroup.getChildren().add(lineGroup);
+
+            ResourceGUI resTest = ResourceGUI.fromAsset(line.getValue().getKey());
+            addAndGetShape(discardBoxGroup,discardBoxGroup,resTest,new Point3D(0,lineHeight * addedLines,0));
+
+
+            addedLines++;
+        }
+
+        addNodeToBoard(parent, board, discardBoxGroup, initialPos);
+
     }
 
     private void wareBuilder(Group parent, Rectangle board,DragAndDropHandler dropHandler){
@@ -184,18 +228,22 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
         }
     }
 
-    @NotNull
-    private Shape3D addAndGetShape(Group parent, Rectangle board, ResourceGUI res,Point3D shift) {
-        Shape3D stoneMesh = res.generateShape();
 
+    private void addNodeToBoard(Group parent, Node board, Node shape, Point3D shift){
         Point3D boardTopLeft = board.localToParent(new Point3D(0,0,0));
-        stoneMesh.setTranslateX(boardTopLeft.getX()+shift.getX());
-        stoneMesh.setTranslateY(boardTopLeft.getY()+shift.getY());
-        stoneMesh.setTranslateZ(boardTopLeft.getZ()+shift.getZ());
+        shape.setTranslateX(boardTopLeft.getX()+shift.getX());
+        shape.setTranslateY(boardTopLeft.getY()+shift.getY());
+        shape.setTranslateZ(boardTopLeft.getZ()+shift.getZ());
+        parent.getChildren().add(shape);
+    }
+
+    @NotNull
+    private Shape3D addAndGetShape(Group parent, Node refSystem, ResourceGUI res, Point3D shift) {
+        Shape3D stoneMesh = res.generateShape();
         Rotate rotate1 = new Rotate(270   ,new Point3D(1,0,0));
         Rotate rotate2 = new Rotate(270   ,new Point3D(0,1,0));
         stoneMesh.getTransforms().addAll(rotate1,rotate2);
-        parent.getChildren().add(stoneMesh);
+        addNodeToBoard(parent,refSystem,stoneMesh,shift);
         return stoneMesh;
     }
 

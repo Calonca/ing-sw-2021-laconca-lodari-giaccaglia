@@ -35,13 +35,35 @@ public enum CamState {
     }
 
     public void animateWithKeyCode(PerspectiveCamera camera, KeyCode keyCode){
-        if (keyCode == KeyCode.W) {
-            if (equals(CamState.TOP)){
-                animateToState(camera,CamState.LOOK_AT_OTHERS);
+        if (BoardView3D.moveFreely) {
+            Translate t = new Translate();
+            if (keyCode == KeyCode.W) {
+                t.setY(100);
+            } else if (keyCode == KeyCode.S) {
+                t.setY(-100);
+            } else if (keyCode == KeyCode.A) {
+                t.setX(100);
+            } else if (keyCode == KeyCode.D) {
+                t.setX(-100);
             }
-        } else if (keyCode == KeyCode.S){
-            if (equals(CamState.LOOK_AT_OTHERS)){
-                animateToState(camera,CamState.TOP);
+            else if (keyCode == KeyCode.Q) {
+                t.setZ(100);
+            } else if (keyCode == KeyCode.E) {
+                t.setZ(-100);
+            }
+            camera.setTranslateX(camera.getTranslateX()+t.getX());
+            camera.setTranslateY(camera.getTranslateY()+t.getY());
+            camera.setTranslateZ(camera.getTranslateZ()+t.getZ());
+            System.out.println("Cam position x: "+camera.getTranslateX()+", y: "+camera.getTranslateY()+", z:"+camera.getTranslateZ());
+        } else {
+            if (keyCode == KeyCode.W) {
+                if (equals(CamState.TOP)) {
+                    animateToState(camera, CamState.LOOK_AT_OTHERS);
+                }
+            } else if (keyCode == KeyCode.S) {
+                if (equals(CamState.LOOK_AT_OTHERS)) {
+                    animateToState(camera, CamState.TOP);
+                }
             }
         }
     }
