@@ -11,7 +11,6 @@ import javafx.scene.transform.Rotate;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class DragAndDropHandler {
 
@@ -33,10 +32,10 @@ public class DragAndDropHandler {
     }
 
     private Optional<DragAndDropData> dataWithPos(int pos){
-        return shapes.stream().filter(d->d.globalPos==pos).findFirst();
+        return shapes.stream().filter(d->d.globalPos!=null).filter(d->d.globalPos==pos).findFirst();
     }
 
-    public void startDragAndDrop(Group g, Rectangle dragArea, int gPos) {
+    public void startDragAndDrop(Group globGroup,Rectangle dragArea, int gPos) {
         if (dataWithPos(gPos).isEmpty())
             return;
         DragAndDropData draggedData = dataWithPos(gPos).get();
@@ -49,15 +48,21 @@ public class DragAndDropHandler {
         oldShapeData.setGlobalPos(draggedData.globalPos);
         Shape3D oldShape = oldShapeData.shape3D;
 
+        Group g = new Group();
+        g.setTranslateX(dragged.getParent().getTranslateX());
+        g.setTranslateY(dragged.getParent().getTranslateY());
+        g.setTranslateZ(dragged.getParent().getTranslateZ());
+        globGroup.getChildren().add(g);
 
         AtomicBoolean dragStarted = new AtomicBoolean(false);
         dragged.setOnDragDetected((MouseEvent event)-> {
             if (!dragStarted.get()) {
                 dragStarted.set(true);
                 ResourceGUI.setColor(draggedData.resourceGUI,dragged,true,false);
-                oldShape.setTranslateX(dragged.getTranslateX());
-                oldShape.setTranslateY(dragged.getTranslateY());
-                oldShape.setTranslateZ(dragged.getTranslateZ());
+                Point3D inParent = new Point3D(dragged.getTranslateX(),dragged.getTranslateY(),dragged.getTranslateZ());
+                oldShape.setTranslateX(inParent.getX());
+                oldShape.setTranslateY(inParent.getY());
+                oldShape.setTranslateZ(inParent.getZ());
                 Rotate rotate1 = new Rotate(270   ,new Point3D(1,0,0));
                 Rotate rotate2 = new Rotate(270   ,new Point3D(0,1,0));
                 oldShape.getTransforms().setAll(rotate1,rotate2);
@@ -78,13 +83,17 @@ public class DragAndDropHandler {
             shapes.forEach(s->ResourceGUI.setColor(s.resourceGUI,s.shape3D,false,false));
             optionInRange(draggedData).ifPresent(da->{
                 Shape3D near = da.shape3D;
-                dragged.setTranslateX(near.getTranslateX());
-                dragged.setTranslateY(near.getTranslateY());
-                dragged.setTranslateZ(near.getTranslateZ());
+                Point3D nearGbl = globPos(near);
+                nearGbl = nearGbl.subtract(dragged.getParent().localToParent(new Point3D(0,0,0)));
+                dragged.setTranslateX(nearGbl.getX());
+                dragged.setTranslateY(nearGbl.getY());
+                dragged.setTranslateZ(nearGbl.getZ());
 
-                near.setTranslateX(oldShape.getTranslateX());
-                near.setTranslateY(oldShape.getTranslateY());
-                near.setTranslateZ(oldShape.getTranslateZ());
+                Point3D oldShapeLocPos = globPos(oldShape);
+                oldShapeLocPos = oldShapeLocPos.subtract(near.getParent().localToParent(new Point3D(0,0,0)));
+                near.setTranslateX(oldShapeLocPos.getX());
+                near.setTranslateY(oldShapeLocPos.getY());
+                near.setTranslateZ(oldShapeLocPos.getZ());
                 lastDroppedPos = da.globalPos;
                 draggedData.onDrop.run();
             });
@@ -98,15 +107,16 @@ public class DragAndDropHandler {
         });
 
         dragArea.setOnMouseDragOver((MouseEvent event)->{
-            Point3D stoneCoords = event.getPickResult().getIntersectedPoint();
-            stoneCoords = dragArea.localToParent(stoneCoords);
+            Point3D boardCoords = event.getPickResult().getIntersectedPoint();
+            boardCoords = dragArea.localToParent(boardCoords);
+            boardCoords = boardCoords.subtract(dragged.getParent().localToParent(new Point3D(0,0,0)));
 
             shapes.forEach(s->ResourceGUI.setColor(s.resourceGUI,s.shape3D,false,false));
             optionInRange(draggedData).ifPresent(s->ResourceGUI.setColor(s.resourceGUI,s.shape3D,true,true));
             //stoneCoords = boardTopLeft;
-            dragged.setTranslateX(stoneCoords.getX());
-            dragged.setTranslateY(stoneCoords.getY());
-            dragged.setTranslateZ(stoneCoords.getZ());
+            dragged.setTranslateX(boardCoords.getX());
+            dragged.setTranslateY(boardCoords.getY());
+            dragged.setTranslateZ(boardCoords.getZ());
             //Translate translate = new Translate(stoneCoords.getX(),stoneCoords.getY(),stoneCoords.getZ());
             //shield.getTransforms().add(translate);
         });
@@ -121,7 +131,7 @@ public class DragAndDropHandler {
         Shape3D dragged = draggedData.shape3D;
         Map<DragAndDropData,Double> indexAndDist = shapes.stream().collect(Collectors.toMap(
                 s->s,
-                s->pos(s.shape3D).distance(pos(dragged))
+                s-> globPos(s.shape3D).distance(globPos(dragged))
         ));
         return indexAndDist.entrySet().stream()
                 .filter(e->e.getValue()<range)
@@ -130,8 +140,9 @@ public class DragAndDropHandler {
                 .map(Map.Entry::getKey).findFirst();
     }
 
-    private Point3D pos(Shape3D shape){
-        return new Point3D(shape.getTranslateX(),shape.getTranslateY(),shape.getTranslateZ());
+    private Point3D globPos(Shape3D shape){
+        Point3D coords = new Point3D(shape.getTranslateX(),shape.getTranslateY(),shape.getTranslateZ());
+        return coords.add(shape.getParent().getTranslateX(),shape.getParent().getTranslateY(),shape.getParent().getTranslateZ());
     }
 
 

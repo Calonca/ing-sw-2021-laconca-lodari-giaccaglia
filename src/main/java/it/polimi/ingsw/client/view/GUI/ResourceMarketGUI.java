@@ -327,7 +327,8 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
      */
     @Override
     public void choosePositions() {
-        GUI.removeLast();
+        if (!SetupPhase.getBoard().mode.equals(BoardView3D.Mode.MOVING_RES))
+            GUI.removeLast();
         Platform.runLater(()->SetupPhase.getBoard().setMode(BoardView3D.Mode.MOVING_RES));
     }
 

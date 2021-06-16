@@ -57,12 +57,16 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
     double leadersSpacing=width/5;
 
 
-    private static final BoardView3D boardController=new BoardView3D();
+    private static BoardView3D boardController=new BoardView3D();
 
 
 
     public static BoardView3D getBoard()
     {
+        if (boardController==null) {
+            boardController = new BoardView3D();
+            boardController.setMode(BoardView3D.Mode.BACKGROUND);
+        }
         return boardController;
     }
 
