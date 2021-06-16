@@ -1,12 +1,21 @@
 package it.polimi.ingsw.client.view.GUI;
 
+import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
+import it.polimi.ingsw.client.view.CLI.CLIelem.body.PersonalBoardBody;
+import it.polimi.ingsw.client.view.CLI.CLIelem.body.PersonalBoardBody.Mode;
+import it.polimi.ingsw.client.view.CLI.layout.GridElem;
+import it.polimi.ingsw.client.view.CLI.layout.SizedBox;
+import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Column;
+import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
 import it.polimi.ingsw.client.view.GUI.board.CamState;
 import it.polimi.ingsw.client.view.GUI.board.Text3d;
 import it.polimi.ingsw.client.view.GUI.util.DragAndDropHandler;
 import it.polimi.ingsw.client.view.GUI.util.ResourceGUI;
+import it.polimi.ingsw.client.view.abstractview.ProductionViewBuilder;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.simplemodel.SimpleDiscardBox;
 import it.polimi.ingsw.network.simplemodel.SimpleWarehouseLeadersDepot;
+import it.polimi.ingsw.server.controller.SessionController;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
@@ -33,12 +42,32 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupPhaseViewBuilder implements GUIView{
 
+    public enum Mode{
+
+        MOVING_RES(),
+        SELECT_CARD_SHOP(),
+        SELECT_RES_FOR_PROD(),
+        CHOOSE_POS_FOR_CARD(),
+        CHOOSE_PRODUCTION()
+
+    }
+
     public AnchorPane boardPane;
+
+    public Mode mode;
     double buttonStartingX=100;
     double width=1800;
     double len=1000;
     private static CamState camState = CamState.TOP;
     public static final boolean moveFreely = true;
+    private static BoardView3D single_instance = null;
+
+    public static BoardView3D getInstance()
+    {
+        if (Objects.isNull(single_instance))
+            return new BoardView3D();//Todo Initialize board
+        return single_instance;
+    }
 
     @Override
     public void run() {
@@ -50,6 +79,11 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
 
         System.out.println(GUI.getRealPane().getChildren());
 
+    }
+
+    public void setMode(Mode mode){
+        this.mode = mode;
+        //Then the function initializes the board.
     }
 
     public SubScene getRoot() {

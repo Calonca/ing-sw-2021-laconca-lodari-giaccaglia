@@ -275,7 +275,8 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
      */
     @Override
     public void selectResources() {
-
+        //Hide cardShop
+        BoardView3D.getInstance().setMode(BoardView3D.Mode.SELECT_CARD_SHOP);
     }
 
     /**
