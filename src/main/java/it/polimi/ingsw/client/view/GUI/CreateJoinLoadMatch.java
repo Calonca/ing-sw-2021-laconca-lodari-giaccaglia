@@ -102,7 +102,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
      */
     public List<MatchRow> dataToRow() {
         List<MatchRow> templist=new ArrayList<>();
-        getClient().getCommonData().getMatchesData().ifPresent((data)-> data.forEach((key, value) -> templist.add(new MatchRow(key, Arrays.toString(value)))));
+        getClient().getCommonData().getMatchesData().ifPresent((data)-> data.forEach((key, value) -> templist.add(new MatchRow(key.getKey(), Arrays.toString(value.getKey())))));
         return templist;
     }
 

@@ -5,7 +5,6 @@ import it.polimi.ingsw.client.simplemodel.SimpleModel;
 import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.CLI.CLI;
 import it.polimi.ingsw.client.view.CLI.CLIelem.CLIelem;
-import it.polimi.ingsw.client.view.GUI.BoardView3D;
 import it.polimi.ingsw.client.view.abstractview.ConnectToServerViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.SetupPhaseViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ViewBuilder;

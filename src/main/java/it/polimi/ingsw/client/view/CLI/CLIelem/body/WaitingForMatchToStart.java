@@ -16,6 +16,7 @@ public class WaitingForMatchToStart extends SpinnerBody{
      * Goes to {@link SetupPhase} when the state goes to SetupPhase
      */
     public static WaitingForMatchToStart test(Client client){
+
         WaitingForMatchToStart test = new WaitingForMatchToStart();
         test.setUpdater(()->{
             if (test.getEvt().getPropertyName().equals(CommonData.matchesDataString)) {

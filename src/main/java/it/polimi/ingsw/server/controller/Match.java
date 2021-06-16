@@ -20,42 +20,47 @@ import java.util.stream.Stream;
 public class Match {
 
     private final UUID matchId;
-    private final List<User> onlineUsers = new ArrayList<>();
-    private final List<User> offlineUsers = new ArrayList<>();
+    private final List<ClientHandler> onlineUsers = new ArrayList<>();
+    private final List<ClientHandler> offlineUsers = new ArrayList<>();
     private GameModel game;
     private final int maxPlayers;
     private final Date createdTime;
     private String reasonOfGameEnd;
 
-    private static class User{
+    public void restoreMatch(){
 
-        String nickname;
-        ClientHandler clientHandler;
-
-        public User(String nickname, ClientHandler clientHandler) {
-            this.nickname = nickname;
-            this.clientHandler = clientHandler;
-        }
-
-        public String getNickname(){
-            return nickname;
-        }
+        setAllUsersOffline();
+        setUserMatchesAfterServerRecovery();
+        setGameMatch();
 
     }
 
-    public void setUserMatchesAfterServerRecovery(){
-        Stream.concat(onlineUsers.stream(), offlineUsers.stream())
-                .forEach(user -> user.clientHandler.setMatch(this));
+    private void setUserMatchesAfterServerRecovery(){
+        offlineUsers.forEach(user -> user.setMatch(this));
+    }
+
+    private void setAllUsersOffline(){
+        offlineUsers.addAll(onlineUsers);
+        onlineUsers.clear();
+    }
+
+    private void setGameMatch(){
+
+        game.setMatch(this);
+        offlineUsers.forEach(user ->
+        {
+            Player player = game.getPlayer(user.getNickname()).get();
+            game.setOfflinePlayer(player);
+        });
+
     }
 
     public String getPlayerNicknameFromHandler(ClientHandler clientHandler){
 
-        String playerNickname = onlineUsers.stream()
-                .filter(user -> user.clientHandler == clientHandler)
+        return onlineUsers.stream()
+                .filter(user -> user == clientHandler)
                 .findFirst().get()
-                .nickname;
-
-        return playerNickname;
+                .getNickname();
 
     }
 
@@ -68,34 +73,37 @@ public class Match {
 
     public void setOfflineUser(ClientHandler clientHandler){
 
-        Optional<User> optUser = onlineUsers
+        Optional<ClientHandler> optUser = onlineUsers
                 .stream()
-                .filter(user -> user.clientHandler.equals(clientHandler))
+                .filter(user -> user.equals(clientHandler))
                 .findFirst();
 
         if(optUser.isPresent()){
-            User user = optUser.get();
+            ClientHandler user = optUser.get();
             onlineUsers.remove(user);
             offlineUsers.add(user);
 
-            Player player = game.getPlayer(user.nickname).get();
+            Player player = game.getPlayer(user.getNickname()).get();
             game.setOfflinePlayer(player);
         }
+    }
+
+    public boolean isPlayerOffline(String nickname){
+        return offlineUsers.stream().anyMatch(user -> user.getNickname().equals(nickname));
     }
 
     //called when reconnecting
     public void setOnlineUser(String nickName, ClientHandler clientHandler){
 
-        Optional<User> optUser = offlineUsers.stream()
-                .filter(user -> user.nickname.equals(nickName))
+        Optional<ClientHandler> optUser = offlineUsers.stream()
+                .filter(user -> user.getNickname().equals(nickName))
                 .findFirst();
 
         if(optUser.isPresent()){
 
-            User user = optUser.get();
+            ClientHandler user = optUser.get();
             offlineUsers.remove(user);
-            User updatedUser = new User(nickName, clientHandler);
-            onlineUsers.add(updatedUser);
+            onlineUsers.add(clientHandler);
             Player player = game.getPlayer(nickName).get();
             game.setOnlinePlayer(player);
 
@@ -104,24 +112,28 @@ public class Match {
     }
 
     boolean canAddPlayer(){
-        return onlineUsers.size()<maxPlayers;
+        return (onlineUsers.size() + offlineUsers.size())<maxPlayers;
     }
 
     public boolean isNicknameAvailable(String nickname){
-        return onlineUsers
-                .stream()
-                .noneMatch(user-> user.nickname.equals(nickname));
+        return onlineUsers.stream()
+                .noneMatch(user-> user.getNickname().equals(nickname));
+    }
+
+    public boolean wasClientInMatch(String nickname){
+        return offlineUsers.stream()
+                .anyMatch(user-> user.getNickname().equals(nickname));
     }
 
     void addPlayer(String nickname, ClientHandler clientHandler){
-        if(offlineUsers.stream().anyMatch(user -> user.nickname.equals(nickname)))
+        if(offlineUsers.stream().anyMatch(user -> user.getNickname().equals(nickname)))
             setOnlineUser(nickname, clientHandler);
         else
-            onlineUsers.add(new User(nickname,clientHandler));
+            onlineUsers.add(clientHandler);
     }
 
     public void startGame() {
-        this.game = new GameModel(onlineUsers.stream().map(u->u.nickname).collect(Collectors.toList()), onlineUsers.size()==1,this);
+        this.game = new GameModel(onlineUsers.stream().map(u->u.getNickname()).collect(Collectors.toList()), onlineUsers.size()==1,this);
         game.start();
         game.getCurrentPlayer().setCurrentState(State.SETUP_PHASE);
         List<Element> elements = new ArrayList<>(Arrays.asList(Element.values()));
@@ -129,7 +141,7 @@ public class Match {
     }
 
     public boolean isGameActive(){
-        return game.isGameActive();
+        return Objects.nonNull(game) && game.isGameActive();
     }
 
     public GameModel getGame(){
@@ -140,16 +152,10 @@ public class Match {
         game.stop();
     }
 
-    private Optional<User> currentUser(){
+    private Optional<ClientHandler> currentUser(){
 
         String nickname = game.getCurrentPlayer().getNickName();
-        return onlineUsers.stream().filter(user->user.nickname.equals(nickname)).findFirst();
-    }
-
-    public ClientHandler currentPlayerClientHandler(){
-        return currentUser()
-                .map(user->user.clientHandler)
-                .orElse(onlineUsers.get(0).clientHandler);
+        return onlineUsers.stream().filter(user->user.getNickname().equals(nickname)).findFirst();
     }
 
     boolean isSetupPhase(){
@@ -167,10 +173,20 @@ public class Match {
     public String[] getOnlinePlayers(){
 
         return Stream.concat(
-                onlineUsers.stream().map(user->user.nickname),
+                onlineUsers.stream().map(ClientHandler::getNickname),
                 Stream.generate(()-> null)).limit(maxPlayers).toArray(String[]::new);
 
     }
+
+    public String[] getOfflinePlayers(){
+
+        return Stream.concat(
+                offlineUsers.stream().map(ClientHandler::getNickname),
+                Stream.generate(()-> null)).limit(maxPlayers).toArray(String[]::new);
+
+    }
+
+
 
     public boolean sameID(UUID uuid) {return uuid.equals(matchId);}
 
@@ -181,7 +197,7 @@ public class Match {
     public boolean shouldDisplay(Match current){return canAddPlayer() || sameID(current.matchId);}
 
     public Stream<ClientHandler> clientsStream(){
-        return onlineUsers.stream().map(u->u.clientHandler);
+        return onlineUsers.stream();
     }
 
     public void validateEvent(Validable event) throws EventValidationFailedException {
@@ -229,7 +245,7 @@ public class Match {
                     game.getCurrentPlayer().setCurrentState(data2.getKey());
 
                     nicknameOfPlayerSendingEvent = ((Event) event).getPlayerNickname();
-                    playerSendingEvent = game.getPlayer(nicknameOfPlayerSendingEvent).get();
+                    playerSendingEvent = game.getCurrentPlayer();
                     notifyStateToAllPlayers(data.getValue(), playerSendingEvent);
                 }
             }
@@ -258,7 +274,12 @@ public class Match {
 
 
     public String getSaveName(){
-        return onlineUsers.stream().map(user->user.nickname).reduce("", String::concat).concat("|").concat(matchId.toString());
+        return onlineUsers
+                .stream()
+                .map(ClientHandler::getNickname)
+                .collect(Collectors.joining("," , "[","]"))
+                .concat("|")
+                .concat(matchId.toString());
     }
 
     public int getLastPos() {

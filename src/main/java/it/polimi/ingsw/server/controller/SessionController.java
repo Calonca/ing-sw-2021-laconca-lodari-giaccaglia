@@ -6,6 +6,7 @@ import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.messages.messagebuilders.Element;
 import it.polimi.ingsw.server.utils.Deserializator;
 import it.polimi.ingsw.server.utils.Serializator;
+import javafx.util.Pair;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
@@ -21,7 +22,7 @@ public class SessionController {
     private HashMap<UUID,Match> matches = new HashMap<>();
 
     private HashMap<UUID, Long> matchesDisconnectionTimes = new HashMap<>();
-    private List<ClientHandler> playersInLobby = new ArrayList<>();
+    private transient List<ClientHandler> playersInLobby = new ArrayList<>();
     private static SessionController single_instance = null;
     private final String matchesFolderName = "src/savedMatches";
     private static final String sessionFolderName = "src/savedSession";
@@ -70,7 +71,7 @@ public class SessionController {
 
         Match match = matches.get(matchID);
 
-        if (match.canAddPlayer()){
+        if (match.canAddPlayer() || match.isPlayerOffline(nickname)){
             match.addPlayer(nickname,clientHandler);
             clientHandler.setMatch(match);
             return match.getLastPos();
@@ -106,20 +107,25 @@ public class SessionController {
                 }
         );
     }
-
-    public Map<UUID, String[]> matchesData(ClientHandler clientHandler){
+    //                  isSaved    onlineUsers, offlineUsers
+    public Map<Pair<UUID,Boolean>,Pair<String[], String[]>> matchesData(ClientHandler clientHandler){
 
         return matches.entrySet().stream()
-
                 .filter(match->
                         (clientHandler.getMatch().isPresent() && clientHandler.getMatch().get().getMatchId().equals(match.getKey()))
                         ||
                         (match.getValue().canAddPlayer())
-
+                        || (match.getValue().wasClientInMatch(clientHandler.getNickname()))
                 )
                 .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        entry->entry.getValue().getOnlinePlayers()
+                        entry -> {
+
+                            UUID matchId = entry.getKey();
+                            Boolean isSavedMatch = matches.get(matchId).wasClientInMatch(clientHandler.getNickname());
+                            return new Pair<>(matchId, isSavedMatch);
+                        },
+
+                        entry-> new Pair<>(entry.getValue().getOnlinePlayers(), entry.getValue().getOfflinePlayers())
                 ));
     }
 
@@ -144,7 +150,11 @@ public class SessionController {
                 .stream(folder.listFiles())
                 .filter(File::isFile)
                 .findFirst()
-                .map(file -> Deserializator.deserializeSession(folder.toString() + '/' + file.getName()));
+                .map(file -> {
+                    SessionController session = Deserializator.deserializeSession(folder.toString() + '/' + file.getName());
+                    session.matches.values().forEach(Match::restoreMatch);
+                    return session;
+                });
     }
 
     //saved match for a player

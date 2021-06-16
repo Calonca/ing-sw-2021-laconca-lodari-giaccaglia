@@ -3,8 +3,8 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.messages.servertoclient.ClientMessage;
 import it.polimi.ingsw.client.view.CLI.CreateJoinLoadMatch;
 import it.polimi.ingsw.client.view.abstractview.ConnectToServerViewBuilder;
-import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
+import it.polimi.ingsw.network.messages.clienttoserver.SendNickname;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -72,6 +72,9 @@ public class ServerHandler implements Runnable
      */
     private void handleClientConnection() throws IOException
     {
+        String nickname = owner.getCommonData().getCurrentNick();
+        getClient().getServerHandler().sendCommandMessage(new SendNickname(nickname));
+
         owner.changeViewBuilder(CreateJoinLoadMatch.getBuilder(owner.isCLI()));
         try {
             boolean stop = false;

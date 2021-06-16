@@ -4,6 +4,7 @@ import it.polimi.ingsw.network.assets.leaders.*;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.CreateMatchRequest;
 import it.polimi.ingsw.network.messages.clienttoserver.JoinMatchRequest;
+import it.polimi.ingsw.network.messages.clienttoserver.SendNickname;
 import it.polimi.ingsw.network.messages.clienttoserver.events.*;
 import it.polimi.ingsw.network.messages.clienttoserver.events.cardshopevent.ChooseCardEvent;
 import it.polimi.ingsw.network.messages.clienttoserver.events.cardshopevent.ChooseCardPositionEvent;
@@ -57,9 +58,10 @@ public class CommonGsonAdapters {
 
         RuntimeTypeAdapterFactory<ClientToServerMessage> clientToJsonAdapter = RuntimeTypeAdapterFactory.of(ClientToServerMessage.class);
 
-        clientToJsonAdapter.registerSubtype(CreateMatchRequest .class);
-        clientToJsonAdapter.registerSubtype(JoinMatchRequest .class);
-        clientToJsonAdapter.registerSubtype(EventMessage .class);
+        clientToJsonAdapter.registerSubtype(CreateMatchRequest.class);
+        clientToJsonAdapter.registerSubtype(JoinMatchRequest.class);
+        clientToJsonAdapter.registerSubtype(EventMessage.class);
+        clientToJsonAdapter.registerSubtype(SendNickname.class);
 
         return clientToJsonAdapter;
 

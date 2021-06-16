@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class SetupBody extends CLIelem {
+
     List<LeaderCardAsset> leadersToChoose;
     List<MutablePair<Boolean, UUID>> selected;
     int resToChoose;
@@ -40,6 +41,7 @@ public class SetupBody extends CLIelem {
 
     @Override
     public String toString() {
+
         Column layout = new Column();
         List<ResourceAsset> outputs =
                 Stream.concat(
@@ -57,6 +59,7 @@ public class SetupBody extends CLIelem {
         if (!resAreChosen()) {
             layout.selectAndRunOption(cli);
         }else {
+
             selectingLeaderRow = choosingLeadersRow();
             layout.addElem(selectingLeaderRow);
             selectingLeaderRow.setFirstIdx(0);

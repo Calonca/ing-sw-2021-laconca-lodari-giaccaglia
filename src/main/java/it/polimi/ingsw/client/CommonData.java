@@ -1,8 +1,15 @@
 package it.polimi.ingsw.client;
 
+import javafx.util.Pair;
+import org.apache.commons.lang3.ArrayUtils;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.*;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 
 /**
@@ -20,13 +27,20 @@ public class CommonData {
     public static String matchesDataString = "matchesData";
     public static String thisMatchData = "thisMatchData";
     public static String currentPlayerString = "currentPlayer";
+    public static String connectionStatusString = "connectionStatus";
 
-    private Optional<Map<UUID,String[]>> matchesData = Optional.empty();
+
+    private Optional<Map<Pair<UUID,Boolean>,Pair<String[], String[]>>> matchesData = Optional.empty();
+
+    private Map<UUID, Pair<String[], String[]>> availableMatchesData;
+    private Map<UUID, Pair<String[], String[]>> savedMatchesData;
+
     private Integer thisPlayerIndex;
     private int currentPlayerIndex;
     private UUID matchId;
     private String currentnick;
-
+    private boolean connectionStatus = false;
+    private final PropertyChangeSupport support;
 
     public Integer getThisPlayerIndex() {
         return thisPlayerIndex;
@@ -40,16 +54,39 @@ public class CommonData {
         return Optional.ofNullable(matchId);
     }
 
-    public Optional<Map<UUID,String[]>> getMatchesData() {
+    public Optional<Map<Pair<UUID,Boolean>,Pair<String[], String[]>>> getMatchesData() {
         return matchesData;
     }
 
-    public Optional<String[]> playersOfMatch() {
-        if (matchId==null) return Optional.empty();
-        else return matchesData.map(data->data.getOrDefault(this.matchId,null));
+    public Optional<Map<UUID, Pair<String[], String[]>>> getAvailableMatchesData(){
+        if(Objects.isNull( availableMatchesData) || availableMatchesData.isEmpty())
+            return Optional.empty();
+
+        return Optional.of(availableMatchesData);
     }
 
-    private final PropertyChangeSupport support;
+    public Optional<Map<UUID, Pair<String[], String[]>>> getSavedMatchesData(){
+        if(Objects.isNull( savedMatchesData) || savedMatchesData.isEmpty())
+            return Optional.empty();
+
+        return Optional.of(savedMatchesData);
+    }
+
+    public Optional<String[]> playersOfMatch() {
+
+        if(Objects.nonNull(matchId) && matchesData.isPresent()){
+            Pair<UUID, Boolean> key = matchesData.get().keySet().stream().filter(keyset -> keyset.getKey().equals(matchId)).findFirst().orElseGet(null);
+            if(Objects.nonNull(key)){
+                Pair<String[], String[]> matches = matchesData.get().get(key);
+                return Optional.of(ArrayUtils.addAll(matches.getKey(), matches.getValue()));
+            }
+        }
+
+        return Optional.empty();
+
+    }
+
+
     public CommonData(){
         support = new PropertyChangeSupport(this);
     }
@@ -62,10 +99,26 @@ public class CommonData {
         support.removePropertyChangeListener(pcl);
     }
 
-    public void setMatchesData(Optional<Map<UUID,String[]>> newValue) {
-        Optional<Map<UUID,String[]>> oldValue = matchesData;
+    public void setMatchesData(Optional<Map<Pair<UUID,Boolean>,Pair<String[], String[]>>> newValue) {
+        Optional<Map<Pair<UUID,Boolean>,Pair<String[], String[]>>> oldValue = matchesData;
         this.matchesData = newValue;
+        buildMatchesDataMaps();
         support.firePropertyChange(matchesDataString,oldValue,newValue);
+    }
+
+    private void buildMatchesDataMaps(){
+
+        if(matchesData.isPresent()) {
+            availableMatchesData = matchesData.get().keySet().stream().filter(key -> !key.getValue()).collect(Collectors.toMap(
+                    Pair::getKey,
+                    key -> matchesData.get().get(key)
+            ));
+
+            savedMatchesData = matchesData.get().keySet().stream().filter(Pair::getValue).collect(Collectors.toMap(
+                    Pair::getKey,
+                    key -> matchesData.get().get(key)
+            ));
+        }
     }
 
     public void setCurrentPlayer(int currentPlayerIndex) {
@@ -74,7 +127,14 @@ public class CommonData {
         support.firePropertyChange(currentPlayerString,oldPlayerIndex,currentPlayerIndex);
     }
 
+    public void setConnectionStatus(boolean connectionStatus){
+        boolean oldConnectionStatus = this.connectionStatus;
+        this.connectionStatus = connectionStatus;
+        support.firePropertyChange(connectionStatusString, oldConnectionStatus, connectionStatus);
+    }
+
     public void setStartData(UUID matchId,int thisPlayerIndex) {
+
         UUID oldMatchId = matchId;
         int oldPlayerIndex = thisPlayerIndex;
 

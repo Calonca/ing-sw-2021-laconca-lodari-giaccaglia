@@ -1,7 +1,6 @@
 package it.polimi.ingsw.server;
 
 
-import it.polimi.ingsw.network.messages.servertoclient.MatchesData;
 import it.polimi.ingsw.network.messages.servertoclient.ServerToClientMessage;
 import it.polimi.ingsw.server.controller.Match;
 import it.polimi.ingsw.server.controller.SessionController;
@@ -26,6 +25,7 @@ public class ClientHandler implements Runnable
     private transient ObjectInputStream input;
     private transient Match match;
     private InetAddress clientAddress;
+    private String nickname;
 
     /**
      * Initializes a new handler using a specific socket connected to
@@ -55,13 +55,7 @@ public class ClientHandler implements Runnable
         }
 
         System.out.println("Connected to " + client.getInetAddress());
-        try {
-            SessionController.getInstance().addPlayerToLobby(this);
-            sendAnswerMessage(new MatchesData(SessionController.getInstance().matchesData(this)));
-        } catch (IOException e) {
-            System.out.println("could not send matches data to " + client.getInetAddress());
-            return;
-        }
+        SessionController.getInstance().addPlayerToLobby(this);;
 
         try {
             handleClientConnection();
@@ -84,6 +78,7 @@ public class ClientHandler implements Runnable
      */
     private void handleClientConnection() throws IOException
     {
+
         try {
             while (true) {
                 /* read commands from the client, process them, and send replies */
@@ -111,6 +106,14 @@ public class ClientHandler implements Runnable
         this.match = match;
     }
 
+    public void setNickname(String nickname){
+        this.nickname = nickname;
+    }
+
+    public String getNickname(){
+        return nickname;
+    }
+
     /**
      * Sends a message to the client.
      * @param answerMsg The message to be sent.
@@ -123,7 +126,11 @@ public class ClientHandler implements Runnable
 
     private void notifyDisconnection()
     {
-        if(Objects.nonNull(match))
-           SessionController.getInstance().setPlayerOffline(this);
+        if(Objects.nonNull(match)) {
+            SessionController.getInstance().setPlayerOffline(this);
+            SessionController.getInstance().saveSessionController();
+        }
     }
+
+
 }

@@ -9,11 +9,10 @@ import java.beans.PropertyChangeEvent;
 
 public class CreateMatch extends CreateMatchViewBuilder implements CLIBuilder {
 
-
     @Override
     public void run() {
-        getCLIView().setTitle(new Title("Creating match"));
 
+        getCLIView().setTitle(new Title("Creating match"));
         getCLIView().runOnIntInput("Number of people (1 to 4): ","Number of people not valid",1,4,()->
         {
             int numberOfPlayers = getCLIView().getLastInt();

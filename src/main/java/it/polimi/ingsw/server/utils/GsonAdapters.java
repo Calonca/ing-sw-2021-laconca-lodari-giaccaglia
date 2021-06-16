@@ -14,10 +14,7 @@ import it.polimi.ingsw.server.controller.strategy.resourcemarket.ChoosingMarketB
 import it.polimi.ingsw.server.controller.strategy.resourcemarket.DiscardingResources;
 import it.polimi.ingsw.server.controller.strategy.resourcemarket.MovingResource;
 import it.polimi.ingsw.server.controller.strategy.resourcemarket.PuttingBallOnLine;
-import it.polimi.ingsw.server.messages.clienttoserver.CreateMatchRequest;
-import it.polimi.ingsw.server.messages.clienttoserver.EventMessage;
-import it.polimi.ingsw.server.messages.clienttoserver.JoinMatchRequest;
-import it.polimi.ingsw.server.messages.clienttoserver.ServerMessage;
+import it.polimi.ingsw.server.messages.clienttoserver.*;
 import it.polimi.ingsw.server.messages.clienttoserver.events.*;
 import it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent.ChooseCardEvent;
 import it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent.ChooseCardPositionEvent;
@@ -125,9 +122,10 @@ public class GsonAdapters {
 
         RuntimeTypeAdapterFactory<ServerMessage> gsonToServerMessageAdapter  = RuntimeTypeAdapterFactory.of(ServerMessage.class);
 
-        gsonToServerMessageAdapter.registerSubtype(CreateMatchRequest .class);
-        gsonToServerMessageAdapter.registerSubtype(JoinMatchRequest .class);
-        gsonToServerMessageAdapter.registerSubtype(EventMessage .class);
+        gsonToServerMessageAdapter.registerSubtype(CreateMatchRequest.class);
+        gsonToServerMessageAdapter.registerSubtype(JoinMatchRequest.class);
+        gsonToServerMessageAdapter.registerSubtype(EventMessage.class);
+        gsonToServerMessageAdapter.registerSubtype(SendNickname.class);
 
         return gsonToServerMessageAdapter;
 

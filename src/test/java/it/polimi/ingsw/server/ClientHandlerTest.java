@@ -10,15 +10,20 @@ import it.polimi.ingsw.network.messages.servertoclient.JoinStatus;
 import it.polimi.ingsw.network.messages.servertoclient.MatchesData;
 import it.polimi.ingsw.network.messages.servertoclient.ServerToClientMessage;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
+import javafx.util.Pair;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class ClientHandlerTest {
     Socket server1,server2;
@@ -63,13 +68,13 @@ public class ClientHandlerTest {
     public void createMatch() throws IOException, ClassNotFoundException {
 
         //1 Received matches data
-        Map<UUID,String[]> matchesData1 = new HashMap<>();
+        Map<Pair<UUID,Boolean>,Pair<String[], String[]>> matchesData1 = new HashMap<>();
         assertEquals(
                 toJsonObject(new MatchesData(matchesData1)),
                 toJsonObject(input1.readObject().toString()));
 
         //2 Received matches data
-        Map<UUID,String[]> matchesData2 = new HashMap<>();
+        Map<Pair<UUID,Boolean>,Pair<String[], String[]>> matchesData2 = new HashMap<>();
         assertEquals(
                 toJsonObject(new MatchesData(matchesData2)),
                 toJsonObject(input2.readObject().toString()));
@@ -115,13 +120,13 @@ public class ClientHandlerTest {
     public void singlePlayerCreation() throws IOException, ClassNotFoundException {
 
         //1 Received matches data
-        Map<UUID,String[]> matchesData1 = new HashMap<>();
+        Map<Pair<UUID,Boolean>,Pair<String[], String[]>> matchesData1 = new HashMap<>();
         assertEquals(
                 toJsonObject(new MatchesData(matchesData1)),
                 toJsonObject(input1.readObject().toString()));
 
         //2 Received matches data
-        Map<UUID,String[]> matchesData2 = new HashMap<>();
+        Map<Pair<UUID,Boolean>,Pair<String[], String[]>> matchesData2 = new HashMap<>();
         assertEquals(
                 toJsonObject(new MatchesData(matchesData2)),
                 toJsonObject(input2.readObject().toString()));

@@ -1,22 +1,17 @@
 package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.PersonalBoardBody;
-import it.polimi.ingsw.client.view.CLI.layout.GridElem;
-import it.polimi.ingsw.client.view.CLI.layout.Option;
 import it.polimi.ingsw.client.view.CLI.layout.ResChoiceRow;
 import it.polimi.ingsw.client.view.CLI.layout.SizedBox;
-import it.polimi.ingsw.client.view.CLI.layout.drawables.DrawableDevCard;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
-import it.polimi.ingsw.client.view.CLI.layout.drawables.FaithTrackGridElem;
 import it.polimi.ingsw.client.view.abstractview.ProductionViewBuilder;
-import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
-import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.simplemodel.SimpleCardCells;
-import it.polimi.ingsw.network.simplemodel.SimpleFaithTrack;
 import it.polimi.ingsw.network.simplemodel.SimpleProductions;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -37,6 +32,7 @@ public class ProductionViewCLI extends ProductionViewBuilder implements CLIBuild
 
     @Override
     public void choosingResForProduction() {
+
         PersonalBoardBody board = new PersonalBoardBody(getThisPlayerCache(), PersonalBoardBody.Mode.SELECT_RES_FOR_PROD);
         SimpleCardCells simpleCardCells = getThisPlayerCache().getElem(SimpleCardCells.class).orElseThrow();
         int lastSelectedProduction = simpleCardCells.getSimpleProductions().getLastSelectedProductionPosition();
@@ -54,5 +50,6 @@ public class ProductionViewCLI extends ProductionViewBuilder implements CLIBuild
         board.setMessage("Select the resources for the production");
         getCLIView().setBody(board);
         getCLIView().show();
+
     }
 }
