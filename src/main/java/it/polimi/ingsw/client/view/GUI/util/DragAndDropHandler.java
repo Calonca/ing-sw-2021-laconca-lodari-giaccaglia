@@ -18,6 +18,7 @@ public class DragAndDropHandler {
     private final static int range = 10000;
 
     List<DragAndDropData> shapes;
+    private int lastDroppedPos;
 
     public DragAndDropHandler() {
         this.shapes = new ArrayList<>();
@@ -35,7 +36,7 @@ public class DragAndDropHandler {
         return shapes.stream().filter(d->d.globalPos==pos).findFirst();
     }
 
-    public void startDragAndDrop(Group g, Rectangle board, int gPos) {
+    public void startDragAndDrop(Group g, Rectangle dragArea, int gPos) {
         if (dataWithPos(gPos).isEmpty())
             return;
         DragAndDropData draggedData = dataWithPos(gPos).get();
@@ -66,7 +67,7 @@ public class DragAndDropHandler {
             }
             dragged.setMouseTransparent(true);
             shapes.forEach(s->s.shape3D.setMouseTransparent(true));
-            board.setMouseTransparent(false);
+            dragArea.setMouseTransparent(false);
             dragged.setCursor(Cursor.MOVE);
             dragged.startFullDrag();
         });
@@ -84,7 +85,7 @@ public class DragAndDropHandler {
                 near.setTranslateX(oldShape.getTranslateX());
                 near.setTranslateY(oldShape.getTranslateY());
                 near.setTranslateZ(oldShape.getTranslateZ());
-
+                lastDroppedPos = da.globalPos;
                 draggedData.onDrop.run();
             });
             ResourceGUI.setColor(draggedData.resourceGUI,dragged,false,false);
@@ -92,13 +93,13 @@ public class DragAndDropHandler {
             shapes.remove(oldShapeData);
             shapes.add(draggedData);
             dragStarted.set(false);
-            board.setMouseTransparent(true);
+            dragArea.setMouseTransparent(true);
             dragged.setCursor(Cursor.DEFAULT);
         });
 
-        board.setOnMouseDragOver((MouseEvent event)->{
+        dragArea.setOnMouseDragOver((MouseEvent event)->{
             Point3D stoneCoords = event.getPickResult().getIntersectedPoint();
-            stoneCoords = board.localToParent(stoneCoords);
+            stoneCoords = dragArea.localToParent(stoneCoords);
 
             shapes.forEach(s->ResourceGUI.setColor(s.resourceGUI,s.shape3D,false,false));
             optionInRange(draggedData).ifPresent(s->ResourceGUI.setColor(s.resourceGUI,s.shape3D,true,true));
@@ -109,6 +110,11 @@ public class DragAndDropHandler {
             //Translate translate = new Translate(stoneCoords.getX(),stoneCoords.getY(),stoneCoords.getZ());
             //shield.getTransforms().add(translate);
         });
+    }
+
+
+    public int getLastDroppedPos() {
+        return lastDroppedPos;
     }
 
     private Optional<DragAndDropData> optionInRange(DragAndDropData draggedData){

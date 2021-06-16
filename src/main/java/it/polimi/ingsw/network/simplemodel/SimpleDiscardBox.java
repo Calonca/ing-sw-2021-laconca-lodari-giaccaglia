@@ -32,6 +32,10 @@ public class SimpleDiscardBox extends SimpleModelElement{
 
     }
 
+    public boolean isPosAvailable(int pos){
+        return availableMovingPositions.containsKey(pos)&&availableMovingPositions.get(pos).size()>0;
+    }
+
     public boolean isDiscardable() {
         return isDiscardable;
     }

@@ -165,13 +165,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
 
             moveY(toPut,toPutStartingY,new Duration(1300));
 
-
-
-
-            ChooseLineEvent event=new ChooseLineEvent(k);
-            getClient().getServerHandler().sendCommandMessage(new EventMessage(event));
-
-
+            sendLine(k);;
 
 
         });
@@ -333,10 +327,8 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
      */
     @Override
     public void choosePositions() {
-
         GUI.removeLast();
-        SetupPhase.getBoard().setMode(BoardView3D.Mode.MOVING_RES);
-        Platform.runLater(SetupPhase.getBoard());
+        Platform.runLater(()->SetupPhase.getBoard().setMode(BoardView3D.Mode.MOVING_RES));
     }
 
 }

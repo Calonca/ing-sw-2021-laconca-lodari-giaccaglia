@@ -1,51 +1,36 @@
 package it.polimi.ingsw.client.view.GUI;
 
-import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
-import it.polimi.ingsw.client.view.CLI.CLIelem.body.PersonalBoardBody;
-import it.polimi.ingsw.client.view.CLI.CLIelem.body.PersonalBoardBody.Mode;
-import it.polimi.ingsw.client.view.CLI.layout.GridElem;
-import it.polimi.ingsw.client.view.CLI.layout.SizedBox;
-import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Column;
-import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
 import it.polimi.ingsw.client.view.GUI.board.CamState;
 import it.polimi.ingsw.client.view.GUI.board.Text3d;
 import it.polimi.ingsw.client.view.GUI.util.BoardStateController;
 import it.polimi.ingsw.client.view.GUI.util.DragAndDropData;
 import it.polimi.ingsw.client.view.GUI.util.DragAndDropHandler;
 import it.polimi.ingsw.client.view.GUI.util.ResourceGUI;
-import it.polimi.ingsw.client.view.abstractview.ProductionViewBuilder;
-import it.polimi.ingsw.client.view.abstractview.SetupPhaseViewBuilder;
+import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.simplemodel.SimpleDiscardBox;
 import it.polimi.ingsw.network.simplemodel.SimpleWarehouseLeadersDepot;
-import it.polimi.ingsw.server.controller.SessionController;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.*;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Transform;
-import javafx.scene.transform.Translate;
 import javafx.util.Pair;
 import org.jetbrains.annotations.NotNull;
 
 import java.beans.PropertyChangeEvent;
-import java.io.*;
-import java.net.URL;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class BoardView3D extends SetupPhaseViewBuilder{
+import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.getClient;
+import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.getThisPlayerCache;
+
+public class BoardView3D {
 
     public enum Mode{
 
@@ -54,7 +39,6 @@ public class BoardView3D extends SetupPhaseViewBuilder{
 
                     DragAndDropHandler ddHandler = new DragAndDropHandler();
                     SetupPhase.getBoard().discardBuilder(SetupPhase.getBoard().parent, SetupPhase.getBoard().board, ddHandler);
-                    ddHandler.startDragAndDropOnEach(SetupPhase.getBoard().parent, SetupPhase.getBoard().board);
 
             }
         },
@@ -63,7 +47,6 @@ public class BoardView3D extends SetupPhaseViewBuilder{
 
                 DragAndDropHandler ddHandler = new DragAndDropHandler();
                 SetupPhase.getBoard().discardBuilder(SetupPhase.getBoard().parent, SetupPhase.getBoard().board, ddHandler);
-                ddHandler.startDragAndDropOnEach(SetupPhase.getBoard().parent, SetupPhase.getBoard().board);
 
             }
         },
@@ -73,8 +56,11 @@ public class BoardView3D extends SetupPhaseViewBuilder{
 
                 DragAndDropHandler ddHandler = new DragAndDropHandler();
                 SetupPhase.getBoard().discardBuilder(SetupPhase.getBoard().parent, SetupPhase.getBoard().board, ddHandler);
-                ddHandler.startDragAndDropOnEach(SetupPhase.getBoard().parent, SetupPhase.getBoard().board);
 
+            }
+        },
+        BACKGROUND(){
+            public void run() {
             }
         };
         //CHOOSE_PRODUCTION();
@@ -82,7 +68,7 @@ public class BoardView3D extends SetupPhaseViewBuilder{
 
     }
 
-    public Mode mode;
+    public Mode mode = Mode.BACKGROUND;
     BoardStateController controller=new BoardStateController();
     double buttonStartingX=100;
     double width=1800;
@@ -104,15 +90,9 @@ public class BoardView3D extends SetupPhaseViewBuilder{
 
     }
 
-    public void run() {
-
-        mode.run();
-
-    }
-
     public void setMode(Mode mode){
         this.mode = mode;
-        //Then the function initializes the board.
+        mode.run();
     }
 
     public SubScene getRoot() {
@@ -241,20 +221,32 @@ public class BoardView3D extends SetupPhaseViewBuilder{
         Point3D initialPos = new Point3D(800,800,0);
         final double wareWidth = 500;
         final double lineHeight = 150;
-        SimpleDiscardBox simpleDiscardBox = getThisPlayerCache().getElem(SimpleDiscardBox.class).orElseThrow();
+        SimpleDiscardBox simpleDiscardBox =  getThisPlayerCache().getElem(SimpleDiscardBox.class).orElseThrow();
         int addedLines = 0;
                         //Pos       //Res           //NOfRes
         for (Map.Entry<Integer, Pair<ResourceAsset, Integer>> line : simpleDiscardBox.getResourceMap().entrySet()) {
             Group lineGroup = new Group();
             Text text = Text3d.from(line.getValue().getValue());
-            text.setLayoutX(100);
+            text.setLayoutX(0);
+            text.setTranslateZ(-100);
             lineGroup.getChildren().add(text);
             lineGroup.setTranslateY(lineHeight * addedLines);
-            discardBoxGroup.getChildren().add(lineGroup);
+            int gPos = line.getKey();
 
             ResourceGUI resTest = ResourceGUI.fromAsset(line.getValue().getKey());
-            addAndGetShape(discardBoxGroup,discardBoxGroup,resTest,new Point3D(0,lineHeight * addedLines,0));
-
+            Shape3D shape = addAndGetShape(discardBoxGroup,discardBoxGroup,resTest,new Point3D(0,lineHeight * addedLines,0));
+            discardBoxGroup.getChildren().add(lineGroup);
+            DragAndDropData dragAndDropData = new DragAndDropData();
+            dragAndDropData.setResourceGUI(resTest);
+            dragAndDropData.setShape3D(shape);
+            dragAndDropData.setAvailable(simpleDiscardBox.isPosAvailable(gPos));
+            dragAndDropData.setAvailablePos(simpleDiscardBox.getAvailableMovingPositions().get(gPos));
+            dragAndDropData.setGlobalPos(gPos);
+            if (mode.equals(Mode.MOVING_RES))
+                dragAndDropData.setOnDrop(()->{
+                    ResourceMarketViewBuilder.sendMove(gPos,dropHandler.getLastDroppedPos());
+                });
+            dropHandler.addShape(dragAndDropData);
 
             addedLines++;
         }
@@ -285,9 +277,14 @@ public class BoardView3D extends SetupPhaseViewBuilder{
                 DragAndDropData dragAndDropData = new DragAndDropData();
                 dragAndDropData.setResourceGUI(resourceGUI);
                 dragAndDropData.setShape3D(testShape);
-                dragAndDropData.setAvailable(simpleWarehouseLeadersDepot.isPosAvailable(gPos.get()));
-                dragAndDropData.setAvailablePos(simpleWarehouseLeadersDepot.getAvailableMovingPositions().get(gPos.get()));
-                dragAndDropData.setGlobalPos(gPos.get());
+                final int globalPos = gPos.get();
+                dragAndDropData.setAvailable(simpleWarehouseLeadersDepot.isPosAvailable(globalPos));
+                dragAndDropData.setAvailablePos(simpleWarehouseLeadersDepot.getAvailableMovingPositions().get(globalPos));
+                dragAndDropData.setGlobalPos(globalPos);
+                if (mode.equals(Mode.MOVING_RES))
+                    dragAndDropData.setOnDrop(()->{
+                        ResourceMarketViewBuilder.sendMove(globalPos,dropHandler.getLastDroppedPos());
+                    });
                 dropHandler.addShape(dragAndDropData);
                 gPos.getAndIncrement();
             });
