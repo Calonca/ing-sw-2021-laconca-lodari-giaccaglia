@@ -10,6 +10,7 @@ import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
 import it.polimi.ingsw.client.view.GUI.board.CamState;
 import it.polimi.ingsw.client.view.GUI.board.Text3d;
 import it.polimi.ingsw.client.view.GUI.util.BoardStateController;
+import it.polimi.ingsw.client.view.GUI.util.DragAndDropData;
 import it.polimi.ingsw.client.view.GUI.util.DragAndDropHandler;
 import it.polimi.ingsw.client.view.GUI.util.ResourceGUI;
 import it.polimi.ingsw.client.view.abstractview.ProductionViewBuilder;
@@ -140,6 +141,7 @@ public class BoardView3D extends SetupPhaseViewBuilder{
 
         DragAndDropHandler ddHandler = new DragAndDropHandler();
         wareBuilder(parent,board,ddHandler);
+        discardBuilder(parent,board,ddHandler);
         ddHandler.startDragAndDropOnEach(parent,board);
 
         getClient().getStage().getScene().setOnKeyPressed(e-> {
@@ -281,7 +283,13 @@ public class BoardView3D extends SetupPhaseViewBuilder{
                 nInLine.getAndIncrement();
                 ResourceGUI resourceGUI = ResourceGUI.fromAsset(e.getKey());
                 Shape3D testShape = addAndGetShape(parent,board,resourceGUI,shift);
-                dropHandler.addShape(resourceGUI,testShape,()->{},true, gPos.get());
+                DragAndDropData dragAndDropData = new DragAndDropData();
+                dragAndDropData.setResourceGUI(resourceGUI);
+                dragAndDropData.setShape3D(testShape);
+                dragAndDropData.setAvailable(simpleWarehouseLeadersDepot.isPosAvailable(gPos.get()));
+                dragAndDropData.setAvailablePos(simpleWarehouseLeadersDepot.getAvailableMovingPositions().get(gPos.get()));
+                dragAndDropData.setGlobalPos(gPos.get());
+                dropHandler.addShape(dragAndDropData);
                 gPos.getAndIncrement();
             });
             lineN++;
