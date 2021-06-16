@@ -1,8 +1,5 @@
 package it.polimi.ingsw.client.view.GUI.util;
 
-import it.polimi.ingsw.client.view.CLI.layout.Option;
-import it.polimi.ingsw.network.jsonUtils.JsonUtility;
-import it.polimi.ingsw.server.model.player.track.PopeFavourTile;
 import javafx.geometry.Point3D;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
@@ -20,47 +17,35 @@ public class DragAndDropHandler {
 
     private final static int range = 10000;
 
-    private class Data {
-        Shape3D shape3D;
-        ResourceGUI resourceGUI;
-        Runnable onDrop;
-        boolean available;
-        Integer globalPos;
-
-        public Data(Shape3D shape3D, ResourceGUI resourceGUI, Runnable onDrop, boolean available, Integer globalPos) {
-            this.shape3D = shape3D;
-            this.resourceGUI = resourceGUI;
-            this.onDrop = onDrop;
-            this.available = available;
-            this.globalPos = globalPos;
-        }
-    }
-
-    List<Data> shapes;
+    List<DragAndDropData> shapes;
 
     public DragAndDropHandler() {
         this.shapes = new ArrayList<>();
     }
 
     public void startDragAndDropOnEach(Group g, Rectangle board){
-        shapes.forEach(s-> {
+        shapes.stream().filter(s->s.available).forEach(s-> {
             s.shape3D.setOnMouseEntered((MouseEvent event)-> {
                 startDragAndDrop(g,board,s.globalPos);
             });
         });
     }
 
-    private Optional<Data> dataWithPos(int pos){
+    private Optional<DragAndDropData> dataWithPos(int pos){
         return shapes.stream().filter(d->d.globalPos==pos).findFirst();
     }
 
     public void startDragAndDrop(Group g, Rectangle board, int gPos) {
         if (dataWithPos(gPos).isEmpty())
             return;
-        Data draggedData = dataWithPos(gPos).get();
+        DragAndDropData draggedData = dataWithPos(gPos).get();
         final Shape3D dragged = draggedData.shape3D;
 
-        Data oldShapeData = new Data(draggedData.resourceGUI.generateShape(),draggedData.resourceGUI,()->{},true,draggedData.globalPos);
+        DragAndDropData oldShapeData = new DragAndDropData();
+        oldShapeData.setShape3D(draggedData.resourceGUI.generateShape());
+        oldShapeData.setResourceGUI(draggedData.resourceGUI);
+        oldShapeData.setAvailable(true);
+        oldShapeData.setGlobalPos(draggedData.globalPos);
         Shape3D oldShape = oldShapeData.shape3D;
 
 
@@ -90,7 +75,7 @@ public class DragAndDropHandler {
             dragged.setMouseTransparent(false);
             shapes.forEach(s->s.shape3D.setMouseTransparent(false));
             shapes.forEach(s->ResourceGUI.setColor(s.resourceGUI,s.shape3D,false,false));
-            optionInRange(dragged).ifPresent(da->{
+            optionInRange(draggedData).ifPresent(da->{
                 Shape3D near = da.shape3D;
                 dragged.setTranslateX(near.getTranslateX());
                 dragged.setTranslateY(near.getTranslateY());
@@ -116,7 +101,7 @@ public class DragAndDropHandler {
             stoneCoords = board.localToParent(stoneCoords);
 
             shapes.forEach(s->ResourceGUI.setColor(s.resourceGUI,s.shape3D,false,false));
-            optionInRange(dragged).ifPresent(s->ResourceGUI.setColor(s.resourceGUI,s.shape3D,true,true));
+            optionInRange(draggedData).ifPresent(s->ResourceGUI.setColor(s.resourceGUI,s.shape3D,true,true));
             //stoneCoords = boardTopLeft;
             dragged.setTranslateX(stoneCoords.getX());
             dragged.setTranslateY(stoneCoords.getY());
@@ -126,22 +111,25 @@ public class DragAndDropHandler {
         });
     }
 
-    private Optional<Data> optionInRange(Shape3D dragged){
-        Map<Integer,Double> indexAndDist = IntStream.range(0,shapes.size()).boxed().collect(Collectors.toMap(
-                i->i,
-                i->pos(shapes.get(i).shape3D).distance(pos(dragged))
+    private Optional<DragAndDropData> optionInRange(DragAndDropData draggedData){
+        Shape3D dragged = draggedData.shape3D;
+        Map<DragAndDropData,Double> indexAndDist = shapes.stream().collect(Collectors.toMap(
+                s->s,
+                s->pos(s.shape3D).distance(pos(dragged))
         ));
-        Optional<Integer> pos = indexAndDist.entrySet().stream().filter(e->e.getValue()<range)
+        return indexAndDist.entrySet().stream()
+                .filter(e->e.getValue()<range)
+                .filter(e->draggedData.availablePos.contains(e.getKey().globalPos))
                 .sorted(Map.Entry.comparingByValue())
                 .map(Map.Entry::getKey).findFirst();
-        return pos.map(i->shapes.get(i));
     }
 
     private Point3D pos(Shape3D shape){
         return new Point3D(shape.getTranslateX(),shape.getTranslateY(),shape.getTranslateZ());
     }
 
-    public void addShape(ResourceGUI resourceGUI,Shape3D shape3D,Runnable onDrop,boolean available,int globalPos){
-        shapes.add(new Data(shape3D,resourceGUI,onDrop,available,globalPos));
+
+    public void addShape(DragAndDropData ddD){
+        shapes.add(ddD);
     }
 }

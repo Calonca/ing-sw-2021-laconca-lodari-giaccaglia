@@ -28,6 +28,10 @@ public class SimpleWarehouseLeadersDepot extends SimpleModelElement{
         return simpleWarehouseLeadersDepot;
     }
 
+    public boolean isPosAvailable(int pos){
+        return availableMovingPositions.containsKey(pos)&&availableMovingPositions.get(pos).size()>0;
+    }
+
     @Override
     public void update(SimpleModelElement element) {
         SimpleWarehouseLeadersDepot serverWarehouseLeadersDepot= (SimpleWarehouseLeadersDepot) element;
