@@ -130,7 +130,7 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
             selectedLeaders.add(false);
 
 
-        ViewPersonalBoard.getController().cardSelectorFromImage(selectedLeaders, sceneLeadersImageView,1);
+        SetupPhase.getBoard().getController().cardSelectorFromImage(selectedLeaders, sceneLeadersImageView,1);
 
         List<Button> controlButtons=new ArrayList<>();
 

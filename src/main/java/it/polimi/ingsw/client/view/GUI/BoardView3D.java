@@ -9,20 +9,24 @@ import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Column;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
 import it.polimi.ingsw.client.view.GUI.board.CamState;
 import it.polimi.ingsw.client.view.GUI.board.Text3d;
+import it.polimi.ingsw.client.view.GUI.util.BoardStateController;
 import it.polimi.ingsw.client.view.GUI.util.DragAndDropHandler;
 import it.polimi.ingsw.client.view.GUI.util.ResourceGUI;
 import it.polimi.ingsw.client.view.abstractview.ProductionViewBuilder;
+import it.polimi.ingsw.client.view.abstractview.SetupPhaseViewBuilder;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.simplemodel.SimpleDiscardBox;
 import it.polimi.ingsw.network.simplemodel.SimpleWarehouseLeadersDepot;
 import it.polimi.ingsw.server.controller.SessionController;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.PhongMaterial;
@@ -40,37 +44,55 @@ import java.net.URL;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupPhaseViewBuilder implements GUIView{
+public class BoardView3D extends SetupPhaseViewBuilder{
 
     public enum Mode{
 
-        MOVING_RES(),
-        SELECT_CARD_SHOP(),
-        SELECT_RES_FOR_PROD(),
-        CHOOSE_POS_FOR_CARD(),
-        CHOOSE_PRODUCTION()
+        MOVING_RES() {
+            public void run() {
+
+                    DragAndDropHandler ddHandler = new DragAndDropHandler();
+                    SetupPhase.getBoard().discardBuilder(SetupPhase.getBoard().parent, SetupPhase.getBoard().board, ddHandler);
+                    ddHandler.startDragAndDropOnEach(SetupPhase.getBoard().parent, SetupPhase.getBoard().board);
+
+            }
+        },
+        SELECT_CARD_SHOP(){
+            public void run() {
+
+                DragAndDropHandler ddHandler = new DragAndDropHandler();
+                SetupPhase.getBoard().discardBuilder(SetupPhase.getBoard().parent, SetupPhase.getBoard().board, ddHandler);
+                ddHandler.startDragAndDropOnEach(SetupPhase.getBoard().parent, SetupPhase.getBoard().board);
+
+            }
+        },
+        //SELECT_RES_FOR_PROD(),
+        CHOOSE_POS_FOR_CARD() {
+            public void run() {
+
+                DragAndDropHandler ddHandler = new DragAndDropHandler();
+                SetupPhase.getBoard().discardBuilder(SetupPhase.getBoard().parent, SetupPhase.getBoard().board, ddHandler);
+                ddHandler.startDragAndDropOnEach(SetupPhase.getBoard().parent, SetupPhase.getBoard().board);
+
+            }
+        };
+        //CHOOSE_PRODUCTION();
+        public abstract void run();
 
     }
 
-    public AnchorPane boardPane;
-
     public Mode mode;
+    BoardStateController controller=new BoardStateController();
     double buttonStartingX=100;
     double width=1800;
+    public Rectangle board;
+    public Group parent;
     double len=1000;
     private static CamState camState = CamState.TOP;
     public static final boolean moveFreely = true;
-    private static BoardView3D single_instance = null;
 
-    public static BoardView3D getInstance()
-    {
-        if (Objects.isNull(single_instance))
-            return new BoardView3D();//Todo Initialize board
-        return single_instance;
-    }
 
-    @Override
-    public void run() {
+    public void runforStart() {
         Node root=getRoot();
         //todo fix initialization
         root.setId("3DVIEW");
@@ -81,40 +103,34 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
 
     }
 
+    public void run() {
+
+        mode.run();
+
+    }
+
     public void setMode(Mode mode){
         this.mode = mode;
         //Then the function initializes the board.
     }
 
     public SubScene getRoot() {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/fxml/Board3d.fxml"));
-        Parent root = null;
-        try {
-            root = loader.load();
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        return new SubScene(root,width,len);
 
-    }
 
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
+        AnchorPane boardPane=new AnchorPane();
+        boardPane.setMinSize(1800,1000);
 
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
         PerspectiveCamera camera = new PerspectiveCamera();
 
-        Group parent = new Group();
+        parent = new Group();
 
         final int boardWidth=2402;
         final int boardHeight=1717;
-        Rectangle board = new Rectangle(boardWidth, boardHeight);
+        board = new Rectangle(boardWidth, boardHeight);
+
+
         Image boardPic = new Image("assets/board/biggerboard.png");
         board.setFill(new ImagePattern(boardPic));
         board.setTranslateX(-300);
@@ -124,7 +140,6 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
 
         DragAndDropHandler ddHandler = new DragAndDropHandler();
         wareBuilder(parent,board,ddHandler);
-        discardBuilder(parent,board,ddHandler);
         ddHandler.startDragAndDropOnEach(parent,board);
 
         getClient().getStage().getScene().setOnKeyPressed(e-> {
@@ -144,7 +159,7 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
         viewCardShop.setOnMouseEntered( p ->
         {
             //todo fix static
-            if(ViewPersonalBoard.getController().isMarket()|| ViewPersonalBoard.getController().isCardShopOpen())
+            if(mode==Mode.MOVING_RES|| mode==Mode.CHOOSE_POS_FOR_CARD)
             {
                 viewCardShop.setDisable(true);
                 return;
@@ -158,7 +173,7 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
 
         viewCardShop.setOnMouseExited( p ->
         {
-            if(ViewPersonalBoard.getController().isMarket()|| ViewPersonalBoard.getController().isCardShopOpen()) {
+            if(mode==Mode.MOVING_RES|| mode==Mode.CHOOSE_POS_FOR_CARD) {
                 return;
             }
             GUI.removeLast();
@@ -173,7 +188,7 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
         viewMarket.setText("VIEW MARKET");
         viewMarket.setOnMouseEntered( p ->
         {
-            if(ViewPersonalBoard.getController().isMarket()|| ViewPersonalBoard.getController().isCardShopOpen())
+            if(mode==Mode.MOVING_RES|| mode==Mode.CHOOSE_POS_FOR_CARD)
             {
                 viewMarket.setDisable(true);
                 return;
@@ -187,7 +202,7 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
 
         viewMarket.setOnMouseExited( p ->
         {
-            if(ViewPersonalBoard.getController().isMarket()|| ViewPersonalBoard.getController().isCardShopOpen()) {
+            if(mode==Mode.MOVING_RES|| mode==Mode.CHOOSE_POS_FOR_CARD) {
                 return;
             }
             GUI.removeLast();
@@ -199,9 +214,20 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
         boardPane.getChildren().add(viewMarket);
         //boardPane.getChildren().add(parent);
         boardPane.getChildren().add(scene);
+        return new SubScene(boardPane,width,len);
+
     }
 
-    private void discardBuilder(Group parent, Rectangle board,DragAndDropHandler dropHandler){
+    public BoardStateController getController() {
+        return controller;
+    }
+
+
+    public void propertyChange(PropertyChangeEvent evt) {
+
+    }
+
+    public void discardBuilder(Group parent, Rectangle board,DragAndDropHandler dropHandler){
         Group discardBoxGroup = new Group();
         //Box background = new Box(350,900,2);
         //Translate t = new Translate();
@@ -236,7 +262,7 @@ public class BoardView3D extends it.polimi.ingsw.client.view.abstractview.SetupP
 
     }
 
-    private void wareBuilder(Group parent, Rectangle board,DragAndDropHandler dropHandler){
+    public void wareBuilder(Group parent, Rectangle board,DragAndDropHandler dropHandler){
 
         final double xToStart = 100;
         final double yToStart = 800;

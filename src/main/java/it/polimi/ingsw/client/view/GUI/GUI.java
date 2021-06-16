@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view.GUI;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.SubScene;
@@ -64,7 +65,12 @@ public class GUI extends Application {
 
     public static void removeLast()
     {
-        realPane.getChildren().remove(realPane.getChildren().size()-1);
+        Runnable run = new Runnable() {
+            public void run() {
+                realPane.getChildren().remove(realPane.getChildren().size()-1);
+            };
+        };
+        Platform.runLater(run);
     }
 
     public static void addLast(Node scene)

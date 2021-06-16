@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view.abstractview;
 
 import it.polimi.ingsw.client.view.CLI.ProductionViewCLI;
 import it.polimi.ingsw.client.view.GUI.BoardView3D;
+import it.polimi.ingsw.client.view.GUI.ProductionViewGUI;
 import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.events.productionevent.ChooseResourcesForProductionEvent;
 import it.polimi.ingsw.network.messages.clienttoserver.events.productionevent.FinalProductionPhaseEvent;
@@ -17,7 +18,7 @@ public abstract class ProductionViewBuilder extends ViewBuilder{
 
     public static ViewBuilder getBuilder(boolean isCLI) {
         if (isCLI) return new ProductionViewCLI();
-        else return new BoardView3D();
+        else return new ProductionViewGUI();
     }
    public SimpleCardCells getSimpleCardCells(){
        return getSimpleModel().getElem(SimpleCardCells.class).orElseThrow();

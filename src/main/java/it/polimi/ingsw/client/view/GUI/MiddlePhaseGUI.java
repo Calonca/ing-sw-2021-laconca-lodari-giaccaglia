@@ -72,7 +72,6 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
         //todo remove runlater
         cardButton.setOnAction( p ->
         {
-            ViewPersonalBoard.getController().isCardShopOpen(true);
             sendChoice(Choice.CARD_SHOP);
 
         });
@@ -88,7 +87,6 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
 
             ResourceMarketGUI res=new ResourceMarketGUI();
             sendChoice(Choice.RESOURCE_MARKET);
-            ViewPersonalBoard.getController().isMarket(true);
 
         });
 

@@ -56,6 +56,16 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
     double resourcesOffsetX=-20;
     double leadersSpacing=width/5;
 
+
+    private static final BoardView3D boardController=new BoardView3D();
+
+
+
+    public static BoardView3D getBoard()
+    {
+        return boardController;
+    }
+
     @FXML
     private AnchorPane setupAnchor;
 
@@ -198,7 +208,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
 
 
         //ViewPersonalBoard.getController().cardSelector(selectedLeaders, sceneLeaders,2);
-        ViewPersonalBoard.getController().cardSelectorFromImage(selectedLeaders, leaderImageViews,2);
+        SetupPhase.getBoard().getController().cardSelectorFromImage(selectedLeaders, leaderImageViews,2);
         selectedLeaders.addListener((ListChangeListener<Boolean>) c -> {
             c.next();
             if(c.getAddedSubList().get(0))
@@ -233,9 +243,9 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         }
 
         double resourcesX=width/2;
-        ViewPersonalBoard.getController().setAllowedRes(new int[]{3,3,3,3});
+        SetupPhase.getBoard().getController().setAllowedRes(new int[]{3,3,3,3});
         //ViewPersonalBoard.getController().bindDispenser(selectedResources,sceneResources,Util.resourcesToChooseOnSetup(getClient().getCommonData().getThisPlayerIndex()));
-        ViewPersonalBoard.getController().bindDispenserFromImage(selectedResources,resourceImageViews,Util.resourcesToChooseOnSetup(getClient().getCommonData().getThisPlayerIndex()));
+        SetupPhase.getBoard().getController().bindDispenserFromImage(selectedResources,resourceImageViews,Util.resourcesToChooseOnSetup(getClient().getCommonData().getThisPlayerIndex()));
 
         //todo add animation on selected resources
 

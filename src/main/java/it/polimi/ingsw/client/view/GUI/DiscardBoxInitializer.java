@@ -50,7 +50,7 @@ public class DiscardBoxInitializer extends ResourceMarketViewBuilder implements 
             temp[i]+=discardBoxMap.get(startpos).getValue();
             startpos++;
         }
-        ViewPersonalBoard.getController().setAllowedRes(temp);
+        SetupPhase.getBoard().getController().setAllowedRes(temp);
         fillDiscardBox();
     }
 
@@ -144,7 +144,7 @@ public class DiscardBoxInitializer extends ResourceMarketViewBuilder implements 
             sceneButtons.get(i).setGraphic(tempResize);
 
         }
-        ViewPersonalBoard.getController().bindDispenser(selected,sceneButtons,10);
+        SetupPhase.getBoard().getController().bindDispenser(selected,sceneButtons,10);
 
 
         selected.addListener((ListChangeListener<Integer>) c -> {

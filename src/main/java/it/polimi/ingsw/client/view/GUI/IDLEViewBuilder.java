@@ -21,9 +21,8 @@ public class IDLEViewBuilder extends it.polimi.ingsw.client.view.abstractview.Se
     @Override
     public void run() {
 
-        BoardView3D temp=new BoardView3D();
-        Platform.runLater(temp);
-
+        BoardView3D temp=SetupPhase.getBoard();
+        temp.runforStart();
 
         System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
 

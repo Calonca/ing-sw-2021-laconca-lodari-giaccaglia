@@ -244,9 +244,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         cjlPane.getChildren().add(scrollPane);
         grid.setId("background");
 
-        Button test=new Button();
-        test.setGraphic(new Label("PERSONAL BOARD"));
-        test.setOnAction( t -> getClient().changeViewBuilder(new BoardView3D()));
+
      //w   grid.add(test,2,2);
 
 

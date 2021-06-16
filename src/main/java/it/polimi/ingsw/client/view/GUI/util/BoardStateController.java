@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.view.GUI.GUIelem;
+package it.polimi.ingsw.client.view.GUI.util;
 
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.server.model.Resource;
@@ -16,7 +16,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ButtonSelectionModel {
+public class BoardStateController {
 
     public void setMoving(boolean moving) {
         this.moving = moving;

@@ -1,13 +1,11 @@
 package it.polimi.ingsw.client.view.GUI;
 
 
-import com.sun.scenario.effect.Effect;
 import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.CLI.IDLEViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCardColor;
 import it.polimi.ingsw.network.simplemodel.SimpleCardShop;
-import it.polimi.ingsw.server.model.Resource;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.ImageCursor;
@@ -15,9 +13,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.SubScene;
 import javafx.scene.control.*;
-import javafx.scene.effect.ColorAdjust;
-import javafx.scene.effect.Glow;
-import javafx.scene.effect.Shadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -216,7 +211,6 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
             }
         }
 
-        ViewPersonalBoard.getController().isCardShopOpen(simpleCardShop.getIsAnyCardPurchasable());
 
         selectedSceneCards=javafx.collections.FXCollections.observableArrayList();
         for (int i=0;i<ROWS*COLUMNS;i++)
@@ -224,7 +218,7 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
 
 
 
-        ViewPersonalBoard.getController().cardSelectorFromImage(selectedSceneCards,scenesCardsToChoose,1);
+        SetupPhase.getBoard().getController().cardSelectorFromImage(selectedSceneCards,scenesCardsToChoose,1);
 
         selectedSceneCards.addListener((ListChangeListener<Boolean>) c -> {
             c.next();
@@ -276,7 +270,7 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
     @Override
     public void selectResources() {
         //Hide cardShop
-        BoardView3D.getInstance().setMode(BoardView3D.Mode.SELECT_CARD_SHOP);
+        SetupPhase.getBoard().setMode(BoardView3D.Mode.SELECT_CARD_SHOP);
     }
 
     /**

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.view.GUI;
 
 
-import it.polimi.ingsw.client.view.abstractview.ProductionViewBuilder;
+import it.polimi.ingsw.client.view.GUI.util.DragAndDropHandler;
 import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
 import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.events.marketboardevent.ChooseLineEvent;
@@ -10,8 +10,6 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -336,6 +334,9 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
     @Override
     public void choosePositions() {
 
+        GUI.removeLast();
+        SetupPhase.getBoard().setMode(BoardView3D.Mode.MOVING_RES);
+        Platform.runLater(SetupPhase.getBoard());
     }
 
 }
