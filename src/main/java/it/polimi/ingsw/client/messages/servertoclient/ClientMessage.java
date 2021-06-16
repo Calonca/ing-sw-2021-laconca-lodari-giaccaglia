@@ -6,9 +6,11 @@ import it.polimi.ingsw.client.ServerHandler;
 import it.polimi.ingsw.client.json.GsonAdapters;
 import it.polimi.ingsw.network.jsonUtils.CommonGsonAdapters;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
+import it.polimi.ingsw.network.jsonUtils.UUIDTypeAdapter;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.UUID;
 
 import static it.polimi.ingsw.network.jsonUtils.JsonUtility.deserializeFromString;
 
@@ -22,7 +24,9 @@ public interface ClientMessage {
 
         Gson gson1 = new GsonBuilder()
                 .registerTypeAdapterFactory(GsonAdapters.gsonToClientAdapter)
-                .registerTypeAdapterFactory(CommonGsonAdapters.gsonElementAdapter).registerTypeHierarchyAdapter(Path.class, new JsonUtility.PathConverter())
+                .registerTypeAdapterFactory(CommonGsonAdapters.gsonElementAdapter)
+                .registerTypeAdapter(UUID.class, new UUIDTypeAdapter())
+                .registerTypeHierarchyAdapter(Path.class, new JsonUtility.PathConverter())
                 .create();
 
         return deserializeFromString(jsonString, ClientMessage.class, gson1);

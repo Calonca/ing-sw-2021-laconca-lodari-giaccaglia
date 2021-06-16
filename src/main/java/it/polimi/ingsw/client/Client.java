@@ -1,7 +1,5 @@
 package it.polimi.ingsw.client;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.client.messages.servertoclient.StateInNetwork;
 import it.polimi.ingsw.client.simplemodel.SimpleModel;
 import it.polimi.ingsw.client.simplemodel.State;
@@ -17,8 +15,7 @@ import javafx.stage.Stage;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.net.Socket;
-import java.nio.file.Path;
-import java.util.*;
+import java.util.NoSuchElementException;
 
 
 /**

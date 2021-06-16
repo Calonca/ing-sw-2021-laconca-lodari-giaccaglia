@@ -9,7 +9,6 @@ public abstract class NetworkMessage
 {
     public UUID identifier = UUID.randomUUID();
 
-
     /**
      * Unique identifier for the message.
      * Allows matching a message with its response.

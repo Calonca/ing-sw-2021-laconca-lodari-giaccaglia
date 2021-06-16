@@ -6,32 +6,38 @@ import org.apache.commons.io.IOUtils;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.*;
-import java.util.*;
-import java.util.stream.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.DateFormat;
 
 public class JsonUtility {
 
     public static final String readConfigPathString = "/config/";
     public static final String writeConfigPathString = "src/main/resources/config/";
-    public static String serializeVarArgs(Object... o) {
-        return serialize(Arrays.stream(o).collect(Collectors.toList()));
-    }
+    public static final Gson customGson = customGson();
+    public static final GsonBuilder customGsonBuilder = customGsonBuilder();
+
+   private static Gson customGson(){
+       return customGsonBuilder().create();
+   }
+
+   private static GsonBuilder customGsonBuilder(){
+
+       return new GsonBuilder()
+               .enableComplexMapKeySerialization()
+               .registerTypeHierarchyAdapter(Path.class, new PathConverter())
+               .setDateFormat(DateFormat.FULL, DateFormat.FULL)
+               .setPrettyPrinting();
+   }
+
 
     public static <T> T deserialize(String jsonPath, Class<T> destinationClass, boolean isPathFromSourceRoot){
-
-        Gson gson = new GsonBuilder()
-                .enableComplexMapKeySerialization()
-                .registerTypeHierarchyAdapter(Path.class, new PathConverter())
-                .setPrettyPrinting()
-                .registerTypeAdapter(UUID.class, new UUIDTypeAdapter())
-                .create();
-
         if(isPathFromSourceRoot)
-            return deserializeFromSourceRoot(jsonPath,destinationClass,gson);
+            return deserializeFromSourceRoot(jsonPath,destinationClass, customGson);
 
         else
-            return deserializeFromAbsolutePath(jsonPath, destinationClass, gson);
+            return deserializeFromAbsolutePath(jsonPath, destinationClass, customGson);
 
     }
 
@@ -70,14 +76,9 @@ public class JsonUtility {
     public static <T> T deserializeFromAbsolutePath(String name, Class<T> destinationClass, Gson customGson) {
 
         String jsonString = null;
-
         File f = new File(name);
-
         String absolutePath = f.getAbsolutePath();
-
         try {
-
-
             jsonString = Files.readString(Path.of(absolutePath), StandardCharsets.US_ASCII);
         } catch (IOException e) {
             e.printStackTrace();
@@ -91,14 +92,7 @@ public class JsonUtility {
     }
 
     public static <T> String serialize(T Object){
-
-        Gson gson = new GsonBuilder()
-                .enableComplexMapKeySerialization()
-                .registerTypeHierarchyAdapter(Path.class, new PathConverter())
-                .setPrettyPrinting()
-                .create();
-
-        return gson.toJson(Object);
+        return customGson.toJson(Object);
     }
 
     public static <T> String serialize(T Object, Class<T> classToSerialize, Gson customGson){
@@ -110,8 +104,7 @@ public class JsonUtility {
     }
 
     public static <T> void serialize(String jsonPath, T Object , Class<T> classToSerialize){
-        Gson gson = new GsonBuilder().enableComplexMapKeySerialization().registerTypeHierarchyAdapter(Path.class, new PathConverter()).setPrettyPrinting().create();
-        serialize(jsonPath, Object, classToSerialize, gson);
+        serialize(jsonPath, Object, classToSerialize, customGson);
     }
 
     public static <T> void serialize(String jsonPath, T Object , Type destinationType, Gson customGson) {
@@ -154,10 +147,7 @@ public class JsonUtility {
     public static String toPrettyFormat(String jsonString)
     {
         JsonObject json = JsonParser.parseString(jsonString).getAsJsonObject();
-
-        Gson gson = new GsonBuilder().enableComplexMapKeySerialization().registerTypeHierarchyAdapter(Path.class, new PathConverter()).setPrettyPrinting().create();
-
-        return gson.toJson(json);
+        return customGson.toJson(json);
     }
 
     public static class PathConverter implements JsonDeserializer<Path>, JsonSerializer<Path> {

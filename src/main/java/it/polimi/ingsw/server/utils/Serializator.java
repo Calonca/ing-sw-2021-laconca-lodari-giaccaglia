@@ -9,10 +9,10 @@ import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.assets.tokens.ActionTokenAsset;
-import it.polimi.ingsw.network.jsonUtils.CommonGsonAdapters;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.network.jsonUtils.UUIDTypeAdapter;
 import it.polimi.ingsw.server.controller.Match;
+import it.polimi.ingsw.server.controller.SessionController;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.cards.CardShop;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
@@ -26,7 +26,6 @@ import javafx.util.Pair;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.file.Path;
-import java.text.DateFormat;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
@@ -46,12 +45,11 @@ public class Serializator extends JsonUtility {
     public static final String frontLeaderCardGrayedOutPathString = "/assets/leaders/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_";
     public static final String backLeaderCardGrayedOutPathString = "/assets/leaders/grayed out/BACK/Masters of Renaissance__Cards_BACK.png";
 
-    private static final GsonBuilder gsonBuilder = new GsonBuilder();
     //helper method to serialize cardshop configuration
 
     public static void cardShopSerialization(){
         CardShop shop = new CardShop(Deserializator.devCardsDeckDeserialization());
-        serialize(writeConfigPathString + "CardShopConfig.json", shop, CardShop.class, gsonBuilder.registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).setPrettyPrinting().create());
+        serialize(writeConfigPathString + "CardShopConfig.json", shop, CardShop.class, customGson);
     }
 
     private static Map<UUID , DevelopmentCardAsset> devCardsAssetsBuilder() {
@@ -92,21 +90,10 @@ public class Serializator extends JsonUtility {
     }
 
     public static void devCardsAssetsMapSerialization(){
-        Gson customGson = gsonBuilder.enableComplexMapKeySerialization().registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).registerTypeHierarchyAdapter(Path.class, new PathConverter()).setPrettyPrinting().create();
         serialize(writeConfigPathString + "DevCardsAssetsMapConfig.json", devCardsAssetsBuilder(), Map.class, customGson);
     }
 
     public static void networkLeaderCardsAssetsMapSerialization(){
-
-        Gson customGson =
-                gsonBuilder
-                .enableComplexMapKeySerialization()
-                .registerTypeAdapterFactory(CommonGsonAdapters.gsonNetworkLeaderAdapter)
-                .registerTypeAdapter(UUID.class, new UUIDTypeAdapter())
-                .registerTypeHierarchyAdapter(Path.class, new PathConverter())
-                .setPrettyPrinting()
-                .create();
-
         serialize(writeConfigPathString + "NetworkLeaderCardsAssetsMap.json", networkLeaderCardsAssetsMapBuilder(), Map.class, customGson);
     }
 
@@ -1158,12 +1145,7 @@ public class Serializator extends JsonUtility {
         series2.add(new DevelopmentDiscountLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,costTest));
 
 
-
-        Gson gson1 = gsonBuilder
-                .registerTypeAdapterFactory(GsonAdapters.gsonLeaderAdapter).setPrettyPrinting()
-                .create();
-
-        serialize(writeConfigPathString +"LeadersConfig.json", series2.toArray(Leader[]::new), Leader[].class, gson1);
+        serialize(writeConfigPathString +"LeadersConfig.json", series2.toArray(Leader[]::new), Leader[].class, customGson);
      /*   String serialized = gson1.toJson(series2.toArray(Leader[]::new), Leader[].class);
         Writer writer = new FileWriter("src/main/resources/config/LeadersConfig.json");
         writer.write(serialized);
@@ -1175,32 +1157,22 @@ public class Serializator extends JsonUtility {
     }
 
     public static void leaderCardsMapSerialization(){
-
-
-        Gson customGson = new GsonBuilder().enableComplexMapKeySerialization()
-                .registerTypeAdapterFactory(GsonAdapters.gsonLeaderAdapter)
-                .registerTypeAdapter(UUID.class, new UUIDTypeAdapter())
-                .registerTypeHierarchyAdapter(Path.class, new PathConverter())
-                .enableComplexMapKeySerialization()
-                .setPrettyPrinting().create();
-
         Type type = (new TypeToken<Map<UUID, Leader>>() {}).getType();
-
         serialize("src/main/resources/config/LeadersCardMapConfig.json", Deserializator.leadersCardMapBuilder(), type, customGson);
     }
 
     public static void serializeMarblesAssets(){
         Map<MarbleAsset, Path> marbles = Arrays.stream(MarbleAsset.values()).collect(Collectors.toMap(marble -> marble, MarbleAsset::getPath));
-        Gson customGson = gsonBuilder.enableComplexMapKeySerialization().registerTypeHierarchyAdapter(Path.class, new PathConverter()).setPrettyPrinting().create();
         String path = "src/main/resources/clientconfig/MarblesAssetsConfig.json";
         serialize(path ,marbles, Map.class, customGson);
     }
 
     public static void serializeTokensAssets(){
 
-        Map<ActionTokenAsset, Pair<Path, String>> tokens = Arrays.stream(ActionTokenAsset.values()).collect(Collectors.toMap(token -> token,
+        Map<ActionTokenAsset, Pair<Path, String>> tokens = Arrays.stream(ActionTokenAsset.values())
+                .collect(Collectors.toMap(token -> token,
                 token -> new Pair<>(token.getFrontPath(), token.getEffectDescription())));
-        Gson customGson = gsonBuilder.enableComplexMapKeySerialization().registerTypeHierarchyAdapter(Path.class, new PathConverter()).setPrettyPrinting().create();
+
         String path = "src/main/resources/clientconfig/TokenAssetsConfig.json";
         serialize(path ,tokens, Map.class, customGson);
 
@@ -1212,16 +1184,11 @@ public class Serializator extends JsonUtility {
                 resource -> resource,
                 resource -> new Pair<>(resource.getResourceNumber(), resource.getResourcePath())
         ));
-        Gson customGson = gsonBuilder.enableComplexMapKeySerialization().registerTypeHierarchyAdapter(Path.class, new PathConverter()).setPrettyPrinting().create();
         String path = "src/main/resources/clientconfig/ResourcesAssetsConfig.json";
         serialize(path, resources, Map.class, customGson);
     }
 
     private static void serializeSinglePlayerStatesTransitionTable () {
-
-        Gson customGson = new GsonBuilder()
-                .registerTypeAdapterFactory(GsonAdapters.gsonStrategyAdapter).setPrettyPrinting()
-                .create();
 
         JsonUtility.serialize(
                 JsonUtility.writeConfigPathString + StatesTransitionTable.singlePLayerTableFile,
@@ -1249,27 +1216,29 @@ public class Serializator extends JsonUtility {
 
     public static void serializeMatch(Match match, String path) throws IOException {
 
-        Gson customGson = new GsonBuilder()
-                .enableComplexMapKeySerialization()
-                .registerTypeAdapterFactory(GsonAdapters.gsonLeaderAdapter)
+        Gson  gson = customGsonBuilder.
+                 registerTypeAdapterFactory(GsonAdapters.gsonLeaderAdapter)
                 .registerTypeAdapterFactory(GsonAdapters.gsonDepotAdapter)
                 .registerTypeAdapterFactory(GsonAdapters.gsonStrategyAdapter)
-                .registerTypeAdapter(UUID.class, new UUIDTypeAdapter())
-                .setPrettyPrinting()
-                .setDateFormat(DateFormat.FULL, DateFormat.FULL)
-                .create();
+                .registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).create();
 
-        JsonUtility.serializeBigObject(path, match, Match.class, customGson);
+        JsonUtility.serializeBigObject(path, match, Match.class, gson);
 
     }
 
-    public static void function(long i){
-        System.out.println("long");
-    }
+    public static void serializeSession(String path) throws IOException {
 
-    public static void function(Integer i){
-        System.out.println("integer");
-    }
+        Gson  gson = customGsonBuilder.
+                registerTypeAdapterFactory(GsonAdapters.gsonLeaderAdapter)
+                .registerTypeAdapterFactory(GsonAdapters.gsonDepotAdapter)
+                .registerTypeAdapterFactory(GsonAdapters.gsonStrategyAdapter)
+                .registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).create();
+
+        SessionController sessionController = SessionController.getInstance();
+        JsonUtility.serializeBigObject(path, sessionController, SessionController.class, gson);
+    };
+
+
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, IllegalAccessException, InstantiationException {
 /*

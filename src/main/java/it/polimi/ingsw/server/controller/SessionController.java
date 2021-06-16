@@ -24,18 +24,24 @@ public class SessionController {
     private List<ClientHandler> playersInLobby = new ArrayList<>();
     private static SessionController single_instance = null;
     private final String matchesFolderName = "src/savedMatches";
+    private static final String sessionFolderName = "src/savedSession";
     private final int maxSecondsOffline = 1800; //30 minutes
 
     public static SessionController getInstance()
     {
         if (Objects.isNull(single_instance))
-            single_instance = new SessionController();
+            CreateSessionController();
         return single_instance;
     }
 
-    private SessionController(){
-        reloadServer();
+    private static void CreateSessionController(){
+
+        reloadSessionIfPresent().ifPresentOrElse(
+                loadedSession -> single_instance = loadedSession,
+                () -> single_instance = new SessionController());
     }
+
+    private SessionController(){}
 
     public void addPlayerToLobby(ClientHandler clientHandler){
         playersInLobby.add(clientHandler);
@@ -117,14 +123,28 @@ public class SessionController {
                 ));
     }
 
-    private void reloadServer() {
+    private void reloadSavedMatches() {
 
         File folder = new File(Paths.get(matchesFolderName).toAbsolutePath().toString());
 
         Arrays.stream(folder.listFiles()).filter(File::isFile).forEach((file)->{
+
                 Match match = Deserializator.deserializeMatch(folder.toString() +'/' + file.getName());
+                match.getGame().setMatch(match);
                 matches.put(match.getMatchId(),match);
         });
+
+    }
+
+    private static Optional<SessionController> reloadSessionIfPresent() {
+
+        File folder = new File(Paths.get(sessionFolderName).toAbsolutePath().toString());
+
+        return Arrays
+                .stream(folder.listFiles())
+                .filter(File::isFile)
+                .findFirst()
+                .map(file -> Deserializator.deserializeSession(folder.toString() + '/' + file.getName()));
     }
 
     //saved match for a player
@@ -147,6 +167,20 @@ public class SessionController {
 
         try {
             Serializator.serializeMatch(match, path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void saveSessionController(){
+
+        String sessionName = "session";
+        String folderAbsolutePath = Paths.get(sessionFolderName).toAbsolutePath().toString();
+        String path = folderAbsolutePath + '/' + sessionName + ".json";
+
+        try {
+            Serializator.serializeSession(path);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -184,6 +218,7 @@ public class SessionController {
     public void registerDisconnection(Match match){
         matchesDisconnectionTimes.put(match.getMatchId(),System.currentTimeMillis());
         match.stopGame();
+
     }
 
     public void setPlayerOffline(ClientHandler clientHandler){

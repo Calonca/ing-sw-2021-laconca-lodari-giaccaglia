@@ -16,7 +16,6 @@ import it.polimi.ingsw.network.messages.clienttoserver.events.setupphaseevent.Se
 import it.polimi.ingsw.network.messages.servertoclient.*;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
 import it.polimi.ingsw.network.simplemodel.*;
-import it.polimi.ingsw.server.utils.RuntimeTypeAdapterFactory;
 
 public class CommonGsonAdapters {
 

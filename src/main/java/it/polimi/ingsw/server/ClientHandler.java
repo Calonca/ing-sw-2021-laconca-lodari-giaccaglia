@@ -10,7 +10,9 @@ import it.polimi.ingsw.server.messages.clienttoserver.ServerMessage;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetAddress;
 import java.net.Socket;
+import java.util.Objects;
 import java.util.Optional;
 
 
@@ -19,10 +21,11 @@ import java.util.Optional;
  */
 public class ClientHandler implements Runnable
 {
-    private Socket client;
-    private ObjectOutputStream output;
-    private ObjectInputStream input;
-    private Optional<Match> match=Optional.empty();
+    private transient Socket client;
+    private transient ObjectOutputStream output;
+    private transient ObjectInputStream input;
+    private transient Match match;
+    private InetAddress clientAddress;
 
     /**
      * Initializes a new handler using a specific socket connected to
@@ -32,7 +35,10 @@ public class ClientHandler implements Runnable
     ClientHandler(Socket client)
     {
         this.client = client;
+        clientAddress = client.getInetAddress();
     }
+
+    ClientHandler(){}
 
     /**
      * Connects to the client and runs the event loop.
@@ -97,12 +103,12 @@ public class ClientHandler implements Runnable
      */
     public Optional<Match> getMatch()
     {
-        return match;
+        return Optional.ofNullable(match);
     }
 
     public void setMatch(Match match)
     {
-        this.match = Optional.of(match);
+        this.match = match;
     }
 
     /**
@@ -117,6 +123,7 @@ public class ClientHandler implements Runnable
 
     private void notifyDisconnection()
     {
-        match.ifPresent(value -> SessionController.getInstance().setPlayerOffline(this));
+        if(Objects.nonNull(match))
+           SessionController.getInstance().setPlayerOffline(this);
     }
 }

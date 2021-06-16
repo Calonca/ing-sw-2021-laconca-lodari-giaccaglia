@@ -30,7 +30,7 @@ public class Match {
     private static class User{
 
         String nickname;
-        transient ClientHandler clientHandler;
+        ClientHandler clientHandler;
 
         public User(String nickname, ClientHandler clientHandler) {
             this.nickname = nickname;
@@ -41,6 +41,11 @@ public class Match {
             return nickname;
         }
 
+    }
+
+    public void setUserMatchesAfterServerRecovery(){
+        Stream.concat(onlineUsers.stream(), offlineUsers.stream())
+                .forEach(user -> user.clientHandler.setMatch(this));
     }
 
     public String getPlayerNicknameFromHandler(ClientHandler clientHandler){

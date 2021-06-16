@@ -22,6 +22,7 @@ public interface ServerMessage {
                 .registerTypeAdapterFactory(GsonAdapters.gsonServerMessageAdapter)
                 .registerTypeAdapterFactory(GsonAdapters.gsonEventMessageAdapter)
                 .create();
+
         return deserializeFromString(jsonString, ServerMessage.class,gson1);
     }
 

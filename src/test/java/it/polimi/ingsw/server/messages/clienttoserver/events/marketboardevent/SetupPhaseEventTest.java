@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.messages.clienttoserver.events.marketboardevent;
 import com.google.gson.Gson;
+import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.network.messages.clienttoserver.events.setupphaseevent.SetupPhaseEvent;
 import it.polimi.ingsw.server.model.GameModel;
 import javafx.util.Pair;
@@ -33,7 +34,7 @@ public class SetupPhaseEventTest {
 
         initializeGameModel(players);
         gameModelTest.setCurrentPlayer(gameModelTest.getPlayer("testPlayer3").get());
-        gson = new Gson();
+        gson = JsonUtility.customGson;
         playerLeadersUUIDs = gameModelTest.getCurrentPlayer().getLeadersUUIDs();
     }
 
@@ -129,7 +130,6 @@ public class SetupPhaseEventTest {
 
     private void invalidLeadersTestInitialization(){
 
-
         initialResources = new ArrayList<>();
         initialResources.add(new Pair<>(1, 3));
         initialResources.add(new Pair<>(2, 3)); //different resource same deposit in warehouse --> validation fail
@@ -137,7 +137,6 @@ public class SetupPhaseEventTest {
         initialDiscardedLeaders = new ArrayList<>(2);
         initialDiscardedLeaders.add(gameModelTest.getRemainingLeadersUUIDs().get(1));
         initialDiscardedLeaders.add(playerLeadersUUIDs.get(3));
-
         initializeEvent(4,initialResources,initialDiscardedLeaders);
 
     }

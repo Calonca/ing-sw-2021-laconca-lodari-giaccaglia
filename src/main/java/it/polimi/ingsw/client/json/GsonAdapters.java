@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.json;
 
 import it.polimi.ingsw.client.messages.servertoclient.*;
-import it.polimi.ingsw.server.utils.RuntimeTypeAdapterFactory;
+import it.polimi.ingsw.network.jsonUtils.RuntimeTypeAdapterFactory;
 
 public class GsonAdapters {
 
