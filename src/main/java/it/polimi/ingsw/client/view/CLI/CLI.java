@@ -40,7 +40,7 @@ public class CLI {
     //Min is 52
     public static final int height =53;//Usually 53
     //Min is 180
-    public static final int width =188;//Usually 185
+    public static final int width =190;//Usually 190
 
 
     public CLI(Client client) {
@@ -240,7 +240,7 @@ public class CLI {
     public void putDivider(){
         printLine(
                 Characters.VERT_DIVIDER.getString()+
-                Characters.HOR_DIVIDER.repeated(width)+
+                Characters.HOR_DIVIDER.repeated(width-2)+
                 Characters.VERT_DIVIDER.getString()
                 );
     }
@@ -248,7 +248,7 @@ public class CLI {
     public void putStartDiv(){
         printLine(
                 Characters.TOP_LEFT_DIV.getString()+
-                        Characters.HOR_DIVIDER.repeated(width)+
+                        Characters.HOR_DIVIDER.repeated(width-2)+
                         Characters.TOP_RIGHT_DIV.getString()
         );
     }
@@ -256,7 +256,7 @@ public class CLI {
     public void putEndDiv(){
         printLine(
                 Characters.BOTTOM_LEFT_DIV.getString()+
-                        Characters.HOR_DIVIDER.repeated(width)+
+                        Characters.HOR_DIVIDER.repeated(width-2)+
                         Characters.BOTTOM_RIGHT_DIV.getString()
         );
     }

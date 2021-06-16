@@ -34,11 +34,10 @@ public class Canvas {
     }
 
     public void resetDrawing(){
-        String lineChars = Characters.VERT_DIVIDER.getString()+" ".repeat(width)+Characters.VERT_DIVIDER.getString();
+        String lineChars = Characters.VERT_DIVIDER.getString()+" ".repeat(width-2)+Characters.VERT_DIVIDER.getString();
         matrix = Stream.generate(()-> generateLine(lineChars)).limit(height).toArray(String[][]::new);
 
         pointTracing = new UUID[height][width];
-
     }
 
     public static Canvas fromText(int width, int height,String s){
@@ -79,6 +78,7 @@ public class Canvas {
         Background b = d.getBackground();
         char[] chars = d.getString().toCharArray();
         for (int i=0;i<chars.length;i++) {
+
             char aChar = chars[i];
             boolean defaultColorAndBack = !(c.equals(Color.DEFAULT) && b.equals(Background.DEFAULT));
             int lastLineWidth = 0;
@@ -89,34 +89,56 @@ public class Canvas {
                 matX = d.getXPos();
             } else {
                 char toPrint;
-                if (matrix[matY][matX].isBlank())//Check if writing on non-empty space, for debugging
+                if (get(matY,matX).isBlank())//Check if writing on non-empty space, for debugging
                     toPrint = aChar;
                 else
                     toPrint = '*';
                 //Drawing
                 if (matX==d.getXPos() && defaultColorAndBack)//Start of the printed line
-                    matrix[matY][matX] = Color.startColorStringBackground(String.valueOf(toPrint),c,b);
+                    set(matY,matX,Color.startColorStringBackground(String.valueOf(toPrint),c,b));
                 else
-                    matrix[matY][matX] = String.valueOf(toPrint);
-                pointTracing[matY][matX]= dwl.getId();
+                    set(matY,matX,String.valueOf(toPrint));
+                setPointTracing(matY,matX,dwl.getId());
                 matX += 1;
             }
             if (defaultColorAndBack)//Resets color
                 if (aChar == '\n') {
-                    matrix[matY-1][lastLineWidth] = Color.endColorString(matrix[matY-1][lastLineWidth]);
+                    set(matY-1,lastLineWidth,Color.endColorString(get(matY-1,lastLineWidth)));
                 } else if (i == chars.length - 1) {
-                    matrix[matY][matX-1] = Color.endColorString(matrix[matY][matX-1]);
+                    set(matY,matX-1,Color.endColorString(get(matY,matX-1)));
                 }
 
         }
     }
 
-    public void setDebugging(boolean debugging) {
-        isDebugging = debugging;
+    private boolean outOfBound(int y,int x){
+        return (y>matrix.length-1||x>matrix[0].length-1||x<0||y<0);
     }
 
-    private boolean isLineEnd(int x){
-        return x>=width;
+    private String get(int y, int x){
+        if (outOfBound(y,x))
+        {
+            return "";
+        } else return matrix[y][x];
+    }
+
+    private void set(int y, int x,String value){
+        if (!outOfBound(y,x))
+        {
+            matrix[y][x]=value;
+        }
+    }
+
+    private void setPointTracing(int y, int x,UUID id){
+        if (!outOfBound(y,x))
+        {
+            pointTracing[y][x]=id;
+        }
+    }
+
+
+    public void setDebugging(boolean debugging) {
+        isDebugging = debugging;
     }
 
     public int getWidth() {

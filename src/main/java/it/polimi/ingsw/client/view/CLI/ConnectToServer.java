@@ -1,8 +1,12 @@
 package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
+import it.polimi.ingsw.client.view.CLI.layout.GridElem;
+import it.polimi.ingsw.client.view.CLI.layout.Option;
+import it.polimi.ingsw.client.view.CLI.layout.SizedBox;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.Canvas;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.Drawable;
+import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Column;
 import it.polimi.ingsw.client.view.abstractview.ConnectToServerViewBuilder;
 
 import java.beans.PropertyChangeEvent;
@@ -11,7 +15,7 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements CLIBu
 
     @Override
     public void run() {
-        getCLIView().setBody(new CanvasBody(buildCanvas()));
+        getCLIView().setBody(buildBody());
         getCLIView().runOnInput("Write the server ip", () -> {
             String portString = getCLIView().getLastInput();
             getCLIView().runOnIntInput("Port number: ", "Insert a port", 0, 65535, () -> {
@@ -33,14 +37,13 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements CLIBu
 
     }
 
-    public Canvas buildCanvas() {
-        Canvas canvas = Canvas.withBorder(CLI.width, getCLIView().getMaxBodyHeight());
-        Drawable dwl = new Drawable();
-        dwl.addToCenter(CLI.width,title1);
-        dwl.addEmptyLine();
-        dwl.addToCenter(CLI.width,title1line2);
-        canvas.addDrawable(dwl);
-        return canvas;
+    public CanvasBody buildBody() {
+        Column c = new Column();
+        c.setAlignment(GridElem.Alignment.CANVAS_CENTER_VERTICAL);
+        c.addElem(Option.noNumber(title1));
+        c.addElem(new SizedBox(0,2));
+        c.addElem(Option.noNumber(title1line2));
+        return CanvasBody.fromGrid(c);
     }
 
     final String title1 = """
