@@ -163,9 +163,19 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
 
             moveX(toPut,4*ballsize,new Duration(600));
 
-            moveY(toPut,toPutStartingY,new Duration(1300));
+            TranslateTransition transition = new TranslateTransition(Duration.seconds(0.75), toPut);
+            transition.setToY(toPutStartingY);
+            transition.setAutoReverse(false);
+            transition.setDelay(new Duration(1350));
+            transition.setOnFinished(e->
+            {
 
-            sendLine(k);;
+
+                sendLine(k);
+
+
+            });
+            transition.play();
 
 
         });
@@ -231,10 +241,20 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
             column.remove(0);
             column.add(toPut);
             toPut=temp;
-            moveY(toPut,toPutStartingY,new Duration(700));
 
-            ChooseLineEvent event=new ChooseLineEvent(i+3);
-            getClient().getServerHandler().sendCommandMessage(new EventMessage(event));
+            TranslateTransition transition = new TranslateTransition(Duration.seconds(0.75), toPut);
+            transition.setToY(toPutStartingY);
+            transition.setAutoReverse(false);
+            transition.setDelay(new Duration(700));
+            transition.setOnFinished(k->
+            {
+
+
+                sendLine(i+3);
+
+            });
+            transition.play();
+
 
 
 
@@ -327,6 +347,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
      */
     @Override
     public void choosePositions() {
+
         GUI.removeLast();
         Platform.runLater(()->SetupPhase.getBoard().setMode(BoardView3D.Mode.MOVING_RES));
     }
