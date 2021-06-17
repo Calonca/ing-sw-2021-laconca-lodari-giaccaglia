@@ -53,7 +53,7 @@ public abstract class CardShopViewBuilder extends ViewBuilder{
      */
     public abstract void choosePositionForCard();
 
-    public SimpleCardShop getSimpleCardShop(){
+    public static SimpleCardShop getSimpleCardShop(){
         return getSimpleModel().getElem(SimpleCardShop.class).orElseThrow();
     }
 

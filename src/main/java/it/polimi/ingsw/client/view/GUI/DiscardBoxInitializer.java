@@ -24,7 +24,7 @@ import java.util.ResourceBundle;
 /**
  * The market is generated via a subscene that is attached to the main scene
  */
-public class DiscardBoxInitializer extends ResourceMarketViewBuilder implements GUIView {
+public class DiscardBoxInitializer extends ResourceMarketViewBuilder  {
 
 
     javafx.collections.ObservableList<Integer> selected;
@@ -40,75 +40,23 @@ public class DiscardBoxInitializer extends ResourceMarketViewBuilder implements 
     @Override
     public void run() {
 
-        SimpleDiscardBox sd = getClient().getSimpleModel().getPlayerCache(getClient().getCommonData().getThisPlayerIndex()).getElem(SimpleDiscardBox.class).orElseThrow();
-        Map<Integer, Pair<ResourceAsset, Integer>> discardBoxMap = sd.getResourceMap();
-        int[] temp=new int[]{0,0,0,0};
-        int startpos=-4;
-        for(int i=0;i<4;i++)
-        {
-            //todo fix stone
-            temp[i]+=discardBoxMap.get(startpos).getValue();
-            startpos++;
-        }
-        SetupPhase.getBoard().getController().setAllowedRes(temp);
-        fillDiscardBox();
+        GUI.addLast(fillDispenser());
     }
 
-    public SubScene getRoot() {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/fxml/DiscardBox.fxml"));
-        Parent root = null;
-        try {
-            root = loader.load();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return new SubScene(root,width,len);
-
-    }
 
 
     /**
      * This method will append the discard box to the current view
      */
-    public void fillDiscardBox()
+    public  ImageView fillDispenser()
     {
-        SubScene toadd=getRoot();
-        toadd.setTranslateX(-48);
-        toadd.setTranslateY(-300);
-        toadd.setId("DISCARD");
 
-        GUI.addLast(toadd);
-        System.out.println(GUI.getRealPane().getChildren());
-    }
-
-
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle)
-    {
-        Button button1=new Button();
-        Button button2=new Button();
-        Button button3=new Button();
-        Button button4=new Button();
-
+        AnchorPane discardPane=new AnchorPane();
+        discardPane.setMinSize(width,len);
         ImageView resourceSupply=new ImageView(new Image("assets/punchboard/ResourceSupply.png"));
         resourceSupply.setFitWidth(width);
         resourceSupply.setFitHeight(len);
         discardPane.getChildren().add(resourceSupply);
-        sceneButtons.add(button1);
-        discardPane.getChildren().add(button1);
-
-        sceneButtons.add(button2);
-        discardPane.getChildren().add(button2);
-
-        sceneButtons.add(button3);
-        discardPane.getChildren().add(button3);
-
-        sceneButtons.add(button4);
-        discardPane.getChildren().add(button4);
 
         for(int i=0;i<sceneButtons.size();i++)
         {
@@ -117,48 +65,12 @@ public class DiscardBoxInitializer extends ResourceMarketViewBuilder implements 
         }
 
 
-        List<Resource> dispensed=new ArrayList<>();
-        dispensed.add(Resource.GOLD);
-        dispensed.add(Resource.SERVANT);
-        dispensed.add(Resource.SHIELD);
-        dispensed.add(Resource.STONE);
-
-        selected=javafx.collections.FXCollections.observableArrayList();
-
-        for(Button into : sceneButtons)
-            selected.add(0);
-
-    //todo generaliz
-        List<Image> res=new ArrayList<>();
-            res.add(new Image("assets/resources/GOLD.png"));
-            res.add(new Image("assets/resources/SERVANT.png"));
-            res.add(new Image("assets/resources/SHIELD.png"));
-            res.add(new Image("assets/resources/STONE.png"));
-
-
-        for(int i=0;i<sceneButtons.size();i++)
-        {
-            ImageView tempResize=new ImageView((res.get(i)));
-            tempResize.setFitHeight(10);
-            tempResize.setFitWidth(10);
-            sceneButtons.get(i).setGraphic(tempResize);
-
-        }
-        SetupPhase.getBoard().getController().bindDispenser(selected,sceneButtons,10);
-
-
-        selected.addListener((ListChangeListener<Integer>) c -> {
-            c.next();
-            getClient().getStage().getScene().setCursor(new ImageCursor(res.get(c.getFrom())));
-            System.out.println(selected);
-
-        });
-
-
-
-
+        return resourceSupply;
 
     }
+
+
+
 
     /**
      * Called every time a resource is moved in the personalBoard or when the discardBox is received

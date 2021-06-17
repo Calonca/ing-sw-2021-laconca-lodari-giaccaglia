@@ -3,9 +3,11 @@ package it.polimi.ingsw.client.view.GUI;
 
 import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.CLI.IDLEViewBuilder;
+import it.polimi.ingsw.client.view.GUI.util.BoardStateController;
 import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCardColor;
 import it.polimi.ingsw.network.simplemodel.SimpleCardShop;
+import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.ImageCursor;
@@ -137,6 +139,8 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
                 sendChosenCard(temp%4, 2);
             else sendChosenCard(temp%4, 1);
 
+            SetupPhase.getBoard().getController().setBoughtCard(scenesCardsToChoose.get(temp));
+            GUI.removeLast();
 
 
 
@@ -270,7 +274,7 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
     @Override
     public void selectResources() {
         //Hide cardShop
-        SetupPhase.getBoard().setMode(BoardView3D.Mode.SELECT_CARD_SHOP);
+        Platform.runLater(()->SetupPhase.getBoard().setMode(BoardView3D.Mode.SELECT_CARD_SHOP));
     }
 
     /**
@@ -278,12 +282,7 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
      */
     @Override
     public void choosePositionForCard() {
-
+        Platform.runLater(()->SetupPhase.getBoard().setMode(BoardView3D.Mode.CHOOSE_POS_FOR_CARD));
     }
 
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals(State.IDLE.name()))
-            getClient().changeViewBuilder(new IDLEViewBuilder());
-    }
 }

@@ -169,6 +169,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
             transition.setDelay(new Duration(1350));
             transition.setOnFinished(e->
             {
+                GUI.removeLast();
 
 
                 sendLine(k);
@@ -249,6 +250,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
             transition.setOnFinished(k->
             {
 
+                GUI.removeLast();
 
                 sendLine(i+3);
 
@@ -347,8 +349,6 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder implements GUIV
      */
     @Override
     public void choosePositions() {
-        if (!SetupPhase.getBoard().mode.equals(BoardView3D.Mode.MOVING_RES))
-            GUI.removeLast();
         Platform.runLater(()->SetupPhase.getBoard().setMode(BoardView3D.Mode.MOVING_RES));
     }
 

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.GUI.util;
 
 import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import javafx.scene.control.Button;
@@ -25,7 +26,7 @@ public class BoardStateController {
     boolean transferring=false;
     boolean movingCard=false;
     int[] allowedRes=new int[]{0,0,0,0};
-
+    ImageView boughtCard;
     boolean isLeader=false;
     boolean isMarket=false;
     boolean isDevelop=false;
@@ -35,6 +36,15 @@ public class BoardStateController {
 
     public void setAllowedRes(int[] allowedRes) {
         this.allowedRes = allowedRes;
+    }
+
+
+    public ImageView getBoughtCard() {
+        return boughtCard;
+    }
+
+    public void setBoughtCard(ImageView boughtCard) {
+        this.boughtCard = boughtCard;
     }
 
 
