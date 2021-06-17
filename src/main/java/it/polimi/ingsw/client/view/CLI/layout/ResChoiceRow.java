@@ -135,6 +135,10 @@ public class ResChoiceRow {
         if (choosingInput()) {
             chosenInputPos.add(pos);
             arrowPos++;
+            if (!choosingInput()) {
+                int firstToChoose = out.indexOf(ResourceAsset.TO_CHOOSE);
+                arrowPos = in.size() + (firstToChoose == -1 ? out.size() : firstToChoose);
+            }
         }
         else {
             if (res!=null)

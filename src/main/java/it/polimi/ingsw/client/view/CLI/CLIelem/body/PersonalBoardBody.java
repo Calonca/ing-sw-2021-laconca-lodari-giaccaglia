@@ -257,7 +257,7 @@ public class PersonalBoardBody extends CLIelem {
                     simpleCardCells.getCellHeight(e.getKey()).orElse(0)
             );
             setProdAvailable(simpleCardCells, prodPos, cell);
-            cell.setSelected(cell.isSelected());
+            cell.setSelected(simpleCardCells.getSimpleProductions().getProductionAtPos(e.getKey()).map(p->p.isSelected()).orElse(false));
             return cell;
         });
         return new Row(Stream.concat(Stream.ofNullable(basicProdOption),normalProdsList));
@@ -320,34 +320,31 @@ public class PersonalBoardBody extends CLIelem {
         ResourceCLI resourceCLI = ResourceCLI.fromAsset(asset);
         dw.add(0, (numOf ==1?"": numOf +" ")+resourceCLI.getFullName()+" ",resourceCLI.getC(), Background.DEFAULT);
         dw.add(0, (selected==0?"         ":selected+" selected"),resourceCLI.getC(), Background.DEFAULT);
-        Runnable r=()->{};
-        if (mode.equals(Mode.MOVING_RES)) {
-            r = () -> {
-                if (lastSelectedPosition == null) {
-                    lastSelectedPosition = globalPos;
-                    initializeMove();
-                    message = "Select end position or discard resources";
+        Runnable r=()->{
+            if (mode.equals(Mode.MOVING_RES)) {
+                    if (lastSelectedPosition == null) {
+                        lastSelectedPosition = globalPos;
+                        initializeMove();
+                        message = "Select end position or discard resources";
+                        cli.show();
+                    } else {
+                        int startPosition = lastSelectedPosition;
+                        cli.show();//Animation
+                        lastSelectedPosition = null;
+                        ResourceMarketViewBuilder.sendMove(startPosition, globalPos);
+                    }
+            }else if (mode.equals(Mode.SELECT_CARD_SHOP)){
+                    resChoiceRow.setNextInputPos(globalPos,asset);
+                    initializeBuyOrChoosePos();
+                    message = "Select resources to buy the card";
                     cli.show();
-                } else {
-                    int startPosition = lastSelectedPosition;
-                    cli.show();//Animation
-                    lastSelectedPosition = null;
-                    ResourceMarketViewBuilder.sendMove(startPosition, globalPos);
-                }
-            };
-        }else if (mode.equals(Mode.SELECT_CARD_SHOP)){
-            r= ()->{
-                resChoiceRow.setNextInputPos(globalPos,asset);
-                initializeBuyOrChoosePos();
-                message = "Select resources to buy the card";
-                cli.show();
-                if (resChoiceRow.getPointedResource().isEmpty()){
-                    CardShopViewBuilder.sendResourcesToBuy(resChoiceRow.getChosenInputPos());
-                }
-            };
-        } else if (mode.equals(Mode.SELECT_RES_FOR_PROD)){
-            r = getSelectedForProdRunnable(asset, globalPos);
-        }
+                    if (resChoiceRow.getPointedResource().isEmpty()){
+                        CardShopViewBuilder.sendResourcesToBuy(resChoiceRow.getChosenInputPos());
+                    }
+            } else if (mode.equals(Mode.SELECT_RES_FOR_PROD)){
+                getSelectedForProdRunnable(asset, globalPos).run();
+            }
+        };
         Option o = Option.from(dw, r);
         o.setEnabled(selectable);
         if (mode.equals(Mode.MOVING_RES)) {
