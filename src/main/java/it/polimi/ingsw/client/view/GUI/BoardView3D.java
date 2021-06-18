@@ -3,10 +3,7 @@ package it.polimi.ingsw.client.view.GUI;
 import it.polimi.ingsw.client.view.CLI.layout.ResChoiceRow;
 import it.polimi.ingsw.client.view.GUI.board.BoxGUI;
 import it.polimi.ingsw.client.view.GUI.board.CamState;
-import it.polimi.ingsw.client.view.GUI.util.BoardStateController;
-import it.polimi.ingsw.client.view.GUI.util.DragAndDropData;
-import it.polimi.ingsw.client.view.GUI.util.DragAndDropHandler;
-import it.polimi.ingsw.client.view.GUI.util.ResourceGUI;
+import it.polimi.ingsw.client.view.GUI.util.*;
 import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ProductionViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
@@ -19,7 +16,9 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.*;
 import javafx.scene.transform.Rotate;
 import javafx.util.Pair;
@@ -109,7 +108,6 @@ public class BoardView3D {
     protected Group productions;
 
     private static CamState camState = CamState.TOP;
-    public static final boolean moveFreely = true;
 
 
     public void setDiscardBox(Group discardBox) {
@@ -168,6 +166,20 @@ public class BoardView3D {
         board = new Rectangle(boardWidth, boardHeight);
 
 
+
+        Shape3D table = new MeshView(ModelImporter.getObjectWithName("table"));
+        table.setMaterial(new PhongMaterial(Color.BURLYWOOD));
+        table.setTranslateX(400);
+        table.setTranslateY(-3000);
+        table.setTranslateZ(5001);
+        table.setRotationAxis(new Point3D(1,0,0));
+        table.setRotate(270);
+        table.setScaleX(100);
+        table.setScaleY(100);
+        table.setScaleZ(100);
+        table.setMouseTransparent(true);
+        parent.getChildren().add(table);
+
         Image boardPic = new Image("assets/board/biggerboard.png");
         board.setFill(new ImagePattern(boardPic));
         board.setTranslateX(-300);
@@ -180,7 +192,7 @@ public class BoardView3D {
             camState.animateWithKeyCode(camera,pressed);
         });
 
-        SubScene scene = new SubScene(parent, width, len);
+        SubScene scene = new SubScene(parent, width, len,true,SceneAntialiasing.BALANCED);
         scene.setCamera(camera);
 
 

@@ -110,7 +110,7 @@ public class BoxGUI {
 
     private static void addTextOnRes(Group lineGroup, int shifty, String num) {
         Text text = Text3d.from(num);
-        text.setTranslateZ(-100);
+        text.setTranslateZ(-80);
         text.setLayoutY(shifty);
         lineGroup.getChildren().add(text);
     }
@@ -118,10 +118,11 @@ public class BoxGUI {
     private static void addDiscardButton(BoardView3D view3D, Group discardBoxGroup, SimpleDiscardBox simpleDiscardBox, int addedLines) {
         Text discardText = Text3d.from("Discard");
         discardText.setLayoutY(150.0 * addedLines);
+        discardText.setTranslateZ(-15);
         discardText.setMouseTransparent(true);
         Rectangle r = new Rectangle(200,50, Color.BLUE);
-        r.setTranslateZ(-200);
-        r.setLayoutY((150.0 * addedLines)-90);
+        r.setTranslateZ(-10);
+        r.setLayoutY((150.0 * addedLines)-50);
         r.setOnMouseClicked(e-> {
             if (simpleDiscardBox.isDiscardable()) {
                 view3D.setMode(BoardView3D.Mode.BACKGROUND);
