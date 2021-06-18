@@ -15,7 +15,6 @@ import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.simplemodel.SimpleCardCells;
 
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class CardShopCLI extends CardShopViewBuilder {
@@ -65,8 +64,7 @@ public class CardShopCLI extends CardShopViewBuilder {
         NetworkDevelopmentCard card = getSimpleCardShop().getPurchasedCard().map(DevelopmentCardAsset::getDevelopmentCard).orElseThrow();
 
         GridElem chosenCard = Option.noNumber(DrawableDevCard.fromDevCardAsset(card,0));
-        List<ResourceAsset> costs = card.getDiscountedCostList().stream().flatMap(p -> Stream.generate(p::getKey).limit(p.getValue()))
-                .sorted(Comparator.comparing(ResourceAsset::getResourceNumber)).collect(Collectors.toList());
+        List<ResourceAsset> costs = card.getCosts();
         ResChoiceRow choices = new ResChoiceRow(0,costs,new ArrayList<>());
         Row top = new Row(Stream.of(new SizedBox(10,0),chosenCard,choices.getGridElem()));
         board.setTop(top);

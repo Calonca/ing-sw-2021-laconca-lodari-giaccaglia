@@ -1,48 +1,37 @@
 package it.polimi.ingsw.client.view.GUI;
 
-import it.polimi.ingsw.client.view.CLI.layout.GridElem;
+import it.polimi.ingsw.client.view.CLI.layout.ResChoiceRow;
 import it.polimi.ingsw.client.view.GUI.board.BoxGUI;
 import it.polimi.ingsw.client.view.GUI.board.CamState;
-import it.polimi.ingsw.client.view.GUI.board.Text3d;
 import it.polimi.ingsw.client.view.GUI.util.BoardStateController;
 import it.polimi.ingsw.client.view.GUI.util.DragAndDropData;
 import it.polimi.ingsw.client.view.GUI.util.DragAndDropHandler;
 import it.polimi.ingsw.client.view.GUI.util.ResourceGUI;
+import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ProductionViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
 import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
-import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
-import it.polimi.ingsw.network.simplemodel.SimpleCardCells;
-import it.polimi.ingsw.network.simplemodel.SimpleDiscardBox;
-import it.polimi.ingsw.network.simplemodel.SimpleFaithTrack;
-import it.polimi.ingsw.network.simplemodel.SimpleWarehouseLeadersDepot;
-import it.polimi.ingsw.server.model.Resource;
+import it.polimi.ingsw.network.simplemodel.*;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.*;
-import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.util.Pair;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
-import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.getClient;
-import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.getThisPlayerCache;
+import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.*;
 
 public class BoardView3D {
 
@@ -61,14 +50,12 @@ public class BoardView3D {
         },
         SELECT_CARD_SHOP(){
             public void run() {
-
-                DiscardBoxInitializer discardBoxInitializer=new DiscardBoxInitializer();
-                SetupPhase.getBoard().addNodeToParent(SetupPhase.getBoard().parent,discardBoxInitializer.fillDispenser(),new Point3D(300,200,0));
                 SetupPhase.getBoard().addNodeToParent(SetupPhase.getBoard().parent,SetupPhase.getBoard().getController().getBoughtCard(),new Point3D(300,150,0));
                 final DragAndDropHandler ddHandler = new DragAndDropHandler();
                 final Rectangle board = SetupPhase.getBoard().board;
                 final Group parent = SetupPhase.getBoard().parent;
                 BoxGUI.strongBuilder(SetupPhase.getBoard(),parent,board);
+                SetupPhase.getBoard().resRowBuilder(parent,board);
                 SetupPhase.getBoard().wareBuilder(parent,board,ddHandler);
             }
         },
@@ -76,49 +63,20 @@ public class BoardView3D {
             public void run() {
 
                 final Group parent = SetupPhase.getBoard().parent;
-                Rectangle basic=new Rectangle(100,100);
-                basic.setLayoutX(600);
-                basic.setLayoutY(300);
-                parent.getChildren().add(basic);
-                basic.setOnMouseClicked(p->{
-                    SetupPhase.getBoard().setMode(Mode.BACKGROUND);
-                    ProductionViewBuilder.sendChosenProduction(0);
-                });
-
-
-                Path path;
-                Rectangle rectangle;
-                ImagePattern tempImage;
-                SimpleCardCells simpleCardCells = getThisPlayerCache().getElem(SimpleCardCells.class).orElseThrow();;
-                simpleCardCells.getSimpleProductions().getProductionAtPos(0);
-                for (Map.Entry<Integer, Optional<DevelopmentCardAsset>> entry : simpleCardCells.getDevCardsCells().entrySet()) //using map.entrySet() for iteration
-                {
-                    if(entry.getValue().isEmpty())
-                        tempImage = new ImagePattern(new Image("assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_BLUE_1.png"));
-                    else
-                    {
-                        path=entry.getValue().get().getCardPaths().getKey();
-                        tempImage = new ImagePattern(new Image((InputStream) path));
-                    }
-                    rectangle=new Rectangle(100,100);
-                    rectangle.setLayoutX(600+250*entry.getKey());
-                    rectangle.setLayoutY(700);
-                    rectangle.setOnMouseClicked(p->ProductionViewBuilder.sendChosenProduction(entry.getKey()));
-                    parent.getChildren().add(rectangle);
-                    rectangle.setFill(tempImage);
-
-                }
                 final DragAndDropHandler ddHandler = new DragAndDropHandler();
                 final Rectangle board = SetupPhase.getBoard().board;
+                SetupPhase.getBoard().productionBuilder(parent);
                 BoxGUI.strongBuilder(SetupPhase.getBoard(),parent,board);
                 SetupPhase.getBoard().wareBuilder(parent,board,ddHandler);
             }
+
         },
         CHOOSE_POS_FOR_CARD() {
             public void run() {
                 final DragAndDropHandler ddHandler = new DragAndDropHandler();
                 final Rectangle board = SetupPhase.getBoard().board;
                 final Group parent = SetupPhase.getBoard().parent;
+                SetupPhase.getBoard().productionBuilder(parent);
                 BoxGUI.strongBuilder(SetupPhase.getBoard(),parent,board);
                 SetupPhase.getBoard().wareBuilder(parent,board,ddHandler);
             }
@@ -147,6 +105,8 @@ public class BoardView3D {
     protected Group discardBox;
     protected Group warehouse;
     protected Group strongBox;
+    protected ResChoiceRow toSelect;
+    protected Group productions;
 
     private static CamState camState = CamState.TOP;
     public static final boolean moveFreely = true;
@@ -178,12 +138,20 @@ public class BoardView3D {
             strongBox.getChildren().clear();
         if (warehouse!=null)
             warehouse.getChildren().clear();
+        if (toSelect!=null)
+            toSelect = null;
+        if (productions!=null)
+            productions.getChildren().clear();
     }
 
     public void setMode(Mode mode){
         reset();
         this.mode = mode;
         mode.run();
+    }
+
+    public ResChoiceRow getToSelect() {
+        return toSelect;
     }
 
     public SubScene getRoot() {
@@ -312,6 +280,8 @@ public class BoardView3D {
         final double wareWidth = 500;
         final double lineHeight = 150;
         SimpleWarehouseLeadersDepot simpleWarehouseLeadersDepot = getThisPlayerCache().getElem(SimpleWarehouseLeadersDepot.class).orElseThrow();
+        SelectablePositions selectablePositions = getThisPlayerCache().getElem(SelectablePositions.class).orElseThrow();
+
 
         AtomicInteger gPos = new AtomicInteger();
         int lineN = 0;
@@ -332,12 +302,27 @@ public class BoardView3D {
                 dragAndDropData.setAvailablePos(simpleWarehouseLeadersDepot.getAvailableMovingPositions().get(globalPos));
                 dragAndDropData.setGlobalPos(globalPos);
 
+                boolean isSelectable = true; //toSelect!=null && selectablePositions.getUpdatedSelectablePositions(toSelect.getChosenInputPos()).getOrDefault(globalPos,0)>0;
+
+                testShape.setOnMousePressed((u)->{
+                    if (mode.equals(Mode.SELECT_CARD_SHOP) && isSelectable) {
+                        toSelect.setNextInputPos(globalPos, e.getKey());
+                        ResourceGUI.setColor(resourceGUI,testShape,true,true);
+                        testShape.setOnMousePressed(n->{});
+                        if (toSelect.getPointedResource().isEmpty()) {
+                            CardShopViewBuilder.sendResourcesToBuy(toSelect.getChosenInputPos());
+                            toSelect = null;
+                        }
+                    }
+                });
+
                 dragAndDropData.setOnDrop(()->{
                     if (mode.equals(Mode.MOVING_RES)) {
                         dropHandler.stopDragAndDrop();
                         ResourceMarketViewBuilder.sendMove(globalPos, dropHandler.getLastDroppedPos());
                     }
                 });
+
                 dropHandler.addShape(dragAndDropData);
                 gPos.getAndIncrement();
             });
@@ -349,6 +334,17 @@ public class BoardView3D {
         warehouse = wareGroup;
     }
 
+
+    public void resRowBuilder(Group parent, Rectangle board){
+        Group resRowGroup = new Group();
+        Point3D initialPos = new Point3D(-100,100,0);
+
+        SimpleCardShop simpleCardShop = getSimpleModel().getElem(SimpleCardShop.class).orElseThrow();
+        DevelopmentCardAsset card =  simpleCardShop.getPurchasedCard().orElseThrow();
+        toSelect = new ResChoiceRow(0,card.getDevelopmentCard().getCosts(),new ArrayList<>());
+
+        //addNodeToParent(parent, board, resRowGroup, initialPos);
+    }
 
     public void addNodeToParent(Group parent, Node board, Node shape, Point3D shift){
         Point3D boardTopLeft = board.localToParent(new Point3D(0,0,0));
@@ -364,6 +360,50 @@ public class BoardView3D {
         shape.setTranslateY(boardTopLeft.getY()+shift.getY());
         shape.setTranslateZ(boardTopLeft.getZ()+shift.getZ());
         parent.getChildren().add(shape);
+    }
+
+    private void productionBuilder(Group parent) {
+        Group productions = new Group();
+
+        Rectangle basic=new Rectangle(100,100);
+        basic.setLayoutX(600);
+        basic.setLayoutY(300);
+        productions.getChildren().add(basic);
+        basic.setOnMouseClicked(p->{
+            SetupPhase.getBoard().setMode(Mode.BACKGROUND);
+            ProductionViewBuilder.sendChosenProduction(0);
+        });
+
+        Path path;
+        Rectangle rectangle;
+        ImagePattern tempImage;
+        SimpleCardCells simpleCardCells = getThisPlayerCache().getElem(SimpleCardCells.class).orElseThrow();
+
+        simpleCardCells.getSimpleProductions().getProductionAtPos(0);
+        for (Map.Entry<Integer, Optional<DevelopmentCardAsset>> entry : simpleCardCells.getDevCardsCells().entrySet()) //using map.entrySet() for iteration
+        {
+            if(entry.getValue().isEmpty())
+                tempImage = new ImagePattern(new Image("assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_BLUE_1.png"));
+            else
+            {
+                path=entry.getValue().get().getCardPaths().getKey();
+                tempImage = new ImagePattern(new Image((InputStream) path));
+            }
+            rectangle=new Rectangle(100,100);
+            rectangle.setLayoutX(600+250*entry.getKey());
+            rectangle.setLayoutY(700);
+            rectangle.setOnMouseClicked(p-> {
+                if (mode.equals(Mode.CHOOSE_POS_FOR_CARD))
+                    CardShopViewBuilder.sendCardPlacementPosition(entry.getKey());
+                else if (mode.equals(Mode.CHOOSE_PRODUCTION))
+                    ProductionViewBuilder.sendChosenProduction(entry.getKey());
+            });
+            rectangle.setFill(tempImage);
+
+            productions.getChildren().add(rectangle);
+        }
+        parent.getChildren().add(productions);
+        this.productions = productions;
     }
 
     @NotNull

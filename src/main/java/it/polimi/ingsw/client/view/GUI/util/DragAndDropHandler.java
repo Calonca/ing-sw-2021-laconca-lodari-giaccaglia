@@ -58,7 +58,7 @@ public class DragAndDropHandler {
         dragged.setOnDragDetected((MouseEvent event)-> {
             if (!dragStarted.get()) {
                 dragStarted.set(true);
-                ResourceGUI.setColor(draggedData.resourceGUI,dragged,true,false);
+                ResourceGUI.setColor(draggedData.resourceGUI,dragged,true,true);
                 Point3D inParent = new Point3D(dragged.getTranslateX(),dragged.getTranslateY(),dragged.getTranslateZ());
                 oldShape.setTranslateX(inParent.getX());
                 oldShape.setTranslateY(inParent.getY());
@@ -81,7 +81,7 @@ public class DragAndDropHandler {
         dragged.setOnMouseReleased((MouseEvent event)-> {
             dragged.setMouseTransparent(false);
             shapes.forEach(s->s.shape3D.setMouseTransparent(false));
-            shapes.forEach(s->ResourceGUI.setColor(s.resourceGUI,s.shape3D,false,false));
+            shapes.forEach(s->ResourceGUI.setColor(s.resourceGUI,s.shape3D,false,true));
             optionInRange(draggedData).ifPresent(da->{
                 Shape3D near = da.shape3D;
                 Point3D nearGbl = globPos(near);
@@ -96,7 +96,7 @@ public class DragAndDropHandler {
                 near.setTranslateY(oldShapeLocPos.getY());
                 near.setTranslateZ(oldShapeLocPos.getZ());
                 lastDroppedPos = da.globalPos;
-                ResourceGUI.setColor(draggedData.resourceGUI,dragged,false,false);
+                ResourceGUI.setColor(draggedData.resourceGUI,dragged,false,true);
                 g.getChildren().clear();
                 globGroup.getChildren().remove(g);
                 shapes.remove(oldShapeData);
@@ -113,7 +113,7 @@ public class DragAndDropHandler {
             boardCoords = dragArea.localToParent(boardCoords);
             boardCoords = boardCoords.subtract(dragged.getParent().localToParent(new Point3D(0,0,0)));
 
-            shapes.forEach(s->ResourceGUI.setColor(s.resourceGUI,s.shape3D,false,false));
+            shapes.forEach(s->ResourceGUI.setColor(s.resourceGUI,s.shape3D,false,true));
             optionInRange(draggedData).ifPresent(s->ResourceGUI.setColor(s.resourceGUI,s.shape3D,true,true));
             //stoneCoords = boardTopLeft;
             dragged.setTranslateX(boardCoords.getX());

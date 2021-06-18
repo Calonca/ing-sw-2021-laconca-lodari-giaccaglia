@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.view.GUI.BoardView3D;
 import it.polimi.ingsw.client.view.GUI.util.DragAndDropData;
 import it.polimi.ingsw.client.view.GUI.util.DragAndDropHandler;
 import it.polimi.ingsw.client.view.GUI.util.ResourceGUI;
+import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.simplemodel.SimpleDiscardBox;
@@ -89,6 +90,15 @@ public class BoxGUI {
 
             ResourceGUI resTest = ResourceGUI.fromAsset(line.getValue().getKey());
             Shape3D shape = view3D.addAndGetShape(strongBoxGroup,strongBoxGroup,resTest,new Point3D(shiftX,shiftY,0));
+            shape.setOnMousePressed((u)->{
+                if (view3D.mode.equals(BoardView3D.Mode.SELECT_CARD_SHOP)) {
+                    view3D.getToSelect().setNextInputPos(gPos, line.getValue().getKey());
+                    ResourceGUI.setColor(resTest,shape,true,true);
+                    if (view3D.getToSelect().getPointedResource().isEmpty()) {
+                        CardShopViewBuilder.sendResourcesToBuy(view3D.getToSelect().getChosenInputPos());
+                    }
+                }
+            });
             strongBoxGroup.getChildren().add(lineGroup);
 
             addedLines++;

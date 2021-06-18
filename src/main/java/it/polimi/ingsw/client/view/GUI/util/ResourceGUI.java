@@ -40,15 +40,20 @@ public enum ResourceGUI {
         shape3d.setScaleX(0.8);
         shape3d.setScaleY(0.8);
         shape3d.setScaleZ(0.8);
-        ResourceGUI.setColor(this,shape3d,false,false);
+        ResourceGUI.setColor(this,shape3d,false,true);
         return shape3d;
     }
 
-    public static void setColor(ResourceGUI res,Shape3D shape, boolean selected, boolean hoveringOver) {
-        javafx.scene.paint.Color c2 = javafx.scene.paint.Color.hsb(res.color.getHue(),
+    public static void setColor(ResourceGUI res,Shape3D shape, boolean selected, boolean selectable) {
+        javafx.scene.paint.Color selColor = javafx.scene.paint.Color.hsb(
+                res.color.getHue(),
                 0.3,
                 1);
-        javafx.scene.paint.Color c = selected?c2:res.color;
+        javafx.scene.paint.Color disabled = javafx.scene.paint.Color.hsb(
+                res.color.getHue(),
+                1,
+                0.2);
+        javafx.scene.paint.Color c = selected? selColor:(selectable? res.color:disabled);
         PhongMaterial shieldMaterial = new PhongMaterial(c);
         shape.setMaterial(shieldMaterial);
     }

@@ -127,6 +127,11 @@ public class ResChoiceRow {
         return arrowPos;
     }
 
+    /**
+     * Sets the next resource to send
+     * @param pos global position of the resource in the Warehouse or Strongbox
+     * @param res The resource to select if choosing output
+     */
     public void setNextInputPos(int pos, ResourceAsset res)
     {
         if (res!=null)

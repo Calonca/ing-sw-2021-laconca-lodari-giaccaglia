@@ -3,10 +3,12 @@ package it.polimi.ingsw.network.assets.devcards;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import javafx.util.Pair;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class NetworkDevelopmentCard {
 
@@ -55,6 +57,11 @@ public class NetworkDevelopmentCard {
 
     public void setDiscountedCost(List<Pair<ResourceAsset, Integer>> discountedCostList){
         this.discountedCostList = discountedCostList;
+    }
+
+    public List<ResourceAsset> getCosts() {
+        return getDiscountedCostList().stream().flatMap(p -> Stream.generate(p::getKey).limit(p.getValue()))
+                .sorted(Comparator.comparing(ResourceAsset::getResourceNumber)).collect(Collectors.toList());
     }
 
     public int getVictoryPoints() {
