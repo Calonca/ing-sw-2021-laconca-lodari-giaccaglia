@@ -95,7 +95,7 @@ public class BoxGUI {
         }
 
         view3D.addNodeToParent(parent, board, strongBoxGroup, initialPos);
-        view3D.setDiscardBox(strongBoxGroup);
+        view3D.setStrongBox(strongBoxGroup);
     }
 
     private static void addTextOnRes(Group lineGroup, int shifty, String num) {

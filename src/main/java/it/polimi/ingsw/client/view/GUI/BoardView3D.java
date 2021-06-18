@@ -173,11 +173,11 @@ public class BoardView3D {
 
     public void reset(){
         if (discardBox!=null)
-            discardBox.getChildren().removeIf(n->true);
+            discardBox.getChildren().clear();
         if (strongBox!=null)
-            strongBox.getChildren().removeIf(n->true);
+            strongBox.getChildren().clear();
         if (warehouse!=null)
-            warehouse.getChildren().removeIf(n->true);
+            warehouse.getChildren().clear();
     }
 
     public void setMode(Mode mode){
@@ -333,8 +333,10 @@ public class BoardView3D {
                 dragAndDropData.setGlobalPos(globalPos);
 
                 dragAndDropData.setOnDrop(()->{
-                    if (mode.equals(Mode.MOVING_RES))
-                    ResourceMarketViewBuilder.sendMove(globalPos,dropHandler.getLastDroppedPos());
+                    if (mode.equals(Mode.MOVING_RES)) {
+                        dropHandler.stopDragAndDrop();
+                        ResourceMarketViewBuilder.sendMove(globalPos, dropHandler.getLastDroppedPos());
+                    }
                 });
                 dropHandler.addShape(dragAndDropData);
                 gPos.getAndIncrement();

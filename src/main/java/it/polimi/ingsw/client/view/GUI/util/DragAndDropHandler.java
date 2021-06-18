@@ -52,7 +52,7 @@ public class DragAndDropHandler {
         g.setTranslateX(dragged.getParent().getTranslateX());
         g.setTranslateY(dragged.getParent().getTranslateY());
         g.setTranslateZ(dragged.getParent().getTranslateZ());
-        globGroup.getChildren().add(g);
+
 
         AtomicBoolean dragStarted = new AtomicBoolean(false);
         dragged.setOnDragDetected((MouseEvent event)-> {
@@ -69,6 +69,7 @@ public class DragAndDropHandler {
                 shapes.remove(draggedData);
                 shapes.add(oldShapeData);
                 g.getChildren().add(oldShape);
+                globGroup.getChildren().add(g);
             }
             dragged.setMouseTransparent(true);
             shapes.forEach(s->s.shape3D.setMouseTransparent(true));
@@ -95,15 +96,16 @@ public class DragAndDropHandler {
                 near.setTranslateY(oldShapeLocPos.getY());
                 near.setTranslateZ(oldShapeLocPos.getZ());
                 lastDroppedPos = da.globalPos;
+                ResourceGUI.setColor(draggedData.resourceGUI,dragged,false,false);
+                g.getChildren().clear();
+                globGroup.getChildren().remove(g);
+                shapes.remove(oldShapeData);
+                shapes.add(draggedData);
+                dragStarted.set(false);
+                dragArea.setMouseTransparent(true);
+                dragged.setCursor(Cursor.DEFAULT);
                 draggedData.onDrop.run();
             });
-            ResourceGUI.setColor(draggedData.resourceGUI,dragged,false,false);
-            g.getChildren().remove(oldShape);
-            shapes.remove(oldShapeData);
-            shapes.add(draggedData);
-            dragStarted.set(false);
-            dragArea.setMouseTransparent(true);
-            dragged.setCursor(Cursor.DEFAULT);
         });
 
         dragArea.setOnMouseDragOver((MouseEvent event)->{
@@ -148,5 +150,10 @@ public class DragAndDropHandler {
 
     public void addShape(DragAndDropData ddD){
         shapes.add(ddD);
+    }
+
+    public void stopDragAndDrop() {
+        shapes.forEach(s->s.shape3D.setOnMouseEntered(e->{}));
+        shapes.forEach(s->s.shape3D.setOnDragDetected(e->{}));
     }
 }
