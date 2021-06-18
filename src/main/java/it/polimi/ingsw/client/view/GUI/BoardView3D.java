@@ -102,6 +102,8 @@ public class BoardView3D {
     public Rectangle board;
     public Group parent;
     double len=1000;
+    double faithStartingX=150;
+    double faithStartingY=120;
     protected Group discardBox;
     protected Group warehouse;
     protected Group strongBox;
@@ -163,8 +165,8 @@ public class BoardView3D {
 
         parent = new Group();
 
-        final int boardWidth=2402;
-        final int boardHeight=1717;
+        final double boardWidth=2402;
+        final double boardHeight=1717;
         board = new Rectangle(boardWidth, boardHeight);
 
 
@@ -185,11 +187,38 @@ public class BoardView3D {
 
 
 
-        Point3D temp=new Point3D(300,250,0);
-        Shape3D shape = addAndGetShape(parent,parent,ResourceGUI.FAITH,new Point3D(300,250,0));
+        Shape3D shape = addAndGetShape(parent,parent,ResourceGUI.FAITH,board.localToParent(new Point3D(faithStartingX,faithStartingY,0)));
 
-        for(int i=0;i<20;i++)
-            moveFaith(i,shape);
+        faithStartingX=shape.getLayoutX();
+        faithStartingY=shape.getLayoutY();
+        moveFaith(shape,17,boardWidth,boardHeight);
+
+
+        moveFaith(shape,1,boardWidth,boardHeight);
+        Rectangle rectangle=new Rectangle(100,100);
+        rectangle.setLayoutX(560);
+        rectangle.setLayoutY(190);
+        ImagePattern tempImage = new ImagePattern(new Image("assets/track/FAVOUR_TILE_1_ACTIVE.png"));
+        rectangle.setFill(tempImage);
+        parent.getChildren().add(rectangle);
+
+
+        moveFaith(shape,4,boardWidth,boardHeight);
+        rectangle=new Rectangle(100,100);
+        rectangle.setLayoutX(880);
+        rectangle.setLayoutY(110);
+        tempImage = new ImagePattern(new Image("assets/track/FAVOUR_TILE_2_ACTIVE.png"));
+        rectangle.setFill(tempImage);
+        parent.getChildren().add(rectangle);
+
+
+        moveFaith(shape,4,boardWidth,boardHeight);
+        rectangle=new Rectangle(100,100);
+        rectangle.setLayoutX(1275);
+        rectangle.setLayoutY(190);
+        tempImage = new ImagePattern(new Image("assets/track/FAVOUR_TILE_3_ACTIVE.png"));
+        rectangle.setFill(tempImage);
+        parent.getChildren().add(rectangle);
 
         Button viewCardShop=new Button();
         viewCardShop.setLayoutX(buttonStartingX);
@@ -423,52 +452,21 @@ public class BoardView3D {
 
 
 
-    public void moveFaithX(boolean foward, Shape3D faithBut){
-        if(foward)
-            faithBut.setLayoutX(faithBut.getLayoutX()+65);
-        else
-            faithBut.setLayoutX(faithBut.getLayoutX()-65);
-    }
 
-    public void moveFaithY(boolean downward, Shape3D faithBut){
-        if(downward)
-            faithBut.setLayoutY(faithBut.getLayoutY()+65);
-        else
-            faithBut.setLayoutY(faithBut.getLayoutY()-65);
 
+    public void moveFaith(Shape3D faithBut, int i, double width, double lenght) {
+
+        SimpleFaithTrack faith=getThisPlayerCache().getElem(SimpleFaithTrack.class).orElseThrow();
+        faithBut.setLayoutX(faithStartingX+faith.getTrack().get(i).getX_pos()*width/20.5);
+        faithBut.setLayoutY(faithStartingY+faith.getTrack().get(i).getY_pos()*lenght/13);
+
+        if(i==9)
+            flipFirstTile();
 
     }
 
-    public void moveFaith(int tempFaith, Shape3D faithBut) {
-
-
-        if (tempFaith <2)
-        {
-            moveFaithX(true, faithBut);
-        } else
-        if (tempFaith <4)
-        {
-            moveFaithY(false, faithBut);
-        }
-        else if (tempFaith < 9)
-        {
-            moveFaithX(true, faithBut);
-        }
-        else if (tempFaith < 11)
-        {
-            moveFaithY(true, faithBut);
-        }
-        else if (tempFaith < 16)
-        {
-            moveFaithX(true, faithBut);
-        }
-        else if (tempFaith <18)
-        {
-            moveFaithY(false, faithBut);
-        } else
-            moveFaithX(true, faithBut);
+    private void flipFirstTile() {
     }
-
 
 
 }

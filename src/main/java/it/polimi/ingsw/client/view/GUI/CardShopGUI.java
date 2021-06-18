@@ -15,6 +15,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.SubScene;
 import javafx.scene.control.*;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -179,7 +180,6 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
                 //todo remove grid to remove buttons
 
 
-                tempImage.setId("developmentCardButton");
                 tempImage.setRotate(Math.random() * (cardTilt - -cardTilt + 1) + -1 );
 
                 double cardWidth=(width-90)/COLUMNS;
@@ -199,6 +199,7 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
                     tempStackImage.setLayoutY(20+(cardsVGap+cardWidth*(741/504.0))*i);
                     tempStackImage.setRotate(Math.random() * ((5 - -5) + 1) + -5);
                     tempStackImage.setFitWidth(cardWidth);
+                    tempStackImage.setId("developmentCardButton");
 
                     tempStackImage.setPreserveRatio(true);
 
@@ -212,8 +213,15 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
                 scenesCardsToChoose.add(tempImage);
                 availableCards.add(simpleCardShop.getCardFront(NetworkDevelopmentCardColor.fromInt(j),3-i).get().getDevelopmentCard().isSelectable());
 
+                ColorAdjust colorAdjust=new ColorAdjust();
+                colorAdjust.setBrightness(-0.40);
+
+                if(!simpleCardShop.getCardFront(NetworkDevelopmentCardColor.fromInt(j),3-i).get().getDevelopmentCard().isSelectable())
+                    tempImage.setEffect(colorAdjust);
+
             }
         }
+
 
 
         selectedSceneCards=javafx.collections.FXCollections.observableArrayList();
