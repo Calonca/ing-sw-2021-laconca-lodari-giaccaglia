@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client.view.GUI;
 
+import it.polimi.ingsw.client.view.CLI.layout.GridElem;
+import it.polimi.ingsw.client.view.GUI.board.BoxGUI;
 import it.polimi.ingsw.client.view.GUI.board.CamState;
 import it.polimi.ingsw.client.view.GUI.board.Text3d;
 import it.polimi.ingsw.client.view.GUI.util.BoardStateController;
@@ -51,7 +53,8 @@ public class BoardView3D {
                 final DragAndDropHandler ddHandler = new DragAndDropHandler();
                 final Rectangle board = SetupPhase.getBoard().board;
                 final Group parent = SetupPhase.getBoard().parent;
-                SetupPhase.getBoard().discardBuilder(parent,board , ddHandler);
+                BoxGUI.discardBuilder(SetupPhase.getBoard(),parent,board , ddHandler);
+                BoxGUI.strongBuilder(SetupPhase.getBoard(),parent,board);
                 SetupPhase.getBoard().wareBuilder(parent,board,ddHandler);
                 ddHandler.startDragAndDropOnEach(parent,board);
             }
@@ -62,7 +65,11 @@ public class BoardView3D {
                 DiscardBoxInitializer discardBoxInitializer=new DiscardBoxInitializer();
                 SetupPhase.getBoard().addNodeToParent(SetupPhase.getBoard().parent,discardBoxInitializer.fillDispenser(),new Point3D(300,200,0));
                 SetupPhase.getBoard().addNodeToParent(SetupPhase.getBoard().parent,SetupPhase.getBoard().getController().getBoughtCard(),new Point3D(300,150,0));
-
+                final DragAndDropHandler ddHandler = new DragAndDropHandler();
+                final Rectangle board = SetupPhase.getBoard().board;
+                final Group parent = SetupPhase.getBoard().parent;
+                BoxGUI.strongBuilder(SetupPhase.getBoard(),parent,board);
+                SetupPhase.getBoard().wareBuilder(parent,board,ddHandler);
             }
         },
         CHOOSE_PRODUCTION() {
@@ -101,11 +108,19 @@ public class BoardView3D {
                     rectangle.setFill(tempImage);
 
                 }
+                final DragAndDropHandler ddHandler = new DragAndDropHandler();
+                final Rectangle board = SetupPhase.getBoard().board;
+                BoxGUI.strongBuilder(SetupPhase.getBoard(),parent,board);
+                SetupPhase.getBoard().wareBuilder(parent,board,ddHandler);
             }
         },
         CHOOSE_POS_FOR_CARD() {
             public void run() {
-
+                final DragAndDropHandler ddHandler = new DragAndDropHandler();
+                final Rectangle board = SetupPhase.getBoard().board;
+                final Group parent = SetupPhase.getBoard().parent;
+                BoxGUI.strongBuilder(SetupPhase.getBoard(),parent,board);
+                SetupPhase.getBoard().wareBuilder(parent,board,ddHandler);
             }
         },
         BACKGROUND(){
@@ -113,6 +128,7 @@ public class BoardView3D {
                 final DragAndDropHandler ddHandler = new DragAndDropHandler();
                 final Rectangle board = SetupPhase.getBoard().board;
                 final Group parent = SetupPhase.getBoard().parent;
+                BoxGUI.strongBuilder(SetupPhase.getBoard(),parent,board);
                 SetupPhase.getBoard().wareBuilder(parent,board,ddHandler);
             }
         };
@@ -130,10 +146,19 @@ public class BoardView3D {
     double len=1000;
     protected Group discardBox;
     protected Group warehouse;
+    protected Group strongBox;
 
     private static CamState camState = CamState.TOP;
     public static final boolean moveFreely = true;
 
+
+    public void setDiscardBox(Group discardBox) {
+        this.discardBox = discardBox;
+    }
+
+    public void setStrongBox(Group strongBox) {
+        this.strongBox = strongBox;
+    }
 
     public void runforStart() {
         Node root=getRoot();
@@ -149,6 +174,8 @@ public class BoardView3D {
     public void reset(){
         if (discardBox!=null)
             discardBox.getChildren().removeIf(n->true);
+        if (strongBox!=null)
+            strongBox.getChildren().removeIf(n->true);
         if (warehouse!=null)
             warehouse.getChildren().removeIf(n->true);
     }
@@ -277,89 +304,6 @@ public class BoardView3D {
 
     }
 
-    public void discardBuilder(Group parent, Rectangle board,DragAndDropHandler dropHandler){
-        Group discardBoxGroup = new Group();
-
-
-
-        //Button discard=new Button();
-        //discard.setLayoutX(buttonStartingX);
-        //discard.setLayoutY(150);
-        //discard.setText("DRiscard fadsdsdswed          er ee e e e ee ");
-        //discard.setOnAction(e->{
-        //    ResourceMarketViewBuilder.sendDiscard();
-        //});
-        //discard.setId("discard");
-        //discardBoxGroup.getChildren().add(discard);
-        //Box background = new Box(350,900,2);
-        //Translate t = new Translate();
-        //t.setX(20);
-        //t.setY(200);
-        //t.setZ(0);
-        //background.getTransforms().add(t);
-        //background.setMouseTransparent(true);
-        //discardBoxGroup.getChildren().add(background);
-        Point3D initialPos = new Point3D(800,800,0);
-        final double lineHeight = 150;
-        SimpleDiscardBox simpleDiscardBox =  getThisPlayerCache().getElem(SimpleDiscardBox.class).orElseThrow();
-        int addedLines = 0;
-                        //Pos       //Res           //NOfRes
-        final Set<Map.Entry<Integer, Pair<ResourceAsset, Integer>>> entries = simpleDiscardBox.getResourceMap()
-                .entrySet().stream().sorted(Map.Entry.comparingByKey()).collect(Collectors.toCollection(LinkedHashSet::new));
-        for (Map.Entry<Integer, Pair<ResourceAsset, Integer>> line : entries) {
-            Group lineGroup = new Group();
-            Text text = Text3d.from(line.getValue().getValue());
-            text.setLayoutX(0);
-            text.setTranslateZ(-100);
-            lineGroup.getChildren().add(text);
-            lineGroup.setTranslateY(lineHeight * addedLines);
-            int gPos = line.getKey();
-
-            ResourceGUI resTest = ResourceGUI.fromAsset(line.getValue().getKey());
-            Shape3D shape = addAndGetShape(discardBoxGroup,discardBoxGroup,resTest,new Point3D(0,lineHeight * addedLines,0));
-            discardBoxGroup.getChildren().add(lineGroup);
-            DragAndDropData dragAndDropData = new DragAndDropData();
-            dragAndDropData.setResourceGUI(resTest);
-            dragAndDropData.setShape3D(shape);
-            dragAndDropData.setAvailable(simpleDiscardBox.isPosAvailable(gPos));
-            dragAndDropData.setAvailablePos(simpleDiscardBox.getAvailableMovingPositions().get(gPos));
-            dragAndDropData.setGlobalPos(gPos!=0?gPos:null);
-            if (mode.equals(Mode.MOVING_RES))
-                dragAndDropData.setOnDrop(()->{
-                    ResourceMarketViewBuilder.sendMove(gPos,dropHandler.getLastDroppedPos());
-                });
-            dropHandler.addShape(dragAndDropData);
-
-            addedLines++;
-        }
-        Text discardText = Text3d.from("Discard");
-        discardText.setLayoutY(lineHeight*addedLines);
-        discardText.setMouseTransparent(true);
-        Rectangle r = new Rectangle(200,50,Color.BLUE);
-        r.setTranslateZ(-200);
-        r.setLayoutY((lineHeight*addedLines)-90);
-        r.setOnMouseClicked(e-> {
-            if (simpleDiscardBox.isDiscardable()) {
-                setMode(Mode.BACKGROUND);
-                ResourceMarketViewBuilder.sendDiscard();
-            }
-        });
-        r.setOnMouseEntered(e-> {
-            if (simpleDiscardBox.isDiscardable()) {
-                r.setFill(Color.CYAN);
-            }
-        });
-        r.setOnMouseExited(e-> {
-            if (simpleDiscardBox.isDiscardable()) {
-                r.setFill(Color.BLUE);
-            }
-        });
-        discardBoxGroup.getChildren().add(r);
-        discardBoxGroup.getChildren().add(discardText);
-
-        addNodeToParent(parent, board, discardBoxGroup, initialPos);
-        discardBox = discardBoxGroup;
-    }
 
     public void wareBuilder(Group parent, Rectangle board, DragAndDropHandler dropHandler){
         Group wareGroup = new Group();
@@ -404,7 +348,7 @@ public class BoardView3D {
     }
 
 
-    private void addNodeToParent(Group parent, Node board, Node shape, Point3D shift){
+    public void addNodeToParent(Group parent, Node board, Node shape, Point3D shift){
         Point3D boardTopLeft = board.localToParent(new Point3D(0,0,0));
         shape.setTranslateX(boardTopLeft.getX()+shift.getX());
         shape.setTranslateY(boardTopLeft.getY()+shift.getY());
@@ -421,7 +365,7 @@ public class BoardView3D {
     }
 
     @NotNull
-    private Shape3D addAndGetShape(Group parent, Node refSystem, ResourceGUI res, Point3D shift) {
+    public Shape3D addAndGetShape(Group parent, Node refSystem, ResourceGUI res, Point3D shift) {
         Shape3D stoneMesh = res.generateShape();
         Rotate rotate1 = new Rotate(270   ,new Point3D(1,0,0));
         Rotate rotate2 = new Rotate(270   ,new Point3D(0,1,0));

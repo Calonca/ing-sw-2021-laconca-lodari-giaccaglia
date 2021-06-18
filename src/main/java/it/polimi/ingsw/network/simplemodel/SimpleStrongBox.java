@@ -20,6 +20,13 @@ public class SimpleStrongBox extends SimpleModelElement {
         return simpleStrongBox;
     }
 
+    /**
+     * Used to get the number of resources or number of selected resources in the strongbox
+     */
+    public static Pair<Integer, Integer> numAndSel(Map.Entry<Integer, Pair<ResourceAsset, Pair<Integer, Integer>>> e) {
+        return e.getValue().getValue();
+    }
+
     @Override
     public void update(SimpleModelElement element) {
         SimpleStrongBox serverStrongBox = (SimpleStrongBox) element;

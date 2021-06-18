@@ -26,6 +26,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.getThisPlayerCache;
+import static it.polimi.ingsw.network.simplemodel.SimpleStrongBox.numAndSel;
 
 public class PersonalBoardBody extends CLIelem {
 
@@ -311,9 +312,6 @@ public class PersonalBoardBody extends CLIelem {
 
     }
 
-    private static Pair<Integer, Integer> numAndSel(Map.Entry<Integer, Pair<ResourceAsset, Pair<Integer, Integer>>> e) {
-        return e.getValue().getValue();
-    }
 
     private Option optionFromAsset(ResourceAsset asset, int numOf, int selected, boolean selectable, int globalPos){
         Drawable dw = new Drawable();
