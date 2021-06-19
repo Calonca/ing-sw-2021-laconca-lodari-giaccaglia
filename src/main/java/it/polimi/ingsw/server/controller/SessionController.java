@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 
@@ -27,7 +28,7 @@ public class SessionController {
     private final String matchesFolderName = "src/savedMatches";
     private static final String sessionFolderName = "src/savedSession";
     private final int maxSecondsOffline = 1800; //30 minutes
-    private boolean isDebugMode = true;
+    private final AtomicBoolean isDebugMode = new AtomicBoolean(false);
 
     public static SessionController getInstance()
     {
@@ -45,6 +46,14 @@ public class SessionController {
 
     private SessionController(){}
 
+    public void toggleDebugMode(){
+        boolean oldDebugMode = isDebugMode.get();
+        this.isDebugMode.set(!oldDebugMode);
+    }
+
+    public boolean getDebugMode(){
+        return isDebugMode.get();
+    }
     public void addPlayerToLobby(ClientHandler clientHandler){
         playersInLobby.add(clientHandler);
     }
@@ -186,7 +195,7 @@ public class SessionController {
     public void saveSessionController() {
 
 
-        if(!isDebugMode) {
+        if(!isDebugMode.get()) {
 
             String sessionName = "session";
             String folderAbsolutePath = Paths.get(sessionFolderName).toAbsolutePath().toString();

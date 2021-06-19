@@ -1,8 +1,11 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.server.controller.SessionController;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Scanner;
 
 /**
  * Server for a game of Maestri del Rinascimento.
@@ -32,12 +35,31 @@ public class Server
         while (true) {
             try {
 
+                //debug mode
+                Thread inputThread = new Thread(() -> {
+                    Scanner scanner = new Scanner(System.in);
+                    while (true) {
+                        SessionController controller = SessionController.getInstance();
+
+                        if(scanner.nextLine().isEmpty()) {
+                            controller.toggleDebugMode();
+
+                            if (controller.getDebugMode())
+                                System.out.println("Enabled Debug Mode");
+                            else
+                                System.out.println("Disabled Debug Mode");
+                        }
+                    }
+                });
+                inputThread.start();
+
                 /* accepts connections; for every connection we accept,
                  * create a new Thread executing a ClientHandler */
                 Socket client = socket.accept();
                 ClientHandler clientHandler = new ClientHandler(client);
                 Thread thread = new Thread(clientHandler, "server_" + client.getInetAddress());
                 thread.start();
+
 
             } catch (IOException e) {
                 System.out.println("connection dropped");

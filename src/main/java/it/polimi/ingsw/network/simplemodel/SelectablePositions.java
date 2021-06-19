@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.simplemodel;
 
-import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import javafx.util.Pair;
@@ -13,7 +12,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.*;
+import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.getSimpleModel;
+import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.getThisPlayerCache;
 
 public class SelectablePositions extends SimpleModelElement{
 
@@ -57,9 +57,11 @@ public class SelectablePositions extends SimpleModelElement{
         buildResourcesOriginalAvailability();
         String currentState = getThisPlayerCache().getCurrentState();
         if(currentState != null) {
-            if (currentState.equals(State.CHOOSING_DEVELOPMENT_CARD.toString()))
+            SimpleCardShop simpleCardShop = getSimpleModel().getElem(SimpleCardShop.class).orElseThrow();
+            if(simpleCardShop.getPurchasedCard().isPresent()) {
                 buildResourcesToChooseForCard();
-            else if (currentState.equals(State.CHOOSING_PRODUCTION.toString()))
+            }
+            else
                 buildResourcesToChooseForProduction();
         }
 
@@ -70,9 +72,6 @@ public class SelectablePositions extends SimpleModelElement{
 
         if(!chosenInputPos.isEmpty())
             updateAvailability(chosenInputPos);
-
-        System.out.println(getSelectablePositions());
-        System.out.println(selectablePositions);
 
         return getSelectablePositions();
 
