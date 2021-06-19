@@ -8,6 +8,7 @@ import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Column;
 import it.polimi.ingsw.client.view.CLI.layout.GridElem;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
 import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
+import it.polimi.ingsw.client.view.abstractview.ResChoiceRow;
 import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCardColor;
@@ -65,7 +66,7 @@ public class CardShopCLI extends CardShopViewBuilder {
 
         GridElem chosenCard = Option.noNumber(DrawableDevCard.fromDevCardAsset(card,0));
         List<ResourceAsset> costs = card.getCosts();
-        ResChoiceRow choices = new ResChoiceRow(0,costs,new ArrayList<>());
+        ResChoiceRowCLI choices = new ResChoiceRowCLI(0,costs,new ArrayList<>());
         Row top = new Row(Stream.of(new SizedBox(10,0),chosenCard,choices.getGridElem()));
         board.setTop(top);
         SimpleCardCells simpleCardCells = getThisPlayerCache().getElem(SimpleCardCells.class).orElseThrow();

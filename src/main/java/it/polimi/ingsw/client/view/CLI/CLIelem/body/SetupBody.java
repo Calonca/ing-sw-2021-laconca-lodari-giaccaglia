@@ -8,6 +8,7 @@ import it.polimi.ingsw.client.view.CLI.layout.drawables.DrawableLeader;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Column;
 import it.polimi.ingsw.client.view.CLI.layout.GridElem;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
+import it.polimi.ingsw.client.view.abstractview.ResChoiceRow;
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
@@ -48,7 +49,7 @@ public class SetupBody extends CLIelem {
                         chosenRes.stream(),
                         Stream.generate(()->ResourceAsset.TO_CHOOSE).limit(resToChoose)
                 ).collect(Collectors.toList());
-        ResChoiceRow resChoiceRow = new ResChoiceRow(chosenRes.size(),new ArrayList<>(), outputs);
+        ResChoiceRowCLI resChoiceRow = new ResChoiceRowCLI(chosenRes.size(),new ArrayList<>(), outputs);
         resChoiceRow.setOnChosenOutput(()->{
             chosenRes.add(ResourceAsset.fromInt(cli.getLastInt()));
             resToChoose-=1;

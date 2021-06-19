@@ -13,6 +13,7 @@ import it.polimi.ingsw.client.view.CLI.textUtil.Background;
 import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ProductionViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
+import it.polimi.ingsw.client.view.abstractview.ResChoiceRow;
 import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
@@ -165,7 +166,7 @@ public class PersonalBoardBody extends CLIelem {
 
     Integer lastSelectedPosition;
     Map<Integer, List<Integer>> movPos;
-    ResChoiceRow resChoiceRow;
+    ResChoiceRowCLI resChoiceRow;
 
     public PersonalBoardBody(PlayerCache cache, Mode mode) {
         this.cache = cache;
@@ -176,7 +177,7 @@ public class PersonalBoardBody extends CLIelem {
         this.top = top;
     }
 
-    public void setResChoiceRow(ResChoiceRow resChoiceRow) {
+    public void setResChoiceRow(ResChoiceRowCLI resChoiceRow) {
         this.resChoiceRow = resChoiceRow;
     }
 

@@ -3,7 +3,6 @@ package it.polimi.ingsw.client.view.GUI.board;
 import it.polimi.ingsw.client.view.GUI.BoardView3D;
 
 import it.polimi.ingsw.client.view.GUI.util.ResourceGUI;
-import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 
 import it.polimi.ingsw.network.simplemodel.SimpleFaithTrack;
 import javafx.geometry.Point3D;
@@ -14,19 +13,25 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape3D;
 
 import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.getThisPlayerCache;
 
 
-public class FaithTrack extends ViewBuilder {
+public class FaithTrack implements PropertyChangeListener {
 
 
     double faithStartingX=150;
     double faithStartingY=120;
-    Shape3D shape;
+    final int boardWidth = 2407;
+    final int boardHeight = 1717;
+    Shape3D player;
+
     public void faithTrackBuilder(BoardView3D view3D, Group parent, Rectangle board){
         Group faithGroup=new Group();
-        shape = view3D.addAndGetShape(faithGroup,faithGroup,ResourceGUI.FAITH,board.localToParent(new Point3D(faithStartingX,faithStartingY,0)));
-        faithStartingX=shape.getLayoutX();
-        faithStartingY=shape.getLayoutY();
+        player = view3D.addAndGetShape(faithGroup,faithGroup,ResourceGUI.FAITH,board.localToParent(new Point3D(faithStartingX,faithStartingY,0)));
+        faithStartingX= player.getLayoutX();
+        faithStartingY= player.getLayoutY();
 
         Rectangle rectangle=new Rectangle(200,200);
         rectangle.setLayoutX(0);
@@ -57,22 +62,22 @@ public class FaithTrack extends ViewBuilder {
 
     }
 
-    public void moveFaith(Shape3D faithBut, int i, double width, double lenght) {
+    public void moveFaith(int i) {
 
-        SimpleFaithTrack faith=getThisPlayerCache().getElem(SimpleFaithTrack.class).orElseThrow();
-        faithBut.setLayoutX(faithStartingX+faith.getTrack().get(i).getX_pos()*width/20.5);
-        faithBut.setLayoutY(faithStartingY+faith.getTrack().get(i).getY_pos()*lenght/13);
+        SimpleFaithTrack faith= getThisPlayerCache().getElem(SimpleFaithTrack.class).orElseThrow();
+        player.setLayoutX(faithStartingX+faith.getTrack().get(i).getX_pos()*boardWidth/20.5);
+        player.setLayoutY(faithStartingY+faith.getTrack().get(i).getY_pos()* boardHeight /13);
 
 
-    }
-
-    @Override
-    public void run() {
-        moveFaith(shape,5, 2403,1717);
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals(SimpleFaithTrack.class.getSimpleName()))
+        {
+            SimpleFaithTrack faithTrack =  (SimpleFaithTrack)evt.getNewValue();
+            moveFaith(faithTrack.getPlayerPosition());
+        }
 
     }
 }

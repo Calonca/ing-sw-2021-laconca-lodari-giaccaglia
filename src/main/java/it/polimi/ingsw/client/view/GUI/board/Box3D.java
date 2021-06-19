@@ -22,9 +22,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static it.polimi.ingsw.client.view.GUI.board.Text3d.addTextOnGroup;
 import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.getThisPlayerCache;
 
-public class BoxGUI {
+public class Box3D {
     public static void discardBuilder(BoardView3D view3D, Group parent, Rectangle board, DragAndDropHandler dropHandler){
         Group discardBoxGroup = new Group();
         Point3D initialPos = new Point3D(800,800,0);
@@ -38,7 +39,7 @@ public class BoxGUI {
             Group lineGroup = new Group();
 
             Integer num = line.getValue().getValue();
-            addTextOnRes(lineGroup, 0, String.valueOf(num));
+            addTextOnGroup(lineGroup, 0, String.valueOf(num));
 
             lineGroup.setTranslateY(lineHeight * addedLines);
 
@@ -78,8 +79,10 @@ public class BoxGUI {
         int addedLines = 0;
         for (Map.Entry<Integer, Pair<ResourceAsset, Pair<Integer, Integer>>> line : entries) {
             Group lineGroup = new Group();
-            addTextOnRes(lineGroup, 0, SimpleStrongBox.numAndSel(line).getKey().toString());
-            addTextOnRes(lineGroup, 35, SimpleStrongBox.numAndSel(line).getValue().toString());
+            addTextOnGroup(lineGroup, 0, SimpleStrongBox.numAndSel(line).getKey().toString());
+            boolean isSelectable = true; //toSelect!=null && selectablePositions.getUpdatedSelectablePositions(toSelect.getChosenInputPos()).getOrDefault(globalPos,0)>0;
+            Integer numOfSelected = 0;
+            addTextOnGroup(lineGroup, 35, String.valueOf(SimpleStrongBox.numAndSel(line).getValue()+numOfSelected));
 
             final double shiftX = lineHeight * (addedLines - (addedLines < 2 ? 0 : 2));
             lineGroup.setTranslateX(shiftX);
@@ -99,6 +102,7 @@ public class BoxGUI {
                     }
                 }
             });
+
             strongBoxGroup.getChildren().add(lineGroup);
 
             addedLines++;
@@ -106,13 +110,6 @@ public class BoxGUI {
 
         view3D.addNodeToParent(parent, board, strongBoxGroup, initialPos);
         view3D.setStrongBox(strongBoxGroup);
-    }
-
-    private static void addTextOnRes(Group lineGroup, int shifty, String num) {
-        Text text = Text3d.from(num);
-        text.setTranslateZ(-80);
-        text.setLayoutY(shifty);
-        lineGroup.getChildren().add(text);
     }
 
     private static void addDiscardButton(BoardView3D view3D, Group discardBoxGroup, SimpleDiscardBox simpleDiscardBox, int addedLines) {

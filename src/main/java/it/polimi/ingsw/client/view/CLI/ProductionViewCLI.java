@@ -1,7 +1,8 @@
 package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.PersonalBoardBody;
-import it.polimi.ingsw.client.view.CLI.layout.ResChoiceRow;
+import it.polimi.ingsw.client.view.CLI.layout.ResChoiceRowCLI;
+import it.polimi.ingsw.client.view.abstractview.ResChoiceRow;
 import it.polimi.ingsw.client.view.CLI.layout.SizedBox;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
 import it.polimi.ingsw.client.view.abstractview.ProductionViewBuilder;
@@ -40,7 +41,7 @@ public class ProductionViewCLI extends ProductionViewBuilder implements CLIBuild
         Map<ResourceAsset, Integer> outputRes = simpleCardCells.getProductionAtPos(lastSelectedProduction).map(SimpleProductions.SimpleProduction::getOutputResources).orElse(new HashMap<>());
         List<ResourceAsset> input = inputRes.entrySet().stream().flatMap(p -> Stream.generate(p::getKey).limit(p.getValue())).collect(Collectors.toList());
         List<ResourceAsset> output = outputRes.entrySet().stream().flatMap(p -> Stream.generate(p::getKey).limit(p.getValue())).collect(Collectors.toList());
-        ResChoiceRow choices = new ResChoiceRow(0,input,output);
+        ResChoiceRowCLI choices = new ResChoiceRowCLI(0,input,output);
         Row top = new Row(Stream.of(new SizedBox(1,0),choices.getGridElem()));
         board.setTop(top);
         Row prodsRow = board.productionsBuilder(simpleCardCells);

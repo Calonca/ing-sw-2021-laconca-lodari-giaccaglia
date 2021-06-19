@@ -1,7 +1,8 @@
 package it.polimi.ingsw.client.view.GUI;
 
-import it.polimi.ingsw.client.view.CLI.layout.ResChoiceRow;
-import it.polimi.ingsw.client.view.GUI.board.BoxGUI;
+import it.polimi.ingsw.client.view.GUI.layout.ResChoiceRowGUI;
+import it.polimi.ingsw.client.view.abstractview.ResChoiceRow;
+import it.polimi.ingsw.client.view.GUI.board.Box3D;
 import it.polimi.ingsw.client.view.GUI.board.CamState;
 import it.polimi.ingsw.client.view.GUI.board.FaithTrack;
 import it.polimi.ingsw.client.view.GUI.util.*;
@@ -41,8 +42,8 @@ public class BoardView3D {
                 final DragAndDropHandler ddHandler = new DragAndDropHandler();
                 final Rectangle board = SetupPhase.getBoard().board;
                 final Group parent = SetupPhase.getBoard().parent;
-                BoxGUI.discardBuilder(SetupPhase.getBoard(),parent,board , ddHandler);
-                BoxGUI.strongBuilder(SetupPhase.getBoard(),parent,board);
+                Box3D.discardBuilder(SetupPhase.getBoard(),parent,board , ddHandler);
+                Box3D.strongBuilder(SetupPhase.getBoard(),parent,board);
                 SetupPhase.getBoard().wareBuilder(parent,board,ddHandler);
                 ddHandler.startDragAndDropOnEach(parent,board);
             }
@@ -53,7 +54,7 @@ public class BoardView3D {
                 final DragAndDropHandler ddHandler = new DragAndDropHandler();
                 final Rectangle board = SetupPhase.getBoard().board;
                 final Group parent = SetupPhase.getBoard().parent;
-                BoxGUI.strongBuilder(SetupPhase.getBoard(),parent,board);
+                Box3D.strongBuilder(SetupPhase.getBoard(),parent,board);
                 SetupPhase.getBoard().resRowBuilder(parent,board);
                 SetupPhase.getBoard().wareBuilder(parent,board,ddHandler);
             }
@@ -64,7 +65,7 @@ public class BoardView3D {
                 final DragAndDropHandler ddHandler = new DragAndDropHandler();
                 final Rectangle board = SetupPhase.getBoard().board;
                 final Group parent = SetupPhase.getBoard().parent;
-                BoxGUI.strongBuilder(SetupPhase.getBoard(),parent,board);
+                Box3D.strongBuilder(SetupPhase.getBoard(),parent,board);
                 SetupPhase.getBoard().resRowBuilder(parent,board);
                 SetupPhase.getBoard().wareBuilder(parent,board,ddHandler);
             }
@@ -76,7 +77,7 @@ public class BoardView3D {
                 final DragAndDropHandler ddHandler = new DragAndDropHandler();
                 final Rectangle board = SetupPhase.getBoard().board;
                 SetupPhase.getBoard().productionBuilder(parent);
-                BoxGUI.strongBuilder(SetupPhase.getBoard(),parent,board);
+                Box3D.strongBuilder(SetupPhase.getBoard(),parent,board);
                 SetupPhase.getBoard().wareBuilder(parent,board,ddHandler);
             }
 
@@ -87,7 +88,7 @@ public class BoardView3D {
                 final Rectangle board = SetupPhase.getBoard().board;
                 final Group parent = SetupPhase.getBoard().parent;
                 SetupPhase.getBoard().productionBuilder(parent);
-                BoxGUI.strongBuilder(SetupPhase.getBoard(),parent,board);
+                Box3D.strongBuilder(SetupPhase.getBoard(),parent,board);
                 SetupPhase.getBoard().wareBuilder(parent,board,ddHandler);
             }
         },
@@ -96,7 +97,7 @@ public class BoardView3D {
                 final DragAndDropHandler ddHandler = new DragAndDropHandler();
                 final Rectangle board = SetupPhase.getBoard().board;
                 final Group parent = SetupPhase.getBoard().parent;
-                BoxGUI.strongBuilder(SetupPhase.getBoard(),parent,board);
+                Box3D.strongBuilder(SetupPhase.getBoard(),parent,board);
                 SetupPhase.getBoard().wareBuilder(parent,board,ddHandler);
             }
         };
@@ -119,7 +120,7 @@ public class BoardView3D {
     protected Group faithTrack;
     protected CardShopGUI cardShop;
     protected ResourceMarketGUI resourceMarketGUI;
-    protected ResChoiceRow toSelect;
+    protected ResChoiceRowGUI toSelect;
     protected Group productions;
 
     private static CamState camState = CamState.TOP;
@@ -177,8 +178,9 @@ public class BoardView3D {
             strongBox.getChildren().clear();
         if (warehouse!=null)
             warehouse.getChildren().clear();
-        if (toSelect!=null)
-            toSelect = null;
+        if (toSelect!=null){
+            toSelect.clear();
+            toSelect = null;}
         if (productions!=null)
             productions.getChildren().clear();
     }
@@ -243,11 +245,10 @@ public class BoardView3D {
 
 
 
-
         FaithTrack faithTrack=new FaithTrack();
         faithTrack.faithTrackBuilder(this,parent,board);
+        getClient().addToListeners(faithTrack);
 
-        faithTrack.run();
 
         addResourceMarket();
         addCardShop();
@@ -306,7 +307,7 @@ public class BoardView3D {
                 testShape.setOnMousePressed((u)->{
                     if (mode.equals(Mode.SELECT_CARD_SHOP) && isSelectable) {
                         toSelect.setNextInputPos(globalPos, e.getKey());
-                        ResourceGUI.setColor(resourceGUI,testShape,true,true);
+                        ResourceGUI.setColor(resourceGUI,testShape,true,false);
                         testShape.setOnMousePressed(n->{});
                         if (toSelect.getPointedResource().isEmpty()) {
                             CardShopViewBuilder.sendResourcesToBuy(toSelect.getChosenInputPos());
@@ -335,14 +336,17 @@ public class BoardView3D {
 
 
     public void resRowBuilder(Group parent, Rectangle board){
-        Group resRowGroup = new Group();
-        Point3D initialPos = new Point3D(-100,100,0);
-
+        Point3D initialPos = new Point3D(-100,800,0);
         SimpleCardShop simpleCardShop = getSimpleModel().getElem(SimpleCardShop.class).orElseThrow();
         DevelopmentCardAsset card =  simpleCardShop.getPurchasedCard().orElseThrow();
-        toSelect = new ResChoiceRow(0,card.getDevelopmentCard().getCosts(),new ArrayList<>());
+        toSelect = new ResChoiceRowGUI(0,card.getDevelopmentCard().getCosts(),new ArrayList<>());
+        Group resRowGroup = toSelect.buildGroup();
 
-        //addNodeToParent(parent, board, resRowGroup, initialPos);
+        resRowGroup.setTranslateX(initialPos.getX());
+        resRowGroup.setTranslateX(initialPos.getY());
+        resRowGroup.setTranslateX(initialPos.getZ());
+
+        addNodeToParent(parent, board, resRowGroup, initialPos);
     }
 
     public void addNodeToParent(Group parent, Node board, Node shape, Point3D shift){
