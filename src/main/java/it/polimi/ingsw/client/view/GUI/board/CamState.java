@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client.view.GUI.board;
 
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import it.polimi.ingsw.client.view.GUI.BoardView3D;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
@@ -17,12 +16,14 @@ public enum CamState {
     TOP(new Point3D(0,0,0),new Point3D(0,0,0)),
     LOOK_AT_OTHERS(new Point3D(-500,5000,-1400),new Point3D(75,0,0)),
     SEE_SHOP_MARKET(new Point3D(-500,-800,600),new Point3D(45,0,0)),
-    SEE_RESOURCE_MARKET(new Point3D(-500,-3300,600),new Point3D(0,0,0));
+    SEE_SHOP(new Point3D(-1000,-800,600),new Point3D(45,0,0)),
+    SEE_RESOURCE_MARKET(new Point3D(0,-1200,1000),new Point3D(45,0,0));
 
 
     private final Point3D pos;
     private final Point3D rot;
     private boolean moveFreely=false;
+    private static PerspectiveCamera camera;
 
 
     CamState(Point3D pos, Point3D rot) {
@@ -38,7 +39,11 @@ public enum CamState {
         return rot;
     }
 
-    public void animateWithKeyCode(PerspectiveCamera camera, KeyCode keyCode){
+    public static void setCamera(PerspectiveCamera camera) {
+        CamState.camera = camera;
+    }
+
+    public void animateWithKeyCode(KeyCode keyCode){
         if (keyCode == KeyCode.TAB) {
             moveFreely = !moveFreely;
             System.out.println("Cam mode is : "+(moveFreely?"move freely":"animation"));
@@ -77,24 +82,24 @@ public enum CamState {
         } else {
             if (keyCode == KeyCode.W) {
                 if (equals(CamState.TOP)) {
-                    animateToState(camera, CamState.LOOK_AT_OTHERS);
+                    animateToState(CamState.LOOK_AT_OTHERS);
                 } else if  (equals(CamState.LOOK_AT_OTHERS)){
-                    animateToState(camera, CamState.SEE_SHOP_MARKET);
+                    animateToState(CamState.SEE_SHOP_MARKET);
                 }   else if  (equals(CamState.SEE_SHOP_MARKET)){
-                    animateToState(camera, CamState.TOP);
+                    animateToState(CamState.TOP);
                 }
             } else if (keyCode == KeyCode.S) {
                 if (equals(CamState.LOOK_AT_OTHERS)) {
-                    animateToState(camera, CamState.TOP);
+                    animateToState(CamState.TOP);
                 }else if  (equals(CamState.SEE_SHOP_MARKET)){
-                    animateToState(camera, CamState.LOOK_AT_OTHERS);
+                    animateToState(CamState.LOOK_AT_OTHERS);
                 }
             }
         }
     }
 
 
-    public void animateToState(PerspectiveCamera camera, CamState nextState) {
+    public void animateToState(CamState nextState) {
         Translate t = new Translate();
         Rotate rotateCam1 = new Rotate(0, new Point3D(1, 0, 0));
         Rotate rotateCam2 = new Rotate(0, new Point3D(0, 1, 0));
