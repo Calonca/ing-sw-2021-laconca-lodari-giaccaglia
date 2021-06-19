@@ -60,6 +60,10 @@ public abstract class ResourceMarketViewBuilder extends ViewBuilder{
         String propertyName = evt.getPropertyName();
         if (CHOOSING_POSITION_FOR_RESOURCES.name().equals(propertyName)) {
             choosePositions();
+        } else  if (CHOOSING_WHITEMARBLE_CONVERSION.name().equals(propertyName)) {
+            chooseMarbleConversion();
         } else MiddlePhaseViewBuilder.middlePhaseCommonTransition(evt);
     }
+
+    public abstract void chooseMarbleConversion();
 }

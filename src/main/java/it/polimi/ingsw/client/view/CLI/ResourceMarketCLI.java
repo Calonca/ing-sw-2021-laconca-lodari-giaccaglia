@@ -24,6 +24,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static it.polimi.ingsw.client.simplemodel.State.CHOOSING_POSITION_FOR_RESOURCES;
+import static it.polimi.ingsw.client.simplemodel.State.CHOOSING_WHITEMARBLE_CONVERSION;
 
 public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIBuilder {
     @Override
@@ -32,6 +33,11 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
         //Todo better wrong event handling
         if (getThisPlayerCache().getCurrentState().equals(CHOOSING_POSITION_FOR_RESOURCES.name())){
             choosePositions();
+            return;
+        }
+
+        if (getThisPlayerCache().getCurrentState().equals(CHOOSING_WHITEMARBLE_CONVERSION.name())){
+            chooseMarbleConversion();
             return;
         }
 
@@ -123,6 +129,31 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
         getCLIView().show();
     }
 
+    @Override
+    public void chooseMarbleConversion() {
+
+        Row root = new Row();
+        Column activeConversions = root.addAndGetColumn();
+
+        ActiveLeaderBonusInfo marketBonuses = getThisPlayerCache().getElem(ActiveLeaderBonusInfo.class).orElseThrow();
+
+
+        for(ResourceAsset res : marketBonuses.getMarketBonusResources())
+            if(res==ResourceAsset.STONE)
+                activeConversions.addElem(buildResourceChoice(MarbleAsset.GRAY,3));
+            else if(res==ResourceAsset.SERVANT)
+                activeConversions.addElem(buildResourceChoice(MarbleAsset.PURPLE,2));
+            else if(res==ResourceAsset.GOLD)
+                activeConversions.addElem(buildResourceChoice(MarbleAsset.YELLOW,0));
+            else if(res==ResourceAsset.SHIELD)
+                activeConversions.addElem(buildResourceChoice(MarbleAsset.BLUE,1));
+
+        root.selectInEnabledOption(getCLIView(), "SELECT A MARKET BONUS");
+
+        getCLIView().setBody(CanvasBody.centered(root));
+        getCLIView().show();
+
+    }
 
 
     private Stream<Option> buildLineStream(int start, int stop){
@@ -139,6 +170,9 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
 
     private Option buildResourceChoice(MarbleAsset res, int resourceNumber){
 
-        return Option.from(MarbleCLI.fromAsset(res).toBigDrawable(),()->{sendWhiteMarbleConversion(resourceNumber); });
+        Option o = Option.from(MarbleCLI.fromAsset(res).toBigDrawable(),()->{sendWhiteMarbleConversion(resourceNumber);});
+        o.setMode(Option.VisMode.NUMBER_TO_BOTTOM);
+        o.setEnabled(true);
+        return o;
     }
 }
