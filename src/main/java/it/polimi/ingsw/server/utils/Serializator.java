@@ -11,6 +11,7 @@ import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.assets.tokens.ActionTokenAsset;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.network.jsonUtils.UUIDTypeAdapter;
+import it.polimi.ingsw.network.simplemodel.SimpleCardShop;
 import it.polimi.ingsw.server.controller.Match;
 import it.polimi.ingsw.server.controller.SessionController;
 import it.polimi.ingsw.server.model.Resource;
@@ -1270,9 +1271,7 @@ public class Serializator extends JsonUtility {
         serializeMultiPlayerStatesTransitionTable();
         Match matchDeserialized = Deserializator.deserializeMatch("/savedMatches/pa|076cc1e7-5606-4710-92a9-fd907f564b5e.json");
 
-
  */
-
 
     }
 }

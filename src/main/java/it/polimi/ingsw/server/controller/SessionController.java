@@ -27,6 +27,7 @@ public class SessionController {
     private final String matchesFolderName = "src/savedMatches";
     private static final String sessionFolderName = "src/savedSession";
     private final int maxSecondsOffline = 1800; //30 minutes
+    private boolean isDebugMode = true;
 
     public static SessionController getInstance()
     {
@@ -182,18 +183,22 @@ public class SessionController {
 
     }
 
-    public void saveSessionController(){
+    public void saveSessionController() {
 
-        String sessionName = "session";
-        String folderAbsolutePath = Paths.get(sessionFolderName).toAbsolutePath().toString();
-        String path = folderAbsolutePath + '/' + sessionName + ".json";
 
-        try {
-            Serializator.serializeSession(path);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(!isDebugMode) {
+
+            String sessionName = "session";
+            String folderAbsolutePath = Paths.get(sessionFolderName).toAbsolutePath().toString();
+            String path = folderAbsolutePath + '/' + sessionName + ".json";
+
+            try {
+                Serializator.serializeSession(path);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
-
     }
 
     public Optional<Match> loadMatch(UUID gameId) {

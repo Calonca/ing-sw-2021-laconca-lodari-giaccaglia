@@ -59,7 +59,7 @@ public class SelectablePositions extends SimpleModelElement{
         if(currentState != null) {
             if (currentState.equals(State.CHOOSING_DEVELOPMENT_CARD.toString()))
                 buildResourcesToChooseForCard();
-            else if (currentState.equals(State.CHOOSING_RESOURCE_FOR_PRODUCTION.toString()))
+            else if (currentState.equals(State.CHOOSING_PRODUCTION.toString()))
                 buildResourcesToChooseForProduction();
         }
 
