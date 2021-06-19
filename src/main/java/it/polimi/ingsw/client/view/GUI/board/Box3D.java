@@ -126,16 +126,9 @@ public class Box3D {
                 ResourceMarketViewBuilder.sendDiscard();
             }
         });
-        r.setOnMouseEntered(e-> {
-            if (simpleDiscardBox.isDiscardable()) {
-                r.setFill(Color.CYAN);
-            }
-        });
-        r.setOnMouseExited(e-> {
-            if (simpleDiscardBox.isDiscardable()) {
-                r.setFill(Color.BLUE);
-            }
-        });
+        if (simpleDiscardBox.isDiscardable()) {
+            r.setFill(Color.CYAN);
+        }
         discardBoxGroup.getChildren().add(r);
         discardBoxGroup.getChildren().add(discardText);
     }
