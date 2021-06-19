@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.PersonalBoardBody;
+import it.polimi.ingsw.client.view.CLI.layout.drawables.ResourceCLI;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Column;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
 import it.polimi.ingsw.client.view.CLI.layout.SizedBox;
@@ -10,9 +11,12 @@ import it.polimi.ingsw.client.view.CLI.layout.Option;
 import it.polimi.ingsw.client.view.CLI.textUtil.StringUtil;
 import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
 import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
+import it.polimi.ingsw.network.assets.resources.ResourceAsset;
+import it.polimi.ingsw.network.simplemodel.ActiveLeaderBonusInfo;
 import it.polimi.ingsw.network.simplemodel.SimpleCardCells;
 import it.polimi.ingsw.network.simplemodel.SimpleStrongBox;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,7 +39,28 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
 
         Row root = new Row();
         Column activeConversions = root.addAndGetColumn();
-        activeConversions.addElem(Option.noNumber("Bonus 1"));
+
+        ActiveLeaderBonusInfo marketBonuses = getThisPlayerCache().getElem(ActiveLeaderBonusInfo.class).orElseThrow();
+
+        if (marketBonuses.getMarketBonusResources().size()==0)
+            activeConversions.addElem(Option.noNumber("THERE ARE NO"));
+
+        activeConversions.addElem(Option.noNumber("ACTIVE BONUSES"));
+
+
+        for(ResourceAsset res : marketBonuses.getMarketBonusResources())
+            if(res==ResourceAsset.STONE)
+                activeConversions.addElem(buildResourceChoice(MarbleAsset.GRAY,3));
+            else if(res==ResourceAsset.SERVANT)
+                activeConversions.addElem(buildResourceChoice(MarbleAsset.PURPLE,2));
+            else if(res==ResourceAsset.GOLD)
+                activeConversions.addElem(buildResourceChoice(MarbleAsset.YELLOW,1));
+            else if(res==ResourceAsset.SHIELD)
+                activeConversions.addElem(buildResourceChoice(MarbleAsset.BLUE,0));
+
+
+
+
 
         root.addElem(new SizedBox(100,0));
 
@@ -74,6 +99,8 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
 
         getCLIView().runOnIntInput("Select a row or column to take resources","Incorrect line",0,rows+columns,
             ()->{
+                if(!marketBonuses.getMarketBonusResources().isEmpty())
+                    System.out.println("should select bonuses");
                 int line = getCLIView().getLastInt();
                 sendLine(line);
             });
@@ -110,4 +137,8 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
         return Option.noNumber(MarbleCLI.fromAsset(res).toBigDrawable());
     }
 
+    private Option buildResourceChoice(MarbleAsset res, int resourceNumber){
+
+        return Option.from(MarbleCLI.fromAsset(res).toBigDrawable(),()->{sendWhiteMarbleConversion(resourceNumber); });
+    }
 }

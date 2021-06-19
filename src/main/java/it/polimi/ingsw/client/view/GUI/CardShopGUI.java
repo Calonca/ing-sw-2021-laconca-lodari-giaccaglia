@@ -1,10 +1,18 @@
 package it.polimi.ingsw.client.view.GUI;
+
+
+import it.polimi.ingsw.client.simplemodel.State;
+import it.polimi.ingsw.client.view.GUI.board.CamState;
+import it.polimi.ingsw.client.view.GUI.util.BoardStateController;
 import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCardColor;
 import it.polimi.ingsw.network.simplemodel.SimpleCardShop;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.ImageCursor;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.effect.ColorAdjust;
@@ -13,6 +21,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 
+import java.beans.PropertyChangeEvent;
+import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -20,7 +30,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 
-public class CardShopGUI extends CardShopViewBuilder implements GUIView {
+public class CardShopGUI extends CardShopViewBuilder {
 
 
     Text error=new Text("NOT ALLOWED RIGHT NOW.");
@@ -61,6 +71,8 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
     public void run() {
 
         SetupPhase.getBoard().getController().isCardShopOpen(true);
+        SetupPhase.getBoard().changeCamState(CamState.SEE_SHOP);
+
     }
 
 
@@ -202,8 +214,8 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
 
             int temp=0;
 
-
-
+            if(!SetupPhase.getBoard().getController().isCardShopOpen())
+                return;
             int selectedCards=0;
             error.setOpacity(0);
             for(Boolean prod : selectedSceneCards)
@@ -221,7 +233,6 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
                 errorChoice.setOpacity(1);
                 return;
             }
-            SimpleCardShop simpleCardShop = getSimpleCardShop();
 
             System.out.println("temp is" + temp + "temp%4 is" + temp%4);
             if(temp<4)
@@ -232,6 +243,7 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
 
             SetupPhase.getBoard().getController().setBoughtCard(scenesCardsToChoose.get(temp));
             SetupPhase.getBoard().getController().isCardShopOpen(false);
+            BoardView3D.setCamState(CamState.TOP);
 
         });
         return confirm;
@@ -242,16 +254,6 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
      * @param url is ignored
      * @param resourceBundle is ignored
      */
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle)
-    {
-
-
-
-
-
-
-    }
 
 
     /**
