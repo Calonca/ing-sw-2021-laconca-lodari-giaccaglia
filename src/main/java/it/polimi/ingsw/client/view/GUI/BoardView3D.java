@@ -58,7 +58,7 @@ public class BoardView3D {
                 final DragAndDropHandler ddHandler = new DragAndDropHandler();
                 final Rectangle board = SetupPhase.getBoard().board;
                 final Group parent = SetupPhase.getBoard().parent;
-                BoxGUI.strongBuilder(SetupPhase.getBoard(),parent,board);
+                Box3D.strongBuilder(SetupPhase.getBoard(),parent,board);
                 SetupPhase.getBoard().resRowBuilder(parent,board);
                 SetupPhase.getBoard().wareBuilder(parent,board,ddHandler);
             }
@@ -118,6 +118,8 @@ public class BoardView3D {
     public Group parent;
     double len=1000;
 
+    public boolean active=false;
+
     protected Group discardBox;
     protected Group warehouse;
     protected Group strongBox;
@@ -129,7 +131,6 @@ public class BoardView3D {
     protected Group resourceMarket=new Group();
     protected CardShopGUI cardShopGUI=new CardShopGUI();
     protected ResourceMarketGUI resourceMarketGUI= new ResourceMarketGUI();
-    protected ResChoiceRow toSelect;
     protected Group productions;
 
     private static CamState camState = CamState.TOP;
@@ -185,7 +186,7 @@ public class BoardView3D {
         GUI.getRealPane().getChildren().add(root);
 
         System.out.println(GUI.getRealPane().getChildren());
-
+        active=true;
     }
 
     public void reset(){

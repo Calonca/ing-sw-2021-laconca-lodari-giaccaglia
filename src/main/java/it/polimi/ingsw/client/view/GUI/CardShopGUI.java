@@ -2,7 +2,6 @@ package it.polimi.ingsw.client.view.GUI;
 
 
 import it.polimi.ingsw.client.simplemodel.State;
-import it.polimi.ingsw.client.view.CLI.IDLEViewBuilder;
 import it.polimi.ingsw.client.view.GUI.board.CamState;
 import it.polimi.ingsw.client.view.GUI.util.BoardStateController;
 import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
@@ -244,6 +243,7 @@ public class CardShopGUI extends CardShopViewBuilder {
 
             SetupPhase.getBoard().getController().setBoughtCard(scenesCardsToChoose.get(temp));
             SetupPhase.getBoard().getController().isCardShopOpen(false);
+            BoardView3D.setCamState(CamState.TOP);
 
         });
         return confirm;

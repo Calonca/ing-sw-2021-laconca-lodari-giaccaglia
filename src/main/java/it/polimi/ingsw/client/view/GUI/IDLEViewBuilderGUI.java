@@ -1,13 +1,14 @@
 package it.polimi.ingsw.client.view.GUI;
 
 import it.polimi.ingsw.client.simplemodel.State;
+import it.polimi.ingsw.client.view.abstractview.IDLEViewBuilder;
 import javafx.scene.layout.Pane;
 
 import java.beans.PropertyChangeEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class IDLEViewBuilderGUI extends it.polimi.ingsw.client.view.abstractview.SetupPhaseViewBuilder implements GUIView
+public class IDLEViewBuilderGUI extends IDLEViewBuilder implements GUIView
 {
 
     /**
@@ -17,18 +18,14 @@ public class IDLEViewBuilderGUI extends it.polimi.ingsw.client.view.abstractview
     public void run() {
 
         BoardView3D temp=SetupPhase.getBoard();
-        temp.runforStart();
+        if(!temp.active)
+            temp.runforStart();
 
-        System.out.println(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
+        System.out.println(GUI.getRealPane().getChildren());
 
     }
 
 
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals(State.INITIAL_PHASE.name()))
-            getClient().changeViewBuilder(new InitialOrFinalPhaseGUI());
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
