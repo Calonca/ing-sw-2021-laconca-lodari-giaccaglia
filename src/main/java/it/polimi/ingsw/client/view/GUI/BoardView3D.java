@@ -59,6 +59,17 @@ public class BoardView3D {
                 SetupPhase.getBoard().wareBuilder(parent,board,ddHandler);
             }
         },
+        SELECT_RESOURCE_FOR_PROD(){
+            public void run() {
+                SetupPhase.getBoard().addNodeToParent(SetupPhase.getBoard().parent,SetupPhase.getBoard().getController().getBoughtCard(),new Point3D(300,150,0));
+                final DragAndDropHandler ddHandler = new DragAndDropHandler();
+                final Rectangle board = SetupPhase.getBoard().board;
+                final Group parent = SetupPhase.getBoard().parent;
+                BoxGUI.strongBuilder(SetupPhase.getBoard(),parent,board);
+                SetupPhase.getBoard().resRowBuilder(parent,board);
+                SetupPhase.getBoard().wareBuilder(parent,board,ddHandler);
+            }
+        },
         CHOOSE_PRODUCTION() {
             public void run() {
 
@@ -208,63 +219,14 @@ public class BoardView3D {
         FaithTrack faithTrack=new FaithTrack();
         faithTrack.faithTrackBuilder(this,parent,board);
 
+        faithTrack.run();
 
-        Button viewCardShop=new Button();
-        viewCardShop.setLayoutX(buttonStartingX);
-        viewCardShop.setLayoutY(50);
-        parent.getChildren().add(viewCardShop);
-        viewCardShop.setText("VIEW CARD SHOP");
-        viewCardShop.setOnMouseEntered( p ->
-        {
-            //todo fix static
-            if(mode==Mode.MOVING_RES|| mode==Mode.CHOOSE_POS_FOR_CARD)
-            {
-                viewCardShop.setDisable(true);
-                return;
-            }
-            else {
-                viewCardShop.setDisable(false);
-            }
-            CardShopGUI cs=new CardShopGUI();
-            cs.run();
-        });
+        CardShopGUI tempShop=new CardShopGUI();
+        addNodeToParent(parent,parent,tempShop.getRoot(),board.localToParent(0,-900,0));
 
-        viewCardShop.setOnMouseExited( p ->
-        {
-            if(mode==Mode.MOVING_RES|| mode==Mode.CHOOSE_POS_FOR_CARD) {
-                return;
-            }
-            GUI.removeLast();
-
-        });
-
-
-
-        Button viewMarket=new Button();
-        viewMarket.setLayoutX(buttonStartingX);
-        viewMarket.setLayoutY(100);
-        viewMarket.setText("VIEW MARKET");
-        viewMarket.setOnMouseEntered( p ->
-        {
-            if(mode==Mode.MOVING_RES|| mode==Mode.CHOOSE_POS_FOR_CARD)
-            {
-                viewMarket.setDisable(true);
-                return;
-            }
-            else {
-                viewMarket.setDisable(false);
-            }
-            ResourceMarketGUI cs=new ResourceMarketGUI();
-            cs.run();
-        });
-
-        viewMarket.setOnMouseExited( p ->
-        {
-            if(mode==Mode.MOVING_RES|| mode==Mode.CHOOSE_POS_FOR_CARD) {
-                return;
-            }
-            GUI.removeLast();
-        });
+        ResourceMarketGUI resMarket=new ResourceMarketGUI();
+        SetupPhase.getBoard().getController().setMarket(false);
+        addNodeToParent(parent,parent,resMarket.getRoot(),board.localToParent(1000,-900,0));
 
 
 
@@ -272,9 +234,8 @@ public class BoardView3D {
 
 
 
-        viewMarket.setId("showButton");
-        viewCardShop.setId("showButton");
-        boardPane.getChildren().add(viewMarket);
+
+
         //boardPane.getChildren().add(parent);
         boardPane.getChildren().add(scene);
         return new SubScene(boardPane,width,len);
@@ -383,12 +344,12 @@ public class BoardView3D {
     private void productionBuilder(Group parent) {
         Group productions = new Group();
 
-        Rectangle basic=new Rectangle(100,100);
-        basic.setLayoutX(600);
-        basic.setLayoutY(300);
+        Rectangle basic=new Rectangle(200,200);
+
         productions.getChildren().add(basic);
+        addNodeToParent(parent,board,basic,new Point3D(600,1200,0));
         basic.setOnMouseClicked(p->{
-            SetupPhase.getBoard().setMode(Mode.BACKGROUND);
+            SetupPhase.getBoard().setMode(Mode.CHOOSE_POS_FOR_CARD);
             ProductionViewBuilder.sendChosenProduction(0);
         });
 
@@ -400,25 +361,31 @@ public class BoardView3D {
         simpleCardCells.getSimpleProductions().getProductionAtPos(0);
         for (Map.Entry<Integer, Optional<DevelopmentCardAsset>> entry : simpleCardCells.getDevCardsCells().entrySet()) //using map.entrySet() for iteration
         {
+            rectangle=new Rectangle(450,200);
+
             if(entry.getValue().isEmpty())
+            {
                 tempImage = new ImagePattern(new Image("assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_BLUE_1.png"));
+                rectangle.setOpacity(0);
+            }
             else
             {
                 path=entry.getValue().get().getCardPaths().getKey();
                 tempImage = new ImagePattern(new Image((InputStream) path));
             }
-            rectangle=new Rectangle(100,100);
-            rectangle.setLayoutX(600+250*entry.getKey());
-            rectangle.setLayoutY(700);
+            rectangle.setLayoutX(450+270*entry.getKey());
+            rectangle.setLayoutY(550);
             rectangle.setOnMouseClicked(p-> {
                 if (mode.equals(Mode.CHOOSE_POS_FOR_CARD))
-                    CardShopViewBuilder.sendCardPlacementPosition(entry.getKey());
+                    if(simpleCardCells.isSpotAvailable(entry.getKey()))
+                        CardShopViewBuilder.sendCardPlacementPosition(entry.getKey());
                 else if (mode.equals(Mode.CHOOSE_PRODUCTION))
-                    ProductionViewBuilder.sendChosenProduction(entry.getKey());
+                    if(entry.getValue().isPresent())
+                        ProductionViewBuilder.sendChosenProduction(entry.getKey());
             });
             rectangle.setFill(tempImage);
 
-            productions.getChildren().add(rectangle);
+            addNodeToParent(parent,board,rectangle,new Point3D(20+220*entry.getKey(),700,-10));
         }
         parent.getChildren().add(productions);
         this.productions = productions;

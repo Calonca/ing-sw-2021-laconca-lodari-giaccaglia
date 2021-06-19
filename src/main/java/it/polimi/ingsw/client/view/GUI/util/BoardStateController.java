@@ -383,9 +383,6 @@ public class BoardStateController {
         return isMarket;
     }
 
-    public void isMarket(boolean b) {
-        isMarket=b;
-    }
 
     public boolean isCardShopOpen() {
         return isDevelop;

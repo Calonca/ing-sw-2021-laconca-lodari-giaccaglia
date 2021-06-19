@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.view.abstractview.MiddlePhaseViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ProductionViewBuilder;
 import it.polimi.ingsw.network.simplemodel.SimpleCardShop;
 import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
+import it.polimi.ingsw.network.simplemodel.SimpleProductions;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -56,8 +57,7 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
     public void sendChoice(Choice choice) {
 
         sendMessage(choice);
-        ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(((Pane)getClient().getStage().getScene().getRoot()).getChildren().size()-1);
-
+        GUI.removeLast();
 
     }
 
@@ -80,12 +80,10 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
             cardButton.setDisable(true);
 
         productionButton.setOnAction( e ->
-                Platform.runLater(()->getClient().changeViewBuilder(ProductionViewBuilder.getBuilder(false))));
+                sendChoice(Choice.PRODUCTION));
 
         resourceMarketButton.setOnAction( e ->
         {
-
-            ResourceMarketGUI res=new ResourceMarketGUI();
             sendChoice(Choice.RESOURCE_MARKET);
 
         });

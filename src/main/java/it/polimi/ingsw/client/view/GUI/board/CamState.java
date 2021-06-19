@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.GUI.board;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import it.polimi.ingsw.client.view.GUI.BoardView3D;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
@@ -15,7 +16,9 @@ import javafx.util.Duration;
 public enum CamState {
     TOP(new Point3D(0,0,0),new Point3D(0,0,0)),
     LOOK_AT_OTHERS(new Point3D(-500,5000,-1400),new Point3D(75,0,0)),
-    SEE_SHOP_MARKET(new Point3D(-500,-3300,600),new Point3D(45,0,0));
+    SEE_SHOP_MARKET(new Point3D(-500,-800,600),new Point3D(45,0,0)),
+    SEE_RESOURCE_MARKET(new Point3D(-500,-3300,600),new Point3D(0,0,0));
+
 
     private final Point3D pos;
     private final Point3D rot;
@@ -39,6 +42,7 @@ public enum CamState {
         if (keyCode == KeyCode.TAB) {
             moveFreely = !moveFreely;
             System.out.println("Cam mode is : "+(moveFreely?"move freely":"animation"));
+            System.out.println(pos);
             return;
         }
 
@@ -76,6 +80,8 @@ public enum CamState {
                     animateToState(camera, CamState.LOOK_AT_OTHERS);
                 } else if  (equals(CamState.LOOK_AT_OTHERS)){
                     animateToState(camera, CamState.SEE_SHOP_MARKET);
+                }   else if  (equals(CamState.SEE_SHOP_MARKET)){
+                    animateToState(camera, CamState.TOP);
                 }
             } else if (keyCode == KeyCode.S) {
                 if (equals(CamState.LOOK_AT_OTHERS)) {

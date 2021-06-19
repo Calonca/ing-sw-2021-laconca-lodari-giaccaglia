@@ -68,104 +68,17 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
     @Override
     public void run() {
 
-        Node root=getRoot();
-        root.setTranslateX(-570);
-        root.setTranslateY(110);
-        root.setId("CARDSHOP");
-        GUI.addLast(root);
-        System.out.println(GUI.getRealPane().getChildren());
+        SetupPhase.getBoard().getController().isCardShopOpen(true);
     }
 
 
     public SubScene getRoot() {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/fxml/CardShop.fxml"));
-        Parent root = null;
-        try {
-            root = loader.load();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return new SubScene(root,width,len);
-
-    }
-
-
-
-
-
-    /**
-     * Service method
-     * @return a button according to parameters
-     */
-    public Button validationButton()
-    {
-
-        Button confirm=new Button();
-        confirm.setText("CONFIRM");
-        confirm.setLayoutY(len-80);
-        confirm.setLayoutX(width/2);
-        confirm.setOnAction(p -> {
-
-
-            int temp=0;
-
-
-
-            int selectedCards=0;
-            error.setOpacity(0);
-            for(Boolean prod : selectedSceneCards)
-            {
-                if(prod)
-                {
-                    selectedCards++;
-                    temp=selectedSceneCards.indexOf(prod);
-                    break;
-
-                }
-            }
-            if(selectedCards==0)
-            {
-                errorChoice.setOpacity(1);
-                return;
-            }
-            SimpleCardShop simpleCardShop = getSimpleCardShop();
-
-            System.out.println("temp is" + temp + "temp%4 is" + temp%4);
-            if(temp<4)
-                sendChosenCard(temp%4, 3);
-            else if(temp<8)
-                sendChosenCard(temp%4, 2);
-            else sendChosenCard(temp%4, 1);
-
-            SetupPhase.getBoard().getController().setBoughtCard(scenesCardsToChoose.get(temp));
-            GUI.removeLast();
-
-
-
-
-        });
-        return confirm;
-    }
-
-    /**
-     * The cardShop gets initialized as soon as the board.
-     * @param url is ignored
-     * @param resourceBundle is ignored
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle)
-    {
-
-
-
-
         Button validationButton= validationButton();
         Path path;
         ImageView tempImage;
         SimpleCardShop simpleCardShop = getSimpleCardShop();
+        cardsAnchor=new AnchorPane();
+        cardsAnchor.setMinSize(400,600);
         for(int i=0;i<ROWS;i++)
         {
             for(int j=0;j<COLUMNS;j++)
@@ -243,18 +156,18 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
                 for (Boolean aBoolean : selectedSceneCards)
                     if (aBoolean)
                     {
-                        validationButton.setDisable(!availableCards.get(c.getFrom()));
+                        validationButton.setDisable(!availableCards.get(c.getFrom())||!SetupPhase.getBoard().getController().isCardShopOpen());
                         scenesCardsToChoose.get(c.getFrom()).setLayoutY(scenesCardsToChoose.get(c.getFrom()).getLayoutY()-15);
                         System.out.println(c.getFrom());
 
 
                     }
-                            //scenesCardsToChoose.get(selectedSceneCards.indexOf(aBoolean)).setLayoutX(scenesCardsToChoose.get(selectedSceneCards.indexOf(aBoolean)).getLayoutX()+10);
+                //scenesCardsToChoose.get(selectedSceneCards.indexOf(aBoolean)).setLayoutX(scenesCardsToChoose.get(selectedSceneCards.indexOf(aBoolean)).getLayoutX()+10);
             }
             else
-                {
-                    validationButton.setDisable(false);
-                    scenesCardsToChoose.get(c.getFrom()).setLayoutY(scenesCardsToChoose.get(c.getFrom()).getLayoutY()+15);
+            {
+                validationButton.setDisable(false);
+                scenesCardsToChoose.get(c.getFrom()).setLayoutY(scenesCardsToChoose.get(c.getFrom()).getLayoutY()+15);
 
                 //ViewPersonalBoard.getController().dehighlightTrue(selectedSceneCards,scenesCardsToChoose);
 
@@ -272,6 +185,83 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
 
         getClient().getStage().show();
         cardsAnchor.setId("pane");
+
+        return new SubScene(cardsAnchor,width,len);
+
+    }
+
+
+
+
+
+    /**
+     * Service method
+     * @return a button according to parameters
+     */
+    public Button validationButton()
+    {
+
+        Button confirm=new Button();
+        confirm.setText("CONFIRM");
+        confirm.setLayoutY(len-80);
+        confirm.setLayoutX(width/2);
+        confirm.setOnAction(p -> {
+
+
+
+            int temp=0;
+
+
+
+            int selectedCards=0;
+            error.setOpacity(0);
+            for(Boolean prod : selectedSceneCards)
+            {
+                if(prod)
+                {
+                    selectedCards++;
+                    temp=selectedSceneCards.indexOf(prod);
+                    break;
+
+                }
+            }
+            if(selectedCards==0)
+            {
+                errorChoice.setOpacity(1);
+                return;
+            }
+            SimpleCardShop simpleCardShop = getSimpleCardShop();
+
+            System.out.println("temp is" + temp + "temp%4 is" + temp%4);
+            if(temp<4)
+                sendChosenCard(temp%4, 3);
+            else if(temp<8)
+                sendChosenCard(temp%4, 2);
+            else sendChosenCard(temp%4, 1);
+
+            SetupPhase.getBoard().getController().setBoughtCard(scenesCardsToChoose.get(temp));
+            GUI.removeLast();
+
+
+            SetupPhase.getBoard().getController().isCardShopOpen(false);
+
+        });
+        return confirm;
+    }
+
+    /**
+     * The cardShop gets initialized as soon as the board.
+     * @param url is ignored
+     * @param resourceBundle is ignored
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle)
+    {
+
+
+
+
+
 
     }
 
