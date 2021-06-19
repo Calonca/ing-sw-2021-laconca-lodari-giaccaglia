@@ -404,4 +404,9 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
         });
     }
 
+    @Override
+    public void chooseMarbleConversion() {
+
+    }
+
 }

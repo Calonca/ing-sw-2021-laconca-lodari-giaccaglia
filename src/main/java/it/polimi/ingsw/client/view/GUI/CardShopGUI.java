@@ -263,6 +263,8 @@ public class CardShopGUI extends CardShopViewBuilder {
     public void selectResources() {
         //Hide cardShop
         Platform.runLater(()->SetupPhase.getBoard().setMode(BoardView3D.Mode.SELECT_CARD_SHOP));
+        SetupPhase.getBoard().changeCamState(CamState.TOP);
+
     }
 
     /**

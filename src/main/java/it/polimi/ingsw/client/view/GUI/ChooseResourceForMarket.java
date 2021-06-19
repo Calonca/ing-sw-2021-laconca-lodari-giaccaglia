@@ -40,6 +40,11 @@ public class ChooseResourceForMarket extends ResourceMarketViewBuilder implement
     }
 
     @Override
+    public void chooseMarbleConversion() {
+
+    }
+
+    @Override
     public void run() {
         SubScene root=getRoot();
         root.setTranslateX(-400);
