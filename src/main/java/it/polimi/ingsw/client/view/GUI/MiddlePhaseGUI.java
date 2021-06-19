@@ -73,7 +73,7 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
         cardButton.setOnAction( p ->
         {
             sendChoice(Choice.CARD_SHOP);
-
+            SetupPhase.getBoard().refreshCardShop();
         });
         SimpleCardShop simpleCardShop=getSimpleModel().getElem(SimpleCardShop.class).orElseThrow();
         if(!simpleCardShop.getIsAnyCardPurchasable())
@@ -85,6 +85,7 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
         resourceMarketButton.setOnAction( e ->
         {
             sendChoice(Choice.RESOURCE_MARKET);
+            SetupPhase.getBoard().refreshMarket();
 
         });
 

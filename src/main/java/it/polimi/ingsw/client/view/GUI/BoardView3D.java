@@ -118,6 +118,8 @@ public class BoardView3D {
     protected Group warehouse;
     protected Group strongBox;
     protected Group faithTrack;
+    protected CardShopGUI cardShop;
+    protected ResourceMarketGUI resourceMarketGUI;
     protected ResChoiceRow toSelect;
     protected Group productions;
 
@@ -132,8 +134,30 @@ public class BoardView3D {
         this.discardBox = discardBox;
     }
 
+
+    public void refreshCardShop() {
+        parent.getChildren().remove(cardShop);
+        addCardShop();
+    }
+
+    public void refreshMarket() {
+        parent.getChildren().remove(resourceMarketGUI);
+        addResourceMarket();
+    }
     public void setStrongBox(Group strongBox) {
         this.strongBox = strongBox;
+    }
+
+    public void addResourceMarket() {
+        resourceMarketGUI=new ResourceMarketGUI();
+        addNodeToParent(parent,parent,resourceMarketGUI.getRoot(),board.localToParent(1000,-900,0));
+
+    }
+
+    public void addCardShop() {
+        cardShop=new CardShopGUI();
+        addNodeToParent(parent,parent,cardShop.getRoot(),board.localToParent(0,-900,0));
+
     }
 
     public void runforStart() {
@@ -221,16 +245,8 @@ public class BoardView3D {
 
         faithTrack.run();
 
-        CardShopGUI tempShop=new CardShopGUI();
-        addNodeToParent(parent,parent,tempShop.getRoot(),board.localToParent(0,-900,0));
-
-        ResourceMarketGUI resMarket=new ResourceMarketGUI();
-        SetupPhase.getBoard().getController().setMarket(false);
-        addNodeToParent(parent,parent,resMarket.getRoot(),board.localToParent(1000,-900,0));
-
-
-
-
+        addResourceMarket();
+        addCardShop();
 
 
 

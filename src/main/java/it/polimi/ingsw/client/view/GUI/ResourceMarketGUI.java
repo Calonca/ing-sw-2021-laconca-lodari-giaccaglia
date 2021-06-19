@@ -145,7 +145,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
     }
 
 
-    public void refresh() {
+    public void refreshRows() {
 
         marketPane=new AnchorPane();
         marketPane.setMinSize(700,1000);

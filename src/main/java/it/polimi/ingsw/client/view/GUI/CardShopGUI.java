@@ -90,7 +90,6 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
                 }
                 else
                     tempImage = new ImageView(new Image("assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_BLUE_1.png"));
-                //todo remove grid to remove buttons
 
 
                 tempImage.setRotate(Math.random() * (cardTilt - -cardTilt + 1) + -1 );
@@ -240,9 +239,6 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
             else sendChosenCard(temp%4, 1);
 
             SetupPhase.getBoard().getController().setBoughtCard(scenesCardsToChoose.get(temp));
-            GUI.removeLast();
-
-
             SetupPhase.getBoard().getController().isCardShopOpen(false);
 
         });

@@ -223,18 +223,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
 
         }
 
-        while(i<10)
-        {
-            if(column==2)
-            {
-                column=0;
-                row++;
-            }
-            grid.add(emptyTile(),column,row);
-            column++;
-            i++;
 
-        }
 
 
         ScrollPane scrollPane= new ScrollPane();
