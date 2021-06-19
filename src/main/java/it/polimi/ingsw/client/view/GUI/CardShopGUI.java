@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view.GUI;
 
 import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.CLI.IDLEViewBuilder;
+import it.polimi.ingsw.client.view.GUI.board.CamState;
 import it.polimi.ingsw.client.view.GUI.util.BoardStateController;
 import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCardColor;
@@ -28,7 +29,7 @@ import java.nio.file.Path;
 import java.util.*;
 
 
-public class CardShopGUI extends CardShopViewBuilder implements GUIView {
+public class CardShopGUI extends CardShopViewBuilder {
 
 
     Text error=new Text("NOT ALLOWED RIGHT NOW.");
@@ -69,6 +70,8 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
     public void run() {
 
         SetupPhase.getBoard().getController().isCardShopOpen(true);
+        SetupPhase.getBoard().changeCamState(CamState.SEE_SHOP);
+
     }
 
 
@@ -210,8 +213,8 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
 
             int temp=0;
 
-
-
+            if(!SetupPhase.getBoard().getController().isCardShopOpen())
+                return;
             int selectedCards=0;
             error.setOpacity(0);
             for(Boolean prod : selectedSceneCards)
@@ -229,7 +232,6 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
                 errorChoice.setOpacity(1);
                 return;
             }
-            SimpleCardShop simpleCardShop = getSimpleCardShop();
 
             System.out.println("temp is" + temp + "temp%4 is" + temp%4);
             if(temp<4)
@@ -250,16 +252,6 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
      * @param url is ignored
      * @param resourceBundle is ignored
      */
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle)
-    {
-
-
-
-
-
-
-    }
 
 
     /**
@@ -269,6 +261,8 @@ public class CardShopGUI extends CardShopViewBuilder implements GUIView {
     public void selectResources() {
         //Hide cardShop
         Platform.runLater(()->SetupPhase.getBoard().setMode(BoardView3D.Mode.SELECT_CARD_SHOP));
+        SetupPhase.getBoard().changeCamState(CamState.TOP);
+
     }
 
     /**

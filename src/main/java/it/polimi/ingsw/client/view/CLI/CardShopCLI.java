@@ -3,16 +3,19 @@ package it.polimi.ingsw.client.view.CLI;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.PersonalBoardBody;
 import it.polimi.ingsw.client.view.CLI.layout.*;
-import it.polimi.ingsw.client.view.CLI.layout.drawables.DrawableDevCard;
+import it.polimi.ingsw.client.view.CLI.layout.drawables.*;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Column;
 import it.polimi.ingsw.client.view.CLI.layout.GridElem;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
+import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
 import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCardColor;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
+import it.polimi.ingsw.network.simplemodel.ActiveLeaderBonusInfo;
 import it.polimi.ingsw.network.simplemodel.SimpleCardCells;
+import javafx.util.Pair;
 
 import java.util.*;
 import java.util.stream.Stream;
@@ -28,7 +31,36 @@ public class CardShopCLI extends CardShopViewBuilder {
     public void run() {
         getCLIView().setTitle("Card Shop");
 
+
         Column grid = new Column();
+
+
+        ActiveLeaderBonusInfo cardShopDiscounts = getThisPlayerCache().getElem(ActiveLeaderBonusInfo.class).orElseThrow();
+
+
+        List<Pair<ResourceAsset,Integer>> discountResources=cardShopDiscounts.getDiscountedResources();
+        discountResources.add(new Pair<>(ResourceAsset.GOLD,3));
+        discountResources.add(new Pair<>(ResourceAsset.SHIELD,3));
+        discountResources.add(new Pair<>(ResourceAsset.SERVANT,3));
+        discountResources.add(new Pair<>(ResourceAsset.STONE,3));
+        if(!discountResources.isEmpty())
+        {
+            Row bonusRow=new Row();
+            bonusRow.addElem(Option.noNumber("BONUSES: "));
+            grid.addElem(bonusRow);
+
+            Drawable drawable=new Drawable();
+            for(Pair<ResourceAsset,Integer> resources: discountResources){
+                ResourceCLI res= ResourceCLI.fromAsset(resources.getKey());
+                drawable.add(new DrawableLine(discountResources.indexOf(resources)*10, 0, res.getSymbol(), Color.BRIGHT_WHITE,res.getB()));
+                drawable.add(new DrawableLine(discountResources.indexOf(resources)*10 + 4,0, " x "+discountResources.get(0).getValue()));
+
+            }
+
+
+
+            bonusRow.addElem(Option.noNumber(drawable));
+        }
         for (int i = 3; i >= 1; i--) {
             Row verTest = new Row();
             for (int color = 0; color< NetworkDevelopmentCardColor.values().length-1; color++) {

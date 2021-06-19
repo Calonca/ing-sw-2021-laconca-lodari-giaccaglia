@@ -14,6 +14,7 @@ import it.polimi.ingsw.network.simplemodel.*;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -49,7 +50,10 @@ public class BoardView3D {
         },
         SELECT_CARD_SHOP(){
             public void run() {
-                SetupPhase.getBoard().addNodeToParent(SetupPhase.getBoard().parent,SetupPhase.getBoard().getController().getBoughtCard(),new Point3D(300,150,0));
+                SimpleCardShop simpleCardShop = getSimpleModel().getElem(SimpleCardShop.class).orElseThrow();
+                Path path=simpleCardShop.getPurchasedCard().get().getCardPaths().getKey();
+                ImageView imageView=new ImageView(new Image(path.toString(),true));
+                SetupPhase.getBoard().addNodeToParent(SetupPhase.getBoard().parent,imageView,new Point3D(300,150,0));
                 final DragAndDropHandler ddHandler = new DragAndDropHandler();
                 final Rectangle board = SetupPhase.getBoard().board;
                 final Group parent = SetupPhase.getBoard().parent;
@@ -117,8 +121,11 @@ public class BoardView3D {
     protected Group warehouse;
     protected Group strongBox;
     protected Group faithTrack;
-    protected CardShopGUI cardShop;
-    protected ResourceMarketGUI resourceMarketGUI;
+
+    protected Group cardShop=new Group();
+    protected Group resourceMarket=new Group();
+    protected CardShopGUI cardShopGUI=new CardShopGUI();
+    protected ResourceMarketGUI resourceMarketGUI= new ResourceMarketGUI();
     protected ResChoiceRow toSelect;
     protected Group productions;
 
@@ -135,27 +142,35 @@ public class BoardView3D {
 
 
     public void refreshCardShop() {
-        parent.getChildren().remove(cardShop);
-        addCardShop();
+        if(this.cardShop!=null)
+            this.cardShop.getChildren().clear();
+        Group cardShop=new Group();
+        addCardShop(cardShop);
+        this.cardShop = cardShop;
+        parent.getChildren().add(cardShop);
     }
 
     public void refreshMarket() {
-        parent.getChildren().remove(resourceMarketGUI);
-        addResourceMarket();
+        if(this.resourceMarket!=null)
+            this.resourceMarket.getChildren().clear();
+        Group resourceMarket=new Group();
+        addResourceMarket(resourceMarket);
+        this.resourceMarket = resourceMarket;
+        parent.getChildren().add(resourceMarket);
     }
     public void setStrongBox(Group strongBox) {
         this.strongBox = strongBox;
     }
 
-    public void addResourceMarket() {
-        resourceMarketGUI=new ResourceMarketGUI();
-        addNodeToParent(parent,parent,resourceMarketGUI.getRoot(),board.localToParent(1000,-900,0));
+    public void addResourceMarket(Group parent) {
+        ResourceMarketGUI resourceMarketGUI=new ResourceMarketGUI();
+        addNodeToParent(parent,resourceMarketGUI.getRoot(), board.localToParent(1000,-900,0));
 
     }
 
-    public void addCardShop() {
-        cardShop=new CardShopGUI();
-        addNodeToParent(parent,parent,cardShop.getRoot(),board.localToParent(0,-900,0));
+    public void addCardShop(Group parent) {
+        CardShopGUI cardShopGUI=new CardShopGUI();
+        addNodeToParent(parent ,cardShopGUI.getRoot(), board.localToParent(0,-900,0));
 
     }
 
@@ -249,11 +264,13 @@ public class BoardView3D {
 
         faithTrack.run();
 
-        addResourceMarket();
-        addCardShop();
+        cardShopGUI=new CardShopGUI();
+        resourceMarketGUI=new ResourceMarketGUI();
 
 
 
+        refreshMarket();
+        refreshCardShop();
 
 
         //boardPane.getChildren().add(parent);
