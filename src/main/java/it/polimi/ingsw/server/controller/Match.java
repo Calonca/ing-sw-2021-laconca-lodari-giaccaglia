@@ -106,6 +106,8 @@ public class Match {
             onlineUsers.add(clientHandler);
             Player player = game.getPlayer(nickName).get();
             game.setOnlinePlayer(player);
+            if(game.getCurrentPlayer().getNickName().equals(player.getNickName()))
+                game.setCurrentPlayer(player);
 
         }
 
