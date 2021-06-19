@@ -39,10 +39,8 @@ public class CardShopCLI extends CardShopViewBuilder {
 
 
         List<Pair<ResourceAsset,Integer>> discountResources=cardShopDiscounts.getDiscountedResources();
-        discountResources.add(new Pair<>(ResourceAsset.GOLD,3));
-        discountResources.add(new Pair<>(ResourceAsset.SHIELD,3));
-        discountResources.add(new Pair<>(ResourceAsset.SERVANT,3));
-        discountResources.add(new Pair<>(ResourceAsset.STONE,3));
+
+
         if(!discountResources.isEmpty())
         {
             Row bonusRow=new Row();

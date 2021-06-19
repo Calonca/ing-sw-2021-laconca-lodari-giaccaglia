@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.PersonalBoardBody;
+import it.polimi.ingsw.client.view.CLI.layout.drawables.ResourceCLI;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Column;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
 import it.polimi.ingsw.client.view.CLI.layout.SizedBox;
