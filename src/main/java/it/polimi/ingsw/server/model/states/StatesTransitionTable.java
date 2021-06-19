@@ -58,11 +58,8 @@ public class StatesTransitionTable {
         statesTransitionTable.table = new HashMap<>();
         HashMap<String, GameStrategy> eventsAndStrategy = new HashMap<>();
 
-
-
         // player can freely move warehouse resources during idle phase
         //Idle Phase
-        eventsAndStrategy.put(null, new IDLE());
         eventsAndStrategy.put(name(MoveResourceEvent.class), new MovingResource());
         statesTransitionTable.table.put(State.IDLE, eventsAndStrategy);
 
@@ -147,7 +144,11 @@ public class StatesTransitionTable {
 
         eventsAndStrategy.put(name(InitialOrFinalPhaseEvent.class), new ExecuteLeaderAction());
         statesTransitionTable.table.put(State.FINAL_PHASE, eventsAndStrategy);
+        eventsAndStrategy = new HashMap<>();
 
+        //--End Phase Action --//
+        eventsAndStrategy.put(null, null);
+        statesTransitionTable.table.put(State.END_PHASE, eventsAndStrategy);
 
         return statesTransitionTable;
     }

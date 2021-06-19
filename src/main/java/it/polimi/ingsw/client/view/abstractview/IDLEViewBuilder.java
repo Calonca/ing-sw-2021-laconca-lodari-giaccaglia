@@ -1,5 +1,8 @@
 package it.polimi.ingsw.client.view.abstractview;
 
+import it.polimi.ingsw.client.view.CLI.IDLEViewBuilderCLI;
+import it.polimi.ingsw.client.view.GUI.IDLEViewBuilderGUI;
+
 import java.beans.PropertyChangeEvent;
 
 import static it.polimi.ingsw.client.simplemodel.State.*;
@@ -7,8 +10,8 @@ import static it.polimi.ingsw.client.simplemodel.State.*;
 public abstract class IDLEViewBuilder extends ViewBuilder{
     public static ViewBuilder getBuilder(boolean isCLI){
         if (isCLI)
-            return new it.polimi.ingsw.client.view.CLI.IDLEViewBuilder();
-        else return new it.polimi.ingsw.client.view.GUI.IDLEViewBuilder();
+            return new IDLEViewBuilderCLI();
+        else return new IDLEViewBuilderGUI();
     }
 
     @Override
@@ -18,6 +21,9 @@ public abstract class IDLEViewBuilder extends ViewBuilder{
             getClient().changeViewBuilder(InitialOrFinalPhaseViewBuilder.getBuilder(getClient().isCLI(),true));
         }else if (MIDDLE_PHASE.name().equals(propertyName)) {
             getClient().changeViewBuilder(MiddlePhaseViewBuilder.getBuilder(getClient().isCLI()));
+        }
+        else if(IDLE.name().equals(propertyName)){
+            getClient().changeViewBuilder(IDLEViewBuilder.getBuilder(getClient().isCLI()));
         }
         else ViewBuilder.printWrongStateReceived(evt);
     }

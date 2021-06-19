@@ -1,10 +1,8 @@
 package it.polimi.ingsw.client.view.abstractview;
 
 import it.polimi.ingsw.client.simplemodel.State;
-import it.polimi.ingsw.client.view.CLI.IDLEViewBuilder;
 import it.polimi.ingsw.client.view.CLI.InitialOrFinalPhaseCLI;
 import it.polimi.ingsw.client.view.GUI.InitialOrFinalPhaseGUI;
-import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 
 import java.beans.PropertyChangeEvent;
 
@@ -38,7 +36,9 @@ public abstract class InitialOrFinalPhaseViewBuilder extends ViewBuilder {
         }else if (State.FINAL_PHASE.name().equals(propertyName)) {
             getClient().changeViewBuilder(getBuilder(getClient().isCLI(), false));
         }else if (State.END_PHASE.name().equals(propertyName)) {
-                getClient().changeViewBuilder(WinLooseBuilder.getBuilder(getClient().isCLI()));
+            getClient().changeViewBuilder(WinLooseBuilder.getBuilder(getClient().isCLI()));
+        }else if(State.IDLE.name().equals(propertyName)) {
+            getClient().changeViewBuilder(IDLEViewBuilder.getBuilder(getClient().isCLI()));
         }else
             ViewBuilder.printWrongStateReceived(evt);
     }

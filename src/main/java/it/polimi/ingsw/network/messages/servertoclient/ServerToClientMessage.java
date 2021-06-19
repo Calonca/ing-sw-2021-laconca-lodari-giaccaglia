@@ -59,7 +59,7 @@ public abstract class ServerToClientMessage extends NetworkMessage
 
         Gson gson1 = new GsonBuilder()
                 .registerTypeAdapterFactory(CommonGsonAdapters.gsonServerToClientMessageAdapter).enableComplexMapKeySerialization()
-                .registerTypeAdapterFactory(CommonGsonAdapters.gsonElementAdapter).registerTypeHierarchyAdapter(Path.class, new JsonUtility.PathConverter())
+                .registerTypeAdapterFactory(CommonGsonAdapters.gsonElementAdapter).setPrettyPrinting().registerTypeHierarchyAdapter(Path.class, new JsonUtility.PathConverter())
                 .create();
 
         return serialize(this, ServerToClientMessage.class, gson1);

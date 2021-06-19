@@ -2,10 +2,8 @@ package it.polimi.ingsw.network.simplemodel;
 
 import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCardColor;
-import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import javafx.util.Pair;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -61,7 +59,7 @@ public class SimpleCardShop extends SimpleModelElement{
     }
 
     public Optional<DevelopmentCardAsset> getPurchasedCard(){
-        return Optional.of(purchasedCard);
+        return Optional.ofNullable(purchasedCard);
     }
 
     public boolean getIsAnyCardPurchasable(){

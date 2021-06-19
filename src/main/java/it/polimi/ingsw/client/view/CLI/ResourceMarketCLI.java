@@ -30,6 +30,7 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
             choosePositions();
             return;
         }
+
         getCLIView().setTitle("Take resources from the resource market");
 
         Row root = new Row();

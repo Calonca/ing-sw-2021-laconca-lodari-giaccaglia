@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network.simplemodel;
 
+import it.polimi.ingsw.client.simplemodel.State;
+import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import javafx.util.Pair;
 import org.apache.commons.lang3.tuple.MutablePair;
@@ -11,7 +13,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.getThisPlayerCache;
+import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.*;
 
 public class SelectablePositions extends SimpleModelElement{
 
@@ -19,13 +21,13 @@ public class SelectablePositions extends SimpleModelElement{
 
     private transient List<ResourceAsset> resourcesToChoose;
 
-    //         position  numOfSelected
-    private transient Map<Integer, Integer>selectedResourcesMap;
+    //                position  numOfSelected
+    private transient Map<Integer, Integer> selectedResourcesMap;
 
-             // position  numOfSelected
+    //                position  numOfSelected
     private transient Map<Integer, Integer> resourcesOriginalAvailability;
 
-    private transient int indexOfCurrentResourceToChoose;
+    private transient int indexOfCurrentResourceToChoose = 0;
 
     public SelectablePositions(){
 
@@ -45,22 +47,32 @@ public class SelectablePositions extends SimpleModelElement{
         resourcesOriginalAvailability = new HashMap<>();
         selectedResourcesMap = new HashMap<>();
 
-
     }
 
     @Override
     public void update(SimpleModelElement element) {
+
         SelectablePositions serverElement = (SelectablePositions) element;
         selectablePositions = serverElement.selectablePositions;
         buildResourcesOriginalAvailability();
-        buildResourcesToChooseList();
+        String currentState = getThisPlayerCache().getCurrentState();
+        if(currentState != null) {
+            if (currentState.equals(State.CHOOSING_DEVELOPMENT_CARD.toString()))
+                buildResourcesToChooseForCard();
+            else if (currentState.equals(State.CHOOSING_RESOURCE_FOR_PRODUCTION.toString()))
+                buildResourcesToChooseForProduction();
+        }
+
     }
 
-    //        position  numOfSelectable
+    //       position  numOfSelectable
     public Map<Integer,Integer> getUpdatedSelectablePositions(List<Integer> chosenInputPos){
 
         if(!chosenInputPos.isEmpty())
             updateAvailability(chosenInputPos);
+
+        System.out.println(getSelectablePositions());
+        System.out.println(selectablePositions);
 
         return getSelectablePositions();
 
@@ -104,7 +116,7 @@ public class SelectablePositions extends SimpleModelElement{
         return mapKey;
     }
 
-    public Map<Integer, Integer> getSelectablePositions(){
+    private Map<Integer, Integer> getSelectablePositions(){
 
         ResourceAsset nextResourceToChoose = resourcesToChoose.get(indexOfCurrentResourceToChoose);
         Map<Integer, Integer> selectablePositionsMap = selectablePositions.keySet()
@@ -122,7 +134,15 @@ public class SelectablePositions extends SimpleModelElement{
 
     }
 
-    private void buildResourcesToChooseList(){
+    private void buildResourcesToChooseForCard(){
+
+        SimpleCardShop simpleCardShop = getSimpleModel().getElem(SimpleCardShop.class).orElseThrow();
+        NetworkDevelopmentCard purchasedCard = simpleCardShop.getPurchasedCard().get().getDevelopmentCard();
+        resourcesToChoose = purchasedCard.getCosts();
+
+    }
+
+    private void  buildResourcesToChooseForProduction(){
 
         SimpleCardCells simpleCardCells = getThisPlayerCache().getElem(SimpleCardCells.class).orElseThrow();
         int lastSelectedProduction = simpleCardCells.getSimpleProductions().getLastSelectedProductionPosition();
@@ -133,8 +153,9 @@ public class SelectablePositions extends SimpleModelElement{
                 .stream()
                 .flatMap(p -> Stream.generate(p::getKey).limit(p.getValue()))
                 .collect(Collectors.toList());
-
     }
+
+
 
     private void buildResourcesOriginalAvailability(){
 
@@ -165,9 +186,9 @@ public class SelectablePositions extends SimpleModelElement{
 
                         (position1, position2) -> position1
 
-
         ));
 
     }
+
 
 }

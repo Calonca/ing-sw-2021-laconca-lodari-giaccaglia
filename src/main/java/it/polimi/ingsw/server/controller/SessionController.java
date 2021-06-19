@@ -89,10 +89,8 @@ public class SessionController {
     }
 
     public void joinMatchAndNotifyStateIfPossible(Match match, String playerNickname){
-
             List<Element> elements = new ArrayList<>(Arrays.asList(Element.values()));
             match.notifyStateToAllPlayers(elements, match.getGame().getPlayer(playerNickname).get());
-
     }
 
 
@@ -116,7 +114,8 @@ public class SessionController {
                         ||
                         (match.getValue().canAddPlayer())
                         || (match.getValue().wasClientInMatch(clientHandler.getNickname()))
-                )
+                ).sorted((m1, m2) -> m2.getValue().getCreatedTime().compareTo(m1.getValue().getCreatedTime()))
+                .limit(20)
                 .collect(Collectors.toMap(
                         entry -> {
 
@@ -208,9 +207,7 @@ public class SessionController {
     }
 
     public void deleteGame(UUID gameId){
-
         File folder = new File(Paths.get(matchesFolderName).toAbsolutePath().toString());
-
         Arrays.stream(folder.listFiles()).filter(File::isFile)
                 .filter(file -> file.getName().contains(gameId.toString()))
                 .findFirst().ifPresent(File::delete);

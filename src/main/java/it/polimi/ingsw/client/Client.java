@@ -5,9 +5,7 @@ import it.polimi.ingsw.client.simplemodel.SimpleModel;
 import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.CLI.CLI;
 import it.polimi.ingsw.client.view.CLI.CLIelem.CLIelem;
-import it.polimi.ingsw.client.view.abstractview.ConnectToServerViewBuilder;
-import it.polimi.ingsw.client.view.abstractview.SetupPhaseViewBuilder;
-import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
+import it.polimi.ingsw.client.view.abstractview.*;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import javafx.application.Platform;
 import javafx.stage.Stage;
@@ -15,7 +13,7 @@ import javafx.stage.Stage;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 
 /**
@@ -31,7 +29,54 @@ public class Client implements Runnable
     private SimpleModel simpleModel;
     private Stage stage;
     private boolean isCLI;
+    private Map<ViewBuilder, List<State>> viewBuilderMap;
+    private boolean gameHasBeenLoaded;
 
+    private void initializeViewBuilderMap(){
+
+        viewBuilderMap = new HashMap<>();
+        List<State> states;
+
+        states = new ArrayList<>();
+        states.add(State.SETUP_PHASE);
+        viewBuilderMap.put(SetupPhaseViewBuilder.getBuilder(isCLI), states);
+
+        states = new ArrayList<>();
+        states.add(State.IDLE);
+        viewBuilderMap.put(IDLEViewBuilder.getBuilder(isCLI), states);
+
+        states = new ArrayList<>();
+        states.add(State.INITIAL_PHASE);
+        states.add(State.FINAL_PHASE);
+        viewBuilderMap.put(InitialOrFinalPhaseViewBuilder.getBuilder(isCLI, true), states);
+
+        states = new ArrayList<>();
+        states.add(State.MIDDLE_PHASE);
+        viewBuilderMap.put(MiddlePhaseViewBuilder.getBuilder(isCLI), states);
+
+        states = new ArrayList<>();
+        states.add(State.CHOOSING_MARKET_LINE);
+        states.add(State.CHOOSING_POSITION_FOR_RESOURCES);
+        states.add(State.CHOOSING_WHITEMARBLE_CONVERSION);
+        viewBuilderMap.put(ResourceMarketViewBuilder.getBuilder(isCLI), states);
+
+        states = new ArrayList<>();
+        states.add(State.CHOOSING_PRODUCTION);
+        states.add(State.CHOOSING_RESOURCE_FOR_PRODUCTION);
+        viewBuilderMap.put(ProductionViewBuilder.getBuilder(isCLI), states);
+
+        states = new ArrayList<>();
+        states.add(State.CHOOSING_DEVELOPMENT_CARD);
+        states.add(State.CHOOSING_RESOURCES_FOR_DEVCARD);
+        states.add(State.CHOOSING_POSITION_FOR_DEVCARD);
+        viewBuilderMap.put(CardShopViewBuilder.getBuilder(isCLI, false), states);
+
+        states = new ArrayList<>();
+        states.add(State.END_PHASE);
+        viewBuilderMap.put(WinLooseBuilder.getBuilder(isCLI), states);
+
+
+    }
 
     public void setStage(Stage stage) {
         this.stage = stage;
@@ -76,6 +121,8 @@ public class Client implements Runnable
     @Override
     public void run()
     {
+        initializeViewBuilderMap();
+
         /* Open connection to the server and start a thread for handling
          * communication. */
         if (ip==null||commonData.getCurrentNick()==null){
@@ -164,12 +211,11 @@ public class Client implements Runnable
 
     public void setState(StateInNetwork stateInNetwork){
 
-        System.out.println("Client " + commonData.getThisPlayerIndex() + " received: "+"client "+ stateInNetwork.getPlayerNumber() + " "+ stateInNetwork.getState());
+       System.out.println("Client " + commonData.getThisPlayerIndex() + " received: "+"client "+ stateInNetwork.getPlayerNumber() + " "+ stateInNetwork.getState());
 
-        System.out.println(JsonUtility.serialize(stateInNetwork));
+       System.out.println(JsonUtility.serialize(stateInNetwork));
 
-
-        commonData.setCurrentPlayer(stateInNetwork.getPlayerNumber());
+       commonData.setCurrentPlayer(stateInNetwork.getPlayerNumber());
 
         if (simpleModel==null){
             try {
@@ -182,12 +228,35 @@ public class Client implements Runnable
             ViewBuilder.setSimpleModel(simpleModel);
         }
 
+
+        if(!gameHasBeenLoaded) {
+
+            if (stateInNetwork.getPlayerNumber() == commonData.getThisPlayerIndex()) {
+
+                gameHasBeenLoaded = true;
+                State state = State.valueOf(stateInNetwork.getState());
+                List<State> mapKey = viewBuilderMap.values().stream().filter(
+                        list -> list.contains(state)).findFirst().get();
+
+                simpleModel.updateSimpleModel(stateInNetwork);
+
+                ViewBuilder viewBuilderToInvoke = viewBuilderMap.keySet().stream().filter(key -> viewBuilderMap.get(key).equals(mapKey)).findFirst().get();
+                changeViewBuilder(viewBuilderToInvoke);
+
+            }
+
+        }
+
         simpleModel.updateSimpleModel(stateInNetwork);
+
         if(stateInNetwork.getPlayerNumber()==commonData.getThisPlayerIndex()
-        && stateInNetwork.getState().equals(State.SETUP_PHASE.name()))
+                && stateInNetwork.getState().equals(State.SETUP_PHASE.name()))
             // SetupPhaseViewBuilder.getBuilder(isCLI);
             //changeViewBuilder(new BoardView3D());
             changeViewBuilder(SetupPhaseViewBuilder.getBuilder(isCLI));
+
+
+
     }
 
 }

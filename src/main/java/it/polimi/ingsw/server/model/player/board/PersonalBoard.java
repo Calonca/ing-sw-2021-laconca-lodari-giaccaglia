@@ -90,7 +90,6 @@ public class PersonalBoard {
         warehouseLeadersDepots.addResource(new Pair<>(0,Resource.GOLD));
         warehouseLeadersDepots.addResource(new Pair<>(1,Resource.SERVANT));
         warehouseLeadersDepots.addResource(new Pair<>(3,Resource.STONE)); */
-
         productions = Stream.of((Production.basicProduction())).collect(Collectors.toMap(production  -> 0, production -> production));
         cardCells = Stream.generate(ProductionCardCell::new).limit(3).toArray(ProductionCardCell[]::new);
         prodsSelected = new HashMap<>();
@@ -443,10 +442,10 @@ public class PersonalBoard {
 
         return  Math.max(0,
                 IntStream.rangeClosed(0,productionsLastPosition).filter((pos) -> prodsSelected.containsKey(pos))
-                .filter((pos)->prodsSelected.get(pos)).map((pos)->productions.get(pos).getNumOfResInInput())
-                .reduce(0,Integer::sum)
-                -
-                (warehouseLeadersDepots.getTotalSelected()+strongBox.getTotalSelected()));
+                        .filter((pos)->prodsSelected.get(pos)).map((pos)->productions.get(pos).getNumOfResInInput())
+                        .reduce(0,Integer::sum)
+                        -
+                        (warehouseLeadersDepots.getTotalSelected()+strongBox.getTotalSelected()));
     }
 
 
@@ -535,8 +534,8 @@ public class PersonalBoard {
                     .getKey();
 
             if(historyOfInputResourcesForProduction.containsKey(productionPosition)) {
-              List<Integer> chosenResourcesPositions = historyOfInputResourcesForProduction.get(productionPosition);
-              chosenResourcesPositions.add(resPos);
+                List<Integer> chosenResourcesPositions = historyOfInputResourcesForProduction.get(productionPosition);
+                chosenResourcesPositions.add(resPos);
 
             }
             else {
@@ -626,28 +625,28 @@ public class PersonalBoard {
      * @param developmentCard if NULL -> return false
      * @return is true if both conditions are true
      */
-     public boolean areDevCardRequirementsSatisfied(DevelopmentCard developmentCard)
-     {
-         if(Objects.isNull(developmentCard))
-             return false;
+    public boolean areDevCardRequirementsSatisfied(DevelopmentCard developmentCard)
+    {
+        if(Objects.isNull(developmentCard))
+            return false;
 
-         int [] requiredResources = developmentCard.getCostAsArray();
+        int [] requiredResources = developmentCard.getCostAsArray();
 
-         for(int i=0; i<requiredResources.length; i++)
-             requiredResources[i] -= discounts[i];
+        for(int i=0; i<requiredResources.length; i++)
+            requiredResources[i] -= discounts[i];
 
         return isDevCardLevelSatisfied(developmentCard) && hasResources(requiredResources);
-     }
+    }
 
-     public Map<Integer, Boolean> getAvailableSpotsForDevCard(DevelopmentCard developmentCard){
+    public Map<Integer, Boolean> getAvailableSpotsForDevCard(DevelopmentCard developmentCard){
 
-         return IntStream.range(0, cardCells.length).boxed().collect(Collectors.toMap(
-                 position -> position + 1,
+        return IntStream.range(0, cardCells.length).boxed().collect(Collectors.toMap(
+                position -> position + 1,
 
-                 position -> Objects.nonNull(developmentCard) && cardCells[position].isSpotAvailable(developmentCard)
-         ));
+                position -> Objects.nonNull(developmentCard) && cardCells[position].isSpotAvailable(developmentCard)
+        ));
 
-     }
+    }
 
     /**
      * This method will check if there are enough resources and cards to play a leader.

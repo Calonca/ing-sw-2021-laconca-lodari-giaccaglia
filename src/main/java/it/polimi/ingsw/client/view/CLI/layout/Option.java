@@ -11,12 +11,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * A selectable option in a CLIView that will execute the given code when perform is called
  */
 public class Option extends GridElem {
-
 
     public enum VisMode {
         NUMBER_TO_BOTTOM {
@@ -114,6 +114,34 @@ public class Option extends GridElem {
         Option option = new Option(normalDwl,selectedDwl);
         option.setPerformer(performer);
         return option;
+    }
+
+    public static Option tabSpace(int numOfConsecutiveTabs){
+        String tabs = "        ";
+        String repeated = tabs.repeat(numOfConsecutiveTabs);
+        return Option.noNumber(repeated);
+    }
+
+    public static Stream<Option> addSpacesToOptionList(int spaceLen, List<Option> options){
+
+        if(options.isEmpty())
+            return Stream.empty();
+
+        List<Option> resizedList = new ArrayList<>((options.size()*3));
+        resizedList.addAll(options);
+
+        int originalSize = options.size();
+        int j=0;
+        int k=0;
+
+        for(int i = 0 ; i<originalSize; i ++){
+            j = k + 1;
+            k = k + 2;
+            resizedList.add(j, tabSpace(spaceLen));
+        }
+
+        return resizedList.stream();
+
     }
 
     private Option(Drawable normalDwl, Drawable selectedDwl) {

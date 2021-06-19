@@ -302,7 +302,8 @@ public class BoardView3D {
                 dragAndDropData.setAvailablePos(simpleWarehouseLeadersDepot.getAvailableMovingPositions().get(globalPos));
                 dragAndDropData.setGlobalPos(globalPos);
 
-                boolean isSelectable = true; //toSelect!=null && selectablePositions.getUpdatedSelectablePositions(toSelect.getChosenInputPos()).getOrDefault(globalPos,0)>0;
+               // boolean isSelectable = true;
+                boolean isSelectable = toSelect!=null && selectablePositions.getUpdatedSelectablePositions(toSelect.getChosenInputPos()).getOrDefault(globalPos,0)>0;
 
                 testShape.setOnMousePressed((u)->{
                     if (mode.equals(Mode.SELECT_CARD_SHOP) && isSelectable) {

@@ -25,7 +25,6 @@ public class Maestri {
             "Starts the GUI and connects to server with port, ip and nickname\n" +
                     "without arguments it will let you choose them later");
 
-
     public static void main(String[] args)  {
         Options options = new Options();
         options.addOption(optServer);

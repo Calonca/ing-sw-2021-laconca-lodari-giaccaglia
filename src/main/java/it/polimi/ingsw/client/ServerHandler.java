@@ -18,12 +18,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class ServerHandler implements Runnable
 {
+
     private final Socket server;
     private ObjectOutputStream output;
     private ObjectInputStream input;
     private final Client owner;
     private final AtomicBoolean shouldStop = new AtomicBoolean(false);
-
 
     /**
      * Initializes a new handler using a specific socket connected to
@@ -35,7 +35,6 @@ public class ServerHandler implements Runnable
         this.server = server;
         this.owner = owner;
     }
-
 
     /**
      * Connects to the server and runs the event loop.
@@ -64,7 +63,6 @@ public class ServerHandler implements Runnable
         owner.terminate();
     }
 
-
     /**
      * An event loop that receives messages from the server and processes
      * them in the order they are received.
@@ -72,6 +70,7 @@ public class ServerHandler implements Runnable
      */
     private void handleClientConnection() throws IOException
     {
+
         String nickname = owner.getCommonData().getCurrentNick();
         getClient().getServerHandler().sendCommandMessage(new SendNickname(nickname));
 
@@ -100,8 +99,8 @@ public class ServerHandler implements Runnable
         } catch (ClassNotFoundException | ClassCastException e) {
             System.out.println("invalid stream from server" + e.toString());
         }
-    }
 
+    }
 
     /**
      * The game instance associated with this client.
@@ -127,7 +126,6 @@ public class ServerHandler implements Runnable
         }
     }
 
-
     /**
      * Requires the run() method to stop as soon as possible.
      */
@@ -138,4 +136,5 @@ public class ServerHandler implements Runnable
             server.shutdownInput();
         } catch (IOException ignored) { }
     }
+
 }

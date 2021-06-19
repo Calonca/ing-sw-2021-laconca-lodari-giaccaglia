@@ -1,16 +1,15 @@
 package it.polimi.ingsw.server.model.player;
 
-import it.polimi.ingsw.server.model.states.StatesTransitionTable;
-import it.polimi.ingsw.server.utils.Deserializator;
-import it.polimi.ingsw.server.model.states.State;
-import it.polimi.ingsw.server.model.*;
-import it.polimi.ingsw.server.model.cards.*;
-import it.polimi.ingsw.server.model.player.leaders.DevelopmentDiscountLeader;
-import it.polimi.ingsw.server.model.player.board.*;
+import it.polimi.ingsw.server.model.GameModel;
+import it.polimi.ingsw.server.model.Resource;
+import it.polimi.ingsw.server.model.cards.DevelopmentCard;
+import it.polimi.ingsw.server.model.player.board.PersonalBoard;
 import it.polimi.ingsw.server.model.player.leaders.Leader;
 import it.polimi.ingsw.server.model.player.leaders.LeaderState;
 import it.polimi.ingsw.server.model.player.track.FaithTrack;
-import javafx.util.Pair;
+import it.polimi.ingsw.server.model.states.State;
+import it.polimi.ingsw.server.model.states.StatesTransitionTable;
+import it.polimi.ingsw.server.utils.Deserializator;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -39,6 +38,8 @@ public class Player {
      * {@link Player} current {@link State} during game phases. When not playing, the default state is {@link State#IDLE IDLE}
      */
     private State currentState;
+
+    private boolean wasInIDLE;
 
     /**
      * Boolean value used by {@link GameModel} to determine currently unavailable players, to handle game logic
@@ -100,7 +101,7 @@ public class Player {
     }
 
     public Optional<Leader> getLeaderToActivate(UUID leaderId){
-            return Optional.ofNullable(leaders.get(leaderId));
+        return Optional.ofNullable(leaders.get(leaderId));
     }
 
     /**
@@ -156,7 +157,16 @@ public class Player {
      * @param currentState Current Player's{@link State}.
      * */
     public void setCurrentState(State currentState) {
+
+        if(this.currentState.equals(State.IDLE) || this.currentState.equals(State.SETUP_PHASE) ) {
+            wasInIDLE = true;
+        }
+
+        else
+            wasInIDLE = false;
+
         this.currentState = currentState;
+
     }
 
     /**
@@ -233,6 +243,10 @@ public class Player {
 
     public State getCurrentState() {
         return currentState;
+    }
+
+    public boolean wasInIDLE(){
+        return wasInIDLE;
     }
 
     /**
