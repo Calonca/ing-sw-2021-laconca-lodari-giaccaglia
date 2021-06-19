@@ -13,7 +13,6 @@ import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.simplemodel.*;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
@@ -160,6 +159,10 @@ public class BoardView3D {
             productions.getChildren().clear();
     }
 
+    public void changeCamState(CamState state){
+        camState.animateToState(state);
+    }
+
     public void setMode(Mode mode){
         reset();
         this.mode = mode;
@@ -205,12 +208,13 @@ public class BoardView3D {
         board.setTranslateZ(1500);
         parent.getChildren().add(board);
 
+        CamState.setCamera(camera);
         getClient().getStage().getScene().setOnKeyPressed(e-> {
             KeyCode pressed = e.getCode();
-            camState.animateWithKeyCode(camera,pressed);
+            camState.animateWithKeyCode(pressed);
         });
 
-        SubScene scene = new SubScene(parent, width, len,true,SceneAntialiasing.BALANCED);
+        SubScene scene = new SubScene(parent, width, len,true,SceneAntialiasing.DISABLED);
         scene.setCamera(camera);
 
 

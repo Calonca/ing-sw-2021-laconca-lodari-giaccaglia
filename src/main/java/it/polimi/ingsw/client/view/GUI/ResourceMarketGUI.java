@@ -1,6 +1,8 @@
 package it.polimi.ingsw.client.view.GUI;
 
 
+import it.polimi.ingsw.client.view.CLI.CLIelem.body.SetupBody;
+import it.polimi.ingsw.client.view.GUI.board.CamState;
 import it.polimi.ingsw.client.view.GUI.util.DragAndDropHandler;
 import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
 import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
@@ -67,6 +69,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
     @Override
     public void run() {
         SetupPhase.getBoard().getController().setMarket(true);
+        SetupPhase.getBoard().changeCamState(CamState.SEE_RESOURCE_MARKET);
     }
 
     public SubScene getRoot() {
@@ -395,7 +398,10 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
      */
     @Override
     public void choosePositions() {
-        Platform.runLater(()->SetupPhase.getBoard().setMode(BoardView3D.Mode.MOVING_RES));
+        Platform.runLater(()-> {
+            SetupPhase.getBoard().setMode(BoardView3D.Mode.MOVING_RES);
+            SetupPhase.getBoard().changeCamState(CamState.TOP);
+        });
     }
 
 }
