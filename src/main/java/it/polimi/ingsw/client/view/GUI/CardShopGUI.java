@@ -15,18 +15,20 @@ import javafx.scene.ImageCursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.SubScene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
 
 
 public class CardShopGUI extends CardShopViewBuilder {
@@ -261,8 +263,6 @@ public class CardShopGUI extends CardShopViewBuilder {
     public void selectResources() {
         //Hide cardShop
         Platform.runLater(()->SetupPhase.getBoard().setMode(BoardView3D.Mode.SELECT_CARD_SHOP));
-        SetupPhase.getBoard().changeCamState(CamState.TOP);
-
     }
 
     /**

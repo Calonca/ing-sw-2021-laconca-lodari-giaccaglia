@@ -154,7 +154,7 @@ public enum State {
         List<SimpleModelElement> commonSimpleModelElements = elementsToUpdate.stream().filter(Element::isCommonElement).map(element -> element.buildSimpleModelElement(gameModel, playerRequestingUpdate)).collect(Collectors.toList());
 
         return new StateInNetwork(
-                gameModel.getPlayerIndex(gameModel.getCurrentPlayer()),
+                playerRequestingUpdate,
                 this.toString(), playerSimpleModelElements,
                 commonSimpleModelElements);
 

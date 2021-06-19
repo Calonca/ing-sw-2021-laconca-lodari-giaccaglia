@@ -1,18 +1,13 @@
 package it.polimi.ingsw.client.view.GUI;
 
 import it.polimi.ingsw.client.simplemodel.State;
-
-import javafx.application.Platform;
-
 import javafx.scene.layout.Pane;
-
 
 import java.beans.PropertyChangeEvent;
 import java.net.URL;
-
 import java.util.ResourceBundle;
 
-public class IDLEViewBuilder extends it.polimi.ingsw.client.view.abstractview.SetupPhaseViewBuilder implements GUIView
+public class IDLEViewBuilderGUI extends it.polimi.ingsw.client.view.abstractview.SetupPhaseViewBuilder implements GUIView
 {
 
     /**

@@ -3,10 +3,12 @@ package it.polimi.ingsw.client.view.CLI.CLIelem.body;
 import it.polimi.ingsw.client.simplemodel.PlayerCache;
 import it.polimi.ingsw.client.simplemodel.SimpleModel;
 import it.polimi.ingsw.client.view.CLI.CLIelem.CLIelem;
-import it.polimi.ingsw.client.view.CLI.layout.*;
+import it.polimi.ingsw.client.view.CLI.layout.GridElem;
+import it.polimi.ingsw.client.view.CLI.layout.Option;
+import it.polimi.ingsw.client.view.CLI.layout.ResChoiceRowCLI;
+import it.polimi.ingsw.client.view.CLI.layout.SizedBox;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.*;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Column;
-import it.polimi.ingsw.client.view.CLI.layout.GridElem;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.RecursiveList;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
 import it.polimi.ingsw.client.view.CLI.textUtil.Background;
@@ -165,7 +167,7 @@ public class PersonalBoardBody extends CLIelem {
 
     Integer lastSelectedPosition;
     Map<Integer, List<Integer>> movPos;
-    ResChoiceRow resChoiceRow;
+    ResChoiceRowCLI resChoiceRow;
 
     public PersonalBoardBody(PlayerCache cache, Mode mode) {
         this.cache = cache;
@@ -176,7 +178,7 @@ public class PersonalBoardBody extends CLIelem {
         this.top = top;
     }
 
-    public void setResChoiceRow(ResChoiceRow resChoiceRow) {
+    public void setResChoiceRow(ResChoiceRowCLI resChoiceRow) {
         this.resChoiceRow = resChoiceRow;
     }
 
@@ -220,7 +222,7 @@ public class PersonalBoardBody extends CLIelem {
         faithPointsPos.ifPresent(discardBoxMap::remove);
 
         Stream<Option> optionList = discardBoxMap.entrySet().stream().sorted(Map.Entry.comparingByKey())
-            .map(e->optionFromAsset(e.getValue().getKey(),e.getValue().getValue(),0, getSelectableMove(board,e.getKey()),e.getKey()));
+                .map(e->optionFromAsset(e.getValue().getKey(),e.getValue().getValue(),0, getSelectableMove(board,e.getKey()),e.getKey()));
         Column discardedBoxList = new Column(optionList);
         Option faith = optionFromAsset(ResourceAsset.FAITH,faithPoints,0,false,-100);
         faith.setMode(Option.VisMode.NO_NUMBER);
@@ -303,7 +305,7 @@ public class PersonalBoardBody extends CLIelem {
                                     (int)board.resChoiceRow.getChosenInputPos().stream().filter(p->p.equals(e.getKey())).count():
                                     0)
                             ,selectable,
-                                e.getKey() );
+                            e.getKey() );
                     if (board.mode.equals(Mode.MOVING_RES))
                         strongOption.setEnabled(false);
                     return strongOption;
@@ -320,25 +322,25 @@ public class PersonalBoardBody extends CLIelem {
         dw.add(0, (selected==0?"         ":selected+" selected"),resourceCLI.getC(), Background.DEFAULT);
         Runnable r=()->{
             if (mode.equals(Mode.MOVING_RES)) {
-                    if (lastSelectedPosition == null) {
-                        lastSelectedPosition = globalPos;
-                        initializeMove();
-                        message = "Select end position or discard resources";
-                        cli.show();
-                    } else {
-                        int startPosition = lastSelectedPosition;
-                        cli.show();//Animation
-                        lastSelectedPosition = null;
-                        ResourceMarketViewBuilder.sendMove(startPosition, globalPos);
-                    }
-            }else if (mode.equals(Mode.SELECT_CARD_SHOP)){
-                    resChoiceRow.setNextInputPos(globalPos,asset);
-                    initializeBuyOrChoosePos();
-                    message = "Select resources to buy the card";
+                if (lastSelectedPosition == null) {
+                    lastSelectedPosition = globalPos;
+                    initializeMove();
+                    message = "Select end position or discard resources";
                     cli.show();
-                    if (resChoiceRow.getPointedResource().isEmpty()){
-                        CardShopViewBuilder.sendResourcesToBuy(resChoiceRow.getChosenInputPos());
-                    }
+                } else {
+                    int startPosition = lastSelectedPosition;
+                    cli.show();//Animation
+                    lastSelectedPosition = null;
+                    ResourceMarketViewBuilder.sendMove(startPosition, globalPos);
+                }
+            }else if (mode.equals(Mode.SELECT_CARD_SHOP)){
+                resChoiceRow.setNextInputPos(globalPos,asset);
+                initializeBuyOrChoosePos();
+                message = "Select resources to buy the card";
+                cli.show();
+                if (resChoiceRow.getPointedResource().isEmpty()){
+                    CardShopViewBuilder.sendResourcesToBuy(resChoiceRow.getChosenInputPos());
+                }
             } else if (mode.equals(Mode.SELECT_RES_FOR_PROD)){
                 getSelectedForProdRunnable(asset, globalPos).run();
             }
@@ -405,16 +407,16 @@ public class PersonalBoardBody extends CLIelem {
         for (Map.Entry<Integer, List<Pair<ResourceAsset, Boolean>>> e : toSort) {//Loop in rows
             int rowStart = pos;
             Row row1 = new Row(IntStream.range(0,e.getValue().size())
-             .mapToObj(i -> {
-                 boolean selectable;
-                 Pair<ResourceAsset,Boolean> pair = e.getValue().get(i);
-                 if (body.mode.equals(Mode.MOVING_RES)) selectable = body.getSelectableMove(body, rowStart + i);
-                 else if (body.mode.equals(Mode.SELECT_CARD_SHOP)) selectable = body.getSelected(pair);
-                 else if (body.mode.equals(Mode.SELECT_RES_FOR_PROD)) selectable = body.getSelectableInProd(rowStart+i);
-                 else selectable = false;
+                    .mapToObj(i -> {
+                        boolean selectable;
+                        Pair<ResourceAsset,Boolean> pair = e.getValue().get(i);
+                        if (body.mode.equals(Mode.MOVING_RES)) selectable = body.getSelectableMove(body, rowStart + i);
+                        else if (body.mode.equals(Mode.SELECT_CARD_SHOP)) selectable = body.getSelected(pair);
+                        else if (body.mode.equals(Mode.SELECT_RES_FOR_PROD)) selectable = body.getSelectableInProd(rowStart+i);
+                        else selectable = false;
 
-                 return body.optionFromAsset(pair.getKey(), 1, 0,selectable , rowStart + i);
-             }));
+                        return body.optionFromAsset(pair.getKey(), 1, 0,selectable , rowStart + i);
+                    }));
             rows.add(row1);
             pos+=e.getValue().size();
         }

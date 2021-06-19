@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.simplemodel;
 
+import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.network.simplemodel.*;
 
 import java.beans.PropertyChangeListener;
@@ -29,7 +30,11 @@ public class PlayerCache {
         elements.forEach(this::updateSimpleModelElement);
         String oldState = currentState;
         currentState = state;
-        support.firePropertyChange(currentState,"old:"+oldState,currentState);
+        if((!currentState.equals(State.SETUP_PHASE.toString()) && !currentState.equals(State.IDLE.toString())) && CommonData.isSetupPhase){
+            CommonData.isSetupPhase = false;
+        }
+
+        support.firePropertyChange(currentState,"old:"+oldState, currentState);
     }
 
     public SimpleModelElement getElem(String name){

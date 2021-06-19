@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client.view.abstractview;
 
 import it.polimi.ingsw.client.simplemodel.State;
-import it.polimi.ingsw.client.view.CLI.IDLEViewBuilder;
 import it.polimi.ingsw.client.view.CLI.SetupPhase;
 
 import java.beans.PropertyChangeEvent;

@@ -74,6 +74,7 @@ public class SimpleModel {
         }
 
         getPlayerCache(stateInNetwork.getPlayerNumber()).updateState(stateInNetwork.getState(),stateInNetwork.getPlayerSimpleModelElements());
+
     }
 
     public static int getNumOfPlayers(){

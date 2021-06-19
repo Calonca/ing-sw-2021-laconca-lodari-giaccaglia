@@ -172,21 +172,19 @@ public class Match {
 
     public String[] getOnlinePlayers(){
 
-        return Stream.concat(
-                onlineUsers.stream().map(ClientHandler::getNickname),
-                Stream.generate(()-> null)).limit(maxPlayers).toArray(String[]::new);
+        if(onlineUsers.isEmpty())
+            return new String[] {};
+
+        return Stream.concat(onlineUsers.stream().map(ClientHandler::getNickname),
+                Stream.generate(()-> "available slot")).limit(maxPlayers).toArray(String[]::new);
 
     }
 
     public String[] getOfflinePlayers(){
 
-        return Stream.concat(
-                offlineUsers.stream().map(ClientHandler::getNickname),
-                Stream.generate(()-> null)).limit(maxPlayers).toArray(String[]::new);
+        return offlineUsers.stream().map(ClientHandler::getNickname).toArray(String[]::new);
 
     }
-
-
 
     public boolean sameID(UUID uuid) {return uuid.equals(matchId);}
 
@@ -205,18 +203,23 @@ public class Match {
             throw new EventValidationFailedException();
     }
 
+
     public void transitionToNextState(Validable event) throws EventValidationFailedException {
 
-        GameStrategy gameStrategy = game.getCurrentPlayer().getStatesTransitionTable().getStrategy(game.getCurrentPlayer().getCurrentState(), event);
+        String nicknameOfPlayerSendingEvent = ((Event)event).getPlayerNickname();
+
+        Optional<Player> optionalPlayer =game.getPlayer(nicknameOfPlayerSendingEvent);
+
+        if(optionalPlayer.isEmpty())
+            throw new EventValidationFailedException();
+
+        Player playerSendingEvent = optionalPlayer.get();
+        GameStrategy gameStrategy =  playerSendingEvent.getStatesTransitionTable().getStrategy(playerSendingEvent.getCurrentState(), event);
 
         if (Objects.isNull(gameStrategy))
             throw new EventValidationFailedException();
 
         Pair<State, List<Element>> data = gameStrategy.execute(game, event);
-
-        String nicknameOfPlayerSendingEvent =((Event) event).getPlayerNickname();
-
-        Player playerSendingEvent = game.getPlayer(nicknameOfPlayerSendingEvent).get();
         data.getValue().add(Element.PlayersInfo);
 
         playerSendingEvent.setCurrentState(data.getKey());
@@ -224,7 +227,7 @@ public class Match {
         notifyStateToAllPlayers(data.getValue(), playerSendingEvent);
 
         //Todo check for better way
-        if (playerSendingEvent.getCurrentState().equals(State.IDLE)) {
+        if (playerSendingEvent.getCurrentState().equals(State.IDLE) && playerSendingEvent.equals(game.getCurrentPlayer())) {
 
             if(game.getCurrentPlayer().equals(playerSendingEvent)) {
 
@@ -234,7 +237,6 @@ public class Match {
 
                     List<Element> elems = new ArrayList<>(Arrays.asList(Element.values()));
 
-                   // nicknameOfPlayerSendingEvent = ((Event) event).getPlayerNickname();
                     playerSendingEvent = game.getCurrentPlayer();
 
                     notifyStateToAllPlayers(elems, playerSendingEvent);
@@ -244,12 +246,10 @@ public class Match {
                     Pair<State, List<Element>> data2 = IDLEStrategy.execute(game, null);
                     game.getCurrentPlayer().setCurrentState(data2.getKey());
 
-                    nicknameOfPlayerSendingEvent = ((Event) event).getPlayerNickname();
                     playerSendingEvent = game.getCurrentPlayer();
                     notifyStateToAllPlayers(data.getValue(), playerSendingEvent);
                 }
             }
-
 
         }
 
@@ -272,8 +272,8 @@ public class Match {
 
     }
 
-
     public String getSaveName(){
+
         return onlineUsers
                 .stream()
                 .map(ClientHandler::getNickname)
@@ -301,8 +301,5 @@ public class Match {
     public boolean areAllPlayersOffline(){
         return onlineUsers.isEmpty();
     }
-
-
-
 
 }

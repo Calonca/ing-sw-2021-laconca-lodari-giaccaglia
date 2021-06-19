@@ -5,6 +5,7 @@ import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.messages.clienttoserver.events.marketboardevent.MoveResourceEvent;
 import it.polimi.ingsw.server.messages.messagebuilders.Element;
 import it.polimi.ingsw.server.model.GameModel;
+import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.states.State;
 import javafx.util.Pair;
 
@@ -28,18 +29,17 @@ public class MovingResource implements GameStrategy {
         int startPos = moveResourceEvent.getStartPos();
         int endPos = moveResourceEvent.getEndPos();
         String playerNickname = moveResourceEvent.getPlayerNickname();
+        Player playerSendingEvent = gamemodel.getPlayer(playerNickname).get();
 
         if(startPos!=endPos)
-            gamemodel.getPlayer(playerNickname).get().getPersonalBoard().move(startPos, endPos);
+           playerSendingEvent.getPersonalBoard().move(startPos, endPos);
 
 
         elementsToUpdate.add(Element.SimpleWareHouseLeadersDepot);
         elementsToUpdate.add(Element.SimpleDiscardBox);
         elementsToUpdate.add(Element.SimpleProductions);
 
-        String playerSendingEvent = moveResourceEvent.getPlayerNickname();
-
-        State currentState = gamemodel.getPlayer(playerSendingEvent).get().getCurrentState();
+        State currentState = playerSendingEvent.getCurrentState();
 
         return new Pair<>(currentState, elementsToUpdate);
 

@@ -3,12 +3,11 @@ package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
 import it.polimi.ingsw.client.view.CLI.layout.Option;
-import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
 import it.polimi.ingsw.client.view.CLI.layout.SizedBox;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.Drawable;
+import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
 import it.polimi.ingsw.client.view.abstractview.MiddlePhaseViewBuilder;
 import it.polimi.ingsw.network.simplemodel.SimpleCardShop;
-import org.jetbrains.annotations.NotNull;
 
 public class MiddlePhaseCLI extends MiddlePhaseViewBuilder implements CLIBuilder {
 
@@ -59,10 +58,10 @@ public class MiddlePhaseCLI extends MiddlePhaseViewBuilder implements CLIBuilder
     }
 
     private Option middlePhaseOption(Drawable d, Runnable r, boolean enabled){
-           Option o = Option.from(d,r);
-           o.setMode(Option.VisMode.NUMBER_TO_BOTTOM);
-           o.setEnabled(enabled);
-           return o;
+        Option o = Option.from(d,r);
+        o.setMode(Option.VisMode.NUMBER_TO_BOTTOM);
+        o.setEnabled(enabled);
+        return o;
     }
 
 

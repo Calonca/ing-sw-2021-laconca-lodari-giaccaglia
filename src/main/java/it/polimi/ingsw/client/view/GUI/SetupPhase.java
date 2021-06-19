@@ -73,8 +73,8 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
     @FXML
     private AnchorPane setupAnchor;
 
-    SimplePlayerLeaders simplePlayerLeaders = getSimpleModel().getPlayerCache(getClient().getCommonData().getThisPlayerIndex()).getElem(SimplePlayerLeaders.class).orElseThrow();
-    List<LeaderCardAsset> leaderCardAssets=simplePlayerLeaders.getPlayerLeaders();
+   // SimplePlayerLeaders simplePlayerLeaders = getSimpleModel().getPlayerCache(getClient().getCommonData().getThisPlayerIndex()).getElem(SimplePlayerLeaders.class).orElseThrow();
+  //  List<LeaderCardAsset> leaderCardAssets=simplePlayerLeaders.getPlayerLeaders();
 
 
     @Override

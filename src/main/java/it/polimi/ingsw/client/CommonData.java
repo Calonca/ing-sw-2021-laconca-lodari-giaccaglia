@@ -28,6 +28,7 @@ public class CommonData {
     public static String thisMatchData = "thisMatchData";
     public static String currentPlayerString = "currentPlayer";
     public static String connectionStatusString = "connectionStatus";
+    public static boolean isSetupPhase = true;
 
 
     private Optional<Map<Pair<UUID,Boolean>,Pair<String[], String[]>>> matchesData = Optional.empty();

@@ -37,22 +37,22 @@ public class JoinMatchRequest extends it.polimi.ingsw.network.messages.clienttos
 
         boolean isGameActive = match.isGameActive();
 
-            if(playerIndex!=-1) {
+        if(playerIndex!=-1) {
 
-                if(isGameActive) {  //at least one player is already in game or  at least one player was previously online and playing.
+            if(isGameActive) {  //at least one player is already in game or at least one player was previously online and playing.
 
-                    clientHandler.sendAnswerMessage(new JoinStatus(this, matchId, JoinStatus.motive.SUCCESS, playerIndex));
-                    clientHandler.getMatch().ifPresent(m-> sessionController.joinMatchAndNotifyStateIfPossible(m, nickName));
-
-                }
-                else {
-
-                    sessionController.notifyPlayersInLobby(clientHandler);
-                    clientHandler.sendAnswerMessage(new JoinStatus(this, matchId, JoinStatus.motive.SUCCESS, playerIndex));
-                    clientHandler.getMatch().ifPresent(sessionController::startMatchAndNotifyStateIfPossible);
-                }
+                clientHandler.sendAnswerMessage(new JoinStatus(this, matchId, JoinStatus.motive.SUCCESS, playerIndex));
+                clientHandler.getMatch().ifPresent(m-> sessionController.joinMatchAndNotifyStateIfPossible(m, nickName));
 
             }
+            else {
+
+                sessionController.notifyPlayersInLobby(clientHandler);
+                clientHandler.sendAnswerMessage(new JoinStatus(this, matchId, JoinStatus.motive.SUCCESS, playerIndex));
+                clientHandler.getMatch().ifPresent(sessionController::startMatchAndNotifyStateIfPossible);
+            }
+
+        }
 
         else
             notifyRefusedJoin(clientHandler, JoinStatus.motive.ALREADY_FULL);
@@ -65,4 +65,5 @@ public class JoinMatchRequest extends it.polimi.ingsw.network.messages.clienttos
         clientHandler.sendAnswerMessage(new MatchesData(SessionController.getInstance().matchesData(clientHandler)));
 
     }
+
 }

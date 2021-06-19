@@ -1,24 +1,17 @@
 package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.Client;
-import it.polimi.ingsw.client.view.CLI.CLIelem.*;
+import it.polimi.ingsw.client.view.CLI.CLIelem.CLIelem;
+import it.polimi.ingsw.client.view.CLI.CLIelem.Title;
 import it.polimi.ingsw.client.view.CLI.textUtil.Characters;
 import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 /**
  * Builds the CLI.<br>
@@ -129,6 +122,17 @@ public class CLI {
         inputMessage = message;
         errorMessage = null;
         afterInput = r1;
+    }
+
+    public boolean runOnInputWithCondition(String message, Runnable r1){
+
+        if(lastInput.isEmpty()) {
+            inputMessage = message;
+            errorMessage = null;
+            r1.run();
+            return true;
+        }
+        else return false;
     }
 
     public void runOnIntInput(String message, String errorMessage, int min, int max, Runnable r1){

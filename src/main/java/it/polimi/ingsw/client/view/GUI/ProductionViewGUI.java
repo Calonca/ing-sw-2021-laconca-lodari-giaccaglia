@@ -6,7 +6,7 @@ import javafx.application.Platform;
 public class ProductionViewGUI extends ProductionViewBuilder {
     @Override
     public void choosingResForProduction() {
-
+        Platform.runLater(()->SetupPhase.getBoard().setMode(BoardView3D.Mode.SELECT_RESOURCE_FOR_PROD));
         //enable resource selection
     }
 
