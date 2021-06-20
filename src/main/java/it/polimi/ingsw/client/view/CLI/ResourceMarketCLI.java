@@ -138,7 +138,9 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
         ActiveLeaderBonusInfo marketBonuses = getThisPlayerCache().getElem(ActiveLeaderBonusInfo.class).orElseThrow();
 
 
-        for(ResourceAsset res : marketBonuses.getMarketBonusResources())
+        List<ResourceAsset> marketBonusResources=marketBonuses.getMarketBonusResources();
+
+        for(ResourceAsset res : marketBonusResources)
             if(res==ResourceAsset.STONE)
                 activeConversions.addElem(buildResourceChoice(MarbleAsset.GRAY,3));
             else if(res==ResourceAsset.SERVANT)

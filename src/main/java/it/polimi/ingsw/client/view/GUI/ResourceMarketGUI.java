@@ -1,15 +1,11 @@
 package it.polimi.ingsw.client.view.GUI;
 
 
-import it.polimi.ingsw.client.view.CLI.CLIelem.body.SetupBody;
 import it.polimi.ingsw.client.view.GUI.board.CamState;
-import it.polimi.ingsw.client.view.GUI.util.DragAndDropHandler;
 import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
-import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
-import it.polimi.ingsw.network.messages.clienttoserver.events.marketboardevent.ChooseLineEvent;
+
 import javafx.animation.*;
 import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
@@ -148,78 +144,6 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
     }
 
 
-    public void refreshRows() {
-
-        marketPane=new AnchorPane();
-        marketPane.setMinSize(700,1000);
-
-
-
-        PerspectiveCamera camera = new PerspectiveCamera(true);
-        camera.getTransforms().addAll(new Rotate(90,Rotate.Z_AXIS),new Rotate(0,Rotate.X_AXIS), new Rotate(0,Rotate.Y_AXIS), new Translate(0, 0, -20));
-        camera.translateXProperty().set(0);
-        camera.translateYProperty().set(-2.0);
-        camera.setTranslateZ(4);
-
-
-
-        Group root3D = new Group();
-
-
-
-
-        double x=ballsize*2;
-        for(int i=0;i<ROWNUMBER;i++)
-        {
-            System.out.println(Arrays.toString(getMarketMatrix()[i]));
-            generateRow(root3D,x,ballsXOffset,i);
-            x-=2*ballsize;
-        }
-
-        toPutStartingX=x;
-
-        toPut=new Sphere(ballsize);
-        toPut.translateYProperty().set(toPutStartingY);
-        toPut.translateXProperty().set(toPutStartingX+8*ballsize);
-        root3D.getChildren().add(toPut);
-
-        List<Color> colors=new ArrayList<>(){{
-            add(Color.WHITE);
-            add(Color.BLUE);
-            add(Color.GREY);
-            add(Color.GOLD);
-            add(Color.PURPLE);
-            add(Color.RED);
-            add(Color.BLACK);
-        }};
-
-        toPut.setMaterial(new PhongMaterial(colors.get(getSimpleMarketBoard().getSlideMarble().ordinal())));
-
-        for(int i=0;i<ROWNUMBER;i++)
-            for(int j=0;j<ROWSIZE;j++)
-            {
-                rows.get(i).get(j).setMaterial(new PhongMaterial(colors.get(getMarketMatrix()[i][j].ordinal())));
-
-            }
-
-        generateColumns(rows,columnButtonOffset);
-
-        SubScene slideSubscene = new SubScene(root3D, width, len, true, SceneAntialiasing.BALANCED);
-        slideSubscene.setTranslateY(subSceneTranslateY);
-        slideSubscene.setTranslateX(subSceneTranslateX);;
-        slideSubscene.setFill(Color.TRANSPARENT);
-        slideSubscene.setCamera(camera);
-
-
-        marketPane.getChildren().add(slideSubscene);
-        marketPane.setId("marketPane");
-        error.setOpacity(0);
-        error.setLayoutX(width/2);
-        error.setLayoutY((len*4)/5);
-        marketPane.getChildren().add(error);
-        getClient().getStage().show();
-
-    }
 
     public void moveX(Sphere sphere,double x, Duration duration)
     {
@@ -406,6 +330,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
 
     @Override
     public void chooseMarbleConversion() {
+
 
     }
 
