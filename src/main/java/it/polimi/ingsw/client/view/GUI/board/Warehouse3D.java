@@ -88,11 +88,11 @@ public class Warehouse3D {
                     Map<Integer,Integer> selectedPositionsMap = selectablePositions.getUpdatedSelectablePositions(toSelect.getChosenInputPos());
                     System.out.println(JsonUtility.serialize(toSelect.getChosenInputPos()));
                     System.out.println(JsonUtility.serialize(selectedPositionsMap));
-                    boolean isSelectable = true;// selectedPositionsMap.getOrDefault(globalPos, 0) > 0;
+                    boolean isSelectable = selectedPositionsMap.getOrDefault(globalPos, 0) > 0;
                     if (isSelectable) {
                         toSelect.setNextInputPos(globalPos, e.getKey());
                         ResourceGUI.setColor(resourceGUI, testShape, true, false);
-                        //setSelectable(toSelect);
+                        setSelectable(toSelect);
                         testShape.setOnMousePressed(n -> {
                         });
                         if (toSelect.getPointedResource().isEmpty()) {

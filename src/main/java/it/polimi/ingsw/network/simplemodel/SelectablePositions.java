@@ -5,10 +5,7 @@ import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import javafx.util.Pair;
 import org.apache.commons.lang3.tuple.MutablePair;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -27,7 +24,7 @@ public class SelectablePositions extends SimpleModelElement{
     //                position  numOfSelected
     private transient Map<Integer, Integer> resourcesOriginalAvailability;
 
-    private transient int indexOfCurrentResourceToChoose = 0;
+    private transient int indexOfCurrentResourceToChoose;
 
     public SelectablePositions(){
 
@@ -70,6 +67,9 @@ public class SelectablePositions extends SimpleModelElement{
     //       position  numOfSelectable
     public Map<Integer,Integer> getUpdatedSelectablePositions(List<Integer> chosenInputPos){
 
+        indexOfCurrentResourceToChoose = chosenInputPos.size();
+        if(indexOfCurrentResourceToChoose == resourcesToChoose.size())
+            return new HashMap<>();
         if(!chosenInputPos.isEmpty())
             updateAvailability(chosenInputPos);
 
@@ -128,7 +128,6 @@ public class SelectablePositions extends SimpleModelElement{
                                 pair -> selectablePositions.get(pair).getLeft()
                         ));
 
-        indexOfCurrentResourceToChoose = resourcesToChoose.size()> indexOfCurrentResourceToChoose ? indexOfCurrentResourceToChoose++ : indexOfCurrentResourceToChoose;
         return selectablePositionsMap;
 
     }
