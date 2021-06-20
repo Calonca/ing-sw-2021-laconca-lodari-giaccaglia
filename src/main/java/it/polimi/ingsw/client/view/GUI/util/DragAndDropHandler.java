@@ -63,9 +63,6 @@ public class DragAndDropHandler {
                 oldShape.setTranslateX(inParent.getX());
                 oldShape.setTranslateY(inParent.getY());
                 oldShape.setTranslateZ(inParent.getZ());
-                Rotate rotate1 = new Rotate(270   ,new Point3D(1,0,0));
-                Rotate rotate2 = new Rotate(270   ,new Point3D(0,1,0));
-                oldShape.getTransforms().setAll(rotate1,rotate2);
                 shapes.remove(draggedData);
                 shapes.add(oldShapeData);
                 g.getChildren().add(oldShape);

@@ -44,7 +44,7 @@ public enum CamState {
     }
 
     public void animateWithKeyCode(KeyCode keyCode){
-        if (keyCode == KeyCode.TAB) {
+        if (keyCode == KeyCode.T) {
             moveFreely = !moveFreely;
             System.out.println("Cam mode is : "+(moveFreely?"move freely":"animation"));
             System.out.println(pos);

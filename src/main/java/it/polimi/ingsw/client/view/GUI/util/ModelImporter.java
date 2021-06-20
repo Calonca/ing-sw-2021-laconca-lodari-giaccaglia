@@ -1,7 +1,9 @@
 package it.polimi.ingsw.client.view.GUI.util;
 
+import javafx.geometry.Point3D;
 import javafx.scene.shape.MeshView;
 import javafx.scene.shape.TriangleMesh;
+import javafx.scene.transform.Rotate;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.IOException;
@@ -14,8 +16,25 @@ import java.util.Scanner;
 public class ModelImporter {
 
     /**
+     * Converts an obj file to correctly rotated trianglemesh
+     */
+    public static MeshView getShape3d(String filename){
+        return getShape3d(getObjectWithName(filename));
+    }
+
+    /**
+     * Converts an imported TriangleMesh to correctly rotated trianglemesh
+     */
+    public static MeshView getShape3d(TriangleMesh mesh){
+        MeshView toRet = new MeshView(mesh);
+        Rotate rotate1 = new Rotate(270   ,new Point3D(1,0,0));
+        Rotate rotate2 = new Rotate(270   ,new Point3D(0,1,0));
+        toRet.getTransforms().addAll(rotate1,rotate2);
+        return toRet;
+    }
+
+    /**
      * Converts an obj file to a TriangleMesh
-     * @return
      */
     public static TriangleMesh getObjectWithName(String fileName){
 

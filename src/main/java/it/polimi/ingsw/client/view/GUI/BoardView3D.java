@@ -232,13 +232,12 @@ public class BoardView3D {
 
 
 
-        Shape3D table = new MeshView(ModelImporter.getObjectWithName("table"));
+        Shape3D table = ModelImporter.getShape3d("table");
         table.setMaterial(new PhongMaterial(Color.BURLYWOOD));
-        table.setTranslateX(400);
-        table.setTranslateY(-3000);
-        table.setTranslateZ(5001);
-        table.setRotationAxis(new Point3D(1,0,0));
-        table.setRotate(270);
+        Point3D tableCenter = new Point3D(400,300,8501);
+        table.setTranslateX(tableCenter.getX());
+        table.setTranslateY(tableCenter.getY());
+        table.setTranslateZ(tableCenter.getZ());
         table.setScaleX(100);
         table.setScaleY(100);
         table.setScaleZ(100);
@@ -439,9 +438,6 @@ public class BoardView3D {
     @NotNull
     public Shape3D addAndGetShape(Group parent, Node refSystem, ResourceGUI res, Point3D shift) {
         Shape3D stoneMesh = res.generateShape();
-        Rotate rotate1 = new Rotate(270   ,new Point3D(1,0,0));
-        Rotate rotate2 = new Rotate(270   ,new Point3D(0,1,0));
-        stoneMesh.getTransforms().addAll(rotate1,rotate2);
         addNodeToParent(parent,refSystem,stoneMesh,shift);
         return stoneMesh;
     }

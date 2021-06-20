@@ -113,24 +113,35 @@ public class Box3D {
     }
 
     private static void addDiscardButton(BoardView3D view3D, Group discardBoxGroup, SimpleDiscardBox simpleDiscardBox, int addedLines) {
-        Text discardText = Text3d.from("Discard");
-        discardText.setLayoutY(150.0 * addedLines);
-        discardText.setTranslateZ(-15);
-        discardText.setMouseTransparent(true);
-        Rectangle r = new Rectangle(200,50, Color.BLUE);
-        r.setTranslateZ(-10);
-        r.setLayoutY((150.0 * addedLines)-50);
-        r.setOnMouseClicked(e-> {
-            if (simpleDiscardBox.isDiscardable()) {
-                view3D.setMode(BoardView3D.Mode.BACKGROUND);
-                ResourceMarketViewBuilder.sendDiscard();
-            }
-        });
         if (simpleDiscardBox.isDiscardable()) {
-            r.setFill(Color.CYAN);
+            Text discardText = Text3d.from("Discard");
+            discardText.setLayoutX(-80);
+            discardText.setLayoutY(150.0 * addedLines);
+            discardText.setTranslateZ(-15);
+            discardText.setMouseTransparent(true);
+            Rectangle r = new Rectangle(200, 50, Color.BLUE);
+            r.setLayoutX(-80);
+            r.setTranslateZ(-10);
+            r.setLayoutY((150.0 * addedLines) - 50);
+            r.setOnMouseClicked(e -> {
+                if (simpleDiscardBox.isDiscardable()) {
+                    view3D.setMode(BoardView3D.Mode.BACKGROUND);
+                    ResourceMarketViewBuilder.sendDiscard();
+                }
+            });
+            r.setOnMouseEntered(e -> {
+                if (simpleDiscardBox.isDiscardable()) {
+                    r.setFill(Color.CYAN);
+                }
+            });
+            r.setOnMouseExited(e -> {
+                if (simpleDiscardBox.isDiscardable()) {
+                    r.setFill(Color.BLUE);
+                }
+            });
+            discardBoxGroup.getChildren().add(r);
+            discardBoxGroup.getChildren().add(discardText);
         }
-        discardBoxGroup.getChildren().add(r);
-        discardBoxGroup.getChildren().add(discardText);
     }
 
 

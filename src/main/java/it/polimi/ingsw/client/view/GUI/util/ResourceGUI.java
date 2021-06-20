@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view.GUI.util;
 
 import it.polimi.ingsw.client.view.CLI.layout.drawables.ResourceCLI;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
+import javafx.geometry.Point3D;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.MeshView;
@@ -36,7 +37,7 @@ public enum ResourceGUI {
     }
 
     public Shape3D generateShape() {
-        Shape3D shape3d = new MeshView(mesh);
+        Shape3D shape3d = ModelImporter.getShape3d(mesh);
         shape3d.setScaleX(0.8);
         shape3d.setScaleY(0.8);
         shape3d.setScaleZ(0.8);
