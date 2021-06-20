@@ -20,49 +20,45 @@ public class DiscardingLeader implements GameStrategy {
 
     List<Element> elementsToUpdate = new ArrayList<>();
 
-    public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event)
-    {
+    public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event) {
 
         State currentState = gamemodel.getCurrentPlayer().getCurrentState();
 
         State nextPossibleState = currentState.equals(State.INITIAL_PHASE) ? State.MIDDLE_PHASE : State.IDLE;
         elementsToUpdate.add(Element.SimpleFaithTrack);
         elementsToUpdate.add(Element.SimplePlayerLeaders);
+        elementsToUpdate.add(Element.VaticanReportInfo);
 
         gamemodel.getCurrentPlayer().discardLeader(((InitialOrFinalPhaseEvent) event).getLeaderId());
         gamemodel.getCurrentPlayer().moveOnePosition();
 
-        if(gamemodel.getCurrentPlayer().hasReachedTrackEnd()){
+        gamemodel.handleVaticanReport();
 
-            gamemodel.handleVaticanReport();
+        if (gamemodel.checkTrackStatus()) {
 
-            if(gamemodel.checkTrackStatus()) {
+            String endGameReason;
 
-                String endGameReason;
+            if (gamemodel.isSinglePlayer()) {
 
-                if(gamemodel.isSinglePlayer()){
-
-                   endGameReason = EndGameReason.LORENZO_REACHED_END.getEndGameReason();
-                    elementsToUpdate.add(Element.EndGameInfo);
-                   return FinalStrategy.handleSinglePlayerEndGameStrategy(elementsToUpdate, gamemodel, endGameReason);
-
-                }
-
-
-                if(gamemodel.getPlayersEndingTheGame().size()>1)
-                    endGameReason = EndGameReason.MULTIPLE_TRACK_END.getEndGameReason();
-
-                else
-                    endGameReason = EndGameReason.TRACK_END.getEndGameReason();
-
-
-                gamemodel.getThisMatch().setReasonOfGameEnd(endGameReason);
-
-                FinalStrategy.setMacroGamePhase(gamemodel, elementsToUpdate);
-
-                return new Pair<>(State.IDLE, elementsToUpdate);
+                endGameReason = EndGameReason.LORENZO_REACHED_END.getEndGameReason();
+                elementsToUpdate.add(Element.EndGameInfo);
+                return FinalStrategy.handleSinglePlayerEndGameStrategy(elementsToUpdate, gamemodel, endGameReason);
 
             }
+
+
+            if (gamemodel.getPlayersEndingTheGame().size() > 1)
+                endGameReason = EndGameReason.MULTIPLE_TRACK_END.getEndGameReason();
+
+            else
+                endGameReason = EndGameReason.TRACK_END.getEndGameReason();
+
+
+            gamemodel.getThisMatch().setReasonOfGameEnd(endGameReason);
+
+            FinalStrategy.setMacroGamePhase(gamemodel, elementsToUpdate);
+
+            return new Pair<>(State.IDLE, elementsToUpdate);
 
         }
 
@@ -70,8 +66,6 @@ public class DiscardingLeader implements GameStrategy {
                 ? new Pair<>(currentState, elementsToUpdate)
                 : new Pair<>(nextPossibleState, elementsToUpdate);
 
-
-        return null;
     }
 
 }

@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 public class SimpleProductions extends SimpleModelElement{
 
 
-//          position          production
+//             position          production
     private Map<Integer, SimpleProduction> availableProductions;
 
     private int lastSelectedProductionPosition;
@@ -28,6 +28,10 @@ public class SimpleProductions extends SimpleModelElement{
        this.availableProductions = serverElement.availableProductions;
        this.lastSelectedProductionPosition = serverElement.lastSelectedProductionPosition;
 
+    }
+
+    public boolean isAnyProductionAvailable(){
+        return availableProductions.values().stream().anyMatch(value -> value.isAvailable);
     }
 
     public Optional<Boolean> isProductionAtPositionAvailable(int productionPosition){

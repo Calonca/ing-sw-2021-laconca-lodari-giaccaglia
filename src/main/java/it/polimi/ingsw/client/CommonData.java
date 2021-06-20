@@ -39,7 +39,7 @@ public class CommonData {
     private Integer thisPlayerIndex;
     private int currentPlayerIndex;
     private UUID matchId;
-    private String currentnick;
+    private String currentNick;
     private boolean connectionStatus = false;
     private final PropertyChangeSupport support;
 
@@ -146,11 +146,12 @@ public class CommonData {
     }
 
     public void setCurrentNick(String currentNick) {
-        this.currentnick = currentNick;
+        this.currentNick = currentNick;
+
     }
 
     public String getCurrentNick() {
-        return this.currentnick;
+        return this.currentNick;
     }
 
 }

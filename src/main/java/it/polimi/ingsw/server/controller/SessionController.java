@@ -103,6 +103,12 @@ public class SessionController {
             match.notifyStateToAllPlayers(elements, match.getGame().getPlayer(playerNickname).get());
     }
 
+    public void notifyPlayerDisconnection(Match match, String playerNickname){
+        List<Element> elements = new ArrayList<>();
+        elements.add(Element.PlayersInfo);
+        match.notifyStateToAllPlayers(elements, match.getGame().getPlayer(playerNickname).get());
+    }
+
 
     public void notifyPlayersInLobby(ClientHandler cl){
         playersInLobby.forEach(

@@ -2,14 +2,19 @@ package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.PersonalBoardBody;
-import it.polimi.ingsw.client.view.CLI.layout.*;
-import it.polimi.ingsw.client.view.CLI.layout.drawables.*;
-import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Column;
 import it.polimi.ingsw.client.view.CLI.layout.GridElem;
+import it.polimi.ingsw.client.view.CLI.layout.Option;
+import it.polimi.ingsw.client.view.CLI.layout.ResChoiceRowCLI;
+import it.polimi.ingsw.client.view.CLI.layout.SizedBox;
+import it.polimi.ingsw.client.view.CLI.layout.drawables.Drawable;
+import it.polimi.ingsw.client.view.CLI.layout.drawables.DrawableDevCard;
+import it.polimi.ingsw.client.view.CLI.layout.drawables.DrawableLine;
+import it.polimi.ingsw.client.view.CLI.layout.drawables.ResourceCLI;
+import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Column;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
 import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
-import it.polimi.ingsw.client.view.abstractview.ResChoiceRow;
+import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCardColor;
@@ -18,7 +23,8 @@ import it.polimi.ingsw.network.simplemodel.ActiveLeaderBonusInfo;
 import it.polimi.ingsw.network.simplemodel.SimpleCardCells;
 import javafx.util.Pair;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Stream;
 
 public class CardShopCLI extends CardShopViewBuilder {
@@ -27,6 +33,12 @@ public class CardShopCLI extends CardShopViewBuilder {
     public CardShopCLI(boolean viewing) {
         super(viewing);
     }
+
+    public CardShopCLI(boolean viewing, boolean isIdle){
+        super(viewing, isIdle);
+    }
+
+
 
     @Override
     public void run() {
@@ -60,6 +72,7 @@ public class CardShopCLI extends CardShopViewBuilder {
 
             bonusRow.addElem(Option.noNumber(drawable));
         }
+
         for (int i = 3; i >= 1; i--) {
             Row verTest = new Row();
             for (int color = 0; color< NetworkDevelopmentCardColor.values().length-1; color++) {
@@ -79,8 +92,10 @@ public class CardShopCLI extends CardShopViewBuilder {
 
         getCLIView().setBody(CanvasBody.centered(grid));
         boolean viewing = CardShopViewBuilder.viewing;
-        if (viewing)
-            getCLIView().runOnInput("Press enter to go back",()->getClient().changeViewBuilder(new MiddlePhaseCLI()));
+        if (viewing) {
+            ViewBuilder nextViewBuilder = isIdlePhase ? new IDLEViewBuilderCLI() : new MiddlePhaseCLI();
+            getCLIView().runOnInput("Press enter to go back", () -> getClient().changeViewBuilder(nextViewBuilder));
+        }
         else grid.selectInEnabledOption(getCLIView(),"Select a card to buy it");
         getCLIView().show();
 

@@ -1,14 +1,16 @@
 package it.polimi.ingsw.server.model.player.track;
-import it.polimi.ingsw.server.model.*;
-import it.polimi.ingsw.server.model.player.*;
+
+import it.polimi.ingsw.server.model.Resource;
+import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.player.leaders.Leader;
 import it.polimi.ingsw.server.model.solo.SoloActionToken;
+import javafx.util.Pair;
 import org.apache.commons.lang3.tuple.MutablePair;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.IntStream;
 
-import java.util.*;
-
-import static it.polimi.ingsw.network.jsonUtils.JsonUtility.deserialize;
 import static it.polimi.ingsw.network.jsonUtils.JsonUtility.serialize;
 
 /**
@@ -174,6 +176,17 @@ public class FaithTrack {
 
         else
             tiles.get(popeSpaceZoneNumber).setTileState(TileState.DISCARDED);
+    }
+
+    public Optional<Pair<Integer, Boolean>> getStateOfLastTurnedTile(){
+        return IntStream
+                .range(0, tiles.size())
+                .boxed()
+                .filter(position -> !tiles.get(position).getTileState().equals(TileState.INACTIVE))
+                .reduce((first,second) -> second).map(position ->
+                        new Pair<>(
+                                position,
+                                tiles.get(position).getTileState().equals(TileState.ACTIVE)));
     }
 
     /**

@@ -439,6 +439,8 @@ public class GameModel {
 
             List<Integer> list = new ArrayList<>();
             if(singlePlayer.isLorenzoInPopeSpace())
+                list.add(-1);
+            else if(singlePlayer.isInPopeSpace())
                 list.add(players.keySet().stream().findFirst().get());
             return list;
         }

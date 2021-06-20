@@ -28,6 +28,7 @@ public class DiscardingResources implements GameStrategy {
         elementsToUpdate.add(Element.SimpleDiscardBox);
         elementsToUpdate.add(Element.SimpleFaithTrack);
         elementsToUpdate.add(Element.SimplePlayerLeaders);
+        elementsToUpdate.add(Element.VaticanReportInfo);
 
         PersonalBoard currentBoard = gameModel.getCurrentPlayer().getPersonalBoard();
 

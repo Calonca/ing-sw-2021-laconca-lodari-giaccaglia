@@ -13,6 +13,7 @@ import java.util.Optional;
 public class PlayerCache {
 
     private String currentState;
+    private String playerNickname;
     private final PropertyChangeSupport support;
 
     private Map<String , SimpleModelElement> playerSimpleModelElementsMap = new HashMap<>();
