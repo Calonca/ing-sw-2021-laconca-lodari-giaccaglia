@@ -22,7 +22,7 @@ public class IDLEViewBuilderGUI extends IDLEViewBuilder implements GUIView
             temp.runforStart();
 
         System.out.println(GUI.getRealPane().getChildren());
-
+        SetupPhase.getBoard().setMode(BoardView3D.Mode.BACKGROUND);
     }
 
 

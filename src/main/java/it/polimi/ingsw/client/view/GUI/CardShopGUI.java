@@ -10,15 +10,14 @@ import it.polimi.ingsw.network.simplemodel.SimpleCardShop;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.ImageCursor;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.SubScene;
+import javafx.geometry.Point3D;
+import javafx.scene.*;
 import javafx.scene.control.Button;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 import java.beans.PropertyChangeEvent;
@@ -201,8 +200,21 @@ public class CardShopGUI extends CardShopViewBuilder {
 
     }
 
-
-
+    public static Group chosenCard;
+    public static void addChosenCard(){
+        SimpleCardShop simpleCardShop = getSimpleModel().getElem(SimpleCardShop.class).orElseThrow();
+        final Rectangle board = SetupPhase.getBoard().board;
+        final Group parent = SetupPhase.getBoard().parent;
+        Path path = simpleCardShop.getPurchasedCard().orElseThrow().getCardPaths().getKey();
+        ImageView imageView = new ImageView(new Image(path.toString(), true));
+        if (chosenCard==null) {
+            chosenCard = new Group();
+            SetupPhase.getBoard().addNodeToParent(parent, board, chosenCard, new Point3D(-500, -100, 0));
+        } else {
+            chosenCard.getChildren().clear();
+        }
+        chosenCard.getChildren().add(imageView);
+    }
 
 
     /**

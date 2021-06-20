@@ -78,7 +78,7 @@ public abstract class ViewBuilder implements Runnable, PropertyChangeListener
 
     public static void printWrongStateReceived(PropertyChangeEvent evt){
         String s = getThisPlayerCache().getCurrentState()+" received: " + JsonUtility.serialize(evt.getNewValue());
-        System.out.println(Color.colorString(s,Color.RED));
+        //System.out.println(Color.colorString(s,Color.RED));
     }
 
 }

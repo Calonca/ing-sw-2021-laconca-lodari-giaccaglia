@@ -11,7 +11,9 @@ import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ProductionViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
 import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
+import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
+import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.network.simplemodel.*;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
@@ -31,6 +33,7 @@ import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.*;
 
@@ -51,13 +54,10 @@ public class BoardView3D {
         },
         SELECT_CARD_SHOP(){
             public void run() {
-                SimpleCardShop simpleCardShop = getSimpleModel().getElem(SimpleCardShop.class).orElseThrow();
-                Path path=simpleCardShop.getPurchasedCard().orElseThrow().getCardPaths().getKey();
-                ImageView imageView=new ImageView(new Image(path.toString(),true));
                 final Rectangle board = SetupPhase.getBoard().board;
                 final Group parent = SetupPhase.getBoard().parent;
-                SetupPhase.getBoard().addNodeToParent(parent,board,imageView,new Point3D(-500,150,0));
                 final DragAndDropHandler ddHandler = new DragAndDropHandler();
+                CardShopGUI.addChosenCard();
                 Box3D.strongBuilder(SetupPhase.getBoard(),parent,board);
                 SetupPhase.getBoard().resRowBuilder(parent,board);
                 Warehouse3D.wareBuilder(SetupPhase.getBoard(), parent,board,ddHandler);
@@ -91,6 +91,7 @@ public class BoardView3D {
                 final DragAndDropHandler ddHandler = new DragAndDropHandler();
                 final Rectangle board = SetupPhase.getBoard().board;
                 final Group parent = SetupPhase.getBoard().parent;
+                CardShopGUI.addChosenCard();
                 SetupPhase.getBoard().productionBuilder(parent);
                 Box3D.strongBuilder(SetupPhase.getBoard(),parent,board);
                 Warehouse3D.wareBuilder(SetupPhase.getBoard(), parent,board,ddHandler);
@@ -102,6 +103,7 @@ public class BoardView3D {
                 final Rectangle board = SetupPhase.getBoard().board;
                 final Group parent = SetupPhase.getBoard().parent;
                 Box3D.strongBuilder(SetupPhase.getBoard(),parent,board);
+                SetupPhase.getBoard().productionBuilder(parent);
                 Warehouse3D.wareBuilder(SetupPhase.getBoard(), parent,board,ddHandler);
             }
         };
@@ -204,6 +206,8 @@ public class BoardView3D {
             toSelect = null;}
         if (productions!=null)
             productions.getChildren().clear();
+        if (CardShopGUI.chosenCard!=null)
+            CardShopGUI.chosenCard.getChildren().clear();
     }
 
     public void changeCamState(CamState state){
@@ -218,10 +222,6 @@ public class BoardView3D {
 
     public ResChoiceRowGUI getToSelect() {
         return toSelect;
-    }
-
-    public void setToSelect(ResChoiceRowGUI toSelect) {
-        this.toSelect = toSelect;
     }
 
     public SubScene getRoot() {
@@ -294,11 +294,6 @@ public class BoardView3D {
     }
 
 
-    public void propertyChange(PropertyChangeEvent evt) {
-
-    }
-
-
     public void resRowBuilder(Group parent, Rectangle board){
         Point3D initialPos = new Point3D(-100,800,0);
         SimpleCardShop simpleCardShop = getSimpleModel().getElem(SimpleCardShop.class).orElseThrow();
@@ -332,48 +327,49 @@ public class BoardView3D {
     private void productionBuilder(Group parent) {
         Group productions = new Group();
 
-        Rectangle basic=new Rectangle(200,200);
+        Rectangle basic=new Rectangle(300,300);
+        basic.setOpacity(0);
+        //basic.setMouseTransparent(true);
 
         productions.getChildren().add(basic);
         addNodeToParent(parent,board,basic,new Point3D(600,1200,0));
         basic.setOnMouseClicked(p->{
-            SetupPhase.getBoard().setMode(Mode.CHOOSE_POS_FOR_CARD);
-            ProductionViewBuilder.sendChosenProduction(0);
+            if (mode.equals(Mode.CHOOSE_PRODUCTION)) {
+                ProductionViewBuilder.sendChosenProduction(0);
+            }
         });
 
-        Path path;
-        Rectangle rectangle;
-        ImagePattern tempImage;
         SimpleCardCells simpleCardCells = getThisPlayerCache().getElem(SimpleCardCells.class).orElseThrow();
+        Map<Integer,Optional<DevelopmentCardAsset>> frontCards=simpleCardCells.getDevCardsCells();
 
-        simpleCardCells.getSimpleProductions().getProductionAtPos(0);
-        for (Map.Entry<Integer, Optional<DevelopmentCardAsset>> entry : simpleCardCells.getDevCardsCells().entrySet()) //using map.entrySet() for iteration
-        {
-            rectangle=new Rectangle(450,200);
-
-            if(entry.getValue().isEmpty())
-            {
+        for (Map.Entry<Integer, Optional<DevelopmentCardAsset>> entry : frontCards.entrySet()) {
+            Integer key = entry.getKey();
+            Optional<DevelopmentCardAsset> value = entry.getValue();
+            ImagePattern tempImage;
+            Path path;
+            Rectangle rectangle = new Rectangle(462, 698);
+            //rectangle.setMouseTransparent(true);
+            System.out.println(JsonUtility.serialize(value.orElse(null)));
+            if (value.isEmpty()) {
                 tempImage = new ImagePattern(new Image("assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_BLUE_1.png"));
                 rectangle.setOpacity(0);
+            } else {
+                path = value.get().getCardPaths().getKey();
+                tempImage = new ImagePattern(new Image(path.toString(), false));
             }
-            else
-            {
-                path=entry.getValue().get().getCardPaths().getKey();
-                tempImage = new ImagePattern(new Image((InputStream) path));
-            }
-            rectangle.setLayoutX(450+270*entry.getKey());
-            rectangle.setLayoutY(550);
-            rectangle.setOnMouseClicked(p-> {
+            rectangle.setLayoutX(400 + 250 * key);
+            rectangle.setLayoutY(0);
+            rectangle.setOnMouseClicked(p -> {
                 if (mode.equals(Mode.CHOOSE_POS_FOR_CARD))
-                    if(simpleCardCells.isSpotAvailable(entry.getKey()))
-                        CardShopViewBuilder.sendCardPlacementPosition(entry.getKey());
-                else if (mode.equals(Mode.CHOOSE_PRODUCTION))
-                    if(entry.getValue().isPresent())
-                        ProductionViewBuilder.sendChosenProduction(entry.getKey());
+                    if (simpleCardCells.isSpotAvailable(key)) {
+                        CardShopViewBuilder.sendCardPlacementPosition(key);
+                    } else if (mode.equals(Mode.CHOOSE_PRODUCTION))
+                        if (value.isPresent())
+                            ProductionViewBuilder.sendChosenProduction(key);
             });
             rectangle.setFill(tempImage);
 
-            addNodeToParent(parent,board,rectangle,new Point3D(20+220*entry.getKey(),700,-10));
+            addNodeToParent(parent, board, rectangle, new Point3D(20 + 220 * key, 700, -20));
         }
         parent.getChildren().add(productions);
         this.productions = productions;

@@ -211,9 +211,9 @@ public class Client implements Runnable
 
     public void setState(StateInNetwork stateInNetwork){
 
-       System.out.println("Client " + commonData.getThisPlayerIndex() + " received: "+"client "+ stateInNetwork.getPlayerNumber() + " "+ stateInNetwork.getState());
+       //System.out.println("Client " + commonData.getThisPlayerIndex() + " received: "+"client "+ stateInNetwork.getPlayerNumber() + " "+ stateInNetwork.getState());
 
-       System.out.println(JsonUtility.serialize(stateInNetwork));
+       //System.out.println(JsonUtility.serialize(stateInNetwork));
 
        commonData.setCurrentPlayer(stateInNetwork.getPlayerNumber());
 

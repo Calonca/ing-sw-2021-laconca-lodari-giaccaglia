@@ -8,7 +8,9 @@ import it.polimi.ingsw.network.simplemodel.SimpleFaithTrack;
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape3D;
 
@@ -34,7 +36,9 @@ public class FaithTrack implements PropertyChangeListener {
     public void faithTrackBuilder(BoardView3D view3D, Group parent, Rectangle board){
         Group faithGroup=new Group();
         player = view3D.addAndGetShape(faithGroup,faithGroup,ResourceGUI.FAITH,board.localToParent(new Point3D(faithStartingX,faithStartingY,0)));
-        lorenzo = view3D.addAndGetShape(faithGroup,faithGroup,ResourceGUI.EMPTY,board.localToParent(new Point3D(faithStartingX,faithStartingY,0)));
+        lorenzo = view3D.addAndGetShape(faithGroup,faithGroup,ResourceGUI.FAITH,board.localToParent(new Point3D(faithStartingX+10,faithStartingY+10,0)));
+        lorenzo.setMaterial(new PhongMaterial(Color.BLACK));
+
         faithStartingX= player.getLayoutX();
         faithStartingY= player.getLayoutY();
 
