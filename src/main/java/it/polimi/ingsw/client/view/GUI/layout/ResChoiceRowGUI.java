@@ -12,20 +12,32 @@ import java.util.List;
 public class ResChoiceRowGUI extends ResChoiceRow {
 
     private final int lineHeight = 150;
+    private final Group rowGroup;
 
     public ResChoiceRowGUI(int arrowPos, List<ResourceAsset> in, List<ResourceAsset> out) {
         super(arrowPos, in, out);
+        rowGroup = new Group();
+        update();
     }
 
-    private Group rowGroup;
+    public Group getRowGroup() {
+        return rowGroup;
+    }
 
-    public Group buildGroup(){
-        Group list = new Group();
+    @Override
+    public void setNextInputPos(int pos, ResourceAsset res) {
+        super.setNextInputPos(pos, res);
+        update();
+    }
+
+    private void update(){
+        clear();
         int addedLines = 0;
-        addedLines = addRes(list, addedLines, in);
-        Text3d.addTextOnGroup(list,lineHeight*addedLines,"inputs/outputs");
+        addedLines = addRes(rowGroup, addedLines, in);
+        final int dividerHeight = lineHeight*addedLines;
         addedLines++;
-        addRes(list, addedLines, out);
+        addRes(rowGroup, addedLines, out);
+        Text3d.addTextOnGroup(rowGroup,dividerHeight,-200,"inputs/outputs");
 
         //final int numOfOut = numOfOutputChoices();
         //if (numOfOut>0) {
@@ -37,21 +49,23 @@ public class ResChoiceRowGUI extends ResChoiceRow {
         //        addedLines++;
         //    }
         //}
-        rowGroup=list;
-        if (getPointedResource().isPresent())
-            list.getChildren().set(arrowPos,getSelectedRes());
-        return rowGroup;
+        if (getPointedResource().isPresent()) {
+            rowGroup.getChildren().set(arrowPos, getSelectedRes((Shape3D) rowGroup.getChildren().get(arrowPos)));
+        }
     }
 
-    private Shape3D getSelectedRes(){
+    private Shape3D getSelectedRes(Shape3D oldRes){
         ResourceGUI r = ResourceGUI.fromAsset(getPointedResource().orElse(ResourceAsset.EMPTY));
         Shape3D toR = r.generateShape();
+        toR.setTranslateX(oldRes.getTranslateX());
+        toR.setTranslateY(oldRes.getTranslateY());
+        toR.setTranslateZ(oldRes.getTranslateZ());
         ResourceGUI.setColor(r,toR,true,false);
         return toR;
     }
 
     private int addRes(Group list,int addedLines, List<ResourceAsset> inOrOut) {
-        for (ResourceAsset r : in) {
+        for (ResourceAsset r : inOrOut) {
             ResourceGUI res = ResourceGUI.fromAsset(r);
             Shape3D s = res.generateShape();
             s.setTranslateY(lineHeight * addedLines);

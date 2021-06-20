@@ -18,10 +18,15 @@ public class Text3d {
     }
 
 
-    public static void addTextOnGroup(Group lineGroup, int shifty, String num) {
+    public static void addTextOnGroup(Group lineGroup, int shifty, String s) {
+        addTextOnGroup(lineGroup,shifty,0,s);
+    }
+
+    public static void addTextOnGroup(Group lineGroup, int shifty,int shiftx, String num) {
         Text text = Text3d.from(num);
         text.setTranslateZ(-80);
         text.setLayoutY(shifty);
+        text.setLayoutX(shiftx);
         lineGroup.getChildren().add(text);
     }
 

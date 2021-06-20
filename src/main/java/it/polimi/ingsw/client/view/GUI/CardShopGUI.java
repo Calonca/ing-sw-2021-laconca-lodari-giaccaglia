@@ -29,6 +29,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import static it.polimi.ingsw.client.simplemodel.State.*;
+import static it.polimi.ingsw.client.simplemodel.State.CHOOSING_POSITION_FOR_DEVCARD;
+
 
 public class CardShopGUI extends CardShopViewBuilder {
 
@@ -69,10 +72,15 @@ public class CardShopGUI extends CardShopViewBuilder {
      */
     @Override
     public void run() {
-
-        SetupPhase.getBoard().getController().isCardShopOpen(true);
-        SetupPhase.getBoard().changeCamState(CamState.SEE_SHOP);
-
+        //Todo better wrong event handling
+        if (CHOOSING_RESOURCES_FOR_DEVCARD.name().equals(getThisPlayerCache().getCurrentState())) {
+            selectResources();
+        } else if (CHOOSING_POSITION_FOR_DEVCARD.name().equals(getThisPlayerCache().getCurrentState())) {
+            choosePositionForCard();
+        } else {
+            SetupPhase.getBoard().getController().isCardShopOpen(true);
+            SetupPhase.getBoard().changeCamState(CamState.SEE_SHOP);
+        }
     }
 
 
@@ -243,7 +251,6 @@ public class CardShopGUI extends CardShopViewBuilder {
 
             SetupPhase.getBoard().getController().setBoughtCard(scenesCardsToChoose.get(temp));
             SetupPhase.getBoard().getController().isCardShopOpen(false);
-            BoardView3D.setCamState(CamState.TOP);
 
         });
         return confirm;
@@ -263,7 +270,7 @@ public class CardShopGUI extends CardShopViewBuilder {
     public void selectResources() {
         //Hide cardShop
         Platform.runLater(()->SetupPhase.getBoard().setMode(BoardView3D.Mode.SELECT_CARD_SHOP));
-        SetupPhase.getBoard().changeCamState(CamState.TOP);
+        SetupPhase.getBoard().changeCamState(CamState.SELECT_CARD_SHOP);
 
     }
 
@@ -273,6 +280,7 @@ public class CardShopGUI extends CardShopViewBuilder {
     @Override
     public void choosePositionForCard() {
         Platform.runLater(()->SetupPhase.getBoard().setMode(BoardView3D.Mode.CHOOSE_POS_FOR_CARD));
+        SetupPhase.getBoard().changeCamState(CamState.TOP);
     }
 
 }

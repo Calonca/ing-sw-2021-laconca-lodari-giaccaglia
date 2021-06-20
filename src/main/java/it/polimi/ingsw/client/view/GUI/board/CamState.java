@@ -17,6 +17,7 @@ public enum CamState {
     LOOK_AT_OTHERS(new Point3D(-500,5000,-1400),new Point3D(75,0,0)),
     SEE_SHOP_MARKET(new Point3D(-500,-800,600),new Point3D(45,0,0)),
     SEE_SHOP(new Point3D(-1000,-800,600),new Point3D(45,0,0)),
+    SELECT_CARD_SHOP(new Point3D(0,0,-600),new Point3D(0,0,0)),
     SEE_RESOURCE_MARKET(new Point3D(0,-1200,1000),new Point3D(45,0,0));
 
 

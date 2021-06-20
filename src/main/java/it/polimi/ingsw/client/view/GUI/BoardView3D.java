@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.GUI;
 
+import it.polimi.ingsw.client.view.GUI.board.Warehouse3D;
 import it.polimi.ingsw.client.view.GUI.layout.ResChoiceRowGUI;
 import it.polimi.ingsw.client.view.abstractview.ResChoiceRow;
 import it.polimi.ingsw.client.view.GUI.board.Box3D;
@@ -22,7 +23,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.*;
-import javafx.scene.transform.Rotate;
 import javafx.util.Pair;
 import org.jetbrains.annotations.NotNull;
 
@@ -45,22 +45,22 @@ public class BoardView3D {
                 final Group parent = SetupPhase.getBoard().parent;
                 Box3D.discardBuilder(SetupPhase.getBoard(),parent,board , ddHandler);
                 Box3D.strongBuilder(SetupPhase.getBoard(),parent,board);
-                SetupPhase.getBoard().wareBuilder(parent,board,ddHandler);
+                Warehouse3D.wareBuilder(SetupPhase.getBoard(), parent,board,ddHandler);
                 ddHandler.startDragAndDropOnEach(parent,board);
             }
         },
         SELECT_CARD_SHOP(){
             public void run() {
                 SimpleCardShop simpleCardShop = getSimpleModel().getElem(SimpleCardShop.class).orElseThrow();
-                Path path=simpleCardShop.getPurchasedCard().get().getCardPaths().getKey();
+                Path path=simpleCardShop.getPurchasedCard().orElseThrow().getCardPaths().getKey();
                 ImageView imageView=new ImageView(new Image(path.toString(),true));
-                SetupPhase.getBoard().addNodeToParent(SetupPhase.getBoard().parent,imageView,new Point3D(300,150,0));
-                final DragAndDropHandler ddHandler = new DragAndDropHandler();
                 final Rectangle board = SetupPhase.getBoard().board;
                 final Group parent = SetupPhase.getBoard().parent;
+                SetupPhase.getBoard().addNodeToParent(parent,board,imageView,new Point3D(-500,150,0));
+                final DragAndDropHandler ddHandler = new DragAndDropHandler();
                 Box3D.strongBuilder(SetupPhase.getBoard(),parent,board);
                 SetupPhase.getBoard().resRowBuilder(parent,board);
-                SetupPhase.getBoard().wareBuilder(parent,board,ddHandler);
+                Warehouse3D.wareBuilder(SetupPhase.getBoard(), parent,board,ddHandler);
             }
         },
         SELECT_RESOURCE_FOR_PROD(){
@@ -71,7 +71,7 @@ public class BoardView3D {
                 final Group parent = SetupPhase.getBoard().parent;
                 Box3D.strongBuilder(SetupPhase.getBoard(),parent,board);
                 SetupPhase.getBoard().resRowBuilder(parent,board);
-                SetupPhase.getBoard().wareBuilder(parent,board,ddHandler);
+                Warehouse3D.wareBuilder(SetupPhase.getBoard(), parent,board,ddHandler);
             }
         },
         CHOOSE_PRODUCTION() {
@@ -82,7 +82,7 @@ public class BoardView3D {
                 final Rectangle board = SetupPhase.getBoard().board;
                 SetupPhase.getBoard().productionBuilder(parent);
                 Box3D.strongBuilder(SetupPhase.getBoard(),parent,board);
-                SetupPhase.getBoard().wareBuilder(parent,board,ddHandler);
+                Warehouse3D.wareBuilder(SetupPhase.getBoard(), parent,board,ddHandler);
             }
 
         },
@@ -93,7 +93,7 @@ public class BoardView3D {
                 final Group parent = SetupPhase.getBoard().parent;
                 SetupPhase.getBoard().productionBuilder(parent);
                 Box3D.strongBuilder(SetupPhase.getBoard(),parent,board);
-                SetupPhase.getBoard().wareBuilder(parent,board,ddHandler);
+                Warehouse3D.wareBuilder(SetupPhase.getBoard(), parent,board,ddHandler);
             }
         },
         BACKGROUND(){
@@ -102,7 +102,7 @@ public class BoardView3D {
                 final Rectangle board = SetupPhase.getBoard().board;
                 final Group parent = SetupPhase.getBoard().parent;
                 Box3D.strongBuilder(SetupPhase.getBoard(),parent,board);
-                SetupPhase.getBoard().wareBuilder(parent,board,ddHandler);
+                Warehouse3D.wareBuilder(SetupPhase.getBoard(), parent,board,ddHandler);
             }
         };
         //CHOOSE_PRODUCTION();
@@ -144,6 +144,9 @@ public class BoardView3D {
         this.discardBox = discardBox;
     }
 
+    public void setWarehouse(Group warehouse) {
+        this.warehouse = warehouse;
+    }
 
     public void refreshCardShop() {
         if(this.cardShop!=null)
@@ -213,8 +216,12 @@ public class BoardView3D {
         mode.run();
     }
 
-    public ResChoiceRow getToSelect() {
+    public ResChoiceRowGUI getToSelect() {
         return toSelect;
+    }
+
+    public void setToSelect(ResChoiceRowGUI toSelect) {
+        this.toSelect = toSelect;
     }
 
     public SubScene getRoot() {
@@ -292,75 +299,12 @@ public class BoardView3D {
     }
 
 
-    public void wareBuilder(Group parent, Rectangle board, DragAndDropHandler dropHandler){
-        Group wareGroup = new Group();
-        Point3D initialPos = new Point3D(100,800,0);
-
-        final double wareWidth = 500;
-        final double lineHeight = 150;
-        SimpleWarehouseLeadersDepot simpleWarehouseLeadersDepot = getThisPlayerCache().getElem(SimpleWarehouseLeadersDepot.class).orElseThrow();
-        SelectablePositions selectablePositions = getThisPlayerCache().getElem(SelectablePositions.class).orElseThrow();
-
-
-        AtomicInteger gPos = new AtomicInteger();
-        int lineN = 0;
-        for (Map.Entry<Integer, List<Pair<ResourceAsset, Boolean>>> line: simpleWarehouseLeadersDepot.getDepots().entrySet()){
-            int finalLineN = lineN;
-            AtomicInteger nInLine = new AtomicInteger();
-            line.getValue().forEach(e->{
-                double x  = (wareWidth/(1+line.getValue().size())*(1+nInLine.get()));
-                Point3D shift = new Point3D(x,lineHeight* finalLineN,0);
-                nInLine.getAndIncrement();
-                ResourceGUI resourceGUI = ResourceGUI.fromAsset(e.getKey());
-                Shape3D testShape = addAndGetShape(wareGroup,wareGroup,resourceGUI,shift);
-                DragAndDropData dragAndDropData = new DragAndDropData();
-                dragAndDropData.setResourceGUI(resourceGUI);
-                dragAndDropData.setShape3D(testShape);
-                final int globalPos = gPos.get();
-                dragAndDropData.setAvailable(simpleWarehouseLeadersDepot.isPosAvailable(globalPos));
-                dragAndDropData.setAvailablePos(simpleWarehouseLeadersDepot.getAvailableMovingPositions().get(globalPos));
-                dragAndDropData.setGlobalPos(globalPos);
-
-               // boolean isSelectable = true;
-                boolean isSelectable = toSelect!=null && selectablePositions.getUpdatedSelectablePositions(toSelect.getChosenInputPos()).getOrDefault(globalPos,0)>0;
-
-                testShape.setOnMousePressed((u)->{
-                    if (mode.equals(Mode.SELECT_CARD_SHOP) && isSelectable) {
-                        toSelect.setNextInputPos(globalPos, e.getKey());
-                        ResourceGUI.setColor(resourceGUI,testShape,true,false);
-                        testShape.setOnMousePressed(n->{});
-                        if (toSelect.getPointedResource().isEmpty()) {
-                            CardShopViewBuilder.sendResourcesToBuy(toSelect.getChosenInputPos());
-                            toSelect = null;
-                        }
-                    }
-                });
-
-                dragAndDropData.setOnDrop(()->{
-                    if (mode.equals(Mode.MOVING_RES)) {
-                        dropHandler.stopDragAndDrop();
-                        ResourceMarketViewBuilder.sendMove(globalPos, dropHandler.getLastDroppedPos());
-                    }
-                });
-
-                dropHandler.addShape(dragAndDropData);
-                gPos.getAndIncrement();
-            });
-            lineN++;
-        }
-
-
-        addNodeToParent(parent, board, wareGroup, initialPos);
-        warehouse = wareGroup;
-    }
-
-
     public void resRowBuilder(Group parent, Rectangle board){
         Point3D initialPos = new Point3D(-100,800,0);
         SimpleCardShop simpleCardShop = getSimpleModel().getElem(SimpleCardShop.class).orElseThrow();
         DevelopmentCardAsset card =  simpleCardShop.getPurchasedCard().orElseThrow();
         toSelect = new ResChoiceRowGUI(0,card.getDevelopmentCard().getCosts(),new ArrayList<>());
-        Group resRowGroup = toSelect.buildGroup();
+        Group resRowGroup = toSelect.getRowGroup();
 
         resRowGroup.setTranslateX(initialPos.getX());
         resRowGroup.setTranslateX(initialPos.getY());
