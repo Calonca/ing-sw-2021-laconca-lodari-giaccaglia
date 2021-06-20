@@ -13,9 +13,7 @@ import it.polimi.ingsw.server.model.player.leaders.MarketLeader;
 import it.polimi.ingsw.server.model.player.leaders.ProductionLeader;
 import javafx.util.Pair;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -118,6 +116,7 @@ public class GameInfoMessageBuilder {
                     int currentVictoryPoints = player.getCurrentGamePoints();
                     int currentPosition = player.getPlayerPosition();
                     int currentLorenzoPosition = player.getLorenzoPosition();
+                    String nickname = player.getNickName();
                     boolean isOnline = player.isOnline();
 
                     PlayersInfo.SimplePlayerInfo playerInfo = new PlayersInfo.SimplePlayerInfo(
@@ -125,12 +124,33 @@ public class GameInfoMessageBuilder {
                             currentPosition,
                             currentLorenzoPosition,
                             isOnline,
-                            playerIndex);
+                            playerIndex,
+                            nickname);
                     return playerInfo;
                 }
         ));
 
         return simplePlayerInfoMap;
     }
+
+    public static Set<Integer> getPlayersTriggeringVaticanReport(GameModel gameModel){
+       List<Integer> playersTriggeringList  = gameModel.vaticanReportTriggers();
+       return new HashSet<>(playersTriggeringList);
+    }
+
+    public static Map<Integer, Pair<Integer, Boolean>> getPopeTileStateMap(GameModel gameModel){
+
+        return IntStream.range(0, gameModel.getMatchPlayers().size()).boxed().collect(Collectors.toMap(
+
+                index -> index,
+                index -> gameModel.getPlayer(index)
+                        .get()
+                        .getStateOfLastTurnedTileInTrack()
+                        .orElse(new Pair<>(-1, false))
+
+        ));
+    }
+
+
 
 }

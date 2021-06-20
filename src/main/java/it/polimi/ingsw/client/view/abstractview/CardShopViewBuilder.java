@@ -17,8 +17,16 @@ public abstract class CardShopViewBuilder extends ViewBuilder{
 
     public static boolean viewing;
 
+    public static boolean isIdlePhase;
+
     public CardShopViewBuilder(boolean viewing) {
         CardShopViewBuilder.viewing = viewing;
+        isIdlePhase = false;
+    }
+
+    public CardShopViewBuilder(boolean viewing, boolean isIdle){
+        CardShopViewBuilder.viewing = viewing;
+        isIdlePhase = isIdle;
     }
 
     public CardShopViewBuilder() { CardShopViewBuilder.viewing =true;

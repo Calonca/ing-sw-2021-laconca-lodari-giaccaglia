@@ -113,6 +113,7 @@ public class CommonGsonAdapters {
         elemAdapter.registerSubtype(PlayersInfo.class);
         elemAdapter.registerSubtype(SimpleSoloActionToken.class);
         elemAdapter.registerSubtype(SelectablePositions.class);
+        elemAdapter.registerSubtype(VaticanReportInfo.class);
 
         return elemAdapter;
     }

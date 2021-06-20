@@ -29,6 +29,7 @@ public class SimpleModel {
         commonSimpleModelElementsMap.put(SimpleMarketBoard.class.getSimpleName(), new SimpleMarketBoard());
         commonSimpleModelElementsMap.put(EndGameInfo.class.getSimpleName(), new EndGameInfo());
         commonSimpleModelElementsMap.put(PlayersInfo.class.getSimpleName(), new PlayersInfo());
+        commonSimpleModelElementsMap.put(VaticanReportInfo.class.getSimpleName(), new VaticanReportInfo());
     }
 
     public PlayerCache[] getPlayersCaches() {
@@ -63,7 +64,6 @@ public class SimpleModel {
     private SimpleModelElement getElem(String name){
         return commonSimpleModelElementsMap.get(name);
     }
-
 
     public void updateSimpleModel(StateInNetwork stateInNetwork){
 

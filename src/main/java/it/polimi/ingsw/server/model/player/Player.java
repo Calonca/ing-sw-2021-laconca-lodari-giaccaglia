@@ -10,6 +10,7 @@ import it.polimi.ingsw.server.model.player.track.FaithTrack;
 import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.server.model.states.StatesTransitionTable;
 import it.polimi.ingsw.server.utils.Deserializator;
+import javafx.util.Pair;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -288,6 +289,10 @@ public class Player {
 
     public boolean hasLorenzoReachedTrackEnd(){
         return faithTrack.hasReachedLastSpace(faithTrack.getLorenzoPiece());
+    }
+
+    public Optional<Pair<Integer, Boolean>> getStateOfLastTurnedTileInTrack(){
+        return faithTrack.getStateOfLastTurnedTile();
     }
 
     private int getPointsFromLeaders(){

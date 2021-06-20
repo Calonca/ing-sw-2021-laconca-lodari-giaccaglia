@@ -20,6 +20,7 @@ import java.util.stream.IntStream;
  * Call {@link #show()} to update.
  */
 public class CLI {
+
     private final Client client;
     private Optional<Title> title;
     private Optional<CLIelem> body;
@@ -29,12 +30,12 @@ public class CLI {
     private String lastInput;
     private int lastInt;
     private Runnable afterInput;
+    private boolean isViewMode;
 
     //Min is 52
     public static final int height =53;//Usually 53
     //Min is 180
     public static final int width =190;//Usually 190
-
 
     public CLI(Client client) {
         stopASAP = new AtomicBoolean(false);
@@ -85,6 +86,15 @@ public class CLI {
         this.body.ifPresent(b->b.addToListeners(client));
     }
 
+    public void enableViewMode(){
+        isViewMode = true;
+    }
+
+    public void disableViewMode(){
+        isViewMode = false;
+    }
+
+
 
     public int getLastInt() {
         return lastInt;
@@ -124,27 +134,21 @@ public class CLI {
         afterInput = r1;
     }
 
-    public boolean runOnInputWithCondition(String message, Runnable r1){
-
-        if(lastInput.isEmpty()) {
-            inputMessage = message;
-            errorMessage = null;
-            r1.run();
-            return true;
-        }
-        else return false;
-    }
-
     public void runOnIntInput(String message, String errorMessage, int min, int max, Runnable r1){
         runOnIntInput(message, errorMessage, min, max, r1, null);
     }
 
     public void runOnIntInput(String message, String errorMessage, int min, int max, Runnable r1,Runnable onEnter){
+
         inputMessage = message;
+
         afterInput = ()->{
             try
             {
                 int choice = Integer.parseInt(lastInput);
+                if(isViewMode)
+                    return;
+
                 if (choice<min||choice>max)
                 {
                     this.errorMessage = errorMessage;
@@ -171,6 +175,7 @@ public class CLI {
                 }
             }
         };
+
     }
 
     public void runOnIntListInput(String message, String errorMessage, IntStream possibleValues, Runnable onInt){
@@ -178,6 +183,7 @@ public class CLI {
     }
 
     public void runOnIntListInput(String message, String errorMessage, IntStream possibleValues, Runnable onInt,Runnable onEnter){
+
         int[] supplier = possibleValues.toArray();
         int max = Arrays.stream(supplier).max().orElse(0);
         int min = Arrays.stream(supplier).min().orElse(0);
@@ -193,7 +199,6 @@ public class CLI {
         };
         runOnIntInput(message,errorMessage,min,max,r2,onEnter);
     }
-
 
     private void printLine(String s){
         System.out.println(s);
@@ -240,7 +245,6 @@ public class CLI {
         }
     }
 
-
     public void putDivider(){
         printLine(
                 Characters.VERT_DIVIDER.getString()+
@@ -275,5 +279,7 @@ public class CLI {
         scroll();//Used in intellij terminal, can be disabled if using linux terminal
         System.out.print("\033\143");//Tested on linux terminal
     }
+
+
 
 }

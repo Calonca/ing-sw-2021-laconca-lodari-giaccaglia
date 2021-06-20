@@ -1,14 +1,13 @@
 package it.polimi.ingsw.server.messages.messagebuilders;
 
-import it.polimi.ingsw.client.simplemodel.SimpleModel;
-import it.polimi.ingsw.network.assets.resources.ResourceAsset;
-import it.polimi.ingsw.network.simplemodel.EndGameInfo;
 import it.polimi.ingsw.network.simplemodel.*;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.states.State;
 
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 
 public enum Element {
 
@@ -51,6 +50,15 @@ public enum Element {
         @Override
         public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate){
             return new PlayersInfo(GameInfoMessageBuilder.getSimplePlayerInfoMap(gameModel));
+        }
+    },
+
+    VaticanReportInfo(true){
+        @Override
+        public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate){
+            return new VaticanReportInfo(
+                    GameInfoMessageBuilder.getPlayersTriggeringVaticanReport(gameModel),
+                    GameInfoMessageBuilder.getPopeTileStateMap(gameModel));
         }
     },
 

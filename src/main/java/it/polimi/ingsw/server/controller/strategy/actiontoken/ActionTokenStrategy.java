@@ -7,6 +7,7 @@ import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.states.State;
 import javafx.util.Pair;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ActionTokenStrategy implements GameStrategy {
@@ -14,7 +15,9 @@ public class ActionTokenStrategy implements GameStrategy {
     @Override
     public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event) {
 
+        List<Element> elementsToUpdate = new ArrayList<>();
         gamemodel.activateSoloActionToken();
+        elementsToUpdate.add(Element.VaticanReportInfo);
         return null;
     }
 

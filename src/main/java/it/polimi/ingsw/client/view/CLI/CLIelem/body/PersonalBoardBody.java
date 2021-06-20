@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view.CLI.CLIelem.body;
 import it.polimi.ingsw.client.simplemodel.PlayerCache;
 import it.polimi.ingsw.client.simplemodel.SimpleModel;
 import it.polimi.ingsw.client.view.CLI.CLIelem.CLIelem;
+import it.polimi.ingsw.client.view.CLI.IDLEViewBuilderCLI;
 import it.polimi.ingsw.client.view.CLI.layout.GridElem;
 import it.polimi.ingsw.client.view.CLI.layout.Option;
 import it.polimi.ingsw.client.view.CLI.layout.ResChoiceRowCLI;
@@ -27,130 +28,159 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.getClient;
 import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.getThisPlayerCache;
 import static it.polimi.ingsw.network.simplemodel.SimpleStrongBox.numAndSel;
 
 public class PersonalBoardBody extends CLIelem {
 
-    public enum Mode{
+        public enum Mode{
 
-        MOVING_RES(){
-            @Override
-            public String getString(PersonalBoardBody board) {
+            MOVING_RES(){
+                @Override
+                public String getString(PersonalBoardBody board) {
 
-                board.root = new Column();
+                    board.root = new Column();
 
-                board.root.setAlignment(GridElem.Alignment.CANVAS_CENTER_VERTICAL);
-                board.root.addElem(board.top);
+                    board.root.setAlignment(GridElem.Alignment.CANVAS_CENTER_VERTICAL);
+                    board.root.addElem(board.top);
 
-                Row depotsAndProds = board.root.addAndGetRow();
+                    Row depotsAndProds = board.root.addAndGetRow();
 
-                Column depots = depotsAndProds.addAndGetColumn();
-                depots.addElemNoIndexChange(board.wareHouseLeadersDepot);
+                    Column depots = depotsAndProds.addAndGetColumn();
+                    depots.addElemNoIndexChange(board.wareHouseLeadersDepot);
 
-                depots.addElem(new SizedBox(0,2));
-                depots.addElem(board.strongBox);
+                    depots.addElem(new SizedBox(0,2));
+                    depots.addElem(board.strongBox);
 
-                depotsAndProds.addElem(board.discardBox);
-                depotsAndProds.addElem(board.productions);
+                    depotsAndProds.addElem(board.discardBox);
+                    depotsAndProds.addElem(board.productions);
 
-                depotsAndProds.selectInEnabledOption(cli,board.message);
-                return  CanvasBody.fromGrid(board.root).toString();
-            }
-        },
-        SELECT_CARD_SHOP(){
-            @Override
-            public String getString(PersonalBoardBody board) {
+                    depotsAndProds.selectInEnabledOption(cli,board.message);
+                    return  CanvasBody.fromGrid(board.root).toString();
+                }
+            },
+            SELECT_CARD_SHOP(){
+                @Override
+                public String getString(PersonalBoardBody board) {
 
-                board.root = new Column();
+                    board.root = new Column();
 
-                board.top.updateElem(2,board.resChoiceRow.getGridElem());
-                board.root.addElem(board.top);
+                    board.top.updateElem(2,board.resChoiceRow.getGridElem());
+                    board.root.addElem(board.top);
 
-                Row depotsAndProds = board.root.addAndGetRow();
-                depotsAndProds.setAlignment(GridElem.Alignment.CANVAS_CENTER_VERTICAL);
+                    Row depotsAndProds = board.root.addAndGetRow();
+                    depotsAndProds.setAlignment(GridElem.Alignment.CANVAS_CENTER_VERTICAL);
 
-                Column depots = depotsAndProds.addAndGetColumn();
-                depots.addElemNoIndexChange(board.wareHouseLeadersDepot);
+                    Column depots = depotsAndProds.addAndGetColumn();
+                    depots.addElemNoIndexChange(board.wareHouseLeadersDepot);
 
-                depots.addElem(new SizedBox(0,2));
-                depots.addElem(board.strongBox);
+                    depots.addElem(new SizedBox(0,2));
+                    depots.addElem(board.strongBox);
 
-                depotsAndProds.addElem(board.productions);
+                    depotsAndProds.addElem(board.productions);
 
-                depotsAndProds.selectInEnabledOption(cli,board.message);
-                return  CanvasBody.fromGrid(board.root).toString();
-            }
-        },
-        SELECT_RES_FOR_PROD(){
-            @Override
-            public String getString(PersonalBoardBody board) {
+                    depotsAndProds.selectInEnabledOption(cli,board.message);
+                    return  CanvasBody.fromGrid(board.root).toString();
+                }
+            },
+            SELECT_RES_FOR_PROD(){
+                @Override
+                public String getString(PersonalBoardBody board) {
 
-                board.root = new Column();
+                    board.root = new Column();
 
-                board.root.addElem(board.resChoiceRow.getGridElem());
+                    board.root.addElem(board.resChoiceRow.getGridElem());
 
-                Row depotsAndProds = board.root.addAndGetRow();
-                depotsAndProds.setAlignment(GridElem.Alignment.CANVAS_CENTER_VERTICAL);
+                    Row depotsAndProds = board.root.addAndGetRow();
+                    depotsAndProds.setAlignment(GridElem.Alignment.CANVAS_CENTER_VERTICAL);
 
-                Column depots = depotsAndProds.addAndGetColumn();
-                depots.addElemNoIndexChange(board.wareHouseLeadersDepot);
+                    Column depots = depotsAndProds.addAndGetColumn();
+                    depots.addElemNoIndexChange(board.wareHouseLeadersDepot);
 
-                depots.addElem(new SizedBox(0,2));
-                depots.addElem(board.strongBox);
+                    depots.addElem(new SizedBox(0,2));
+                    depots.addElem(board.strongBox);
 
-                depotsAndProds.addElem(board.productions);
+                    depotsAndProds.addElem(board.productions);
 
-                board.root.selectInEnabledOption(cli,board.message);
-                return  CanvasBody.fromGrid(board.root).toString();
-            }
-        },
-        CHOOSE_POS_FOR_CARD(){
-            @Override
-            public String getString(PersonalBoardBody board) {
+                    board.root.selectInEnabledOption(cli,board.message);
+                    return  CanvasBody.fromGrid(board.root).toString();
+                }
+            },
+            CHOOSE_POS_FOR_CARD(){
+                @Override
+                public String getString(PersonalBoardBody board) {
 
-                board.root = new Column();
-                board.root.setAlignment(GridElem.Alignment.CANVAS_CENTER_VERTICAL);
-                board.root.addElem(board.top);
+                    board.root = new Column();
+                    board.root.setAlignment(GridElem.Alignment.CANVAS_CENTER_VERTICAL);
+                    board.root.addElem(board.top);
 
-                Row depotsAndProds = board.root.addAndGetRow();
+                    Row depotsAndProds = board.root.addAndGetRow();
 
-                Column depots = depotsAndProds.addAndGetColumn();
-                depots.addElemNoIndexChange(board.wareHouseLeadersDepot);
+                    Column depots = depotsAndProds.addAndGetColumn();
+                    depots.addElemNoIndexChange(board.wareHouseLeadersDepot);
 
-                depots.addElem(new SizedBox(0,2));
-                depots.addElem(board.strongBox);
+                    depots.addElem(new SizedBox(0,2));
+                    depots.addElem(board.strongBox);
 
-                depotsAndProds.addElem(board.productions);
-                board.productions.selectInEnabledOption(cli,board.message);
-                return  CanvasBody.fromGrid(board.root).toString();
-            }
-        },
-        CHOOSE_PRODUCTION(){
-            @Override
-            public String getString(PersonalBoardBody board) {
+                    depotsAndProds.addElem(board.productions);
+                    board.productions.selectInEnabledOption(cli,board.message);
+                    return  CanvasBody.fromGrid(board.root).toString();
+                }
+            },
+            CHOOSE_PRODUCTION(){
+                @Override
+                public String getString(PersonalBoardBody board) {
 
-                board.root = new Column();
-                board.root.setAlignment(GridElem.Alignment.CANVAS_CENTER_VERTICAL);
-                board.root.addElem(board.top);
+                    board.root = new Column();
+                    board.root.setAlignment(GridElem.Alignment.CANVAS_CENTER_VERTICAL);
+                    board.root.addElem(board.top);
 
-                Row depotsAndProds = board.root.addAndGetRow();
+                    Row depotsAndProds = board.root.addAndGetRow();
 
-                Column depots = depotsAndProds.addAndGetColumn();
-                depots.addElemNoIndexChange(board.wareHouseLeadersDepot);
+                    Column depots = depotsAndProds.addAndGetColumn();
+                    depots.addElemNoIndexChange(board.wareHouseLeadersDepot);
 
-                depots.addElem(new SizedBox(0,2));
-                depots.addElem(board.strongBox);
+                    depots.addElem(new SizedBox(0,2));
+                    depots.addElem(board.strongBox);
 
-                depotsAndProds.addElem(board.productions);
-                board.productions.selectInEnabledOption(cli,board.message, ProductionViewBuilder::sendProduce);
-                return  CanvasBody.fromGrid(board.root).toString();
-            }
-        };
+                    depotsAndProds.addElem(board.productions);
+                    board.productions.selectInEnabledOption(cli,board.message, ProductionViewBuilder::sendProduce);
+                    return  CanvasBody.fromGrid(board.root).toString();
+                }
+            },
+            VIEWING(){
+
+                @Override
+                public String getString(PersonalBoardBody board) {
+                    board.root = new Column();
+                    board.root.setAlignment(GridElem.Alignment.CANVAS_CENTER_VERTICAL);
+                    board.root.addElem(board.top);
+
+                    Row depotsAndProds = board.root.addAndGetRow();
+
+                    Column depots = depotsAndProds.addAndGetColumn();
+                    depots.addElemNoIndexChange(board.wareHouseLeadersDepot);
+
+                    depots.addElem(new SizedBox(0,2));
+                    depots.addElem(board.strongBox);
+                    depotsAndProds.addElem(board.productions);
+
+                    cli.enableViewMode();
+
+                    depotsAndProds.selectInEnabledOption(cli, board.message, () -> {
+
+                        cli.disableViewMode();
+                        getClient().changeViewBuilder(new IDLEViewBuilderCLI());
+
+                    });
+                    return  CanvasBody.fromGrid(board.root).toString();
+                }
+
+            };
 
 
-        public abstract String getString(PersonalBoardBody board);
-
+            public abstract String getString(PersonalBoardBody board);
     }
 
     Column root = new Column();
