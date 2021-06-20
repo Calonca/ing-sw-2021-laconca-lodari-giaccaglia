@@ -86,8 +86,6 @@ public class Warehouse3D {
                 Shape3D testShape = (Shape3D) wareGroup.getChildren().get(globalPos);
                 testShape.setOnMousePressed((u) -> {
                     Map<Integer,Integer> selectedPositionsMap = selectablePositions.getUpdatedSelectablePositions(toSelect.getChosenInputPos());
-                    System.out.println(JsonUtility.serialize(toSelect.getChosenInputPos()));
-                    System.out.println(JsonUtility.serialize(selectedPositionsMap));
                     boolean isSelectable = selectedPositionsMap.getOrDefault(globalPos, 0) > 0;
                     if (isSelectable) {
                         toSelect.setNextInputPos(globalPos, e.getKey());

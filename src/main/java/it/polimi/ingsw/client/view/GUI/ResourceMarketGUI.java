@@ -8,17 +8,12 @@ import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.scene.*;
 import javafx.scene.control.Button;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Sphere;
 import javafx.scene.text.Text;
-import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Translate;
 import javafx.util.Duration;
-import java.io.IOException;
-import java.net.URL;
+
 import java.util.*;
 
 /**
@@ -34,7 +29,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
     public int ROWSIZE=4;
     public int ROWNUMBER=3;
 
-    public double ballsize=0.8;
+    public double ballsize=40;
     int rowButtonHeight=130;
     int columnButtonOffset=150;
 
@@ -50,13 +45,15 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
     public double len=320;
     public double reaLen=700;
 
-    public AnchorPane marketPane;
+    //public AnchorPane marketPane;
     double marketTranslateX=600;
     double MarketTranslateY=-30;
 
     double subSceneTranslateY=75;
     double subSceneTranslateX=75;
     public List<List<Sphere>> rows=new ArrayList<>();
+    private Group root3D;
+    private Group buttons;
 
 
     /**
@@ -68,24 +65,24 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
         SetupPhase.getBoard().changeCamState(CamState.SEE_RESOURCE_MARKET);
     }
 
-    public SubScene getRoot() {
+    public Group getRoot() {
 
-        marketPane=new AnchorPane();
-        marketPane.setMinSize(700,1000);
+        root3D = new Group();
+        //root3D.setRotate(-90);
+        buttons = new Group();
+        buttons.setTranslateX(-400);
+        root3D.getChildren().add(buttons);
+        buttons.setRotate(90);
 
-
-
-        PerspectiveCamera camera = new PerspectiveCamera(true);
-        camera.getTransforms().addAll(new Rotate(90,Rotate.Z_AXIS),new Rotate(0,Rotate.X_AXIS), new Rotate(0,Rotate.Y_AXIS), new Translate(0, 0, -20));
-        camera.translateXProperty().set(0);
-        camera.translateYProperty().set(-2.0);
-        camera.setTranslateZ(4);
-
+        //marketPane=new AnchorPane();
+        //marketPane.setMinSize(700,1000);
 
 
-        Group root3D = new Group();
-
-
+        //PerspectiveCamera camera = new PerspectiveCamera(true);
+        //camera.getTransforms().addAll(new Rotate(90,Rotate.Z_AXIS),new Rotate(0,Rotate.X_AXIS), new Rotate(0,Rotate.Y_AXIS), new Translate(0, 0, -20));
+        //camera.translateXProperty().set(0);
+        //camera.translateYProperty().set(-2.0);
+        //camera.setTranslateZ(4);
 
 
         double x=ballsize*2;
@@ -124,22 +121,22 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
 
         generateColumns(rows,columnButtonOffset);
 
-        SubScene slideSubscene = new SubScene(root3D, width, len, true, SceneAntialiasing.BALANCED);
-        slideSubscene.setTranslateY(subSceneTranslateY);
-        slideSubscene.setTranslateX(subSceneTranslateX);;
-        slideSubscene.setFill(Color.TRANSPARENT);
-        slideSubscene.setCamera(camera);
+        //SubScene slideSubscene = new SubScene(root3D, width, len, true, SceneAntialiasing.BALANCED);
+        //slideSubscene.setTranslateY(subSceneTranslateY);
+        //slideSubscene.setTranslateX(subSceneTranslateX);;
+        //slideSubscene.setFill(Color.TRANSPARENT);
+        //slideSubscene.setCamera(camera);
 
 
-        marketPane.getChildren().add(slideSubscene);
-        marketPane.setId("marketPane");
+        //marketPane.getChildren().add(slideSubscene);
+        //marketPane.setId("marketPane");
         error.setOpacity(0);
         error.setLayoutX(width/2);
         error.setLayoutY((len*4)/5);
-        marketPane.getChildren().add(error);
+        buttons.getChildren().add(error);
         getClient().getStage().show();
 
-        return new SubScene(marketPane,reaWidth,reaLen);
+        return root3D;
 
     }
 
@@ -229,7 +226,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
 
         });
         rows.add(row);
-        marketPane.getChildren().add(button);
+        buttons.getChildren().add(button);
 
     }
 
@@ -254,7 +251,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
             button.setLayoutY(reaLen/2+70);
 
             setBut(button,i);
-            marketPane.getChildren().add(button);
+            buttons.getChildren().add(button);
 
         }
 
