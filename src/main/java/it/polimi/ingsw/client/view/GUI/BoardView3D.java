@@ -331,8 +331,7 @@ public class BoardView3D {
         basic.setOpacity(0);
         //basic.setMouseTransparent(true);
 
-        productions.getChildren().add(basic);
-        addNodeToParent(parent,board,basic,new Point3D(600,1200,0));
+        addNodeToParent(productions,basic,new Point3D(600,1200,0));
         basic.setOnMouseClicked(p->{
             if (mode.equals(Mode.CHOOSE_PRODUCTION)) {
                 ProductionViewBuilder.sendChosenProduction(0);
@@ -369,9 +368,9 @@ public class BoardView3D {
             });
             rectangle.setFill(tempImage);
 
-            addNodeToParent(parent, board, rectangle, new Point3D(20 + 220 * key, 700, -20));
+            addNodeToParent(productions, rectangle, new Point3D(20 + 220 * key, 700, -20));
         }
-        parent.getChildren().add(productions);
+        addNodeToParent(parent, board, productions, new Point3D(0,0,0));
         this.productions = productions;
     }
 
