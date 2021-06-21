@@ -186,14 +186,18 @@ public class SessionController {
 
     public void saveMatch(Match match){
 
-        String gameName = match.getSaveName();
-        String folderAbsolutePath =  Paths.get(matchesFolderName).toAbsolutePath().toString();
-        String path = folderAbsolutePath + '/' + gameName + ".json";
+        if(!isDebugMode.get()) {
 
-        try {
-            Serializator.serializeMatch(match, path);
-        } catch (IOException e) {
-            e.printStackTrace();
+            String gameName = match.getSaveName();
+            String folderAbsolutePath = Paths.get(matchesFolderName).toAbsolutePath().toString();
+            String path = folderAbsolutePath + '/' + gameName + ".json";
+
+            try {
+                Serializator.serializeMatch(match, path);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
 
     }

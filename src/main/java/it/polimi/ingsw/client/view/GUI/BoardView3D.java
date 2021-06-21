@@ -1,39 +1,36 @@
 package it.polimi.ingsw.client.view.GUI;
 
-import it.polimi.ingsw.client.view.GUI.board.Warehouse3D;
-import it.polimi.ingsw.client.view.GUI.layout.ResChoiceRowGUI;
-import it.polimi.ingsw.client.view.abstractview.ResChoiceRow;
 import it.polimi.ingsw.client.view.GUI.board.Box3D;
 import it.polimi.ingsw.client.view.GUI.board.CamState;
 import it.polimi.ingsw.client.view.GUI.board.FaithTrack;
-import it.polimi.ingsw.client.view.GUI.util.*;
+import it.polimi.ingsw.client.view.GUI.board.Warehouse3D;
+import it.polimi.ingsw.client.view.GUI.layout.ResChoiceRowGUI;
+import it.polimi.ingsw.client.view.GUI.util.BoardStateController;
+import it.polimi.ingsw.client.view.GUI.util.DragAndDropHandler;
+import it.polimi.ingsw.client.view.GUI.util.ModelImporter;
+import it.polimi.ingsw.client.view.GUI.util.ResourceGUI;
 import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ProductionViewBuilder;
-import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
 import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
-import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
-import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
-import it.polimi.ingsw.network.simplemodel.*;
+import it.polimi.ingsw.network.simplemodel.SimpleCardCells;
+import it.polimi.ingsw.network.simplemodel.SimpleCardShop;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.PhongMaterial;
-import javafx.scene.shape.*;
-import javafx.util.Pair;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape3D;
 import org.jetbrains.annotations.NotNull;
 
-import java.beans.PropertyChangeEvent;
-import java.io.InputStream;
 import java.nio.file.Path;
-import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Optional;
 
 import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.*;
 
@@ -339,7 +336,7 @@ public class BoardView3D {
         });
 
         SimpleCardCells simpleCardCells = getThisPlayerCache().getElem(SimpleCardCells.class).orElseThrow();
-        Map<Integer,Optional<DevelopmentCardAsset>> frontCards=simpleCardCells.getDevCardsCells();
+        Map<Integer,Optional<DevelopmentCardAsset>> frontCards=simpleCardCells.getDevCardsOnTop();
 
         for (Map.Entry<Integer, Optional<DevelopmentCardAsset>> entry : frontCards.entrySet()) {
             Integer key = entry.getKey();
