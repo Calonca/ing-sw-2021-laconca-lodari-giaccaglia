@@ -8,6 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public enum Element {
 
@@ -183,6 +184,12 @@ public enum Element {
 
         private static final List<Element> elements = Arrays.asList(Element.values());
 
+        private static final List<Element> allPlayerElements = elements.stream().filter(element -> !element.isCommonElement()).collect(Collectors.toList());
+
+        private static final List<Element> allCommonElements = elements.stream().filter(Element::isCommonElement).collect(Collectors.toList());
+
+
+
         Element(final Boolean isCommonElement) {
             this.isCommonElement = isCommonElement;
         }
@@ -193,8 +200,39 @@ public enum Element {
             return elements;
         }
 
+        public static List<Element> getAllPlayerElementsAsList(){
+            return allPlayerElements;
+        }
+
+        public static List<Element> getAllCommonElementsAsList(){
+            return allCommonElements;
+        }
+
+        public static List<SimpleModelElement> buildPlayerSimpleModelElements(GameModel gameModel, List<Element> elementsToUpdate, int playerRequestingUpdate){
+
+            List<SimpleModelElement> playerSimpleModelElements = elementsToUpdate
+                    .stream()
+                    .filter(element -> !element.isCommonElement())
+                    .map(element -> element.buildSimpleModelElement(gameModel, playerRequestingUpdate))
+                    .collect(Collectors.toList());
+
+            return playerSimpleModelElements;
+        }
+
+        public static List<SimpleModelElement> buildCommonSimpleModelElements(GameModel gameModel, List<Element> elementsToUpdate, int playerRequestingUpdate){
+
+        List<SimpleModelElement> commonSimpleModelElements = elementsToUpdate
+                .stream()
+                .filter(Element::isCommonElement)
+                .map(element -> element.buildSimpleModelElement(gameModel, playerRequestingUpdate))
+                .collect(Collectors.toList());
+
+        return commonSimpleModelElements;
+    }
+
         public boolean isCommonElement() {
             return isCommonElement;
         }
+
 
 }

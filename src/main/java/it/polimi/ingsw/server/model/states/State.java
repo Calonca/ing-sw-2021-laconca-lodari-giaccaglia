@@ -1,18 +1,17 @@
 package it.polimi.ingsw.server.model.states;
-import it.polimi.ingsw.network.messages.servertoclient.state.*;
+import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
 import it.polimi.ingsw.server.messages.messagebuilders.Element;
-import it.polimi.ingsw.network.simplemodel.SimpleModelElement;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
-import it.polimi.ingsw.server.model.cards.*;
-import it.polimi.ingsw.server.model.player.leaders.Leader;
+import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.market.Marble;
 import it.polimi.ingsw.server.model.market.MarketBoard;
 import it.polimi.ingsw.server.model.market.MarketLine;
-import it.polimi.ingsw.server.model.player.board.*;
+import it.polimi.ingsw.server.model.player.board.Box;
+import it.polimi.ingsw.server.model.player.board.PersonalBoard;
+import it.polimi.ingsw.server.model.player.leaders.Leader;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  *  <p>Enum class for player turn phases represented as FSM States. Game turn is divided in three macro phases.<br>
@@ -150,14 +149,14 @@ public enum State {
      */
     public StateInNetwork toStateMessage(GameModel gameModel, List<Element> elementsToUpdate, int playerRequestingUpdate) {
 
-        List<SimpleModelElement> playerSimpleModelElements = elementsToUpdate.stream().filter(element -> !element.isCommonElement()).map(element -> element.buildSimpleModelElement(gameModel, playerRequestingUpdate)).collect(Collectors.toList());
-        List<SimpleModelElement> commonSimpleModelElements = elementsToUpdate.stream().filter(Element::isCommonElement).map(element -> element.buildSimpleModelElement(gameModel, playerRequestingUpdate)).collect(Collectors.toList());
 
         return new StateInNetwork(
                 playerRequestingUpdate,
-                this.toString(), playerSimpleModelElements,
-                commonSimpleModelElements);
+                this.toString(),
+                Element.buildPlayerSimpleModelElements(gameModel, elementsToUpdate, playerRequestingUpdate),
+                Element.buildCommonSimpleModelElements(gameModel, elementsToUpdate, playerRequestingUpdate));
 
     }
+
 
 }

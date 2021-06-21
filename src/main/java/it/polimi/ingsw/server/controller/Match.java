@@ -1,7 +1,9 @@
 package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
+import it.polimi.ingsw.network.messages.servertoclient.state.ElementsInNetwork;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
+import it.polimi.ingsw.network.simplemodel.SimpleModelElement;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.controller.strategy.IDLE;
@@ -15,6 +17,7 @@ import javafx.util.Pair;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class Match {
@@ -139,7 +142,7 @@ public class Match {
         game.start();
         game.getCurrentPlayer().setCurrentState(State.SETUP_PHASE);
         List<Element> elements = new ArrayList<>(Arrays.asList(Element.values()));
-        notifyStateToAllPlayers(elements, game.getCurrentPlayer());
+        notifyStateToAllPlayers(elements, game.getCurrentPlayer().getNickName());
     }
 
     public boolean isGameActive(){
@@ -226,7 +229,7 @@ public class Match {
 
         playerSendingEvent.setCurrentState(data.getKey());
 
-        notifyStateToAllPlayers(data.getValue(), playerSendingEvent);
+        notifyStateToAllPlayers(data.getValue(), nicknameOfPlayerSendingEvent);
 
         //Todo check for better way
         if (playerSendingEvent.getCurrentState().equals(State.IDLE) && playerSendingEvent.equals(game.getCurrentPlayer())) {
@@ -241,15 +244,14 @@ public class Match {
 
                     playerSendingEvent = game.getCurrentPlayer();
 
-                    notifyStateToAllPlayers(elems, playerSendingEvent);
+                    notifyStateToAllPlayers(elems, playerSendingEvent.getNickName());
 
                 } else {
+                    playerSendingEvent = game.getCurrentPlayer();
                     IDLE IDLEStrategy = new IDLE();
                     Pair<State, List<Element>> data2 = IDLEStrategy.execute(game, null);
-                    game.getCurrentPlayer().setCurrentState(data2.getKey());
-
-                    playerSendingEvent = game.getCurrentPlayer();
-                    notifyStateToAllPlayers(data.getValue(), playerSendingEvent);
+                    playerSendingEvent.setCurrentState(data2.getKey());
+                    notifyStateToAllPlayers(data2.getValue(), playerSendingEvent.getNickName());
                 }
             }
 
@@ -257,13 +259,37 @@ public class Match {
 
     }
 
-    public void notifyStateToAllPlayers(List<Element> elems, Player playerNotifying){
+    public void transitionToNextStateAfterDisconnection(String playerNickname){
+        if(game.isSinglePlayer())
+            return;
 
-        State state = playerNotifying.getCurrentState();
+        Player playerDisconnected = game.getPlayer(playerNickname).get();
+        if(game.getCurrentPlayer().equals(playerDisconnected)){
+            game.setCurrentPlayer(game.getNextPlayer());
+
+            Player newCurrentPlayer = game.getCurrentPlayer();
+
+            if(newCurrentPlayer.getCurrentState().equals(State.IDLE)){
+
+                IDLE IDLEStrategy = new IDLE();
+                Pair<State, List<Element>> data = IDLEStrategy.execute(game, null);
+                newCurrentPlayer.setCurrentState(data.getKey());
+                notifyStateToAllPlayers(data.getValue(), newCurrentPlayer.getNickName());
+            }
+
+        }
+
+
+    }
+
+    public void notifyStateToAllPlayers(List<Element> elems, String playerNotifying){
+
+        Player player = game.getPlayer(playerNotifying).get();
+        State state = player.getCurrentState();
 
         clientsStream().forEach(clientHandler -> {
 
-            StateInNetwork stateInNetwork = state.toStateMessage(getGame(), elems, game.getPlayerIndex(playerNotifying));
+            StateInNetwork stateInNetwork = state.toStateMessage(getGame(), elems, game.getPlayerIndex(player));
 
             try {
                 clientHandler.sendAnswerMessage(stateInNetwork);
@@ -273,6 +299,34 @@ public class Match {
         });
 
     }
+
+    public void updateOtherPlayersCachesMessage(String playerJoining){
+
+        Player player = game.getPlayer(playerJoining).get();
+        int playerIndex = game.getPlayerIndex(player);
+
+        Map<Integer, List<SimpleModelElement>> playersElems = IntStream.range(0, onlineUsers.size()).boxed().collect(Collectors.toMap(
+                index -> index,
+                index -> {
+                    List<Element> elementsToUpdate = Element.getAllPlayerElementsAsList();
+                    return elementsToUpdate.stream().map(element -> element.buildSimpleModelElement(game, playerIndex)).collect(Collectors.toList());
+                }
+        ));
+
+        List<SimpleModelElement> commonElements = Element.buildCommonSimpleModelElements(game, Element.getAllCommonElementsAsList(), playerIndex);
+        ElementsInNetwork elementsInNetwork = new ElementsInNetwork(commonElements, playersElems, playerIndex);
+
+        clientsStream().forEach(clientHandler -> {
+        try{
+            clientHandler.sendAnswerMessage(elementsInNetwork);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    });
+    }
+
+
 
     public String getSaveName(){
 

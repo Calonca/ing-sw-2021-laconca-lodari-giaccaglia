@@ -1,5 +1,6 @@
-package it.polimi.ingsw.client.view.CLI;
+package it.polimi.ingsw.client.view.CLI.match;
 
+import it.polimi.ingsw.client.view.CLI.CLIBuilder;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Title;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
 import it.polimi.ingsw.client.view.CLI.layout.Option;

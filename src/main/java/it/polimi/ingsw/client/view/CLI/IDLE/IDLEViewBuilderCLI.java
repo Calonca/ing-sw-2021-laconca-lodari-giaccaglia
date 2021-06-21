@@ -1,7 +1,9 @@
-package it.polimi.ingsw.client.view.CLI;
+package it.polimi.ingsw.client.view.CLI.IDLE;
 
+import it.polimi.ingsw.client.view.CLI.CLIBuilder;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.PersonalBoardBody;
+import it.polimi.ingsw.client.view.CLI.CardShopCLI;
 import it.polimi.ingsw.client.view.CLI.layout.Option;
 import it.polimi.ingsw.client.view.CLI.layout.SizedBox;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.Drawable;
@@ -11,8 +13,6 @@ import it.polimi.ingsw.client.view.abstractview.InitialOrFinalPhaseViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.MiddlePhaseViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 import it.polimi.ingsw.network.simplemodel.PlayersInfo;
-import it.polimi.ingsw.network.simplemodel.SimpleCardCells;
-import it.polimi.ingsw.network.simplemodel.SimpleStrongBox;
 import it.polimi.ingsw.network.simplemodel.VaticanReportInfo;
 
 import java.beans.PropertyChangeEvent;
@@ -67,7 +67,7 @@ public class IDLEViewBuilderCLI extends IDLEViewBuilder implements CLIBuilder {
         Drawable boardDw = new Drawable();
         boardDw.add(0,"  See your");
         boardDw.add(0,"Personal Board");
-        row.addElem(idlePhaseOption(boardDw,this::seePersonalBoard, true));
+        row.addElem(idlePhaseOption(boardDw, () -> PersonalBoardBody.seePersonalBoard(getCommonData().getThisPlayerIndex(), PersonalBoardBody.ViewMode.IDLE), true));
         row.addElem(new SizedBox(6,0));
 
         Drawable viewCardShop = new Drawable();
@@ -81,25 +81,11 @@ public class IDLEViewBuilderCLI extends IDLEViewBuilder implements CLIBuilder {
         return row;
     }
 
-    private void preparePersonalBoard(PersonalBoardBody.Mode mode, String message){
 
-        PersonalBoardBody board = new PersonalBoardBody(getThisPlayerCache(), mode);
-        board.initializeFaithTrack(getSimpleModel());
+    private void choosePositions(){
+        PersonalBoardBody board = new PersonalBoardBody(getThisPlayerCache(), PersonalBoardBody.Mode.MOVING_RES_IDLE);
+        board.preparePersonalBoard("Select move starting position or press ENTER to go back");}
 
-        board.initializeMove();
-        board.setStrongBox(PersonalBoardBody.strongBoxBuilder(getThisPlayerCache().getElem(SimpleStrongBox.class).orElseThrow(), board));
-        SimpleCardCells simpleCardCells = getThisPlayerCache().getElem(SimpleCardCells.class).orElseThrow();
-        Row prodsRow = board.productionsBuilder(simpleCardCells);
-        board.setProductions(prodsRow);
-        board.setMessage(message);
-        getCLIView().setBody(board);
-        getCLIView().show();
-
-    }
-    private void seePersonalBoard(){
-        preparePersonalBoard(PersonalBoardBody.Mode.VIEWING, "Press ENTER to go back");
-    }
-    private void choosePositions(){preparePersonalBoard(PersonalBoardBody.Mode.MOVING_RES, "Select move starting position or press ENTER to go back");}
     private Option idlePhaseOption(Drawable d, Runnable r, boolean enabled){
         Option o = Option.from(d,r);
         o.setEnabled(enabled);

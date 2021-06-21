@@ -3,9 +3,7 @@ package it.polimi.ingsw.network.simplemodel;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import javafx.util.Pair;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SimpleWarehouseLeadersDepot extends SimpleModelElement{
 
@@ -26,6 +24,8 @@ public class SimpleWarehouseLeadersDepot extends SimpleModelElement{
     }
 
     public Map<Integer, List<Pair<ResourceAsset, Boolean>>> getDepots() {
+        if(Objects.isNull(simpleWarehouseLeadersDepot))
+            return Collections.EMPTY_MAP;
         return simpleWarehouseLeadersDepot;
     }
 

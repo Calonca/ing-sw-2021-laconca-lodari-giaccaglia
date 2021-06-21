@@ -3,8 +3,10 @@ package it.polimi.ingsw.network.simplemodel;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import javafx.util.Pair;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class SimpleDiscardBox extends SimpleModelElement{
 
@@ -41,10 +43,15 @@ public class SimpleDiscardBox extends SimpleModelElement{
     }
 
     public Map<Integer, Pair<ResourceAsset, Integer>> getResourceMap() {
+        if(Objects.isNull(simpleDiscardBox))
+            return new HashMap<>();
         return simpleDiscardBox;
     }
 
     public Map<Integer, List<Integer>> getAvailableMovingPositions(){
+        if(Objects.isNull(availableMovingPositions))
+            return new HashMap<>();
+
         return availableMovingPositions;
     }
 

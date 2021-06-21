@@ -17,10 +17,12 @@ public class InitialOrFinalPhaseCLI extends InitialOrFinalPhaseViewBuilder imple
 
         String initial = "Initial";
         String end = "Final";
+        getCLIView().clearScreen(); //needed to clear bottom text from idle phase
         getCLIView().setTitle((InitialOrFinalPhaseCLI.isInitial?initial:end)+" phase");
         getCLIView().setBody(new LeaderActionBody(simplePlayerLeaders.getPlayerLeaders(),getClient()));
         getCLIView().disableViewMode();
         getCLIView().show();
+
     }
 
 }

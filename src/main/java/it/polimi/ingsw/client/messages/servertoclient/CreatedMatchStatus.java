@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.messages.servertoclient;
 
 import it.polimi.ingsw.client.ServerHandler;
-import it.polimi.ingsw.client.view.CLI.CreateJoinLoadMatch;
+import it.polimi.ingsw.client.view.CLI.match.CreateJoinLoadMatch;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
 
 import java.io.IOException;

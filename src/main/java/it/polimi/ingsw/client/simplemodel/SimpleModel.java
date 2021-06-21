@@ -1,7 +1,8 @@
 package it.polimi.ingsw.client.simplemodel;
 
-import it.polimi.ingsw.network.simplemodel.*;
+import it.polimi.ingsw.client.messages.servertoclient.ElementsInNetwork;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
+import it.polimi.ingsw.network.simplemodel.*;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -67,13 +68,37 @@ public class SimpleModel {
 
     public void updateSimpleModel(StateInNetwork stateInNetwork){
 
+        PlayerCache playerCache = getPlayerCache(stateInNetwork.getPlayerNumber());
+        playerCache.updatePlayerElements(stateInNetwork.getPlayerSimpleModelElements());
+
         for(SimpleModelElement element : stateInNetwork.getCommonSimpleModelElements()){
             String elemName = element.getClass().getSimpleName();
             updateSimpleModelElement(elemName, element);
             support.firePropertyChange(elemName,null,getElem(elemName));
         }
 
-        getPlayerCache(stateInNetwork.getPlayerNumber()).updateState(stateInNetwork.getState(),stateInNetwork.getPlayerSimpleModelElements());
+        playerCache.updateState(stateInNetwork.getState());
+
+
+    }
+
+    public void initializeSimpleModelWhenJoining(ElementsInNetwork elementsInNetwork){
+
+        for(SimpleModelElement element : elementsInNetwork.getCommonSimpleModelElements()){
+            String elemName = element.getClass().getSimpleName();
+            updateSimpleModelElement(elemName, element);
+         //   support.firePropertyChange(elemName,null,getElem(elemName));
+        }
+
+        Map<Integer, List<SimpleModelElement>> playersElements = elementsInNetwork.getPlayerElements();
+
+        playersElements.forEach((key, elements) -> {
+
+            PlayerCache playerCache = getPlayerCache(key);
+
+            for (SimpleModelElement element : elements)
+                playerCache.updateSimpleModelElement(element);
+        });
 
     }
 

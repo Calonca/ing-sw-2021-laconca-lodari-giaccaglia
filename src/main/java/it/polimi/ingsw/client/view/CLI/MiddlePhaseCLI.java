@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view.CLI;
 
 
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
+import it.polimi.ingsw.client.view.CLI.CLIelem.body.PersonalBoardBody;
 import it.polimi.ingsw.client.view.CLI.layout.Option;
 import it.polimi.ingsw.client.view.CLI.layout.SizedBox;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.Drawable;
@@ -11,8 +12,6 @@ import it.polimi.ingsw.network.simplemodel.SimpleCardShop;
 import it.polimi.ingsw.network.simplemodel.SimpleProductions;
 
 public class MiddlePhaseCLI extends MiddlePhaseViewBuilder implements CLIBuilder {
-
-    int timesEnterPressed=0;
 
     @Override
     public void run() {
@@ -44,6 +43,12 @@ public class MiddlePhaseCLI extends MiddlePhaseViewBuilder implements CLIBuilder
         viewCardShop.add(0,"Look at cards");
         viewCardShop.add(0,"from the Card Shop");
         row.addElem(middlePhaseOption(viewCardShop,()-> getClient().changeViewBuilder(new CardShopCLI(true)), true));
+        row.addElem(new SizedBox(4,0));
+
+        Drawable viewPersonalBoard = new Drawable();
+        viewPersonalBoard.add(0," Look at your");
+        viewPersonalBoard.add(0,"Personal Board");
+        row.addElem(middlePhaseOption(viewPersonalBoard,() ->PersonalBoardBody.seePersonalBoard(getCommonData().getThisPlayerIndex(), PersonalBoardBody.ViewMode.MIDDLE), true));
         row.addElem(new SizedBox(4,0));
 
         SimpleCardShop simpleCardShop = getSimpleModel().getElem(SimpleCardShop.class).orElseThrow();
