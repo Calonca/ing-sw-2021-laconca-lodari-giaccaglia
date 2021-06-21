@@ -4,6 +4,7 @@ package it.polimi.ingsw.client.view.GUI;
 import it.polimi.ingsw.client.view.GUI.board.CamState;
 import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
 
+import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.scene.*;
@@ -26,17 +27,17 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
     boolean selected=false;
     public Sphere toPut;
 
-    public int ROWSIZE=4;
-    public int ROWNUMBER=3;
+    public int NUMBEROFROWS =4;
+    public int NUMBEROFCOLUMNS =3;
 
     public double ballsize=40;
     int rowButtonHeight=130;
-    int columnButtonOffset=150;
+    int columnButtonOffset=-75;
 
 
     double ballsXOffset=-4.5;
 
-    double toPutStartingY=ballsXOffset+ROWSIZE*ballsize*2;
+    double toPutStartingY=ballsXOffset+ NUMBEROFROWS *ballsize*2;
     double toPutStartingX;
 
     public boolean enabled=false;
@@ -52,6 +53,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
     double subSceneTranslateY=75;
     double subSceneTranslateX=75;
     public List<List<Sphere>> rows=new ArrayList<>();
+    public List<List<Sphere>> columns=new ArrayList<>();
     private Group root3D;
     private Group buttons;
 
@@ -70,7 +72,9 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
         root3D = new Group();
         //root3D.setRotate(-90);
         buttons = new Group();
-        buttons.setTranslateX(-400);
+        buttons.setTranslateX(-200);
+        buttons.setTranslateY(350);
+
         root3D.getChildren().add(buttons);
         buttons.setRotate(90);
 
@@ -86,9 +90,8 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
 
 
         double x=ballsize*2;
-        for(int i=0;i<ROWNUMBER;i++)
+        for(int i = 0; i< NUMBEROFROWS; i++)
         {
-            System.out.println(Arrays.toString(getMarketMatrix()[i]));
             generateRow(root3D,x,ballsXOffset,i);
             x-=2*ballsize;
         }
@@ -110,17 +113,15 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
             add(Color.BLACK);
         }};
 
+
         toPut.setMaterial(new PhongMaterial(colors.get(getSimpleMarketBoard().getSlideMarble().ordinal())));
-
-        for(int i=0;i<ROWNUMBER;i++)
-            for(int j=0;j<ROWSIZE;j++)
-            {
-                rows.get(i).get(j).setMaterial(new PhongMaterial(colors.get(getMarketMatrix()[i][j].ordinal())));
-
-            }
-
         generateColumns(rows,columnButtonOffset);
 
+        MarbleAsset[][] marketMatrix=getMarketMatrix();
+
+        for(int j=0;j<NUMBEROFCOLUMNS;j++)
+            for(int i=0;i<NUMBEROFROWS;i++)
+                columns.get(j).get(i).setMaterial(new PhongMaterial(colors.get(marketMatrix[j][i].ordinal())));
         //SubScene slideSubscene = new SubScene(root3D, width, len, true, SceneAntialiasing.BALANCED);
         //slideSubscene.setTranslateY(subSceneTranslateY);
         //slideSubscene.setTranslateX(subSceneTranslateX);;
@@ -172,7 +173,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
 
 
         List<Sphere> row=new ArrayList<>();
-        for(int i=0;i<ROWSIZE;i++)
+        for(int i = 0; i< NUMBEROFCOLUMNS; i++)
         {
             Sphere ball=new Sphere(ballsize);
             ball.translateYProperty().set(y+i*2*ballsize);
@@ -182,8 +183,9 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
 
         }
         Button button=new Button();
-        button.setLayoutX(reaWidth-30);
-        button.setLayoutY(k*80+rowButtonHeight);
+        button.setTranslateX(250);
+        button.setTranslateY(-350+100*k);
+        button.setGraphic(new Text(Integer.toString(k+3)));
         button.setOnAction( p-> {
 
             if(!SetupPhase.getBoard().getController().isMarket())
@@ -216,8 +218,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
             transition.setOnFinished(e->
             {
 
-
-                sendLine(k);
+                sendLine(k+3);
 
             });
             transition.play();
@@ -246,13 +247,18 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
 
 
             Button button=new Button();
-            button.setLayoutX(h);
+            button.setTranslateX(h);
             h+=80;
-            button.setLayoutY(reaLen/2+70);
+            button.setTranslateY(-700);
 
             setBut(button,i);
             buttons.getChildren().add(button);
 
+
+            ArrayList<Sphere> column= new ArrayList<>();
+            for (List<Sphere> row : rows) column.add(row.get(i));
+
+            columns.add(column);
         }
 
 
@@ -260,6 +266,8 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
 
     public void setBut(Button but,int i)
     {
+        but.setGraphic(new Text(Integer.toString(i)));
+
         but.setOnAction( p-> {
 
             if(!SetupPhase.getBoard().getController().isMarket())
@@ -267,7 +275,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
 
             error.setOpacity(0);
 
-            toPut.setTranslateY(toPut.getTranslateY()-(ROWSIZE-i)*ballsize*2);
+            toPut.setTranslateY(toPut.getTranslateY()-(NUMBEROFROWS -i)*ballsize*2);
             toPut.setTranslateX(toPut.getTranslateX()-ballsize*8);
 
             moveX(toPut,toPut.getTranslateX()+2*ballsize,new Duration(100));
@@ -275,6 +283,8 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
 
             ArrayList<Sphere> column= new ArrayList<>();
             for (List<Sphere> row : rows) column.add(row.get(i));
+
+
 
             for (Sphere circle : column) {
 
@@ -297,7 +307,8 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
             {
 
 
-                sendLine(i+3);
+                sendLine(i);
+                System.out.println("mando linea" + i);
 
             });
             transition.play();
