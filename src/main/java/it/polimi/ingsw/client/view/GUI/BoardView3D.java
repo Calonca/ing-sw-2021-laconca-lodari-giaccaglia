@@ -13,10 +13,18 @@ import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ProductionViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
 import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
+import it.polimi.ingsw.network.assets.LeaderCardAsset;
+import it.polimi.ingsw.network.assets.leaders.NetworkDepositLeaderCard;
+import it.polimi.ingsw.network.assets.leaders.NetworkDevelopmentDiscountLeaderCard;
+import it.polimi.ingsw.network.assets.leaders.NetworkMarketLeaderCard;
+import it.polimi.ingsw.network.assets.leaders.NetworkProductionLeaderCard;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
+import it.polimi.ingsw.network.simplemodel.ActiveLeaderBonusInfo;
 import it.polimi.ingsw.network.simplemodel.SimpleCardCells;
 import it.polimi.ingsw.network.simplemodel.SimpleCardShop;
+import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
+import javafx.application.Platform;
 import it.polimi.ingsw.network.simplemodel.SimpleProductions;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
@@ -141,6 +149,7 @@ public class BoardView3D {
     protected ResChoiceRowGUI toSelect;
 
     protected Group cardShop=new Group();
+    protected Group leadersGroup=new Group();
     protected Group resourceMarket=new Group();
     protected CardShopGUI cardShopGUI=new CardShopGUI();
     protected ResourceMarketGUI resourceMarketGUI= new ResourceMarketGUI();
@@ -182,13 +191,56 @@ public class BoardView3D {
         this.resourceMarket = resourceMarket;
         parent.getChildren().add(resourceMarket);
     }
+
+    public void refreshLeaders() {
+        if(this.leadersGroup!=null)
+            this.leadersGroup.getChildren().clear();
+        Group leadersGroup=new Group();
+        addLeaders(leadersGroup);
+        //addNodeToParent(parent, board, leadersGroup, new Point3D(0,0,0));
+        parent.getChildren().add(leadersGroup);
+    }
+
     public void setStrongBox(Box3D strongBox) {
         this.strongBox = strongBox;
     }
 
+
     public void addResourceMarket(Group parent) {
         ResourceMarketGUI resourceMarketGUI=new ResourceMarketGUI();
         addNodeToParent(parent,resourceMarketGUI.getRoot(), board.localToParent(1000,-900,0));
+
+    }
+
+    public void addLeaders(Group parent) {
+        SimplePlayerLeaders activeLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).orElseThrow();
+
+        Rectangle temp;
+
+   /*     temp=new Rectangle(150,150);
+        temp.setTranslateY(500);
+        temp.setTranslateX(200);
+
+        addNodeToParent(parent,board,temp,new Point3D(-300,500+150,0));
+*/
+        List<LeaderCardAsset> activeBonus = activeLeaders.getPlayerLeaders();
+        for(int i=0;i<activeBonus.size();i++)
+        {
+
+            if(activeBonus.get(i).getNetworkLeaderCard().isLeaderActive())
+                if(activeBonus.get(i).getNetworkLeaderCard() instanceof NetworkDepositLeaderCard)
+                {
+                    temp=new Rectangle(150,100);
+                    temp.setTranslateY(500);
+                    temp.setTranslateX(200*i);
+
+                    temp.setFill(new ImagePattern(new Image(activeBonus.get(i).getCardPaths().getKey().toString(),false)));
+                    addNodeToParent(parent,board,temp,new Point3D(-300,500+150*i,0));
+                }
+
+        }
+        leadersGroup.setTranslateY(500);
+
 
     }
 
@@ -415,7 +467,34 @@ public class BoardView3D {
             });
             rectangle.setFill(tempImage);
 
+
+
+
+
             addNodeToParent(productions, rectangle, new Point3D(20 + 220 * key, 700, -20));
+        }
+
+        SimplePlayerLeaders activeLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).orElseThrow();
+
+        List<LeaderCardAsset> activeBonus = activeLeaders.getPlayerLeaders();
+        Rectangle temp;
+        Path path;
+        for(int i=0;i<activeBonus.size();i++)
+        {
+            int count=0;
+            if(activeBonus.get(i).getNetworkLeaderCard().isLeaderActive())
+                if(activeBonus.get(i).getNetworkLeaderCard() instanceof NetworkProductionLeaderCard)
+                {
+                    temp=new Rectangle(462,698);
+                    temp.setTranslateY(250);
+                    temp.setLayoutX(400 + 750 + 250*(count+1));
+
+                    temp.setFill(new ImagePattern(new Image(activeBonus.get(i).getCardPaths().getKey().toString(),false)));
+                    addNodeToParent(productions, temp, new Point3D(680+220*(count+1), 700, -20));
+
+                }
+
+
         }
         addNodeToParent(parent, board, productions, new Point3D(0,0,0));
         this.productions = productions;

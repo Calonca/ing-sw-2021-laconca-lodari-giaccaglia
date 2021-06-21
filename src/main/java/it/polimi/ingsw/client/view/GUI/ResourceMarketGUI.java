@@ -4,18 +4,31 @@ package it.polimi.ingsw.client.view.GUI;
 import it.polimi.ingsw.client.view.GUI.board.CamState;
 import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
 
+import it.polimi.ingsw.network.assets.LeaderCardAsset;
+import it.polimi.ingsw.network.assets.leaders.NetworkDevelopmentDiscountLeaderCard;
+import it.polimi.ingsw.network.assets.leaders.NetworkMarketLeaderCard;
 import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
+import it.polimi.ingsw.network.simplemodel.ActiveLeaderBonusInfo;
+import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
+import it.polimi.ingsw.server.model.player.leaders.DevelopmentDiscountLeader;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.scene.*;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.PhongMaterial;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Sphere;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
+import javax.swing.text.html.ImageView;
+import java.awt.*;
+import java.nio.file.Path;
 import java.util.*;
+import java.util.List;
 
 /**
  * The market is generated via a subscene that is attached to the main scene
@@ -50,6 +63,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
     double marketTranslateX=600;
     double MarketTranslateY=-30;
 
+    List<ImageView> activeLeaders=new ArrayList<>();
     double subSceneTranslateY=75;
     double subSceneTranslateX=75;
     public List<List<Sphere>> rows=new ArrayList<>();
@@ -72,11 +86,19 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
         root3D = new Group();
         //root3D.setRotate(-90);
         buttons = new Group();
-        buttons.setTranslateX(-200);
-        buttons.setTranslateY(350);
+        Group leaders=new Group();
 
+        leaders.setTranslateX(-200);
+        leaders.setTranslateY(350);
+
+        buttons.setTranslateX(-100);
+        buttons.setTranslateY(550);
+
+        root3D.getChildren().add(leaders);
         root3D.getChildren().add(buttons);
         buttons.setRotate(90);
+        leaders.setRotate(90);
+
 
         //marketPane=new AnchorPane();
         //marketPane.setMinSize(700,1000);
@@ -88,6 +110,52 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
         //camera.translateYProperty().set(-2.0);
         //camera.setTranslateZ(4);
 
+        ActiveLeaderBonusInfo marketBonuses = getThisPlayerCache().getElem(ActiveLeaderBonusInfo.class).orElseThrow();
+
+
+        SimplePlayerLeaders activeLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).orElseThrow();
+
+        Rectangle temp;
+    /*    temp=new Rectangle(150,100);
+        temp.setTranslateY(250);
+        temp.setTranslateX(-50);
+
+        leaders.getChildren().add(temp);
+
+        temp=new Rectangle(150,100);
+        temp.setTranslateY(250);
+        temp.setTranslateX(-250);
+
+        leaders.getChildren().add(temp);
+*/
+        List<LeaderCardAsset> activeBonus = activeLeaders.getPlayerLeaders();
+        for(int i=0;i<activeBonus.size();i++)
+        {
+
+            if(activeBonus.get(i).getNetworkLeaderCard().isLeaderActive())
+                if(activeBonus.get(i).getNetworkLeaderCard() instanceof NetworkDevelopmentDiscountLeaderCard)
+                {
+                    temp=new Rectangle(150,100);
+                    temp.setTranslateY(250);
+                    temp.setTranslateX(-50*(1+i));
+
+                    temp.setFill(new ImagePattern(new Image(activeBonus.get(i).getCardPaths().getKey().toString(),false)));
+                    leaders.getChildren().add(temp);
+
+                }
+            if(activeBonus.get(i).getNetworkLeaderCard().isLeaderActive())
+                if(activeBonus.get(i).getNetworkLeaderCard() instanceof NetworkMarketLeaderCard)
+                {
+                    temp=new Rectangle(150,100);
+                    temp.setTranslateY(250);
+                    temp.setTranslateX(-250*(1+i));
+                    Path path=activeBonus.get(i).getCardPaths().getKey();
+                    temp.setFill(new ImagePattern(new Image(path.toString(),false)));
+                    leaders.getChildren().add(temp);
+
+                }
+
+        }
 
         double x=ballsize*2;
         for(int i = 0; i< NUMBEROFROWS; i++)
@@ -131,9 +199,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
 
         //marketPane.getChildren().add(slideSubscene);
         //marketPane.setId("marketPane");
-        error.setOpacity(0);
-        error.setLayoutX(width/2);
-        error.setLayoutY((len*4)/5);
+
         buttons.getChildren().add(error);
         getClient().getStage().show();
 
@@ -184,7 +250,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
         }
         Button button=new Button();
         button.setTranslateX(250);
-        button.setTranslateY(-350+100*k);
+        button.setTranslateY(-500+100*k);
         button.setGraphic(new Text(Integer.toString(7-1-k)));
         button.setOnAction( p-> {
 

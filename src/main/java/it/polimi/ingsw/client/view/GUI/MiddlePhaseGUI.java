@@ -62,9 +62,13 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        //todo remove runlater
+        BoardView3D.getBoard().refreshCardShop();
+        BoardView3D.getBoard().refreshMarket();
+        BoardView3D.getBoard().refreshLeaders();
+
         cardButton.setOnAction( p ->
         {
+
             sendChoice(Choice.CARD_SHOP);
             BoardView3D.getBoard().refreshCardShop();
         });
@@ -77,6 +81,7 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
 
         resourceMarketButton.setOnAction( e ->
         {
+
             sendChoice(Choice.RESOURCE_MARKET);
             BoardView3D.getBoard().refreshMarket();
 

@@ -13,7 +13,7 @@ import javafx.scene.transform.Translate;
 import javafx.util.Duration;
 
 public enum CamState {
-    TOP(new Point3D(0,0,0),new Point3D(0,0,0)),
+    TOP(new Point3D(0,-300,-900),new Point3D(0,0,0)),
     LOOK_AT_OTHERS(new Point3D(-500,5000,-1400),new Point3D(75,0,0)),
     SEE_SHOP_MARKET(new Point3D(-500,-800,600),new Point3D(45,0,0)),
     SEE_SHOP(new Point3D(-1000,-800,600),new Point3D(45,0,0)),

@@ -3,8 +3,11 @@ package it.polimi.ingsw.client.view.GUI;
 
 import it.polimi.ingsw.client.view.GUI.board.CamState;
 import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
+import it.polimi.ingsw.network.assets.LeaderCardAsset;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCardColor;
+import it.polimi.ingsw.network.assets.leaders.NetworkMarketLeaderCard;
 import it.polimi.ingsw.network.simplemodel.SimpleCardShop;
+import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.geometry.Point3D;
@@ -14,6 +17,7 @@ import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
@@ -182,6 +186,29 @@ public class CardShopGUI extends CardShopViewBuilder {
         });
 
 
+        SimplePlayerLeaders activeLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).orElseThrow();
+
+        ImageView temp=new ImageView(new Image("assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_0.png"));
+
+
+        List<LeaderCardAsset> activeBonus = activeLeaders.getPlayerLeaders();
+        for(int i=0;i<activeBonus.size();i++)
+        {
+
+            if(activeBonus.get(i).getNetworkLeaderCard().isLeaderActive())
+                if(activeBonus.get(i).getNetworkLeaderCard() instanceof NetworkMarketLeaderCard)
+                {
+                    temp=new ImageView(new Image(activeBonus.get(i).getCardPaths().getKey().toString(),false));
+                    temp.setFitHeight(100);
+                    temp.setPreserveRatio(true);
+                    temp.setLayoutX(20+100*i);
+                    temp.setLayoutY(len-100);
+
+                    cardsAnchor.getChildren().add(temp);
+
+                }
+
+        }
 
         cardsAnchor.getChildren().add(validationButton);
 
