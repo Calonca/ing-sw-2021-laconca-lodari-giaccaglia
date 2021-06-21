@@ -133,12 +133,14 @@ public class Deserializator extends JsonUtility {
 
         Map<UUID, Leader> modelLeadersMap = leadersCardMapDeserialization();
 
-        return modelLeadersMap.keySet().stream().collect(Collectors.toMap(leaderKey -> leaderKey, leaderKey -> {
+        Map<UUID, NetworkLeaderCard> netLeadersMap = new LinkedHashMap<>();
 
-            NetworkLeaderCard networkLeaderCard = null;
+        modelLeadersMap.keySet().forEach(
+                leaderKey -> {
+
+                    NetworkLeaderCard networkLeaderCard = null;
 
             Leader leader = modelLeadersMap.get(leaderKey);
-
             if(leader instanceof DepositLeader){
                 String jsonString = Serializator.serialize(leader);
                 NetworkDepositLeaderCard depositLeaderCard = Deserializator.deserializeFromString(jsonString, NetworkDepositLeaderCard.class, customGson);
@@ -146,7 +148,7 @@ public class Deserializator extends JsonUtility {
 
 
 
-                return depositLeaderCard;
+                networkLeaderCard = depositLeaderCard;
 
 
             }
@@ -158,7 +160,7 @@ public class Deserializator extends JsonUtility {
                 marketLeaderCard.setMarketBonusResource(((MarketLeader) leader).getResourceBonusType());
 
 
-                return marketLeaderCard;
+                networkLeaderCard = marketLeaderCard;
 
             }
 
@@ -175,7 +177,7 @@ public class Deserializator extends JsonUtility {
                 productionLeaderCard.setProductionOutputResources(outputsMap);
 
 
-                return productionLeaderCard;
+                networkLeaderCard = productionLeaderCard;
 
             }
 
@@ -185,19 +187,30 @@ public class Deserializator extends JsonUtility {
                 developmentDiscountLeaderCard.setResourcesDiscount(((DevelopmentDiscountLeader) leader).getDiscountAsIntegerPair());
 
 
-                return developmentDiscountLeaderCard;
+                networkLeaderCard = developmentDiscountLeaderCard;
             }
 
-            return networkLeaderCard;
+            netLeadersMap.put(leaderKey, networkLeaderCard);
 
-        }));
+        });
+
+
+        return netLeadersMap;
 
     }
 
     public static Map<UUID, Leader> leadersCardMapBuilder(){
         List<Leader> leaderList = leaderCardsDeserialization();
-        return IntStream.range(0, Deserializator.leaderCardsDeserialization().size()).boxed().collect(Collectors.toMap(index ->
-                UUID.nameUUIDFromBytes(leaderList.get(index).toString().getBytes(StandardCharsets.UTF_8)), leaderList::get));
+
+        Map<UUID, Leader> map = new LinkedHashMap<>();
+
+       IntStream.range(0, leaderList.size()).sorted().boxed().forEach(index ->
+                map.put(
+                        UUID.nameUUIDFromBytes(leaderList.get(index).toString().getBytes(StandardCharsets.UTF_8)),
+                        leaderList.get(index)
+                ));
+       return map;
+
     }
 
     public static FaithTrack faithTrackDeserialization(){

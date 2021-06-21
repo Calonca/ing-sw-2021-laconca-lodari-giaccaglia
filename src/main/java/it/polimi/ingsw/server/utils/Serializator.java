@@ -9,9 +9,9 @@ import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.assets.tokens.ActionTokenAsset;
+import it.polimi.ingsw.network.jsonUtils.CommonGsonAdapters;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.network.jsonUtils.UUIDTypeAdapter;
-import it.polimi.ingsw.network.simplemodel.SimpleCardShop;
 import it.polimi.ingsw.server.controller.Match;
 import it.polimi.ingsw.server.controller.SessionController;
 import it.polimi.ingsw.server.model.Resource;
@@ -77,7 +77,6 @@ public class Serializator extends JsonUtility {
 
         return Deserializator.networkLeaderCardsDeserialization().keySet().stream().collect(Collectors.toMap(index -> index , index -> {
 
-
             String cardPathSuffix = i.toString() + ".png";
             String frontActivated = frontLeaderCardPathString + cardPathSuffix;
             String frontInactive = frontLeaderCardGrayedOutPathString + cardPathSuffix;
@@ -95,7 +94,7 @@ public class Serializator extends JsonUtility {
     }
 
     public static void networkLeaderCardsAssetsMapSerialization(){
-        serialize(writeConfigPathString + "NetworkLeaderCardsAssetsMap.json", networkLeaderCardsAssetsMapBuilder(), Map.class, customGson);
+        serialize(writeConfigPathString + "NetworkLeaderCardsAssetsMap.json", networkLeaderCardsAssetsMapBuilder(), Map.class, customGsonBuilder.registerTypeAdapterFactory(CommonGsonAdapters.gsonNetworkLeaderAdapter).create());
     }
 
     public static void leaderCardsArraySerialization() {
@@ -1146,7 +1145,7 @@ public class Serializator extends JsonUtility {
         series2.add(new DevelopmentDiscountLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,costTest));
 
 
-        serialize(writeConfigPathString +"LeadersConfig.json", series2.toArray(Leader[]::new), Leader[].class, customGson);
+        serialize(writeConfigPathString +"LeadersConfig.json", series2.toArray(Leader[]::new), Leader[].class,  customGsonBuilder.registerTypeAdapterFactory(GsonAdapters.gsonLeaderAdapter).create());
      /*   String serialized = gson1.toJson(series2.toArray(Leader[]::new), Leader[].class);
         Writer writer = new FileWriter("src/main/resources/config/LeadersConfig.json");
         writer.write(serialized);
@@ -1159,7 +1158,7 @@ public class Serializator extends JsonUtility {
 
     public static void leaderCardsMapSerialization(){
         Type type = (new TypeToken<Map<UUID, Leader>>() {}).getType();
-        serialize("src/main/resources/config/LeadersCardMapConfig.json", Deserializator.leadersCardMapBuilder(), type, customGson);
+        serialize("src/main/resources/config/LeadersCardMapConfig.json", Deserializator.leadersCardMapBuilder(), type, customGsonBuilder.registerTypeAdapterFactory(GsonAdapters.gsonLeaderAdapter).create());
     }
 
     public static void serializeMarblesAssets(){
