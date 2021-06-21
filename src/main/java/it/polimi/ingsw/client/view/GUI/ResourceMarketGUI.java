@@ -37,7 +37,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
 
     double ballsXOffset=-4.5;
 
-    double toPutStartingY=ballsXOffset+ NUMBEROFROWS *ballsize*2;
+    double toPutStartingY=ballsXOffset+ NUMBEROFCOLUMNS *ballsize*2;
     double toPutStartingX;
 
     public boolean enabled=false;
@@ -100,7 +100,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
 
         toPut=new Sphere(ballsize);
         toPut.translateYProperty().set(toPutStartingY);
-        toPut.translateXProperty().set(toPutStartingX+8*ballsize);
+        toPut.translateXProperty().set(toPutStartingX+10*ballsize);
         root3D.getChildren().add(toPut);
 
         List<Color> colors=new ArrayList<>(){{
@@ -121,7 +121,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
 
         for(int j=0;j<NUMBEROFCOLUMNS;j++)
             for(int i=0;i<NUMBEROFROWS;i++)
-                columns.get(j).get(i).setMaterial(new PhongMaterial(colors.get(marketMatrix[j][i].ordinal())));
+                columns.get(j).get(NUMBEROFROWS-i-1).setMaterial(new PhongMaterial(colors.get(marketMatrix[j][i].ordinal())));
         //SubScene slideSubscene = new SubScene(root3D, width, len, true, SceneAntialiasing.BALANCED);
         //slideSubscene.setTranslateY(subSceneTranslateY);
         //slideSubscene.setTranslateX(subSceneTranslateX);;
@@ -185,13 +185,12 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
         Button button=new Button();
         button.setTranslateX(250);
         button.setTranslateY(-350+100*k);
-        button.setGraphic(new Text(Integer.toString(3+k)));
+        button.setGraphic(new Text(Integer.toString(7-1-k)));
         button.setOnAction( p-> {
 
             if(!SetupPhase.getBoard().getController().isMarket())
                 return;
 
-            error.setOpacity(0);
 
             selected=true;
 
@@ -209,16 +208,16 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
             row.add(toPut);
             toPut=toswap;
 
-            moveX(toPut,4*ballsize,new Duration(600));
 
             TranslateTransition transition = new TranslateTransition(Duration.seconds(0.75), toPut);
-            transition.setToY(toPutStartingY);
+            transition.setToX(toPutStartingX+(NUMBEROFCOLUMNS+2)*ballsize*2);
             transition.setAutoReverse(false);
-            transition.setDelay(new Duration(1350));
+            transition.setDelay(new Duration(600));
             transition.setOnFinished(e->
             {
 
-                sendLine(k+3);
+                sendLine(7-1-k);
+                System.out.println(7-1-k);
 
             });
             transition.play();
@@ -273,12 +272,11 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
             if(!SetupPhase.getBoard().getController().isMarket())
                 return;
 
-            error.setOpacity(0);
 
-            toPut.setTranslateY(toPut.getTranslateY()-(NUMBEROFROWS -i)*ballsize*2);
-            toPut.setTranslateX(toPut.getTranslateX()-ballsize*8);
+            toPut.setTranslateY(toPut.getTranslateY()-(2-i+1)*ballsize*2);
+            toPut.setTranslateX(toPutStartingX+(NUMBEROFCOLUMNS+2)*ballsize*2);
 
-            moveX(toPut,toPut.getTranslateX()+2*ballsize,new Duration(100));
+            moveX(toPut,toPut.getTranslateX()-2*ballsize,new Duration(100));
 
 
             ArrayList<Sphere> column= new ArrayList<>();
@@ -289,23 +287,26 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
             for (Sphere circle : column) {
 
 
-                moveX(circle,circle.getTranslateX()+ballsize*2,new Duration(100));
+                moveX(circle,circle.getTranslateX()-ballsize*2,new Duration(100));
 
 
 
             }
-            Sphere temp=column.get(0);
-            column.remove(0);
-            column.add(toPut);
+            int len=column.size()-1;
+            Sphere temp=column.get(len);
+            column.remove(len);
+            column.add(0,toPut);
             toPut=temp;
 
-            TranslateTransition transition = new TranslateTransition(Duration.seconds(0.75), toPut);
-            transition.setToY(toPutStartingY);
-            transition.setAutoReverse(false);
-            transition.setDelay(new Duration(700));
-            transition.setOnFinished(k->
-            {
 
+            moveY(toPut,toPutStartingY-(NUMBEROFCOLUMNS+1)*ballsize*2,new Duration(700));
+
+            TranslateTransition transition = new TranslateTransition(Duration.seconds(0.75), toPut);
+            transition.setToX(toPutStartingX+(NUMBEROFCOLUMNS+2)*ballsize*2);
+            transition.setAutoReverse(false);
+            transition.setDelay(new Duration(1300));
+            transition.setOnFinished(e->
+            {
 
                 sendLine(i);
 
