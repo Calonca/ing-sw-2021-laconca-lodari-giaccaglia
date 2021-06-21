@@ -1,15 +1,12 @@
 package it.polimi.ingsw.client.view.GUI;
 
 
-import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.GUI.board.CamState;
-import it.polimi.ingsw.client.view.GUI.util.BoardStateController;
 import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCardColor;
 import it.polimi.ingsw.network.simplemodel.SimpleCardShop;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
 import javafx.scene.control.Button;
@@ -20,13 +17,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
-import java.beans.PropertyChangeEvent;
-import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import static it.polimi.ingsw.client.simplemodel.State.*;
 import static it.polimi.ingsw.client.simplemodel.State.CHOOSING_POSITION_FOR_DEVCARD;
@@ -77,8 +70,8 @@ public class CardShopGUI extends CardShopViewBuilder {
         } else if (CHOOSING_POSITION_FOR_DEVCARD.name().equals(getThisPlayerCache().getCurrentState())) {
             choosePositionForCard();
         } else {
-            SetupPhase.getBoard().getController().isCardShopOpen(true);
-            SetupPhase.getBoard().changeCamState(CamState.SEE_SHOP);
+            BoardView3D.getBoard().getController().isCardShopOpen(true);
+            BoardView3D.getBoard().changeCamState(CamState.SEE_SHOP);
         }
     }
 
@@ -153,7 +146,7 @@ public class CardShopGUI extends CardShopViewBuilder {
 
 
 
-        SetupPhase.getBoard().getController().cardSelectorFromImage(selectedSceneCards,scenesCardsToChoose,1);
+        BoardView3D.getBoard().getController().cardSelectorFromImage(selectedSceneCards,scenesCardsToChoose,1);
 
         selectedSceneCards.addListener((ListChangeListener<Boolean>) c -> {
             c.next();
@@ -166,7 +159,7 @@ public class CardShopGUI extends CardShopViewBuilder {
                 for (Boolean aBoolean : selectedSceneCards)
                     if (aBoolean)
                     {
-                        validationButton.setDisable(!availableCards.get(c.getFrom())||!SetupPhase.getBoard().getController().isCardShopOpen());
+                        validationButton.setDisable(!availableCards.get(c.getFrom())||!BoardView3D.getBoard().getController().isCardShopOpen());
                         scenesCardsToChoose.get(c.getFrom()).setLayoutY(scenesCardsToChoose.get(c.getFrom()).getLayoutY()-15);
                         System.out.println(c.getFrom());
 
@@ -203,13 +196,13 @@ public class CardShopGUI extends CardShopViewBuilder {
     public static Group chosenCard;
     public static void addChosenCard(){
         SimpleCardShop simpleCardShop = getSimpleModel().getElem(SimpleCardShop.class).orElseThrow();
-        final Rectangle board = SetupPhase.getBoard().board;
-        final Group parent = SetupPhase.getBoard().parent;
+        final Rectangle board = BoardView3D.getBoard().board;
+        final Group parent = BoardView3D.getBoard().parent;
         Path path = simpleCardShop.getPurchasedCard().orElseThrow().getCardPaths().getKey();
         ImageView imageView = new ImageView(new Image(path.toString(), true));
         if (chosenCard==null) {
             chosenCard = new Group();
-            SetupPhase.getBoard().addNodeToParent(parent, board, chosenCard, new Point3D(-500, -100, 0));
+            BoardView3D.getBoard().addNodeToParent(parent, board, chosenCard, new Point3D(-500, -100, 0));
         } else {
             chosenCard.getChildren().clear();
         }
@@ -234,7 +227,7 @@ public class CardShopGUI extends CardShopViewBuilder {
 
             int temp=0;
 
-            if(!SetupPhase.getBoard().getController().isCardShopOpen())
+            if(!BoardView3D.getBoard().getController().isCardShopOpen())
                 return;
             int selectedCards=0;
             error.setOpacity(0);
@@ -261,8 +254,8 @@ public class CardShopGUI extends CardShopViewBuilder {
                 sendChosenCard(temp%4, 2);
             else sendChosenCard(temp%4, 1);
 
-            SetupPhase.getBoard().getController().setBoughtCard(scenesCardsToChoose.get(temp));
-            SetupPhase.getBoard().getController().isCardShopOpen(false);
+            BoardView3D.getBoard().getController().setBoughtCard(scenesCardsToChoose.get(temp));
+            BoardView3D.getBoard().getController().isCardShopOpen(false);
 
         });
         return confirm;
@@ -281,8 +274,13 @@ public class CardShopGUI extends CardShopViewBuilder {
     @Override
     public void selectResources() {
         //Hide cardShop
-        Platform.runLater(()->SetupPhase.getBoard().setMode(BoardView3D.Mode.SELECT_CARD_SHOP));
-        SetupPhase.getBoard().changeCamState(CamState.SELECT_CARD_SHOP);
+        Platform.runLater(()-> {
+            //BoardView3D.getBoard().runforStart();
+            BoardView3D.getBoard().setMode(BoardView3D.Mode.SELECT_CARD_SHOP);
+            BoardView3D.getBoard().changeCamState(CamState.SELECT_CARD_SHOP);
+        }
+        );
+
 
     }
 
@@ -291,8 +289,8 @@ public class CardShopGUI extends CardShopViewBuilder {
      */
     @Override
     public void choosePositionForCard() {
-        Platform.runLater(()->SetupPhase.getBoard().setMode(BoardView3D.Mode.CHOOSE_POS_FOR_CARD));
-        SetupPhase.getBoard().changeCamState(CamState.TOP);
+        Platform.runLater(()-> BoardView3D.getBoard().setMode(BoardView3D.Mode.CHOOSE_POS_FOR_CARD));
+        BoardView3D.getBoard().changeCamState(CamState.TOP);
     }
 
 }

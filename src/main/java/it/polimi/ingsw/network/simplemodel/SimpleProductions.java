@@ -2,12 +2,14 @@ package it.polimi.ingsw.network.simplemodel;
 
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class SimpleProductions extends SimpleModelElement{
-
 
 //             position          production
     private Map<Integer, SimpleProduction> availableProductions;
@@ -32,6 +34,10 @@ public class SimpleProductions extends SimpleModelElement{
 
     public boolean isAnyProductionAvailable(){
         return availableProductions.values().stream().anyMatch(value -> value.isAvailable);
+    }
+
+    public Optional<SimpleProduction> lastSelectedProduction(){
+        return Optional.ofNullable(availableProductions.get(getLastSelectedProductionPosition()));
     }
 
     public Optional<Boolean> isProductionAtPositionAvailable(int productionPosition){
@@ -94,6 +100,19 @@ public class SimpleProductions extends SimpleModelElement{
             ));
 
         }
+
+        public List<ResourceAsset> getUnrolledInputs(){
+            return getInputResources()
+                    .entrySet().stream()
+                    .flatMap(p -> Stream.generate(p::getKey).limit(p.getValue()))
+                    .collect(Collectors.toList());
+        }
+
+        public List<ResourceAsset> getUnrolledOutputs(){
+            return getOutputResources()
+                    .entrySet().stream()
+                    .flatMap(p -> Stream.generate(p::getKey).limit(p.getValue()))
+                    .collect(Collectors.toList());}
 
         public int getResourceInputQuantity(int resourceNumber){
 

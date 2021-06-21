@@ -9,6 +9,7 @@ import it.polimi.ingsw.client.view.abstractview.ProductionViewBuilder;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.simplemodel.SimpleCardCells;
 import it.polimi.ingsw.network.simplemodel.SimpleProductions;
+import it.polimi.ingsw.network.simplemodel.SimpleProductions.SimpleProduction;
 
 import java.util.HashMap;
 import java.util.List;
@@ -36,12 +37,8 @@ public class ProductionViewCLI extends ProductionViewBuilder implements CLIBuild
 
         PersonalBoardBody board = new PersonalBoardBody(getThisPlayerCache(), PersonalBoardBody.Mode.SELECT_RES_FOR_PROD);
         SimpleCardCells simpleCardCells = getThisPlayerCache().getElem(SimpleCardCells.class).orElseThrow();
-        int lastSelectedProduction = simpleCardCells.getSimpleProductions().getLastSelectedProductionPosition();
-        Map<ResourceAsset, Integer> inputRes =  simpleCardCells.getProductionAtPos(lastSelectedProduction).map(SimpleProductions.SimpleProduction::getInputResources).orElse(new HashMap<>());
-        Map<ResourceAsset, Integer> outputRes = simpleCardCells.getProductionAtPos(lastSelectedProduction).map(SimpleProductions.SimpleProduction::getOutputResources).orElse(new HashMap<>());
-        List<ResourceAsset> input = inputRes.entrySet().stream().flatMap(p -> Stream.generate(p::getKey).limit(p.getValue())).collect(Collectors.toList());
-        List<ResourceAsset> output = outputRes.entrySet().stream().flatMap(p -> Stream.generate(p::getKey).limit(p.getValue())).collect(Collectors.toList());
-        ResChoiceRowCLI choices = new ResChoiceRowCLI(0,input,output);
+        SimpleProduction lastSelectedProduction = simpleCardCells.getSimpleProductions().lastSelectedProduction().orElseThrow();
+        ResChoiceRowCLI choices = new ResChoiceRowCLI(0,lastSelectedProduction.getUnrolledInputs(),lastSelectedProduction.getUnrolledOutputs());
         Row top = new Row(Stream.of(new SizedBox(1,0),choices.getGridElem()));
         board.setTop(top);
         Row prodsRow = board.productionsBuilder(simpleCardCells);

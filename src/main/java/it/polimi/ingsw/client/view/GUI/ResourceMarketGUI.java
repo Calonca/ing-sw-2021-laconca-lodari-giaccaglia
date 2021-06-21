@@ -63,8 +63,8 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
      */
     @Override
     public void run() {
-        SetupPhase.getBoard().getController().setMarket(true);
-        SetupPhase.getBoard().changeCamState(CamState.SEE_RESOURCE_MARKET);
+        BoardView3D.getBoard().getController().setMarket(true);
+        BoardView3D.getBoard().changeCamState(CamState.SEE_RESOURCE_MARKET);
     }
 
     public Group getRoot() {
@@ -188,7 +188,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
         button.setGraphic(new Text(Integer.toString(7-1-k)));
         button.setOnAction( p-> {
 
-            if(!SetupPhase.getBoard().getController().isMarket())
+            if(!BoardView3D.getBoard().getController().isMarket())
                 return;
 
 
@@ -222,7 +222,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
             });
             transition.play();
 
-            SetupPhase.getBoard().getController().setMarket(false);
+            BoardView3D.getBoard().getController().setMarket(false);
 
         });
         rows.add(row);
@@ -269,7 +269,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
 
         but.setOnAction( p-> {
 
-            if(!SetupPhase.getBoard().getController().isMarket())
+            if(!BoardView3D.getBoard().getController().isMarket())
                 return;
 
 
@@ -313,7 +313,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
             });
             transition.play();
 
-            SetupPhase.getBoard().getController().setMarket(false);
+            BoardView3D.getBoard().getController().setMarket(false);
 
 
 
@@ -331,8 +331,8 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
     @Override
     public void choosePositions() {
         Platform.runLater(()-> {
-            SetupPhase.getBoard().setMode(BoardView3D.Mode.MOVING_RES);
-            SetupPhase.getBoard().changeCamState(CamState.TOP);
+            BoardView3D.getBoard().setMode(BoardView3D.Mode.MOVING_RES);
+            BoardView3D.getBoard().changeCamState(CamState.TOP);
         });
     }
 

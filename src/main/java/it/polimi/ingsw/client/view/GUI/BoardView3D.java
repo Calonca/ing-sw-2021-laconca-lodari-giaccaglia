@@ -11,12 +11,16 @@ import it.polimi.ingsw.client.view.GUI.util.ModelImporter;
 import it.polimi.ingsw.client.view.GUI.util.ResourceGUI;
 import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ProductionViewBuilder;
+import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
 import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
+import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.network.simplemodel.SimpleCardCells;
 import it.polimi.ingsw.network.simplemodel.SimpleCardShop;
+import it.polimi.ingsw.network.simplemodel.SimpleProductions;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
@@ -29,6 +33,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -36,92 +41,101 @@ import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.*;
 
 public class BoardView3D {
 
+    private static BoardView3D boardController=new BoardView3D();
+
+    public static BoardView3D getBoard()
+    {
+        if (boardController==null) {
+            boardController = new BoardView3D();
+            boardController.setMode(Mode.BACKGROUND);
+        }
+        boardController.runforStart();
+        return boardController;
+    }
+
     public enum Mode{
 
         MOVING_RES() {
             public void run() {
                 final DragAndDropHandler ddHandler = new DragAndDropHandler();
-                final Rectangle board = SetupPhase.getBoard().board;
-                final Group parent = SetupPhase.getBoard().parent;
-                Box3D.discardBuilder(SetupPhase.getBoard(),parent,board , ddHandler);
-                Box3D.strongBuilder(SetupPhase.getBoard(),parent,board);
-                Warehouse3D.wareBuilder(SetupPhase.getBoard(), parent,board,ddHandler);
+                final Rectangle board = getBoard().board;
+                final Group parent = getBoard().parent;
+                Box3D.discardBuilder(getBoard(),parent,board , ddHandler);
+                new Box3D().strongBuilder(getBoard(),parent,board);
+                Warehouse3D.wareBuilder(getBoard(), parent,board,ddHandler);
                 ddHandler.startDragAndDropOnEach(parent,board);
             }
         },
         SELECT_CARD_SHOP(){
             public void run() {
-                final Rectangle board = SetupPhase.getBoard().board;
-                final Group parent = SetupPhase.getBoard().parent;
+                final Rectangle board = getBoard().board;
+                final Group parent = getBoard().parent;
                 final DragAndDropHandler ddHandler = new DragAndDropHandler();
                 CardShopGUI.addChosenCard();
-                Box3D.strongBuilder(SetupPhase.getBoard(),parent,board);
-                SetupPhase.getBoard().resRowBuilder(parent,board);
-                Warehouse3D.wareBuilder(SetupPhase.getBoard(), parent,board,ddHandler);
+                getBoard().resRowBuilder(parent,board);
+                new Box3D().strongBuilder(getBoard(),parent,board);
+                Warehouse3D.wareBuilder(getBoard(), parent,board,ddHandler);
             }
         },
         SELECT_RESOURCE_FOR_PROD(){
             public void run() {
-                SetupPhase.getBoard().addNodeToParent(SetupPhase.getBoard().parent,SetupPhase.getBoard().getController().getBoughtCard(),new Point3D(300,150,0));
                 final DragAndDropHandler ddHandler = new DragAndDropHandler();
-                final Rectangle board = SetupPhase.getBoard().board;
-                final Group parent = SetupPhase.getBoard().parent;
-                Box3D.strongBuilder(SetupPhase.getBoard(),parent,board);
-                SetupPhase.getBoard().resRowBuilder(parent,board);
-                Warehouse3D.wareBuilder(SetupPhase.getBoard(), parent,board,ddHandler);
+                final Rectangle board = getBoard().board;
+                final Group parent = getBoard().parent;
+                getBoard().resRowBuilder(parent,board);
+                new Box3D().strongBuilder(getBoard(),parent,board);
+                Warehouse3D.wareBuilder(getBoard(), parent,board,ddHandler);
             }
         },
         CHOOSE_PRODUCTION() {
             public void run() {
-
-                final Group parent = SetupPhase.getBoard().parent;
+                final Group parent = getBoard().parent;
                 final DragAndDropHandler ddHandler = new DragAndDropHandler();
-                final Rectangle board = SetupPhase.getBoard().board;
-                SetupPhase.getBoard().productionBuilder(parent);
-                Box3D.strongBuilder(SetupPhase.getBoard(),parent,board);
-                Warehouse3D.wareBuilder(SetupPhase.getBoard(), parent,board,ddHandler);
+                final Rectangle board = getBoard().board;
+                getBoard().productionBuilder(parent);
+                new Box3D().strongBuilder(getBoard(),parent,board);
+                Warehouse3D.wareBuilder(getBoard(), parent,board,ddHandler);
             }
 
         },
         CHOOSE_POS_FOR_CARD() {
             public void run() {
                 final DragAndDropHandler ddHandler = new DragAndDropHandler();
-                final Rectangle board = SetupPhase.getBoard().board;
-                final Group parent = SetupPhase.getBoard().parent;
+                final Rectangle board = getBoard().board;
+                final Group parent = getBoard().parent;
                 CardShopGUI.addChosenCard();
-                SetupPhase.getBoard().productionBuilder(parent);
-                Box3D.strongBuilder(SetupPhase.getBoard(),parent,board);
-                Warehouse3D.wareBuilder(SetupPhase.getBoard(), parent,board,ddHandler);
+                getBoard().productionBuilder(parent);
+                new Box3D().strongBuilder(getBoard(),parent,board);
+                Warehouse3D.wareBuilder(getBoard(), parent,board,ddHandler);
             }
         },
         BACKGROUND(){
             public void run() {
                 final DragAndDropHandler ddHandler = new DragAndDropHandler();
-                final Rectangle board = SetupPhase.getBoard().board;
-                final Group parent = SetupPhase.getBoard().parent;
-                Box3D.strongBuilder(SetupPhase.getBoard(),parent,board);
-                SetupPhase.getBoard().productionBuilder(parent);
-                Warehouse3D.wareBuilder(SetupPhase.getBoard(), parent,board,ddHandler);
+                final Rectangle board = getBoard().board;
+                final Group parent = getBoard().parent;
+                new Box3D().strongBuilder(getBoard(),parent,board);
+                getBoard().productionBuilder(parent);
+                Warehouse3D.wareBuilder(getBoard(), parent,board,ddHandler);
             }
         };
-        //CHOOSE_PRODUCTION();
         public abstract void run();
 
     }
 
     public Mode mode = Mode.BACKGROUND;
-    BoardStateController controller=new BoardStateController();
+    private static final BoardStateController controller=new BoardStateController();
     double buttonStartingX=100;
     double width=1800;
     public Rectangle board;
     public Group parent;
     double len=1000;
 
-    public boolean active=false;
+    private boolean active=false;
 
     protected Group discardBox;
-    protected Group warehouse;
-    protected Group strongBox;
+    protected Warehouse3D warehouse;
+    protected Box3D strongBox;
     protected Group faithTrack;
 
     protected ResChoiceRowGUI toSelect;
@@ -143,8 +157,12 @@ public class BoardView3D {
         this.discardBox = discardBox;
     }
 
-    public void setWarehouse(Group warehouse) {
+    public void setWarehouse(Warehouse3D warehouse) {
         this.warehouse = warehouse;
+    }
+
+    public Warehouse3D getWarehouse() {
+        return warehouse;
     }
 
     public void refreshCardShop() {
@@ -164,7 +182,7 @@ public class BoardView3D {
         this.resourceMarket = resourceMarket;
         parent.getChildren().add(resourceMarket);
     }
-    public void setStrongBox(Group strongBox) {
+    public void setStrongBox(Box3D strongBox) {
         this.strongBox = strongBox;
     }
 
@@ -180,24 +198,24 @@ public class BoardView3D {
 
     }
 
-    public void runforStart() {
-        Node root=getRoot();
-        //todo fix initialization
-        root.setId("3DVIEW");
-
-        GUI.getRealPane().getChildren().add(root);
-
-        System.out.println(GUI.getRealPane().getChildren());
-        active=true;
+    public synchronized void runforStart() {
+        if (!active)
+        {
+            active = true;
+            Node root = getRoot();
+            root.setId("3DVIEW");
+            GUI.getRealPane().getChildren().add(root);
+            System.out.println(GUI.getRealPane().getChildren());
+            BoardView3D.getBoard().setMode(BoardView3D.Mode.BACKGROUND);
+        }
     }
 
     public void reset(){
         if (discardBox!=null)
             discardBox.getChildren().clear();
-        if (strongBox!=null)
-            strongBox.getChildren().clear();
+
         if (warehouse!=null)
-            warehouse.getChildren().clear();
+            warehouse.clear();
         if (toSelect!=null){
             toSelect.clear();
             toSelect = null;}
@@ -219,6 +237,10 @@ public class BoardView3D {
 
     public ResChoiceRowGUI getToSelect() {
         return toSelect;
+    }
+
+    public Box3D getStrongBox() {
+        return strongBox;
     }
 
     public SubScene getRoot() {
@@ -286,16 +308,28 @@ public class BoardView3D {
 
     }
 
-    public BoardStateController getController() {
+    public static BoardStateController getController() {
         return controller;
     }
 
 
     public void resRowBuilder(Group parent, Rectangle board){
         Point3D initialPos = new Point3D(-100,800,0);
-        SimpleCardShop simpleCardShop = getSimpleModel().getElem(SimpleCardShop.class).orElseThrow();
-        DevelopmentCardAsset card =  simpleCardShop.getPurchasedCard().orElseThrow();
-        toSelect = new ResChoiceRowGUI(0,card.getDevelopmentCard().getCosts(),new ArrayList<>());
+
+        List<ResourceAsset> costs;
+        List<ResourceAsset> outputs;
+        if (mode.equals(Mode.SELECT_CARD_SHOP)) {
+            SimpleCardShop simpleCardShop = getSimpleModel().getElem(SimpleCardShop.class).orElseThrow();
+            DevelopmentCardAsset card = simpleCardShop.getPurchasedCard().orElseThrow();
+            costs = card.getDevelopmentCard().getCosts();
+            outputs = new ArrayList<>();
+        }else {
+            SimpleCardCells simpleCardCells = getThisPlayerCache().getElem(SimpleCardCells.class).orElseThrow();
+            SimpleProductions.SimpleProduction lastSelectedProduction = simpleCardCells.getSimpleProductions().lastSelectedProduction().orElseThrow();
+            costs = lastSelectedProduction.getUnrolledInputs();
+            outputs = lastSelectedProduction.getUnrolledOutputs();
+        }
+        toSelect = new ResChoiceRowGUI(0,costs,outputs);
         Group resRowGroup = toSelect.getRowGroup();
 
         resRowGroup.setTranslateX(initialPos.getX());
@@ -323,6 +357,20 @@ public class BoardView3D {
 
     private void productionBuilder(Group parent) {
         Group productions = new Group();
+        Button productionButton = new Button();
+        productionButton.setText("Produce");
+        productionButton.setLayoutX(500);
+        productionButton.setLayoutY(900);
+        productionButton.setTranslateZ(-15);
+        productionButton.setPrefHeight(80);
+        productionButton.setPrefWidth(200);
+        productionButton.setStyle("-fx-font-size:30");
+
+        productionButton.setOnAction(e -> {
+            ProductionViewBuilder.sendProduce();
+        });
+
+        productions.getChildren().add(productionButton);
 
         Rectangle basic=new Rectangle(300,300);
         basic.setOpacity(0);

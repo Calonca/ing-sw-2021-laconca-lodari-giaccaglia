@@ -14,7 +14,6 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 import java.net.URL;
@@ -63,7 +62,7 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
         Node root=getRoot();
         root.setId("LEADER");
         GUI.addLast(root);
-        SetupPhase.getBoard().setMode(BoardView3D.Mode.BACKGROUND);
+        BoardView3D.getBoard().setMode(BoardView3D.Mode.BACKGROUND);
         System.out.println(GUI.getRealPane().getChildren());
     }
 
@@ -131,7 +130,7 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
             selectedLeaders.add(false);
 
 
-        SetupPhase.getBoard().getController().cardSelectorFromImage(selectedLeaders, sceneLeadersImageView,1);
+        BoardView3D.getBoard().getController().cardSelectorFromImage(selectedLeaders, sceneLeadersImageView,1);
 
         List<Button> controlButtons=new ArrayList<>();
 

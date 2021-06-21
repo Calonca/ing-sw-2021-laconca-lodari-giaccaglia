@@ -6,9 +6,9 @@ import it.polimi.ingsw.client.view.GUI.util.DragAndDropData;
 import it.polimi.ingsw.client.view.GUI.util.DragAndDropHandler;
 import it.polimi.ingsw.client.view.GUI.util.ResourceGUI;
 import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
+import it.polimi.ingsw.client.view.abstractview.ProductionViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
-import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.network.simplemodel.SelectablePositions;
 import it.polimi.ingsw.network.simplemodel.SimpleWarehouseLeadersDepot;
 import javafx.geometry.Point3D;
@@ -34,7 +34,7 @@ public class Warehouse3D {
     public static void wareBuilder(BoardView3D view3D, Group parent, Rectangle board, DragAndDropHandler dropHandler){
         Warehouse3D w3d= new Warehouse3D();
         w3d.buildView(view3D, dropHandler);
-        view3D.setWarehouse(w3d.wareGroup);
+        view3D.setWarehouse(w3d);
 
         Point3D initialPos = new Point3D(100,800,0);
         view3D.addNodeToParent(parent, board, w3d.wareGroup, initialPos);
@@ -66,41 +66,44 @@ public class Warehouse3D {
             });
             lineN++;
         }
-        if (view3D.mode.equals(BoardView3D.Mode.SELECT_CARD_SHOP)){
-            setSelectable(toSelect);
+        if (view3D.mode.equals(BoardView3D.Mode.SELECT_CARD_SHOP)||view3D.mode.equals(BoardView3D.Mode.SELECT_RESOURCE_FOR_PROD)){
+            setSelectable(toSelect, view3D);
         }
 
     }
 
-    private void setSelectable(ResChoiceRowGUI toSelect) {
+    public void setSelectable(ResChoiceRowGUI toSelect, BoardView3D view3D) {
         SelectablePositions selectablePositions = getThisPlayerCache().getElem(SelectablePositions.class).orElseThrow();
 
         SimpleWarehouseLeadersDepot simpleWarehouseLeadersDepot = getThisPlayerCache().getElem(SimpleWarehouseLeadersDepot.class).orElseThrow();
+        Map<Integer,Integer> selectedPositionsMap = selectablePositions.getUpdatedSelectablePositions(toSelect.getChosenInputPos());
 
         AtomicInteger gPos = new AtomicInteger();
-        int lineN = 0;
         for(Map.Entry<Integer, List<Pair<ResourceAsset, Boolean>>> line: simpleWarehouseLeadersDepot.getDepots().entrySet()) {
             line.getValue().forEach(e->{
                 final int globalPos = gPos.get();
                 ResourceGUI resourceGUI = ResourceGUI.fromAsset(e.getKey());
                 Shape3D testShape = (Shape3D) wareGroup.getChildren().get(globalPos);
+                boolean isSelectable = selectedPositionsMap.getOrDefault(globalPos, 0) > 0;
+                ResourceGUI.setColor(resourceGUI, testShape, toSelect.getChosenInputPos().contains(globalPos), isSelectable);
                 testShape.setOnMousePressed((u) -> {
-                    Map<Integer,Integer> selectedPositionsMap = selectablePositions.getUpdatedSelectablePositions(toSelect.getChosenInputPos());
-                    boolean isSelectable = selectedPositionsMap.getOrDefault(globalPos, 0) > 0;
                     if (isSelectable) {
                         toSelect.setNextInputPos(globalPos, e.getKey());
-                        ResourceGUI.setColor(resourceGUI, testShape, true, false);
-                        setSelectable(toSelect);
+                        setSelectable(toSelect, view3D);
+                        view3D.getStrongBox().updateStrongBox(view3D);
                         testShape.setOnMousePressed(n -> {
                         });
                         if (toSelect.getPointedResource().isEmpty()) {
-                            CardShopViewBuilder.sendResourcesToBuy(toSelect.getChosenInputPos());
+                            if (view3D.mode.equals(BoardView3D.Mode.SELECT_CARD_SHOP)) {
+                                CardShopViewBuilder.sendResourcesToBuy(toSelect.getChosenInputPos());
+                            } else if (view3D.mode.equals(BoardView3D.Mode.SELECT_RESOURCE_FOR_PROD)) {
+                                ProductionViewBuilder.sendChosenResources(toSelect.getChosenInputPos(),toSelect.getChosenOutputRes());
+                            }
                         }
                     }
                 });
                 gPos.getAndIncrement();
             });
-            lineN++;
         }
     }
 
@@ -123,4 +126,7 @@ public class Warehouse3D {
         dropHandler.addShape(dragAndDropData);
     }
 
+    public void clear() {
+        wareGroup.getChildren().clear();
+    }
 }

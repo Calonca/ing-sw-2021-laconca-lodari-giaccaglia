@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.view.GUI.layout;
 
-import it.polimi.ingsw.client.view.GUI.board.Text3d;
+import it.polimi.ingsw.client.view.GUI.board.Text3D;
 import it.polimi.ingsw.client.view.GUI.util.ResourceGUI;
 import it.polimi.ingsw.client.view.abstractview.ResChoiceRow;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
@@ -37,7 +37,7 @@ public class ResChoiceRowGUI extends ResChoiceRow {
         final int dividerHeight = lineHeight*addedLines;
         addedLines++;
         addRes(rowGroup, addedLines, out);
-        Text3d.addTextOnGroup(rowGroup,dividerHeight,-200,"inputs/outputs");
+        Text3D.addTextOnGroup(rowGroup,dividerHeight,-200,"inputs/outputs");
 
         //final int numOfOut = numOfOutputChoices();
         //if (numOfOut>0) {
