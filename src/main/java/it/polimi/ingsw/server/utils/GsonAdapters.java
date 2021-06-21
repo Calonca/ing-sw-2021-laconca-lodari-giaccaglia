@@ -41,12 +41,12 @@ public class GsonAdapters {
     private static RuntimeTypeAdapterFactory<Leader> gsonLeaderAdapter() {
 
 
-        RuntimeTypeAdapterFactory<Leader> gsonToLeaderListAdapter = RuntimeTypeAdapterFactory.of(Leader.class, "type");
+        RuntimeTypeAdapterFactory<Leader> gsonToLeaderListAdapter = RuntimeTypeAdapterFactory.of(Leader.class);
         //Register here all the Leader types
-        gsonToLeaderListAdapter.registerSubtype(DepositLeader.class, DepositLeader.class.getName());
-        gsonToLeaderListAdapter.registerSubtype(MarketLeader.class, MarketLeader.class.getName());
-        gsonToLeaderListAdapter.registerSubtype(ProductionLeader.class, ProductionLeader.class.getName());
-        gsonToLeaderListAdapter.registerSubtype(DevelopmentDiscountLeader.class, DevelopmentDiscountLeader.class.getName());
+        gsonToLeaderListAdapter.registerSubtype(DepositLeader.class);
+        gsonToLeaderListAdapter.registerSubtype(MarketLeader.class);
+        gsonToLeaderListAdapter.registerSubtype(ProductionLeader.class);
+        gsonToLeaderListAdapter.registerSubtype(DevelopmentDiscountLeader.class);
 
         return gsonToLeaderListAdapter;
 

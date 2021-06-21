@@ -1,6 +1,6 @@
 [
   {
-    "type": "it.polimi.ingsw.server.model.player.leaders.ProductionLeader",
+    "type": "ProductionLeader",
     "production": {
       "input": [
         1,
@@ -51,7 +51,7 @@
     "requirementsCardsLevel": 2
   },
   {
-    "type": "it.polimi.ingsw.server.model.player.leaders.ProductionLeader",
+    "type": "ProductionLeader",
     "production": {
       "input": [
         0,
@@ -102,7 +102,7 @@
     "requirementsCardsLevel": 2
   },
   {
-    "type": "it.polimi.ingsw.server.model.player.leaders.ProductionLeader",
+    "type": "ProductionLeader",
     "production": {
       "input": [
         0,
@@ -153,7 +153,7 @@
     "requirementsCardsLevel": 2
   },
   {
-    "type": "it.polimi.ingsw.server.model.player.leaders.ProductionLeader",
+    "type": "ProductionLeader",
     "production": {
       "input": [
         0,
@@ -204,7 +204,7 @@
     "requirementsCardsLevel": 2
   },
   {
-    "type": "it.polimi.ingsw.server.model.player.leaders.MarketLeader",
+    "type": "MarketLeader",
     "bonus": "GOLD",
     "state": "INACTIVE",
     "points": 5,
@@ -222,7 +222,7 @@
     "requirementsCardsLevel": 1
   },
   {
-    "type": "it.polimi.ingsw.server.model.player.leaders.MarketLeader",
+    "type": "MarketLeader",
     "bonus": "STONE",
     "state": "INACTIVE",
     "points": 5,
@@ -240,7 +240,7 @@
     "requirementsCardsLevel": 1
   },
   {
-    "type": "it.polimi.ingsw.server.model.player.leaders.MarketLeader",
+    "type": "MarketLeader",
     "bonus": "SHIELD",
     "state": "INACTIVE",
     "points": 5,
@@ -258,7 +258,7 @@
     "requirementsCardsLevel": 1
   },
   {
-    "type": "it.polimi.ingsw.server.model.player.leaders.MarketLeader",
+    "type": "MarketLeader",
     "bonus": "SERVANT",
     "state": "INACTIVE",
     "points": 5,
@@ -276,7 +276,7 @@
     "requirementsCardsLevel": 1
   },
   {
-    "type": "it.polimi.ingsw.server.model.player.leaders.DepositLeader",
+    "type": "DepositLeader",
     "leaderdepot": {
       "res_sel": [
         {
@@ -304,7 +304,7 @@
     "requirementsCardsLevel": 1
   },
   {
-    "type": "it.polimi.ingsw.server.model.player.leaders.DepositLeader",
+    "type": "DepositLeader",
     "leaderdepot": {
       "res_sel": [
         {
@@ -332,7 +332,7 @@
     "requirementsCardsLevel": 1
   },
   {
-    "type": "it.polimi.ingsw.server.model.player.leaders.DepositLeader",
+    "type": "DepositLeader",
     "leaderdepot": {
       "res_sel": [
         {
@@ -360,7 +360,7 @@
     "requirementsCardsLevel": 1
   },
   {
-    "type": "it.polimi.ingsw.server.model.player.leaders.DepositLeader",
+    "type": "DepositLeader",
     "leaderdepot": {
       "res_sel": [
         {
@@ -388,7 +388,7 @@
     "requirementsCardsLevel": 1
   },
   {
-    "type": "it.polimi.ingsw.server.model.player.leaders.DevelopmentDiscountLeader",
+    "type": "DevelopmentDiscountLeader",
     "discount": {
       "key": "GOLD",
       "value": 1
@@ -409,7 +409,7 @@
     "requirementsCardsLevel": 1
   },
   {
-    "type": "it.polimi.ingsw.server.model.player.leaders.DevelopmentDiscountLeader",
+    "type": "DevelopmentDiscountLeader",
     "discount": {
       "key": "STONE",
       "value": 1
@@ -430,7 +430,7 @@
     "requirementsCardsLevel": 1
   },
   {
-    "type": "it.polimi.ingsw.server.model.player.leaders.DevelopmentDiscountLeader",
+    "type": "DevelopmentDiscountLeader",
     "discount": {
       "key": "SHIELD",
       "value": 1
@@ -451,7 +451,7 @@
     "requirementsCardsLevel": 1
   },
   {
-    "type": "it.polimi.ingsw.server.model.player.leaders.DevelopmentDiscountLeader",
+    "type": "DevelopmentDiscountLeader",
     "discount": {
       "key": "SERVANT",
       "value": 1

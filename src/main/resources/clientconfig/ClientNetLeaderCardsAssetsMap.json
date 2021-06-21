@@ -1,5 +1,5 @@
 {
-  "c68ed1339b283c349fa1185d47295834": {
+  "c68ed133-9b28-3c34-9fa1-185d47295834": {
     "networkLeaderCard": {
       "type": "NetworkProductionLeaderCard",
       "productionInputResources": {
@@ -32,7 +32,7 @@
       "isActive": false,
       "isPlayable": false
     },
-    "cardId": "c68ed1339b283c349fa1185d47295834",
+    "cardId": "c68ed133-9b28-3c34-9fa1-185d47295834",
     "activeCardPaths": {
       "key": "/assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_0.png",
       "value": "/assets/leaders/raw/BACK/Masters of Renaissance__Cards_BACK.png"
@@ -42,37 +42,7 @@
       "value": "/assets/leaders/grayed out/BACK/Masters of Renaissance__Cards_BACK.png"
     }
   },
-  "3a26e1c113ef3a5b91c06d481c7ea027": {
-    "networkLeaderCard": {
-      "type": "NetworkMarketLeaderCard",
-      "marketBonusResourceAsset": "STONE",
-      "victoryPoints": 0,
-      "requirementsResources": [],
-      "requirementsCards": [
-        {
-          "key": "BLUE",
-          "value": 2
-        },
-        {
-          "key": "YELLOW",
-          "value": 1
-        }
-      ],
-      "requirementsCardsLevel": 1,
-      "isActive": false,
-      "isPlayable": false
-    },
-    "cardId": "3a26e1c113ef3a5b91c06d481c7ea027",
-    "activeCardPaths": {
-      "key": "/assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_1.png",
-      "value": "/assets/leaders/raw/BACK/Masters of Renaissance__Cards_BACK.png"
-    },
-    "inactiveCardPaths": {
-      "key": "/assets/leaders/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_1.png",
-      "value": "/assets/leaders/grayed out/BACK/Masters of Renaissance__Cards_BACK.png"
-    }
-  },
-  "1add81481e8d34eeb7d25f7c2d9ad746": {
+  "2860ef45-b22c-38a0-a036-cdbb23d052b7": {
     "networkLeaderCard": {
       "type": "NetworkMarketLeaderCard",
       "marketBonusResourceAsset": "SHIELD",
@@ -92,36 +62,163 @@
       "isActive": false,
       "isPlayable": false
     },
-    "cardId": "1add81481e8d34eeb7d25f7c2d9ad746",
+    "cardId": "2860ef45-b22c-38a0-a036-cdbb23d052b7",
     "activeCardPaths": {
-      "key": "/assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_2.png",
+      "key": "/assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_6.png",
       "value": "/assets/leaders/raw/BACK/Masters of Renaissance__Cards_BACK.png"
     },
     "inactiveCardPaths": {
-      "key": "/assets/leaders/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_2.png",
+      "key": "/assets/leaders/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_6.png",
       "value": "/assets/leaders/grayed out/BACK/Masters of Renaissance__Cards_BACK.png"
     }
   },
-  "d44c55711e1e3092b948e8a1b9e527fb": {
+  "d8c49044-969b-38bb-96d1-91c01f17ddc3": {
     "networkLeaderCard": {
-      "type": "NetworkProductionLeaderCard",
-      "productionInputResources": {
-        "0": 0,
-        "1": 0,
-        "2": 0,
-        "3": 1,
-        "4": 0,
-        "5": 0,
-        "6": 0
+      "type": "NetworkDepositLeaderCard",
+      "resourcesTypeInDepot": "SERVANT",
+      "victoryPoints": 0,
+      "requirementsResources": [
+        {
+          "key": "STONE",
+          "value": 5
+        }
+      ],
+      "requirementsCards": [],
+      "requirementsCardsLevel": 1,
+      "isActive": false,
+      "isPlayable": false
+    },
+    "cardId": "d8c49044-969b-38bb-96d1-91c01f17ddc3",
+    "activeCardPaths": {
+      "key": "/assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_10.png",
+      "value": "/assets/leaders/raw/BACK/Masters of Renaissance__Cards_BACK.png"
+    },
+    "inactiveCardPaths": {
+      "key": "/assets/leaders/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_10.png",
+      "value": "/assets/leaders/grayed out/BACK/Masters of Renaissance__Cards_BACK.png"
+    }
+  },
+  "80a39dcf-8538-3c64-a504-fc22de5098c3": {
+    "networkLeaderCard": {
+      "type": "NetworkDepositLeaderCard",
+      "resourcesTypeInDepot": "STONE",
+      "victoryPoints": 0,
+      "requirementsResources": [
+        {
+          "key": "GOLD",
+          "value": 5
+        }
+      ],
+      "requirementsCards": [],
+      "requirementsCardsLevel": 1,
+      "isActive": false,
+      "isPlayable": false
+    },
+    "cardId": "80a39dcf-8538-3c64-a504-fc22de5098c3",
+    "activeCardPaths": {
+      "key": "/assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_11.png",
+      "value": "/assets/leaders/raw/BACK/Masters of Renaissance__Cards_BACK.png"
+    },
+    "inactiveCardPaths": {
+      "key": "/assets/leaders/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_11.png",
+      "value": "/assets/leaders/grayed out/BACK/Masters of Renaissance__Cards_BACK.png"
+    }
+  },
+  "62b951b3-2b77-34ae-afa9-8514a5762fff": {
+    "networkLeaderCard": {
+      "type": "NetworkDevelopmentDiscountLeaderCard",
+      "resourcesDiscount": {
+        "key": "GOLD",
+        "value": 1
       },
-      "productionOutputResources": {
-        "0": 0,
-        "1": 0,
-        "2": 0,
-        "3": 0,
-        "4": 1,
-        "5": 0,
-        "6": 1
+      "victoryPoints": 0,
+      "requirementsResources": [],
+      "requirementsCards": [
+        {
+          "key": "YELLOW",
+          "value": 1
+        },
+        {
+          "key": "PURPLE",
+          "value": 1
+        }
+      ],
+      "requirementsCardsLevel": 1,
+      "isActive": false,
+      "isPlayable": false
+    },
+    "cardId": "62b951b3-2b77-34ae-afa9-8514a5762fff",
+    "activeCardPaths": {
+      "key": "/assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_12.png",
+      "value": "/assets/leaders/raw/BACK/Masters of Renaissance__Cards_BACK.png"
+    },
+    "inactiveCardPaths": {
+      "key": "/assets/leaders/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_12.png",
+      "value": "/assets/leaders/grayed out/BACK/Masters of Renaissance__Cards_BACK.png"
+    }
+  },
+  "5e061214-a42c-31c7-a269-dadfd4d842de": {
+    "networkLeaderCard": {
+      "type": "NetworkDepositLeaderCard",
+      "resourcesTypeInDepot": "GOLD",
+      "victoryPoints": 0,
+      "requirementsResources": [
+        {
+          "key": "SHIELD",
+          "value": 5
+        }
+      ],
+      "requirementsCards": [],
+      "requirementsCardsLevel": 1,
+      "isActive": false,
+      "isPlayable": false
+    },
+    "cardId": "5e061214-a42c-31c7-a269-dadfd4d842de",
+    "activeCardPaths": {
+      "key": "/assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_8.png",
+      "value": "/assets/leaders/raw/BACK/Masters of Renaissance__Cards_BACK.png"
+    },
+    "inactiveCardPaths": {
+      "key": "/assets/leaders/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_8.png",
+      "value": "/assets/leaders/grayed out/BACK/Masters of Renaissance__Cards_BACK.png"
+    }
+  },
+  "5e1a7196-ed1c-3e72-8a1e-1c75b61ea2f9": {
+    "networkLeaderCard": {
+      "type": "NetworkMarketLeaderCard",
+      "marketBonusResourceAsset": "STONE",
+      "victoryPoints": 0,
+      "requirementsResources": [],
+      "requirementsCards": [
+        {
+          "key": "BLUE",
+          "value": 2
+        },
+        {
+          "key": "YELLOW",
+          "value": 1
+        }
+      ],
+      "requirementsCardsLevel": 1,
+      "isActive": false,
+      "isPlayable": false
+    },
+    "cardId": "5e1a7196-ed1c-3e72-8a1e-1c75b61ea2f9",
+    "activeCardPaths": {
+      "key": "/assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_5.png",
+      "value": "/assets/leaders/raw/BACK/Masters of Renaissance__Cards_BACK.png"
+    },
+    "inactiveCardPaths": {
+      "key": "/assets/leaders/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_5.png",
+      "value": "/assets/leaders/grayed out/BACK/Masters of Renaissance__Cards_BACK.png"
+    }
+  },
+  "bbee1cfb-5f3c-39a2-a79a-d3699af8e0f1": {
+    "networkLeaderCard": {
+      "type": "NetworkDevelopmentDiscountLeaderCard",
+      "resourcesDiscount": {
+        "key": "SHIELD",
+        "value": 1
       },
       "victoryPoints": 0,
       "requirementsResources": [],
@@ -129,66 +226,57 @@
         {
           "key": "PURPLE",
           "value": 1
-        }
-      ],
-      "requirementsCardsLevel": 2,
-      "isActive": false,
-      "isPlayable": false
-    },
-    "cardId": "d44c55711e1e3092b948e8a1b9e527fb",
-    "activeCardPaths": {
-      "key": "/assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_3.png",
-      "value": "/assets/leaders/raw/BACK/Masters of Renaissance__Cards_BACK.png"
-    },
-    "inactiveCardPaths": {
-      "key": "/assets/leaders/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_3.png",
-      "value": "/assets/leaders/grayed out/BACK/Masters of Renaissance__Cards_BACK.png"
-    }
-  },
-  "8c9c8fc5312435e7aae35263e4b8274b": {
-    "networkLeaderCard": {
-      "type": "NetworkProductionLeaderCard",
-      "productionInputResources": {
-        "0": 0,
-        "1": 1,
-        "2": 0,
-        "3": 0,
-        "4": 0,
-        "5": 0,
-        "6": 0
-      },
-      "productionOutputResources": {
-        "0": 0,
-        "1": 0,
-        "2": 0,
-        "3": 0,
-        "4": 1,
-        "5": 0,
-        "6": 1
-      },
-      "victoryPoints": 0,
-      "requirementsResources": [],
-      "requirementsCards": [
+        },
         {
           "key": "BLUE",
           "value": 1
         }
       ],
-      "requirementsCardsLevel": 2,
+      "requirementsCardsLevel": 1,
       "isActive": false,
       "isPlayable": false
     },
-    "cardId": "8c9c8fc5312435e7aae35263e4b8274b",
+    "cardId": "bbee1cfb-5f3c-39a2-a79a-d3699af8e0f1",
     "activeCardPaths": {
-      "key": "/assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_4.png",
+      "key": "/assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_14.png",
       "value": "/assets/leaders/raw/BACK/Masters of Renaissance__Cards_BACK.png"
     },
     "inactiveCardPaths": {
-      "key": "/assets/leaders/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_4.png",
+      "key": "/assets/leaders/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_14.png",
       "value": "/assets/leaders/grayed out/BACK/Masters of Renaissance__Cards_BACK.png"
     }
   },
-  "68f98e0df3b23de48e3e025de26e0766": {
+  "7a8eca1c-4ab6-3503-9fb0-11a2b96fb3ef": {
+    "networkLeaderCard": {
+      "type": "NetworkMarketLeaderCard",
+      "marketBonusResourceAsset": "SERVANT",
+      "victoryPoints": 0,
+      "requirementsResources": [],
+      "requirementsCards": [
+        {
+          "key": "YELLOW",
+          "value": 2
+        },
+        {
+          "key": "BLUE",
+          "value": 1
+        }
+      ],
+      "requirementsCardsLevel": 1,
+      "isActive": false,
+      "isPlayable": false
+    },
+    "cardId": "7a8eca1c-4ab6-3503-9fb0-11a2b96fb3ef",
+    "activeCardPaths": {
+      "key": "/assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_7.png",
+      "value": "/assets/leaders/raw/BACK/Masters of Renaissance__Cards_BACK.png"
+    },
+    "inactiveCardPaths": {
+      "key": "/assets/leaders/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_7.png",
+      "value": "/assets/leaders/grayed out/BACK/Masters of Renaissance__Cards_BACK.png"
+    }
+  },
+  "39e3efd7-4c72-3097-b3b4-dcca4ad2110b": {
     "networkLeaderCard": {
       "type": "NetworkMarketLeaderCard",
       "marketBonusResourceAsset": "GOLD",
@@ -208,43 +296,83 @@
       "isActive": false,
       "isPlayable": false
     },
-    "cardId": "68f98e0df3b23de48e3e025de26e0766",
+    "cardId": "39e3efd7-4c72-3097-b3b4-dcca4ad2110b",
     "activeCardPaths": {
-      "key": "/assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_5.png",
+      "key": "/assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_4.png",
       "value": "/assets/leaders/raw/BACK/Masters of Renaissance__Cards_BACK.png"
     },
     "inactiveCardPaths": {
-      "key": "/assets/leaders/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_5.png",
+      "key": "/assets/leaders/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_4.png",
       "value": "/assets/leaders/grayed out/BACK/Masters of Renaissance__Cards_BACK.png"
     }
   },
-  "063171604d923ff7869c27793c0ad5d1": {
+  "b67ddded-b79a-3627-b8fe-e54ccea07a68": {
     "networkLeaderCard": {
-      "type": "NetworkDepositLeaderCard",
-      "resourcesTypeInDepot": "SHIELD",
+      "type": "NetworkDevelopmentDiscountLeaderCard",
+      "resourcesDiscount": {
+        "key": "STONE",
+        "value": 1
+      },
       "victoryPoints": 0,
-      "requirementsResources": [
+      "requirementsResources": [],
+      "requirementsCards": [
         {
-          "key": "SERVANT",
-          "value": 5
+          "key": "GREEN",
+          "value": 1
+        },
+        {
+          "key": "BLUE",
+          "value": 1
         }
       ],
-      "requirementsCards": [],
       "requirementsCardsLevel": 1,
       "isActive": false,
       "isPlayable": false
     },
-    "cardId": "063171604d923ff7869c27793c0ad5d1",
+    "cardId": "b67ddded-b79a-3627-b8fe-e54ccea07a68",
     "activeCardPaths": {
-      "key": "/assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_6.png",
+      "key": "/assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_13.png",
       "value": "/assets/leaders/raw/BACK/Masters of Renaissance__Cards_BACK.png"
     },
     "inactiveCardPaths": {
-      "key": "/assets/leaders/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_6.png",
+      "key": "/assets/leaders/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_13.png",
       "value": "/assets/leaders/grayed out/BACK/Masters of Renaissance__Cards_BACK.png"
     }
   },
-  "2a1b9b8a8fdf37c7baf97b81b5af2392": {
+  "77618d00-97be-328a-b77c-acd69816c35e": {
+    "networkLeaderCard": {
+      "type": "NetworkDevelopmentDiscountLeaderCard",
+      "resourcesDiscount": {
+        "key": "SERVANT",
+        "value": 1
+      },
+      "victoryPoints": 0,
+      "requirementsResources": [],
+      "requirementsCards": [
+        {
+          "key": "YELLOW",
+          "value": 1
+        },
+        {
+          "key": "GREEN",
+          "value": 1
+        }
+      ],
+      "requirementsCardsLevel": 1,
+      "isActive": false,
+      "isPlayable": false
+    },
+    "cardId": "77618d00-97be-328a-b77c-acd69816c35e",
+    "activeCardPaths": {
+      "key": "/assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_15.png",
+      "value": "/assets/leaders/raw/BACK/Masters of Renaissance__Cards_BACK.png"
+    },
+    "inactiveCardPaths": {
+      "key": "/assets/leaders/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_15.png",
+      "value": "/assets/leaders/grayed out/BACK/Masters of Renaissance__Cards_BACK.png"
+    }
+  },
+  "b7ce6daf-9be6-3f7e-8da0-954299bd099f": {
     "networkLeaderCard": {
       "type": "NetworkProductionLeaderCard",
       "productionInputResources": {
@@ -277,70 +405,76 @@
       "isActive": false,
       "isPlayable": false
     },
-    "cardId": "2a1b9b8a8fdf37c7baf97b81b5af2392",
+    "cardId": "b7ce6daf-9be6-3f7e-8da0-954299bd099f",
     "activeCardPaths": {
-      "key": "/assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_7.png",
+      "key": "/assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_3.png",
       "value": "/assets/leaders/raw/BACK/Masters of Renaissance__Cards_BACK.png"
     },
     "inactiveCardPaths": {
-      "key": "/assets/leaders/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_7.png",
+      "key": "/assets/leaders/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_3.png",
       "value": "/assets/leaders/grayed out/BACK/Masters of Renaissance__Cards_BACK.png"
     }
   },
-  "8f00ca10c8b03f69acce5227da01b9cc": {
+  "41e341cf-edbe-3d98-a682-27d6682a9a28": {
     "networkLeaderCard": {
-      "type": "NetworkDevelopmentDiscountLeaderCard",
-      "resourcesDiscount": {
-        "key": "SERVANT",
-        "value": 1
+      "type": "NetworkProductionLeaderCard",
+      "productionInputResources": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 1,
+        "4": 0,
+        "5": 0,
+        "6": 0
+      },
+      "productionOutputResources": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 1,
+        "5": 0,
+        "6": 1
       },
       "victoryPoints": 0,
       "requirementsResources": [],
       "requirementsCards": [
         {
-          "key": "YELLOW",
-          "value": 1
-        },
-        {
-          "key": "GREEN",
+          "key": "PURPLE",
           "value": 1
         }
       ],
-      "requirementsCardsLevel": 1,
+      "requirementsCardsLevel": 2,
       "isActive": false,
       "isPlayable": false
     },
-    "cardId": "8f00ca10c8b03f69acce5227da01b9cc",
+    "cardId": "41e341cf-edbe-3d98-a682-27d6682a9a28",
     "activeCardPaths": {
-      "key": "/assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_8.png",
+      "key": "/assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_1.png",
       "value": "/assets/leaders/raw/BACK/Masters of Renaissance__Cards_BACK.png"
     },
     "inactiveCardPaths": {
-      "key": "/assets/leaders/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_8.png",
+      "key": "/assets/leaders/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_1.png",
       "value": "/assets/leaders/grayed out/BACK/Masters of Renaissance__Cards_BACK.png"
     }
   },
-  "f5aa23cf5bb53c5bb5aeed2aafd42008": {
+  "24bb3c82-e2db-3d60-9629-294aa15a1bc7": {
     "networkLeaderCard": {
-      "type": "NetworkMarketLeaderCard",
-      "marketBonusResourceAsset": "SERVANT",
+      "type": "NetworkDepositLeaderCard",
+      "resourcesTypeInDepot": "SHIELD",
       "victoryPoints": 0,
-      "requirementsResources": [],
-      "requirementsCards": [
+      "requirementsResources": [
         {
-          "key": "YELLOW",
-          "value": 2
-        },
-        {
-          "key": "BLUE",
-          "value": 1
+          "key": "SERVANT",
+          "value": 5
         }
       ],
+      "requirementsCards": [],
       "requirementsCardsLevel": 1,
       "isActive": false,
       "isPlayable": false
     },
-    "cardId": "f5aa23cf5bb53c5bb5aeed2aafd42008",
+    "cardId": "24bb3c82-e2db-3d60-9629-294aa15a1bc7",
     "activeCardPaths": {
       "key": "/assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_9.png",
       "value": "/assets/leaders/raw/BACK/Masters of Renaissance__Cards_BACK.png"
@@ -350,180 +484,46 @@
       "value": "/assets/leaders/grayed out/BACK/Masters of Renaissance__Cards_BACK.png"
     }
   },
-  "8ae6ef566d443c4ba63f031e1116987b": {
+  "5a54c3ff-c82b-360b-8263-f453a500a4e6": {
     "networkLeaderCard": {
-      "type": "NetworkDevelopmentDiscountLeaderCard",
-      "resourcesDiscount": {
-        "key": "STONE",
-        "value": 1
+      "type": "NetworkProductionLeaderCard",
+      "productionInputResources": {
+        "0": 0,
+        "1": 1,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0
+      },
+      "productionOutputResources": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 1,
+        "5": 0,
+        "6": 1
       },
       "victoryPoints": 0,
       "requirementsResources": [],
       "requirementsCards": [
-        {
-          "key": "GREEN",
-          "value": 1
-        },
         {
           "key": "BLUE",
           "value": 1
         }
       ],
-      "requirementsCardsLevel": 1,
+      "requirementsCardsLevel": 2,
       "isActive": false,
       "isPlayable": false
     },
-    "cardId": "8ae6ef566d443c4ba63f031e1116987b",
+    "cardId": "5a54c3ff-c82b-360b-8263-f453a500a4e6",
     "activeCardPaths": {
-      "key": "/assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_10.png",
+      "key": "/assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_2.png",
       "value": "/assets/leaders/raw/BACK/Masters of Renaissance__Cards_BACK.png"
     },
     "inactiveCardPaths": {
-      "key": "/assets/leaders/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_10.png",
-      "value": "/assets/leaders/grayed out/BACK/Masters of Renaissance__Cards_BACK.png"
-    }
-  },
-  "6e7d82d9f539350ba51958b3a625ed00": {
-    "networkLeaderCard": {
-      "type": "NetworkDepositLeaderCard",
-      "resourcesTypeInDepot": "STONE",
-      "victoryPoints": 0,
-      "requirementsResources": [
-        {
-          "key": "GOLD",
-          "value": 5
-        }
-      ],
-      "requirementsCards": [],
-      "requirementsCardsLevel": 1,
-      "isActive": false,
-      "isPlayable": false
-    },
-    "cardId": "6e7d82d9f539350ba51958b3a625ed00",
-    "activeCardPaths": {
-      "key": "/assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_11.png",
-      "value": "/assets/leaders/raw/BACK/Masters of Renaissance__Cards_BACK.png"
-    },
-    "inactiveCardPaths": {
-      "key": "/assets/leaders/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_11.png",
-      "value": "/assets/leaders/grayed out/BACK/Masters of Renaissance__Cards_BACK.png"
-    }
-  },
-  "bc1355ffa52f35f2ab387754271dff59": {
-    "networkLeaderCard": {
-      "type": "NetworkDevelopmentDiscountLeaderCard",
-      "resourcesDiscount": {
-        "key": "GOLD",
-        "value": 1
-      },
-      "victoryPoints": 0,
-      "requirementsResources": [],
-      "requirementsCards": [
-        {
-          "key": "YELLOW",
-          "value": 1
-        },
-        {
-          "key": "PURPLE",
-          "value": 1
-        }
-      ],
-      "requirementsCardsLevel": 1,
-      "isActive": false,
-      "isPlayable": false
-    },
-    "cardId": "bc1355ffa52f35f2ab387754271dff59",
-    "activeCardPaths": {
-      "key": "/assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_12.png",
-      "value": "/assets/leaders/raw/BACK/Masters of Renaissance__Cards_BACK.png"
-    },
-    "inactiveCardPaths": {
-      "key": "/assets/leaders/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_12.png",
-      "value": "/assets/leaders/grayed out/BACK/Masters of Renaissance__Cards_BACK.png"
-    }
-  },
-  "cebe561bb6733440883f99124a8bf00a": {
-    "networkLeaderCard": {
-      "type": "NetworkDevelopmentDiscountLeaderCard",
-      "resourcesDiscount": {
-        "key": "SHIELD",
-        "value": 1
-      },
-      "victoryPoints": 0,
-      "requirementsResources": [],
-      "requirementsCards": [
-        {
-          "key": "PURPLE",
-          "value": 1
-        },
-        {
-          "key": "BLUE",
-          "value": 1
-        }
-      ],
-      "requirementsCardsLevel": 1,
-      "isActive": false,
-      "isPlayable": false
-    },
-    "cardId": "cebe561bb6733440883f99124a8bf00a",
-    "activeCardPaths": {
-      "key": "/assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_13.png",
-      "value": "/assets/leaders/raw/BACK/Masters of Renaissance__Cards_BACK.png"
-    },
-    "inactiveCardPaths": {
-      "key": "/assets/leaders/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_13.png",
-      "value": "/assets/leaders/grayed out/BACK/Masters of Renaissance__Cards_BACK.png"
-    }
-  },
-  "0fbaecad11ec3212834333407aadd7fa": {
-    "networkLeaderCard": {
-      "type": "NetworkDepositLeaderCard",
-      "resourcesTypeInDepot": "GOLD",
-      "victoryPoints": 0,
-      "requirementsResources": [
-        {
-          "key": "SHIELD",
-          "value": 5
-        }
-      ],
-      "requirementsCards": [],
-      "requirementsCardsLevel": 1,
-      "isActive": false,
-      "isPlayable": false
-    },
-    "cardId": "0fbaecad11ec3212834333407aadd7fa",
-    "activeCardPaths": {
-      "key": "/assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_14.png",
-      "value": "/assets/leaders/raw/BACK/Masters of Renaissance__Cards_BACK.png"
-    },
-    "inactiveCardPaths": {
-      "key": "/assets/leaders/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_14.png",
-      "value": "/assets/leaders/grayed out/BACK/Masters of Renaissance__Cards_BACK.png"
-    }
-  },
-  "a7b2501e50e333a3974e1f57cdf1ac3a": {
-    "networkLeaderCard": {
-      "type": "NetworkDepositLeaderCard",
-      "resourcesTypeInDepot": "SERVANT",
-      "victoryPoints": 0,
-      "requirementsResources": [
-        {
-          "key": "STONE",
-          "value": 5
-        }
-      ],
-      "requirementsCards": [],
-      "requirementsCardsLevel": 1,
-      "isActive": false,
-      "isPlayable": false
-    },
-    "cardId": "a7b2501e50e333a3974e1f57cdf1ac3a",
-    "activeCardPaths": {
-      "key": "/assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_15.png",
-      "value": "/assets/leaders/raw/BACK/Masters of Renaissance__Cards_BACK.png"
-    },
-    "inactiveCardPaths": {
-      "key": "/assets/leaders/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_15.png",
+      "key": "/assets/leaders/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_2.png",
       "value": "/assets/leaders/grayed out/BACK/Masters of Renaissance__Cards_BACK.png"
     }
   }

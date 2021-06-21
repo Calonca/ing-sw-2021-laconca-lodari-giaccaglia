@@ -163,8 +163,6 @@ public class SelectablePositions extends SimpleModelElement{
                 .collect(Collectors.toList());
     }
 
-
-
     private void buildResourcesOriginalAvailability(){
 
         resourcesOriginalAvailability = selectablePositions
