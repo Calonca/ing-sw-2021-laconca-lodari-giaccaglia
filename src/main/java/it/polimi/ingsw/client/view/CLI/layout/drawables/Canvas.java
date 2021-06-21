@@ -64,20 +64,29 @@ public class Canvas {
     }
 
     private void drawList(Drawable dwl){
-        dwl.get().forEach(d-> draw(d,dwl));
-    }
+        //Adding selected color if present
+        int minX,minY = 0,maxX = 0,maxY = 0;
+        if (dwl.isSelected()){
+            minX=dwl.getMinX();
+            minY=dwl.getMinY();
+            maxX=minX+dwl.getWidth();
+            maxY=minY+dwl.getHeight();
+            IntStream.range(minY,maxY).forEach(y->{
+                if (get(y,minX).isBlank())
+                    set(y, minX,Color.startColorStringBackground(get(y,minX),Color.BRIGHT_WHITE,Background.ANSI_BRIGHT_BLACK_BACKGROUND));
+            });
+        }
 
-    public static Drawable copyThisIntoCanvas(Drawable drawable){
-        Drawable dList = Drawable.copyShifted(0,0, drawable);
-        dList.get().forEach(e-> {
-            if (e.getColor().equals(Color.DEFAULT))
-                e.setColor(Color.BRIGHT_WHITE);
-        });
-        dList.get().forEach(e-> {
-            if (e.getBackground().equals(Background.DEFAULT))
-                e.setBackground(Background.ANSI_BRIGHT_BLACK_BACKGROUND);
-        });
-        return dList;
+        //Drawing
+        dwl.get().forEach(d-> draw(d,dwl));
+
+        //Resetting selected color
+        if (dwl.isSelected()){
+            int finalMaxX = maxX-1;
+            IntStream.range(minY,maxY).forEach(y->{
+                set(y, finalMaxX,Color.endColorString(get(y,finalMaxX)));
+            });
+        }
     }
 
     /**
@@ -87,13 +96,13 @@ public class Canvas {
     private void draw(DrawableLine d, Drawable dwl){
         int matX = d.getXPos();
         int matY = d.getYPos();
-        Color c = (d.getColor().equals(Color.DEFAULT)&&dwl.isSelected())?Color.BRIGHT_WHITE: d.getColor();
-        Background b = (d.getBackground().equals(Background.DEFAULT)&&dwl.isSelected())? Background.ANSI_BRIGHT_BLACK_BACKGROUND:d.getBackground();
+        Color c = Drawable.getColorWithSelected(dwl,d);
+        Background b = Drawable.getBackWithSelected(dwl,d);
         char[] chars = d.getString().toCharArray();
         for (int i=0;i<chars.length;i++) {
 
             char aChar = chars[i];
-            boolean defaultColorAndBack = !(c.equals(Color.DEFAULT) && b.equals(Background.DEFAULT));
+            boolean notDefaultColorAndBack = !(c.equals(Color.DEFAULT) && b.equals(Background.DEFAULT));
             int lastLineWidth = 0;
             if (aChar=='\n')//Go to next line
             {
@@ -102,24 +111,30 @@ public class Canvas {
                 matX = d.getXPos();
             } else {
                 char toPrint;
-                if (get(matY,matX).isBlank())//Check if writing on non-empty space, for debugging
+                if (get(matY,matX).isBlank()||matX==dwl.getMinX())//Check if writing on non-empty space, for debugging
                     toPrint = aChar;
                 else
                     toPrint = '*';
                 //Drawing
-                if (matX==d.getXPos() && defaultColorAndBack)//Start of the printed line
+                if (matX==d.getXPos() )//Start of the printed line
                     set(matY,matX,Color.startColorStringBackground(String.valueOf(toPrint),c,b));
                 else
                     set(matY,matX,String.valueOf(toPrint));
                 setPointTracing(matY,matX,dwl.getId());
                 matX += 1;
             }
-            if (defaultColorAndBack)//Resets color
-                if (aChar == '\n') {
+            //Resets color
+            if (aChar == '\n' ) {
+                if (notDefaultColorAndBack)
                     set(matY-1,lastLineWidth,Color.endColorString(get(matY-1,lastLineWidth)));
-                } else if (i == chars.length - 1) {
+            } else if (i == chars.length - 1) {
+                if (dwl.isSelected() && matX<dwl.getMinX()+dwl.getWidth())
+                    set(matY,matX-1,get(matY,matX-1)+Color.startColorStringBackground("",Color.BRIGHT_WHITE,Background.ANSI_BRIGHT_BLACK_BACKGROUND));
+                else
                     set(matY,matX-1,Color.endColorString(get(matY,matX-1)));
-                }
+            } else if (matX==dwl.getMinX()+dwl.getWidth()) {
+                set(matY,matX-1,Color.endColorString(get(matY,matX-1)));
+            }
 
         }
     }
@@ -147,6 +162,13 @@ public class Canvas {
         {
             pointTracing[y][x]=id;
         }
+    }
+
+    private Optional<Drawable> getPointTracing(int y, int x){
+        if (outOfBound(y,x))
+        {
+           return Optional.empty();
+        } else return Optional.ofNullable(lists.get(pointTracing[y][x]));
     }
 
 

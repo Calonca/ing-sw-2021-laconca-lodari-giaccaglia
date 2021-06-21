@@ -45,7 +45,13 @@ public class Drawable {
         return selected;
     }
 
+    public static Color getColorWithSelected(Drawable dwl,DrawableLine d){
+        return (d.getColor().equals(Color.DEFAULT)&&dwl.isSelected())?Color.BRIGHT_WHITE: d.getColor();
+    }
 
+    public static Background getBackWithSelected(Drawable dwl,DrawableLine d){
+        return (d.getBackground().equals(Background.DEFAULT)&&dwl.isSelected())? Background.ANSI_BRIGHT_BLACK_BACKGROUND:d.getBackground();
+    }
 
     public Drawable(DrawableLine first, Drawable second) {
         drawableLines = Stream.concat(Stream.of(first),second.drawableLines.stream()).collect(Collectors.toList());
@@ -102,14 +108,22 @@ public class Drawable {
 
     public int getHeight(){
         int maxY = drawableLines.stream().mapToInt(l->l.getYPos()+l.getHeight()).max().orElse(0);
-        int minY = drawableLines.stream().mapToInt(DrawableLine::getYPos).min().orElse(0);
+        int minY = getMinY();
         return maxY-minY;
+    }
+
+    public int getMinY() {
+        return drawableLines.stream().mapToInt(DrawableLine::getYPos).min().orElse(0);
     }
 
     public int getWidth(){
         int maxX = drawableLines.stream().mapToInt(l->l.getXPos()+l.getWidth()).max().orElse(0);
-        int minX = drawableLines.stream().mapToInt(DrawableLine::getXPos).min().orElse(0);
+        int minX = getMinX();
         return maxX-minX;
+    }
+
+    public int getMinX() {
+        return drawableLines.stream().mapToInt(DrawableLine::getXPos).min().orElse(0);
     }
 
     public UUID getId() {
