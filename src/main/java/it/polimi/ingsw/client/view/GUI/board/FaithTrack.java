@@ -17,6 +17,7 @@ import javafx.scene.shape.Shape3D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.getSimpleModel;
 import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.getThisPlayerCache;
 
 
@@ -36,8 +37,10 @@ public class FaithTrack implements PropertyChangeListener {
     public void faithTrackBuilder(BoardView3D view3D, Group parent, Rectangle board){
         Group faithGroup=new Group();
         player = view3D.addAndGetShape(faithGroup,faithGroup,ResourceGUI.FAITH,board.localToParent(new Point3D(faithStartingX,faithStartingY,0)));
-        lorenzo = view3D.addAndGetShape(faithGroup,faithGroup,ResourceGUI.FAITH,board.localToParent(new Point3D(faithStartingX+10,faithStartingY+10,0)));
-        lorenzo.setMaterial(new PhongMaterial(Color.BLACK));
+        if (getSimpleModel().getPlayersCaches().length==1) {
+            lorenzo = view3D.addAndGetShape(faithGroup,faithGroup, ResourceGUI.FAITH,board.localToParent(new Point3D(faithStartingX+10,faithStartingY+10,0)));
+            lorenzo.setMaterial(new PhongMaterial(Color.BLACK));
+        }
 
         faithStartingX= player.getLayoutX();
         faithStartingY= player.getLayoutY();
@@ -89,6 +92,8 @@ public class FaithTrack implements PropertyChangeListener {
     }
 
     public void moveLorenzo(int i) {
+        if (getSimpleModel().getPlayersCaches().length!=1)
+            return;
 
         SimpleFaithTrack faith= getThisPlayerCache().getElem(SimpleFaithTrack.class).orElseThrow();
         lorenzo.setLayoutX(faithStartingX+faith.getTrack().get(i).getX_pos()*boardWidth/20.5);
