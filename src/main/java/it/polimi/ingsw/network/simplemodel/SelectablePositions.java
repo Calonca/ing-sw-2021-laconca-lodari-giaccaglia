@@ -1,11 +1,15 @@
 package it.polimi.ingsw.network.simplemodel;
 
+import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import javafx.util.Pair;
 import org.apache.commons.lang3.tuple.MutablePair;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -49,17 +53,23 @@ public class SelectablePositions extends SimpleModelElement{
     @Override
     public void update(SimpleModelElement element) {
 
+        resourcesToChoose = new ArrayList<>();
+        resourcesOriginalAvailability = new HashMap<>();
+
         SelectablePositions serverElement = (SelectablePositions) element;
         selectablePositions = serverElement.selectablePositions;
         buildResourcesOriginalAvailability();
         String currentState = getThisPlayerCache().getCurrentState();
         if(currentState != null) {
-            SimpleCardShop simpleCardShop = getSimpleModel().getElem(SimpleCardShop.class).orElseThrow();
-            if(simpleCardShop.getPurchasedCard().isPresent()) {
-                buildResourcesToChooseForCard();
+            if(currentState.equals(State.CHOOSING_DEVELOPMENT_CARD.toString())) {
+                SimpleCardShop simpleCardShop = getSimpleModel().getElem(SimpleCardShop.class).orElseThrow();
+                if (simpleCardShop.getPurchasedCard().isPresent()) {
+                    buildResourcesToChooseForCard();
+                }
             }
-            else
+            else if(currentState.equals(State.CHOOSING_PRODUCTION.toString()))
                 buildResourcesToChooseForProduction();
+
         }
 
     }
