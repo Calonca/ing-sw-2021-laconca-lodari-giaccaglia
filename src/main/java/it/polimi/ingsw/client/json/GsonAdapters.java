@@ -15,6 +15,7 @@ public class GsonAdapters {
         gsonToClientAdapter.registerSubtype(MatchesData.class);
         gsonToClientAdapter.registerSubtype(StateInNetwork.class);
         gsonToClientAdapter.registerSubtype(EventNotValid.class);
+        gsonToClientAdapter.registerSubtype(ElementsInNetwork.class);
 
         return gsonToClientAdapter;
 

@@ -236,11 +236,11 @@ public class Client implements Runnable
                 gameHasBeenLoaded = true;
                 State state = State.valueOf(stateInNetwork.getState());
                 List<State> mapKey = viewBuilderMap.values().stream().filter(
-                        list -> list.contains(state)).findFirst().orElseThrow();
+                        list -> list.contains(state)).findFirst().get();
 
                 simpleModel.updateSimpleModel(stateInNetwork);
 
-                ViewBuilder viewBuilderToInvoke = viewBuilderMap.keySet().stream().filter(key -> viewBuilderMap.get(key).equals(mapKey)).findFirst().orElseThrow();
+                ViewBuilder viewBuilderToInvoke = viewBuilderMap.keySet().stream().filter(key -> viewBuilderMap.get(key).equals(mapKey)).findFirst().get();
                 changeViewBuilder(viewBuilderToInvoke);
 
             }
@@ -248,6 +248,14 @@ public class Client implements Runnable
         }
 
         simpleModel.updateSimpleModel(stateInNetwork);
+
+        if(stateInNetwork.getPlayerNumber()==commonData.getThisPlayerIndex()
+                && stateInNetwork.getState().equals(State.SETUP_PHASE.name()))
+            // SetupPhaseViewBuilder.getBuilder(isCLI);
+            //changeViewBuilder(new BoardView3D());
+            changeViewBuilder(SetupPhaseViewBuilder.getBuilder(isCLI));
+
+
 
     }
 

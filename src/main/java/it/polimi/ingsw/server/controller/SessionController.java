@@ -99,14 +99,20 @@ public class SessionController {
     }
 
     public void joinMatchAndNotifyStateIfPossible(Match match, String playerNickname){
-            List<Element> elements = new ArrayList<>(Arrays.asList(Element.values()));
-            match.notifyStateToAllPlayers(elements, match.getGame().getPlayer(playerNickname).get());
+
+            List<Element> elements = Element.getAsList();
+            match.notifyStateToAllPlayers(elements, playerNickname);
+            match.updateOtherPlayersCachesMessage(playerNickname);
+
+
     }
 
     public void notifyPlayerDisconnection(Match match, String playerNickname){
         List<Element> elements = new ArrayList<>();
         elements.add(Element.PlayersInfo);
-        match.notifyStateToAllPlayers(elements, match.getGame().getPlayer(playerNickname).get());
+        match.notifyStateToAllPlayers(elements, playerNickname);
+        match.transitionToNextStateAfterDisconnection(playerNickname);
+
     }
 
 

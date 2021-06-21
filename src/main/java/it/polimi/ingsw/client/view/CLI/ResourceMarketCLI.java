@@ -2,21 +2,17 @@ package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.PersonalBoardBody;
-import it.polimi.ingsw.client.view.CLI.layout.drawables.ResourceCLI;
-import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Column;
-import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
+import it.polimi.ingsw.client.view.CLI.layout.Option;
 import it.polimi.ingsw.client.view.CLI.layout.SizedBox;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.MarbleCLI;
-import it.polimi.ingsw.client.view.CLI.layout.Option;
+import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Column;
+import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
 import it.polimi.ingsw.client.view.CLI.textUtil.StringUtil;
 import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
 import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.simplemodel.ActiveLeaderBonusInfo;
-import it.polimi.ingsw.network.simplemodel.SimpleCardCells;
-import it.polimi.ingsw.network.simplemodel.SimpleStrongBox;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -117,16 +113,7 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
     @Override
     public void choosePositions() {
         PersonalBoardBody board = new PersonalBoardBody(getThisPlayerCache(), PersonalBoardBody.Mode.MOVING_RES);
-        board.initializeFaithTrack(getSimpleModel());
-
-        board.initializeMove();
-        board.setStrongBox(PersonalBoardBody.strongBoxBuilder(getThisPlayerCache().getElem(SimpleStrongBox.class).orElseThrow(), board));
-        SimpleCardCells simpleCardCells = getThisPlayerCache().getElem(SimpleCardCells.class).orElseThrow();
-        Row prodsRow = board.productionsBuilder(simpleCardCells);
-        board.setProductions(prodsRow);
-        board.setMessage("Select move starting position or discard resources");
-        getCLIView().setBody(board);
-        getCLIView().show();
+        board.preparePersonalBoard( "Select move starting position or discard resources");
     }
 
     @Override
@@ -172,7 +159,7 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
 
     private Option buildResourceChoice(MarbleAsset res, int resourceNumber){
 
-        Option o = Option.from(MarbleCLI.fromAsset(res).toBigDrawable(),()->{sendWhiteMarbleConversion(resourceNumber);});
+        Option o = Option.from(MarbleCLI.fromAsset(res).toBigDrawable(), ()->sendWhiteMarbleConversion(resourceNumber));
         o.setMode(Option.VisMode.NUMBER_TO_BOTTOM);
         o.setEnabled(true);
         return o;

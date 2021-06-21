@@ -15,6 +15,7 @@ import it.polimi.ingsw.network.messages.clienttoserver.events.productionevent.Fi
 import it.polimi.ingsw.network.messages.clienttoserver.events.productionevent.ToggleProductionAtPosition;
 import it.polimi.ingsw.network.messages.clienttoserver.events.setupphaseevent.SetupPhaseEvent;
 import it.polimi.ingsw.network.messages.servertoclient.*;
+import it.polimi.ingsw.network.messages.servertoclient.state.ElementsInNetwork;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
 import it.polimi.ingsw.network.simplemodel.*;
 
@@ -49,6 +50,7 @@ public class CommonGsonAdapters {
         s2cAdapter.registerSubtype(MatchesData.class);
         s2cAdapter.registerSubtype(EventNotValid.class);
         s2cAdapter.registerSubtype(StateInNetwork.class);
+        s2cAdapter.registerSubtype(ElementsInNetwork.class);
 
         return s2cAdapter;
 

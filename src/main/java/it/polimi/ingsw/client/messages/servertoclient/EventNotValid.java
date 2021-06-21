@@ -3,7 +3,6 @@ package it.polimi.ingsw.client.messages.servertoclient;
 import it.polimi.ingsw.client.ServerHandler;
 import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
-import it.polimi.ingsw.network.simplemodel.SimpleModelElement;
 
 import java.io.IOException;
 import java.util.ArrayList;

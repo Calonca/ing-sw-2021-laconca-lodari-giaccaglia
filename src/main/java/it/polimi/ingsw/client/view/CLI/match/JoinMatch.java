@@ -1,5 +1,6 @@
-package it.polimi.ingsw.client.view.CLI;
+package it.polimi.ingsw.client.view.CLI.match;
 
+import it.polimi.ingsw.client.view.CLI.CLIBuilder;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Title;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.WaitingForMatchToStart;
 import it.polimi.ingsw.network.messages.clienttoserver.JoinMatchRequest;

@@ -3,7 +3,9 @@ package it.polimi.ingsw.network.simplemodel;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import javafx.util.Pair;
 
+import java.util.Collections;
 import java.util.Map;
+import java.util.Objects;
 
 public class SimpleStrongBox extends SimpleModelElement {
 
@@ -17,6 +19,9 @@ public class SimpleStrongBox extends SimpleModelElement {
 
     //         Pos           Res                 number   selected
     public Map<Integer, Pair<ResourceAsset, Pair<Integer, Integer>>> getResourceMap() {
+        if(Objects.isNull(simpleStrongBox))
+            return Collections.EMPTY_MAP;
+
         return simpleStrongBox;
     }
 

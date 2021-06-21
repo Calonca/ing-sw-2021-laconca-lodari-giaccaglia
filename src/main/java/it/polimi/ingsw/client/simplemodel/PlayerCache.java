@@ -13,7 +13,6 @@ import java.util.Optional;
 public class PlayerCache {
 
     private String currentState;
-    private String playerNickname;
     private final PropertyChangeSupport support;
 
     private Map<String , SimpleModelElement> playerSimpleModelElementsMap = new HashMap<>();
@@ -26,9 +25,11 @@ public class PlayerCache {
         support.removePropertyChangeListener(pcl);
     }
 
-    public void updateState(String state, List<SimpleModelElement> elements) {
-
+    public void updatePlayerElements(List<SimpleModelElement> elements) {
         elements.forEach(this::updateSimpleModelElement);
+    }
+
+    public void updateState(String state){
         String oldState = currentState;
         currentState = state;
         if((!currentState.equals(State.SETUP_PHASE.toString()) && !currentState.equals(State.IDLE.toString())) && CommonData.isSetupPhase){
