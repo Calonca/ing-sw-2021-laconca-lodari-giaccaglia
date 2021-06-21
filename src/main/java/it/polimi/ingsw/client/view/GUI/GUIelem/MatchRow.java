@@ -25,7 +25,7 @@ public class MatchRow {
     }
 
     public String getPeople() {
-        return    "                                            "+getKey()+
-                "\n                                            "+CreateJoinLoadMatchViewBuilder.idAndNames(uuidPair).getValue();
+        return    ""+getKey()+
+                "\n"+CreateJoinLoadMatchViewBuilder.idAndNames(uuidPair).getValue();
     }
 }

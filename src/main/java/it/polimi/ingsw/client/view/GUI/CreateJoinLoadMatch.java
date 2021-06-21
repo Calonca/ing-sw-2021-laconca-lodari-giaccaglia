@@ -38,7 +38,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
     double width=GUI.GUIwidth;
     double len= GUI.GUIlen;
     public double tileWidth=width/3;
-    public double tileheight=len/10;
+    public double tileheight=len/7;
 
 
     /**
@@ -150,9 +150,10 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         joinPane.setPrefWidth(tileWidth+250);
 
         Label templabel=new Label(matchRow.getPeople());
-        templabel.setMaxSize(tileWidth,40);
+        templabel.setStyle("-fx-text-fill:WHITE; -fx-font-size: 18;");
+        templabel.setMaxSize(tileWidth,200);
         templabel.setLayoutY(10);
-        templabel.setLayoutX(10);
+        templabel.setLayoutX(tileWidth/2);
 
         joinPane.getChildren().add(templabel);
 
