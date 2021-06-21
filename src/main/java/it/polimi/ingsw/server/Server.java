@@ -38,11 +38,14 @@ public class Server
                 //debug mode
                 Thread inputThread = new Thread(() -> {
                     Scanner scanner = new Scanner(System.in);
+                    SessionController controller = SessionController.getInstance();
                     while (true) {
-                        SessionController controller = SessionController.getInstance();
 
-                        if(scanner.nextLine().isEmpty()) {
+                        String input = scanner.nextLine();
+
+                        if(input.isEmpty()) {
                             controller.toggleDebugMode();
+
 
                             if (controller.getDebugMode())
                                 System.out.println("Enabled Debug Mode");

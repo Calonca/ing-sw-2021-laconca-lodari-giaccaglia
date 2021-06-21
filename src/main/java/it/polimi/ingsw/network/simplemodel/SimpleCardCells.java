@@ -86,12 +86,22 @@ public class SimpleCardCells extends SimpleModelElement{
         return simpleProductions;
     }
 
-    public Map<Integer, Optional<DevelopmentCardAsset>> getDevCardsCells(){
+    public Map<Integer, Optional<List<DevelopmentCardAsset>>> getDevCardsCells(){
+
+        return devCardsCells.entrySet().stream().collect(Collectors.toMap(
+                Map.Entry::getKey,
+                e -> e.getValue().isEmpty()?Optional.empty():Optional.of(e.getValue())
+        ));
+
+    }
+
+    public Map<Integer, Optional<DevelopmentCardAsset>> getDevCardsOnTop(){
 
         return devCardsCells.entrySet().stream().collect(Collectors.toMap(
 
+
                 Map.Entry::getKey,
-                e -> e.getValue().isEmpty()?Optional.empty():Optional.ofNullable(e.getValue().get(0))
+                e -> e.getValue().isEmpty()?Optional.empty():Optional.of(e.getValue().get(0))
         ));
 
     }
