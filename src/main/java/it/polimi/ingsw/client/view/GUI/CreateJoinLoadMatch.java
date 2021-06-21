@@ -19,6 +19,8 @@ import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import java.util.stream.Stream;
+
 /**
  * The user will be asked if they want to join a match of their choosing or create one.
  */
@@ -36,7 +38,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
     double width=GUI.GUIwidth;
     double len= GUI.GUIlen;
     public double tileWidth=width/3;
-    public double tileheight=len/10;
+    public double tileheight=len/7;
 
 
     /**
@@ -102,7 +104,10 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
      */
     public List<MatchRow> dataToRow() {
         List<MatchRow> templist=new ArrayList<>();
-        getClient().getCommonData().getMatchesData().ifPresent((data)-> data.forEach((key, value) -> templist.add(new MatchRow(key.getKey(), Arrays.toString(value.getKey())))));
+        Stream.concat(getClient().getCommonData().getAvailableMatchesData().orElse(new HashMap<>()).entrySet().stream(),
+                getClient().getCommonData().getSavedMatchesData().orElse(new HashMap<>()).entrySet().stream()
+                ).forEach(e -> templist.add(new MatchRow(e)));
+
         return templist;
     }
 
@@ -145,9 +150,10 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         joinPane.setPrefWidth(tileWidth+250);
 
         Label templabel=new Label(matchRow.getPeople());
-        templabel.setMaxSize(tileWidth,40);
+        templabel.setStyle("-fx-text-fill:WHITE; -fx-font-size: 18;");
+        templabel.setMaxSize(tileWidth,200);
         templabel.setLayoutY(10);
-        templabel.setLayoutX(10);
+        templabel.setLayoutX(tileWidth/2);
 
         joinPane.getChildren().add(templabel);
 
@@ -156,7 +162,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         joinMatchButton.setLayoutX(tileWidth/2);
         joinMatchButton.setOnAction( p ->
         {
-           getClient().getServerHandler().sendCommandMessage(new JoinMatchRequest(matchRow.getKey(),getClient().getCommonData().getCurrentNick()));
+           getClient().getServerHandler().sendCommandMessage(new JoinMatchRequest(matchRow.getId(),getClient().getCommonData().getCurrentNick()));
            getClient().changeViewBuilder(new MatchToStart());
         });
 

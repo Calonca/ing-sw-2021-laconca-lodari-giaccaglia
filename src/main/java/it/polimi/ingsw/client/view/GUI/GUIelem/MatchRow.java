@@ -1,20 +1,31 @@
 package it.polimi.ingsw.client.view.GUI.GUIelem;
 
+import it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchViewBuilder;
+import javafx.util.Pair;
+
+import java.util.Map;
 import java.util.UUID;
 
 public class MatchRow {
-    private final String people;
-    private final UUID key;
+    Map.Entry<UUID, Pair<String[], String[]>> uuidPair;
 
-    public MatchRow(UUID key, String people) {
-        this.people=people;
-        this.key=key;
+    public MatchRow(Map.Entry<UUID, Pair<String[], String[]>> uuidPair) {
+        this.uuidPair = uuidPair;
     }
-    public UUID getKey() {
-        return key;
+
+    public UUID getId()
+    { return  uuidPair.getKey();}
+
+    public Map.Entry<UUID, Pair<String[], String[]>> getUuidPair() {
+        return uuidPair;
+    }
+
+    public String getKey() {
+        return CreateJoinLoadMatchViewBuilder.idAndNames(uuidPair).getKey();
     }
 
     public String getPeople() {
-        return people;
+        return    ""+getKey()+
+                "\n"+CreateJoinLoadMatchViewBuilder.idAndNames(uuidPair).getValue();
     }
 }

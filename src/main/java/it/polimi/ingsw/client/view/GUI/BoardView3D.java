@@ -360,14 +360,17 @@ public class BoardView3D {
         Button productionButton = new Button();
         productionButton.setText("Produce");
         productionButton.setLayoutX(500);
-        productionButton.setLayoutY(900);
+        productionButton.setLayoutY(1550);
         productionButton.setTranslateZ(-15);
         productionButton.setPrefHeight(80);
         productionButton.setPrefWidth(200);
         productionButton.setStyle("-fx-font-size:30");
 
+        productionButton.setOpacity(mode.equals(Mode.CHOOSE_PRODUCTION)?1:0);
+
         productionButton.setOnAction(e -> {
-            ProductionViewBuilder.sendProduce();
+            if (mode.equals(Mode.CHOOSE_PRODUCTION))
+                ProductionViewBuilder.sendProduce();
         });
 
         productions.getChildren().add(productionButton);
@@ -404,12 +407,11 @@ public class BoardView3D {
             rectangle.setLayoutX(400 + 250 * key);
             rectangle.setLayoutY(0);
             rectangle.setOnMouseClicked(p -> {
-                if (mode.equals(Mode.CHOOSE_POS_FOR_CARD))
-                    if (simpleCardCells.isSpotAvailable(key)) {
-                        CardShopViewBuilder.sendCardPlacementPosition(key);
-                    } else if (mode.equals(Mode.CHOOSE_PRODUCTION))
-                        if (value.isPresent())
-                            ProductionViewBuilder.sendChosenProduction(key);
+                if (mode.equals(Mode.CHOOSE_POS_FOR_CARD) && simpleCardCells.isSpotAvailable(key)) {
+                    CardShopViewBuilder.sendCardPlacementPosition(key);
+                } else if (mode.equals(Mode.CHOOSE_PRODUCTION))
+                    if (value.isPresent())
+                        ProductionViewBuilder.sendChosenProduction(key);
             });
             rectangle.setFill(tempImage);
 
