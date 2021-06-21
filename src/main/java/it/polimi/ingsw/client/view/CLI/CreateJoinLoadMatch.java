@@ -4,7 +4,9 @@ import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Title;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.SpinnerBody;
+import it.polimi.ingsw.client.view.CLI.layout.GridElem;
 import it.polimi.ingsw.client.view.CLI.layout.Option;
+import it.polimi.ingsw.client.view.CLI.layout.SizedBox;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
 import it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchViewBuilder;
 import it.polimi.ingsw.network.messages.clienttoserver.SendNickname;
@@ -29,7 +31,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
                     getCLIView().clearScreen();
                     getCLIView().setTitle(new Title("Hey "+ getCommonData().getCurrentNick()+", what do you want to do?"));
 
-                    Stream<Option> optionsToAdd = getNewOptionList();
+                    Stream<GridElem> optionsToAdd = getNewOptionList();
                     Row initialRow = new Row(optionsToAdd);
 
                     CanvasBody horizontalListBody = CanvasBody.centered(initialRow);
@@ -37,7 +39,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
                     horizontalListBody.performWhenReceiving(CommonData.matchesDataString);
                     Runnable performer = ()->{
 
-                        Stream<Option> updatedOptionsToAdd = getNewOptionList();
+                        Stream<GridElem> updatedOptionsToAdd = getNewOptionList();
                         Row updatedRow = new Row((updatedOptionsToAdd));
                         getCLIView().setBody(CanvasBody.centered(updatedRow));
                         updatedRow.selectAndRunOption(getCLIView());
@@ -74,7 +76,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
 
 
 
-    private Stream<Option> getNewOptionList(){
+    private Stream<GridElem> getNewOptionList(){
 
         Option loadMatch = Option.from("Load Match" , () -> getClient().changeViewBuilder(new LoadableMatches()));
         if(getCommonData().getSavedMatchesData().isEmpty())
@@ -89,8 +91,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         List<Option> optionList = new ArrayList<>();
         Collections.addAll(optionList, loadMatch, joinMatch, newMatch);
 
-        return Option.addSpacesToOptionList(1, optionList);
-
+        return optionList.stream().flatMap(o->Stream.of(o, new SizedBox(1,0)));
     }
 
     protected Stream<Option> getMatchesOptionList(Map<UUID, Pair<String[], String[]>> matchesData){

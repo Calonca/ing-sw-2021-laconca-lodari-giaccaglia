@@ -67,6 +67,19 @@ public class Canvas {
         dwl.get().forEach(d-> draw(d,dwl));
     }
 
+    public static Drawable copyThisIntoCanvas(Drawable drawable){
+        Drawable dList = Drawable.copyShifted(0,0, drawable);
+        dList.get().forEach(e-> {
+            if (e.getColor().equals(Color.DEFAULT))
+                e.setColor(Color.BRIGHT_WHITE);
+        });
+        dList.get().forEach(e-> {
+            if (e.getBackground().equals(Background.DEFAULT))
+                e.setBackground(Background.ANSI_BRIGHT_BLACK_BACKGROUND);
+        });
+        return dList;
+    }
+
     /**
      * Draws the string in the canvas at the given position,
      * the output in the CLI is similar to that of System.out.print(s) but with the text starting form the given x,y position.
@@ -74,8 +87,8 @@ public class Canvas {
     private void draw(DrawableLine d, Drawable dwl){
         int matX = d.getXPos();
         int matY = d.getYPos();
-        Color c = d.getColor();
-        Background b = d.getBackground();
+        Color c = (d.getColor().equals(Color.DEFAULT)&&dwl.isSelected())?Color.BRIGHT_WHITE: d.getColor();
+        Background b = (d.getBackground().equals(Background.DEFAULT)&&dwl.isSelected())? Background.ANSI_BRIGHT_BLACK_BACKGROUND:d.getBackground();
         char[] chars = d.getString().toCharArray();
         for (int i=0;i<chars.length;i++) {
 

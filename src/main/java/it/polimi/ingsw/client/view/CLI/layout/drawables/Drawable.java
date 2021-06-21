@@ -18,6 +18,7 @@ import java.util.stream.Stream;
 public class Drawable {
     private List<DrawableLine> drawableLines;
     private UUID id = UUID.randomUUID();
+    private boolean selected;
 
     public Drawable() {
         this.drawableLines = new ArrayList<>();
@@ -32,21 +33,19 @@ public class Drawable {
         shifted.id = list.id;
         shifted.drawableLines = list.drawableLines.stream()
                 .map(d-> DrawableLine.shifted(shiftX,shiftY,d)).collect(Collectors.toList());
+        shifted.selected = list.isSelected();
         return shifted;
     }
 
-    public static Drawable selectedDrawableList(Drawable drawable){
-        Drawable dList = Drawable.copyShifted(0,0, drawable);
-        dList.get().forEach(e-> {
-            if (e.getColor().equals(Color.DEFAULT))
-                e.setColor(Color.BRIGHT_WHITE);
-        });
-        dList.get().forEach(e-> {
-            if (e.getBackground().equals(Background.DEFAULT))
-                e.setBackground(Background.ANSI_BRIGHT_BLACK_BACKGROUND);
-        });
-        return dList;
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+
 
     public Drawable(DrawableLine first, Drawable second) {
         drawableLines = Stream.concat(Stream.of(first),second.drawableLines.stream()).collect(Collectors.toList());

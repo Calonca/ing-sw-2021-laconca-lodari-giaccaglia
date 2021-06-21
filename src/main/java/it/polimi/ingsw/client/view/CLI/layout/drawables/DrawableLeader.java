@@ -64,10 +64,9 @@ public class DrawableLeader {
             dwl.addEmptyLine();
         }
 
-        if (isSelected)
-            return Drawable.selectedDrawableList(dwl);
-        else
-            return dwl;
+        dwl.setSelected(isSelected);
+
+        return dwl;
     }
 
     @NotNull

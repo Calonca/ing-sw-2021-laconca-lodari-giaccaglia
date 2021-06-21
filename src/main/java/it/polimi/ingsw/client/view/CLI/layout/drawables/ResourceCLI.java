@@ -46,10 +46,10 @@ public enum ResourceCLI {
         dwList.add(0,"|----------|",cl,back);
         dwList.add(0,"| "+ nameWithSpaces +"|",cl,back);
         dwList.add(0,"------------",cl,back);
-        if (isSelected)
-            return Drawable.selectedDrawableList(dwList);
-        else
-            return dwList;
+
+        dwList.setSelected(isSelected);
+
+        return dwList;
     }
 
     public static List<Drawable> toList(){
