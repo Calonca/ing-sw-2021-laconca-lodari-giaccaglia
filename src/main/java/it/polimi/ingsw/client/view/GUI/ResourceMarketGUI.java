@@ -185,7 +185,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
         Button button=new Button();
         button.setTranslateX(250);
         button.setTranslateY(-350+100*k);
-        button.setGraphic(new Text(Integer.toString(k+3)));
+        button.setGraphic(new Text(Integer.toString(3+k)));
         button.setOnAction( p-> {
 
             if(!SetupPhase.getBoard().getController().isMarket())
@@ -308,7 +308,6 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
 
 
                 sendLine(i);
-                System.out.println("mando linea" + i);
 
             });
             transition.play();
