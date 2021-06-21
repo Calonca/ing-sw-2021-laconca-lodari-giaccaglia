@@ -175,6 +175,7 @@ public class BoardView3D {
     }
 
     public void refreshCardShop() {
+        System.out.println("REFRESHING CARD SHOP");
         if(this.cardShop!=null)
             this.cardShop.getChildren().clear();
         Group cardShop=new Group();
@@ -184,6 +185,7 @@ public class BoardView3D {
     }
 
     public void refreshMarket() {
+        System.out.println("REFRESHING MARKET");
         if(this.resourceMarket!=null)
             this.resourceMarket.getChildren().clear();
         Group resourceMarket=new Group();
@@ -453,8 +455,9 @@ public class BoardView3D {
                 tempImage = new ImagePattern(new Image("assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_BLUE_1.png"));
                 rectangle.setOpacity(0);
             } else {
-                path = value.get().getCardPaths().getKey();
+                path = simpleCardCells.getDevCardsCells().get(key).get().get(simpleCardCells.getDevCardsCells().get(key).get().size()-1).getCardPaths().getKey();
                 tempImage = new ImagePattern(new Image(path.toString(), false));
+                System.out.println(path);
             }
             rectangle.setLayoutX(400 + 250 * key);
             rectangle.setLayoutY(0);

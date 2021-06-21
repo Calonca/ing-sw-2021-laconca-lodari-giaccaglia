@@ -14,7 +14,10 @@ public class IDLEViewBuilderGUI extends IDLEViewBuilder implements GUIView
     @Override
     public void run() {
         BoardView3D.getBoard().runforStart();
-        System.out.println(GUI.getRealPane().getChildren());
+        BoardView3D.getBoard().refreshMarket();
+        BoardView3D.getBoard().refreshCardShop();
+        BoardView3D.getBoard().refreshLeaders();
+
     }
 
 

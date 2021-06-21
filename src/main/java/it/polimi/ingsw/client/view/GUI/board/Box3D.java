@@ -201,6 +201,7 @@ public class Box3D {
                 if (simpleDiscardBox.isDiscardable()) {
                     view3D.setMode(BoardView3D.Mode.BACKGROUND);
                     ResourceMarketViewBuilder.sendDiscard();
+
                 }
             });
 

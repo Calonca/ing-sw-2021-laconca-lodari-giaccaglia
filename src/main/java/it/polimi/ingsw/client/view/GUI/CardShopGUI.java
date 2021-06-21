@@ -113,7 +113,10 @@ public class CardShopGUI extends CardShopViewBuilder {
 
                 for(int k=1;k<stackHeight;k++)
                 {
-                    path=simpleCardShop.getCardFront(NetworkDevelopmentCardColor.fromInt(j),3-i).get().getCardPaths().getKey();
+                    if(k==stackHeight-2)
+                        path=simpleCardShop.getSecondCard(NetworkDevelopmentCardColor.fromInt(j),3-i).get().getCardPaths().getKey();
+                    else
+                        path=simpleCardShop.getCardFront(NetworkDevelopmentCardColor.fromInt(j),3-i).get().getCardPaths().getKey();
                     tempStackImage=new ImageView(new Image(path.toString(), true));
                     tempStackImage.setLayoutX(20+(cardsHGap+cardWidth)*j);
                     tempStackImage.setLayoutY(20+(cardsVGap+cardWidth*(741/504.0))*i);
@@ -280,9 +283,6 @@ public class CardShopGUI extends CardShopViewBuilder {
             else if(temp<8)
                 sendChosenCard(temp%4, 2);
             else sendChosenCard(temp%4, 1);
-
-            BoardView3D.getBoard().getController().setBoughtCard(scenesCardsToChoose.get(temp));
-            BoardView3D.getBoard().getController().isCardShopOpen(false);
 
         });
         return confirm;
