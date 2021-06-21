@@ -6,11 +6,9 @@ import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.SpinnerBody;
 import it.polimi.ingsw.client.view.CLI.layout.Option;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
-import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 import it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchViewBuilder;
 import it.polimi.ingsw.network.messages.clienttoserver.SendNickname;
 import javafx.util.Pair;
-import org.apache.commons.lang3.ArrayUtils;
 
 import java.beans.PropertyChangeEvent;
 import java.util.*;
@@ -60,51 +58,21 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
 
     }
 
+
+
     protected Option getOption(Map.Entry<UUID,Pair<String[], String[]>> uuidPair) {
 
         JoinMatch joinMatch = new JoinMatch();
         joinMatch.setMatchId( uuidPair.getKey() );
         Runnable r = () -> getClient().changeViewBuilder( joinMatch );
 
-        String matchIdString = "Match ID : " + uuidPair.getKey().toString().substring( 0, 8 );
-
-        String coloredNames = coloredNames( uuidPair.getValue().getKey(), uuidPair.getValue().getValue() );
-
         return Option.from(
-                matchIdString,
-                coloredNames,
+                idAndNames(uuidPair).getKey(),
+                idAndNames(uuidPair).getValue(),
                 r );
     }
 
-    private String coloredNames(String[] onlineNames, String[] offlineNames){
 
-        String[] coloredOnlineNames;
-        String[] coloredOfflineNames;
-
-        if(onlineNames.length>0)
-            coloredOnlineNames = Arrays
-                    .stream(onlineNames)
-                    .filter(Objects::nonNull)
-                    .map( name -> Color.colorString( name, Color.BIGHT_GREEN ) )
-                    .toArray( String[]::new);
-        else
-            coloredOnlineNames = new String[]{Color.colorString( "No players online", Color.BRIGHT_RED )};
-
-        if(offlineNames.length>0) {
-            coloredOfflineNames = Arrays
-                    .stream( offlineNames )
-                    .filter( Objects::nonNull )
-                    .map( name -> Color.colorString( name, Color.BRIGHT_RED ) )
-                    .toArray( String[]::new );
-        }
-
-        else
-            coloredOfflineNames = new String[]{Color.colorString( "No players offline", Color.BRIGHT_RED )};
-
-
-        return Arrays.toString(ArrayUtils.addAll( coloredOnlineNames, coloredOfflineNames));
-
-    }
 
     private Stream<Option> getNewOptionList(){
 
