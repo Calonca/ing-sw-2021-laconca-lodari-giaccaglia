@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view.GUI;
 
 
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
+import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.events.setupphaseevent.SetupPhaseEvent;
 import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
@@ -128,7 +129,8 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         confirm.setEffect(effect);
         confirm.setOnAction(p -> {
 
-            SetupPhaseEvent event = new SetupPhaseEvent(Util.resourcesToChooseOnSetup(getCommonData().getThisPlayerIndex()),2,getClient().getCommonData().getThisPlayerIndex());
+            int resToChoose = Util.resourcesToChooseOnSetup(getCommonData().getThisPlayerIndex());
+            SetupPhaseEvent event = new SetupPhaseEvent(resToChoose,2,getClient().getCommonData().getThisPlayerIndex());
 
             for(int i = 0; i< leaderImageViews.size(); i++)
                 if(selectedLeaders.get(i))
@@ -143,11 +145,12 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
                     converter.add(i);
                     converter.add(i);
                 }
-            if (converter.size()>0)
-                event.addResource(new Pair<>(0,converter.get(0)));
-            if (converter.size()>1)
-                event.addResource(new Pair<>(1,converter.get(1)));
-            //System.out.println(event);
+            if (resToChoose>0)
+                event.addResource(new Pair<>(0,0));
+            if (resToChoose>1)
+                event.addResource(new Pair<>(1,1));
+
+            System.out.println(JsonUtility.serialize(event));
             getClient().getServerHandler().sendCommandMessage(new EventMessage(event));
 
 
