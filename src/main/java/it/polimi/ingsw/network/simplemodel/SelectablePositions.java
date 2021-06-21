@@ -87,7 +87,7 @@ public class SelectablePositions extends SimpleModelElement{
                     int updatedAvailability;
 
                     if(selectedResourcesMap.containsKey(position))
-                        updatedAvailability = selectedResourcesMap.get(position);
+                        updatedAvailability = resourcesOriginalAvailability.get(position) - selectedResourcesMap.get(position);
 
                     else
                         updatedAvailability = resourcesOriginalAvailability.get(position);
