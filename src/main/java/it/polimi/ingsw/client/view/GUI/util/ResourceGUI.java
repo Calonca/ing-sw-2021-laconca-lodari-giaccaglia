@@ -18,7 +18,7 @@ public enum ResourceGUI {
     SHIELD(ResourceAsset.SHIELD,  "shield", Color.CYAN),
     STONE(ResourceAsset.STONE, "stone", Color.GRAY),
     FAITH(ResourceAsset.FAITH, "faith",     Color.ORANGE),
-    TO_CHOSE(ResourceAsset.TO_CHOOSE,"faith",Color.WHITE),
+    TO_CHOSE(ResourceAsset.TO_CHOOSE,"table",Color.WHITE),
     EMPTY(ResourceAsset.EMPTY, "table",Color.BEIGE);
 
 

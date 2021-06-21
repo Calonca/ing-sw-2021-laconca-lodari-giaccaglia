@@ -51,8 +51,8 @@ public class Warehouse3D {
         AtomicInteger gPos = new AtomicInteger();
         int lineN = 0;
         for (Map.Entry<Integer, List<Pair<ResourceAsset, Boolean>>> line: simpleWarehouseLeadersDepot.getDepots().entrySet()){
-            int finalLineN = lineN;
-            AtomicInteger nInLine = new AtomicInteger();
+            final int finalLineN = Math.min(lineN, 2);
+            AtomicInteger nInLine = lineN>2? new AtomicInteger(-lineN-2): new AtomicInteger();
             line.getValue().forEach(e->{
                 double x  = (wareWidth/(1+line.getValue().size())*(1+nInLine.get()));
                 Point3D shift = new Point3D(x,lineHeight* finalLineN,0);

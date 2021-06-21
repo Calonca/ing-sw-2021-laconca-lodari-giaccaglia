@@ -37,6 +37,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape3D;
+import javafx.scene.shape.Sphere;
 import org.jetbrains.annotations.NotNull;
 
 import java.nio.file.Path;
@@ -48,18 +49,6 @@ import java.util.Optional;
 import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.*;
 
 public class BoardView3D {
-
-    private static BoardView3D boardController=new BoardView3D();
-
-    public static BoardView3D getBoard()
-    {
-        if (boardController==null) {
-            boardController = new BoardView3D();
-            boardController.setMode(Mode.BACKGROUND);
-        }
-        boardController.runforStart();
-        return boardController;
-    }
 
     public enum Mode{
 
@@ -127,36 +116,51 @@ public class BoardView3D {
                 Warehouse3D.wareBuilder(getBoard(), parent,board,ddHandler);
             }
         };
+
         public abstract void run();
 
     }
+    private static BoardView3D boardController=new BoardView3D();
+
+
 
     public Mode mode = Mode.BACKGROUND;
+
     private static final BoardStateController controller=new BoardStateController();
-    double buttonStartingX=100;
+    private static final Point3D tableCenter = new Point3D(400,-3500,0);
     double width=1800;
+
     public Rectangle board;
     public Group parent;
     double len=1000;
-
     private boolean active=false;
 
     protected Group discardBox;
+
     protected Warehouse3D warehouse;
     protected Box3D strongBox;
     protected Group faithTrack;
-
     protected ResChoiceRowGUI toSelect;
 
     protected Group cardShop=new Group();
+
     protected Group leadersGroup=new Group();
     protected Group resourceMarket=new Group();
     protected CardShopGUI cardShopGUI=new CardShopGUI();
     protected ResourceMarketGUI resourceMarketGUI= new ResourceMarketGUI();
     protected Group productions;
-
     private static CamState camState = CamState.TOP;
 
+
+    public static BoardView3D getBoard()
+    {
+        if (boardController==null) {
+            boardController = new BoardView3D();
+            boardController.setMode(Mode.BACKGROUND);
+        }
+        boardController.runforStart();
+        return boardController;
+    }
 
     public void setFaithTrack(Group faithTrack) {
         this.faithTrack = faithTrack;
@@ -172,6 +176,10 @@ public class BoardView3D {
 
     public Warehouse3D getWarehouse() {
         return warehouse;
+    }
+
+    public static Point3D getTableCenter() {
+        return tableCenter;
     }
 
     public void refreshCardShop() {
@@ -309,15 +317,23 @@ public class BoardView3D {
         final double boardWidth=2402;
         final double boardHeight=1717;
         board = new Rectangle(boardWidth, boardHeight);
+        board.setMouseTransparent(true);
 
 
+        Sphere pivotSphere = new Sphere(100);
+        pivotSphere.setTranslateX(tableCenter.getX());
+        pivotSphere.setTranslateY(tableCenter.getY());
+        pivotSphere.setTranslateZ(tableCenter.getZ());
+
+        parent.getChildren().add(pivotSphere);
 
         Shape3D table = ModelImporter.getShape3d("table");
         table.setMaterial(new PhongMaterial(Color.BURLYWOOD));
-        Point3D tableCenter = new Point3D(400,300,8501);
-        table.setTranslateX(tableCenter.getX());
-        table.setTranslateY(tableCenter.getY());
-        table.setTranslateZ(tableCenter.getZ());
+
+        Point3D tbPos = new Point3D(400,300,8501);
+        table.setTranslateX(tbPos.getX());
+        table.setTranslateY(tbPos.getY());
+        table.setTranslateZ(tbPos.getZ());
         table.setScaleX(100);
         table.setScaleY(100);
         table.setScaleZ(100);

@@ -18,6 +18,7 @@ public class DragAndDropHandler {
 
     List<DragAndDropData> shapes;
     private int lastDroppedPos;
+    private Rectangle extendedArea;
 
     public DragAndDropHandler() {
         this.shapes = new ArrayList<>();
@@ -36,6 +37,18 @@ public class DragAndDropHandler {
     }
 
     public void startDragAndDrop(Group globGroup,Rectangle dragArea, int gPos) {
+
+        if (extendedArea==null){
+            extendedArea = new Rectangle(dragArea.getWidth(),dragArea.getHeight());
+            globGroup.getChildren().add(extendedArea);
+            extendedArea.setOpacity(0);
+        }
+        extendedArea.setTranslateX(dragArea.getTranslateX());
+        extendedArea.setTranslateY(dragArea.getTranslateY());
+        extendedArea.setTranslateZ(dragArea.getTranslateZ());
+        extendedArea.setScaleX(2);
+        dragArea = extendedArea;
+
         if (dataWithPos(gPos).isEmpty())
             return;
         DragAndDropData draggedData = dataWithPos(gPos).get();
@@ -55,6 +68,7 @@ public class DragAndDropHandler {
 
 
         AtomicBoolean dragStarted = new AtomicBoolean(false);
+        Rectangle finalDragArea = dragArea;
         dragged.setOnDragDetected((MouseEvent event)-> {
             if (!dragStarted.get()) {
                 dragStarted.set(true);
@@ -70,11 +84,12 @@ public class DragAndDropHandler {
             }
             dragged.setMouseTransparent(true);
             shapes.forEach(s->s.shape3D.setMouseTransparent(true));
-            dragArea.setMouseTransparent(false);
+            finalDragArea.setMouseTransparent(false);
             dragged.setCursor(Cursor.MOVE);
             dragged.startFullDrag();
         });
 
+        Rectangle finalDragArea1 = dragArea;
         dragged.setOnMouseReleased((MouseEvent event)-> {
             dragged.setMouseTransparent(false);
             shapes.forEach(s->s.shape3D.setMouseTransparent(false));
@@ -99,15 +114,16 @@ public class DragAndDropHandler {
                 shapes.remove(oldShapeData);
                 shapes.add(draggedData);
                 dragStarted.set(false);
-                dragArea.setMouseTransparent(true);
+                finalDragArea1.setMouseTransparent(true);
                 dragged.setCursor(Cursor.DEFAULT);
                 draggedData.onDrop.run();
             });
         });
 
+        Rectangle finalDragArea2 = dragArea;
         dragArea.setOnMouseDragOver((MouseEvent event)->{
             Point3D boardCoords = event.getPickResult().getIntersectedPoint();
-            boardCoords = dragArea.localToParent(boardCoords);
+            boardCoords = finalDragArea2.localToParent(boardCoords);
             boardCoords = boardCoords.subtract(dragged.getParent().localToParent(new Point3D(0,0,0)));
 
             shapes.forEach(s->ResourceGUI.setColor(s.resourceGUI,s.shape3D,false,true));
