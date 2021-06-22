@@ -1,7 +1,10 @@
 package it.polimi.ingsw.client.view.GUI;
 
 
+import it.polimi.ingsw.client.view.GUI.layout.ResChoiceRowGUI;
+import it.polimi.ingsw.client.view.GUI.util.CardSelector;
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
+import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.events.setupphaseevent.SetupPhaseEvent;
@@ -14,6 +17,7 @@ import javafx.animation.Timeline;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.SubScene;
 import javafx.scene.control.*;
@@ -44,7 +48,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
     List<UUID> leadersUUIDs=new ArrayList<>();
 
     List<Button> sceneResources=new ArrayList<>();
-
+    ResChoiceRowGUI resourceSelector;
     List<ImageView> resourceImageViews=new ArrayList<>();
     List<ImageView> leaderImageViews =new ArrayList<>();
 
@@ -143,16 +147,17 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
 
             List<Integer> converter=new ArrayList<>();
             int tempResCount=0;
-            for (Integer selectedResource : selectedResources) tempResCount += selectedResource;
+            for (Integer selectedResource : resourceSelector.getChosenInputPos()) tempResCount += selectedResource;
 
 
             if(tempResCount<resToChoose)
                 return;
+
             System.out.println(tempResCount);
             System.out.println(resToChoose);
 
-            for(int i=0;i<selectedResources.size();i++)
-                if (selectedResources.get(i) ==1)
+            for(int i=0;i<resourceSelector.getChosenInputPos().size();i++)
+                if (resourceSelector.getChosenInputPos().get(i) ==1)
                     converter.add(i);
                 else if(selectedResources.get(i) ==2)
                 {
@@ -190,12 +195,12 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
     {
 
 
-        spawnResourceSupply();
 
         Label leaders=new Label("SELECT TWO LEADERS");
         leaders.setLayoutX(width/2+100);
         leaders.setLayoutY(len/2);
         setupAnchor.getChildren().add(leaders);
+
 
 
         Effect dropShadow=new DropShadow(BlurType.GAUSSIAN, Color.rgb(0,0,0,0.5),10,0.7,5,5);
@@ -208,7 +213,6 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
             leaderBut.setLayoutX(leadersOffsetX+leadersSpacing*i);
             leaderBut.setLayoutY(len-leaderSize-10);
             leaderBut.setEffect(dropShadow);
-            leaderBut.setStyle("");
             leaderBut.setRotate(Math.random() * (cardTilt - -cardTilt + 1) + -1 );
             setupAnchor.getChildren().add(leaderBut);
             leaderImageViews.add(leaderBut);
@@ -219,9 +223,10 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         for (int i=0;i<getSetupLeaderIcons().size();i++)
             selectedLeaders.add(false);
 
+        CardSelector cardSelector=new CardSelector();
+        cardSelector.cardSelectorFromImage(selectedLeaders,leaderImageViews,2);
 
         //ViewPersonalBoard.getController().cardSelector(selectedLeaders, sceneLeaders,2);
-        BoardView3D.getController().cardSelectorFromImage(selectedLeaders, leaderImageViews,2);
         selectedLeaders.addListener((ListChangeListener<Boolean>) c -> {
             c.next();
             if(c.getAddedSubList().get(0))
@@ -241,7 +246,6 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         resourceImageViews.add(new ImageView(new Image("assets/resources/STONE.png")));
 
 
-        Button resbut;
         for(int i=0;i<resourceImageViews.size();i++)
         {
             ImageView tempImage=resourceImageViews.get(i);
@@ -257,21 +261,31 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
 
 
         int resourcesCount=Util.resourcesToChooseOnSetup(getClient().getCommonData().getThisPlayerIndex());
-        BoardView3D.getController().setAllowedRes(new int[]{3,3,3,3});
-        //ViewPersonalBoard.getController().bindDispenser(selectedResources,sceneResources);
-        BoardView3D.getController().bindDispenserFromImage(selectedResources,resourceImageViews,resourcesCount);
 
-        AtomicReference<Double> x= new AtomicReference<>(width / 6);
-        //todo add animation on selected resources
 
-        selectedResources.addListener((ListChangeListener<Integer>) c -> {
-            c.next();
-            ImageView toAdd=new ImageView(resourceImageViews.get(c.getFrom()).getImage());
-            toAdd.setLayoutX(x.get());
-            x.updateAndGet(v -> (double) (v + 100));
-            toAdd.setLayoutY(len/2);
-            setupAnchor.getChildren().add(toAdd);
-        });
+        List<ResourceAsset> resourcesToChoose =new ArrayList<>();
+        for(int i=0;i<resourcesCount;i++)
+            resourcesToChoose.add(ResourceAsset.TO_CHOOSE);
+
+        resourceSelector=new ResChoiceRowGUI(0, resourcesToChoose,new ArrayList<>());
+
+
+        Group group=resourceSelector.getRowGroup();
+
+        for(int i=0;i<resourceImageViews.size();i++) {
+            int finalI = i;
+            resourceImageViews.get(i).setOnMouseClicked(p->
+                    {
+                        if(resourceSelector.getChosenInputPos().size()==resourcesCount)
+                            return;
+                        resourceSelector.setNextInputPos(finalI,ResourceAsset.fromInt(finalI));
+                        System.out.println("CHOOSIN");
+                        ImageView toAdd=new ImageView(resourceImageViews.get(finalI).getImage());
+                        toAdd.setLayoutX(width/6+50*finalI);
+                        toAdd.setLayoutY(len/2);
+                        setupAnchor.getChildren().add(toAdd);
+                    });
+        }
 
         if(resourcesCount!=0)
         {
@@ -287,6 +301,8 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         getClient().getStage().show();
 
     }
+
+
 
 
 }
