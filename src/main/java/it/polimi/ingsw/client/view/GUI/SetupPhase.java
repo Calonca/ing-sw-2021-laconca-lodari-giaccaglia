@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * This scene is composed by a small card selector (2max), a resource selector and a confirmation button
@@ -136,7 +137,17 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
                 if(selectedLeaders.get(i))
                     event.addChosenLeader(leadersUUIDs.get(i));
 
+
             List<Integer> converter=new ArrayList<>();
+            int tempResCount=0;
+            for (Integer selectedResource : selectedResources) tempResCount += selectedResource;
+
+
+            if(tempResCount<resToChoose)
+                return;
+            System.out.println(tempResCount);
+            System.out.println(resToChoose);
+
             for(int i=0;i<selectedResources.size();i++)
                 if (selectedResources.get(i) ==1)
                     converter.add(i);
@@ -236,12 +247,32 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
 
         }
 
-        //double resourcesX=width/2;
-        BoardView3D.getController().setAllowedRes(new int[]{3,3,3,3});
-        //ViewPersonalBoard.getController().bindDispenser(selectedResources,sceneResources,Util.resourcesToChooseOnSetup(getClient().getCommonData().getThisPlayerIndex()));
-        BoardView3D.getController().bindDispenserFromImage(selectedResources,resourceImageViews,Util.resourcesToChooseOnSetup(getClient().getCommonData().getThisPlayerIndex()));
 
+        int resourcesCount=Util.resourcesToChooseOnSetup(getClient().getCommonData().getThisPlayerIndex());
+        BoardView3D.getController().setAllowedRes(new int[]{3,3,3,3});
+        //ViewPersonalBoard.getController().bindDispenser(selectedResources,sceneResources);
+        BoardView3D.getController().bindDispenserFromImage(selectedResources,resourceImageViews,resourcesCount);
+
+        AtomicReference<Double> x= new AtomicReference<>(width / 6);
         //todo add animation on selected resources
+
+        selectedResources.addListener((ListChangeListener<Integer>) c -> {
+            c.next();
+            ImageView toAdd=new ImageView(resourceImageViews.get(c.getFrom()).getImage());
+            toAdd.setLayoutX(x.get());
+            x.updateAndGet(v -> (double) (v + 100));
+            toAdd.setLayoutY(len/2);
+            setupAnchor.getChildren().add(toAdd);
+        });
+
+        if(resourcesCount!=0)
+        {
+            Label resources=new Label("SELECT"+  resourcesCount +"RESOURCES");
+            resources.setLayoutX(width/2+250);
+            resources.setLayoutY(len/2);
+            setupAnchor.getChildren().add(resources);
+        }
+
 
         setupAnchor.getChildren().add(validationButton());
         setupAnchor.setId("background");
