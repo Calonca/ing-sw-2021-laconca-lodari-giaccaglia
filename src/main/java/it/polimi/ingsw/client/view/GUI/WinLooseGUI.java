@@ -36,7 +36,6 @@ public class WinLooseGUI extends WinLooseBuilder implements GUIView {
         timeline.getKeyFrames().add(kf);
         timeline.play();
 
-        root.setId("SETUP");
         GUI.getRealPane().getChildren().remove(0);
         GUI.getRealPane().getChildren().add(root);
 

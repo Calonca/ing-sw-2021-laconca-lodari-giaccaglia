@@ -11,9 +11,13 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.SubScene;
 import javafx.scene.control.Button;
+import javafx.scene.effect.BlurType;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 
 import java.io.IOException;
 import java.net.URL;
@@ -113,6 +117,7 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
 
 
         SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).orElseThrow();
+        Effect dropShadow=new DropShadow(BlurType.GAUSSIAN, Color.rgb(0,0,0,0.5),10,0.7,5,5);
 
         ImageView leaderBut;
         for(int i=0;i<getSetupLeaderIcons().size();i++)
@@ -120,7 +125,7 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
             leaderBut= getSetupLeaderIcons().get(i);
             leaderBut.setLayoutY(cardsY);
             leaderBut.setLayoutX(cardsStartingX+i*(cardLen*(462.0/709)+paddingBetweenCards));
-            leaderBut.setId("leaderButton");
+            leaderBut.setEffect(dropShadow);
             leaderBut.setRotate(Math.random() * (cardTilt - -cardTilt + 1) + -1 );
             leaderPane.getChildren().add(leaderBut);
             sceneLeadersImageView.add(leaderBut);
@@ -210,7 +215,7 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
         playButton.setDisable(true);
         discardButton.setDisable(true);
 
-        leaderPane.setId("pane");
+        leaderPane.setId("initialPane");
 
     }
 }

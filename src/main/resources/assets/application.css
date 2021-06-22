@@ -15,19 +15,22 @@
          -fx-background-size: 1800 1000;
          -fx-background-position: center center;
          -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);}}
-#pane{
+
+
+#createPane{
     -fx-background-color: linear-gradient(to right, #5771f2, #021782);
     -fx-border-color: #FAEBD7;
     -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 10,0.7,5,5 );
+}
 
+#middlePane{
+    -fx-background-color: linear-gradient(to right, #5771f2, #021782);
+    -fx-border-color: #FAEBD7;
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 10,0.7,5,5 );
 }
 
 
 #tile{
-    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 10,0.7,5,5 );
-    -fx-background-color: linear-gradient(to right, #5771f2, #021782);
-    -fx-border-color: #DEB887;
-    -fx-border-radius: 3;
 
 }
 #marketPane{
@@ -37,10 +40,6 @@
     -fx-background-position: center center;
     -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);}
 
-#leaderButton{
-    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 10,0.7,5,5);
-    -fx-background-color: transparent;
-  }
 
 #developmentCardButton{
     -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 10,0.7,5,5);
@@ -69,6 +68,34 @@
 
   }
 
+#createPane{
+    -fx-background-color: linear-gradient(to right, #5771f2, #021782);
+    -fx-border-color: #FAEBD7;
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 10,0.7,5,5 );
+
+}
+
+#middlePane{
+    -fx-background-color: linear-gradient(to right, #5771f2, #021782);
+    -fx-border-color: #FAEBD7;
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 10,0.7,5,5 );
+
+}
+
+
+#initialPane{
+    -fx-background-color: linear-gradient(to right, #5771f2, #021782);
+    -fx-border-color: #FAEBD7;
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 10,0.7,5,5 );
+
+}
+
+#cardsPane{
+    -fx-background-color: linear-gradient(to right, #5771f2, #021782);
+    -fx-border-color: #FAEBD7;
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 10,0.7,5,5 );
+
+}
 #showButton{
     -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 10,0.2,5,5 );
     -fx-background-color: linear-gradient(to right, #ADD8E6, #5771f2);

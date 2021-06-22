@@ -13,10 +13,14 @@ import javafx.collections.ListChangeListener;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
 import javafx.scene.control.Button;
+import javafx.scene.effect.BlurType;
 import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -110,6 +114,7 @@ public class CardShopGUI extends CardShopViewBuilder {
 
                 ImageView tempStackImage;
                 int stackHeight = getSimpleCardShop().getStackHeight(NetworkDevelopmentCardColor.fromInt(j),3-i);
+                Effect dropShadow=new DropShadow(BlurType.GAUSSIAN, Color.rgb(0,0,0,0.5),10,0.7,5,5);
 
                 for(int k=1;k<stackHeight;k++)
                 {
@@ -122,8 +127,7 @@ public class CardShopGUI extends CardShopViewBuilder {
                     tempStackImage.setLayoutY(20+(cardsVGap+cardWidth*(741/504.0))*i);
                     tempStackImage.setRotate(Math.random() * ((5 - -5) + 1) + -5);
                     tempStackImage.setFitWidth(cardWidth);
-                    tempStackImage.setId("developmentCardButton");
-
+                    tempStackImage.setEffect(dropShadow);
                     tempStackImage.setPreserveRatio(true);
 
                     cardsAnchor.getChildren().add(tempStackImage);
@@ -217,7 +221,7 @@ public class CardShopGUI extends CardShopViewBuilder {
 
 
         getClient().getStage().show();
-        cardsAnchor.setId("pane");
+        cardsAnchor.setId("cardsPane");
 
         return new SubScene(cardsAnchor,width,len);
 

@@ -8,7 +8,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.SubScene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.effect.BlurType;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Effect;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 
 import java.io.IOException;
 import java.net.URL;
@@ -88,7 +92,8 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
             sendChoice(Choice.RESOURCE_MARKET);
 
         });
+        middleAnchor.setId("middlePane");
 
-        middleAnchor.setId("pane");
+
     }
 }

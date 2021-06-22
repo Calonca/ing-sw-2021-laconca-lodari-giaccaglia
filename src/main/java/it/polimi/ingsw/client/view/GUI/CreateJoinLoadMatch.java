@@ -11,9 +11,11 @@ import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.SubScene;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.effect.BlurType;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Effect;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
@@ -131,7 +133,11 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         });
 
         creationBut.setText("CREATE");
-        createPane.setId("tile");
+
+        Effect dropShadow=new DropShadow(BlurType.GAUSSIAN,Color.rgb(0,0,0,0.5),10,0.7,5,5);
+        createPane.setBorder(new Border(new BorderStroke(Color.YELLOW, BorderStrokeStyle.DOTTED,CornerRadii.EMPTY,BorderWidths.DEFAULT)));
+        createPane.setStyle(" -fx-background-color: linear-gradient(to right, #5771f2, #021782);");
+        createPane.setEffect(dropShadow);
         createPane.getChildren().add(creationBut);
         return createPane;
     }
@@ -166,34 +172,19 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
            getClient().changeViewBuilder(new MatchToStart());
         });
 
+
+
+        Effect dropShadow=new DropShadow(BlurType.GAUSSIAN,Color.rgb(0,0,0,0.5),10,0.7,5,5);
         joinMatchButton.setText("JOIN");
-        joinPane.setId("tile");
+        joinPane.setBorder(new Border(new BorderStroke(Color.YELLOW, BorderStrokeStyle.DOTTED,CornerRadii.EMPTY,BorderWidths.DEFAULT)));
+        joinPane.setStyle(" -fx-background-color: linear-gradient(to right, #5771f2, #021782);");
+        joinPane.setEffect(dropShadow);
+
         joinPane.getChildren().add(joinMatchButton);
 
         return joinPane;
     }
 
-    public AnchorPane emptyTile()
-    {
-
-        AnchorPane joinPane=new AnchorPane();
-
-        joinPane.setPrefHeight(tileheight);
-        joinPane.setPrefWidth(tileWidth+200);
-
-
-        joinPane.setId("tile");
-
-        Button joinMatchButton=new Button();
-        joinMatchButton.setLayoutY(tileheight/2);
-        joinMatchButton.setLayoutX(tileWidth/2);
-
-        joinMatchButton.setGraphic(new Label("EMPTY"));
-        joinMatchButton.setDisable(true);
-        joinPane.getChildren().add(joinMatchButton);
-
-        return joinPane;
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)

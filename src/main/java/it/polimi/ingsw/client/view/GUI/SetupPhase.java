@@ -17,10 +17,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.SubScene;
 import javafx.scene.control.*;
+import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import javafx.util.Pair;
 
@@ -194,13 +197,18 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         leaders.setLayoutY(len/2);
         setupAnchor.getChildren().add(leaders);
 
+
+        Effect dropShadow=new DropShadow(BlurType.GAUSSIAN, Color.rgb(0,0,0,0.5),10,0.7,5,5);
+
+
         ImageView leaderBut;
         for(int i=0;i<getSetupLeaderIcons().size();i++)
         {
             leaderBut=getSetupLeaderIcons().get(i);
             leaderBut.setLayoutX(leadersOffsetX+leadersSpacing*i);
             leaderBut.setLayoutY(len-leaderSize-10);
-            leaderBut.setId("leaderButton");
+            leaderBut.setEffect(dropShadow);
+            leaderBut.setStyle("");
             leaderBut.setRotate(Math.random() * (cardTilt - -cardTilt + 1) + -1 );
             setupAnchor.getChildren().add(leaderBut);
             leaderImageViews.add(leaderBut);
@@ -241,7 +249,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
             tempImage.setLayoutY(resourceSupplyY+width/16);
             tempImage.setLayoutX(width/6+ width/12 + (i)*width/6 + resourcesOffsetX);
             tempImage.setFitWidth(50);
-            tempImage.setId("resourceButton");
+            tempImage.setEffect(dropShadow);
             setupAnchor.getChildren().add(tempImage);
             selectedResources.add(0);
 

@@ -6,8 +6,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.SubScene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.effect.BlurType;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Effect;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.net.URL;
@@ -112,8 +116,10 @@ public class CreateMatchGUI extends CreateJoinLoadMatchViewBuilder implements GU
         bindCreateButton(b,2);
         bindCreateButton(c,3);
         bindCreateButton(d,4);
-        createPane.setId("pane");
-
+        Effect dropShadow=new DropShadow(BlurType.GAUSSIAN, Color.rgb(0,0,0,0.5),10,0.7,5,5);
+        createPane.setEffect(dropShadow);
+        createPane.setBorder(new Border(new BorderStroke(Color.YELLOW, BorderStrokeStyle.DOTTED,CornerRadii.EMPTY,BorderWidths.DEFAULT)));
+        createPane.setStyle("-fx-background-color: linear-gradient(to right, #5771f2, #021782)");
     }
 
     @Override
