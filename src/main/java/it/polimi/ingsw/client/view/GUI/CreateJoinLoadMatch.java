@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client.view.GUI;
 
 import it.polimi.ingsw.client.CommonData;
-import it.polimi.ingsw.client.view.GUI.GUIelem.MatchRow;
 import it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchViewBuilder;
 import it.polimi.ingsw.network.messages.clienttoserver.JoinMatchRequest;
 import javafx.application.Platform;
@@ -16,6 +15,7 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.util.Pair;
 
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
@@ -42,6 +42,29 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
     public double tileWidth=width/3;
     public double tileheight=len/7;
 
+    public class MatchRow {
+        Map.Entry<UUID, Pair<String[], String[]>> uuidPair;
+
+        public MatchRow(Map.Entry<UUID, Pair<String[], String[]>> uuidPair) {
+            this.uuidPair = uuidPair;
+        }
+
+        public UUID getId()
+        { return  uuidPair.getKey();}
+
+        public Map.Entry<UUID, Pair<String[], String[]>> getUuidPair() {
+            return uuidPair;
+        }
+
+        public String getKey() {
+            return CreateJoinLoadMatchViewBuilder.idAndNames(uuidPair).getKey();
+        }
+
+        public String getPeople() {
+            return    ""+getKey()+
+                    "\n"+CreateJoinLoadMatchViewBuilder.idAndNames(uuidPair).getValue();
+        }
+    }
 
     /**
      * This runnable will make the Match Lobby slide in from below, and then remove the first connection screen
@@ -147,7 +170,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
      * @param matchRow is not null
      * @return the corresponding AnchorPane
      */
-    public AnchorPane matchToTile(MatchRow matchRow)
+    public AnchorPane matchToTile(MatchRow matchRow, boolean isSaved)
     {
 
         AnchorPane joinPane=new AnchorPane();
@@ -175,7 +198,10 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
 
 
         Effect dropShadow=new DropShadow(BlurType.GAUSSIAN,Color.rgb(0,0,0,0.5),10,0.7,5,5);
-        joinMatchButton.setText("JOIN");
+        if(isSaved)
+            joinMatchButton.setText("LOAD");
+        else
+            joinMatchButton.setText("JOIN");
         joinPane.setBorder(new Border(new BorderStroke(Color.YELLOW, BorderStrokeStyle.DOTTED,CornerRadii.EMPTY,BorderWidths.DEFAULT)));
         joinPane.setStyle(" -fx-background-color: linear-gradient(to right, #5771f2, #021782);");
         joinPane.setEffect(dropShadow);
@@ -204,16 +230,31 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         int row=0;
         int column=1;
 
+        int tog=0;
+        if(getClient().getCommonData().getMatchesData().isPresent())
+            tog=getClient().getCommonData().getMatchesData().get().size();
+
+        System.out.println(tog);
 
         int i=0;
         while(!temp.isEmpty())
         {
+
+            //todo improve
             if(column==2)
             {
                 column=0;
                 row++;
             }
-            grid.add(matchToTile(temp.get(0)),column,row);
+            if(tog!=0)
+            {
+                grid.add(matchToTile(temp.get(0),false),column,row);
+                tog--;
+            }
+            if(tog==0)
+            {
+                grid.add(matchToTile(temp.get(0),true),column,row);
+            }
             column++;
             temp.remove(0);
             i++;
