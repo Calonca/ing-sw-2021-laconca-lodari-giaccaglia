@@ -1,6 +1,8 @@
 package it.polimi.ingsw.client.view.GUI;
 import it.polimi.ingsw.client.view.abstractview.MiddlePhaseViewBuilder;
+import it.polimi.ingsw.network.simplemodel.PlayersInfo;
 import it.polimi.ingsw.network.simplemodel.SimpleCardShop;
+import it.polimi.ingsw.network.simplemodel.SimpleFaithTrack;
 import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -26,9 +28,10 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
         SubScene root=getRoot();
         root.setId("MIDDLE");
         GUI.getRealPane().getChildren().add(root);
-
+        BoardView3D.getBoard().refreshMarket();
         System.out.println(GUI.getRealPane().getChildren());
-
+        SimpleFaithTrack faithTrack =  getThisPlayerCache().getElem(SimpleFaithTrack.class).orElseThrow();
+        System.out.println(faithTrack.getPlayerPosition());
     }
 
     public SubScene getRoot() {
@@ -62,6 +65,8 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+
 
 
         cardButton.setOnAction( p ->
