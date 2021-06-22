@@ -201,6 +201,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         setupAnchor.getChildren().add(leaders);
 
 
+        spawnResourceSupply();
 
         Effect dropShadow=new DropShadow(BlurType.GAUSSIAN, Color.rgb(0,0,0,0.5),10,0.7,5,5);
 
