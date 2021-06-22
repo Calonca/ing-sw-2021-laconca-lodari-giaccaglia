@@ -139,7 +139,12 @@ public class BoardView3D {
 
     protected Warehouse3D warehouse;
     protected Box3D strongBox;
+
+
+    public FaithTrack faithBoard;
+
     protected Group faithTrack;
+
     protected ResChoiceRowGUI toSelect;
 
     protected Group cardShop=new Group();
@@ -218,7 +223,7 @@ public class BoardView3D {
 
     public void addResourceMarket(Group parent) {
         ResourceMarketGUI resourceMarketGUI=new ResourceMarketGUI();
-        addNodeToParent(parent,resourceMarketGUI.getRoot(), board.localToParent(1000,-900,0));
+        addNodeToParent(parent,resourceMarketGUI.getRoot(), board.localToParent(1400,-900,0));
 
     }
 
@@ -358,9 +363,9 @@ public class BoardView3D {
 
 
 
-        FaithTrack faithTrack=new FaithTrack();
-        faithTrack.faithTrackBuilder(this,parent,board);
-        getClient().addToListeners(faithTrack);
+        faithBoard=new FaithTrack();
+        faithBoard.faithTrackBuilder(this,parent,board,getClient().getCommonData().getThisPlayerIndex());
+        getClient().addToListeners(faithBoard);
 
 
         cardShopGUI=new CardShopGUI();

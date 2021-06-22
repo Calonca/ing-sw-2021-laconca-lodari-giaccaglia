@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.view.GUI.BoardView3D;
 
 import it.polimi.ingsw.client.view.GUI.util.ResourceGUI;
 
+import it.polimi.ingsw.network.simplemodel.PlayersInfo;
 import it.polimi.ingsw.network.simplemodel.SimpleFaithTrack;
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
@@ -33,15 +34,16 @@ public class FaithTrack implements PropertyChangeListener {
     Rectangle thirdTile;
     Shape3D player;
     Shape3D lorenzo;
+    int playerNumber;
 
-    public void faithTrackBuilder(BoardView3D view3D, Group parent, Rectangle board){
+    public void faithTrackBuilder(BoardView3D view3D, Group parent, Rectangle board,int pos){
         Group faithGroup=new Group();
         player = view3D.addAndGetShape(faithGroup,faithGroup,ResourceGUI.FAITH,board.localToParent(new Point3D(faithStartingX,faithStartingY,0)));
         if (getSimpleModel().getPlayersCaches().length==1) {
             lorenzo = view3D.addAndGetShape(faithGroup,faithGroup, ResourceGUI.FAITH,board.localToParent(new Point3D(faithStartingX+10,faithStartingY+10,0)));
             lorenzo.setMaterial(new PhongMaterial(Color.BLACK));
         }
-
+        playerNumber =pos;
         faithStartingX= player.getLayoutX();
         faithStartingY= player.getLayoutY();
 
@@ -70,8 +72,11 @@ public class FaithTrack implements PropertyChangeListener {
         tempImage = new ImagePattern(new Image("assets/track/FAVOUR_TILE_3_ACTIVE.png"));
         thirdTile.setFill(tempImage);
 
+        System.out.println("PLAYER POSITION" + playerNumber);
+
         moveFaith(0);
-        moveLorenzo(0);
+        if (getSimpleModel().getPlayersCaches().length==1)
+            moveLorenzo(0);
         parent.getChildren().add(faithGroup);
 
     }
@@ -92,10 +97,9 @@ public class FaithTrack implements PropertyChangeListener {
     }
 
     public void moveLorenzo(int i) {
-        if (getSimpleModel().getPlayersCaches().length!=1)
-            return;
 
         SimpleFaithTrack faith= getThisPlayerCache().getElem(SimpleFaithTrack.class).orElseThrow();
+
         lorenzo.setLayoutX(faithStartingX+faith.getTrack().get(i).getX_pos()*boardWidth/20.5);
         lorenzo.setLayoutY(faithStartingY+faith.getTrack().get(i).getY_pos()* boardHeight /13);
         if(i==9)
@@ -108,13 +112,18 @@ public class FaithTrack implements PropertyChangeListener {
 
     }
 
+
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals(SimpleFaithTrack.class.getSimpleName()))
+        if (evt.getPropertyName().equals(PlayersInfo.class.getSimpleName()))
         {
-            SimpleFaithTrack faithTrack =  (SimpleFaithTrack)evt.getNewValue();
-            moveFaith(faithTrack.getPlayerPosition());
-            moveLorenzo(faithTrack.getLorenzoPosition());
+            PlayersInfo playersInfo =  (PlayersInfo)evt.getNewValue();
+            moveFaith(playersInfo.getSimplePlayerInfoMap().get(playerNumber).getCurrentPosition());
+            System.out.println("PLAYER POSITION" +playersInfo.getSimplePlayerInfoMap().get(playerNumber).getCurrentPosition());
+            if (getSimpleModel().getPlayersCaches().length==1)
+                moveLorenzo(playersInfo.getSimplePlayerInfoMap().get(playerNumber).getLorenzoPosition());
+
         }
 
     }
