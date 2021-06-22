@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view.GUI;
 
 
 import it.polimi.ingsw.client.view.GUI.board.CamState;
+import it.polimi.ingsw.client.view.GUI.util.CardSelector;
 import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCardColor;
@@ -51,7 +52,7 @@ public class CardShopGUI extends CardShopViewBuilder {
     double marketTranslateX=-570;
     double marketTranslateY=110;
     List<ImageView> scenesCardsToChoose=new ArrayList<>();
-
+    boolean active=false;
     List<Boolean> availableCards=new ArrayList<>();
 
     javafx.collections.ObservableList<Boolean> selectedSceneCards;
@@ -78,7 +79,7 @@ public class CardShopGUI extends CardShopViewBuilder {
         } else if (CHOOSING_POSITION_FOR_DEVCARD.name().equals(getThisPlayerCache().getCurrentState())) {
             choosePositionForCard();
         } else {
-            BoardView3D.getBoard().getController().isCardShopOpen(true);
+            active=true;
             BoardView3D.getBoard().changeCamState(CamState.SEE_SHOP);
         }
     }
@@ -157,7 +158,8 @@ public class CardShopGUI extends CardShopViewBuilder {
 
 
 
-        BoardView3D.getBoard().getController().cardSelectorFromImage(selectedSceneCards,scenesCardsToChoose,1);
+        CardSelector cardSelector=new CardSelector();
+        cardSelector.cardSelectorFromImage(selectedSceneCards,scenesCardsToChoose,1);
 
         selectedSceneCards.addListener((ListChangeListener<Boolean>) c -> {
             c.next();
@@ -170,7 +172,7 @@ public class CardShopGUI extends CardShopViewBuilder {
                 for (Boolean aBoolean : selectedSceneCards)
                     if (aBoolean)
                     {
-                        validationButton.setDisable(!availableCards.get(c.getFrom())||!BoardView3D.getBoard().getController().isCardShopOpen());
+                        validationButton.setDisable(!availableCards.get(c.getFrom())||!active);
                         scenesCardsToChoose.get(c.getFrom()).setLayoutY(scenesCardsToChoose.get(c.getFrom()).getLayoutY()-15);
                         System.out.println(c.getFrom());
 
@@ -261,7 +263,7 @@ public class CardShopGUI extends CardShopViewBuilder {
 
             int temp=0;
 
-            if(!BoardView3D.getBoard().getController().isCardShopOpen())
+            if(!active)
                 return;
             int selectedCards=0;
             error.setOpacity(0);
@@ -323,5 +325,6 @@ public class CardShopGUI extends CardShopViewBuilder {
         Platform.runLater(()-> BoardView3D.getBoard().setMode(BoardView3D.Mode.CHOOSE_POS_FOR_CARD));
         BoardView3D.getBoard().changeCamState(CamState.TOP);
     }
+
 
 }

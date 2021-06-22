@@ -70,6 +70,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
     public List<List<Sphere>> columns=new ArrayList<>();
     private Group root3D;
     private Group buttons;
+    boolean active=false;
 
 
     /**
@@ -77,7 +78,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
      */
     @Override
     public void run() {
-        BoardView3D.getBoard().getController().setMarket(true);
+        active=true;
         BoardView3D.getBoard().changeCamState(CamState.SEE_RESOURCE_MARKET);
     }
 
@@ -268,8 +269,9 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
         button.setGraphic(new Text(Integer.toString(7-1-k)));
         button.setOnAction( p-> {
 
-            if(!BoardView3D.getBoard().getController().isMarket())
+            if(active)
                 return;
+            active=true;
 
 
             selected=true;
@@ -301,8 +303,6 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
 
             });
             transition.play();
-
-            BoardView3D.getBoard().getController().setMarket(false);
 
         });
         rows.add(row);
@@ -350,7 +350,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
 
         but.setOnAction( p-> {
 
-            if(!BoardView3D.getBoard().getController().isMarket())
+            if(active)
                 return;
 
 
@@ -394,8 +394,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
             });
             transition.play();
 
-            BoardView3D.getBoard().getController().setMarket(false);
-
+            active=false;
 
 
 

@@ -152,7 +152,11 @@ public class MatchToStart extends CreateJoinLoadMatchViewBuilder implements GUIV
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals(CommonData.thisMatchData))
+            Platform.runLater(()->
+            {
 
+            });
 
     }
 }

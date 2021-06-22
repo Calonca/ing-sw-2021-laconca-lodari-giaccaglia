@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.GUI;
 
+import it.polimi.ingsw.client.view.GUI.util.CardSelector;
 import it.polimi.ingsw.client.view.abstractview.InitialOrFinalPhaseViewBuilder;
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
 import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
@@ -135,7 +136,9 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
             selectedLeaders.add(false);
 
 
-        BoardView3D.getBoard().getController().cardSelectorFromImage(selectedLeaders, sceneLeadersImageView,1);
+
+        CardSelector cardSelector=new CardSelector();
+        cardSelector.cardSelectorFromImage(selectedLeaders, sceneLeadersImageView,1);
 
         List<Button> controlButtons=new ArrayList<>();
 
