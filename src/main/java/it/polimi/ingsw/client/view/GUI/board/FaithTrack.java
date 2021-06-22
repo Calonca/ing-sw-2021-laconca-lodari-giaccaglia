@@ -118,7 +118,7 @@ public class FaithTrack implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(PlayersInfo.class.getSimpleName()))
         {
-            PlayersInfo playersInfo =  (PlayersInfo)evt.getNewValue();
+            PlayersInfo playersInfo =  (PlayersInfo) evt.getNewValue();
             moveFaith(playersInfo.getSimplePlayerInfoMap().get(playerNumber).getCurrentPosition());
             System.out.println("PLAYER POSITION" +playersInfo.getSimplePlayerInfoMap().get(playerNumber).getCurrentPosition());
             if (getSimpleModel().getPlayersCaches().length==1)
