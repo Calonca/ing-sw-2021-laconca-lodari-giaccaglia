@@ -2,12 +2,20 @@ package it.polimi.ingsw.client.view.GUI;
 
 import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.simplemodel.State;
+import it.polimi.ingsw.client.view.CLI.CLI;
+import it.polimi.ingsw.client.view.CLI.layout.drawables.Canvas;
+import it.polimi.ingsw.client.view.GUI.util.ResourceGUI;
 import it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchViewBuilder;
+import it.polimi.ingsw.client.view.abstractview.IDLEViewBuilder;
+import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
+import it.polimi.ingsw.client.view.abstractview.SetupPhaseViewBuilder;
 import javafx.animation.Animation;
+import javafx.animation.RotateTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 
@@ -21,7 +29,9 @@ import javafx.util.Duration;
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.*;
+
+import static it.polimi.ingsw.client.simplemodel.State.*;
 
 /**
  * Waiting screen
@@ -70,6 +80,7 @@ public class MatchToStart extends CreateJoinLoadMatchViewBuilder implements GUIV
         circle1.setRadius(10);
         circle1.setLayoutX(500);
         circle1.setLayoutY(100);
+        Group group=new Group();
 
         TranslateTransition transition = new TranslateTransition(Duration.seconds(1.5),circle1);
         transition.setToX(0);
@@ -78,7 +89,7 @@ public class MatchToStart extends CreateJoinLoadMatchViewBuilder implements GUIV
         transition.setCycleCount(Animation.INDEFINITE);
         transition.play();
 
-        createPane.getChildren().add(circle1);
+        group.getChildren().add(circle1);
 
 
         Sphere circle2=new Sphere();
@@ -96,7 +107,7 @@ public class MatchToStart extends CreateJoinLoadMatchViewBuilder implements GUIV
 
 
 
-        createPane.getChildren().add(circle2);
+        group.getChildren().add(circle2);
 
 
         Sphere circle3=new Sphere();
@@ -112,7 +123,7 @@ public class MatchToStart extends CreateJoinLoadMatchViewBuilder implements GUIV
         transition3.setCycleCount(Animation.INDEFINITE);
         transition3.play();
 
-        createPane.getChildren().add(circle3);
+        group.getChildren().add(circle3);
 
         Sphere circle4=new Sphere();
         circle4.setRadius(10);
@@ -126,7 +137,14 @@ public class MatchToStart extends CreateJoinLoadMatchViewBuilder implements GUIV
         transition4.setCycleCount(Animation.INDEFINITE);
         transition4.play();
 
-        createPane.getChildren().add(circle4);
+        group.getChildren().add(circle4);
+
+        RotateTransition rotateTransition=  new RotateTransition(Duration.seconds(3),group);
+        rotateTransition.setByAngle(720);
+        rotateTransition.setAutoReverse(true);
+        rotateTransition.setCycleCount(Animation.INDEFINITE);
+        rotateTransition.play();
+        createPane.getChildren().add(group);
         getClient().getStage().show();
 
 

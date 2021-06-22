@@ -116,7 +116,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
         SimplePlayerLeaders activeLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).orElseThrow();
 
         Rectangle temp;
-    /*    temp=new Rectangle(150,100);
+        temp=new Rectangle(150,100);
         temp.setTranslateY(250);
         temp.setTranslateX(-50);
 
@@ -127,13 +127,21 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
         temp.setTranslateX(-250);
 
         leaders.getChildren().add(temp);
-*/
+
+        ImagePattern marketAsset=new ImagePattern(new Image("assets/punchboard/MarketBoard.png"));
+
+        Rectangle rectangle=new Rectangle(770,1000);
+        rectangle.setFill(marketAsset);
+        rectangle.setTranslateX(-410);
+        rectangle.setTranslateY(-370);
+
+        root3D.getChildren().add(rectangle);
         List<LeaderCardAsset> activeBonus = activeLeaders.getPlayerLeaders();
         for(int i=0;i<activeBonus.size();i++)
         {
 
             if(activeBonus.get(i).getNetworkLeaderCard().isLeaderActive())
-                if(activeBonus.get(i).getNetworkLeaderCard() instanceof NetworkDevelopmentDiscountLeaderCard)
+                if(activeBonus.get(i).getNetworkLeaderCard() instanceof NetworkMarketLeaderCard)
                 {
                     temp=new Rectangle(150,100);
                     temp.setTranslateY(250);
@@ -202,6 +210,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
 
         buttons.getChildren().add(error);
         getClient().getStage().show();
+        toPut.translateZProperty().set(toPut.getTranslateZ()-100);
 
         return root3D;
 
@@ -244,12 +253,17 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
             Sphere ball=new Sphere(ballsize);
             ball.translateYProperty().set(y+i*2*ballsize);
             ball.translateXProperty().set(x);
+            ball.translateZProperty().set(ball.getTranslateZ()-100);
+
             root3D.getChildren().add(ball);
             row.add(ball);
 
         }
+
         Button button=new Button();
         button.setTranslateX(250);
+        button.setTranslateZ(-100);
+
         button.setTranslateY(-500+100*k);
         button.setGraphic(new Text(Integer.toString(7-1-k)));
         button.setOnAction( p-> {
@@ -318,6 +332,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
 
             setBut(button,i);
             buttons.getChildren().add(button);
+            button.setTranslateZ(-100);
 
 
             ArrayList<Sphere> column= new ArrayList<>();
