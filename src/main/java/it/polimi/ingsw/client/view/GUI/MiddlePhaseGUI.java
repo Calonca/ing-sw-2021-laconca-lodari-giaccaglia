@@ -31,7 +31,8 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
     public void run() {
         SubScene root=getRoot();
         root.setId("MIDDLE");
-        GUI.getRealPane().getChildren().add(root);
+        if(GUI.getRealPane().getChildren().size()<3)
+            GUI.getRealPane().getChildren().add(root);
         BoardView3D.getBoard().refreshMarket();
         System.out.println(GUI.getRealPane().getChildren());
         SimpleFaithTrack faithTrack =  getThisPlayerCache().getElem(SimpleFaithTrack.class).orElseThrow();

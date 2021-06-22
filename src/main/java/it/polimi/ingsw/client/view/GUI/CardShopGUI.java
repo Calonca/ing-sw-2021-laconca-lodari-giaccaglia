@@ -172,7 +172,6 @@ public class CardShopGUI extends CardShopViewBuilder {
                 for (Boolean aBoolean : selectedSceneCards)
                     if (aBoolean)
                     {
-                        validationButton.setDisable(!availableCards.get(c.getFrom())||!active);
                         scenesCardsToChoose.get(c.getFrom()).setLayoutY(scenesCardsToChoose.get(c.getFrom()).getLayoutY()-15);
                         System.out.println(c.getFrom());
 
@@ -182,7 +181,6 @@ public class CardShopGUI extends CardShopViewBuilder {
             }
             else
             {
-                validationButton.setDisable(false);
                 scenesCardsToChoose.get(c.getFrom()).setLayoutY(scenesCardsToChoose.get(c.getFrom()).getLayoutY()+15);
 
                 //ViewPersonalBoard.getController().dehighlightTrue(selectedSceneCards,scenesCardsToChoose);
@@ -263,8 +261,6 @@ public class CardShopGUI extends CardShopViewBuilder {
 
             int temp=0;
 
-            if(!active)
-                return;
             int selectedCards=0;
             error.setOpacity(0);
             for(Boolean prod : selectedSceneCards)
