@@ -5,7 +5,6 @@ import it.polimi.ingsw.client.view.CLI.MiddlePhaseCLI;
 import it.polimi.ingsw.client.view.GUI.MiddlePhaseGUI;
 import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.events.MiddlePhaseEvent;
-import javafx.application.Platform;
 
 import java.beans.PropertyChangeEvent;
 
@@ -52,6 +51,7 @@ public abstract class MiddlePhaseViewBuilder extends ViewBuilder {
 
     public static void middlePhaseCommonTransition(PropertyChangeEvent evt){
         String propertyName = evt.getPropertyName();
+
         if (IDLE.name().equals(propertyName)) {
             getClient().changeViewBuilder(IDLEViewBuilder.getBuilder(getClient().isCLI()));
         }else if (State.FINAL_PHASE.name().equals(propertyName)) {
@@ -60,4 +60,5 @@ public abstract class MiddlePhaseViewBuilder extends ViewBuilder {
             getClient().changeViewBuilder(WinLooseBuilder.getBuilder(getClient().isCLI()));
         }else ViewBuilder.printWrongStateReceived(evt);
     }
+
 }

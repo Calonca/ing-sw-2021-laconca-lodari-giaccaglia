@@ -365,17 +365,19 @@ public class GameModel {
      * Returns the {@link Player player} that will play in the next turn.
      * @return the next player.
      */
-    public Player getNextPlayer() {
+    public Optional<Player> getNextPlayer() {
 
         int currentPlayerIndex = getPlayerIndex(currentPlayer, onlinePlayers);
 
-        return players.get(
-                //finds first online player
-                    IntStream.concat(
-                    IntStream.range(currentPlayerIndex + 1, players.size()),
-                    IntStream.range(0,currentPlayerIndex + 1)).boxed().filter(index -> players.get(index).isOnline()).findFirst().get()
-            );
+        //finds index of first online player
+        Optional<Integer> optPlayerIndex = IntStream.concat(
+                IntStream.range(currentPlayerIndex + 1, players.size()),
+                IntStream.range(0,currentPlayerIndex + 1)).boxed().filter(index -> players.get(index).isOnline()).findFirst();
 
+        if(optPlayerIndex.isEmpty())
+            return Optional.empty();
+
+        return Optional.of(players.get(optPlayerIndex.get()));
 
     }
 
@@ -448,13 +450,16 @@ public class GameModel {
         return players.values()
                 .stream()
                 .filter(Player::isInPopeSpace)
-                .mapToInt(player -> players.keySet()
+                .mapToInt(
+
+                        player -> players.keySet()
                         .stream()
                         .filter(key -> players.get(key)
-                                .equals(player)).findFirst()
-                        .orElse(-1)).boxed()
+                                .equals(player)).findFirst().get())
+                .boxed()
                 .collect(Collectors.toList());
     }
+
 
     /**
      * Method to execute a Vatican Report, when one or more players reaches a PopeSpace, both for <em>MultiPlayer</em>
@@ -463,8 +468,14 @@ public class GameModel {
      public void executeVaticanReport(){
 
          int popeSpacePosition;
-         if(isSinglePlayer)
-            popeSpacePosition = singlePlayer.getLorenzoPosition();
+         if(isSinglePlayer) {
+
+             if(singlePlayer.isInPopeSpace())
+                popeSpacePosition = singlePlayer.getPlayerPosition();
+             else
+                 popeSpacePosition = singlePlayer.getLorenzoPosition();
+
+         }
 
          else {
              popeSpacePosition = players
@@ -637,10 +648,14 @@ public class GameModel {
         return match;
     }
 
-   public void handleVaticanReport(){
+   public boolean handleVaticanReport(){
 
-        if(!vaticanReportTriggers().isEmpty())
+        if(!vaticanReportTriggers().isEmpty()) {
             executeVaticanReport();
+            return true;
+        }
+
+        return false;
 
     }
 

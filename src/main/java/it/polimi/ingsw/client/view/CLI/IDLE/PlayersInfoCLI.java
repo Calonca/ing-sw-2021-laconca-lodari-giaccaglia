@@ -21,6 +21,7 @@ public class PlayersInfoCLI extends IDLEViewBuilderCLI {
 
     @Override
     protected void buildView(){
+        showVaticanReportInfoDuringIDLE();
         getCLIView().setTitle("Players info");
 
         Column grid = buildInfo();

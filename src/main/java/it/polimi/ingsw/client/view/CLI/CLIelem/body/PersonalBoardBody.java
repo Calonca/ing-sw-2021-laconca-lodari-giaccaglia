@@ -36,84 +36,11 @@ import static it.polimi.ingsw.network.simplemodel.SimpleStrongBox.numAndSel;
 
 public class PersonalBoardBody extends CLIelem {
 
-        public enum Mode{
+    public enum Mode{
 
-            MOVING_RES(){
-                @Override
-                public String getString(PersonalBoardBody board) {
-
-
-                    Row depotsAndProds = Mode.commonMovingResInitialization(board);
-                    depotsAndProds.selectInEnabledOption(cli,board.message);
-                    return  CanvasBody.fromGrid(board.root).toString();
-                }
-            },
-            MOVING_RES_IDLE(){
-
-                @Override
-                public String getString(PersonalBoardBody board) {
-
-                    Row depotsAndProds = Mode.commonMovingResInitialization(board);
-                    depotsAndProds.selectInEnabledOption(cli,board.message, () -> getClient().changeViewBuilder(new IDLEViewBuilderCLI()));
-                    return  CanvasBody.fromGrid(board.root).toString();
-                }
-
-            },
-            SELECT_CARD_SHOP(){
-                @Override
-                public String getString(PersonalBoardBody board) {
-
-                    Row depotsAndProds = Mode.commonModeInitialization(board);
-                    depotsAndProds.selectInEnabledOption(cli,board.message);
-                    return  CanvasBody.fromGrid(board.root).toString();
-                }
-            },
-            SELECT_RES_FOR_PROD(){
-                @Override
-                public String getString(PersonalBoardBody board) {
-
-                    Row depotsAndProds = Mode.commonModeInitialization(board);
-                    board.root.selectInEnabledOption(cli,board.message);
-                    return  CanvasBody.fromGrid(board.root).toString();
-                }
-            },
-            CHOOSE_POS_FOR_CARD(){
-                @Override
-                public String getString(PersonalBoardBody board) {
-
-                    Row depotsAndProds = Mode.commonModeInitialization(board);
-                    board.productions.selectInEnabledOption(cli,board.message);
-                    return  CanvasBody.fromGrid(board.root).toString();
-                }
-            },
-            CHOOSE_PRODUCTION(){
-                @Override
-                public String getString(PersonalBoardBody board) {
-
-                    Row depotsAndProds = Mode.commonModeInitialization(board);
-                    board.productions.selectInEnabledOption(cli,board.message, ProductionViewBuilder::sendProduce);
-                    return  CanvasBody.fromGrid(board.root).toString();
-                }
-            },
-            VIEWING(){
-
-                @Override
-                public String getString(PersonalBoardBody board) {
-
-                    Row depotsAndProds = Mode.commonModeInitialization(board);
-                    cli.enableViewMode();
-
-                    cli.runOnInput(board.message, () -> {
-                        cli.disableViewMode();
-                        getClient().changeViewBuilder(board.requestBuilder);
-                    });
-
-                    return  CanvasBody.fromGrid(board.root).toString();
-                }
-
-            };
-
-            private static Row commonMovingResInitialization(PersonalBoardBody board){
+        MOVING_RES(){
+            @Override
+            public String getString(PersonalBoardBody board) {
 
                 board.root = new Column();
 
@@ -131,11 +58,15 @@ public class PersonalBoardBody extends CLIelem {
                 depotsAndProds.addElem(board.discardBox);
                 depotsAndProds.addElem(board.productions);
 
-                return depotsAndProds;
-
+                depotsAndProds.selectInEnabledOption(cli,board.message);
+                return  CanvasBody.fromGrid(board.root).toString();
             }
+        },
 
-            private static Row commonModeInitialization(PersonalBoardBody board){
+        MOVING_RES_IDLE(){
+
+            @Override
+            public String getString(PersonalBoardBody board) {
 
                 board.root = new Column();
 
@@ -149,14 +80,141 @@ public class PersonalBoardBody extends CLIelem {
 
                 depots.addElem(new SizedBox(0,2));
                 depots.addElem(board.strongBox);
+
+                depotsAndProds.addElem(board.discardBox);
                 depotsAndProds.addElem(board.productions);
-
-                return depotsAndProds;
-
+                depotsAndProds.selectInEnabledOption(cli,board.message, () -> getClient().changeViewBuilder(new IDLEViewBuilderCLI()));
+                return  CanvasBody.fromGrid(board.root).toString();
             }
 
+        },
 
-            public abstract String getString(PersonalBoardBody board);
+        SELECT_CARD_SHOP(){
+            @Override
+            public String getString(PersonalBoardBody board) {
+
+                board.root = new Column();
+
+                board.top.updateElem(2,board.resChoiceRow.getGridElem());
+                board.root.addElem(board.top);
+
+                Row depotsAndProds = board.root.addAndGetRow();
+                depotsAndProds.setAlignment(GridElem.Alignment.CANVAS_CENTER_VERTICAL);
+
+                Column depots = depotsAndProds.addAndGetColumn();
+                depots.addElemNoIndexChange(board.wareHouseLeadersDepot);
+
+                depots.addElem(new SizedBox(0,2));
+                depots.addElem(board.strongBox);
+
+                depotsAndProds.addElem(board.productions);
+
+                depotsAndProds.selectInEnabledOption(cli,board.message);
+                return  CanvasBody.fromGrid(board.root).toString();
+            }
+        },
+        SELECT_RES_FOR_PROD(){
+            @Override
+            public String getString(PersonalBoardBody board) {
+
+                board.root = new Column();
+
+                board.root.addElem(board.resChoiceRow.getGridElem());
+
+                Row depotsAndProds = board.root.addAndGetRow();
+                depotsAndProds.setAlignment(GridElem.Alignment.CANVAS_CENTER_VERTICAL);
+
+                Column depots = depotsAndProds.addAndGetColumn();
+                depots.addElemNoIndexChange(board.wareHouseLeadersDepot);
+
+                depots.addElem(new SizedBox(0,2));
+                depots.addElem(board.strongBox);
+
+                depotsAndProds.addElem(board.productions);
+
+                board.root.selectInEnabledOption(cli,board.message);
+                return  CanvasBody.fromGrid(board.root).toString();
+            }
+        },
+        CHOOSE_POS_FOR_CARD(){
+            @Override
+            public String getString(PersonalBoardBody board) {
+
+                board.root = new Column();
+                board.root.setAlignment(GridElem.Alignment.CANVAS_CENTER_VERTICAL);
+                board.root.addElem(board.top);
+
+                Row depotsAndProds = board.root.addAndGetRow();
+
+                Column depots = depotsAndProds.addAndGetColumn();
+                depots.addElemNoIndexChange(board.wareHouseLeadersDepot);
+
+                depots.addElem(new SizedBox(0,2));
+                depots.addElem(board.strongBox);
+
+                depotsAndProds.addElem(board.productions);
+                board.productions.selectInEnabledOption(cli,board.message);
+                return  CanvasBody.fromGrid(board.root).toString();
+            }
+        },
+
+        VIEWING() {
+
+            @Override
+            public String getString (PersonalBoardBody board){
+                board.root = new Column();
+
+                board.root.setAlignment(GridElem.Alignment.CANVAS_CENTER_VERTICAL);
+                board.root.addElem(board.top);
+
+                Row depotsAndProds = board.root.addAndGetRow();
+
+                Column depots = depotsAndProds.addAndGetColumn();
+                depots.addElemNoIndexChange(board.wareHouseLeadersDepot);
+
+                depots.addElem(new SizedBox(0,2));
+                depots.addElem(board.strongBox);
+
+                depotsAndProds.addElem(board.discardBox);
+                depotsAndProds.addElem(board.productions);
+
+                cli.enableViewMode();
+
+                cli.runOnInput(board.message, () -> {
+                    cli.disableViewMode();
+                    getClient().changeViewBuilder(board.requestBuilder);
+                });
+
+                return  CanvasBody.fromGrid(board.root).toString();
+
+            }
+        },
+
+        CHOOSE_PRODUCTION(){
+            @Override
+            public String getString(PersonalBoardBody board) {
+
+                board.root = new Column();
+                board.root.setAlignment(GridElem.Alignment.CANVAS_CENTER_VERTICAL);
+                board.root.addElem(board.top);
+
+                Row depotsAndProds = board.root.addAndGetRow();
+
+                Column depots = depotsAndProds.addAndGetColumn();
+                depots.addElemNoIndexChange(board.wareHouseLeadersDepot);
+
+                depots.addElem(new SizedBox(0,2));
+                depots.addElem(board.strongBox);
+
+                depotsAndProds.addElem(board.productions);
+                board.productions.selectInEnabledOption(cli,board.message, ProductionViewBuilder::sendProduce);
+                return  CanvasBody.fromGrid(board.root).toString();
+            }
+        };
+
+
+        public abstract String getString(PersonalBoardBody board);
+
     }
 
     Column root = new Column();
@@ -184,15 +242,9 @@ public class PersonalBoardBody extends CLIelem {
         this.mode=mode;
 
         viewModeBuilders = new HashMap<>();
-        viewModeBuilders.put(ViewMode.IDLE, () -> {
-            requestBuilder = new IDLEViewBuilderCLI();
-        });
-        viewModeBuilders.put(ViewMode.MIDDLE, () -> {
-            requestBuilder = new MiddlePhaseCLI();
-        });
-        viewModeBuilders.put(ViewMode.PLAYERS_INFO, () -> {
-            requestBuilder = new PlayersInfoCLI();
-        });
+        viewModeBuilders.put(ViewMode.IDLE, () -> requestBuilder = new IDLEViewBuilderCLI());
+        viewModeBuilders.put(ViewMode.MIDDLE, () -> requestBuilder = new MiddlePhaseCLI());
+        viewModeBuilders.put(ViewMode.PLAYERS_INFO, () -> requestBuilder = new PlayersInfoCLI());
     }
 
     public void setRightBuilderForViewMode(ViewMode name){
@@ -315,7 +367,7 @@ public class PersonalBoardBody extends CLIelem {
 
         Stream<Option> optionList = strongBoxMap.entrySet().stream().sorted(Map.Entry.comparingByKey())
                 .map(e-> {
-                    boolean selectable = false;
+                    boolean selectable;
                     if (board.mode.equals(Mode.SELECT_CARD_SHOP))
                         selectable = numAndSel(e).getKey() > numAndSel(e).getValue() &&
                                 board.resChoiceRow.getPointedResource().isPresent() &&

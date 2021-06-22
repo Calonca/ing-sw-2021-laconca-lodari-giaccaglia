@@ -7,6 +7,7 @@ import it.polimi.ingsw.client.view.CLI.CardShopCLI;
 import it.polimi.ingsw.client.view.CLI.layout.Option;
 import it.polimi.ingsw.client.view.CLI.layout.SizedBox;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.Drawable;
+import it.polimi.ingsw.client.view.CLI.layout.drawables.Timer;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
 import it.polimi.ingsw.client.view.abstractview.IDLEViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.InitialOrFinalPhaseViewBuilder;
@@ -29,6 +30,7 @@ public class IDLEViewBuilderCLI extends IDLEViewBuilder implements CLIBuilder {
 
     protected void buildView(){
 
+        showVaticanReportInfoDuringIDLE();
         getCLIView().setTitle("Waiting for initial game phase, what do you want to do?");
 
         Row initialRow = getNewRow();
@@ -55,7 +57,7 @@ public class IDLEViewBuilderCLI extends IDLEViewBuilder implements CLIBuilder {
         if(getSimpleModel().getElem(VaticanReportInfo.class).get().hasReportOccurred())
            enabled = true;
 
-        row.addElem(idlePhaseOption(vaticanReportDw, () -> getClient().changeViewBuilder(new ReportInfoCLI()), enabled));
+        row.addElem(idlePhaseOption(vaticanReportDw, () -> getClient().changeViewBuilder(new ReportInfoCLI(ReportInfoCLI.ViewMode.IDLE)), enabled));
         row.addElem(new SizedBox(6,0));
 
         Drawable playersInfoDw = new Drawable();
@@ -97,8 +99,16 @@ public class IDLEViewBuilderCLI extends IDLEViewBuilder implements CLIBuilder {
 
         String propertyName = evt.getPropertyName();
         if (INITIAL_PHASE.name().equals(propertyName)) {
+
+            if(getSimpleModel().getPlayersCaches().length != 1)
+                Timer.showSecondsOnCLI(getCLIView(),  "It's almost your turn! Seconds left : ");
+
             getClient().changeViewBuilder(InitialOrFinalPhaseViewBuilder.getBuilder(getClient().isCLI(),true));
         }else if (MIDDLE_PHASE.name().equals(propertyName)) {
+
+            if(getSimpleModel().getPlayersCaches().length != 1)
+                Timer.showSecondsOnCLI(getCLIView(),  "It's almost your turn! Seconds left : ");
+
             getClient().changeViewBuilder(MiddlePhaseViewBuilder.getBuilder(getClient().isCLI()));
         }
         else if(IDLE.name().equals(propertyName) || evt.getPropertyName().equals(PlayersInfo.class.getSimpleName())){
@@ -106,5 +116,19 @@ public class IDLEViewBuilderCLI extends IDLEViewBuilder implements CLIBuilder {
         }
         else ViewBuilder.printWrongStateReceived(evt);
     }
+
+    protected void showVaticanReportInfoDuringIDLE(){
+
+        VaticanReportInfo reportInfo = getSimpleModel().getElem(VaticanReportInfo.class).get();
+
+        if(reportInfo.hasReportOccurred() && !reportInfo.hasReportBeenShown()){
+            reportInfo.reportWillBeShown();
+            if(getClient().isCLI()) {
+                getClient().saveViewBuilder(this);
+                getClient().changeViewBuilder(new ReportInfoCLI(ReportInfoCLI.ViewMode.AFTER_REPORT));
+            }
+        }
+    }
+
 }
 

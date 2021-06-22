@@ -6,7 +6,6 @@ import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.CLI.CLI;
 import it.polimi.ingsw.client.view.CLI.CLIelem.CLIelem;
 import it.polimi.ingsw.client.view.abstractview.*;
-import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 
@@ -23,6 +22,7 @@ public class Client implements Runnable
 {
     private ServerHandler serverHandler;
     private ViewBuilder currentViewBuilder;
+    private ViewBuilder savedViewBuilder;
     private String ip;
     private int port;
     private final CommonData commonData = new CommonData();
@@ -107,6 +107,14 @@ public class Client implements Runnable
 
     public ViewBuilder getCurrentViewBuilder() {
         return currentViewBuilder;
+    }
+
+    public ViewBuilder getSavedViewBuilder() {
+        return savedViewBuilder;
+    }
+
+    public void saveViewBuilder(ViewBuilder savedViewBuilder){
+        this.savedViewBuilder = savedViewBuilder;
     }
 
     public boolean isCLI() {
@@ -211,11 +219,11 @@ public class Client implements Runnable
 
     public void setState(StateInNetwork stateInNetwork){
 
-       System.out.println("Client " + commonData.getThisPlayerIndex() + " received: "+"client "+ stateInNetwork.getPlayerNumber() + " "+ stateInNetwork.getState());
+        //System.out.println("Client " + commonData.getThisPlayerIndex() + " received: "+"client "+ stateInNetwork.getPlayerNumber() + " "+ stateInNetwork.getState());
 
-       System.out.println(JsonUtility.serialize(stateInNetwork));
+        //System.out.println(JsonUtility.serialize(stateInNetwork));
 
-       commonData.setCurrentPlayer(stateInNetwork.getPlayerNumber());
+        commonData.setCurrentPlayer(stateInNetwork.getPlayerNumber());
 
         if (simpleModel==null){
             try {
@@ -236,11 +244,11 @@ public class Client implements Runnable
                 gameHasBeenLoaded = true;
                 State state = State.valueOf(stateInNetwork.getState());
                 List<State> mapKey = viewBuilderMap.values().stream().filter(
-                        list -> list.contains(state)).findFirst().get();
+                        list -> list.contains(state)).findFirst().orElseThrow();
 
                 simpleModel.updateSimpleModel(stateInNetwork);
 
-                ViewBuilder viewBuilderToInvoke = viewBuilderMap.keySet().stream().filter(key -> viewBuilderMap.get(key).equals(mapKey)).findFirst().get();
+                ViewBuilder viewBuilderToInvoke = viewBuilderMap.keySet().stream().filter(key -> viewBuilderMap.get(key).equals(mapKey)).findFirst().orElseThrow();
                 changeViewBuilder(viewBuilderToInvoke);
 
             }
@@ -248,14 +256,6 @@ public class Client implements Runnable
         }
 
         simpleModel.updateSimpleModel(stateInNetwork);
-
-        if(stateInNetwork.getPlayerNumber()==commonData.getThisPlayerIndex()
-                && stateInNetwork.getState().equals(State.SETUP_PHASE.name()))
-            // SetupPhaseViewBuilder.getBuilder(isCLI);
-            //changeViewBuilder(new BoardView3D());
-            changeViewBuilder(SetupPhaseViewBuilder.getBuilder(isCLI));
-
-
 
     }
 

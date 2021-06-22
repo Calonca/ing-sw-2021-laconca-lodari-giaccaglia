@@ -19,6 +19,7 @@ public class PersonalBoardCLI extends IDLEViewBuilderCLI{
     @Override
     protected void buildView() {
 
+        showVaticanReportInfoDuringIDLE();
         PersonalBoardBody.seePersonalBoard(playerIndex, PersonalBoardBody.ViewMode.PLAYERS_INFO);
         PlayersInfo playersInfo = (getSimpleModel().getElem(PlayersInfo.class).orElseThrow());
         PlayersInfo.SimplePlayerInfo playerInfo = playersInfo.getSimplePlayerInfoMap().get(playerIndex);

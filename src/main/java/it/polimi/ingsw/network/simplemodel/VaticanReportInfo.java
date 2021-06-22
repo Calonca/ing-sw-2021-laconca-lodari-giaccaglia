@@ -4,6 +4,7 @@ import javafx.util.Pair;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class VaticanReportInfo extends SimpleModelElement{
 
@@ -14,8 +15,14 @@ public class VaticanReportInfo extends SimpleModelElement{
     //        playerIndex  popeTileNumber isActive
     private  Map<Integer, Pair<Integer, Boolean>> popeTileState;
 
+    private final AtomicBoolean hasReportBeenShown = new AtomicBoolean(false);
 
-    public VaticanReportInfo(){}
+    private long timeOfReport;
+
+
+    public VaticanReportInfo(){
+        hasReportBeenShown.set(false);
+    }
 
     public VaticanReportInfo(Set<Integer> playersTriggeringVaticanReport, Map<Integer, Pair<Integer, Boolean>> popeTileStatus){
         this.playersTriggeringVaticanReport = playersTriggeringVaticanReport;
@@ -27,6 +34,7 @@ public class VaticanReportInfo extends SimpleModelElement{
         VaticanReportInfo serverElement = (VaticanReportInfo)element;
         playersTriggeringVaticanReport = serverElement.playersTriggeringVaticanReport;
         popeTileState = serverElement.popeTileState;
+        hasReportBeenShown.set(false);
 
     }
 
@@ -41,5 +49,15 @@ public class VaticanReportInfo extends SimpleModelElement{
     public boolean hasReportOccurred(){
         return !playersTriggeringVaticanReport.isEmpty();
     }
+
+
+    public void reportWillBeShown(){
+        hasReportBeenShown.set(true);
+    }
+
+    public boolean hasReportBeenShown(){
+        return hasReportBeenShown.get();
+    }
+
 
 }

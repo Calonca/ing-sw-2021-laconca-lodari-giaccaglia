@@ -51,6 +51,12 @@ public class FaithTrack {
      */
     private List<PopeFavourTile> tiles;
 
+
+    public void cheat(){
+
+        playerPiece.setValue(7);
+    }
+
     public String serializeFaithTrack(){
         return serialize(this);
     }

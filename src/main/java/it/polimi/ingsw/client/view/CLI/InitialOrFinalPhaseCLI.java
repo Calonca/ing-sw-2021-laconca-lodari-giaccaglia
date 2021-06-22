@@ -1,8 +1,10 @@
 package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.LeaderActionBody;
+import it.polimi.ingsw.client.view.CLI.IDLE.ReportInfoCLI;
 import it.polimi.ingsw.client.view.abstractview.InitialOrFinalPhaseViewBuilder;
 import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
+import it.polimi.ingsw.network.simplemodel.VaticanReportInfo;
 
 
 public class InitialOrFinalPhaseCLI extends InitialOrFinalPhaseViewBuilder implements CLIBuilder {
@@ -13,6 +15,8 @@ public class InitialOrFinalPhaseCLI extends InitialOrFinalPhaseViewBuilder imple
 
     @Override
     public void run() {
+
+        showVaticanReportInfoBeforeTransition();
         SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).orElseThrow();
 
         String initial = "Initial";
@@ -23,6 +27,21 @@ public class InitialOrFinalPhaseCLI extends InitialOrFinalPhaseViewBuilder imple
         getCLIView().disableViewMode();
         getCLIView().show();
 
+    }
+
+
+    protected void showVaticanReportInfoBeforeTransition(){
+
+        VaticanReportInfo reportInfo = getSimpleModel().getElem(VaticanReportInfo.class).get();
+
+        if(reportInfo.hasReportOccurred() && !reportInfo.hasReportBeenShown()){
+            reportInfo.reportWillBeShown();
+            if(getClient().isCLI()) {
+                getClient().saveViewBuilder(this);
+                getClient().changeViewBuilder(new ReportInfoCLI(ReportInfoCLI.ViewMode.AFTER_REPORT));
+            }
+
+        }
     }
 
 }

@@ -60,7 +60,7 @@ public class GameModelTest {
         testPlayer = gameModelTest.getPlayer(players.get(0)).get();
 
         assertEquals(testPlayer, gameModelTest.getSinglePlayer());
-        assertEquals(testPlayer, gameModelTest.getNextPlayer());
+        assertEquals(testPlayer, gameModelTest.getNextPlayer().get());
         assertEquals(testPlayer, gameModelTest.getCurrentPlayer());
         assertEquals(testPlayer, gameModelTest.getPlayer(players.get(0)).get());
 
@@ -118,10 +118,10 @@ public class GameModelTest {
         assertEquals(player, gameModelTest.getOfflinePlayers().get(0));
         assertFalse(gameModelTest.isPlayerCurrentlyOnline(0));
         gameModelTest.setOnlinePlayer(player);
-        assertEquals(player,gameModelTest.getNextPlayer());
+        assertEquals(player,gameModelTest.getNextPlayer().get());
 
         gameModelTest.setOnlinePlayer(player);
-        assertEquals(player,gameModelTest.getNextPlayer());
+        assertEquals(player,gameModelTest.getNextPlayer().get());
         assertEquals(player, gameModelTest.getOnlinePlayers().get(0));
         assertTrue(gameModelTest.isPlayerCurrentlyOnline(0));
 

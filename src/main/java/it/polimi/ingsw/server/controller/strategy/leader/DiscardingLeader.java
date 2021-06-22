@@ -27,12 +27,12 @@ public class DiscardingLeader implements GameStrategy {
         State nextPossibleState = currentState.equals(State.INITIAL_PHASE) ? State.MIDDLE_PHASE : State.IDLE;
         elementsToUpdate.add(Element.SimpleFaithTrack);
         elementsToUpdate.add(Element.SimplePlayerLeaders);
-        elementsToUpdate.add(Element.VaticanReportInfo);
 
         gamemodel.getCurrentPlayer().discardLeader(((InitialOrFinalPhaseEvent) event).getLeaderId());
         gamemodel.getCurrentPlayer().moveOnePosition();
 
-        gamemodel.handleVaticanReport();
+        if(gamemodel.handleVaticanReport())
+            elementsToUpdate.add(Element.VaticanReportInfo);
 
         if (gamemodel.checkTrackStatus()) {
 

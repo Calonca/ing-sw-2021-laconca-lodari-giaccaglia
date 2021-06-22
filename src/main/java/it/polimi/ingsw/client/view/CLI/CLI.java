@@ -31,6 +31,7 @@ public class CLI {
     private int lastInt;
     private Runnable afterInput;
     private boolean isViewMode;
+    private boolean isTitleBlocked;
 
     //Min is 52
     public static final int height =53;//Usually 53
@@ -68,10 +69,23 @@ public class CLI {
     public int getMaxBodyHeight(){return height-5;}
 
     public void setTitle(String title){
+
+        if(isTitleBlocked)
+            return;
+
         Title title1 = new Title(title);
         this.title.ifPresent(t->t.removeFromListeners(client));
         title1.addToListeners(client);
         this.title = Optional.of(title1);
+    }
+
+    public void setTitleWhenBlocked(String title){
+
+        Title title1 = new Title(title);
+        this.title.ifPresent(t->t.removeFromListeners(client));
+        title1.addToListeners(client);
+        this.title = Optional.of(title1);
+
     }
 
     public void setTitle(Title title){
@@ -94,7 +108,9 @@ public class CLI {
         isViewMode = false;
     }
 
+    public void blockTitleChanges(){ isTitleBlocked = true;}
 
+    public void enableTitleChanges(){ isTitleBlocked = false;}
 
     public int getLastInt() {
         return lastInt;

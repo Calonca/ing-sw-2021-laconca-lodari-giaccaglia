@@ -28,7 +28,6 @@ public class DiscardingResources implements GameStrategy {
         elementsToUpdate.add(Element.SimpleDiscardBox);
         elementsToUpdate.add(Element.SimpleFaithTrack);
         elementsToUpdate.add(Element.SimplePlayerLeaders);
-        elementsToUpdate.add(Element.VaticanReportInfo);
 
         PersonalBoard currentBoard = gameModel.getCurrentPlayer().getPersonalBoard();
 
@@ -39,7 +38,8 @@ public class DiscardingResources implements GameStrategy {
         for (int i = 0; i < positionsToAdd; i++) {
 
             gameModel.addFaithPointToOtherPlayers();
-            gameModel.handleVaticanReport();
+            if(gameModel.handleVaticanReport())
+                elementsToUpdate.add(Element.VaticanReportInfo);
 
             if (gameModel.checkTrackStatus()) {
 
@@ -57,7 +57,8 @@ public class DiscardingResources implements GameStrategy {
 
         for(int i = 0; i < positionsToAdd; i++) {
             gameModel.getCurrentPlayer().moveOnePosition();
-            gameModel.handleVaticanReport();
+            if(gameModel.handleVaticanReport())
+                    elementsToUpdate.add(Element.VaticanReportInfo);
 
             if (gameModel.checkTrackStatus()) {
 

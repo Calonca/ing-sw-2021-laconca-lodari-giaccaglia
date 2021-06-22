@@ -19,10 +19,12 @@ public class FinalProductionStrategy implements GameStrategy {
     public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event) {
 
         List<Element> elementsToUpdate = new ArrayList<>();
+
         elementsToUpdate.add(Element.SimpleProductions);
         elementsToUpdate.add(Element.SimpleCardCells);
         elementsToUpdate.add(Element.SimpleWareHouseLeadersDepot);
         elementsToUpdate.add(Element.SimpleStrongBox);
+        elementsToUpdate.add(Element.SimpleFaithTrack);
 
 
         PersonalBoard personalBoard = gamemodel.getCurrentPlayer().getPersonalBoard();

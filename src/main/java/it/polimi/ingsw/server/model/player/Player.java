@@ -60,6 +60,7 @@ public class Player {
 
     private StatesTransitionTable statesTransitionTable;
 
+
     /**
      * Class constructor
      */
@@ -71,6 +72,7 @@ public class Player {
         marketBonus=new boolean[4];
         this.nickName = nickName;
         initializeFaithTrack();
+       // faithTrack.cheat();
 
     }
 
@@ -159,12 +161,7 @@ public class Player {
      * */
     public void setCurrentState(State currentState) {
 
-        if(this.currentState.equals(State.IDLE) || this.currentState.equals(State.SETUP_PHASE) ) {
-            wasInIDLE = true;
-        }
-
-        else
-            wasInIDLE = false;
+        wasInIDLE = this.currentState.equals(State.IDLE) || this.currentState.equals(State.SETUP_PHASE);
 
         this.currentState = currentState;
 

@@ -236,7 +236,7 @@ public class Match {
 
             if(game.getCurrentPlayer().equals(playerSendingEvent)) {
 
-                game.setCurrentPlayer(game.getNextPlayer());
+                game.setCurrentPlayer(game.getNextPlayer().get());
 
                 if (game.getCurrentPlayer().getCurrentState().equals(State.SETUP_PHASE)) {
 
@@ -265,16 +265,19 @@ public class Match {
 
         Player playerDisconnected = game.getPlayer(playerNickname).get();
         if(game.getCurrentPlayer().equals(playerDisconnected)){
-            game.setCurrentPlayer(game.getNextPlayer());
 
-            Player newCurrentPlayer = game.getCurrentPlayer();
+            if(game.getNextPlayer().isPresent()) {
+                game.setCurrentPlayer(game.getNextPlayer().get());
 
-            if(newCurrentPlayer.getCurrentState().equals(State.IDLE)){
+                Player newCurrentPlayer = game.getCurrentPlayer();
 
-                IDLE IDLEStrategy = new IDLE();
-                Pair<State, List<Element>> data = IDLEStrategy.execute(game, null);
-                newCurrentPlayer.setCurrentState(data.getKey());
-                notifyStateToAllPlayers(data.getValue(), newCurrentPlayer.getNickName());
+                if (newCurrentPlayer.getCurrentState().equals(State.IDLE)) {
+
+                    IDLE IDLEStrategy = new IDLE();
+                    Pair<State, List<Element>> data = IDLEStrategy.execute(game, null);
+                    newCurrentPlayer.setCurrentState(data.getKey());
+                    notifyStateToAllPlayers(data.getValue(), newCurrentPlayer.getNickName());
+                }
             }
 
         }
