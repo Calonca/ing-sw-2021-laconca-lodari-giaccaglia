@@ -185,7 +185,7 @@ public class FaithTrack implements PropertyChangeListener {
 
                         anchor.getChildren().add(text);
 
-                        text=new Text("PLAYER INDEX:  " + playerNumber);
+                        text=new Text("PLAYER INDEX:  " + playerInfo.getPlayerIndex());
                         text.setLayoutX(50);
                         text.setLayoutY(80);
 
