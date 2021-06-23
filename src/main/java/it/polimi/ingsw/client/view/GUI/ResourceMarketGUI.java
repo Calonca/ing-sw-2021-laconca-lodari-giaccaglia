@@ -435,9 +435,9 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
 
         ActiveLeaderBonusInfo simplePlayerLeaders = getSimpleModel().getPlayerCache(getClient().getCommonData().getThisPlayerIndex()).getElem(ActiveLeaderBonusInfo.class).orElseThrow();
 
-        Group tempResGroup=new Group();
+        Group resourceGroup=new Group();
 
-        root3D.getChildren().add(tempResGroup);
+        root3D.getChildren().add(resourceGroup);
 
         List<ResourceAsset> toChoose=simplePlayerLeaders.getMarketBonusResources();
 
@@ -449,12 +449,12 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
             res.get((toChoose.get(finalI).getResourceNumber())).setLayoutY(500);
             res.get((toChoose.get(finalI).getResourceNumber())).setTranslateZ(-100);
 
-            tempResGroup.getChildren().add(res.get((toChoose.get(finalI).getResourceNumber())));
+            resourceGroup.getChildren().add(res.get((toChoose.get(finalI).getResourceNumber())));
             res.get(toChoose.get(i).getResourceNumber()).setOnMouseClicked(p->
             {
                 ChooseWhiteMarbleConversionEvent event= new ChooseWhiteMarbleConversionEvent(toChoose.get(finalI).getResourceNumber());
                 getClient().getServerHandler().sendCommandMessage(new EventMessage(event));
-
+                resourceGroup.getChildren().clear();
 
             });
         }
