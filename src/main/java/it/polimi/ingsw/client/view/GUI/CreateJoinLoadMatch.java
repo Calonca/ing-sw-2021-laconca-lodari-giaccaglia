@@ -234,7 +234,6 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         if(getClient().getCommonData().getMatchesData().isPresent())
             tog=getClient().getCommonData().getMatchesData().get().size();
 
-        System.out.println(tog);
 
         int i=0;
         while(!temp.isEmpty())

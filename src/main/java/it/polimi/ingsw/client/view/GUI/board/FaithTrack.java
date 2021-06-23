@@ -72,7 +72,7 @@ public class FaithTrack implements PropertyChangeListener {
         tempImage = new ImagePattern(new Image("assets/track/FAVOUR_TILE_3_ACTIVE.png"));
         thirdTile.setFill(tempImage);
 
-        System.out.println("PLAYER POSITION" + playerNumber);
+        System.out.println("PLAYER NUMBER" + playerNumber);
 
         moveFaith(0);
         if (getSimpleModel().getPlayersCaches().length==1)
@@ -120,7 +120,7 @@ public class FaithTrack implements PropertyChangeListener {
         {
             PlayersInfo playersInfo =  (PlayersInfo) evt.getNewValue();
             moveFaith(playersInfo.getSimplePlayerInfoMap().get(playerNumber).getCurrentPosition());
-            System.out.println("PLAYER POSITION" +playersInfo.getSimplePlayerInfoMap().get(playerNumber).getCurrentPosition());
+            System.out.println("CURRENT POSITION" +playersInfo.getSimplePlayerInfoMap().get(playerNumber).getCurrentPosition());
             if (getSimpleModel().getPlayersCaches().length==1)
                 moveLorenzo(playersInfo.getSimplePlayerInfoMap().get(playerNumber).getLorenzoPosition());
 

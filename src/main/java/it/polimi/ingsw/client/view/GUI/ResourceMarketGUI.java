@@ -2,12 +2,16 @@ package it.polimi.ingsw.client.view.GUI;
 
 
 import it.polimi.ingsw.client.view.GUI.board.CamState;
+import it.polimi.ingsw.client.view.GUI.layout.ResChoiceRowGUI;
 import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
 
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
 import it.polimi.ingsw.network.assets.leaders.NetworkDevelopmentDiscountLeaderCard;
 import it.polimi.ingsw.network.assets.leaders.NetworkMarketLeaderCard;
 import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
+import it.polimi.ingsw.network.assets.resources.ResourceAsset;
+import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
+import it.polimi.ingsw.network.messages.clienttoserver.events.marketboardevent.ChooseWhiteMarbleConversionEvent;
 import it.polimi.ingsw.network.simplemodel.ActiveLeaderBonusInfo;
 import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
 import it.polimi.ingsw.server.model.player.leaders.DevelopmentDiscountLeader;
@@ -16,6 +20,7 @@ import javafx.application.Platform;
 import javafx.scene.*;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.PhongMaterial;
@@ -398,7 +403,6 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
 
 
 
-
         });
 
 
@@ -419,6 +423,41 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
     @Override
     public void chooseMarbleConversion() {
 
+        //todo generalize
+        List<javafx.scene.image.ImageView> res=new ArrayList<>();
+        res.add(new javafx.scene.image.ImageView(new Image("assets/resources/GOLD.png")));
+        res.add(new javafx.scene.image.ImageView(new Image("assets/resources/SERVANT.png")));
+        res.add(new javafx.scene.image.ImageView(new Image("assets/resources/SHIELD.png")));
+        res.add(new javafx.scene.image.ImageView(new Image("assets/resources/STONE.png")));
+
+        List<ResourceAsset> resourcesToChoose =new ArrayList<>();
+        resourcesToChoose.add(ResourceAsset.TO_CHOOSE);
+
+        ActiveLeaderBonusInfo simplePlayerLeaders = getSimpleModel().getPlayerCache(getClient().getCommonData().getThisPlayerIndex()).getElem(ActiveLeaderBonusInfo.class).orElseThrow();
+
+        Group tempResGroup=new Group();
+
+        root3D.getChildren().add(tempResGroup);
+
+        List<ResourceAsset> toChoose=simplePlayerLeaders.getMarketBonusResources();
+
+
+        for(int i=0;i<toChoose.size();i++) {
+            int finalI = i;
+
+            res.get((toChoose.get(finalI).getResourceNumber())).setLayoutX(-400+200*finalI);
+            res.get((toChoose.get(finalI).getResourceNumber())).setLayoutY(500);
+            res.get((toChoose.get(finalI).getResourceNumber())).setTranslateZ(-100);
+
+            tempResGroup.getChildren().add(res.get((toChoose.get(finalI).getResourceNumber())));
+            res.get(toChoose.get(i).getResourceNumber()).setOnMouseClicked(p->
+            {
+                ChooseWhiteMarbleConversionEvent event= new ChooseWhiteMarbleConversionEvent(toChoose.get(finalI).getResourceNumber());
+                getClient().getServerHandler().sendCommandMessage(new EventMessage(event));
+
+
+            });
+        }
 
     }
 
