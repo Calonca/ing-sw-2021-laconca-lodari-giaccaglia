@@ -21,6 +21,7 @@ public class GUI extends Application {
 
     public static double GUIwidth=1800;
     public static double GUIlen=1000;
+    public static Node appendedScene;
 
     static String[] arguments;
     public static void main(String[] args) {
@@ -67,7 +68,7 @@ public class GUI extends Application {
     {
         Runnable run = new Runnable() {
             public void run() {
-                realPane.getChildren().remove(realPane.getChildren().size()-1);
+                realPane.getChildren().remove(appendedScene);
             };
         };
         Platform.runLater(run);
@@ -75,7 +76,9 @@ public class GUI extends Application {
 
     public static void addLast(Node scene)
     {
-        realPane.getChildren().add(scene);
+        appendedScene=scene;
+        if(!realPane.getChildren().contains(appendedScene))
+            realPane.getChildren().add(appendedScene);
     }
 
 
