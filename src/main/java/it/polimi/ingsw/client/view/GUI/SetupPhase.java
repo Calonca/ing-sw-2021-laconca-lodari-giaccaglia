@@ -297,7 +297,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
 
 
         setupAnchor.getChildren().add(validationButton());
-        setupAnchor.setId("background");
+        setupAnchor.setId("background3");
         getClient().getStage().show();
 
     }

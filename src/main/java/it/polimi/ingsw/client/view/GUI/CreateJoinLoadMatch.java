@@ -44,9 +44,10 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
 
     public class MatchRow {
         Map.Entry<UUID, Pair<String[], String[]>> uuidPair;
-
-        public MatchRow(Map.Entry<UUID, Pair<String[], String[]>> uuidPair) {
+        boolean isSaved;
+        public MatchRow(Map.Entry<UUID, Pair<String[], String[]>> uuidPair,boolean isSaved) {
             this.uuidPair = uuidPair;
+            this.isSaved=isSaved;
         }
 
         public UUID getId()
@@ -129,9 +130,8 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
      */
     public List<MatchRow> dataToRow() {
         List<MatchRow> templist=new ArrayList<>();
-        Stream.concat(getClient().getCommonData().getAvailableMatchesData().orElse(new HashMap<>()).entrySet().stream(),
-                getClient().getCommonData().getSavedMatchesData().orElse(new HashMap<>()).entrySet().stream()
-                ).forEach(e -> templist.add(new MatchRow(e)));
+        (getClient().getCommonData().getAvailableMatchesData().orElse(new HashMap<>()).entrySet()).forEach(e -> templist.add(new MatchRow(e,false)));
+        (getClient().getCommonData().getSavedMatchesData().orElse(new HashMap<>()).entrySet()).forEach(e -> templist.add(new MatchRow(e,true)));
 
         return templist;
     }
@@ -170,7 +170,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
      * @param matchRow is not null
      * @return the corresponding AnchorPane
      */
-    public AnchorPane matchToTile(MatchRow matchRow, boolean isSaved)
+    public AnchorPane matchToTile(MatchRow matchRow)
     {
 
         AnchorPane joinPane=new AnchorPane();
@@ -198,7 +198,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
 
 
         Effect dropShadow=new DropShadow(BlurType.GAUSSIAN,Color.rgb(0,0,0,0.5),10,0.7,5,5);
-        if(isSaved)
+        if(matchRow.isSaved)
             joinMatchButton.setText("LOAD");
         else
             joinMatchButton.setText("JOIN");
@@ -230,12 +230,8 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         int row=0;
         int column=1;
 
-        int tog=0;
-        if(getClient().getCommonData().getMatchesData().isPresent())
-            tog=getClient().getCommonData().getMatchesData().get().size();
 
 
-        int i=0;
         while(!temp.isEmpty())
         {
 
@@ -245,18 +241,12 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
                 column=0;
                 row++;
             }
-            if(tog!=0)
-            {
-                grid.add(matchToTile(temp.get(0),false),column,row);
-                tog--;
-            }
-            if(tog==0)
-            {
-                grid.add(matchToTile(temp.get(0),true),column,row);
-            }
+
+                grid.add(matchToTile(temp.get(0)),column,row);
+
+
             column++;
             temp.remove(0);
-            i++;
 
         }
 
@@ -268,7 +258,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         grid.setStyle("    -fx-background-color: linear-gradient(to right, #ADD8E6, #5771f2);");
         cjlPane.getChildren().remove(guiMatchesData);
         cjlPane.getChildren().add(scrollPane);
-        grid.setId("background");
+        grid.setId("background2");
 
 
      //w   grid.add(test,2,2);
