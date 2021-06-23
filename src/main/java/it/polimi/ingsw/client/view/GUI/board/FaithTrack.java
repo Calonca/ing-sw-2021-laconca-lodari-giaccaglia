@@ -11,6 +11,7 @@ import it.polimi.ingsw.client.view.GUI.util.ResourceGUI;
 import it.polimi.ingsw.network.simplemodel.EndGameInfo;
 import it.polimi.ingsw.network.simplemodel.PlayersInfo;
 import it.polimi.ingsw.network.simplemodel.SimpleFaithTrack;
+import it.polimi.ingsw.network.simplemodel.VaticanReportInfo;
 import javafx.application.Platform;
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
@@ -39,6 +40,7 @@ public class FaithTrack implements PropertyChangeListener {
     double faithStartingY=120;
     final int boardWidth = 2407;
     final int boardHeight = 1717;
+    List<Rectangle> popeTiles=new ArrayList<>();
     Rectangle firstTile;
     Rectangle secondTile;
     Rectangle thirdTile;
@@ -85,6 +87,9 @@ public class FaithTrack implements PropertyChangeListener {
         thirdTile.setFill(tempImage);
 
 
+        popeTiles.add(firstTile);
+        popeTiles.add(secondTile);
+        popeTiles.add(thirdTile);
 
         moveFaith(0);
         if (getSimpleModel().getPlayersCaches().length==1)
@@ -137,6 +142,12 @@ public class FaithTrack implements PropertyChangeListener {
             System.out.println("CURRENT POSITION" +playersInfo.getSimplePlayerInfoMap().get(playerNumber).getCurrentPosition());
             if (getSimpleModel().getPlayersCaches().length==1)
                 moveLorenzo(playersInfo.getSimplePlayerInfoMap().get(playerNumber).getLorenzoPosition());
+
+
+
+
+
+
             Runnable done = new Runnable()
             {
                 public void run()
@@ -168,19 +179,19 @@ public class FaithTrack implements PropertyChangeListener {
 
                         anchor.getChildren().add(text);
 
-                        text=new Text("FAITH:  " + Integer.toString(playerInfo.getCurrentPosition()));
+                        text=new Text("FAITH:  " + playerInfo.getCurrentPosition());
                         text.setLayoutX(50);
                         text.setLayoutY(60);
 
                         anchor.getChildren().add(text);
 
-                        text=new Text("PLAYER INDEX:  " + Integer.toString(playerNumber));
+                        text=new Text("PLAYER INDEX:  " + playerNumber);
                         text.setLayoutX(50);
                         text.setLayoutY(80);
 
                         anchor.getChildren().add(text);
 
-                        text=new Text("VICTORY POINTS:  " + Integer.toString(playerInfo.getCurrentVictoryPoints()));
+                        text=new Text("VICTORY POINTS:  " + playerInfo.getCurrentVictoryPoints());
                         text.setLayoutX(50);
                         text.setLayoutY(40);
 
@@ -194,6 +205,16 @@ public class FaithTrack implements PropertyChangeListener {
                             infoGroup.getChildren().add(anchor);
 
 
+
+                        VaticanReportInfo vaticanReportInfo;
+                        if(getSimpleModel().getElem(VaticanReportInfo.class).get().hasReportOccurred())
+                            {
+                                vaticanReportInfo = getSimpleModel().getElem(VaticanReportInfo.class).get();
+
+                                for(int k=0;k<vaticanReportInfo.getPopeTileStatusMap().size();k++)
+                                    if(vaticanReportInfo.getPopeTileStatusMap().get(k).getValue())
+                                        popeTiles.get(k).setOpacity(0);
+                            }
 
 
 
