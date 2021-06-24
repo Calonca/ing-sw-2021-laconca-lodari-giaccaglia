@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.view.abstractview;
 
 import it.polimi.ingsw.client.simplemodel.State;
-import it.polimi.ingsw.client.view.CLI.MiddlePhaseCLI;
+import it.polimi.ingsw.client.view.CLI.middle.MiddlePhaseCLI;
 import it.polimi.ingsw.client.view.GUI.MiddlePhaseGUI;
 import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.events.MiddlePhaseEvent;

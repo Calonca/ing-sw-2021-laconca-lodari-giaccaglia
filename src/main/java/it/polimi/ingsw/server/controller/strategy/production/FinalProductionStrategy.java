@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.controller.strategy.production;
 
-import it.polimi.ingsw.server.controller.strategy.FinalStrategy;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
+import it.polimi.ingsw.server.controller.strategy.VaticanReportStrategy;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.messages.clienttoserver.events.productionevent.FinalProductionPhaseEvent;
 import it.polimi.ingsw.server.messages.messagebuilders.Element;
@@ -34,9 +34,7 @@ public class FinalProductionStrategy implements GameStrategy {
 
         if(actionToPerform==0){    // 0 to produce
             personalBoard.produce();
-            return FinalStrategy.handleCommonEndGameStrategy(elementsToUpdate, gamemodel);
-
-
+            return VaticanReportStrategy.addFaithPointsToPlayer(gamemodel, elementsToUpdate);
         }
 
         else // 1 revert all and go back to middle phase

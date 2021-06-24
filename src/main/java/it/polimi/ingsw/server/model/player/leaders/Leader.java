@@ -15,7 +15,7 @@ import java.util.List;
 public abstract class Leader{
 
     protected LeaderState state;
-    protected int points;
+    protected int victoryPoints;
     protected List<Pair<Resource, Integer>> requirementsResources;
     protected List<Pair<DevelopmentCardColor, Integer>> requirementsCards;
     protected int requirementsCardsLevel=1;
@@ -40,7 +40,7 @@ public abstract class Leader{
     }
 
     public int getLeaderPoints(){
-        return points;
+        return victoryPoints;
     }
 
     /**

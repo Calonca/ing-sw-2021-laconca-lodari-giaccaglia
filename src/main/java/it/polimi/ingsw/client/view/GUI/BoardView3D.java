@@ -11,31 +11,20 @@ import it.polimi.ingsw.client.view.GUI.util.ModelImporter;
 import it.polimi.ingsw.client.view.GUI.util.ResourceGUI;
 import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ProductionViewBuilder;
-import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
 import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
 import it.polimi.ingsw.network.assets.leaders.NetworkDepositLeaderCard;
-import it.polimi.ingsw.network.assets.leaders.NetworkDevelopmentDiscountLeaderCard;
-import it.polimi.ingsw.network.assets.leaders.NetworkMarketLeaderCard;
 import it.polimi.ingsw.network.assets.leaders.NetworkProductionLeaderCard;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
-import it.polimi.ingsw.network.simplemodel.ActiveLeaderBonusInfo;
 import it.polimi.ingsw.network.simplemodel.SimpleCardCells;
 import it.polimi.ingsw.network.simplemodel.SimpleCardShop;
 import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
-import javafx.application.Platform;
 import it.polimi.ingsw.network.simplemodel.SimpleProductions;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -509,18 +498,16 @@ public class BoardView3D {
         List<LeaderCardAsset> activeBonus = activeLeaders.getPlayerLeaders();
         Rectangle temp;
         Path path;
-        for(int i=0;i<activeBonus.size();i++)
-        {
-            int count=0;
-            if(activeBonus.get(i).getNetworkLeaderCard().isLeaderActive())
-                if(activeBonus.get(i).getNetworkLeaderCard() instanceof NetworkProductionLeaderCard)
-                {
-                    temp=new Rectangle(462,698);
+        for (LeaderCardAsset bonus : activeBonus) {
+            int count = 0;
+            if (bonus.getNetworkLeaderCard().isLeaderActive())
+                if (bonus.getNetworkLeaderCard() instanceof NetworkProductionLeaderCard) {
+                    temp = new Rectangle(462, 698);
                     temp.setTranslateY(250);
-                    temp.setLayoutX(400 + 750 + 250*(count+1));
+                    temp.setLayoutX(400 + 750 + 250 * (count + 1));
 
-                    temp.setFill(new ImagePattern(new Image(activeBonus.get(i).getCardPaths().getKey().toString(),false)));
-                    addNodeToParent(productions, temp, new Point3D(680+220*(count+1), 700, -20));
+                    temp.setFill(new ImagePattern(new Image(bonus.getCardPaths().getKey().toString(), false)));
+                    addNodeToParent(productions, temp, new Point3D(680 + 220 * (count + 1), 700, -20));
 
                 }
 

@@ -2,10 +2,11 @@ package it.polimi.ingsw.client.view.CLI.CLIelem.body;
 
 import it.polimi.ingsw.client.simplemodel.PlayerCache;
 import it.polimi.ingsw.client.simplemodel.SimpleModel;
+import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.CLI.CLIelem.CLIelem;
-import it.polimi.ingsw.client.view.CLI.IDLE.IDLEViewBuilderCLI;
-import it.polimi.ingsw.client.view.CLI.IDLE.PlayersInfoCLI;
-import it.polimi.ingsw.client.view.CLI.MiddlePhaseCLI;
+import it.polimi.ingsw.client.view.CLI.idle.IDLEViewBuilderCLI;
+import it.polimi.ingsw.client.view.CLI.idle.PlayersInfoCLI;
+import it.polimi.ingsw.client.view.CLI.middle.MiddlePhaseCLI;
 import it.polimi.ingsw.client.view.CLI.layout.GridElem;
 import it.polimi.ingsw.client.view.CLI.layout.Option;
 import it.polimi.ingsw.client.view.CLI.layout.ResChoiceRowCLI;
@@ -19,6 +20,7 @@ import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ProductionViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
+import it.polimi.ingsw.client.view.CLI.middle.MiddlePlayersInfoCLI;
 import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
@@ -55,38 +57,24 @@ public class PersonalBoardBody extends CLIelem {
                 depots.addElem(new SizedBox(0,2));
                 depots.addElem(board.strongBox);
 
-                depotsAndProds.addElem(board.discardBox);
+                State currentState = State.valueOf(getThisPlayerCache().getCurrentState());
+
+                if(!(currentState.equals(State.IDLE) ||currentState.equals(State.MIDDLE_PHASE)))
+                    depotsAndProds.addElem(board.discardBox);
+
                 depotsAndProds.addElem(board.productions);
 
-                depotsAndProds.selectInEnabledOption(cli,board.message);
+                if(currentState.equals(State.IDLE))
+                    depotsAndProds.selectInEnabledOption(cli, board.message, () -> getClient().changeViewBuilder(new IDLEViewBuilderCLI()));
+
+                else if(currentState.equals(State.MIDDLE_PHASE))
+                    depotsAndProds.selectInEnabledOption(cli,board.message, () -> getClient().changeViewBuilder(new MiddlePhaseCLI()));
+
+                else
+                    depotsAndProds.selectInEnabledOption(cli,board.message);
+
                 return  CanvasBody.fromGrid(board.root).toString();
             }
-        },
-
-        MOVING_RES_IDLE(){
-
-            @Override
-            public String getString(PersonalBoardBody board) {
-
-                board.root = new Column();
-
-                board.root.setAlignment(GridElem.Alignment.CANVAS_CENTER_VERTICAL);
-                board.root.addElem(board.top);
-
-                Row depotsAndProds = board.root.addAndGetRow();
-
-                Column depots = depotsAndProds.addAndGetColumn();
-                depots.addElemNoIndexChange(board.wareHouseLeadersDepot);
-
-                depots.addElem(new SizedBox(0,2));
-                depots.addElem(board.strongBox);
-
-                depotsAndProds.addElem(board.discardBox);
-                depotsAndProds.addElem(board.productions);
-                depotsAndProds.selectInEnabledOption(cli,board.message, () -> getClient().changeViewBuilder(new IDLEViewBuilderCLI()));
-                return  CanvasBody.fromGrid(board.root).toString();
-            }
-
         },
 
         SELECT_CARD_SHOP(){
@@ -136,6 +124,7 @@ public class PersonalBoardBody extends CLIelem {
                 return  CanvasBody.fromGrid(board.root).toString();
             }
         },
+
         CHOOSE_POS_FOR_CARD(){
             @Override
             public String getString(PersonalBoardBody board) {
@@ -175,7 +164,6 @@ public class PersonalBoardBody extends CLIelem {
                 depots.addElem(new SizedBox(0,2));
                 depots.addElem(board.strongBox);
 
-                depotsAndProds.addElem(board.discardBox);
                 depotsAndProds.addElem(board.productions);
 
                 cli.enableViewMode();
@@ -235,16 +223,19 @@ public class PersonalBoardBody extends CLIelem {
     Map<ViewMode, Runnable> viewModeBuilders;
     ViewBuilder requestBuilder;
 
-    public enum ViewMode{IDLE, MIDDLE, PLAYERS_INFO}
+    public enum ViewMode{IDLE, MIDDLE, PLAYERS_INFO_IDLE, PLAYERS_INFO_MIDDLE}
 
     public PersonalBoardBody(PlayerCache cache, Mode mode) {
+
         this.cache = cache;
-        this.mode=mode;
+        this.mode= mode;
 
         viewModeBuilders = new HashMap<>();
         viewModeBuilders.put(ViewMode.IDLE, () -> requestBuilder = new IDLEViewBuilderCLI());
         viewModeBuilders.put(ViewMode.MIDDLE, () -> requestBuilder = new MiddlePhaseCLI());
-        viewModeBuilders.put(ViewMode.PLAYERS_INFO, () -> requestBuilder = new PlayersInfoCLI());
+        viewModeBuilders.put(ViewMode.PLAYERS_INFO_IDLE, () -> requestBuilder = new PlayersInfoCLI());
+        viewModeBuilders.put(ViewMode.PLAYERS_INFO_MIDDLE, () -> requestBuilder = new MiddlePlayersInfoCLI());
+
     }
 
     public void setRightBuilderForViewMode(ViewMode name){
@@ -363,6 +354,7 @@ public class PersonalBoardBody extends CLIelem {
     }
 
     public static Row strongBoxBuilder(SimpleStrongBox simpleStrongBox, PersonalBoardBody board){
+
         Map<Integer, Pair<ResourceAsset, Pair<Integer, Integer>>> strongBoxMap = simpleStrongBox.getResourceMap();
 
         Stream<Option> optionList = strongBoxMap.entrySet().stream().sorted(Map.Entry.comparingByKey())
@@ -373,8 +365,8 @@ public class PersonalBoardBody extends CLIelem {
                                 board.resChoiceRow.getPointedResource().isPresent() &&
                                 board.resChoiceRow.getPointedResource().get().equals(e.getValue().getKey());
                     else if (board.mode.equals(Mode.SELECT_RES_FOR_PROD))
-                        selectable = true;
-                    else selectable = true;
+                        selectable = board.getSelectableInProd(e.getKey());
+                    else selectable = false;
                     Option strongOption = board.optionFromAsset(
                             e.getValue().getKey(),
                             numAndSel(e).getKey(),
@@ -401,7 +393,10 @@ public class PersonalBoardBody extends CLIelem {
                 if (lastSelectedPosition == null) {
                     lastSelectedPosition = globalPos;
                     initializeMove();
-                    message = "Select end position or discard resources";
+                    if(getThisPlayerCache().getCurrentState().equals(State.CHOOSING_POSITION_FOR_RESOURCES.toString()))
+                        message = "Select end position or discard resources";
+                    else
+                        message = "Select end position or press ENTER to go back";
                     cli.show();
                 } else {
                     int startPosition = lastSelectedPosition;

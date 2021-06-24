@@ -134,7 +134,7 @@ public class GameInfoMessageBuilder {
     }
 
     public static Set<Integer> getPlayersTriggeringVaticanReport(GameModel gameModel){
-       List<Integer> playersTriggeringList  = gameModel.vaticanReportTriggers();
+       List<Integer> playersTriggeringList  = gameModel.getVaticanReportTriggers();
        return new HashSet<>(playersTriggeringList);
     }
 

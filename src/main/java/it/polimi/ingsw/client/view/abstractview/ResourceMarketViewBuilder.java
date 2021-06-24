@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.view.abstractview;
 
-import it.polimi.ingsw.client.view.CLI.ResourceMarketCLI;
+import it.polimi.ingsw.client.view.CLI.middle.ResourceMarketCLI;
 import it.polimi.ingsw.client.view.GUI.ResourceMarketGUI;
 import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
 import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;

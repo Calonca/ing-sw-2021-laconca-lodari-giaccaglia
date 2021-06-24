@@ -1,5 +1,6 @@
-package it.polimi.ingsw.client.view.CLI;
+package it.polimi.ingsw.client.view.CLI.middle;
 
+import it.polimi.ingsw.client.view.CLI.CLIBuilder;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.PersonalBoardBody;
 import it.polimi.ingsw.client.view.CLI.layout.ResChoiceRowCLI;
 import it.polimi.ingsw.client.view.CLI.layout.SizedBox;
@@ -10,7 +11,7 @@ import it.polimi.ingsw.network.simplemodel.SimpleProductions.SimpleProduction;
 
 import java.util.stream.Stream;
 
-public class ProductionViewCLI extends ProductionViewBuilder implements CLIBuilder {
+public class MiddleProductionViewCLI extends ProductionViewBuilder implements CLIBuilder {
 
     @Override
     public void run() {

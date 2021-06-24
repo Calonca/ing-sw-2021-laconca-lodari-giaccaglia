@@ -20,7 +20,7 @@
         "5": 0,
         "6": 1
       },
-      "victoryPoints": 0,
+      "victoryPoints": 4,
       "requirementsResources": [],
       "requirementsCards": [
         {
@@ -46,7 +46,7 @@
     "networkLeaderCard": {
       "type": "NetworkMarketLeaderCard",
       "marketBonusResourceAsset": "SHIELD",
-      "victoryPoints": 0,
+      "victoryPoints": 5,
       "requirementsResources": [],
       "requirementsCards": [
         {
@@ -76,7 +76,7 @@
     "networkLeaderCard": {
       "type": "NetworkDepositLeaderCard",
       "resourcesTypeInDepot": "SERVANT",
-      "victoryPoints": 0,
+      "victoryPoints": 3,
       "requirementsResources": [
         {
           "key": "STONE",
@@ -102,7 +102,7 @@
     "networkLeaderCard": {
       "type": "NetworkDepositLeaderCard",
       "resourcesTypeInDepot": "STONE",
-      "victoryPoints": 0,
+      "victoryPoints": 3,
       "requirementsResources": [
         {
           "key": "GOLD",
@@ -131,7 +131,7 @@
         "key": "GOLD",
         "value": 1
       },
-      "victoryPoints": 0,
+      "victoryPoints": 2,
       "requirementsResources": [],
       "requirementsCards": [
         {
@@ -161,7 +161,7 @@
     "networkLeaderCard": {
       "type": "NetworkDepositLeaderCard",
       "resourcesTypeInDepot": "GOLD",
-      "victoryPoints": 0,
+      "victoryPoints": 3,
       "requirementsResources": [
         {
           "key": "SHIELD",
@@ -187,7 +187,7 @@
     "networkLeaderCard": {
       "type": "NetworkMarketLeaderCard",
       "marketBonusResourceAsset": "STONE",
-      "victoryPoints": 0,
+      "victoryPoints": 5,
       "requirementsResources": [],
       "requirementsCards": [
         {
@@ -220,7 +220,7 @@
         "key": "SHIELD",
         "value": 1
       },
-      "victoryPoints": 0,
+      "victoryPoints": 2,
       "requirementsResources": [],
       "requirementsCards": [
         {
@@ -250,7 +250,7 @@
     "networkLeaderCard": {
       "type": "NetworkMarketLeaderCard",
       "marketBonusResourceAsset": "SERVANT",
-      "victoryPoints": 0,
+      "victoryPoints": 5,
       "requirementsResources": [],
       "requirementsCards": [
         {
@@ -280,7 +280,7 @@
     "networkLeaderCard": {
       "type": "NetworkMarketLeaderCard",
       "marketBonusResourceAsset": "GOLD",
-      "victoryPoints": 0,
+      "victoryPoints": 5,
       "requirementsResources": [],
       "requirementsCards": [
         {
@@ -313,7 +313,7 @@
         "key": "STONE",
         "value": 1
       },
-      "victoryPoints": 0,
+      "victoryPoints": 2,
       "requirementsResources": [],
       "requirementsCards": [
         {
@@ -346,7 +346,7 @@
         "key": "SERVANT",
         "value": 1
       },
-      "victoryPoints": 0,
+      "victoryPoints": 2,
       "requirementsResources": [],
       "requirementsCards": [
         {
@@ -393,7 +393,7 @@
         "5": 0,
         "6": 1
       },
-      "victoryPoints": 0,
+      "victoryPoints": 4,
       "requirementsResources": [],
       "requirementsCards": [
         {
@@ -436,7 +436,7 @@
         "5": 0,
         "6": 1
       },
-      "victoryPoints": 0,
+      "victoryPoints": 4,
       "requirementsResources": [],
       "requirementsCards": [
         {
@@ -462,7 +462,7 @@
     "networkLeaderCard": {
       "type": "NetworkDepositLeaderCard",
       "resourcesTypeInDepot": "SHIELD",
-      "victoryPoints": 0,
+      "victoryPoints": 3,
       "requirementsResources": [
         {
           "key": "SERVANT",
@@ -505,7 +505,7 @@
         "5": 0,
         "6": 1
       },
-      "victoryPoints": 0,
+      "victoryPoints": 4,
       "requirementsResources": [],
       "requirementsCards": [
         {

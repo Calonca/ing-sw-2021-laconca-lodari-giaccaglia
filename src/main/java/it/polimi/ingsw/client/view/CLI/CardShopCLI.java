@@ -2,7 +2,7 @@ package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.PersonalBoardBody;
-import it.polimi.ingsw.client.view.CLI.IDLE.IDLEViewBuilderCLI;
+import it.polimi.ingsw.client.view.CLI.idle.IDLEViewBuilderCLI;
 import it.polimi.ingsw.client.view.CLI.layout.GridElem;
 import it.polimi.ingsw.client.view.CLI.layout.Option;
 import it.polimi.ingsw.client.view.CLI.layout.ResChoiceRowCLI;
@@ -14,6 +14,7 @@ import it.polimi.ingsw.client.view.CLI.layout.drawables.ResourceCLI;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Column;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
 import it.polimi.ingsw.client.view.CLI.textUtil.Color;
+import it.polimi.ingsw.client.view.CLI.middle.MiddlePhaseCLI;
 import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 import it.polimi.ingsw.network.assets.DevelopmentCardAsset;

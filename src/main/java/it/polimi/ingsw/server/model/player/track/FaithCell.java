@@ -20,6 +20,7 @@ public class FaithCell {
      */
     private boolean popeSpace;
 
+
     private int x_pos;
 
     private int y_pos;

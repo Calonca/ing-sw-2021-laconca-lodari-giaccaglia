@@ -101,7 +101,7 @@ public class SimpleCardCells extends SimpleModelElement{
 
 
                 Map.Entry::getKey,
-                e -> e.getValue().isEmpty()?Optional.empty():Optional.of(e.getValue().get(0))
+                e -> e.getValue().isEmpty()?Optional.empty():Optional.of(e.getValue().get(e.getValue().size()-1))
         ));
 
     }

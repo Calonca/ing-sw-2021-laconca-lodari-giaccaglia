@@ -1,33 +1,31 @@
-package it.polimi.ingsw.client.view.CLI.idle;
+package it.polimi.ingsw.client.view.CLI.middle;
 
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.PersonalBoardBody;
 import it.polimi.ingsw.client.view.CLI.commonViews.CLIPersonalBoardBuilder;
 
-public class PersonalBoardCLI extends IDLEViewBuilderCLI{
+public class MiddlePersonalBoardCLI extends MiddlePhaseCLI {
 
     int playerIndex;
     boolean isMoving;
     PersonalBoardBody.ViewMode viewMode;
 
-    public PersonalBoardCLI(int playerIndex, boolean isMoving){
+    public MiddlePersonalBoardCLI(int playerIndex, boolean isMoving){
         this.playerIndex = playerIndex;
         this.isMoving = isMoving;
     }
 
-    public PersonalBoardCLI(int playerIndex, boolean isMoving, PersonalBoardBody.ViewMode viewMode){
+    public MiddlePersonalBoardCLI(int playerIndex, boolean isMoving, PersonalBoardBody.ViewMode viewMode){
         this.playerIndex = playerIndex;
         this.isMoving = isMoving;
         this.viewMode = viewMode;
     }
 
-
     @Override
     public void run() {
-        showVaticanReportInfoDuringIDLE();
         if (isMoving) {
             CLIPersonalBoardBuilder.buildViewForMoving();
         } else {
-            showVaticanReportInfoDuringIDLE();
+            showVaticanReportInfoBeforeTransition();
             CLIPersonalBoardBuilder.buildViewForViewing(playerIndex, viewMode);
         }
     }

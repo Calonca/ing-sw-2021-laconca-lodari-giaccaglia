@@ -1,19 +1,15 @@
 {
   "table": {
-    "CHOOSING_WHITEMARBLE_CONVERSION": {
-      "ChooseWhiteMarbleConversionEvent": {
-        "type": "TogglingForProduction"
-      }
-    },
-    "CHOOSING_MARKET_LINE": {
-      "ChooseLineEvent": {
-        "type": "PuttingBallOnLine",
+    "INITIAL_PHASE": {
+      "InitialOrFinalPhaseEvent": {
+        "type": "ExecuteLeaderAction",
         "elementsToUpdate": []
       }
     },
-    "CHOOSING_RESOURCE_FOR_PRODUCTION": {
-      "ChooseResourcesForProductionEvent": {
-        "type": "ChoosingResourceForProduction"
+    "CHOOSING_DEVELOPMENT_CARD": {
+      "ChooseCardEvent": {
+        "type": "AcquiringDevelopmentCard",
+        "elementsToUpdate": []
       }
     },
     "CHOOSING_POSITION_FOR_RESOURCES": {
@@ -25,29 +21,14 @@
         "type": "DiscardingResources"
       }
     },
-    "CHOOSING_DEVELOPMENT_CARD": {
-      "ChooseCardEvent": {
-        "type": "AcquiringDevelopmentCard",
-        "elementsToUpdate": []
-      }
-    },
-    "CHOOSING_PRODUCTION": {
-      "ToggleProductionAtPosition": {
-        "type": "TogglingForProduction"
-      },
-      "FinalProductionPhaseEvent": {
-        "type": "FinalProductionStrategy"
-      }
-    },
-    "CHOOSING_POSITION_FOR_DEVCARD": {
-      "ChooseCardPositionEvent": {
-        "type": "ChoosingSpaceForDevelopmentCard",
-        "elementsToUpdate": []
-      }
-    },
+    "END_PHASE": {},
     "MIDDLE_PHASE": {
       "MiddlePhaseEvent": {
         "type": "Middle",
+        "elementsToUpdate": []
+      },
+      "MoveResourceEvent": {
+        "type": "MovingResource",
         "elementsToUpdate": []
       }
     },
@@ -58,32 +39,52 @@
         "currentPlayerNumber": 0
       }
     },
-    "FINAL_PHASE": {
-      "InitialOrFinalPhaseEvent": {
-        "type": "ExecuteLeaderAction",
-        "elementsToUpdate": []
-      }
-    },
     "CHOOSING_RESOURCES_FOR_DEVCARD": {
       "ChooseResourceForCardShopEvent": {
         "type": "PayingResourcesForDevelopmentCard",
         "elementsToUpdate": []
       }
     },
-    "IDLE": {
-      "null": {
-        "type": "IDLE",
+    "CHOOSING_WHITEMARBLE_CONVERSION": {
+      "ChooseWhiteMarbleConversionEvent": {
+        "type": "TogglingForProduction"
+      }
+    },
+    "CHOOSING_POSITION_FOR_DEVCARD": {
+      "ChooseCardPositionEvent": {
+        "type": "ChoosingSpaceForDevelopmentCard",
         "elementsToUpdate": []
-      },
+      }
+    },
+    "CHOOSING_MARKET_LINE": {
+      "ChooseLineEvent": {
+        "type": "PuttingBallOnLine",
+        "elementsToUpdate": []
+      }
+    },
+    "IDLE": {
       "MoveResourceEvent": {
         "type": "MovingResource",
         "elementsToUpdate": []
       }
     },
-    "INITIAL_PHASE": {
+    "CHOOSING_RESOURCE_FOR_PRODUCTION": {
+      "ChooseResourcesForProductionEvent": {
+        "type": "ChoosingResourceForProduction"
+      }
+    },
+    "FINAL_PHASE": {
       "InitialOrFinalPhaseEvent": {
         "type": "ExecuteLeaderAction",
         "elementsToUpdate": []
+      }
+    },
+    "CHOOSING_PRODUCTION": {
+      "ToggleProductionAtPosition": {
+        "type": "TogglingForProduction"
+      },
+      "FinalProductionPhaseEvent": {
+        "type": "FinalProductionStrategy"
       }
     }
   }

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.view.abstractview;
 
-import it.polimi.ingsw.client.view.CLI.IDLE.IDLEViewBuilderCLI;
+import it.polimi.ingsw.client.view.CLI.idle.IDLEViewBuilderCLI;
 import it.polimi.ingsw.client.view.GUI.IDLEViewBuilderGUI;
 
 import java.beans.PropertyChangeEvent;

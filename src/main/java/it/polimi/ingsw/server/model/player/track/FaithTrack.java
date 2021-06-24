@@ -8,7 +8,9 @@ import javafx.util.Pair;
 import org.apache.commons.lang3.tuple.MutablePair;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static it.polimi.ingsw.network.jsonUtils.JsonUtility.serialize;
@@ -39,6 +41,8 @@ public class FaithTrack {
     private final MutablePair<Piece, Integer> playerPiece = new MutablePair<>(Piece.PLAYER, 0);
     private final MutablePair<Piece, Integer> lorenzoPiece = new MutablePair<>(Piece.LORENZO, 0);
 
+    private Map<Integer, Boolean> playerTilesStatus;
+    private Map<Integer, Boolean> lorenzoTilesStatus;
     /**
      * <p>{@link List} of {@link FaithCell FaithCells} objects representing the core structure of the <em>FaithTrack</em>.<br>
      * The default number of elements is 25, which is set on the game setup.
@@ -59,6 +63,20 @@ public class FaithTrack {
 
     public String serializeFaithTrack(){
         return serialize(this);
+    }
+
+    public void initTrackCells(){
+        playerTilesStatus = initializeTrackCellsStatus();
+        lorenzoTilesStatus = initializeTrackCellsStatus();
+
+    }
+
+    private Map<Integer, Boolean> initializeTrackCellsStatus(){
+
+        return IntStream.range(0, tiles.size()).boxed().collect(Collectors.toMap(
+                index -> index,
+                index -> false));
+
     }
 
     /**
@@ -102,23 +120,53 @@ public class FaithTrack {
      *
      * @return the boolean returned value of FaithCell's {@link FaithCell#isPopeSpace() isPopeSpace} method
      */
-    public boolean isPieceInPopeSpace(MutablePair<Piece, Integer> piece){
-        return(track.get(piece.getValue()).isPopeSpace());
+    public boolean isPieceInPopeSpaceForTheFirstTime(MutablePair<Piece, Integer> piece){
+        return (track.get(piece.getValue()).isPopeSpace()) && !hasNextPopeSpaceBeenReported();
     }
+
+
+    private boolean hasNextPopeSpaceBeenReported(){
+
+        int playerPosition = playerPiece.getValue();
+        int lorenzoPosition = lorenzoPiece.getValue();
+        int maxPosition = Math.max(playerPosition, lorenzoPosition);
+
+        int zoneOfNextPopeSpace = track.get(maxPosition).getZone().getZoneNumber();
+        if(zoneOfNextPopeSpace == -1)
+            zoneOfNextPopeSpace = findNumberOfNextPopeTile(maxPosition);
+
+        return playerTilesStatus.get(zoneOfNextPopeSpace);
+    }
+
+
+
+    private int findNumberOfNextPopeTile(int maxPosition){
+        int currentZone = track.get(maxPosition).getZone().getZoneNumber();
+        if(currentZone!=-1)
+            return currentZone;
+        else
+           return IntStream.range(maxPosition, track.size())
+                   .sorted()
+                   .map(position -> track.get(position).getZone().getZoneNumber())
+                   .filter(zone -> zone!=-1)
+                   .findFirst()
+                   .getAsInt();
+    }
+
 
     /**
      * @return  true if the PlayerPiece is currently in a Pope Space along FaithTrack.
      */
-    public boolean isPlayerInPopeSpace(){
-        return isPieceInPopeSpace(playerPiece);
+    public boolean isPlayerInPopeSpaceForTheFirstTime(){
+        return isPieceInPopeSpaceForTheFirstTime(playerPiece);
     }
 
     /**
      * <em>Solo Mode</em> method to check if <em>LorenzoPiece</em> is in <em>PopeSpace</em>
      * @return true if the <em>LorenzoPiece</em> is currently in a <em>Pope Space</em> along {@link FaithTrack}.
      */
-    public boolean isLorenzoInPopeSpace(){
-        return isPieceInPopeSpace(lorenzoPiece);
+    public boolean isLorenzoInPopeSpaceForTheFirstTime(){
+        return isPieceInPopeSpaceForTheFirstTime(lorenzoPiece);
     }
 
     private MutablePair<Piece, Integer> getPiece(MutablePair<Piece, Integer> piece){
@@ -165,6 +213,9 @@ public class FaithTrack {
     public void turnPopeFavourTile(int popeSpacePosition) {
 
         FaithZone currentZone = track.get(playerPiece.getValue()).getZone();
+
+        playerTilesStatus.put(currentZone.getZoneNumber(), true); //pope space has been reported
+        lorenzoTilesStatus.put(currentZone.getZoneNumber(), true);
 
         int currentZoneNumber = currentZone.getZoneNumber();
 

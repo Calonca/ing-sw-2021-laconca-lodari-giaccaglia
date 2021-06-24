@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.view.CLI;
 
-import it.polimi.ingsw.client.view.CLI.CLIelem.body.LeaderActionBody;
-import it.polimi.ingsw.client.view.CLI.IDLE.ReportInfoCLI;
+import it.polimi.ingsw.client.view.CLI.CLIelem.body.LeaderBody;
+import it.polimi.ingsw.client.view.CLI.idle.ReportInfoCLI;
 import it.polimi.ingsw.client.view.abstractview.InitialOrFinalPhaseViewBuilder;
 import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
 import it.polimi.ingsw.network.simplemodel.VaticanReportInfo;
@@ -23,7 +23,7 @@ public class InitialOrFinalPhaseCLI extends InitialOrFinalPhaseViewBuilder imple
         String end = "Final";
         getCLIView().clearScreen(); //needed to clear bottom text from idle phase
         getCLIView().setTitle((InitialOrFinalPhaseCLI.isInitial?initial:end)+" phase");
-        getCLIView().setBody(new LeaderActionBody(simplePlayerLeaders.getPlayerLeaders(),getClient()));
+        getCLIView().setBody(new LeaderBody(simplePlayerLeaders.getPlayerLeaders(),getClient()));
         getCLIView().disableViewMode();
         getCLIView().show();
 
@@ -38,7 +38,7 @@ public class InitialOrFinalPhaseCLI extends InitialOrFinalPhaseViewBuilder imple
             reportInfo.reportWillBeShown();
             if(getClient().isCLI()) {
                 getClient().saveViewBuilder(this);
-                getClient().changeViewBuilder(new ReportInfoCLI(ReportInfoCLI.ViewMode.AFTER_REPORT));
+                getClient().changeViewBuilder(new ReportInfoCLI());
             }
 
         }

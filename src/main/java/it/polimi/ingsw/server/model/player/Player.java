@@ -142,6 +142,7 @@ public class Player {
 
     private void initializeFaithTrack(){
         faithTrack = Deserializator.faithTrackDeserialization();
+        faithTrack.initTrackCells();
     }
 
     public String getSerializedFaithTrack(){
@@ -214,10 +215,10 @@ public class Player {
     }
 
     /**
-     * @return true if the <em>PlayerPiece</em> is currently in a <em>Pope Space</em> along {@link FaithTrack}.
+     * @return true if the <em>PlayerPiece</em> is for the first time in a  <em>Pope Space</em> along {@link FaithTrack}.
      */
-    public boolean isInPopeSpace(){
-        return faithTrack.isPlayerInPopeSpace();
+    public boolean isInPopeSpaceForTheFirstTime(){
+        return faithTrack.isPlayerInPopeSpaceForTheFirstTime();
     }
 
     /**
@@ -225,7 +226,7 @@ public class Player {
      * @return true if the <em>LorenzoPiece</em> is currently in a <em>Pope Space</em> along {@link FaithTrack}.
      */
     public boolean isLorenzoInPopeSpace(){
-        return faithTrack.isLorenzoInPopeSpace();
+        return faithTrack.isLorenzoInPopeSpaceForTheFirstTime();
     }
 
     public void turnPopeFavourTileInFaithTrack(int popeSpacePosition){

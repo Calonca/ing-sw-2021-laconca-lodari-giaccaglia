@@ -15,7 +15,7 @@ public enum ResourceCLI {
     SHIELD(ResourceAsset.SHIELD, "SH", "Shield", " Shield  ",Color.SHIELD,Background.ANSI_CYAN_BACKGROUND),
     STONE(ResourceAsset.STONE, "ST", "Stone", "  Stone  ",Color.STONE,Background.ANSI_BRIGHT_BLACK_BACKGROUND),
     FAITH(ResourceAsset.FAITH, "FA", "Faith",      "  Faith  ",Color.RED,Background.ANSI_RED_BACKGROUND),
-    TO_CHOSE(ResourceAsset.TO_CHOOSE, "??", "To choose", "To choose",Color.BRIGHT_WHITE,Background.ANSI_BLACK_BACKGROUND),
+    TO_CHOOSE(ResourceAsset.TO_CHOOSE, "??", "To choose", "To choose",Color.BRIGHT_WHITE,Background.ANSI_BLACK_BACKGROUND),
     EMPTY(ResourceAsset.EMPTY, "EE", "Empty", "  Empty  ",Color.DEFAULT,Background.DEFAULT);
 
 
@@ -57,10 +57,10 @@ public enum ResourceCLI {
     }
 
     public static int width(){
-        return TO_CHOSE.toBigDrawableList(false).getWidth();
+        return TO_CHOOSE.toBigDrawableList(false).getWidth();
     }
     public static int height(){
-        return TO_CHOSE.toBigDrawableList(false).getHeight();
+        return TO_CHOOSE.toBigDrawableList(false).getHeight();
     }
 
     public ResourceAsset getRes() {

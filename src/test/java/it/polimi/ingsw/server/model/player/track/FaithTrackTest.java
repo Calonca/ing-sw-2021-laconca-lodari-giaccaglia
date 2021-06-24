@@ -4,7 +4,7 @@ import it.polimi.ingsw.server.utils.Deserializator;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.junit.Before;
 import org.junit.Test;
-import java.io.IOException;
+
 import java.lang.reflect.Field;
 import java.util.List;
 
@@ -19,6 +19,7 @@ public class FaithTrackTest {
     @Before
     public void setUp() throws Exception {
        testTrack = Deserializator.faithTrackDeserialization();
+       testTrack.initTrackCells();
        testTrack.moveLorenzoOnePosition();
     }
 
@@ -93,8 +94,8 @@ public class FaithTrackTest {
         lorenzo = testTrack.getLorenzoPiece();
         player = testTrack.getPlayerPiece();
 
-        assertFalse(testTrack.isPieceInPopeSpace(lorenzo));
-        assertFalse(testTrack.isPieceInPopeSpace(player));
+        assertFalse(testTrack.isPieceInPopeSpaceForTheFirstTime(lorenzo));
+        assertFalse(testTrack.isPieceInPopeSpaceForTheFirstTime(player));
 
     }
 
@@ -108,8 +109,8 @@ public class FaithTrackTest {
         lorenzo = testTrack.getLorenzoPiece();
         player = testTrack.getPlayerPiece();
 
-        assertTrue(testTrack.isPieceInPopeSpace(lorenzo));
-        assertTrue(testTrack.isPieceInPopeSpace(player));
+        assertTrue(testTrack.isPieceInPopeSpaceForTheFirstTime(lorenzo));
+        assertTrue(testTrack.isPieceInPopeSpaceForTheFirstTime(player));
 
     }
 

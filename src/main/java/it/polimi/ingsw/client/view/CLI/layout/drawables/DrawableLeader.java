@@ -34,15 +34,18 @@ public class DrawableLeader {
         List<Drawable> reqLines = linesWithResRequirements(dwl, heightUntilNow, resCost);
 
         List<Pair<NetworkDevelopmentCardColor,Integer>> cardCosts = ldCard.getRequirementsCards() != null ? ldCard.getRequirementsCards() : new ArrayList<>();
+
+        int index = 0;
         for (Pair<NetworkDevelopmentCardColor, Integer> d : cardCosts) {
             Drawable dw = new Drawable();
             DevCardCLI CLICard = DevCardCLI.fromNetworkColor(d.getKey());
-            dw.add(new DrawableLine(0,heightUntilNow+CLICard.ordinal(), "║ "));
+            dw.add(new DrawableLine(0,heightUntilNow+index, "║ "));
             String cardNameLine = CLICard.getNameWithSpaces();
-            dw.add(new DrawableLine(2,heightUntilNow+CLICard.ordinal(), cardNameLine,Color.BRIGHT_WHITE, CLICard.getB()));
-            dw.add(new DrawableLine(8,heightUntilNow+CLICard.ordinal(), " x "+d.getValue()));
-            dw.add(new DrawableLine(12,heightUntilNow+CLICard.ordinal(), "             ║"));
-            reqLines.set(CLICard.ordinal(),dw);
+            dw.add(new DrawableLine(2,heightUntilNow+index, cardNameLine,Color.BRIGHT_WHITE, CLICard.getB()));
+            dw.add(new DrawableLine(8,heightUntilNow+index, " x "+d.getValue()+" | Level : " + ldCard.getRequirementsCardsLevel()));
+            dw.add(new DrawableLine(24,heightUntilNow+index, " ║"));
+            reqLines.set(index,dw);
+            index++;
         }
 
 
@@ -58,7 +61,11 @@ public class DrawableLeader {
         castWithOptional(NetworkDevelopmentDiscountLeaderCard.class,ldCard).ifPresent(e-> addAbility(dwl, e));
 
 
+        for(int i = dwl.getHeight(); i<16; i++)
+            dwl.add(0,"║                        ║");
+
         dwl.add(0,"╚════════════════════════╝");
+
         if (isSelected) {
             dwl.addEmptyLine();
             dwl.addEmptyLine();
@@ -71,23 +78,25 @@ public class DrawableLeader {
 
     @NotNull
     public static List<Drawable> linesWithResRequirements(Drawable dwl, int heightUntilNow, List<Pair<ResourceAsset, Integer>> resCost) {
-        List<Drawable> reqLines = IntStream.range(0,4)
+        List<Drawable> reqLines = IntStream.range(0, 4)
                 .mapToObj(i->{
                     Drawable dw = new Drawable();
                     dw.add(new DrawableLine(0, heightUntilNow +i,StringUtil.emptyLineWithBorder(dwl.getWidth())));
                     return dw;
                 })
                 .collect(Collectors.toList());
+        int index = 0;
 
         for (Pair<ResourceAsset, Integer> d : resCost) {
             ResourceCLI res = ResourceCLI.fromAsset(d.getKey());
-            Drawable dw = new Drawable();
-            dw.add(new DrawableLine(0, heightUntilNow +res.ordinal(), "║ "));
-            DrawableLine dl = new DrawableLine(2, heightUntilNow +res.ordinal(), res.getSymbol(), Color.BRIGHT_WHITE,res.getB());
-            dw.add(new DrawableLine(4, heightUntilNow +res.ordinal(), " x "+d.getValue()));
-            dw.add(new DrawableLine(8, heightUntilNow +res.ordinal(), "                 ║"));
-            dw.add(dl);
-            reqLines.set(res.ordinal(),dw);
+                Drawable dw = new Drawable();
+                dw.add(new DrawableLine(0, heightUntilNow + index, "║ "));
+                DrawableLine dl = new DrawableLine(2, heightUntilNow + index, res.getSymbol(), Color.BRIGHT_WHITE, res.getB());
+                dw.add(new DrawableLine(4, heightUntilNow + index, " x " + d.getValue()));
+                dw.add(new DrawableLine(8, heightUntilNow + index, "                 ║"));
+                dw.add(dl);
+                reqLines.set(index, dw);
+                index++;
         }
         return reqLines;
     }
@@ -126,6 +135,9 @@ public class DrawableLeader {
     public static void addAbility(Drawable top, NetworkProductionLeaderCard ldCard){
       Drawable production = DrawableProduction.fromInputAndOutput(ldCard.getProductionInputResources(),ldCard.getProductionOutputResources());
       top.add(Drawable.copyShifted(0,top.getHeight(),production));
+      top.add(0,"║                        ║");
+      top.add(0,"║                        ║");
+
     }
 
     public static void addAbility(Drawable top, NetworkDepositLeaderCard ldCard){

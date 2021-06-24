@@ -1,20 +1,21 @@
-package it.polimi.ingsw.client.view.CLI.idle;
+package it.polimi.ingsw.client.view.CLI.middle;
 
 import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 import it.polimi.ingsw.client.view.CLI.commonViews.CLIReportInfoBuilder;
 
-public class ReportInfoCLI extends IDLEViewBuilderCLI {
+public class MiddleReportInfoCLI extends MiddlePhaseCLI {
 
     private ViewBuilder nextViewBuilder;
-    private final boolean isAfterReport;
+    private boolean isAfterReport;
 
-    public ReportInfoCLI(){
+    public MiddleReportInfoCLI(){
         this.isAfterReport = true;
     }
 
-    public ReportInfoCLI(ViewBuilder nextViewBuilder){
+    public MiddleReportInfoCLI(ViewBuilder nextViewBuilder){
         this.isAfterReport = false;
         this.nextViewBuilder = nextViewBuilder;
+
     }
 
     @Override

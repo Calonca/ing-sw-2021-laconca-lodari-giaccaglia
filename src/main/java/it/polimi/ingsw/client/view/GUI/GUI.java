@@ -6,9 +6,6 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.SubScene;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -66,11 +63,7 @@ public class GUI extends Application {
 
     public static void removeLast()
     {
-        Runnable run = new Runnable() {
-            public void run() {
-                realPane.getChildren().remove(appendedScene);
-            };
-        };
+        Runnable run = () -> realPane.getChildren().remove(appendedScene);
         Platform.runLater(run);
     }
 

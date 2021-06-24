@@ -2,11 +2,8 @@ package it.polimi.ingsw.client.view.GUI;
 
 
 import it.polimi.ingsw.client.view.GUI.board.CamState;
-import it.polimi.ingsw.client.view.GUI.layout.ResChoiceRowGUI;
 import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
-
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
-import it.polimi.ingsw.network.assets.leaders.NetworkDevelopmentDiscountLeaderCard;
 import it.polimi.ingsw.network.assets.leaders.NetworkMarketLeaderCard;
 import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
@@ -14,13 +11,11 @@ import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.events.marketboardevent.ChooseWhiteMarbleConversionEvent;
 import it.polimi.ingsw.network.simplemodel.ActiveLeaderBonusInfo;
 import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
-import it.polimi.ingsw.server.model.player.leaders.DevelopmentDiscountLeader;
-import javafx.animation.*;
+import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
-import javafx.scene.*;
+import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.PhongMaterial;
@@ -30,9 +25,8 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import javax.swing.text.html.ImageView;
-import java.awt.*;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**

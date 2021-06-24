@@ -74,6 +74,7 @@ public class StatesTransitionTable {
 
         //Middle Phase
         eventsAndStrategy.put(name(MiddlePhaseEvent.class), new Middle());
+        eventsAndStrategy.put(name(MoveResourceEvent.class), new MovingResource());
         statesTransitionTable.table.put(State.MIDDLE_PHASE, eventsAndStrategy);
         eventsAndStrategy = new HashMap<>();
 

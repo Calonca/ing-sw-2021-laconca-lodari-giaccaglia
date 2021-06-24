@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.view.CLI.IDLE;
+package it.polimi.ingsw.client.view.CLI.idle;
 
 import it.polimi.ingsw.client.view.CLI.CLIBuilder;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
@@ -21,14 +21,10 @@ import java.beans.PropertyChangeEvent;
 import static it.polimi.ingsw.client.simplemodel.State.*;
 
 
-public class IDLEViewBuilderCLI extends IDLEViewBuilder implements CLIBuilder {
+public class IDLEViewBuilderCLI extends IDLEViewBuilder implements CLIBuilder{
 
     @Override
     public void run() {
-        buildView();
-    }
-
-    protected void buildView(){
 
         showVaticanReportInfoDuringIDLE();
         getCLIView().setTitle("Waiting for initial game phase, what do you want to do?");
@@ -38,6 +34,7 @@ public class IDLEViewBuilderCLI extends IDLEViewBuilder implements CLIBuilder {
         getCLIView().setBody(horizontalListBody);
         initialRow.selectAndRunOption(getCLIView());
         getCLIView().show();
+
     }
 
     private Row getNewRow(){
@@ -46,7 +43,7 @@ public class IDLEViewBuilderCLI extends IDLEViewBuilder implements CLIBuilder {
         Drawable moveResourcesDw = new Drawable();
         moveResourcesDw.add(0,"Move resources");
         moveResourcesDw.add(0," in Warehouse");
-        row.addElem(idlePhaseOption(moveResourcesDw,this::choosePositions, true));
+        row.addElem(idlePhaseOption(moveResourcesDw,() -> getClient().changeViewBuilder(new PersonalBoardCLI(-1, true)) , true));
         row.addElem(new SizedBox(6,0));
 
         Drawable vaticanReportDw = new Drawable();
@@ -57,7 +54,7 @@ public class IDLEViewBuilderCLI extends IDLEViewBuilder implements CLIBuilder {
         if(getSimpleModel().getElem(VaticanReportInfo.class).get().hasReportOccurred())
            enabled = true;
 
-        row.addElem(idlePhaseOption(vaticanReportDw, () -> getClient().changeViewBuilder(new ReportInfoCLI(ReportInfoCLI.ViewMode.IDLE)), enabled));
+        row.addElem(idlePhaseOption(vaticanReportDw, () -> getClient().changeViewBuilder(new ReportInfoCLI(new IDLEViewBuilderCLI())), enabled));
         row.addElem(new SizedBox(6,0));
 
         Drawable playersInfoDw = new Drawable();
@@ -69,7 +66,7 @@ public class IDLEViewBuilderCLI extends IDLEViewBuilder implements CLIBuilder {
         Drawable boardDw = new Drawable();
         boardDw.add(0,"  See your");
         boardDw.add(0,"Personal Board");
-        row.addElem(idlePhaseOption(boardDw, () -> PersonalBoardBody.seePersonalBoard(getCommonData().getThisPlayerIndex(), PersonalBoardBody.ViewMode.IDLE), true));
+        row.addElem(idlePhaseOption(boardDw, () -> getClient().changeViewBuilder(new PersonalBoardCLI(getCommonData().getThisPlayerIndex(), false, PersonalBoardBody.ViewMode.IDLE)), true));
         row.addElem(new SizedBox(6,0));
 
         Drawable viewCardShop = new Drawable();
@@ -84,10 +81,6 @@ public class IDLEViewBuilderCLI extends IDLEViewBuilder implements CLIBuilder {
     }
 
 
-    private void choosePositions(){
-        PersonalBoardBody board = new PersonalBoardBody(getThisPlayerCache(), PersonalBoardBody.Mode.MOVING_RES_IDLE);
-        board.preparePersonalBoard("Select move starting position or press ENTER to go back");}
-
     private Option idlePhaseOption(Drawable d, Runnable r, boolean enabled){
         Option o = Option.from(d,r);
         o.setEnabled(enabled);
@@ -100,19 +93,23 @@ public class IDLEViewBuilderCLI extends IDLEViewBuilder implements CLIBuilder {
         String propertyName = evt.getPropertyName();
         if (INITIAL_PHASE.name().equals(propertyName)) {
 
-            if(getSimpleModel().getPlayersCaches().length != 1)
-                Timer.showSecondsOnCLI(getCLIView(),  "It's almost your turn! Seconds left : ");
-
+            if(getSimpleModel().getPlayersCaches().length != 1) {
+                run(); // to update players info leader option
+                Timer.showSecondsOnCLI(getCLIView(), "It's almost your turn! Seconds left : ");
+            }
             getClient().changeViewBuilder(InitialOrFinalPhaseViewBuilder.getBuilder(getClient().isCLI(),true));
+
         }else if (MIDDLE_PHASE.name().equals(propertyName)) {
 
-            if(getSimpleModel().getPlayersCaches().length != 1)
-                Timer.showSecondsOnCLI(getCLIView(),  "It's almost your turn! Seconds left : ");
+            if(getSimpleModel().getPlayersCaches().length != 1) {
+                run(); // to update players info leader option
+                Timer.showSecondsOnCLI(getCLIView(), "It's almost your turn! Seconds left : ");
+            }
 
             getClient().changeViewBuilder(MiddlePhaseViewBuilder.getBuilder(getClient().isCLI()));
         }
         else if(IDLE.name().equals(propertyName) || evt.getPropertyName().equals(PlayersInfo.class.getSimpleName())){
-            buildView();
+            run();
         }
         else ViewBuilder.printWrongStateReceived(evt);
     }
@@ -125,7 +122,7 @@ public class IDLEViewBuilderCLI extends IDLEViewBuilder implements CLIBuilder {
             reportInfo.reportWillBeShown();
             if(getClient().isCLI()) {
                 getClient().saveViewBuilder(this);
-                getClient().changeViewBuilder(new ReportInfoCLI(ReportInfoCLI.ViewMode.AFTER_REPORT));
+                getClient().changeViewBuilder(new ReportInfoCLI());
             }
         }
     }

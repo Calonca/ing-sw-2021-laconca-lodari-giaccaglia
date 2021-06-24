@@ -40,7 +40,7 @@
       ]
     },
     "state": "INACTIVE",
-    "points": 4,
+    "victoryPoints": 4,
     "requirementsResources": [],
     "requirementsCards": [
       {
@@ -91,7 +91,7 @@
       ]
     },
     "state": "INACTIVE",
-    "points": 4,
+    "victoryPoints": 4,
     "requirementsResources": [],
     "requirementsCards": [
       {
@@ -142,7 +142,7 @@
       ]
     },
     "state": "INACTIVE",
-    "points": 4,
+    "victoryPoints": 4,
     "requirementsResources": [],
     "requirementsCards": [
       {
@@ -193,7 +193,7 @@
       ]
     },
     "state": "INACTIVE",
-    "points": 4,
+    "victoryPoints": 4,
     "requirementsResources": [],
     "requirementsCards": [
       {
@@ -207,7 +207,7 @@
     "type": "MarketLeader",
     "bonus": "GOLD",
     "state": "INACTIVE",
-    "points": 5,
+    "victoryPoints": 5,
     "requirementsResources": [],
     "requirementsCards": [
       {
@@ -225,7 +225,7 @@
     "type": "MarketLeader",
     "bonus": "STONE",
     "state": "INACTIVE",
-    "points": 5,
+    "victoryPoints": 5,
     "requirementsResources": [],
     "requirementsCards": [
       {
@@ -243,7 +243,7 @@
     "type": "MarketLeader",
     "bonus": "SHIELD",
     "state": "INACTIVE",
-    "points": 5,
+    "victoryPoints": 5,
     "requirementsResources": [],
     "requirementsCards": [
       {
@@ -261,7 +261,7 @@
     "type": "MarketLeader",
     "bonus": "SERVANT",
     "state": "INACTIVE",
-    "points": 5,
+    "victoryPoints": 5,
     "requirementsResources": [],
     "requirementsCards": [
       {
@@ -293,7 +293,7 @@
       "resourceType": "GOLD"
     },
     "state": "INACTIVE",
-    "points": 3,
+    "victoryPoints": 3,
     "requirementsResources": [
       {
         "key": "SHIELD",
@@ -321,7 +321,7 @@
       "resourceType": "SHIELD"
     },
     "state": "INACTIVE",
-    "points": 3,
+    "victoryPoints": 3,
     "requirementsResources": [
       {
         "key": "SERVANT",
@@ -349,7 +349,7 @@
       "resourceType": "SERVANT"
     },
     "state": "INACTIVE",
-    "points": 3,
+    "victoryPoints": 3,
     "requirementsResources": [
       {
         "key": "STONE",
@@ -377,7 +377,7 @@
       "resourceType": "STONE"
     },
     "state": "INACTIVE",
-    "points": 3,
+    "victoryPoints": 3,
     "requirementsResources": [
       {
         "key": "GOLD",
@@ -394,7 +394,7 @@
       "value": 1
     },
     "state": "INACTIVE",
-    "points": 2,
+    "victoryPoints": 2,
     "requirementsResources": [],
     "requirementsCards": [
       {
@@ -415,7 +415,7 @@
       "value": 1
     },
     "state": "INACTIVE",
-    "points": 2,
+    "victoryPoints": 2,
     "requirementsResources": [],
     "requirementsCards": [
       {
@@ -436,7 +436,7 @@
       "value": 1
     },
     "state": "INACTIVE",
-    "points": 2,
+    "victoryPoints": 2,
     "requirementsResources": [],
     "requirementsCards": [
       {
@@ -457,7 +457,7 @@
       "value": 1
     },
     "state": "INACTIVE",
-    "points": 2,
+    "victoryPoints": 2,
     "requirementsResources": [],
     "requirementsCards": [
       {

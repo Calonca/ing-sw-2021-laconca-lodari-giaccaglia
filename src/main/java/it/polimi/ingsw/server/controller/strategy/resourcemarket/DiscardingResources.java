@@ -1,8 +1,7 @@
 package it.polimi.ingsw.server.controller.strategy.resourcemarket;
 
-import it.polimi.ingsw.server.controller.EndGameReason;
-import it.polimi.ingsw.server.controller.strategy.FinalStrategy;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
+import it.polimi.ingsw.server.controller.strategy.VaticanReportStrategy;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.messages.messagebuilders.Element;
 import it.polimi.ingsw.server.model.GameModel;
@@ -22,8 +21,6 @@ public class DiscardingResources implements GameStrategy {
     public Pair<State, List<Element>> execute(GameModel gameModel, Validable event) {
 
         List<Element> elementsToUpdate = new ArrayList<>();
-        int positionsToAdd;
-
 
         elementsToUpdate.add(Element.SimpleDiscardBox);
         elementsToUpdate.add(Element.SimpleFaithTrack);
@@ -33,60 +30,8 @@ public class DiscardingResources implements GameStrategy {
 
         currentBoard.discardResources();
 
-        positionsToAdd = currentBoard.getBadFaithToAdd();
-
-        for (int i = 0; i < positionsToAdd; i++) {
-
-            gameModel.addFaithPointToOtherPlayers();
-            if(gameModel.handleVaticanReport())
-                elementsToUpdate.add(Element.VaticanReportInfo);
-
-            if (gameModel.checkTrackStatus()) {
-
-                handleCommonEndGameStrategy(gameModel);
-
-                return new Pair<>(State.IDLE, elementsToUpdate);
-
-            }
-        }
-
-        currentBoard.setBadFaithToZero();
-
-
-        positionsToAdd = currentBoard.getFaithToAdd();
-
-        for(int i = 0; i < positionsToAdd; i++) {
-            gameModel.getCurrentPlayer().moveOnePosition();
-            if(gameModel.handleVaticanReport())
-                    elementsToUpdate.add(Element.VaticanReportInfo);
-
-            if (gameModel.checkTrackStatus()) {
-
-                if (gameModel.isSinglePlayer()) {
-
-                    String endGameReason = EndGameReason.TRACK_END_SOLO.getEndGameReason();
-                    return FinalStrategy.handleSinglePlayerEndGameStrategy(elementsToUpdate, gameModel, endGameReason);
-                }
-
-                FinalStrategy.setMacroGamePhase(gameModel, elementsToUpdate);
-
-            }
-        }
-
-            currentBoard.setFaithToZero();
-
-
-            return FinalStrategy.handleCommonEndGameStrategy(elementsToUpdate, gameModel);
+        return VaticanReportStrategy.addFaithPointsToPlayer(gameModel, elementsToUpdate);
     }
 
-    private void handleCommonEndGameStrategy(GameModel gameModel){
-
-        if (gameModel.getMacroGamePhase().equals(GameModel.MacroGamePhase.ActiveGame))
-            gameModel.setMacroGamePhase(GameModel.MacroGamePhase.LastTurn);
-
-        else if (gameModel.getPlayerIndex(gameModel.getCurrentPlayer()) == (gameModel.getOnlinePlayers().size() - 1))
-            gameModel.setMacroGamePhase(GameModel.MacroGamePhase.GameEnded);
-
-    }
 
 }

@@ -43,6 +43,8 @@ public class GameModel {
      */
     private Map<Integer, Player> onlinePlayers;
 
+    private List<Integer> vaticanReportTriggers = new ArrayList<>();
+
     /**
      * This game market to store <em>MarketBoard</em> marbles for {@link State#CHOOSING_MARKET_LINE} <em>Game phase</em>
      */
@@ -423,7 +425,7 @@ public class GameModel {
                     .filter(player -> !(player == currentPlayer))
                     .map(player -> {
                         player.moveOnePosition();
-                        return player.isInPopeSpace();
+                        return player.isInPopeSpaceForTheFirstTime();
                     }).anyMatch(player -> true);
         }
         else
@@ -435,21 +437,21 @@ public class GameModel {
       * @return List of integers corresponding to the players triggering a VaticanReport. In case of <em>Solo mode</em>
      * list contains only one integer, corresponding to the singlePlayer, whose LorenzoPiece has triggered a VaticanReport
      */
-    public List<Integer> vaticanReportTriggers(){
+    public void buildVaticanReportTriggersList(){
 
         if(isSinglePlayer){
 
             List<Integer> list = new ArrayList<>();
             if(singlePlayer.isLorenzoInPopeSpace())
                 list.add(-1);
-            else if(singlePlayer.isInPopeSpace())
+            else if(singlePlayer.isInPopeSpaceForTheFirstTime())
                 list.add(players.keySet().stream().findFirst().get());
-            return list;
+            vaticanReportTriggers = list;
         }
 
-        return players.values()
+        vaticanReportTriggers = players.values()
                 .stream()
-                .filter(Player::isInPopeSpace)
+                .filter(Player::isInPopeSpaceForTheFirstTime)
                 .mapToInt(
 
                         player -> players.keySet()
@@ -470,7 +472,7 @@ public class GameModel {
          int popeSpacePosition;
          if(isSinglePlayer) {
 
-             if(singlePlayer.isInPopeSpace())
+             if(singlePlayer.isInPopeSpaceForTheFirstTime())
                 popeSpacePosition = singlePlayer.getPlayerPosition();
              else
                  popeSpacePosition = singlePlayer.getLorenzoPosition();
@@ -481,7 +483,6 @@ public class GameModel {
              popeSpacePosition = players
                      .values()
                      .stream()
-                     .filter(Player::isInPopeSpace)
                      .mapToInt(Player::getPlayerPosition)
                      .max()
                      .orElse(-1);
@@ -650,13 +651,19 @@ public class GameModel {
 
    public boolean handleVaticanReport(){
 
-        if(!vaticanReportTriggers().isEmpty()) {
+        buildVaticanReportTriggersList();
+
+        if(!vaticanReportTriggers.isEmpty()) {
             executeVaticanReport();
             return true;
         }
 
         return false;
 
+    }
+
+    public List<Integer> getVaticanReportTriggers(){
+        return vaticanReportTriggers;
     }
 
     public boolean checkTrackStatus(){  //returns true if player reaches track end

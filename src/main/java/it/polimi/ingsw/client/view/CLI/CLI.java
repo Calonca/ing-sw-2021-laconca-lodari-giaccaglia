@@ -88,7 +88,9 @@ public class CLI {
 
     }
 
+
     public void setTitle(Title title){
+
         this.title.ifPresent(t->t.removeFromListeners(client));
         title.addToListeners(client);
         this.title = Optional.of(title);
@@ -198,7 +200,7 @@ public class CLI {
         runOnIntListInput(message, errorMessage, possibleValues, onInt,null);
     }
 
-    public void runOnIntListInput(String message, String errorMessage, IntStream possibleValues, Runnable onInt,Runnable onEnter){
+    public void runOnIntListInput(String message, String errorMessage, IntStream possibleValues, Runnable onInt, Runnable onEnter){
 
         int[] supplier = possibleValues.toArray();
         int max = Arrays.stream(supplier).max().orElse(0);

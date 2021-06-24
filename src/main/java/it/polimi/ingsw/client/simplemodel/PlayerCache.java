@@ -82,6 +82,8 @@ public class PlayerCache {
         simpleCardCells.setSimplePlayerLeaders(playerLeadersElement);
         simpleCardCells.setSimpleProductions(simpleProductions);
 
+        currentState = "BEFORE_SETUP";
+
     }
 
     public String getCurrentState() {
