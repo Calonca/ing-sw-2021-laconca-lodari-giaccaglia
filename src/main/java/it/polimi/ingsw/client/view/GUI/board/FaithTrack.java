@@ -105,12 +105,6 @@ public class FaithTrack implements PropertyChangeListener {
         SimpleFaithTrack faith= getThisPlayerCache().getElem(SimpleFaithTrack.class).orElseThrow();
         player.setLayoutX(faithStartingX+faith.getTrack().get(i).getX_pos()*boardWidth/20.5);
         player.setLayoutY(faithStartingY+faith.getTrack().get(i).getY_pos()* boardHeight /13);
-        if(i==9)
-            firstTile.setOpacity(0);
-        if(i==17)
-            secondTile.setOpacity(0);
-        if(i==21)
-            thirdTile.setOpacity(0);
 
 
     }
@@ -121,12 +115,7 @@ public class FaithTrack implements PropertyChangeListener {
 
         lorenzo.setLayoutX(faithStartingX+faith.getTrack().get(i).getX_pos()*boardWidth/20.5);
         lorenzo.setLayoutY(faithStartingY+faith.getTrack().get(i).getY_pos()* boardHeight /13);
-        if(i==9)
-            firstTile.setOpacity(0);
-        if(i==17)
-            secondTile.setOpacity(0);
-        if(i==21)
-            thirdTile.setOpacity(0);
+
 
 
     }
@@ -147,7 +136,6 @@ public class FaithTrack implements PropertyChangeListener {
 
 
 
-
             Runnable done = new Runnable()
             {
                 public void run()
@@ -159,6 +147,22 @@ public class FaithTrack implements PropertyChangeListener {
                     {
 
                         playerInfo=playersInfo.getSimplePlayerInfoMap().get(i);
+
+
+                        if(getSimpleModel().getElem(VaticanReportInfo.class).isPresent())
+                        {
+                            VaticanReportInfo vaticanReportInfo;
+                            vaticanReportInfo=getSimpleModel().getElem(VaticanReportInfo.class).get();
+
+                            if(vaticanReportInfo.getPopeTileStatusMap().get(playerNumber).getKey()!=-1)
+                                if(!vaticanReportInfo.getPopeTileStatusMap().get(playerNumber).getValue())
+                                    popeTiles.get(vaticanReportInfo.getPopeTileStatusMap().get(playerNumber).getKey()).setOpacity(0);
+
+                                System.out.println(vaticanReportInfo.getPopeTileStatusMap().get(playerNumber));
+
+
+
+                        }
 
                         AnchorPane anchor=new AnchorPane();
 
@@ -198,24 +202,10 @@ public class FaithTrack implements PropertyChangeListener {
                         anchor.getChildren().add(text);
 
                         BoardView3D.getBoard().addNodeToParent(infoGroup, infoGroup,anchor,new Point3D(0,150*i,0));
-                        System.out.println(anchor.getTranslateZ());
 
                         anchor.setId("background");
                         if(!infoGroup.getChildren().contains(anchor))
                             infoGroup.getChildren().add(anchor);
-
-
-
-                        VaticanReportInfo vaticanReportInfo;
-                        if(getSimpleModel().getElem(VaticanReportInfo.class).get().hasReportOccurred())
-                            {
-                                vaticanReportInfo = getSimpleModel().getElem(VaticanReportInfo.class).get();
-
-                                for(int k=0;k<vaticanReportInfo.getPopeTileStatusMap().size();k++)
-                                    if(vaticanReportInfo.getPopeTileStatusMap().get(k).getValue())
-                                        popeTiles.get(k).setOpacity(0);
-                            }
-
 
 
 
