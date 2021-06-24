@@ -24,6 +24,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
 import javafx.scene.shape.Sphere;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.beans.PropertyChangeEvent;
@@ -40,7 +41,7 @@ public class MatchToStart extends CreateJoinLoadMatchViewBuilder implements GUIV
 
     @FXML
     private AnchorPane createPane;
-
+    Text text=new Text();
     @Override
     public void run() {
 
@@ -146,16 +147,20 @@ public class MatchToStart extends CreateJoinLoadMatchViewBuilder implements GUIV
         rotateTransition.play();
         createPane.getChildren().add(group);
         getClient().getStage().show();
-
-
+        text=new javafx.scene.text.Text(getClient().getCommonData().playersOfMatch().toString());
+        text.setLayoutX(100);
+        text.setLayoutY(100);
+        createPane.getChildren().add(text);
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals(CommonData.thisMatchData))
+        if (evt.getPropertyName().equals(CommonData.matchesDataString))
             Platform.runLater(()->
             {
 
+                text.setText(getClient().getCommonData().playersOfMatch().toString());
+                System.out.println(getClient().getCommonData().playersOfMatch());
             });
 
     }

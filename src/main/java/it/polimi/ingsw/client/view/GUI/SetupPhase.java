@@ -86,7 +86,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
 
         root.setId("SETUP");
         GUI.getRealPane().getChildren().remove(0);
-        GUI.getRealPane().getChildren().add(root);
+        GUI.addLast(root);
 
         System.out.println(GUI.getRealPane().getChildren());
 
@@ -297,7 +297,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
 
 
         setupAnchor.getChildren().add(validationButton());
-        setupAnchor.setId("background");
+        setupAnchor.setId("background3");
         getClient().getStage().show();
 
     }
