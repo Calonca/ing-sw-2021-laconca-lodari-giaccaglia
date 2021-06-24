@@ -76,9 +76,12 @@ public class GUI extends Application {
 
     public static void addLast(Node scene)
     {
-        appendedScene=scene;
-        if(!realPane.getChildren().contains(appendedScene))
+        if(realPane.getChildren().size()<3)
+        {
+            appendedScene=scene;
             realPane.getChildren().add(appendedScene);
+        }
+
     }
 
 
