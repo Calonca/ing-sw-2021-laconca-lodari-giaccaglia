@@ -1,6 +1,8 @@
 package it.polimi.ingsw.client.view.GUI;
 
+import it.polimi.ingsw.client.view.CLI.match.LobbyViewBuilderCLI;
 import it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchViewBuilder;
+import it.polimi.ingsw.client.view.abstractview.LobbyViewBuilder;
 import it.polimi.ingsw.network.messages.clienttoserver.CreateMatchRequest;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -67,7 +69,7 @@ public class CreateMatchGUI extends CreateJoinLoadMatchViewBuilder implements GU
         {
 
             getClient().getServerHandler().sendCommandMessage(new CreateMatchRequest(playerCount,getCommonData().getCurrentNick()));
-            getClient().changeViewBuilder(new MatchToStart());
+            getClient().changeViewBuilder(LobbyViewBuilder.getBuilder(getClient().isCLI()));
             ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(1);
 
         });

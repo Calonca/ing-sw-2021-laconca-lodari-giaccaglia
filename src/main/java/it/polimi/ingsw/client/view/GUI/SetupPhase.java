@@ -48,6 +48,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
     List<UUID> leadersUUIDs=new ArrayList<>();
 
     List<Button> sceneResources=new ArrayList<>();
+    double resourceSize=50;
     ResChoiceRowGUI resourceSelector;
     List<ImageView> resourceImageViews=new ArrayList<>();
     List<ImageView> leaderImageViews =new ArrayList<>();
@@ -57,7 +58,9 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
 
     DropShadow effect=new DropShadow();
     double leadersOffsetX=200;
+
     double resourceSupplyY=70;
+    double resourcesCountLabelOffsetX=250;
     double width=GUI.GUIwidth;
     double len=GUI.GUIlen;
     double leaderSize=len/3+40;
@@ -252,7 +255,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
             tempImage.setPreserveRatio(true);
             tempImage.setLayoutY(resourceSupplyY+width/16);
             tempImage.setLayoutX(width/6+ width/12 + (i)*width/6 + resourcesOffsetX);
-            tempImage.setFitWidth(50);
+            tempImage.setFitWidth(resourceSize);
             tempImage.setEffect(dropShadow);
             setupAnchor.getChildren().add(tempImage);
             selectedResources.add(0);
@@ -281,7 +284,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
                         resourceSelector.setNextInputPos(finalI,ResourceAsset.fromInt(finalI));
                         System.out.println("CHOOSIN");
                         ImageView toAdd=new ImageView(resourceImageViews.get(finalI).getImage());
-                        toAdd.setLayoutX(width/6+50*finalI);
+                        toAdd.setLayoutX(width/6+resourceSize*finalI);
                         toAdd.setLayoutY(len/2);
                         setupAnchor.getChildren().add(toAdd);
                     });
@@ -290,7 +293,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         if(resourcesCount!=0)
         {
             Label resources=new Label("SELECT"+  resourcesCount +"RESOURCES");
-            resources.setLayoutX(width/2+250);
+            resources.setLayoutX(width/2+resourcesCountLabelOffsetX);
             resources.setLayoutY(len/2);
             setupAnchor.getChildren().add(resources);
         }

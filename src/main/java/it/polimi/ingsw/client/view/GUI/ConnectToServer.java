@@ -33,8 +33,14 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
 
 
     private TextField addressText;
+    private double addressTextOffsetY=40;
+
     private TextField portText;
+    private double portTextOffsetY=10;
+
     private TextField nickText;
+    private double nickTextOffsetY=-20;
+
     double width=GUI.GUIwidth;
     double len= GUI.GUIlen;
 
@@ -120,13 +126,13 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
 
         nickText=new TextField();
         nickText.setLayoutX(width/2-25);
-        nickText.setLayoutY(len/2+len/8-20);
+        nickText.setLayoutY(len/2+len/8+nickTextOffsetY);
         nickText.setPromptText("nickname");
 
 
         portText=new TextField();
         portText.setLayoutX(width/2-25);
-        portText.setLayoutY(len/2+len/8+10);
+        portText.setLayoutY(len/2+len/8+portTextOffsetY);
         portText.setPromptText("port");
         portText.setText(Integer.toString(getClient().getPort()));
 
@@ -136,7 +142,7 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
             addressText.setText(ip);
         addressText.setPromptText("ip address");
         addressText.setLayoutX(width/2-25);
-        addressText.setLayoutY(len/2+len/8+40);
+        addressText.setLayoutY(len/2+len/8+addressTextOffsetY);
 
 
         connectionPane.getChildren().add(nickText);

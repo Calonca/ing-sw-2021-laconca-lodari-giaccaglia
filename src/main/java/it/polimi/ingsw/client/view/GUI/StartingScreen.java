@@ -48,8 +48,8 @@ public class StartingScreen extends ConnectToServerViewBuilder implements GUIVie
 
         StackPane firstPane;
         firstPane = new StackPane();
-        firstPane.setPrefWidth(1800);
-        firstPane.setPrefHeight(1000);
+        firstPane.setPrefWidth(GUI.GUIwidth);
+        firstPane.setPrefHeight(GUI.GUIlen);
         firstPane.setId("start");
 
         return firstPane;

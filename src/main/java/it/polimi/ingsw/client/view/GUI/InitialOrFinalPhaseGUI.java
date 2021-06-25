@@ -31,10 +31,7 @@ import java.util.UUID;
 public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder implements GUIView {
     public AnchorPane leaderPane;
     public Button c;
-    public Button leaderOne;
-    public Button leaderTwo;
-    public Button discardButton;
-    public Button skipButton;
+
 
     public double width=800;
     public double len=600;
