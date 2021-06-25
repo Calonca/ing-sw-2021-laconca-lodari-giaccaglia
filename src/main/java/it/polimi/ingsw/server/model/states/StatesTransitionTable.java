@@ -105,7 +105,7 @@ public class StatesTransitionTable {
         eventsAndStrategy = new HashMap<>();
 
         //Choosing WhiteMarble Conversion
-        eventsAndStrategy.put(name(ChooseWhiteMarbleConversionEvent.class), new TogglingForProduction());
+        eventsAndStrategy.put(name(ChooseWhiteMarbleConversionEvent.class), new ChoosingMarketBonus());
         statesTransitionTable.table.put(State.CHOOSING_WHITEMARBLE_CONVERSION, eventsAndStrategy);
         eventsAndStrategy = new HashMap<>();
 

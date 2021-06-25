@@ -138,7 +138,7 @@ public class Match {
     }
 
     public void startGame() {
-        this.game = new GameModel(onlineUsers.stream().map(u->u.getNickname()).collect(Collectors.toList()), onlineUsers.size()==1,this);
+        this.game = new GameModel(onlineUsers.stream().map(ClientHandler::getNickname).collect(Collectors.toList()), onlineUsers.size()==1,this);
         game.start();
         game.getCurrentPlayer().setCurrentState(State.SETUP_PHASE);
         List<Element> elements = new ArrayList<>(Arrays.asList(Element.values()));

@@ -62,8 +62,6 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
 
-
-
         cardButton.setOnAction( p ->
         {
 
@@ -81,4 +79,6 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
 
 
     }
+
+
 }

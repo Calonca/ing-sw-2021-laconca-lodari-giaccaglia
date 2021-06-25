@@ -5,9 +5,13 @@ import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.PersonalBoardBody;
 import it.polimi.ingsw.client.view.CLI.layout.Option;
 import it.polimi.ingsw.client.view.CLI.layout.SizedBox;
+import it.polimi.ingsw.client.view.CLI.layout.drawables.Drawable;
+import it.polimi.ingsw.client.view.CLI.layout.drawables.DrawableLine;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.MarbleCLI;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Column;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
+import it.polimi.ingsw.client.view.CLI.textUtil.Background;
+import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 import it.polimi.ingsw.client.view.CLI.textUtil.StringUtil;
 import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
 import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
@@ -24,10 +28,13 @@ import static it.polimi.ingsw.client.simplemodel.State.CHOOSING_POSITION_FOR_RES
 import static it.polimi.ingsw.client.simplemodel.State.CHOOSING_WHITEMARBLE_CONVERSION;
 
 public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIBuilder {
+
+    int numOfConversions;
+
     @Override
     public void run() {
 
-        //Todo better wrong event handling
+
         if (getThisPlayerCache().getCurrentState().equals(CHOOSING_POSITION_FOR_RESOURCES.name())){
             choosePositions();
             return;
@@ -45,27 +52,31 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
 
         ActiveLeaderBonusInfo marketBonuses = getThisPlayerCache().getElem(ActiveLeaderBonusInfo.class).orElseThrow();
 
-        if (marketBonuses.getMarketBonusResources().size()==0)
-            activeConversions.addElem(Option.noNumber("THERE ARE NO"));
+        numOfConversions = marketBonuses.getMarketBonusResources().size();
 
-        activeConversions.addElem(Option.noNumber("ACTIVE BONUSES"));
-
-
-        for(ResourceAsset res : marketBonuses.getMarketBonusResources())
-            if(res==ResourceAsset.STONE)
-                activeConversions.addElem(buildResourceChoice(MarbleAsset.GRAY,3));
-            else if(res==ResourceAsset.SERVANT)
-                activeConversions.addElem(buildResourceChoice(MarbleAsset.PURPLE,2));
-            else if(res==ResourceAsset.GOLD)
-                activeConversions.addElem(buildResourceChoice(MarbleAsset.YELLOW,1));
-            else if(res==ResourceAsset.SHIELD)
-                activeConversions.addElem(buildResourceChoice(MarbleAsset.BLUE,0));
+        if (numOfConversions!=0) {
+            activeConversions.addElem(new SizedBox(20, 0));
+            activeConversions.addElem(Option.noNumber("Active White Marble conversions"));
+        }
 
 
 
+        for(ResourceAsset res : marketBonuses.getMarketBonusResources()) {
+
+            if (res == ResourceAsset.STONE)
+                activeConversions.addElem(buildResourceChoice(MarbleAsset.GRAY, 3));
+            else if (res == ResourceAsset.SERVANT)
+                activeConversions.addElem(buildResourceChoice(MarbleAsset.PURPLE, 1));
+            else if (res == ResourceAsset.GOLD)
+                activeConversions.addElem(buildResourceChoice(MarbleAsset.YELLOW, 0));
+            else if (res == ResourceAsset.SHIELD)
+                activeConversions.addElem(buildResourceChoice(MarbleAsset.BLUE, 2));
+        }
 
 
-        root.addElem(new SizedBox(100,0));
+        int width = numOfConversions==0 ? 100 : 80;
+
+        root.addElem(new SizedBox(width,0));
 
         Column grid = root.addAndGetColumn();
 
@@ -138,10 +149,21 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
             else if(res==ResourceAsset.SHIELD)
                 activeConversions.addElem(buildResourceChoice(MarbleAsset.BLUE,1));
 
-        root.selectInEnabledOption(getCLIView(), "SELECT A MARKET BONUS CONVERSION");
+        String text = conversionString(numOfConversions);
+        root.selectInEnabledOption(getCLIView(), text);
+        numOfConversions--;
 
         getCLIView().setBody(CanvasBody.centered(root));
         getCLIView().show();
+
+    }
+
+    private String conversionString(int index){
+
+        if(index==2)
+            return "Select the first White Marble conversion";
+        else
+            return "Select the second White Marble conversion";
 
     }
 
@@ -160,8 +182,24 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
 
     private Option buildResourceChoice(MarbleAsset res, int resourceNumber){
 
-        Option o = Option.from(MarbleCLI.fromAsset(res).toBigDrawable(), ()->sendWhiteMarbleConversion(resourceNumber));
-        o.setMode(Option.VisMode.NUMBER_TO_BOTTOM);
+
+        MarbleCLI marbleCli = MarbleCLI.fromAsset(res);
+        String resourceSymbol = marbleCli.fromMarbleCLI().getNameWithSpaces();
+        Drawable conversionDrawable = new Drawable();
+        conversionDrawable.add(marbleCli.toBigDrawable());
+        DrawableLine arrow = new DrawableLine(12, 2, " --> ", Color.BIGHT_GREEN, Background.DEFAULT);
+        conversionDrawable.add(arrow);
+        DrawableLine resource = new DrawableLine(19, 2, resourceSymbol, Color.BRIGHT_WHITE, marbleCli.fromMarbleCLI().getB());
+
+        Drawable dw = new Drawable(conversionDrawable, resource);
+
+        DrawableLine line = new DrawableLine(0,5, "────────────────────────────", Color.BRIGHT_BLACK, Background.DEFAULT);
+
+        dw.add(line);
+
+
+        Option o = Option.from(dw, ()->sendWhiteMarbleConversion(resourceNumber));
+        o.setMode(Option.VisMode.NUMBER_TO_LEFT);
         o.setEnabled(true);
         return o;
     }

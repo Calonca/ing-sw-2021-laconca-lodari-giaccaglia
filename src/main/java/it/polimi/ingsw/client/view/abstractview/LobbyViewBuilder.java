@@ -1,8 +1,10 @@
 package it.polimi.ingsw.client.view.abstractview;
 
+import it.polimi.ingsw.client.view.CLI.match.LobbyViewBuilderCLI;
+
 import java.util.UUID;
 
-public abstract class JoinMatch extends ViewBuilder {
+public abstract class LobbyViewBuilder extends ViewBuilder {
 
     protected UUID matchId;
 
@@ -12,8 +14,10 @@ public abstract class JoinMatch extends ViewBuilder {
 
     public static ViewBuilder getBuilder(boolean isCLI){
         if (isCLI)
-            return new it.polimi.ingsw.client.view.CLI.match.JoinMatch();
+            return new LobbyViewBuilderCLI();
         else return new it.polimi.ingsw.client.view.GUI.MatchToStart();
     }
+
+
 
 }

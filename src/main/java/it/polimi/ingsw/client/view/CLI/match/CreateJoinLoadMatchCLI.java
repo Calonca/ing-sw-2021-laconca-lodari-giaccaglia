@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.view.CLI.match;
 
 import it.polimi.ingsw.client.CommonData;
-import it.polimi.ingsw.client.view.CLI.*;
+import it.polimi.ingsw.client.view.CLI.CLIBuilder;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Title;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.SpinnerBody;
@@ -10,6 +10,7 @@ import it.polimi.ingsw.client.view.CLI.layout.Option;
 import it.polimi.ingsw.client.view.CLI.layout.SizedBox;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
 import it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchViewBuilder;
+import it.polimi.ingsw.network.messages.clienttoserver.JoinMatchRequest;
 import it.polimi.ingsw.network.messages.clienttoserver.SendNickname;
 import javafx.util.Pair;
 
@@ -17,7 +18,7 @@ import java.beans.PropertyChangeEvent;
 import java.util.*;
 import java.util.stream.Stream;
 
-public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implements CLIBuilder {
+public class CreateJoinLoadMatchCLI extends CreateJoinLoadMatchViewBuilder implements CLIBuilder {
 
     @Override
     public void run() {
@@ -43,7 +44,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
                         Stream<GridElem> updatedOptionsToAdd = getNewOptionList();
                         Row updatedRow = new Row((updatedOptionsToAdd));
                         getCLIView().setBody(CanvasBody.centered(updatedRow));
-                        updatedRow.selectAndRunOption(getCLIView());
+                        updatedRow.selectInEnabledOption(getCLIView(), "", () -> getClient().changeViewBuilder(new CreateJoinLoadMatchCLI()));
                         getCLIView().show();
 
                     };
@@ -61,21 +62,20 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
 
     }
 
-
-
     protected Option getOption(Map.Entry<UUID,Pair<String[], String[]>> uuidPair) {
 
-        JoinMatch joinMatch = new JoinMatch();
+        LobbyViewBuilderCLI joinMatch = new LobbyViewBuilderCLI();
         joinMatch.setMatchId( uuidPair.getKey() );
-        Runnable r = () -> getClient().changeViewBuilder( joinMatch );
+        Runnable r = () -> {
+            getClient().getServerHandler().sendCommandMessage(new JoinMatchRequest(uuidPair.getKey(),getCommonData().getCurrentNick()));
+            getClient().changeViewBuilder( joinMatch );
+        };
 
         return Option.from(
                 idAndNames(uuidPair).getKey(),
                 idAndNames(uuidPair).getValue(),
                 r );
     }
-
-
 
     private Stream<GridElem> getNewOptionList(){
 
@@ -99,7 +99,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
 
         Option loadMatch = Option.from("Go back" , () -> {
             getClient().getServerHandler().sendCommandMessage(new SendNickname(getCommonData().getCurrentNick()));
-            getClient().changeViewBuilder(new CreateJoinLoadMatch());
+            getClient().changeViewBuilder(new CreateJoinLoadMatchCLI());
         });
 
         Stream<Option> optionsToAdd = matchesData.entrySet().stream().map(this::getOption);

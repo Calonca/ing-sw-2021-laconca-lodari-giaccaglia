@@ -49,6 +49,7 @@ public class JoinMatchRequest extends it.polimi.ingsw.network.messages.clienttos
 
                 sessionController.notifyPlayersInLobby(clientHandler);
                 clientHandler.sendAnswerMessage(new JoinStatus(this, matchId, JoinStatus.motive.SUCCESS, playerIndex));
+                clientHandler.sendAnswerMessage(new MatchesData(SessionController.getInstance().matchesData(clientHandler)));
                 clientHandler.getMatch().ifPresent(sessionController::startMatchAndNotifyStateIfPossible);
             }
 

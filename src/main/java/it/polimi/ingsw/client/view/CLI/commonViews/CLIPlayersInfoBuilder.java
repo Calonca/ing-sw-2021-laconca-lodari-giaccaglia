@@ -78,12 +78,21 @@ public final class CLIPlayersInfoBuilder extends ViewBuilder {
             SimplePlayerLeaders simplePlayerLeaders = getSimpleModel().getPlayerCache(playerIndex).getElem(SimplePlayerLeaders.class).orElseThrow();
 
 
+
             if(simplePlayerLeaders.getPlayerLeaders().isEmpty())
                 playerLeadersOption = Option.noNumber(" No leaders available!");
-            if(state.equals(State.SETUP_PHASE.toString()))
+
+            if(state.equals(State.SETUP_PHASE.toString())) {
                 playerLeadersOption = Option.noNumber(" Player is choosing match Leaders!");
-            else if(state.equals("BEFORE_SETUP"))
+                personalBoardOption = Option.noNumber(" Player is setting up the Board");
+            }
+            else if(state.equals("BEFORE_SETUP")) {
+                personalBoardOption = Option.noNumber(" Player is waiting for his setup turn");
                 playerLeadersOption = Option.noNumber(" Player is waiting for his setup turn");
+            }
+
+
+
 
             Row boardRow = leaderCard.addAndGetRow();
             boardRow.addElem(personalBoardOption);

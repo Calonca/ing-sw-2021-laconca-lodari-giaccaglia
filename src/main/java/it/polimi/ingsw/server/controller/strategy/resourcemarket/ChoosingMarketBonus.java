@@ -5,6 +5,7 @@ import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.messages.clienttoserver.events.marketboardevent.ChooseWhiteMarbleConversionEvent;
 import it.polimi.ingsw.server.messages.messagebuilders.Element;
 import it.polimi.ingsw.server.model.GameModel;
+import it.polimi.ingsw.server.model.player.board.Box;
 import it.polimi.ingsw.server.model.states.State;
 import javafx.util.Pair;
 
@@ -31,6 +32,8 @@ public class ChoosingMarketBonus implements GameStrategy {
         if(gamemodel.areThereWhiteMarblesInPickedLine())
             return new Pair<>(State.CHOOSING_WHITEMARBLE_CONVERSION, elementsToUpdate);
 
+        Box marketBox = gamemodel.getBoxOfResourcesFromMarketBoard();
+        gamemodel.getCurrentPlayer().getPersonalBoard().setMarketBox(marketBox);
         elementsToUpdate.add(Element.SimpleStrongBox);
         return new Pair<>(State.CHOOSING_POSITION_FOR_RESOURCES, elementsToUpdate);
 

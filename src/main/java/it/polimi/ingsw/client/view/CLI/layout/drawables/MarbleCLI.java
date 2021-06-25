@@ -10,19 +10,21 @@ import java.util.stream.Collectors;
 
 public enum MarbleCLI {
 
-    WHITE(MarbleAsset.WHITE,Color.BRIGHT_WHITE),
-    BLUE(MarbleAsset.BLUE,Color.SHIELD),
-    GRAY(MarbleAsset.GRAY,Color.BRIGHT_BLACK),
-    YELLOW(MarbleAsset.YELLOW,Color.GOLD),
-    PURPLE(MarbleAsset.PURPLE,Color.SERVANT),
-    RED(MarbleAsset.RED,Color.RED);
+    WHITE(MarbleAsset.WHITE,Color.BRIGHT_WHITE, ResourceCLI.TO_CHOOSE),
+    BLUE(MarbleAsset.BLUE,Color.SHIELD, ResourceCLI.SHIELD),
+    GRAY(MarbleAsset.GRAY,Color.BRIGHT_BLACK,ResourceCLI.STONE),
+    YELLOW(MarbleAsset.YELLOW,Color.GOLD, ResourceCLI.GOLD),
+    PURPLE(MarbleAsset.PURPLE,Color.SERVANT, ResourceCLI.SERVANT),
+    RED(MarbleAsset.RED,Color.RED, ResourceCLI.FAITH);
 
     private final MarbleAsset res;
     private final Color c;
+    private final ResourceCLI resourceCLI;
 
-    MarbleCLI(MarbleAsset res, Color c) {
+    MarbleCLI(MarbleAsset res, Color c, ResourceCLI resourceCLI) {
         this.res = res;
         this.c = c;
+        this.resourceCLI = resourceCLI;
     }
 
     public Drawable toBigDrawable(){
@@ -70,5 +72,8 @@ public enum MarbleCLI {
         return rNum>val.length ? MarbleCLI.WHITE: val[rNum];
     }
 
+    public ResourceCLI fromMarbleCLI(){
+        return resourceCLI;
+    }
 
 }

@@ -1,4 +1,5 @@
 package it.polimi.ingsw.server.model;
+
 import com.rits.cloning.Cloner;
 import it.polimi.ingsw.server.controller.Match;
 import it.polimi.ingsw.server.model.cards.CardShop;
@@ -73,7 +74,7 @@ public class GameModel {
     /**
      * Boolean value indicating if current game is either multiplayer or singleplayer
      */
-    private final boolean isSinglePlayer;
+    private boolean isSinglePlayer = false;
 
     /**
      * Unique player facing <em>Lorenzo Il Magnifico</em> in <em>Solo Mode</em> game.
@@ -121,6 +122,8 @@ public class GameModel {
 
         isActiveGame = false;
     }
+
+    public GameModel(){}
 
     /**
      * Initializes common attributes between single player and multi player game.

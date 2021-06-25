@@ -2,7 +2,7 @@ package it.polimi.ingsw.client.view.CLI.match;
 
 import it.polimi.ingsw.client.view.CLI.CLIBuilder;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Title;
-import it.polimi.ingsw.client.view.CLI.CLIelem.body.WaitingForMatchToStart;
+import it.polimi.ingsw.client.view.CLI.layout.drawables.LobbyCLI;
 import it.polimi.ingsw.client.view.abstractview.CreateMatchViewBuilder;
 import it.polimi.ingsw.network.messages.clienttoserver.CreateMatchRequest;
 
@@ -18,9 +18,8 @@ public class CreateMatch extends CreateMatchViewBuilder implements CLIBuilder {
         {
             int numberOfPlayers = getCLIView().getLastInt();
             getCLIView().clearScreen();
-            getCLIView().setBody(WaitingForMatchToStart.test(getClient()));
             getClient().getServerHandler().sendCommandMessage(new CreateMatchRequest(numberOfPlayers,getCommonData().getCurrentNick()));
-            getCLIView().show();
+            getClient().changeViewBuilder(new LobbyViewBuilderCLI());
         });
         getCLIView().show();
 

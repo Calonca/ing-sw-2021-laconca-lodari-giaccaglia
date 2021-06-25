@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.messages.servertoclient.ClientMessage;
-import it.polimi.ingsw.client.view.CLI.match.CreateJoinLoadMatch;
+import it.polimi.ingsw.client.view.CLI.match.CreateJoinLoadMatchCLI;
 import it.polimi.ingsw.client.view.abstractview.ConnectToServerViewBuilder;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.SendNickname;
@@ -74,7 +74,7 @@ public class ServerHandler implements Runnable
         String nickname = owner.getCommonData().getCurrentNick();
         getClient().getServerHandler().sendCommandMessage(new SendNickname(nickname));
 
-        owner.changeViewBuilder(CreateJoinLoadMatch.getBuilder(owner.isCLI()));
+        owner.changeViewBuilder(CreateJoinLoadMatchCLI.getBuilder(owner.isCLI()));
         try {
             boolean stop = false;
             while (!stop) {

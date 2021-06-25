@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.view.GUI.ResourceMarketGUI;
 import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
 import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.events.marketboardevent.ChooseLineEvent;
+import it.polimi.ingsw.network.messages.clienttoserver.events.marketboardevent.ChooseWhiteMarbleConversionEvent;
 import it.polimi.ingsw.network.messages.clienttoserver.events.marketboardevent.DiscardResourcesEvent;
 import it.polimi.ingsw.network.messages.clienttoserver.events.marketboardevent.MoveResourceEvent;
 import it.polimi.ingsw.network.simplemodel.SimpleMarketBoard;
@@ -31,7 +32,7 @@ public abstract class ResourceMarketViewBuilder extends ViewBuilder{
     }
 
     public static void sendWhiteMarbleConversion(int resourceNumber){
-        getClient().getServerHandler().sendCommandMessage(new EventMessage(new ChooseLineEvent(resourceNumber)));
+        getClient().getServerHandler().sendCommandMessage(new EventMessage(new ChooseWhiteMarbleConversionEvent(resourceNumber)));
     }
 
     public static void sendMove(int startPos, int endPos){

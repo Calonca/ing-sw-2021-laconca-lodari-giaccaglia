@@ -86,10 +86,10 @@ public class PersonalBoard {
         strongBox = Box.strongBox();
         discardBox = Box.discardBox();
         discardBox.addResources(new int[]{3,3,3,3});  //setup phase DiscardBox
-        /*strongBox.addResources(new int[]{10,10,10,10});   //to test CardShop
+        strongBox.addResources(new int[]{10,10,10,10});   //to test CardShop
         warehouseLeadersDepots.addResource(new Pair<>(0,Resource.GOLD));
         warehouseLeadersDepots.addResource(new Pair<>(1,Resource.SERVANT));
-        warehouseLeadersDepots.addResource(new Pair<>(3,Resource.STONE)); */
+        warehouseLeadersDepots.addResource(new Pair<>(3,Resource.STONE));
         productions = Stream.of((Production.basicProduction())).collect(Collectors.toMap(production  -> 0, production -> production));
         cardCells = Stream.generate(ProductionCardCell::new).limit(3).toArray(ProductionCardCell[]::new);
         prodsSelected = new HashMap<>();
@@ -97,6 +97,7 @@ public class PersonalBoard {
         discounts=new int[8];
         historyOfInputResourcesForProduction = new HashMap<>();
         lastSelectedProductionPosition = -1;
+
     }
 
     /**

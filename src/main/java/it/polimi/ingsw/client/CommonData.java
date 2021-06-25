@@ -37,7 +37,7 @@ public class CommonData {
     private Map<UUID, Pair<String[], String[]>> savedMatchesData;
 
     private Integer thisPlayerIndex;
-    private int currentPlayerIndex;
+    private int currentPlayerIndex = -1;
     private UUID matchId;
     private String currentNick;
     private boolean connectionStatus = false;

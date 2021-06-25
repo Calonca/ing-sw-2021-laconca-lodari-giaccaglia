@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.view.abstractview;
 
-import it.polimi.ingsw.client.view.CLI.match.CreateJoinLoadMatch;
+import it.polimi.ingsw.client.view.CLI.match.CreateJoinLoadMatchCLI;
 import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 import javafx.util.Pair;
 import org.apache.commons.lang3.ArrayUtils;
@@ -14,9 +14,10 @@ public abstract class CreateJoinLoadMatchViewBuilder extends ViewBuilder {
 
     public static ViewBuilder getBuilder(boolean isCLI){
         if (isCLI)
-            return new CreateJoinLoadMatch();
+            return new CreateJoinLoadMatchCLI();
         else return new it.polimi.ingsw.client.view.GUI.CreateJoinLoadMatch();
     }
+
 
     public static Pair<String, String> idAndNames(Map.Entry<UUID, Pair<String[], String[]>> uuidPair){
         String matchIdString = "Match ID : " + uuidPair.getKey().toString().substring( 0, 8 );
@@ -84,5 +85,6 @@ public abstract class CreateJoinLoadMatchViewBuilder extends ViewBuilder {
         return Arrays.toString(ArrayUtils.addAll( coloredOnlineNames, coloredOfflineNames));
 
     }
+
 
 }

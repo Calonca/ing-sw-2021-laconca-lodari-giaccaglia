@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-public class JoinableMatches extends CreateJoinLoadMatch implements CLIBuilder {
+public class JoinableMatches extends CreateJoinLoadMatchCLI implements CLIBuilder {
 
     @Override
     public void run() {

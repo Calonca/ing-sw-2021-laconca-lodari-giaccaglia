@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-public class LoadableMatches extends CreateJoinLoadMatch implements CLIBuilder {
+public class LoadableMatches extends CreateJoinLoadMatchCLI implements CLIBuilder {
 
     @Override
     public void run() {

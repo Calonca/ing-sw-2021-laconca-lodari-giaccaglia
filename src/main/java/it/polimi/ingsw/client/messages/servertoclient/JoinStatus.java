@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.messages.servertoclient;
 
 import it.polimi.ingsw.client.ServerHandler;
-import it.polimi.ingsw.client.view.CLI.match.CreateJoinLoadMatch;
+import it.polimi.ingsw.client.view.CLI.match.CreateJoinLoadMatchCLI;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
 
 import java.io.IOException;
@@ -17,7 +17,7 @@ public class JoinStatus extends it.polimi.ingsw.network.messages.servertoclient.
     @Override
     public void processMessage(ServerHandler serverHandler) throws IOException {
         if (joinedMatchUUID==null)
-            serverHandler.getClient().changeViewBuilder(CreateJoinLoadMatch.getBuilder(serverHandler.getClient().isCLI()));
+            serverHandler.getClient().changeViewBuilder(CreateJoinLoadMatchCLI.getBuilder(serverHandler.getClient().isCLI()));
 
         //Todo make a view do the transition.
         else serverHandler.getClient().getCommonData().setStartData(joinedMatchUUID,playerIndex);
