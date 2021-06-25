@@ -7,6 +7,7 @@ import it.polimi.ingsw.server.model.player.board.PersonalBoard;
 import it.polimi.ingsw.server.model.player.leaders.Leader;
 import it.polimi.ingsw.server.model.player.leaders.LeaderState;
 import it.polimi.ingsw.server.model.player.track.FaithTrack;
+import it.polimi.ingsw.server.model.player.track.TileState;
 import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.server.model.states.StatesTransitionTable;
 import it.polimi.ingsw.server.utils.Deserializator;
@@ -60,7 +61,6 @@ public class Player {
 
     private StatesTransitionTable statesTransitionTable;
 
-
     /**
      * Class constructor
      */
@@ -72,7 +72,7 @@ public class Player {
         marketBonus=new boolean[4];
         this.nickName = nickName;
         initializeFaithTrack();
-       // faithTrack.cheat();
+        //faithTrack.cheat();
 
     }
 
@@ -126,7 +126,6 @@ public class Player {
     public StatesTransitionTable getStatesTransitionTable() {
         return statesTransitionTable;
     }
-
 
     /**
      * Method to store inside player's {@link Player#marketBonus} array a new {@link Resource} for
@@ -225,7 +224,7 @@ public class Player {
      * <em>Solo Mode</em> method to check if <em>LorenzoPiece</em> is in <em>PopeSpace</em>
      * @return true if the <em>LorenzoPiece</em> is currently in a <em>Pope Space</em> along {@link FaithTrack}.
      */
-    public boolean isLorenzoInPopeSpace(){
+    public boolean isLorenzoInPopeSpaceForTheFirstTime(){
         return faithTrack.isLorenzoInPopeSpaceForTheFirstTime();
     }
 
@@ -289,7 +288,7 @@ public class Player {
         return faithTrack.hasReachedLastSpace(faithTrack.getLorenzoPiece());
     }
 
-    public Optional<Pair<Integer, Boolean>> getStateOfLastTurnedTileInTrack(){
+    public Optional<Pair<Integer, TileState>> getStateOfLastTurnedTileInTrack(){
         return faithTrack.getStateOfLastTurnedTile();
     }
 

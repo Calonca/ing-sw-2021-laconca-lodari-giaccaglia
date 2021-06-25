@@ -25,9 +25,9 @@ public enum ActionTokenAsset {
     DISCARD2GREEN(Paths.get("assets/tokens/DISCARD2GREEN.png")){
 
         String effectDescription = "" +
-                "You have to discard 2 Green Development Cards from the bottom of the grid, " +
+                "2 Green Development Cards have been discarded from the bottom of the grid, " +
                 "from the lowest level to the highest " +
-                "(if there are no more Level I cards, you must discard the Level II cards, and so on).";
+                "(if there are no more Level I cards, Level II cards have been discarded, and so on)";
 
         @Override
         public String getEffectDescription(){
@@ -47,9 +47,9 @@ public enum ActionTokenAsset {
     DISCARD2BLUE(Paths.get("assets/tokens/DISCARD2BLUE.png")){
 
         String effectDescription = "" +
-                "You have to discard 2 Blue Development Cards from the bottom of the grid, " +
+                "2 Blue Development Cards have been discarded from the bottom of the grid, " +
                 "from the lowest level to the highest " +
-                "(if there are no more Level I cards, you must discard the Level II cards, and so on).";
+                "(if there are no more Level I cards, Level II cards have been discarded, and so on)";
 
         @Override
         public String getEffectDescription(){
@@ -70,9 +70,9 @@ public enum ActionTokenAsset {
     DISCARD2YELLOW(Paths.get("assets/tokens/DISCARD2YELLOW.png")){
 
         String effectDescription = "" +
-                "You have to discard 2 Yellow Development Cards from the bottom of the grid, " +
+                "2 Yellow Development Cards have been discarded from the bottom of the grid, " +
                 "from the lowest level to the highest " +
-                "(if there are no more Level I cards, you must discard the Level II cards, and so on).";
+                "(if there are no more Level I cards, Level II cards have been discarded, and so on)";
 
 
         @Override
@@ -94,9 +94,9 @@ public enum ActionTokenAsset {
     DISCARD2PURPLE(Paths.get("assets/tokens/DISCARD2PURPLE.png")){
 
         String effectDescription = "" +
-                "You have to discard 2 Purple Development Cards from the bottom of the grid, " +
+                "2 Purple Development Cards have been discarded from the bottom of the grid, " +
                 "from the lowest level to the highest " +
-                "(if there are no more Level I cards, you must discard the Level II cards, and so on).";
+                "(if there are no more Level I cards, Level II cards have been discarded, and so on)";
 
         @Override
         public String getEffectDescription(){
@@ -118,8 +118,8 @@ public enum ActionTokenAsset {
     SHUFFLE_ADD1FAITH(Paths.get("assets/tokens/SHUFFLE_ADD1FAITH.png")){
 
         String effectDescription = "" +
-                "The Black Cross token is movedforward by 1 space and" +
-                "all the Solo Action tokens are shuffled!.";
+                "The Black Cross token has been moved forward by 1 space and " +
+                "all the Solo Action tokens have been shuffled!";
 
         @Override
         public String getEffectDescription(){

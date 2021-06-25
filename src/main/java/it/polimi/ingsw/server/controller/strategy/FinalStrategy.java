@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.controller.strategy;
 
-import it.polimi.ingsw.server.controller.EndGameReason;
 import it.polimi.ingsw.server.messages.messagebuilders.Element;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.states.State;
@@ -14,11 +13,22 @@ public class FinalStrategy {
 
         if (gameModel.getCurrentPlayer().anyLeaderPlayable() && !playerTriggeredEnd(gameModel)) {
             elementsToUpdate.add(Element.SimpleCardShop);
-            return new Pair<>(State.FINAL_PHASE, elementsToUpdate);
+
+            State nextState = State.FINAL_PHASE;
+            if(gameModel.isSinglePlayer() && gameModel.getSinglePlayer().getCurrentState().equals(State.IDLE))
+                nextState = gameModel.getCurrentPlayer().anyLeaderPlayable() ? State.INITIAL_PHASE : State.MIDDLE_PHASE;
+
+            return new Pair<>(nextState, elementsToUpdate);
         }
         else{
+
             elementsToUpdate.add(Element.SimpleCardShop);
-            return new Pair<>(State.IDLE, elementsToUpdate);
+
+            State nextState = State.IDLE;
+            if(gameModel.isSinglePlayer() && gameModel.getSinglePlayer().getCurrentState().equals(State.IDLE))
+                nextState = gameModel.getCurrentPlayer().anyLeaderPlayable() ? State.INITIAL_PHASE : State.MIDDLE_PHASE;
+
+            return new Pair<>(nextState, elementsToUpdate);
         }
     }
 

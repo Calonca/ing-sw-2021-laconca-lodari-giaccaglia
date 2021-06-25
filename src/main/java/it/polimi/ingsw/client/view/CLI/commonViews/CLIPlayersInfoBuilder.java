@@ -21,9 +21,9 @@ import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 import it.polimi.ingsw.network.simplemodel.PlayersInfo;
 import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
 
-import java.beans.PropertyChangeEvent;
+import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.*;
 
-public final class CLIPlayersInfoBuilder extends ViewBuilder {
+public final class CLIPlayersInfoBuilder{
 
      public static void buildView(ViewBuilder nextViewBuilder){
         getCLIView().setTitle("Players info");
@@ -186,17 +186,6 @@ public final class CLIPlayersInfoBuilder extends ViewBuilder {
 
          */
 
-
-    }
-
-
-    @Override
-    public void run() {
-
-    }
-
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
 
     }
 }

@@ -7,11 +7,10 @@ import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Column;
 import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 
-import java.beans.PropertyChangeEvent;
-
 import static it.polimi.ingsw.client.view.CLI.layout.drawables.DrawableReportInfo.buildReports;
+import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.*;
 
-public final class CLIReportInfoBuilder extends ViewBuilder {
+public final class CLIReportInfoBuilder {
 
     public static void showReport(ViewBuilder nextViewBuilder){
 
@@ -41,18 +40,6 @@ public final class CLIReportInfoBuilder extends ViewBuilder {
 
         Timer.showSecondsOnCLI(getCLIView(), "Vatican Report occurred! . Seconds left for viewing : ");
         getClient().changeViewBuilder(getClient().getSavedViewBuilder());
-
-    }
-
-
-
-    @Override
-    public void run() {
-
-    }
-
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
 
     }
 }

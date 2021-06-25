@@ -11,13 +11,16 @@ import static it.polimi.ingsw.client.simplemodel.State.MIDDLE_PHASE;
 
 public abstract class InitialOrFinalPhaseViewBuilder extends ViewBuilder {
     public static boolean isInitial;
+    public static boolean isFirstTurn;
 
     public InitialOrFinalPhaseViewBuilder(boolean isInitial) {
         InitialOrFinalPhaseViewBuilder.isInitial = isInitial;
+        isFirstTurn = true;
     }
 
     public InitialOrFinalPhaseViewBuilder() {
-        InitialOrFinalPhaseViewBuilder.isInitial=true;
+        isInitial=true;
+        isFirstTurn = true;
     }
 
     public static ViewBuilder getBuilder(boolean isCLI,boolean initial){

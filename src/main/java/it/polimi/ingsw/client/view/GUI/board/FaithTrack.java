@@ -8,6 +8,7 @@ import it.polimi.ingsw.client.view.GUI.util.ResourceGUI;
 
 import it.polimi.ingsw.network.simplemodel.PlayersInfo;
 import it.polimi.ingsw.network.simplemodel.SimpleFaithTrack;
+import it.polimi.ingsw.network.simplemodel.TileState;
 import it.polimi.ingsw.network.simplemodel.VaticanReportInfo;
 import javafx.application.Platform;
 import javafx.geometry.Point3D;
@@ -152,11 +153,11 @@ public class FaithTrack implements PropertyChangeListener {
                             VaticanReportInfo vaticanReportInfo;
                             vaticanReportInfo=getSimpleModel().getElem(VaticanReportInfo.class).get();
 
-                            if(vaticanReportInfo.getPopeTileStatusMap().get(playerNumber).getKey()!=-1)
-                                if(!vaticanReportInfo.getPopeTileStatusMap().get(playerNumber).getValue())
-                                    popeTiles.get(vaticanReportInfo.getPopeTileStatusMap().get(playerNumber).getKey()).setOpacity(0);
+                            if(vaticanReportInfo.getPopeTileStateMap().get(playerNumber).getKey()!=-1)
+                                if(!vaticanReportInfo.getPopeTileStateMap().get(playerNumber).getValue().equals(TileState.ACTIVE))
+                                    popeTiles.get(vaticanReportInfo.getPopeTileStateMap().get(playerNumber).getKey()).setOpacity(0);
 
-                                System.out.println(vaticanReportInfo.getPopeTileStatusMap().get(playerNumber));
+                                System.out.println(vaticanReportInfo.getPopeTileStateMap().get(playerNumber));
 
 
 

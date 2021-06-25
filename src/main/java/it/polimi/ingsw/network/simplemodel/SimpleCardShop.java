@@ -47,6 +47,8 @@ public class SimpleCardShop extends SimpleModelElement{
 
 
     public Optional<DevelopmentCardAsset> getCardFront(NetworkDevelopmentCardColor color, int level){
+        if(simpleCardShop.get(color).get(level).getValue().isEmpty())
+            return Optional.empty();
         return Optional.ofNullable(simpleCardShop.get(color).get(level).getValue().get(0));
     }
 

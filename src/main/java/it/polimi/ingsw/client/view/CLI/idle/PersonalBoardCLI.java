@@ -27,7 +27,7 @@ public class PersonalBoardCLI extends IDLEViewBuilderCLI{
         if (isMoving) {
             CLIPersonalBoardBuilder.buildViewForMoving();
         } else {
-            showVaticanReportInfoDuringIDLE();
+         //   showVaticanReportInfoDuringIDLE();
             CLIPersonalBoardBuilder.buildViewForViewing(playerIndex, viewMode);
         }
     }

@@ -235,7 +235,7 @@ public class FaithTrack {
             tiles.get(popeSpaceZoneNumber).setTileState(TileState.DISCARDED);
     }
 
-    public Optional<Pair<Integer, Boolean>> getStateOfLastTurnedTile(){
+    public Optional<Pair<Integer, TileState>> getStateOfLastTurnedTile(){
         return IntStream
                 .range(0, tiles.size())
                 .boxed()
@@ -243,7 +243,7 @@ public class FaithTrack {
                 .reduce((first,second) -> second).map(position ->
                         new Pair<>(
                                 position,
-                                tiles.get(position).getTileState().equals(TileState.ACTIVE)));
+                                tiles.get(position).getTileState()));
     }
 
     /**

@@ -30,16 +30,35 @@ public class IDLE implements GameStrategy {
 
 
         if(gamemodel.getCurrentPlayer().anyLeaderPlayable()) {
+
+            if(gamemodel.isSinglePlayer()) {
+                executeActionTokenStrategy(gamemodel, elementsToUpdate);
+                return  VaticanReportStrategy.addFaithPointsToPlayer(gamemodel, elementsToUpdate);
+            }
+
             gamemodel.getCurrentPlayer().setCurrentState(State.INITIAL_PHASE);
             return new Pair<>(State.INITIAL_PHASE, elementsToUpdate);
         }
 
         else{
-            elementsToUpdate.add(Element.SimpleCardShop);
+
+            if(gamemodel.isSinglePlayer()) {
+                executeActionTokenStrategy(gamemodel, elementsToUpdate);
+                return  VaticanReportStrategy.addFaithPointsToPlayer(gamemodel, elementsToUpdate);
+            }
+
             gamemodel.getCurrentPlayer().setCurrentState(State.MIDDLE_PHASE);
             return new Pair<>(State.MIDDLE_PHASE, elementsToUpdate);
         }
 
+    }
+
+    private void executeActionTokenStrategy(GameModel gameModel, List<Element> elementsToUpdate){
+        gameModel.activateSoloActionToken();
+        elementsToUpdate.add(Element.SimpleSoloActionToken);
+        elementsToUpdate.add(Element.SimpleCardShop);
+        elementsToUpdate.add(Element.SimpleFaithTrack);
+        elementsToUpdate.add(Element.VaticanReportInfo);
     }
 
 }

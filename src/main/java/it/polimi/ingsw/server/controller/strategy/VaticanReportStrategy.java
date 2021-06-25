@@ -11,7 +11,7 @@ import java.util.List;
 
 public class VaticanReportStrategy {
 
-    public static Pair<State, List<Element>>  addFaithPointsToPlayer(GameModel gameModel, List<Element> elementsToUpdate){
+    public static Pair<State, List<Element>>  addFaithPointsToPlayer(GameModel gameModel, List<Element> elementsToUpdate) {
 
         boolean notCurrentPlayerReachedEnd = false;
         boolean currentPlayerReachedEnd = false;
@@ -24,7 +24,7 @@ public class VaticanReportStrategy {
         for (int i = 0; i < positionsToAdd; i++) {
 
             gameModel.addFaithPointToOtherPlayers();
-            if(gameModel.handleVaticanReport())
+            if (gameModel.handleVaticanReport())
                 elementsToUpdate.add(Element.VaticanReportInfo);
 
             if (gameModel.checkTrackStatus()) {
@@ -38,9 +38,9 @@ public class VaticanReportStrategy {
 
         positionsToAdd = currentBoard.getFaithToAdd();
 
-        for(int i = 0; i < positionsToAdd; i++) {
+        for (int i = 0; i < positionsToAdd; i++) {
             gameModel.getCurrentPlayer().moveOnePosition();
-            if(gameModel.handleVaticanReport())
+            if (gameModel.handleVaticanReport())
                 elementsToUpdate.add(Element.VaticanReportInfo);
 
             if (gameModel.checkTrackStatus()) { // player reached end
@@ -58,8 +58,14 @@ public class VaticanReportStrategy {
 
         currentBoard.setFaithToZero();
 
-        if(notCurrentPlayerReachedEnd)
-            return new Pair<>(State.IDLE, elementsToUpdate);
+        if (notCurrentPlayerReachedEnd) {
+
+        State nextState = State.IDLE;
+        if(gameModel.isSinglePlayer() && gameModel.getSinglePlayer().getCurrentState().equals(State.IDLE))
+            nextState = gameModel.getCurrentPlayer().anyLeaderPlayable() ? State.INITIAL_PHASE : State.MIDDLE_PHASE;
+
+        return new Pair<>(nextState, elementsToUpdate);
+        }
         else if (currentPlayerReachedEnd)
             return FinalStrategy.handleSinglePlayerEndGameStrategy(elementsToUpdate, gameModel, endGameReason);
         else

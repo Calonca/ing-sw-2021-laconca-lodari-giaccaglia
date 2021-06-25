@@ -11,6 +11,7 @@ import it.polimi.ingsw.server.model.player.leaders.DepositLeader;
 import it.polimi.ingsw.server.model.player.leaders.DevelopmentDiscountLeader;
 import it.polimi.ingsw.server.model.player.leaders.MarketLeader;
 import it.polimi.ingsw.server.model.player.leaders.ProductionLeader;
+import it.polimi.ingsw.server.model.player.track.TileState;
 import javafx.util.Pair;
 
 import java.util.*;
@@ -138,17 +139,23 @@ public class GameInfoMessageBuilder {
        return new HashSet<>(playersTriggeringList);
     }
 
-    public static Map<Integer, Pair<Integer, Boolean>> getPopeTileStateMap(GameModel gameModel){
+    public static Map<Integer, Pair<Integer, it.polimi.ingsw.network.simplemodel.TileState>> getPopeTileStateMap(GameModel gameModel){
 
         return IntStream.range(0, gameModel.getMatchPlayers().size()).boxed().collect(Collectors.toMap(
 
                 index -> index,
                 index -> gameModel.getPlayer(index)
                         .get()
-                        .getStateOfLastTurnedTileInTrack()
-                        .orElse(new Pair<>(-1, false))
+                        .getStateOfLastTurnedTileInTrack().map(
+                                state -> new Pair<>(
+                                        state.getKey(),
+                                        it.polimi.ingsw.network.simplemodel.TileState.valueOf(state.getValue().name())
+                        ))
 
-        ));
+
+                        .orElse(new Pair<>(0, it.polimi.ingsw.network.simplemodel.TileState.valueOf(TileState.DISCARDED.name()))
+
+        )));
     }
 
 

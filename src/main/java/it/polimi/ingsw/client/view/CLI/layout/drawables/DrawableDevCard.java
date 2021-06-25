@@ -23,7 +23,7 @@ public class DrawableDevCard {
                        ║                        ║
                        ║                        ║
                        ║                        ║
-                       ║        No Card         ║
+                       ║        No Cards        ║
                        ║                        ║
                        ║                        ║
                        ║                        ║

@@ -36,7 +36,7 @@ public enum SoloActionToken {
      * When this effect is applied 2 blue {@link DevelopmentCard DevelopmentCards}  are discarded
      * from the belonging {@link DevelopmentCardDeck} following the {@link #applyEffect(GameModel) applyEffect} rules.
      */
-    DISCARD2BLUE {
+    DISCARD2BLUE{
 
         final DevelopmentCardColor color = DevelopmentCardColor.BLUE;
 
@@ -86,7 +86,7 @@ public enum SoloActionToken {
     SHUFFLE_ADD1FAITH{
         @Override
         public void applyEffect(GameModel gameModel) {
-            gameModel.addFaithPointToOtherPlayers();
+            gameModel.getSinglePlayer().getPersonalBoard().setBadFaithToAdd(1);
             gameModel.shuffleSoloDeck();
         }
     },
@@ -96,15 +96,14 @@ public enum SoloActionToken {
      * of <em>Lorenzo il Magnifico</em>, is moved forward by 2 spaces by calling the {@link GameModel} method
      * {@link GameModel#addFaithPointToOtherPlayers() addFaithPointToOtherPlayers}.
      */
-    ADD2FAITH {
+    ADD2FAITH{
         @Override
         public void applyEffect(GameModel gameModel) {
-            gameModel.addFaithPointToOtherPlayers();
-            gameModel.addFaithPointToOtherPlayers();
+            gameModel.getSinglePlayer().getPersonalBoard().setBadFaithToAdd(2);
         }
     },
 
-    EMPTY {
+    EMPTY{
         @Override
         public void applyEffect(GameModel gameModel) {}
     };

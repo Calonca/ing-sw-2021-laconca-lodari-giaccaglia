@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.LeaderBody;
+import it.polimi.ingsw.client.view.CLI.commonViews.CLIActionToken;
 import it.polimi.ingsw.client.view.CLI.idle.ReportInfoCLI;
 import it.polimi.ingsw.client.view.abstractview.InitialOrFinalPhaseViewBuilder;
 import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
@@ -15,6 +16,12 @@ public class InitialOrFinalPhaseCLI extends InitialOrFinalPhaseViewBuilder imple
 
     @Override
     public void run() {
+
+        if(getSimpleModel().isSinglePlayer() && isInitial && !isFirstTurn) {
+            getClient().saveViewBuilder(this);
+            CLIActionToken.showActionTokenBeforeTransition();
+            isFirstTurn = false;
+        }
 
         showVaticanReportInfoBeforeTransition();
         SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).orElseThrow();

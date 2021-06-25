@@ -9,6 +9,7 @@ import it.polimi.ingsw.client.view.CLI.textUtil.Background;
 import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 import it.polimi.ingsw.client.view.CLI.textUtil.StringUtil;
 import it.polimi.ingsw.network.simplemodel.PlayersInfo;
+import it.polimi.ingsw.network.simplemodel.TileState;
 import it.polimi.ingsw.network.simplemodel.VaticanReportInfo;
 import javafx.util.Pair;
 
@@ -20,30 +21,37 @@ public class DrawableReportInfo {
 
         boolean hasTriggeredVaticanReport = vaticanReportInfo.getPlayersTriggeringVaticanReport().contains(playerIndex);
         String nickname = playerInfo.getNickname();
+        int nicknameLength = nickname.length();
 
-        int position = playerInfo.getCurrentPosition();
-        Pair<Integer, Boolean> tile = vaticanReportInfo.getPopeTileStatusMap().get(playerIndex);
+        Pair<Integer, TileState> tile = vaticanReportInfo.getPopeTileStateMap().get(playerIndex);
         int tileNumber = tile.getKey();
-        String state = tile.getValue() ? "ACTIVE" : "DISCARDED";
+        TileState state = tile.getValue();
 
+        String delimiter = "═".repeat(28-3-nicknameLength-1);
         Drawable drawable = new Drawable();
-        drawable.add(0, "╔═        ═════════════════╗");
-        drawable.add(new DrawableLine(3, 0, nickname, Color.BRIGHT_WHITE, back));
-        drawable.add(0, "║ Faith Track Position : " + StringUtil.untilReachingSize(position, 2) + "               ║");
+        drawable.add(0,"╔══");
+        drawable.add(new DrawableLine(3,0, nickname, Color.BRIGHT_WHITE, back));
+        drawable.add(new DrawableLine(3+nicknameLength,0, delimiter));
+        drawable.add(new DrawableLine(27, 0, "╗"));
+
 
         if (hasTriggeredVaticanReport) {
-            drawable.add(0, "║═══════ Triggered ════════║");
-            drawable.add(0, "║════ Vatican Report ══════║");
+            drawable.add(0, "║                          ║");
+            drawable.add(0, "║═══════           ════════║");
+            drawable.add(new DrawableLine(9, 2, "Triggered", Color.BRIGHT_YELLOW, Background.DEFAULT));
+            drawable.add(0, "║════                  ════║");
+            drawable.add(new DrawableLine(7,3, "Vatican Report  ", Color.BRIGHT_YELLOW, Background.DEFAULT));
+            drawable.add(0, "║                          ║");
         } else {
             drawable.add(0, "║                          ║");
             drawable.add(0, "║                          ║");
         }
 
+        drawable.add(0, "║═══                  ═════║");
+        drawable.add(new DrawableLine(4, 5, " Pope Tile Status", Color.YELLOW, Background.DEFAULT));
 
-        drawable.add(0, "║═══ Pope Tile Status ═════║");
-
-        drawable.add(0, "║ Tile Number : " + StringUtil.untilReachingSize(tileNumber, 2) + "║");
-        drawable.add(0, "║ Tile State : " + StringUtil.untilReachingSize(state, 2) + "     ║");
+        drawable.add(0, "║   Tile Number : " + StringUtil.untilReachingSize(tileNumber, 2) + "      ║");
+        drawable.add(0, "║   Tile State : " + StringUtil.untilReachingSize(state.toString(), 9) + "║");
 
         drawable.add(0, "╚══════════════════════════╝");
 

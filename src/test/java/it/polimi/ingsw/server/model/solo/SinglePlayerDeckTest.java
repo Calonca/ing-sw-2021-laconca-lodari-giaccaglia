@@ -1,11 +1,13 @@
 package it.polimi.ingsw.server.model.solo;
-import java.lang.reflect.Field;
-
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.cards.CardShop;
 import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
 import it.polimi.ingsw.server.model.cards.DevelopmentCardDeck;
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -120,11 +122,11 @@ public class SinglePlayerDeckTest {
         }
 
         else if(tokenTest == SoloActionToken.SHUFFLE_ADD1FAITH){
-            assertEquals(1, gameModelTest.getLorenzoPosition(gameModelTest.getCurrentPlayer()));
+            assertEquals(1, gameModelTest.getCurrentPlayer().getPersonalBoard().getBadFaithToAdd());
         }
 
         else if(tokenTest == SoloActionToken.ADD2FAITH){
-            assertEquals(2, gameModelTest.getLorenzoPosition(gameModelTest.getCurrentPlayer()));
+            assertEquals(2, gameModelTest.getCurrentPlayer().getPersonalBoard().getBadFaithToAdd());
             testShuffleActionTokens();
         }
 

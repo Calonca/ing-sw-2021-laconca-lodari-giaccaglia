@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.model.solo;
 import it.polimi.ingsw.server.model.GameModel;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Stack of {@link SoloActionToken SoloActionTokens} for <em>Solo Mode</em>, implemented using a {@link List}.
@@ -12,7 +13,7 @@ public class SinglePlayerDeck {
     /**
      * <p>Represents the actual structure of the stack of {@link SoloActionToken SoloActionTokens}.
      */
-    private final List<SoloActionToken> actionTokens = Arrays.asList(SoloActionToken.values());
+    private final List<SoloActionToken> actionTokens = Arrays.stream(SoloActionToken.values()).collect(Collectors.toList());
 
     private SoloActionToken lastActivatedToken;
 
@@ -53,8 +54,10 @@ public class SinglePlayerDeck {
      * @param gameModel The {@link GameModel} of the current game, on which the effect is applied.
      */
     public void activateToken(GameModel gameModel){
-        actionTokens.get(0).applyEffect(gameModel);
-        lastActivatedToken = actionTokens.get(0);
+        SoloActionToken actionToken = actionTokens.remove(0);
+        lastActivatedToken = actionToken;
+        actionTokens.add(actionToken);
+        actionToken.applyEffect(gameModel);
     }
 
 }

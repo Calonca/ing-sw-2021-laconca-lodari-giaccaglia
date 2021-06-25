@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.view.CLI.CLIBuilder;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.PersonalBoardBody;
 import it.polimi.ingsw.client.view.CLI.CardShopCLI;
+import it.polimi.ingsw.client.view.CLI.commonViews.CLIActionToken;
 import it.polimi.ingsw.client.view.CLI.layout.Option;
 import it.polimi.ingsw.client.view.CLI.layout.SizedBox;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.Drawable;
@@ -23,6 +24,12 @@ public class MiddlePhaseCLI extends MiddlePhaseViewBuilder implements CLIBuilder
 
     @Override
     public void run() {
+
+        if(getSimpleModel().isSinglePlayer()) {
+            getClient().saveViewBuilder(this);
+            CLIActionToken.showActionTokenBeforeTransition();
+        }
+
         showVaticanReportInfoBeforeTransition();
         getCLIView().setTitle("Select a choice");
 
@@ -98,6 +105,7 @@ public class MiddlePhaseCLI extends MiddlePhaseViewBuilder implements CLIBuilder
 
         }
     }
+
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {

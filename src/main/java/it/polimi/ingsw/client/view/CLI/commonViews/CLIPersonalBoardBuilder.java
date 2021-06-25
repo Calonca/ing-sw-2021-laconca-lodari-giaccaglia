@@ -1,12 +1,11 @@
 package it.polimi.ingsw.client.view.CLI.commonViews;
 
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.PersonalBoardBody;
-import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 import it.polimi.ingsw.network.simplemodel.PlayersInfo;
 
-import java.beans.PropertyChangeEvent;
+import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.*;
 
-public final class CLIPersonalBoardBuilder extends ViewBuilder {
+public final class CLIPersonalBoardBuilder{
 
     public static void buildViewForMoving(){
         PersonalBoardBody board = new PersonalBoardBody(getThisPlayerCache(), PersonalBoardBody.Mode.MOVING_RES);
@@ -29,13 +28,4 @@ public final class CLIPersonalBoardBuilder extends ViewBuilder {
     }
 
 
-    @Override
-    public void run() {
-
-    }
-
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-
-    }
 }

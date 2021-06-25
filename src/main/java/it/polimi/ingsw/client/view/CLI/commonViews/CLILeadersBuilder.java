@@ -5,9 +5,9 @@ import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 import it.polimi.ingsw.network.simplemodel.PlayersInfo;
 import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
 
-import java.beans.PropertyChangeEvent;
+import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.*;
 
-public final class CLILeadersBuilder extends ViewBuilder {
+public final class CLILeadersBuilder{
 
     public static void buildView(ViewBuilder nextViewBuilder, int playerIndex) {
 
@@ -29,14 +29,4 @@ public final class CLILeadersBuilder extends ViewBuilder {
 
     }
 
-
-    @Override
-    public void run() {
-
-    }
-
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-
-    }
 }

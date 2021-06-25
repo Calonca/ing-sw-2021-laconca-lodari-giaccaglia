@@ -433,7 +433,7 @@ public class GameModel {
         }
         else
             addFaithPointToLorenzo();
-            return singlePlayer.isLorenzoInPopeSpace();
+            return singlePlayer.isLorenzoInPopeSpaceForTheFirstTime();
         }
 
     /**
@@ -445,24 +445,27 @@ public class GameModel {
         if(isSinglePlayer){
 
             List<Integer> list = new ArrayList<>();
-            if(singlePlayer.isLorenzoInPopeSpace())
+            if(singlePlayer.isLorenzoInPopeSpaceForTheFirstTime())
                 list.add(-1);
             else if(singlePlayer.isInPopeSpaceForTheFirstTime())
                 list.add(players.keySet().stream().findFirst().get());
             vaticanReportTriggers = list;
         }
 
-        vaticanReportTriggers = players.values()
-                .stream()
-                .filter(Player::isInPopeSpaceForTheFirstTime)
-                .mapToInt(
+        else {
 
-                        player -> players.keySet()
-                        .stream()
-                        .filter(key -> players.get(key)
-                                .equals(player)).findFirst().get())
-                .boxed()
-                .collect(Collectors.toList());
+            vaticanReportTriggers = players.values()
+                    .stream()
+                    .filter(Player::isInPopeSpaceForTheFirstTime)
+                    .mapToInt(
+
+                            player -> players.keySet()
+                                    .stream()
+                                    .filter(key -> players.get(key)
+                                            .equals(player)).findFirst().get())
+                    .boxed()
+                    .collect(Collectors.toList());
+        }
     }
 
 
@@ -635,14 +638,6 @@ public class GameModel {
         return player.getPlayerPosition();
     }
 
-    /**
-     * Solo mode method to get current {@link FaithTrack#lorenzoPiece lorenzoPiece} along {@link FaithTrack}.
-     * @param player Current Game player, belonging to {@link GameModel#players} list.
-     * @return {@link FaithTrack#lorenzoPiece lorenzoPiece} along {@link FaithTrack} as an int value.
-     */
-    public int getLorenzoPosition(Player player){
-        return player.getLorenzoPosition();
-    }
 
     public void setMatch(Match match){
         this.match = match;

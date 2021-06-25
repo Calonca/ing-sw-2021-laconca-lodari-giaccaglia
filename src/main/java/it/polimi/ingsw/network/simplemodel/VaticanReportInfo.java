@@ -13,20 +13,18 @@ public class VaticanReportInfo extends SimpleModelElement{
     private Set<Integer> playersTriggeringVaticanReport;
 
     //        playerIndex  popeTileNumber isActive
-    private  Map<Integer, Pair<Integer, Boolean>> popeTileState;
+    private  Map<Integer, Pair<Integer, TileState>> popeTileState;
 
     private final AtomicBoolean hasReportBeenShown = new AtomicBoolean(false);
-
-    private long timeOfReport;
 
 
     public VaticanReportInfo(){
         hasReportBeenShown.set(false);
     }
 
-    public VaticanReportInfo(Set<Integer> playersTriggeringVaticanReport, Map<Integer, Pair<Integer, Boolean>> popeTileStatus){
+    public VaticanReportInfo(Set<Integer> playersTriggeringVaticanReport, Map<Integer, Pair<Integer,TileState>> popeTileState){
         this.playersTriggeringVaticanReport = playersTriggeringVaticanReport;
-        this.popeTileState = popeTileStatus;
+        this.popeTileState = popeTileState;
     }
 
     @Override
@@ -42,7 +40,7 @@ public class VaticanReportInfo extends SimpleModelElement{
         return playersTriggeringVaticanReport;
     }
 
-    public  Map<Integer, Pair<Integer, Boolean>> getPopeTileStatusMap(){
+    public  Map<Integer, Pair<Integer, TileState>> getPopeTileStateMap(){
         return popeTileState;
     }
 
