@@ -67,7 +67,7 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
         Node root=getRoot();
         root.setId("LEADER");
         GUI.addLast(root);
-        BoardView3D.getBoard().setMode(BoardView3D.Mode.BACKGROUND);
+        Playground.getThisPlayerBoard().setMode(BoardView3D.Mode.BACKGROUND);
         System.out.println(GUI.getRealPane().getChildren());
     }
 

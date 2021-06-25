@@ -1,9 +1,11 @@
 package it.polimi.ingsw.client.view.GUI.board;
 
+import it.polimi.ingsw.client.simplemodel.PlayerCache;
 import it.polimi.ingsw.client.view.GUI.BoardView3D;
 import it.polimi.ingsw.client.view.GUI.layout.ResChoiceRowGUI;
 import it.polimi.ingsw.client.view.GUI.util.DragAndDropData;
 import it.polimi.ingsw.client.view.GUI.util.DragAndDropHandler;
+import it.polimi.ingsw.client.view.GUI.util.NodeAdder;
 import it.polimi.ingsw.client.view.GUI.util.ResourceGUI;
 import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ProductionViewBuilder;
@@ -17,36 +19,41 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape3D;
 import javafx.util.Pair;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.getThisPlayerCache;
-
-public class Warehouse3D {
+public class Warehouse3D implements PropertyChangeListener {
 
     private final Group wareGroup;
+    private final PlayerCache cache;
+    private final BoardView3D view3D;
+    private final DragAndDropHandler dropHandler;
 
-    private Warehouse3D(){
+    private Warehouse3D(PlayerCache cache, BoardView3D view3D, DragAndDropHandler dropHandler){
+        this.dropHandler = dropHandler;
         wareGroup = new Group();
+        this.cache = cache;
+        this.view3D = view3D;
     }
 
-    public static void wareBuilder(BoardView3D view3D, Group parent, Rectangle board, DragAndDropHandler dropHandler){
-        Warehouse3D w3d= new Warehouse3D();
-        w3d.buildView(view3D, dropHandler);
+    public static void wareBuilder(BoardView3D view3D, Group parent, Rectangle board, DragAndDropHandler dropHandler, PlayerCache cache){
+        Warehouse3D w3d= new Warehouse3D(cache, view3D, dropHandler);
+        w3d.buildView();
         view3D.setWarehouse(w3d);
 
         Point3D initialPos = new Point3D(100,800,0);
-        view3D.addNodeToParent(parent, board, w3d.wareGroup, initialPos);
+        NodeAdder.addNodeToParent(parent, board, w3d.wareGroup, initialPos);
     }
 
-    public void buildView(BoardView3D view3D, DragAndDropHandler dropHandler){
+    public void buildView(){
         wareGroup.getChildren().clear();
-        final ResChoiceRowGUI toSelect = view3D.getToSelect();
 
         final double wareWidth = 500;
         final double lineHeight = 150;
-        SimpleWarehouseLeadersDepot simpleWarehouseLeadersDepot = getThisPlayerCache().getElem(SimpleWarehouseLeadersDepot.class).orElseThrow();
+        SimpleWarehouseLeadersDepot simpleWarehouseLeadersDepot = cache.getElem(SimpleWarehouseLeadersDepot.class).orElseThrow();
 
         AtomicInteger gPos = new AtomicInteger();
         int lineN = 0;
@@ -67,15 +74,16 @@ public class Warehouse3D {
             lineN++;
         }
         if (view3D.mode.equals(BoardView3D.Mode.SELECT_CARD_SHOP)||view3D.mode.equals(BoardView3D.Mode.SELECT_RESOURCE_FOR_PROD)){
-            setSelectable(toSelect, view3D);
+            updateSelected();
         }
 
     }
 
-    public void setSelectable(ResChoiceRowGUI toSelect, BoardView3D view3D) {
-        SelectablePositions selectablePositions = getThisPlayerCache().getElem(SelectablePositions.class).orElseThrow();
+    public void updateSelected() {
+        ResChoiceRowGUI toSelect = view3D.getToSelect();
+        SelectablePositions selectablePositions = cache.getElem(SelectablePositions.class).orElseThrow();
 
-        SimpleWarehouseLeadersDepot simpleWarehouseLeadersDepot = getThisPlayerCache().getElem(SimpleWarehouseLeadersDepot.class).orElseThrow();
+        SimpleWarehouseLeadersDepot simpleWarehouseLeadersDepot = cache.getElem(SimpleWarehouseLeadersDepot.class).orElseThrow();
         Map<Integer,Integer> selectedPositionsMap = selectablePositions.getUpdatedSelectablePositions(toSelect.getChosenInputPos());
 
         AtomicInteger gPos = new AtomicInteger();
@@ -89,7 +97,7 @@ public class Warehouse3D {
                 testShape.setOnMousePressed((u) -> {
                     if (isSelectable) {
                         toSelect.setNextInputPos(globalPos, e.getKey());
-                        setSelectable(toSelect, view3D);
+                        updateSelected();
                         view3D.getStrongBox().updateStrongBox(view3D);
                         testShape.setOnMousePressed(n -> {
                         });
@@ -128,5 +136,11 @@ public class Warehouse3D {
 
     public void clear() {
         wareGroup.getChildren().clear();
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals(SimpleWarehouseLeadersDepot.class.getSimpleName()))
+            buildView();
     }
 }

@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.view.GUI.BoardView3D;
 import it.polimi.ingsw.client.view.GUI.layout.ResChoiceRowGUI;
 import it.polimi.ingsw.client.view.GUI.util.DragAndDropData;
 import it.polimi.ingsw.client.view.GUI.util.DragAndDropHandler;
+import it.polimi.ingsw.client.view.GUI.util.NodeAdder;
 import it.polimi.ingsw.client.view.GUI.util.ResourceGUI;
 import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ProductionViewBuilder;
@@ -68,7 +69,7 @@ public class Box3D {
         }
         addDiscardButton(view3D, discardBoxGroup, simpleDiscardBox, addedLines);
 
-        view3D.addNodeToParent(parent, board, discardBoxGroup, initialPos);
+        NodeAdder.addNodeToParent(parent, board, discardBoxGroup, initialPos);
         view3D.setDiscardBox(discardBoxGroup);
     }
 
@@ -121,7 +122,7 @@ public class Box3D {
                         view3D.getToSelect().setNextInputPos(gPos, line.getValue().getKey());
                     else view3D.getToSelect().setNextInputPos(0, line.getValue().getKey());
                     updateStrongBox(view3D);
-                    view3D.getWarehouse().setSelectable(toSelect, view3D);
+                    view3D.getWarehouse().updateSelected();
                     if (view3D.getToSelect().getPointedResource().isEmpty()){
                         if (view3D.mode.equals(BoardView3D.Mode.SELECT_CARD_SHOP)) {
                             CardShopViewBuilder.sendResourcesToBuy(view3D.getToSelect().getChosenInputPos());
@@ -182,7 +183,7 @@ public class Box3D {
             addedLines++;
         }
 
-        view3D.addNodeToParent(parent, board, strongBoxGroup, initialPos);
+        NodeAdder.addNodeToParent(parent, board, strongBoxGroup, initialPos);
         view3D.setStrongBox(this);
     }
 

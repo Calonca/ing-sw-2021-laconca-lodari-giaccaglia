@@ -25,7 +25,7 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
         SubScene root=getRoot();
         root.setId("MIDDLE");
         GUI.addLast(root);
-        BoardView3D.getBoard().refreshMarket();
+        Playground.getPlayground().refreshMarket();
 
     }
 

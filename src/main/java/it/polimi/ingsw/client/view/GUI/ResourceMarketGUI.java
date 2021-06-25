@@ -78,7 +78,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
     @Override
     public void run() {
         active=true;
-        BoardView3D.getBoard().changeCamState(CamState.SEE_RESOURCE_MARKET);
+        Playground.changeCamState(CamState.SEE_RESOURCE_MARKET);
     }
 
     public Group getRoot() {
@@ -409,8 +409,8 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
     @Override
     public void choosePositions() {
         Platform.runLater(()-> {
-            BoardView3D.getBoard().setMode(BoardView3D.Mode.MOVING_RES);
-            BoardView3D.getBoard().changeCamState(CamState.TOP);
+            Playground.getThisPlayerBoard().setMode(BoardView3D.Mode.MOVING_RES);
+            Playground.changeCamState(CamState.TOP);
         });
     }
 

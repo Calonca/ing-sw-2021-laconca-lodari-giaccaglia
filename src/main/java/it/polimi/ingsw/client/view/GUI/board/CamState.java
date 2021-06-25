@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.GUI.board;
 
 import it.polimi.ingsw.client.view.GUI.BoardView3D;
+import it.polimi.ingsw.client.view.GUI.Playground;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -125,7 +126,7 @@ public enum CamState {
         if (nextState==null)
             return;
         Translate t =  new Translate();
-        Point3D tbc=BoardView3D.getTableCenter();
+        Point3D tbc= Playground.getTableCenter();
         Rotate rotateCam1 = new Rotate(0, tbc.getX(),tbc.getY(),tbc.getZ(),Rotate.X_AXIS);
         Rotate rotateCam2 = new Rotate(0, new Point3D(0, 1, 0));
         Rotate rotateCam3 = new Rotate(0, tbc.getX(),tbc.getY(),tbc.getZ(),Rotate.Z_AXIS);
@@ -157,6 +158,6 @@ public enum CamState {
         timeline.play();
         timeline.setOnFinished(e->animationInPlaying=false);
         camera.getTransforms().setAll(t,rotateCam1,rotateCam3);
-        BoardView3D.setCamState(nextState);
+        Playground.setCamState(nextState);
     }
 }

@@ -1,7 +1,9 @@
 package it.polimi.ingsw.client.view.GUI.board;
 
+import it.polimi.ingsw.client.simplemodel.PlayerCache;
 import it.polimi.ingsw.client.view.GUI.BoardView3D;
 
+import it.polimi.ingsw.client.view.GUI.util.NodeAdder;
 import it.polimi.ingsw.client.view.GUI.util.ResourceGUI;
 
 import it.polimi.ingsw.network.simplemodel.PlayersInfo;
@@ -25,7 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.getSimpleModel;
-import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.getThisPlayerCache;
 
 
 public class FaithTrack implements PropertyChangeListener {
@@ -45,21 +46,23 @@ public class FaithTrack implements PropertyChangeListener {
     List<AnchorPane> playersInfo;
     Group faithGroup=new Group();
     Group infoGroup;
+    private PlayerCache cache;
 
-    public void faithTrackBuilder(BoardView3D view3D, Group parent, Rectangle board,int pos){
+    public void faithTrackBuilder(BoardView3D view3D, Group parent, Rectangle board, int playerNumber, PlayerCache cache){
         player = view3D.addAndGetShape(faithGroup,faithGroup,ResourceGUI.FAITH,board.localToParent(new Point3D(faithStartingX,faithStartingY,0)));
         if (getSimpleModel().getPlayersCaches().length==1) {
             lorenzo = view3D.addAndGetShape(faithGroup,faithGroup, ResourceGUI.FAITH,board.localToParent(new Point3D(faithStartingX+10,faithStartingY+10,0)));
             lorenzo.setMaterial(new PhongMaterial(Color.BLACK));
         }
-        playerNumber =pos;
+        this.playerNumber =playerNumber;
         faithStartingX= player.getLayoutX();
         faithStartingY= player.getLayoutY();
+        this.cache = cache;
 
         firstTile=new Rectangle(200,200);
         firstTile.setLayoutX(0);
         firstTile.setLayoutY(0);
-        view3D.addNodeToParent(faithGroup,faithGroup,firstTile,board.localToParent(new Point3D(560,235,0)));
+        NodeAdder.addNodeToParent(faithGroup,faithGroup,firstTile,board.localToParent(new Point3D(560,235,0)));
         ImagePattern tempImage = new ImagePattern(new Image("assets/track/FAVOUR_TILE_1_ACTIVE.png"));
         firstTile.setFill(tempImage);
 
@@ -67,7 +70,7 @@ public class FaithTrack implements PropertyChangeListener {
         secondTile=new Rectangle(200,200);
         secondTile.setLayoutX(0);
         secondTile.setLayoutY(0);
-        view3D.addNodeToParent(faithGroup,faithGroup,secondTile,board.localToParent(new Point3D(1150,110,0)));
+        NodeAdder.addNodeToParent(faithGroup,faithGroup,secondTile,board.localToParent(new Point3D(1150,110,0)));
 
         tempImage = new ImagePattern(new Image("assets/track/FAVOUR_TILE_2_ACTIVE.png"));
         secondTile.setFill(tempImage);
@@ -76,7 +79,7 @@ public class FaithTrack implements PropertyChangeListener {
         thirdTile=new Rectangle(200,200);
         thirdTile.setLayoutX(0);
         thirdTile.setLayoutY(0);
-        view3D.addNodeToParent(faithGroup,faithGroup,thirdTile,board.localToParent(new Point3D(1860,235,0)));
+        NodeAdder.addNodeToParent(faithGroup,faithGroup,thirdTile,board.localToParent(new Point3D(1860,235,0)));
 
         tempImage = new ImagePattern(new Image("assets/track/FAVOUR_TILE_3_ACTIVE.png"));
         thirdTile.setFill(tempImage);
@@ -97,7 +100,7 @@ public class FaithTrack implements PropertyChangeListener {
 
     public void moveFaith(int i) {
 
-        SimpleFaithTrack faith= getThisPlayerCache().getElem(SimpleFaithTrack.class).orElseThrow();
+        SimpleFaithTrack faith= cache.getElem(SimpleFaithTrack.class).orElseThrow();
         player.setLayoutX(faithStartingX+faith.getTrack().get(i).getX_pos()*boardWidth/20.5);
         player.setLayoutY(faithStartingY+faith.getTrack().get(i).getY_pos()* boardHeight /13);
 
@@ -106,7 +109,7 @@ public class FaithTrack implements PropertyChangeListener {
 
     public void moveLorenzo(int i) {
 
-        SimpleFaithTrack faith= getThisPlayerCache().getElem(SimpleFaithTrack.class).orElseThrow();
+        SimpleFaithTrack faith= cache.getElem(SimpleFaithTrack.class).orElseThrow();
 
         lorenzo.setLayoutX(faithStartingX+faith.getTrack().get(i).getX_pos()*boardWidth/20.5);
         lorenzo.setLayoutY(faithStartingY+faith.getTrack().get(i).getY_pos()* boardHeight /13);
@@ -196,7 +199,7 @@ public class FaithTrack implements PropertyChangeListener {
 
                         anchor.getChildren().add(text);
 
-                        BoardView3D.getBoard().addNodeToParent(infoGroup, infoGroup,anchor,new Point3D(0,150*i,0));
+                        NodeAdder.addNodeToParent(infoGroup, infoGroup,anchor,new Point3D(0,150*i,0));
 
                         anchor.setId("background");
                         if(!infoGroup.getChildren().contains(anchor))

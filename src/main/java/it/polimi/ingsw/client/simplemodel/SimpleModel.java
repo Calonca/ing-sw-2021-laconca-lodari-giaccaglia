@@ -15,7 +15,7 @@ public class SimpleModel {
 
     private Map<String , SimpleModelElement> commonSimpleModelElementsMap = new HashMap<>();
 
-    private List<PlayerCache> playersCacheList;
+    private final List<PlayerCache> playersCacheList;
 
     private final PropertyChangeSupport support;
 
@@ -102,8 +102,12 @@ public class SimpleModel {
 
     }
 
-    public static int getNumOfPlayers(){
+    public int getNumOfPlayers(){
         return numOfPlayers;
+    }
+
+    public boolean isSinglePlayer(){
+        return numOfPlayers==1;
     }
 
 }

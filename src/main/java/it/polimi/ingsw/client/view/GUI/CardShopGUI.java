@@ -22,8 +22,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 import java.nio.file.Path;
@@ -80,7 +78,7 @@ public class CardShopGUI extends CardShopViewBuilder {
             choosePositionForCard();
         } else {
             active=true;
-            BoardView3D.getBoard().changeCamState(CamState.SEE_SHOP);
+            Playground.getPlayground().changeCamState(CamState.SEE_SHOP);
         }
     }
 
@@ -230,13 +228,11 @@ public class CardShopGUI extends CardShopViewBuilder {
     public static Group chosenCard;
     public static void addChosenCard(){
         SimpleCardShop simpleCardShop = getSimpleModel().getElem(SimpleCardShop.class).orElseThrow();
-        final Rectangle board = BoardView3D.getBoard().board;
-        final Group parent = BoardView3D.getBoard().parent;
         Path path = simpleCardShop.getPurchasedCard().orElseThrow().getCardPaths().getKey();
         ImageView imageView = new ImageView(new Image(path.toString(), true));
         if (chosenCard==null) {
             chosenCard = new Group();
-            BoardView3D.getBoard().addNodeToParent(parent, board, chosenCard, new Point3D(-500, -100, 0));
+            Playground.addNodeToThisPlayer(chosenCard, new Point3D(-500, -100, 0));
         } else {
             chosenCard.getChildren().clear();
         }
@@ -304,9 +300,8 @@ public class CardShopGUI extends CardShopViewBuilder {
     public void selectResources() {
         //Hide cardShop
         Platform.runLater(()-> {
-            //BoardView3D.getBoard().runforStart();
-            BoardView3D.getBoard().setMode(BoardView3D.Mode.SELECT_CARD_SHOP);
-            BoardView3D.getBoard().changeCamState(CamState.SELECT_CARD_SHOP);
+            Playground.getThisPlayerBoard().setMode(BoardView3D.Mode.SELECT_CARD_SHOP);
+            Playground.changeCamState(CamState.SELECT_CARD_SHOP);
         }
         );
 
@@ -318,8 +313,8 @@ public class CardShopGUI extends CardShopViewBuilder {
      */
     @Override
     public void choosePositionForCard() {
-        Platform.runLater(()-> BoardView3D.getBoard().setMode(BoardView3D.Mode.CHOOSE_POS_FOR_CARD));
-        BoardView3D.getBoard().changeCamState(CamState.TOP);
+        Platform.runLater(()-> Playground.getThisPlayerBoard().setMode(BoardView3D.Mode.CHOOSE_POS_FOR_CARD));
+        Playground.changeCamState(CamState.TOP);
     }
 
 
