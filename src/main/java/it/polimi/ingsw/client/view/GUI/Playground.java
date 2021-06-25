@@ -100,7 +100,7 @@ public class Playground {
             active = true;
             Node root = getRoot();
             root.setId("3DVIEW");
-            GUI.getRealPane().getChildren().add(root);
+            GUI.getRealPane().getChildren().add(1,root);
             System.out.println(GUI.getRealPane().getChildren());
         }
     }

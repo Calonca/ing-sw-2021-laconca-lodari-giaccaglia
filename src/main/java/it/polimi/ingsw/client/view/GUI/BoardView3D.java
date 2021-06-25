@@ -170,12 +170,12 @@ public class BoardView3D {
 
         Rectangle temp;
 
-   /*     temp=new Rectangle(150,150);
+        /*     temp=new Rectangle(150,150);
         temp.setTranslateY(500);
         temp.setTranslateX(200);
 
         addNodeToParent(parent,board,temp,new Point3D(-300,500+150,0));
-*/
+        */
         List<LeaderCardAsset> activeBonus = activeLeaders.getPlayerLeaders();
         for(int i=0;i<activeBonus.size();i++)
         {
