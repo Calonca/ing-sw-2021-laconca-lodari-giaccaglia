@@ -8,7 +8,6 @@ import it.polimi.ingsw.client.view.GUI.util.ResourceGUI;
 
 import it.polimi.ingsw.network.simplemodel.PlayersInfo;
 import it.polimi.ingsw.network.simplemodel.SimpleFaithTrack;
-import it.polimi.ingsw.network.simplemodel.TileState;
 import it.polimi.ingsw.network.simplemodel.VaticanReportInfo;
 import javafx.application.Platform;
 import javafx.geometry.Point3D;
@@ -60,11 +59,12 @@ public class FaithTrack implements PropertyChangeListener {
         faithStartingY= player.getLayoutY();
         this.cache = cache;
 
+
         firstTile=new Rectangle(200,200);
         firstTile.setLayoutX(0);
         firstTile.setLayoutY(0);
         NodeAdder.addNodeToParent(faithGroup,faithGroup,firstTile,board.localToParent(new Point3D(560,235,0)));
-        ImagePattern tempImage = new ImagePattern(new Image("assets/track/FAVOUR_TILE_1_ACTIVE.png"));
+        ImagePattern tempImage = new ImagePattern(new Image("assets/track/FAVOUR_TILE_1_INACTIVE.png"));
         firstTile.setFill(tempImage);
 
         infoGroup=new Group();
@@ -73,7 +73,7 @@ public class FaithTrack implements PropertyChangeListener {
         secondTile.setLayoutY(0);
         NodeAdder.addNodeToParent(faithGroup,faithGroup,secondTile,board.localToParent(new Point3D(1150,110,0)));
 
-        tempImage = new ImagePattern(new Image("assets/track/FAVOUR_TILE_2_ACTIVE.png"));
+        tempImage = new ImagePattern(new Image("assets/track/FAVOUR_TILE_2_INACTIVE.png"));
         secondTile.setFill(tempImage);
 
 
@@ -82,7 +82,7 @@ public class FaithTrack implements PropertyChangeListener {
         thirdTile.setLayoutY(0);
         NodeAdder.addNodeToParent(faithGroup,faithGroup,thirdTile,board.localToParent(new Point3D(1860,235,0)));
 
-        tempImage = new ImagePattern(new Image("assets/track/FAVOUR_TILE_3_ACTIVE.png"));
+        tempImage = new ImagePattern(new Image("assets/track/FAVOUR_TILE_3_INACTIVE.png"));
         thirdTile.setFill(tempImage);
 
 
@@ -90,9 +90,10 @@ public class FaithTrack implements PropertyChangeListener {
         popeTiles.add(secondTile);
         popeTiles.add(thirdTile);
 
-        moveFaith(0);
-        if (getSimpleModel().getPlayersCaches().length==1)
-            moveLorenzo(0);
+        player.setLayoutY(faithStartingY);
+        player.setLayoutX(faithStartingX);
+
+
         parent.getChildren().add(faithGroup);
         parent.getChildren().add(infoGroup);
 
@@ -103,7 +104,7 @@ public class FaithTrack implements PropertyChangeListener {
 
         SimpleFaithTrack faith= cache.getElem(SimpleFaithTrack.class).orElseThrow();
         player.setLayoutX(faithStartingX+faith.getTrack().get(i).getX_pos()*boardWidth/20.5);
-        player.setLayoutY(faithStartingY+faith.getTrack().get(i).getY_pos()* boardHeight /13);
+        player.setLayoutY(faithStartingY+faith.getTrack().get(i).getY_pos()* boardHeight /13.0);
 
 
     }
@@ -113,7 +114,7 @@ public class FaithTrack implements PropertyChangeListener {
         SimpleFaithTrack faith= cache.getElem(SimpleFaithTrack.class).orElseThrow();
 
         lorenzo.setLayoutX(faithStartingX+faith.getTrack().get(i).getX_pos()*boardWidth/20.5);
-        lorenzo.setLayoutY(faithStartingY+faith.getTrack().get(i).getY_pos()* boardHeight /13);
+        lorenzo.setLayoutY(faithStartingY+faith.getTrack().get(i).getY_pos()* boardHeight /13.0);
 
 
 
@@ -135,80 +136,78 @@ public class FaithTrack implements PropertyChangeListener {
 
 
 
-            Runnable done = new Runnable()
-            {
-                public void run()
+            Runnable done = () -> {
+                infoGroup.getChildren().clear();
+
+                PlayersInfo.SimplePlayerInfo playerInfo;
+                for(int i=0;i<playersInfo.getSimplePlayerInfoMap().size();i++)
                 {
-                    infoGroup.getChildren().clear();
 
-                    PlayersInfo.SimplePlayerInfo playerInfo;
-                    for(int i=0;i<playersInfo.getSimplePlayerInfoMap().size();i++)
+                    playerInfo=playersInfo.getSimplePlayerInfoMap().get(i);
+
+
+                    if(getSimpleModel().getElem(VaticanReportInfo.class).isPresent())
                     {
+                        VaticanReportInfo vaticanReportInfo;
+                        vaticanReportInfo=getSimpleModel().getElem(VaticanReportInfo.class).get();
 
-                        playerInfo=playersInfo.getSimplePlayerInfoMap().get(i);
+                        if(vaticanReportInfo.getPopeTileStatusMap().get(playerNumber).getKey()!=-1)
+                            if(!vaticanReportInfo.getPopeTileStatusMap().get(playerNumber).getValue())
+                                popeTiles.get(vaticanReportInfo.getPopeTileStatusMap().get(playerNumber).getKey()).setOpacity(0);
+                            else
+                                popeTiles.get(vaticanReportInfo.getPopeTileStatusMap().get(playerNumber).getKey()).setFill(new ImagePattern(new Image("assets/track/FAVOUR_TILE_"+vaticanReportInfo.getPopeTileStatusMap().get(playerNumber).getKey()+"_ACTIVE.png")));
 
-
-                        if(getSimpleModel().getElem(VaticanReportInfo.class).isPresent())
-                        {
-                            VaticanReportInfo vaticanReportInfo;
-                            vaticanReportInfo=getSimpleModel().getElem(VaticanReportInfo.class).get();
-
-                            if(vaticanReportInfo.getPopeTileStateMap().get(playerNumber).getKey()!=-1)
-                                if(!vaticanReportInfo.getPopeTileStateMap().get(playerNumber).getValue().equals(TileState.ACTIVE))
-                                    popeTiles.get(vaticanReportInfo.getPopeTileStateMap().get(playerNumber).getKey()).setOpacity(0);
-
-                                System.out.println(vaticanReportInfo.getPopeTileStateMap().get(playerNumber));
-
-
-
-                        }
-
-                        AnchorPane anchor=new AnchorPane();
-
-                        Text text;
-                        text=new Text("NICK:  " + playerInfo.getNickname());
-                        text.setLayoutX(50);
-                        text.setLayoutY(20);
-                        anchor.getChildren().add(text);
-
-                        anchor.setMinSize(200,100);
-
-                        if(playerInfo.isOnline())
-                            text=new Text("STATUS: ONLINE");
-                        else
-                            text=new Text("STATUS: OFFLINE");
-                        text.setLayoutX(50);
-                        text.setLayoutY(10);
-
-                        anchor.getChildren().add(text);
-
-                        text=new Text("FAITH:  " + playerInfo.getCurrentPosition());
-                        text.setLayoutX(50);
-                        text.setLayoutY(60);
-
-                        anchor.getChildren().add(text);
-
-                        text=new Text("PLAYER INDEX:  " + playerInfo.getPlayerIndex());
-                        text.setLayoutX(50);
-                        text.setLayoutY(80);
-
-                        anchor.getChildren().add(text);
-
-                        text=new Text("VICTORY POINTS:  " + playerInfo.getCurrentVictoryPoints());
-                        text.setLayoutX(50);
-                        text.setLayoutY(40);
-
-                        anchor.getChildren().add(text);
-
-                        NodeAdder.addNodeToParent(infoGroup, infoGroup,anchor,new Point3D(0,150*i,0));
-
-                        anchor.setId("background");
-                        if(!infoGroup.getChildren().contains(anchor))
-                            infoGroup.getChildren().add(anchor);
+                            System.out.println(vaticanReportInfo.getPopeTileStatusMap().get(playerNumber));
 
 
 
                     }
+
+                    AnchorPane anchor=new AnchorPane();
+
+                    Text text;
+                    text=new Text("NICK:  " + playerInfo.getNickname());
+                    text.setLayoutX(50);
+                    text.setLayoutY(20);
+                    anchor.getChildren().add(text);
+
+                    anchor.setMinSize(200,100);
+
+                    if(playerInfo.isOnline())
+                        text=new Text("STATUS: ONLINE");
+                    else
+                        text=new Text("STATUS: OFFLINE");
+                    text.setLayoutX(50);
+                    text.setLayoutY(10);
+
+                    anchor.getChildren().add(text);
+
+                    text=new Text("FAITH:  " + playerInfo.getCurrentPosition());
+                    text.setLayoutX(50);
+                    text.setLayoutY(60);
+
+                    anchor.getChildren().add(text);
+
+                    text=new Text("PLAYER INDEX:  " + playerInfo.getPlayerIndex());
+                    text.setLayoutX(50);
+                    text.setLayoutY(80);
+
+                    anchor.getChildren().add(text);
+
+                    text=new Text("VICTORY POINTS:  " + playerInfo.getCurrentVictoryPoints());
+                    text.setLayoutX(50);
+                    text.setLayoutY(40);
+
+                    anchor.getChildren().add(text);
+
+                    NodeAdder.addNodeToParent(infoGroup, infoGroup,anchor,new Point3D(0,150*i,0));
+
+                    anchor.setId("background");
+                    if(!infoGroup.getChildren().contains(anchor))
+                        infoGroup.getChildren().add(anchor);
+
+
+
                 }
             };
 

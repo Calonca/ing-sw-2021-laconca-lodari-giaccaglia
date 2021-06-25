@@ -12,10 +12,14 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
+
     public Button cardButton;
     public Button productionButton;
     public Button resourceMarketButton;
     public AnchorPane middleAnchor;
+
+    double middleWidth=500;
+    double middleLen=400;
 
     /**
      * This runnable appends the scene to the current view
@@ -40,7 +44,7 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
             e.printStackTrace();
         }
 
-        return new SubScene(root,500,400);
+        return new SubScene(root,middleWidth,middleLen);
 
     }
 

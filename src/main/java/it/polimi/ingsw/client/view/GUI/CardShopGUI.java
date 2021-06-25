@@ -6,6 +6,7 @@ import it.polimi.ingsw.client.view.GUI.util.CardSelector;
 import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCardColor;
+import it.polimi.ingsw.network.assets.leaders.NetworkDevelopmentDiscountLeaderCard;
 import it.polimi.ingsw.network.assets.leaders.NetworkMarketLeaderCard;
 import it.polimi.ingsw.network.simplemodel.SimpleCardShop;
 import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
@@ -105,7 +106,7 @@ public class CardShopGUI extends CardShopViewBuilder {
 
                 tempImage.setRotate(Math.random() * (cardTilt - -cardTilt + 1) + -1 );
 
-                double cardWidth=(width-90)/COLUMNS;
+                double cardWidth=(width-cardsVGap*4.5)/COLUMNS;
                 tempImage.setFitWidth(cardWidth);
 
                 tempImage.setPreserveRatio(true);
@@ -122,9 +123,9 @@ public class CardShopGUI extends CardShopViewBuilder {
                     else
                         path=simpleCardShop.getCardFront(NetworkDevelopmentCardColor.fromInt(j),3-i).get().getCardPaths().getKey();
                     tempStackImage=new ImageView(new Image(path.toString(), true));
-                    tempStackImage.setLayoutX(20+(cardsHGap+cardWidth)*j);
-                    tempStackImage.setLayoutY(20+(cardsVGap+cardWidth*(741/504.0))*i);
-                    tempStackImage.setRotate(Math.random() * ((5 - -5) + 1) + -5);
+                    tempStackImage.setLayoutX(cardsHGap+(cardsHGap+cardWidth)*j);
+                    tempStackImage.setLayoutY(20+(cardsHGap+cardWidth*(741/504.0))*i);
+                    tempStackImage.setRotate(Math.random() * ((cardTilt*50 - -cardTilt*50) + 1) + -5);
                     tempStackImage.setFitWidth(cardWidth);
                     tempStackImage.setEffect(dropShadow);
                     tempStackImage.setPreserveRatio(true);
@@ -133,8 +134,8 @@ public class CardShopGUI extends CardShopViewBuilder {
 
                 }
                 cardsAnchor.getChildren().add(tempImage);
-                tempImage.setLayoutX(20+(cardsHGap+cardWidth)*j);
-                tempImage.setLayoutY(20+(cardsVGap+cardWidth*(741/504.0))*i);
+                tempImage.setLayoutX(cardsHGap+(cardsHGap+cardWidth)*j);
+                tempImage.setLayoutY(cardsHGap+(cardsVGap+cardWidth*(741/504.0))*i);
 
                 scenesCardsToChoose.add(tempImage);
                 availableCards.add(simpleCardShop.getCardFront(NetworkDevelopmentCardColor.fromInt(j),3-i).get().getDevelopmentCard().isSelectable());
@@ -195,13 +196,17 @@ public class CardShopGUI extends CardShopViewBuilder {
 
         ImageView temp=new ImageView(new Image("assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_0.png"));
 
+        temp.setLayoutX(20+100);
+        temp.setLayoutY(len-100);
+        temp.setTranslateZ(-100);
 
+        cardsAnchor.getChildren().add(temp);
         List<LeaderCardAsset> activeBonus = activeLeaders.getPlayerLeaders();
         for(int i=0;i<activeBonus.size();i++)
         {
 
             if(activeBonus.get(i).getNetworkLeaderCard().isLeaderActive())
-                if(activeBonus.get(i).getNetworkLeaderCard() instanceof NetworkMarketLeaderCard)
+                if(activeBonus.get(i).getNetworkLeaderCard() instanceof NetworkDevelopmentDiscountLeaderCard)
                 {
                     temp=new ImageView(new Image(activeBonus.get(i).getCardPaths().getKey().toString(),false));
                     temp.setFitHeight(100);
@@ -286,11 +291,7 @@ public class CardShopGUI extends CardShopViewBuilder {
         return confirm;
     }
 
-    /**
-     * The cardShop gets initialized as soon as the board.
-     * @param url is ignored
-     * @param resourceBundle is ignored
-     */
+
 
 
     /**

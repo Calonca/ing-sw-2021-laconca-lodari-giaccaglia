@@ -24,8 +24,6 @@ import javafx.scene.shape.Sphere;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
-import javax.swing.text.html.ImageView;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,36 +33,37 @@ import java.util.List;
 public class ResourceMarketGUI extends ResourceMarketViewBuilder {
 
 
-    Text error=new Text("NOT ALLOWED RIGHT NOW.");
-    boolean selected=false;
     public Sphere toPut;
 
-    public int NUMBEROFROWS =4;
-    public int NUMBEROFCOLUMNS =3;
+    public int NUMBEROFCOLUMNS =4;
+    public int NUMBEROFROWS =3;
 
     public double ballsize=40;
-    int rowButtonHeight=130;
     int columnButtonOffset=-75;
 
 
-    double ballsXOffset=-4.5;
+    double ballsXOffset =-4.5;
 
-    double toPutStartingY=ballsXOffset+ NUMBEROFCOLUMNS *ballsize*2;
-    double toPutStartingX;
+    double toPutStartingY= ballsXOffset + NUMBEROFROWS *ballsize*2;
+    double toPutStartingHeight;
 
     public boolean enabled=false;
     public double width=400;
-    public double reaWidth=550;
-    public double len=320;
-    public double reaLen=700;
+    public double columnButtonX=250;
+    public double columnButtonY=500;
+
+    public double rowButtonY=-700;
+
 
     //public AnchorPane marketPane;
-    double marketTranslateX=600;
-    double MarketTranslateY=-30;
+    double marketTranslateX=-410;
+    double marketTranslateY=-370;
 
-    List<ImageView> activeLeaders=new ArrayList<>();
-    double subSceneTranslateY=75;
-    double subSceneTranslateX=75;
+    double leadersTranslateX=-200;
+    double leadersTranslateY=350;
+
+    double buttonsTranslateX=-100;
+    double buttonsTranslateY=550;
     public List<List<Sphere>> rows=new ArrayList<>();
     public List<List<Sphere>> columns=new ArrayList<>();
     private Group root3D;
@@ -88,54 +87,29 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
         buttons = new Group();
         Group leaders=new Group();
 
-        leaders.setTranslateX(-200);
-        leaders.setTranslateY(350);
+        leaders.setTranslateX(leadersTranslateX);
+        leaders.setTranslateY(leadersTranslateY);
 
-        buttons.setTranslateX(-100);
-        buttons.setTranslateY(550);
+        buttons.setTranslateX(buttonsTranslateX);
+        buttons.setTranslateY(buttonsTranslateY);
 
         root3D.getChildren().add(leaders);
         root3D.getChildren().add(buttons);
         buttons.setRotate(90);
         leaders.setRotate(90);
 
-
-        //marketPane=new AnchorPane();
-        //marketPane.setMinSize(700,1000);
-
-
-        //PerspectiveCamera camera = new PerspectiveCamera(true);
-        //camera.getTransforms().addAll(new Rotate(90,Rotate.Z_AXIS),new Rotate(0,Rotate.X_AXIS), new Rotate(0,Rotate.Y_AXIS), new Translate(0, 0, -20));
-        //camera.translateXProperty().set(0);
-        //camera.translateYProperty().set(-2.0);
-        //camera.setTranslateZ(4);
-
-        ActiveLeaderBonusInfo marketBonuses = getThisPlayerCache().getElem(ActiveLeaderBonusInfo.class).orElseThrow();
-
-
         SimplePlayerLeaders activeLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).orElseThrow();
 
-        Rectangle temp;
-        temp=new Rectangle(150,100);
-        temp.setTranslateY(250);
-        temp.setTranslateX(-50);
-
-        leaders.getChildren().add(temp);
-
-        temp=new Rectangle(150,100);
-        temp.setTranslateY(250);
-        temp.setTranslateX(-250);
-
-        leaders.getChildren().add(temp);
+        Rectangle sceneLeadersToAdd;
 
         ImagePattern marketAsset=new ImagePattern(new Image("assets/punchboard/MarketBoard.png"));
 
-        Rectangle rectangle=new Rectangle(770,1000);
-        rectangle.setFill(marketAsset);
-        rectangle.setTranslateX(-410);
-        rectangle.setTranslateY(-370);
+        Rectangle marketBoardRectangle =new Rectangle(770,1000);
+        marketBoardRectangle.setFill(marketAsset);
+        marketBoardRectangle.setTranslateX(marketTranslateX);
+        marketBoardRectangle.setTranslateY(marketTranslateY);
 
-        root3D.getChildren().add(rectangle);
+        root3D.getChildren().add(marketBoardRectangle);
         List<LeaderCardAsset> activeBonus = activeLeaders.getPlayerLeaders();
         for(int i=0;i<activeBonus.size();i++)
         {
@@ -143,40 +117,30 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
             if(activeBonus.get(i).getNetworkLeaderCard().isLeaderActive())
                 if(activeBonus.get(i).getNetworkLeaderCard() instanceof NetworkMarketLeaderCard)
                 {
-                    temp=new Rectangle(150,100);
-                    temp.setTranslateY(250);
-                    temp.setTranslateX(-50*(1+i));
+                    sceneLeadersToAdd=new Rectangle(150,100);
+                    sceneLeadersToAdd.setTranslateY(250);
+                    sceneLeadersToAdd.setTranslateX(-50*(4+i));
+                    sceneLeadersToAdd.setTranslateZ(-10);
 
-                    temp.setFill(new ImagePattern(new Image(activeBonus.get(i).getCardPaths().getKey().toString(),false)));
-                    leaders.getChildren().add(temp);
-
-                }
-            if(activeBonus.get(i).getNetworkLeaderCard().isLeaderActive())
-                if(activeBonus.get(i).getNetworkLeaderCard() instanceof NetworkMarketLeaderCard)
-                {
-                    temp=new Rectangle(150,100);
-                    temp.setTranslateY(250);
-                    temp.setTranslateX(-250*(1+i));
-                    Path path=activeBonus.get(i).getCardPaths().getKey();
-                    temp.setFill(new ImagePattern(new Image(path.toString(),false)));
-                    leaders.getChildren().add(temp);
+                    sceneLeadersToAdd.setFill(new ImagePattern(new Image(activeBonus.get(i).getCardPaths().getKey().toString(),false)));
+                    leaders.getChildren().add(sceneLeadersToAdd);
 
                 }
 
         }
 
-        double x=ballsize*2;
-        for(int i = 0; i< NUMBEROFROWS; i++)
+        double rowsStartingHeight=ballsize*2;
+        for(int i = 0; i< NUMBEROFCOLUMNS; i++)
         {
-            generateRow(root3D,x,ballsXOffset,i);
-            x-=2*ballsize;
+            generateColumns(root3D,rowsStartingHeight, ballsXOffset,i);
+            rowsStartingHeight-=2*ballsize;
         }
 
-        toPutStartingX=x;
+        toPutStartingHeight=rowsStartingHeight;
 
         toPut=new Sphere(ballsize);
         toPut.translateYProperty().set(toPutStartingY);
-        toPut.translateXProperty().set(toPutStartingX+10*ballsize);
+        toPut.translateXProperty().set(toPutStartingHeight +10*ballsize);
         root3D.getChildren().add(toPut);
 
         List<Color> colors=new ArrayList<>(){{
@@ -191,24 +155,15 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
 
 
         toPut.setMaterial(new PhongMaterial(colors.get(getSimpleMarketBoard().getSlideMarble().ordinal())));
-        generateColumns(rows,columnButtonOffset);
+        generateRow(rows,columnButtonOffset);
 
         MarbleAsset[][] marketMatrix=getMarketMatrix();
 
-        for(int j=0;j<NUMBEROFCOLUMNS;j++)
-            for(int i=0;i<NUMBEROFROWS;i++)
-                columns.get(j).get(NUMBEROFROWS-i-1).setMaterial(new PhongMaterial(colors.get(marketMatrix[j][i].ordinal())));
-        //SubScene slideSubscene = new SubScene(root3D, width, len, true, SceneAntialiasing.BALANCED);
-        //slideSubscene.setTranslateY(subSceneTranslateY);
-        //slideSubscene.setTranslateX(subSceneTranslateX);;
-        //slideSubscene.setFill(Color.TRANSPARENT);
-        //slideSubscene.setCamera(camera);
+        for(int j = 0; j< NUMBEROFROWS; j++)
+            for(int i = 0; i< NUMBEROFCOLUMNS; i++)
+                columns.get(j).get(NUMBEROFCOLUMNS -i-1).setMaterial(new PhongMaterial(colors.get(marketMatrix[j][i].ordinal())));
 
 
-        //marketPane.getChildren().add(slideSubscene);
-        //marketPane.setId("marketPane");
-
-        buttons.getChildren().add(error);
         getClient().getStage().show();
         toPut.translateZProperty().set(toPut.getTranslateZ()-100);
 
@@ -240,19 +195,19 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
     /**
      * Given a starting position, using the ROWSIZE, a list of lists (rows) is created
      * @param root3D is not null
-     * @param x is not null, coordinate
-     * @param y is not null, coordinate
-     * @param k index
+     * @param rowsHeight is not null, coordinate
+     * @param rowsStartingX is not null, coordinate
+     * @param buttonIndexY index to position correctly
      */
-    public void generateRow(Group root3D,double x, double y, int k){
+    public void generateColumns(Group root3D, double rowsHeight, double rowsStartingX, int buttonIndexY){
 
 
         List<Sphere> row=new ArrayList<>();
-        for(int i = 0; i< NUMBEROFCOLUMNS; i++)
+        for(int i = 0; i< NUMBEROFROWS; i++)
         {
             Sphere ball=new Sphere(ballsize);
-            ball.translateYProperty().set(y+i*2*ballsize);
-            ball.translateXProperty().set(x);
+            ball.translateYProperty().set(rowsStartingX+i*2*ballsize);
+            ball.translateXProperty().set(rowsHeight);
             ball.translateZProperty().set(ball.getTranslateZ()-100);
 
             root3D.getChildren().add(ball);
@@ -261,11 +216,11 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
         }
 
         Button button=new Button();
-        button.setTranslateX(250);
+        button.setTranslateX(columnButtonX);
         button.setTranslateZ(-100);
 
-        button.setTranslateY(-500+100*k);
-        button.setGraphic(new Text(Integer.toString(7-1-k)));
+        button.setTranslateY(- columnButtonY+100*buttonIndexY);
+        button.setGraphic(new Text(Integer.toString(7 -1-buttonIndexY)));
         button.setOnAction( p-> {
 
             if(active)
@@ -273,9 +228,8 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
             active=true;
 
 
-            selected=true;
 
-            toPut.setTranslateX(x);
+            toPut.setTranslateX(rowsHeight);
             moveY(toPut,toPut.getTranslateY()-2*ballsize,new Duration(100));
 
 
@@ -291,14 +245,14 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
 
 
             TranslateTransition transition = new TranslateTransition(Duration.seconds(0.75), toPut);
-            transition.setToX(toPutStartingX+(NUMBEROFCOLUMNS+2)*ballsize*2);
+            transition.setToX(toPutStartingHeight +(NUMBEROFROWS +2)*ballsize*2);
             transition.setAutoReverse(false);
             transition.setDelay(new Duration(600));
             transition.setOnFinished(e->
             {
 
-                sendLine(7-1-k);
-                System.out.println(7-1-k);
+                sendLine(NUMBEROFCOLUMNS + NUMBEROFROWS-1-buttonIndexY);
+                System.out.println(7-1-buttonIndexY);
 
             });
             transition.play();
@@ -314,7 +268,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
      * @param rows is not null
      * @param h is not null, coordinate
      */
-    public void generateColumns(List<List<Sphere>> rows,int h){
+    public void generateRow(List<List<Sphere>> rows, int h){
 
 
 
@@ -327,7 +281,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
             Button button=new Button();
             button.setTranslateX(h);
             h+=80;
-            button.setTranslateY(-700);
+            button.setTranslateY(rowButtonY);
 
             setBut(button,i);
             buttons.getChildren().add(button);
@@ -354,7 +308,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
 
 
             toPut.setTranslateY(toPut.getTranslateY()-(2-i+1)*ballsize*2);
-            toPut.setTranslateX(toPutStartingX+(NUMBEROFCOLUMNS+2)*ballsize*2);
+            toPut.setTranslateX(toPutStartingHeight +(NUMBEROFROWS +2)*ballsize*2);
 
             moveX(toPut,toPut.getTranslateX()-2*ballsize,new Duration(100));
 
@@ -379,18 +333,15 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
             toPut=temp;
 
 
-            moveY(toPut,toPutStartingY-(NUMBEROFCOLUMNS+1)*ballsize*2,new Duration(700));
+            moveY(toPut,toPutStartingY-(NUMBEROFROWS +1)*ballsize*2,new Duration(700));
 
             TranslateTransition transition = new TranslateTransition(Duration.seconds(0.75), toPut);
-            transition.setToX(toPutStartingX+(NUMBEROFCOLUMNS+2)*ballsize*2);
+            transition.setToX(toPutStartingHeight +(NUMBEROFROWS +2)*ballsize*2);
             transition.setAutoReverse(false);
             transition.setDelay(new Duration(1300));
             transition.setOnFinished(e->
-            {
-
-                sendLine(i);
-
-            });
+                    sendLine(i));
+            System.out.println(i);
             transition.play();
 
             active=false;
@@ -414,6 +365,9 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
         });
     }
 
+
+    double bonusStartingX=-400;
+    double bonusY=500;
     @Override
     public void chooseMarbleConversion() {
 
@@ -424,8 +378,6 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
         res.add(new javafx.scene.image.ImageView(new Image("assets/resources/SHIELD.png")));
         res.add(new javafx.scene.image.ImageView(new Image("assets/resources/STONE.png")));
 
-        List<ResourceAsset> resourcesToChoose =new ArrayList<>();
-        resourcesToChoose.add(ResourceAsset.TO_CHOOSE);
 
         ActiveLeaderBonusInfo simplePlayerLeaders = getSimpleModel().getPlayerCache(getClient().getCommonData().getThisPlayerIndex()).getElem(ActiveLeaderBonusInfo.class).orElseThrow();
 
@@ -439,8 +391,8 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
         for(int i=0;i<toChoose.size();i++) {
             int finalI = i;
 
-            res.get((toChoose.get(finalI).getResourceNumber())).setLayoutX(-400+200*finalI);
-            res.get((toChoose.get(finalI).getResourceNumber())).setLayoutY(500);
+            res.get((toChoose.get(finalI).getResourceNumber())).setLayoutX(-bonusStartingX+200*finalI);
+            res.get((toChoose.get(finalI).getResourceNumber())).setLayoutY(bonusY);
             res.get((toChoose.get(finalI).getResourceNumber())).setTranslateZ(-100);
 
             resourceGroup.getChildren().add(res.get((toChoose.get(finalI).getResourceNumber())));

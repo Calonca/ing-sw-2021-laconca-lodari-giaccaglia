@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.abstractview;
 
 import it.polimi.ingsw.client.view.CLI.match.LobbyViewBuilderCLI;
+import it.polimi.ingsw.client.view.GUI.LobbyViewBuilderGUI;
 
 import java.util.UUID;
 
@@ -15,7 +16,7 @@ public abstract class LobbyViewBuilder extends ViewBuilder {
     public static ViewBuilder getBuilder(boolean isCLI){
         if (isCLI)
             return new LobbyViewBuilderCLI();
-        else return new it.polimi.ingsw.client.view.GUI.MatchToStart();
+        else return new LobbyViewBuilderGUI();
     }
 
 

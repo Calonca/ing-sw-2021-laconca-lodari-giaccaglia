@@ -1,14 +1,7 @@
 package it.polimi.ingsw.client.view.GUI;
 
 import it.polimi.ingsw.client.CommonData;
-import it.polimi.ingsw.client.simplemodel.State;
-import it.polimi.ingsw.client.view.CLI.CLI;
-import it.polimi.ingsw.client.view.CLI.layout.drawables.Canvas;
-import it.polimi.ingsw.client.view.GUI.util.ResourceGUI;
 import it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchViewBuilder;
-import it.polimi.ingsw.client.view.abstractview.IDLEViewBuilder;
-import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
-import it.polimi.ingsw.client.view.abstractview.SetupPhaseViewBuilder;
 import javafx.animation.Animation;
 import javafx.animation.RotateTransition;
 import javafx.animation.TranslateTransition;
@@ -21,7 +14,6 @@ import javafx.scene.Parent;
 
 import javafx.scene.SubScene;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 
 import javafx.scene.shape.Sphere;
 import javafx.scene.text.Text;
@@ -32,12 +24,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-import static it.polimi.ingsw.client.simplemodel.State.*;
-
 /**
  * Waiting screen
  */
-public class MatchToStart extends CreateJoinLoadMatchViewBuilder implements GUIView {
+public class LobbyViewBuilderGUI extends CreateJoinLoadMatchViewBuilder implements GUIView {
 
     @FXML
     private AnchorPane createPane;
@@ -56,7 +46,7 @@ public class MatchToStart extends CreateJoinLoadMatchViewBuilder implements GUIV
 
     public SubScene getRoot() {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/fxml/MatchToStart.fxml"));
+        loader.setLocation(getClass().getResource("/fxml/Lobby.fxml"));
         Parent root = null;
         try {
             root = loader.load();

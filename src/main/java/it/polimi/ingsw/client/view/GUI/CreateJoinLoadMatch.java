@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view.GUI;
 
 import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchViewBuilder;
+import it.polimi.ingsw.client.view.abstractview.LobbyViewBuilder;
 import it.polimi.ingsw.network.messages.clienttoserver.JoinMatchRequest;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -21,7 +22,6 @@ import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
-import java.util.stream.Stream;
 
 /**
  * The user will be asked if they want to join a match of their choosing or create one.
@@ -39,7 +39,8 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
     double HGap=50;
     double width=GUI.GUIwidth;
     double len= GUI.GUIlen;
-    public double tileWidth=width/3;
+    int maxcolumn=3;
+    public double tileWidth=width/(maxcolumn+1);
     public double tileheight=len/7;
 
     public class MatchRow {
@@ -145,23 +146,22 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         createPane.setPrefHeight(tileheight);
         createPane.setPrefWidth(tileWidth);
 
-        Button creationBut=new Button();
-        creationBut.setLayoutY(tileheight/2.0);
-        creationBut.setLayoutX(tileWidth/2);
-        creationBut.setOnAction( p ->
+        Button creationButton=new Button();
+        creationButton.setLayoutY(tileheight/2.0);
+        creationButton.setLayoutX(tileWidth/2);
+        creationButton.setOnAction( p ->
         {
             created=true;
             getClient().changeViewBuilder(new CreateMatchGUI());
-
         });
 
-        creationBut.setText("CREATE");
+        creationButton.setText("CREATE");
 
         Effect dropShadow=new DropShadow(BlurType.GAUSSIAN,Color.rgb(0,0,0,0.5),10,0.7,5,5);
         createPane.setBorder(new Border(new BorderStroke(Color.YELLOW, BorderStrokeStyle.DOTTED,CornerRadii.EMPTY,BorderWidths.DEFAULT)));
         createPane.setStyle(" -fx-background-color: linear-gradient(to right, #5771f2, #021782);");
         createPane.setEffect(dropShadow);
-        createPane.getChildren().add(creationBut);
+        createPane.getChildren().add(creationButton);
         return createPane;
     }
 
@@ -192,7 +192,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         joinMatchButton.setOnAction( p ->
         {
            getClient().getServerHandler().sendCommandMessage(new JoinMatchRequest(matchRow.getId(),getClient().getCommonData().getCurrentNick()));
-           getClient().changeViewBuilder(new MatchToStart());
+           getClient().changeViewBuilder(LobbyViewBuilder.getBuilder(getClient().isCLI()));
         });
 
 
@@ -236,7 +236,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
         {
 
             //todo improve
-            if(column==2)
+            if(column==maxcolumn)
             {
                 column=0;
                 row++;
