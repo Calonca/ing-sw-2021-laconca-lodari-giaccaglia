@@ -143,13 +143,13 @@ public class Playground {
 
         final int thisPlayerIndex = getCommonData().getThisPlayerIndex();
         //Orders the other players' boards based on their position in respect to the player controlling the GUI
-        Map<Integer,BoardView3D> boarsClockWise = boards.entrySet().stream().collect(Collectors.toMap(e->
-                e.getKey()<thisPlayerIndex?e.getKey()+boards.size():e.getKey(),
+        Map<Integer,BoardView3D> boardsClockWise = boards.entrySet().stream().collect(Collectors.toMap(e->
+                        (e.getKey()<thisPlayerIndex?e.getKey()+boards.size():e.getKey())-thisPlayerIndex,
                 Map.Entry::getValue
         ));
 
         //Adds the tables in clockwise order
-        root.getChildren().addAll((boarsClockWise.entrySet().stream().sorted(Map.Entry.comparingByKey())
+        root.getChildren().addAll((boardsClockWise.entrySet().stream().sorted(Map.Entry.comparingByKey())
                 .map(e->e.getValue().getRoot(e.getKey()))
                 .collect(Collectors.toList())));
 
