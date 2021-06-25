@@ -51,7 +51,7 @@ public class Box3D {
             int gPos = line.getKey();
 
             ResourceGUI resTest = ResourceGUI.fromAsset(line.getValue().getKey());
-            Shape3D shape = view3D.addAndGetShape(discardBoxGroup,discardBoxGroup,resTest,new Point3D(0,lineHeight * addedLines,0));
+            Shape3D shape = view3D.addAndGetShape(discardBoxGroup,resTest,new Point3D(0,lineHeight * addedLines,0));
             discardBoxGroup.getChildren().add(lineGroup);
             DragAndDropData dragAndDropData = new DragAndDropData();
             dragAndDropData.setResourceGUI(resTest);
@@ -117,7 +117,7 @@ public class Box3D {
             boolean finalIsSelectable = isSelectable;
             int finalAddedLines = addedLines;
             shape.setOnMousePressed((u)->{
-                if (toSelect!=null) {
+                if (true) {
                     if (toSelect.choosingInput())
                         view3D.getToSelect().setNextInputPos(gPos, line.getValue().getKey());
                     else view3D.getToSelect().setNextInputPos(0, line.getValue().getKey());
@@ -169,7 +169,7 @@ public class Box3D {
             ResourceGUI resTest = ResourceGUI.fromAsset(line.getValue().getKey());
             sLine.res = resTest;
 
-            sLine.shape = view3D.addAndGetShape(strongBoxGroup,strongBoxGroup,resTest,new Point3D(shiftX,shiftY,0));
+            sLine.shape = view3D.addAndGetShape(strongBoxGroup,resTest,new Point3D(shiftX,shiftY,0));
 
             long numOfSelected =  SimpleStrongBox.numAndSel(line).getValue();
 

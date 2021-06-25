@@ -49,9 +49,9 @@ public class FaithTrack implements PropertyChangeListener {
     private PlayerCache cache;
 
     public void faithTrackBuilder(BoardView3D view3D, Group parent, Rectangle board, int playerNumber, PlayerCache cache){
-        player = view3D.addAndGetShape(faithGroup,faithGroup,ResourceGUI.FAITH,board.localToParent(new Point3D(faithStartingX,faithStartingY,0)));
+        player = view3D.addAndGetShape(faithGroup,ResourceGUI.FAITH,board.localToParent(new Point3D(faithStartingX,faithStartingY,0)));
         if (getSimpleModel().getPlayersCaches().length==1) {
-            lorenzo = view3D.addAndGetShape(faithGroup,faithGroup, ResourceGUI.FAITH,board.localToParent(new Point3D(faithStartingX+10,faithStartingY+10,0)));
+            lorenzo = view3D.addAndGetShape(faithGroup, ResourceGUI.FAITH,board.localToParent(new Point3D(faithStartingX+10,faithStartingY+10,0)));
             lorenzo.setMaterial(new PhongMaterial(Color.BLACK));
         }
         this.playerNumber =playerNumber;

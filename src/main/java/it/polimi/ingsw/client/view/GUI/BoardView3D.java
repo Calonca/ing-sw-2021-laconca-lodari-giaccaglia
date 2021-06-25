@@ -49,7 +49,7 @@ public class BoardView3D {
                 final Group parent = board.parent;
                 Box3D.discardBuilder(board,parent,boardRec , ddHandler);
                 new Box3D().strongBuilder(board,parent,boardRec);
-                Warehouse3D.wareBuilder(board, parent,boardRec,ddHandler, board.getCache());
+                board.getWarehouse().setDropHandler(ddHandler);
                 ddHandler.startDragAndDropOnEach(parent,boardRec);
             }
         },
@@ -59,6 +59,7 @@ public class BoardView3D {
                 final Group parent = board.parent;
                 CardShopGUI.addChosenCard();
                 board.resRowBuilder(parent,boardRec);
+                board.getWarehouse().updateSelected();
                 new Box3D().strongBuilder(board,parent,boardRec);
             }
         },
@@ -67,6 +68,7 @@ public class BoardView3D {
                 final Rectangle boardRec = board.boardRec;
                 final Group parent = board.parent;
                 board.resRowBuilder(parent,boardRec);
+                board.getWarehouse().wareBuilder();
                 new Box3D().strongBuilder(board,parent,boardRec);
             }
         },
@@ -201,13 +203,13 @@ public class BoardView3D {
         if (discardBox!=null)
             discardBox.getChildren().clear();
 
-        if (warehouse!=null)
-            warehouse.clear();
         if (toSelect!=null){
             toSelect.clear();
             toSelect = null;}
+
         if (productions!=null)
             productions.getChildren().clear();
+
         if (CardShopGUI.chosenCard!=null)
             CardShopGUI.chosenCard.getChildren().clear();
     }
@@ -241,13 +243,17 @@ public class BoardView3D {
         boardRec.setTranslateY(-320);
         boardRec.setTranslateZ(1500);
         Point3D tbc= Playground.getTableCenter();
-        Rotate rotateCam3 = new Rotate((-clockwiseIndex*5), tbc.getX(),tbc.getY(),tbc.getZ(),Rotate.Z_AXIS);
+        Rotate rotateCam3 = new Rotate((-clockwiseIndex*90), tbc.getX(),tbc.getY(),tbc.getZ(),Rotate.Z_AXIS);
         parent.getTransforms().add(rotateCam3);
         parent.getChildren().add(boardRec);
 
         faithBoard=new FaithTrack();
         faithBoard.faithTrackBuilder(this,parent, boardRec,playerNumber,cache);
-        getClient().addToListeners(faithBoard);
+        getSimpleModel().addPropertyChangeListener(faithBoard);
+
+        warehouse = new Warehouse3D(cache,this, parent, boardRec);
+        warehouse.wareBuilder();
+        cache.addPropertyChangeListener(warehouse);
 
         return parent;
     }
@@ -373,9 +379,9 @@ public class BoardView3D {
     }
 
     @NotNull
-    public Shape3D addAndGetShape(Group parent, Node refSystem, ResourceGUI res, Point3D shift) {
+    public Shape3D addAndGetShape(Group parentAndRefSystem, ResourceGUI res, Point3D shift) {
         Shape3D stoneMesh = res.generateShape();
-        NodeAdder.addNodeToParent(parent,refSystem,stoneMesh,shift);
+        NodeAdder.addNodeToParent(parentAndRefSystem,stoneMesh,shift);
         return stoneMesh;
     }
 

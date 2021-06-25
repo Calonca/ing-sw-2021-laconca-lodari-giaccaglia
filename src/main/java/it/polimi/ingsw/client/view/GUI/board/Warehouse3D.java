@@ -13,6 +13,7 @@ import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.simplemodel.SelectablePositions;
 import it.polimi.ingsw.network.simplemodel.SimpleWarehouseLeadersDepot;
+import javafx.application.Platform;
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.shape.Rectangle;
@@ -27,29 +28,36 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Warehouse3D implements PropertyChangeListener {
 
-    private final Group wareGroup;
+    private Group wareGroup;
     private final PlayerCache cache;
     private final BoardView3D view3D;
-    private final DragAndDropHandler dropHandler;
+    private DragAndDropHandler dropHandler;
+    private final Group parent;
+    private final Rectangle board;
 
-    private Warehouse3D(PlayerCache cache, BoardView3D view3D, DragAndDropHandler dropHandler){
-        this.dropHandler = dropHandler;
+    public Warehouse3D(PlayerCache cache, BoardView3D view3D, Group parent, Rectangle board){
+        this.parent = parent;
+        this.board = board;
         wareGroup = new Group();
         this.cache = cache;
         this.view3D = view3D;
     }
 
-    public static void wareBuilder(BoardView3D view3D, Group parent, Rectangle board, DragAndDropHandler dropHandler, PlayerCache cache){
-        Warehouse3D w3d= new Warehouse3D(cache, view3D, dropHandler);
-        w3d.buildView();
-        view3D.setWarehouse(w3d);
+    public void wareBuilder(){
+        wareGroup.getChildren().clear();
+        wareGroup = new Group();
+        buildView();
 
         Point3D initialPos = new Point3D(100,800,0);
-        NodeAdder.addNodeToParent(parent, board, w3d.wareGroup, initialPos);
+        NodeAdder.addNodeToParent(parent, board, wareGroup, initialPos);
     }
 
-    public void buildView(){
-        wareGroup.getChildren().clear();
+    public void setDropHandler(DragAndDropHandler dropHandler) {
+        this.dropHandler = dropHandler;
+        wareBuilder();
+    }
+
+    private void buildView(){
 
         final double wareWidth = 500;
         final double lineHeight = 150;
@@ -66,7 +74,7 @@ public class Warehouse3D implements PropertyChangeListener {
                 nInLine.getAndIncrement();
                 final int globalPos = gPos.get();
                 ResourceGUI resourceGUI = ResourceGUI.fromAsset(e.getKey());
-                Shape3D testShape = view3D.addAndGetShape(wareGroup,wareGroup,resourceGUI,shift);
+                Shape3D testShape = view3D.addAndGetShape(wareGroup,resourceGUI,shift);
                 if (view3D.mode.equals(BoardView3D.Mode.MOVING_RES))
                     addToDropHandler(view3D, dropHandler, simpleWarehouseLeadersDepot, globalPos, resourceGUI, testShape);
                 gPos.getAndIncrement();
@@ -95,7 +103,7 @@ public class Warehouse3D implements PropertyChangeListener {
                 boolean isSelectable = selectedPositionsMap.getOrDefault(globalPos, 0) > 0;
                 ResourceGUI.setColor(resourceGUI, testShape, toSelect.getChosenInputPos().contains(globalPos), isSelectable);
                 testShape.setOnMousePressed((u) -> {
-                    if (isSelectable) {
+                    if (true) {
                         toSelect.setNextInputPos(globalPos, e.getKey());
                         updateSelected();
                         view3D.getStrongBox().updateStrongBox(view3D);
@@ -134,13 +142,10 @@ public class Warehouse3D implements PropertyChangeListener {
         dropHandler.addShape(dragAndDropData);
     }
 
-    public void clear() {
-        wareGroup.getChildren().clear();
-    }
-
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals(SimpleWarehouseLeadersDepot.class.getSimpleName()))
-            buildView();
+        //Event is a state
+        if (evt.getOldValue()!=null && evt.getOldValue().equals("old:"+cache.getCurrentState()))
+            Platform.runLater(this::wareBuilder);
     }
 }
