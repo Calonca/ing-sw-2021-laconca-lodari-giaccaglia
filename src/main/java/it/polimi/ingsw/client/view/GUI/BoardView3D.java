@@ -240,7 +240,7 @@ public class BoardView3D {
 
         faithBoard=new FaithTrack();
         faithBoard.faithTrackBuilder(this,parent, boardRec,playerNumber,cache);
-        getSimpleModel().addPropertyChangeListener(faithBoard);
+        cache.addPropertyChangeListener(faithBoard);
 
 
         InfoTiles infoTiles=new InfoTiles();

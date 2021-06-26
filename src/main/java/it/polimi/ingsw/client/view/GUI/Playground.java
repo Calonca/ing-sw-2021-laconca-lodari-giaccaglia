@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view.GUI;
 import it.polimi.ingsw.client.view.GUI.board.CamState;
 import it.polimi.ingsw.client.view.GUI.util.BoardStateController;
 import it.polimi.ingsw.client.view.GUI.util.ModelImporter;
+import javafx.application.Platform;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
 import javafx.scene.input.KeyCode;
@@ -51,7 +52,10 @@ public class Playground {
                     i-> new BoardView3D(i,getSimpleModel().getPlayerCache(i))
                     ));
             singleton.runforStart();
-            singleton.boards.values().forEach(b->b.setMode(BoardView3D.Mode.BACKGROUND));
+            Platform.runLater(()->{
+                singleton.boards.values().forEach(b->b.setMode(BoardView3D.Mode.BACKGROUND));
+            });
+
         }
         return singleton;
     }
