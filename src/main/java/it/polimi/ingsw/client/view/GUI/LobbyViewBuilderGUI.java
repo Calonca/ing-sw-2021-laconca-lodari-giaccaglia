@@ -1,16 +1,14 @@
 package it.polimi.ingsw.client.view.GUI;
 
 import it.polimi.ingsw.client.CommonData;
-import it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchViewBuilder;
+import it.polimi.ingsw.client.view.abstractview.LobbyViewBuilder;
+import it.polimi.ingsw.network.simplemodel.PlayersInfo;
 import javafx.animation.Animation;
 import javafx.animation.RotateTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 
 import javafx.scene.SubScene;
 import javafx.scene.layout.AnchorPane;
@@ -18,20 +16,19 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Sphere;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import javafx.util.Pair;
 
 import java.beans.PropertyChangeEvent;
-import java.io.IOException;
-import java.net.URL;
 import java.util.*;
 
 /**
  * Waiting screen
  */
-public class LobbyViewBuilderGUI extends CreateJoinLoadMatchViewBuilder implements GUIView {
+public class LobbyViewBuilderGUI extends LobbyViewBuilder {
 
-    @FXML
-    private AnchorPane createPane;
-    Text text=new Text();
+    Text playerNames;
+    Text playerText;
+
     @Override
     public void run() {
 
@@ -45,28 +42,11 @@ public class LobbyViewBuilderGUI extends CreateJoinLoadMatchViewBuilder implemen
     }
 
     public SubScene getRoot() {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/fxml/Lobby.fxml"));
-        Parent root = null;
-        try {
-            root = loader.load();
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        return new SubScene(root,1000,700);
+        AnchorPane createPane = new AnchorPane();
 
-    }
-
-    /**
-     * Basic loading animation
-     * @param url is ignored
-     * @param resourceBundle is ignored
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle)
-    {
+        createPane.setMinSize(500,400);
         Sphere circle1=new Sphere();
         circle1.setRadius(10);
         circle1.setLayoutX(500);
@@ -137,21 +117,44 @@ public class LobbyViewBuilderGUI extends CreateJoinLoadMatchViewBuilder implemen
         rotateTransition.play();
         createPane.getChildren().add(group);
         getClient().getStage().show();
-        text=new javafx.scene.text.Text(getClient().getCommonData().playersOfMatch().toString());
-        text.setLayoutX(100);
-        text.setLayoutY(100);
-        createPane.getChildren().add(text);
+        playerNames=new Text("WAITING FOR DATA");
+        playerNames.setLayoutX(100);
+        playerNames.setLayoutY(100);
+        createPane.getChildren().add(playerNames);
+
+        playerText =new Text();
+        playerText.setLayoutY(50);
+        playerText.setLayoutX(100);
+        createPane.getChildren().add(playerText);
+        return new SubScene(createPane,1000,700);
+
     }
 
-    @Override
+
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals(CommonData.matchesDataString))
+        if (evt.getPropertyName().equals(CommonData.matchesDataString) || evt.getPropertyName().equals(CommonData.thisMatchData) |! evt.getPropertyName().equals(PlayersInfo.class.getSimpleName()))
             Platform.runLater(()->
             {
+                if (!(getCommonData().getAvailableMatchesData().isPresent() && getCommonData().getMatchId().isPresent()))
+                    return;
+                Map<UUID, Pair<String[], String[]>> availableMatches = getCommonData().getAvailableMatchesData().get();
 
-                text.setText(getClient().getCommonData().playersOfMatch().toString());
-                System.out.println(getClient().getCommonData().playersOfMatch());
+                UUID matchId = getClient().getCommonData().getMatchId().get();
+                String[] players = availableMatches.get(matchId).getKey();
+
+                int leftPlayers = (int)(Arrays.stream(players).filter(player -> player.equals("available slot")).count());
+                System.out.println(Arrays.toString(players));
+
+                playerNames.setText(Arrays.toString(players));
+
+                if(leftPlayers!=0)
+                    playerText.setText("Waiting for other players to join, " + leftPlayers + " more to start!");
+                else
+                    playerText.setText("Waiting for your turn");
+                getClient().getStage().show();
+
             });
-
     }
+
+
 }
