@@ -13,6 +13,7 @@ import it.polimi.ingsw.client.view.CLI.layout.drawables.DrawableLine;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Column;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
 import it.polimi.ingsw.client.view.CLI.middle.MiddlePersonalBoardCLI;
+import it.polimi.ingsw.client.view.CLI.middle.MiddlePlayersInfoCLI;
 import it.polimi.ingsw.client.view.CLI.textUtil.Background;
 import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 import it.polimi.ingsw.client.view.CLI.textUtil.StringUtil;
@@ -56,7 +57,7 @@ public final class CLIPlayersInfoBuilder{
             }
             else {
                 boardViewBuilder = new MiddlePersonalBoardCLI(playerIndex, false, PersonalBoardBody.ViewMode.PLAYERS_INFO_MIDDLE);
-                leadersViewBuilder = new LeadersCLI(new PlayersInfoCLI(), playerIndex);
+                leadersViewBuilder = new LeadersCLI(new MiddlePlayersInfoCLI(), playerIndex);
             }
 
 
