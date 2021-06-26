@@ -6,10 +6,7 @@ import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import javafx.util.Pair;
 import org.apache.commons.lang3.tuple.MutablePair;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -59,24 +56,14 @@ public class SelectablePositions extends SimpleModelElement{
         SelectablePositions serverElement = (SelectablePositions) element;
         selectablePositions = serverElement.selectablePositions;
         buildResourcesOriginalAvailability();
-        String currentState = getThisPlayerCache().getCurrentState();
-        if(currentState != null) {
-            if(currentState.equals(State.CHOOSING_DEVELOPMENT_CARD.toString())) {
-                SimpleCardShop simpleCardShop = getSimpleModel().getElem(SimpleCardShop.class).orElseThrow();
-                if (simpleCardShop.getPurchasedCard().isPresent()) {
-                    buildResourcesToChooseForCard();
-                }
-            }
-            else if(currentState.equals(State.CHOOSING_PRODUCTION.toString()))
-                buildResourcesToChooseForProduction();
-
-        }
+        resourcesToChoose = null;
 
     }
 
     //       position  numOfSelectable
     public Map<Integer,Integer> getUpdatedSelectablePositions(List<Integer> chosenInputPos){
-
+        if(Objects.isNull(resourcesToChoose))
+            buildResourcesToChoose();
         indexOfCurrentResourceToChoose = chosenInputPos.size();
         if(indexOfCurrentResourceToChoose == resourcesToChoose.size())
             return new HashMap<>();
@@ -196,5 +183,19 @@ public class SelectablePositions extends SimpleModelElement{
 
     }
 
+    private void buildResourcesToChoose(){
+        String currentState = getThisPlayerCache().getCurrentState();
+        if(currentState != null) {
+            if(currentState.equals(State.CHOOSING_RESOURCES_FOR_DEVCARD.toString())) {
+                SimpleCardShop simpleCardShop = getSimpleModel().getElem(SimpleCardShop.class).orElseThrow();
+                if (simpleCardShop.getPurchasedCard().isPresent()) {
+                    buildResourcesToChooseForCard();
+                }
+            }
+            else if(currentState.equals(State.CHOOSING_RESOURCE_FOR_PRODUCTION.toString()))
+                buildResourcesToChooseForProduction();
+
+        }
+    }
 
 }

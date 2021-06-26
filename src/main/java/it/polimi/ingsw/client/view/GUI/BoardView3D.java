@@ -261,6 +261,7 @@ public class BoardView3D {
         if (mode.equals(Mode.SELECT_CARD_SHOP)) {
             SimpleCardShop simpleCardShop = getSimpleModel().getElem(SimpleCardShop.class).orElseThrow();
             DevelopmentCardAsset card = simpleCardShop.getPurchasedCard().orElseThrow();
+
             costs = card.getDevelopmentCard().getCosts();
             outputs = new ArrayList<>();
         }else {
