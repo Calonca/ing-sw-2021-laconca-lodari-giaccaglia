@@ -56,30 +56,30 @@ public class InfoTiles implements PropertyChangeListener {
 
 
 
-    public AnchorPane playerStatsTile(PlayersInfo.SimplePlayerInfo playerInfo)
+    public AnchorPane playerStatsTile(PlayersInfo.SimplePlayerInfo playerInfo,String state)
     {
         AnchorPane anchor=new AnchorPane();
 
         Text text;
         text=new Text("NICK:  " + playerInfo.getNickname());
         text.setLayoutX(50);
-        text.setLayoutY(20);
+        text.setLayoutY(50);
         anchor.getChildren().add(text);
 
-        anchor.setMinSize(200,100);
+        anchor.setMinSize(200,200);
 
         if(playerInfo.isOnline())
-            text=new Text("STATUS: ONLINE");
+            text=new Text("STATUS:  "+state);
         else
             text=new Text("STATUS: OFFLINE");
         text.setLayoutX(50);
-        text.setLayoutY(10);
+        text.setLayoutY(20);
 
         anchor.getChildren().add(text);
 
         text=new Text("FAITH:  " + playerInfo.getCurrentPosition());
         text.setLayoutX(50);
-        text.setLayoutY(60);
+        text.setLayoutY(110);
 
         anchor.getChildren().add(text);
 
@@ -91,7 +91,9 @@ public class InfoTiles implements PropertyChangeListener {
 
         text=new Text("VICTORY POINTS:  " + playerInfo.getCurrentVictoryPoints());
         text.setLayoutX(50);
-        text.setLayoutY(40);
+        text.setLayoutY(150);
+
+
 
         anchor.getChildren().add(text);
         anchor.setId("background");
@@ -117,13 +119,13 @@ public class InfoTiles implements PropertyChangeListener {
 
                     Rectangle actionTokenRectangle=new Rectangle(100,100);
                     actionTokenRectangle.setFill(new ImagePattern(new Image(tokenAsset.getFrontPath().toString())));
-                    NodeAdder.addNodeToParent(infoGroup,infoGroup,actionTokenRectangle,infoGroup.localToParent(-100,-100,1350));
+                    NodeAdder.addNodeToParent(infoGroup,infoGroup,actionTokenRectangle,infoGroup.localToParent(-100,-100,1250));
                 }
 
                 for(int i=0;i<playersInfo.getSimplePlayerInfoMap().size();i++)
                 {
                     if(playersInfo.getSimplePlayerInfoMap().get(i).getPlayerIndex()!=playerNumber)
-                        NodeAdder.addNodeToParent(infoGroup, infoGroup,playerStatsTile(playersInfo.getSimplePlayerInfoMap().get(i)),new Point3D(-400,150*i,1100));
+                        NodeAdder.addNodeToParent(infoGroup, infoGroup,playerStatsTile(playersInfo.getSimplePlayerInfoMap().get(i),getSimpleModel().getPlayerCache(i).getCurrentState()),new Point3D(-400,210*i,1100));
 
                 }
 
