@@ -6,9 +6,7 @@ import it.polimi.ingsw.client.view.CLI.textUtil.Background;
 import it.polimi.ingsw.client.view.CLI.textUtil.Characters;
 import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 import it.polimi.ingsw.client.view.CLI.textUtil.StringUtil;
-import it.polimi.ingsw.network.simplemodel.FaithCell;
-import it.polimi.ingsw.network.simplemodel.FaithZone;
-import it.polimi.ingsw.network.simplemodel.SimpleFaithTrack;
+import it.polimi.ingsw.network.simplemodel.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,12 +22,20 @@ public class FaithTrackGridElem extends GridElem {
         int y = faithCell.getY_pos()*2;
         Background back;
         FaithZone zone = faithCell.getZone();
-        if (faithCell.getPoints()>0)
+        if (faithCell.getPoints()>0 && !faithCell.isPopeSpace())
             back=Background.ANSI_YELLOW_BACKGROUND;
         else if (!faithCell.isPopeSpace())
                 back=Background.ANSI_WHITE_BACKGROUND;
-        else
-            back=Background.ANSI_PURPLE_BACKGROUND;
+        else {
+            PopeFavourTile popeFavourTile = simpleFaithTrack.getTiles().get(faithCell.getZone().getZoneNumber());
+            TileState tileState = popeFavourTile.getTileState();
+            if(tileState.equals(TileState.INACTIVE))
+                back = Background.ANSI_PURPLE_BACKGROUND;
+            else if(tileState.equals(TileState.DISCARDED))
+                back = Background.ANSI_BRIGHT_RED_BACKGROUND;
+            else
+                back = Background.ANSI_BRIGHT_GREEN_BACKGROUND;
+        }
 
         Color zoneColor = zone.equals(FaithZone.NORMAL)?Color.BLACK :Color.DISABLED;
 

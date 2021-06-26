@@ -18,14 +18,14 @@ import it.polimi.ingsw.network.simplemodel.VaticanReportInfo;
 
 import java.beans.PropertyChangeEvent;
 
-import static it.polimi.ingsw.client.simplemodel.State.IDLE;
+import static it.polimi.ingsw.client.simplemodel.State.MIDDLE_PHASE;
 
 public class MiddlePhaseCLI extends MiddlePhaseViewBuilder implements CLIBuilder {
 
     @Override
     public void run() {
 
-        if(getSimpleModel().isSinglePlayer()) {
+        if(getSimpleModel().isSinglePlayer() && !isFirstTurn()) {
             getClient().saveViewBuilder(this);
             CLIActionToken.showActionTokenBeforeTransition();
         }
@@ -110,7 +110,7 @@ public class MiddlePhaseCLI extends MiddlePhaseViewBuilder implements CLIBuilder
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         String propertyName = evt.getPropertyName();
-        if(IDLE.name().equals(propertyName) || evt.getPropertyName().equals(PlayersInfo.class.getSimpleName())){
+        if(MIDDLE_PHASE.name().equals(propertyName) || evt.getPropertyName().equals(PlayersInfo.class.getSimpleName())){
             run();
         }
 

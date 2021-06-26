@@ -50,7 +50,8 @@ public enum Element {
     PlayersInfo(true){
         @Override
         public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate){
-            return new PlayersInfo(GameInfoMessageBuilder.getSimplePlayerInfoMap(gameModel));
+            int LorenzoPosition = gameModel.isSinglePlayer() ? gameModel.getSinglePlayer().getLorenzoPosition() : -1;
+            return new PlayersInfo(GameInfoMessageBuilder.getSimplePlayerInfoMap(gameModel), LorenzoPosition);
         }
     },
 

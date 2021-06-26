@@ -1,13 +1,10 @@
 package it.polimi.ingsw.client.view.abstractview;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.simplemodel.PlayerCache;
 import it.polimi.ingsw.client.simplemodel.SimpleModel;
 import it.polimi.ingsw.client.view.CLI.CLI;
-import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 
 import java.beans.PropertyChangeEvent;
@@ -23,6 +20,7 @@ public abstract class ViewBuilder implements Runnable, PropertyChangeListener
     private static CommonData commonData;
     private static SimpleModel simpleModel;
     private static CLI cli;
+    private static boolean isFirstTurn = true;
 
     public static CLI getCLIView() {
         return cli;
@@ -40,6 +38,15 @@ public abstract class ViewBuilder implements Runnable, PropertyChangeListener
     public static SimpleModel getSimpleModel() {
         return simpleModel;
     }
+
+    public static boolean isFirstTurn(){
+        return isFirstTurn;
+    }
+
+    public static void setNotFirstTurn(){
+        isFirstTurn = false;
+    }
+
 
     public static void setSimpleModel(SimpleModel simpleModel) {
         ViewBuilder.simpleModel = simpleModel;

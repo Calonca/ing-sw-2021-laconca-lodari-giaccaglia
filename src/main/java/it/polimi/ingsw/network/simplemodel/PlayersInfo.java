@@ -8,12 +8,13 @@ public class PlayersInfo extends SimpleModelElement{
 
     private Map<Integer, SimplePlayerInfo> simplePlayerInfoMap;
     private Set<Integer> farthestPlayers;
-
+    private int LorenzoPosition;
 
     public PlayersInfo(){}
 
-    public PlayersInfo(Map<Integer, SimplePlayerInfo> simplePlayerInfoMap){
+    public PlayersInfo(Map<Integer, SimplePlayerInfo> simplePlayerInfoMap, int LorenzoPosition){
         this.simplePlayerInfoMap = simplePlayerInfoMap;
+        this.LorenzoPosition = LorenzoPosition;
     }
 
     @Override
@@ -21,6 +22,7 @@ public class PlayersInfo extends SimpleModelElement{
 
         PlayersInfo serverElement = ((PlayersInfo) element);
         simplePlayerInfoMap = serverElement.simplePlayerInfoMap;
+        LorenzoPosition = serverElement.LorenzoPosition;
         calculateFarthestPlayers();
 
     }
@@ -31,6 +33,10 @@ public class PlayersInfo extends SimpleModelElement{
 
     public Set<Integer> getFarthestPlayer(){
         return farthestPlayers;
+    }
+
+    public int getLorenzoPosition(){
+        return LorenzoPosition;
     }
 
     private void calculateFarthestPlayers(){
@@ -44,6 +50,8 @@ public class PlayersInfo extends SimpleModelElement{
                 .collect(Collectors.toSet());
 
     }
+
+
 
     public static class SimplePlayerInfo{
 

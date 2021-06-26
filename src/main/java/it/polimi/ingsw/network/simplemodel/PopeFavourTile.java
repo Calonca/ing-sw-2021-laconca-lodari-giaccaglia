@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.simplemodel;
 
 
 import java.nio.file.Path;
+import java.util.Optional;
 
 /**
  * Represents a <em>Pope Space</em> of the {@link SimpleFaithTrack}, in which is part of the {@link SimpleFaithTrack#tiles tiles} list.
@@ -31,11 +32,13 @@ public class PopeFavourTile {
 
     private int y_pos;
 
-    public Path getFavourTileAssetPath(){
+    public Optional<Path> getFavourTileAssetPath(){
 
         if(state.equals(TileState.ACTIVE))
-            return activeFavourTileAssetPath;
-        else return inactiveFavourTileAssetPath;
+            return Optional.of(activeFavourTileAssetPath);
+        else if(state.equals(TileState.INACTIVE))
+            return Optional.of(inactiveFavourTileAssetPath);
+        else return Optional.empty();
 
     }
 

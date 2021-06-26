@@ -3,7 +3,6 @@ package it.polimi.ingsw.client.simplemodel;
 import it.polimi.ingsw.client.messages.servertoclient.ElementsInNetwork;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
 import it.polimi.ingsw.network.simplemodel.*;
-import javafx.util.Pair;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -75,27 +74,12 @@ public class SimpleModel {
         for(SimpleModelElement element : stateInNetwork.getCommonSimpleModelElements()){
             String elemName = element.getClass().getSimpleName();
             updateSimpleModelElement(elemName, element);
-
-            if(elemName.equals(VaticanReportInfo.class.getSimpleName())){
-                updateFaithTracksAfterVaticanReport();
-            }
-
             support.firePropertyChange(elemName,null,getElem(elemName));
         }
 
         playerCache.updateState(stateInNetwork.getState());
 
 
-    }
-
-    private void updateFaithTracksAfterVaticanReport(){
-        VaticanReportInfo vaticanReportInfo = getElem(VaticanReportInfo.class).orElseThrow();
-
-        for(int i=0; i<playersCacheList.size(); i++){
-            SimpleFaithTrack faithTrack = playersCacheList.get(i).getElem(SimpleFaithTrack.class).orElseThrow();
-            Pair<Integer, TileState> tileState = vaticanReportInfo.getPopeTileStateMap().get(i);
-            faithTrack.setPopeTileState(tileState.getKey(), tileState.getValue());
-        }
     }
 
     public void initializeSimpleModelWhenJoining(ElementsInNetwork elementsInNetwork){

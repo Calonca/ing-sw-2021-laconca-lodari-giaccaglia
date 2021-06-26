@@ -53,8 +53,10 @@ public abstract class MiddlePhaseViewBuilder extends ViewBuilder {
         String propertyName = evt.getPropertyName();
 
         if (IDLE.name().equals(propertyName)) {
+            setNotFirstTurn();
             getClient().changeViewBuilder(IDLEViewBuilder.getBuilder(getClient().isCLI()));
         }else if (State.FINAL_PHASE.name().equals(propertyName)) {
+            setNotFirstTurn();
             getClient().changeViewBuilder(InitialOrFinalPhaseViewBuilder.getBuilder(getClient().isCLI(), false));
         }else if (State.END_PHASE.name().equals(propertyName)) {
             getClient().changeViewBuilder(WinLooseBuilder.getBuilder(getClient().isCLI()));

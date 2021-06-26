@@ -20,11 +20,12 @@ public class DrawableReportInfo {
         Background back = Background.DEFAULT;
 
         boolean hasTriggeredVaticanReport = vaticanReportInfo.getPlayersTriggeringVaticanReport().contains(playerIndex);
+        boolean lorenzoTriggeredVaticanReport = vaticanReportInfo.getPlayersTriggeringVaticanReport().size() == 1 &&  vaticanReportInfo.getPlayersTriggeringVaticanReport().contains(-1) && !hasTriggeredVaticanReport;
         String nickname = playerInfo.getNickname();
         int nicknameLength = nickname.length();
 
         Pair<Integer, TileState> tile = vaticanReportInfo.getPopeTileStateMap().get(playerIndex);
-        int tileNumber = tile.getKey();
+        int tileNumber = tile.getKey() + 1;
         TileState state = tile.getValue();
 
         String delimiter = "═".repeat(28-3-nicknameLength-1);
@@ -33,25 +34,40 @@ public class DrawableReportInfo {
         drawable.add(new DrawableLine(3,0, nickname, Color.BRIGHT_WHITE, back));
         drawable.add(new DrawableLine(3+nicknameLength,0, delimiter));
         drawable.add(new DrawableLine(27, 0, "╗"));
+        drawable.add(0, "║                          ║");
 
 
-        if (hasTriggeredVaticanReport) {
-            drawable.add(0, "║                          ║");
+        if (hasTriggeredVaticanReport || lorenzoTriggeredVaticanReport) {
+
+            if(lorenzoTriggeredVaticanReport)
+                drawable.add(new DrawableLine(9, 1, " Lorenzo", Color.BRIGHT_RED, Background.DEFAULT));
+
             drawable.add(0, "║═══════           ════════║");
             drawable.add(new DrawableLine(9, 2, "Triggered", Color.BRIGHT_YELLOW, Background.DEFAULT));
             drawable.add(0, "║════                  ════║");
             drawable.add(new DrawableLine(7,3, "Vatican Report  ", Color.BRIGHT_YELLOW, Background.DEFAULT));
             drawable.add(0, "║                          ║");
-        } else {
-            drawable.add(0, "║                          ║");
-            drawable.add(0, "║                          ║");
+            drawable.add(0, "║═══                  ═════║");
+            drawable.add(new DrawableLine(4, 5, " Pope Tile Status", Color.YELLOW, Background.DEFAULT));
+
         }
 
-        drawable.add(0, "║═══                  ═════║");
-        drawable.add(new DrawableLine(4, 5, " Pope Tile Status", Color.YELLOW, Background.DEFAULT));
 
-        drawable.add(0, "║   Tile Number : " + StringUtil.untilReachingSize(tileNumber, 2) + "      ║");
-        drawable.add(0, "║   Tile State : " + StringUtil.untilReachingSize(state.toString(), 9) + "║");
+        else {
+
+            drawable.add(0, "║                          ║");
+            drawable.add(0, "║════                  ════║");
+            drawable.add(0, "║                          ║");
+            drawable.add(0, "║═══                  ═════║");
+            drawable.add(new DrawableLine(7,3, "Vatican Report  ", Color.BRIGHT_YELLOW, Background.DEFAULT));
+
+            drawable.add(new DrawableLine(4, 5, " Pope Tile Status", Color.YELLOW, Background.DEFAULT));
+        }
+
+
+
+        drawable.add(0, "║    Tile Number : " + StringUtil.untilReachingSize(tileNumber, 2) + "      ║");
+        drawable.add(0, "║  Tile State : " + StringUtil.untilReachingSize(state.toString(), 9) + "  ║");
 
         drawable.add(0, "╚══════════════════════════╝");
 

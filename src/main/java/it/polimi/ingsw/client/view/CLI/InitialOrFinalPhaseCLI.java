@@ -13,14 +13,12 @@ public class InitialOrFinalPhaseCLI extends InitialOrFinalPhaseViewBuilder imple
     public InitialOrFinalPhaseCLI(boolean isInitial) {
         super(isInitial);
     }
-
     @Override
     public void run() {
 
-        if(getSimpleModel().isSinglePlayer() && isInitial && !isFirstTurn) {
+        if(getSimpleModel().isSinglePlayer() && isInitial && !isFirstTurn()) {
             getClient().saveViewBuilder(this);
             CLIActionToken.showActionTokenBeforeTransition();
-            isFirstTurn = false;
         }
 
         showVaticanReportInfoBeforeTransition();
@@ -35,8 +33,6 @@ public class InitialOrFinalPhaseCLI extends InitialOrFinalPhaseViewBuilder imple
         getCLIView().show();
 
     }
-
-
     protected void showVaticanReportInfoBeforeTransition(){
 
         VaticanReportInfo reportInfo = getSimpleModel().getElem(VaticanReportInfo.class).get();

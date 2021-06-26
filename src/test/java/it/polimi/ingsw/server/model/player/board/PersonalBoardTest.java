@@ -202,7 +202,7 @@ public class PersonalBoardTest {
         assertEquals(0,board.getBadFaithToAdd());
         assertNotEquals(Optional.empty(),board.firstProductionSelectedWithChoice());
         assertArrayEquals(new int[]{5,15,2,0},Resource.getStream(4).mapToInt((a)->board.getStrongBox().getNumberOf(a)).toArray());
-        assertArrayEquals(new int[]{6,5,4,6},Resource.getStream(4).mapToInt((a)->board.getDiscardBox().getNumberOf(a)).toArray());
+        assertArrayEquals(new int[]{3,2,1,3},Resource.getStream(4).mapToInt((a)->board.getDiscardBox().getNumberOf(a)).toArray());
         assertArrayEquals(new int[]{6,16,3,0},Resource.getStream(4).mapToInt(board::getNumberOf).toArray());
         assertEquals(25,board.numOfResources());
         assertArrayEquals(new int[]{0,1,0,0},Resource.getStream(4).mapToInt((a)->board.getStrongBox().getNSelected(a)).toArray());
@@ -222,7 +222,7 @@ public class PersonalBoardTest {
         assertEquals(0,board.getBadFaithToAdd());
         assertNotEquals(Optional.empty(),board.firstProductionSelectedWithChoice());
         assertArrayEquals(new int[]{5,15,2,0},Resource.getStream(4).mapToInt((a)->board.getStrongBox().getNumberOf(a)).toArray());
-        assertArrayEquals(new int[]{6,5,4,6},Resource.getStream(4).mapToInt((a)->board.getDiscardBox().getNumberOf(a)).toArray());
+        assertArrayEquals(new int[]{3,2,1,3},Resource.getStream(4).mapToInt((a)->board.getDiscardBox().getNumberOf(a)).toArray());
         assertArrayEquals(new int[]{6,16,3,0},Resource.getStream(4).mapToInt(board::getNumberOf).toArray());
         assertEquals(25,board.numOfResources());
         assertArrayEquals(new int[]{0,1,0,0},Resource.getStream(4).mapToInt((a)->board.getStrongBox().getNSelected(a)).toArray());
@@ -244,7 +244,7 @@ public class PersonalBoardTest {
         board.selectProductionAt(2);
         assertNotEquals(Optional.empty(),board.firstProductionSelectedWithChoice());
         assertArrayEquals(new int[]{5,15,2,0},Resource.getStream(4).mapToInt((a)->board.getStrongBox().getNumberOf(a)).toArray());
-        assertArrayEquals(new int[]{6,5,4,6},Resource.getStream(4).mapToInt((a)->board.getDiscardBox().getNumberOf(a)).toArray());
+        assertArrayEquals(new int[]{3,2,1,3},Resource.getStream(4).mapToInt((a)->board.getDiscardBox().getNumberOf(a)).toArray());
         assertArrayEquals(new int[]{6,16,3,0},Resource.getStream(4).mapToInt(board::getNumberOf).toArray());
         assertEquals(25,board.numOfResources());
         assertArrayEquals(new int[]{0,1,0,0},Resource.getStream(4).mapToInt((a)->board.getStrongBox().getNSelected(a)).toArray());
@@ -264,7 +264,7 @@ public class PersonalBoardTest {
         assertEquals(0,board.getBadFaithToAdd());
         assertEquals(Optional.empty(),board.firstProductionSelectedWithChoice());
         assertArrayEquals(new int[]{5,15,2,0},Resource.getStream(4).mapToInt((a)->board.getStrongBox().getNumberOf(a)).toArray());
-        assertArrayEquals(new int[]{6,5,4,6},Resource.getStream(4).mapToInt((a)->board.getDiscardBox().getNumberOf(a)).toArray());
+        assertArrayEquals(new int[]{3,2,1,3},Resource.getStream(4).mapToInt((a)->board.getDiscardBox().getNumberOf(a)).toArray());
         assertArrayEquals(new int[]{6,16,3,0},Resource.getStream(4).mapToInt(board::getNumberOf).toArray());
         assertEquals(25,board.numOfResources());
         assertArrayEquals(new int[]{0,1,0,0},Resource.getStream(4).mapToInt((a)->board.getStrongBox().getNSelected(a)).toArray());

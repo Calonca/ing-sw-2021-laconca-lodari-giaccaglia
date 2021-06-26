@@ -180,7 +180,7 @@ public class GameModel {
         this.singlePlayer = singlePlayer;
         soloDeck = new SinglePlayerDeck();
         currentPlayer = singlePlayer;
-        currentPlayer.moveLorenzoOnePosition();
+      //  singlePlayer.moveLorenzoOnePosition();;
     }
 
     public void start(){
@@ -432,7 +432,7 @@ public class GameModel {
                     }).anyMatch(player -> true);
         }
         else
-            addFaithPointToLorenzo();
+            singlePlayer.moveLorenzoOnePosition();
             return singlePlayer.isLorenzoInPopeSpaceForTheFirstTime();
         }
 
@@ -497,13 +497,6 @@ public class GameModel {
             players.values().forEach(player -> player.turnPopeFavourTileInFaithTrack(popeSpacePosition));
      }   
 
-    /**
-     * In the single players game the player plays against Lorenzo il Magnifico.
-     * This methods makes Lorenzo advance of one position in the {@link FaithTrack}.
-     */
-    private void addFaithPointToLorenzo(){
-        singlePlayer.moveLorenzoOnePosition();
-    }
 
     /**
      * Shuffles the deck of actions from which the opponent in the single player game, Lorenzo il Magnifico, has to choose from.

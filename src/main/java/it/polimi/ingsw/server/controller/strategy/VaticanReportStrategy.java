@@ -66,6 +66,7 @@ public class VaticanReportStrategy {
 
         return new Pair<>(nextState, elementsToUpdate);
         }
+
         else if (currentPlayerReachedEnd)
             return FinalStrategy.handleSinglePlayerEndGameStrategy(elementsToUpdate, gameModel, endGameReason);
         else

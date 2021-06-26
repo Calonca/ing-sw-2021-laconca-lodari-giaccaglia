@@ -13,7 +13,6 @@ import it.polimi.ingsw.client.view.CLI.layout.drawables.DrawableLine;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Column;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
 import it.polimi.ingsw.client.view.CLI.middle.MiddlePersonalBoardCLI;
-import it.polimi.ingsw.client.view.CLI.middle.MiddlePhaseCLI;
 import it.polimi.ingsw.client.view.CLI.textUtil.Background;
 import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 import it.polimi.ingsw.client.view.CLI.textUtil.StringUtil;
@@ -57,7 +56,7 @@ public final class CLIPlayersInfoBuilder{
             }
             else {
                 boardViewBuilder = new MiddlePersonalBoardCLI(playerIndex, false, PersonalBoardBody.ViewMode.PLAYERS_INFO_MIDDLE);
-                leadersViewBuilder = new LeadersCLI(new MiddlePhaseCLI(), playerIndex);
+                leadersViewBuilder = new LeadersCLI(new PlayersInfoCLI(), playerIndex);
             }
 
 
@@ -145,11 +144,18 @@ public final class CLIPlayersInfoBuilder{
         drawable.add(new DrawableLine(3+nicknameLength,0, delimiter));
         drawable.add(new DrawableLine(29, 0, "╗"));
 
-        drawable.add(0,"║ Player index : " + StringUtil.untilReachingSize(index, 2)+"          ║");
+        drawable.add(0,"║ Player index : " + StringUtil.untilReachingSize(index + 1, 2)+"          ║");
         drawable.add(0,"║ ────────────────────────── ║");
         drawable.add(0,"║ Connection : " + connection+ "        ║");
         drawable.add(0,"║ ────────────────────────── ║");
-        drawable.add(0,"║ Faith track position : "  + StringUtil.untilReachingSize(position,7)+"       ║");
+        drawable.add(0,"║ Faith track position : "  + StringUtil.untilReachingSize(position,2)+"  ║");
+
+        if(playersInfo.getSimplePlayerInfoMap().size()==1) {
+
+            int lorenzoPosition = playersInfo.getLorenzoPosition();
+            drawable.add(0, "║ Lorenzo position     : " + StringUtil.untilReachingSize(lorenzoPosition, 2) + "  ║");
+
+        }
         drawable.add(0,"║ ────────────────────────── ║");
         drawable.add(0,"║ Points : " + StringUtil.untilReachingSize(victoryPoints, 2) + "                ║");
         drawable.add(0,"║ ────────────────────────── ║");

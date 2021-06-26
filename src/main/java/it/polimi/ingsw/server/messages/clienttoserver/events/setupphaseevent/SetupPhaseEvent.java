@@ -141,8 +141,8 @@ public class SetupPhaseEvent extends it.polimi.ingsw.network.messages.clienttose
         return chosenLeaders;
     }
 
-    public Pair<Integer, Integer>[] getChosenResources(){
-        return resources;
+    public List<Pair<Integer, Resource>> getChosenResources(){
+        return Arrays.stream(resources).map(pair -> new Pair<>(pair.getKey(), Resource.fromIntFixed(pair.getValue()))).collect(Collectors.toList());
     }
 
 }

@@ -85,7 +85,6 @@ public class PersonalBoard {
         warehouseLeadersDepots = new WarehouseLeadersDepots();
         strongBox = Box.strongBox();
         discardBox = Box.discardBox();
-        discardBox.addResources(new int[]{3,3,3,3});  //setup phase DiscardBox
         /*strongBox.addResources(new int[]{10,10,10,10});   //to test CardShop
         warehouseLeadersDepots.addResource(new Pair<>(0,Resource.GOLD));
         warehouseLeadersDepots.addResource(new Pair<>(1,Resource.SERVANT));
@@ -485,10 +484,6 @@ public class PersonalBoard {
     public void discardResources(){
         badFaithToAdd += Resource.getStream(Resource.nRes).map(discardBox::getNumberOf).reduce(0,Integer::sum);
         faithPointsToAdd += discardBox.getNumberOf(Resource.FAITH);
-        discardBox = Box.discardBox();
-    }
-
-    public void resetDiscardBox(){
         discardBox = Box.discardBox();
     }
 

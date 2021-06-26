@@ -60,16 +60,17 @@ public class SimpleFaithTrack extends SimpleModelElement {
      * The default number of elements is 25, which is set on the game setup.
      */
     private List<FaithCell> track;
-
-    public List<FaithCell> getTrack() {
-        return track;
-    }
-
     /**
      * <p>{@link List} of {@link PopeFavourTile PopeFavourTiles} objects of the <em>FaithTrack</em>.<br>
      * The default number of elements is 3, which is set on the game setup.<br>
      */
     private List<PopeFavourTile> tiles;
+
+    public List<FaithCell> getTrack() {
+        return track;
+    }
+
+    public List<PopeFavourTile> getTiles(){ return tiles;}
 
     /**
      * Gets the current position along the <em>FaithTrack</em> of the <em>Piece</em> passed as a parameter.
@@ -91,9 +92,6 @@ public class SimpleFaithTrack extends SimpleModelElement {
         return getPiecePosition(playerPiece);
     }
 
-    public void setPopeTileState(int tileNumber, TileState tileState){
-        tiles.get(tileNumber).setTileState(tileState);
-    }
 
 
 }

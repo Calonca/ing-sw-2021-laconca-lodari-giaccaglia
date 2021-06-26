@@ -16,6 +16,7 @@ import java.util.List;
 public class IDLE implements GameStrategy {
 
     List<Element> elementsToUpdate = new ArrayList<>();
+    private static boolean isSinglePlayerInFirstIDLE = true;
 
     public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event)
     {
@@ -54,11 +55,14 @@ public class IDLE implements GameStrategy {
     }
 
     private void executeActionTokenStrategy(GameModel gameModel, List<Element> elementsToUpdate){
+        if(isSinglePlayerInFirstIDLE) {
+            isSinglePlayerInFirstIDLE = false;
+            return;
+        }
         gameModel.activateSoloActionToken();
         elementsToUpdate.add(Element.SimpleSoloActionToken);
         elementsToUpdate.add(Element.SimpleCardShop);
         elementsToUpdate.add(Element.SimpleFaithTrack);
-        elementsToUpdate.add(Element.VaticanReportInfo);
     }
 
 }

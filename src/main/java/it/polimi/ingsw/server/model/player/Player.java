@@ -72,7 +72,7 @@ public class Player {
         marketBonus=new boolean[4];
         this.nickName = nickName;
         initializeFaithTrack();
-        //faithTrack.cheat();
+     //   faithTrack.cheat();
 
     }
 

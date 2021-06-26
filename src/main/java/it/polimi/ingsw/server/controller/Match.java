@@ -231,7 +231,7 @@ public class Match {
 
         notifyStateToAllPlayers(data.getValue(), nicknameOfPlayerSendingEvent);
 
-        //Todo check for better way
+
         if (playerSendingEvent.getCurrentState().equals(State.IDLE) && playerSendingEvent.equals(game.getCurrentPlayer())) {
 
             if(game.getCurrentPlayer().equals(playerSendingEvent)) {
@@ -247,6 +247,7 @@ public class Match {
                     notifyStateToAllPlayers(elems, playerSendingEvent.getNickName());
 
                 } else {
+
                     playerSendingEvent = game.getCurrentPlayer();
                     IDLE IDLEStrategy = new IDLE();
                     Pair<State, List<Element>> data2 = IDLEStrategy.execute(game, null);
