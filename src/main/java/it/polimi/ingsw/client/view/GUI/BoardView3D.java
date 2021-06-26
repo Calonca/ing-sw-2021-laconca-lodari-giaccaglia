@@ -68,7 +68,7 @@ public class BoardView3D {
                 final Rectangle boardRec = board.boardRec;
                 final Group parent = board.parent;
                 board.resRowBuilder(parent,boardRec);
-                board.getWarehouse().wareBuilder();
+                board.getWarehouse().updateSelected();
                 new Box3D().strongBuilder(board,parent,boardRec);
             }
         },
@@ -376,13 +376,6 @@ public class BoardView3D {
         }
         NodeAdder.addNodeToParent(parent, boardRec, productions, new Point3D(0,0,0));
         this.productions = productions;
-    }
-
-    @NotNull
-    public Shape3D addAndGetShape(Group parentAndRefSystem, ResourceGUI res, Point3D shift) {
-        Shape3D stoneMesh = res.generateShape();
-        NodeAdder.addNodeToParent(parentAndRefSystem,stoneMesh,shift);
-        return stoneMesh;
     }
 
 

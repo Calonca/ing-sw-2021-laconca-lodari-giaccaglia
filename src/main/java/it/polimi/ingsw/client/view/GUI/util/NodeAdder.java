@@ -16,10 +16,9 @@ public class NodeAdder {
     }
 
     public static void addNodeToParent(Group parent, Node shape, Point3D shift){
-        Point3D boardTopLeft = parent.localToParent(new Point3D(0,0,0));
-        shape.setTranslateX(boardTopLeft.getX()+shift.getX());
-        shape.setTranslateY(boardTopLeft.getY()+shift.getY());
-        shape.setTranslateZ(boardTopLeft.getZ()+shift.getZ());
+        shape.setTranslateX(shift.getX());
+        shape.setTranslateY(shift.getY());
+        shape.setTranslateZ(shift.getZ());
         parent.getChildren().add(shape);
     }
 }

@@ -16,12 +16,14 @@ import it.polimi.ingsw.network.simplemodel.SimpleWarehouseLeadersDepot;
 import javafx.application.Platform;
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape3D;
 import javafx.util.Pair;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -44,8 +46,6 @@ public class Warehouse3D implements PropertyChangeListener {
     }
 
     public void wareBuilder(){
-        wareGroup.getChildren().clear();
-        wareGroup = new Group();
         buildView();
 
         Point3D initialPos = new Point3D(100,800,0);
@@ -54,10 +54,11 @@ public class Warehouse3D implements PropertyChangeListener {
 
     public void setDropHandler(DragAndDropHandler dropHandler) {
         this.dropHandler = dropHandler;
-        wareBuilder();
+        buildView();
     }
 
     private void buildView(){
+        List<Node> wareNodes = new ArrayList<>();
 
         final double wareWidth = 500;
         final double lineHeight = 150;
@@ -74,13 +75,17 @@ public class Warehouse3D implements PropertyChangeListener {
                 nInLine.getAndIncrement();
                 final int globalPos = gPos.get();
                 ResourceGUI resourceGUI = ResourceGUI.fromAsset(e.getKey());
-                Shape3D testShape = view3D.addAndGetShape(wareGroup,resourceGUI,shift);
+                Shape3D testShape = resourceGUI.generateShape();
+                testShape.setTranslateX(shift.getX());
+                testShape.setTranslateY(shift.getY());
+                wareNodes.add(testShape);
                 if (view3D.mode.equals(BoardView3D.Mode.MOVING_RES))
                     addToDropHandler(view3D, dropHandler, simpleWarehouseLeadersDepot, globalPos, resourceGUI, testShape);
                 gPos.getAndIncrement();
             });
             lineN++;
         }
+        wareGroup.getChildren().setAll(wareNodes);
         if (view3D.mode.equals(BoardView3D.Mode.SELECT_CARD_SHOP)||view3D.mode.equals(BoardView3D.Mode.SELECT_RESOURCE_FOR_PROD)){
             updateSelected();
         }
@@ -146,6 +151,6 @@ public class Warehouse3D implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         //Event is a state
         if (evt.getOldValue()!=null && evt.getOldValue().equals("old:"+cache.getCurrentState()))
-            Platform.runLater(this::wareBuilder);
+            Platform.runLater(this::buildView);
     }
 }

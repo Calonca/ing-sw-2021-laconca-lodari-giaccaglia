@@ -51,7 +51,7 @@ public class Box3D {
             int gPos = line.getKey();
 
             ResourceGUI resTest = ResourceGUI.fromAsset(line.getValue().getKey());
-            Shape3D shape = view3D.addAndGetShape(discardBoxGroup,resTest,new Point3D(0,lineHeight * addedLines,0));
+            Shape3D shape = ResourceGUI.addAndGetShape(discardBoxGroup,resTest,new Point3D(0,lineHeight * addedLines,0));
             discardBoxGroup.getChildren().add(lineGroup);
             DragAndDropData dragAndDropData = new DragAndDropData();
             dragAndDropData.setResourceGUI(resTest);
@@ -169,7 +169,7 @@ public class Box3D {
             ResourceGUI resTest = ResourceGUI.fromAsset(line.getValue().getKey());
             sLine.res = resTest;
 
-            sLine.shape = view3D.addAndGetShape(strongBoxGroup,resTest,new Point3D(shiftX,shiftY,0));
+            sLine.shape = ResourceGUI.addAndGetShape(strongBoxGroup,resTest,new Point3D(shiftX,shiftY,0));
 
             long numOfSelected =  SimpleStrongBox.numAndSel(line).getValue();
 

@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view.GUI.util;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.ResourceCLI;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import javafx.geometry.Point3D;
+import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.MeshView;
@@ -57,6 +58,12 @@ public enum ResourceGUI {
         javafx.scene.paint.Color c = selected? selColor:(selectable? res.color:disabled);
         PhongMaterial shieldMaterial = new PhongMaterial(c);
         shape.setMaterial(shieldMaterial);
+    }
+
+    public static Shape3D addAndGetShape(Group parentAndRefSystem, ResourceGUI res, Point3D shift) {
+        Shape3D stoneMesh = res.generateShape();
+        NodeAdder.addNodeToParent(parentAndRefSystem,stoneMesh,shift);
+        return stoneMesh;
     }
 
     public static ResourceGUI fromAsset(ResourceAsset asset){
