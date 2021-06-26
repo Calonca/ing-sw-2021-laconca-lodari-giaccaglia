@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.controller.strategy.cardmarket;
 
-import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent.ChooseResourceForCardShopEvent;
@@ -34,6 +33,7 @@ public class PayingResourcesForDevelopmentCard implements GameStrategy {
         elementsToUpdate.add(Element.SimpleStrongBox);
         elementsToUpdate.add(Element.SimpleWareHouseLeadersDepot);
         elementsToUpdate.add(Element.SimpleCardCells);
+       // elementsToUpdate.add(Element.SelectablePositions);
 
         return new Pair<>(State.CHOOSING_POSITION_FOR_DEVCARD, elementsToUpdate);
 

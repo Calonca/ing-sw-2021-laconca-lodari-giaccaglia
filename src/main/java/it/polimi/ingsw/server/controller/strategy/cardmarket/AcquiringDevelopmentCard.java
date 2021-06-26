@@ -30,9 +30,11 @@ public class AcquiringDevelopmentCard implements GameStrategy {
 
         gamemodel.purchaseCardFromCardShop(DevelopmentCardColor.fromInt(color),level);
 
+
         elementsToUpdate.add(Element.SimpleCardShop);
         elementsToUpdate.add(Element.SimpleCardCells);
         elementsToUpdate.add(Element.SelectablePositions);
+
 
 
         return new Pair<>(State.CHOOSING_RESOURCES_FOR_DEVCARD, elementsToUpdate);
