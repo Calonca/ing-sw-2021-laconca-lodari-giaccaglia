@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view.GUI;
 
 import it.polimi.ingsw.client.view.abstractview.WinLooseBuilder;
 import it.polimi.ingsw.network.simplemodel.EndGameInfo;
+import it.polimi.ingsw.network.simplemodel.PlayersInfo;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -22,7 +23,8 @@ import java.util.ResourceBundle;
 public class WinLooseGUI extends WinLooseBuilder implements GUIView {
 
 
-    public AnchorPane winLoosePane;
+    AnchorPane winLoosePane;
+
     double width=600;
     double len=500;
     @Override
@@ -43,17 +45,13 @@ public class WinLooseGUI extends WinLooseBuilder implements GUIView {
     }
 
     public SubScene getRoot() {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/fxml/WinLooseScreen.fxml"));
-        Parent root = null;
-        try {
-            root = loader.load();
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        return new SubScene(root,GUI.GUIwidth,GUI.GUIlen);
+        winLoosePane=new AnchorPane();
+        winLoosePane.setMinSize(1800,1000);
+
+
+        return new SubScene(winLoosePane,GUI.GUIwidth,GUI.GUIlen);
 
 
     }
@@ -61,13 +59,20 @@ public class WinLooseGUI extends WinLooseBuilder implements GUIView {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals(PlayersInfo.SimplePlayerInfo.class.getSimpleName()))
+        {
         int numberOfWinners=getEndGameInfo().getPlayersEndingTheGame().size();
         Text text;
         int cd;
         for(int i=0;i<numberOfWinners;i++)
         {
-            if(getEndGameInfo().getPlayerInfo(getEndGameInfo().getPlayersEndingTheGame().get(i)).isOutcome())
-            {
+
+            winLoosePane.getChildren().clear();
                 //todo make text look better
                 text=new Text(getEndGameInfo().getPlayerInfo(getEndGameInfo().getPlayersEndingTheGame().get(i)).getPlayerNickname());
                 text.setLayoutY(len/3);
@@ -82,16 +87,10 @@ public class WinLooseGUI extends WinLooseBuilder implements GUIView {
                 text=new Text(Integer.toString(cd));
                 winLoosePane.getChildren().add(text);
 
-                getEndGameInfo().getPlayerInfo(getEndGameInfo().getPlayersEndingTheGame().get(i)).getFaithTrackPosition();
-                getEndGameInfo().getPlayerInfo(getEndGameInfo().getPlayersEndingTheGame().get(i)).getVictoryPoints();
 
-            }
+
         }
     }
-
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-
     }
 }
 
