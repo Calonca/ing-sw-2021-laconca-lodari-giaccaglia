@@ -99,52 +99,52 @@ public class CardShopGUI extends CardShopViewBuilder {
                 {
                     path=simpleCardShop.getCardFront(NetworkDevelopmentCardColor.fromInt(j),3-i).get().getCardPaths().getKey();
                     tempImage = new ImageView(new Image(path.toString(), true));
+                    ColorAdjust colorAdjust=new ColorAdjust();
+                    colorAdjust.setBrightness(-0.40);
+                    availableCards.add(simpleCardShop.getCardFront(NetworkDevelopmentCardColor.fromInt(j),3-i).get().getDevelopmentCard().isSelectable());
+                    if(!simpleCardShop.getCardFront(NetworkDevelopmentCardColor.fromInt(j),3-i).get().getDevelopmentCard().isSelectable())
+                        tempImage.setEffect(colorAdjust);
+                    tempImage.setRotate(Math.random() * (cardTilt - -cardTilt + 1) + -1 );
+
+                    double cardWidth=(width-cardsVGap*4.5)/COLUMNS;
+                    tempImage.setFitWidth(cardWidth);
+
+                    tempImage.setPreserveRatio(true);
+                    //ROWS COLUMNS
+
+                    ImageView tempStackImage;
+                    int stackHeight = getSimpleCardShop().getStackHeight(NetworkDevelopmentCardColor.fromInt(j),3-i);
+                    Effect dropShadow=new DropShadow(BlurType.GAUSSIAN, Color.rgb(0,0,0,0.5),10,0.7,5,5);
+
+                    for(int k=1;k<stackHeight;k++)
+                    {
+                        if(k==stackHeight-2)
+                            path=simpleCardShop.getSecondCard(NetworkDevelopmentCardColor.fromInt(j),3-i).get().getCardPaths().getKey();
+                        else
+                            path=simpleCardShop.getCardFront(NetworkDevelopmentCardColor.fromInt(j),3-i).get().getCardPaths().getKey();
+                        tempStackImage=new ImageView(new Image(path.toString(), true));
+                        tempStackImage.setLayoutX(cardsHGap+(cardsHGap+cardWidth)*j);
+                        tempStackImage.setLayoutY(20+(cardsHGap+cardWidth*(741/504.0))*i);
+                        tempStackImage.setRotate(Math.random() * ((cardTilt*50 - -cardTilt*50) + 1) + -5);
+                        tempStackImage.setFitWidth(cardWidth);
+                        tempStackImage.setEffect(dropShadow);
+                        tempStackImage.setPreserveRatio(true);
+
+                        cardsAnchor.getChildren().add(tempStackImage);
+
+
+                    }
+                    cardsAnchor.getChildren().add(tempImage);
+                    tempImage.setLayoutX(cardsHGap+(cardsHGap+cardWidth)*j);
+                    tempImage.setLayoutY(cardsHGap+(cardsVGap+cardWidth*(741/504.0))*i);
+
+                    scenesCardsToChoose.add(tempImage);
+
+
                 }
-                else
-                    tempImage = new ImageView(new Image("assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_BLUE_1.png"));
 
 
-                tempImage.setRotate(Math.random() * (cardTilt - -cardTilt + 1) + -1 );
 
-                double cardWidth=(width-cardsVGap*4.5)/COLUMNS;
-                tempImage.setFitWidth(cardWidth);
-
-                tempImage.setPreserveRatio(true);
-                //ROWS COLUMNS
-
-                ImageView tempStackImage;
-                int stackHeight = getSimpleCardShop().getStackHeight(NetworkDevelopmentCardColor.fromInt(j),3-i);
-                Effect dropShadow=new DropShadow(BlurType.GAUSSIAN, Color.rgb(0,0,0,0.5),10,0.7,5,5);
-
-                for(int k=1;k<stackHeight;k++)
-                {
-                    if(k==stackHeight-2)
-                        path=simpleCardShop.getSecondCard(NetworkDevelopmentCardColor.fromInt(j),3-i).get().getCardPaths().getKey();
-                    else
-                        path=simpleCardShop.getCardFront(NetworkDevelopmentCardColor.fromInt(j),3-i).get().getCardPaths().getKey();
-                    tempStackImage=new ImageView(new Image(path.toString(), true));
-                    tempStackImage.setLayoutX(cardsHGap+(cardsHGap+cardWidth)*j);
-                    tempStackImage.setLayoutY(20+(cardsHGap+cardWidth*(741/504.0))*i);
-                    tempStackImage.setRotate(Math.random() * ((cardTilt*50 - -cardTilt*50) + 1) + -5);
-                    tempStackImage.setFitWidth(cardWidth);
-                    tempStackImage.setEffect(dropShadow);
-                    tempStackImage.setPreserveRatio(true);
-
-                    cardsAnchor.getChildren().add(tempStackImage);
-
-                }
-                cardsAnchor.getChildren().add(tempImage);
-                tempImage.setLayoutX(cardsHGap+(cardsHGap+cardWidth)*j);
-                tempImage.setLayoutY(cardsHGap+(cardsVGap+cardWidth*(741/504.0))*i);
-
-                scenesCardsToChoose.add(tempImage);
-                availableCards.add(simpleCardShop.getCardFront(NetworkDevelopmentCardColor.fromInt(j),3-i).get().getDevelopmentCard().isSelectable());
-
-                ColorAdjust colorAdjust=new ColorAdjust();
-                colorAdjust.setBrightness(-0.40);
-
-                if(!simpleCardShop.getCardFront(NetworkDevelopmentCardColor.fromInt(j),3-i).get().getDevelopmentCard().isSelectable())
-                    tempImage.setEffect(colorAdjust);
 
             }
         }
@@ -194,13 +194,8 @@ public class CardShopGUI extends CardShopViewBuilder {
 
         SimplePlayerLeaders activeLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).orElseThrow();
 
-        ImageView temp=new ImageView(new Image("assets/leaders/raw/FRONT/Masters of Renaissance_Cards_FRONT_0.png"));
+        ImageView temp;
 
-        temp.setLayoutX(20+100);
-        temp.setLayoutY(len-100);
-        temp.setTranslateZ(-100);
-
-        cardsAnchor.getChildren().add(temp);
         List<LeaderCardAsset> activeBonus = activeLeaders.getPlayerLeaders();
         for(int i=0;i<activeBonus.size();i++)
         {
@@ -217,6 +212,8 @@ public class CardShopGUI extends CardShopViewBuilder {
                     cardsAnchor.getChildren().add(temp);
 
                 }
+
+
 
         }
 
