@@ -180,7 +180,7 @@ public class GameModel {
         this.singlePlayer = singlePlayer;
         soloDeck = new SinglePlayerDeck();
         currentPlayer = singlePlayer;
-      //  singlePlayer.moveLorenzoOnePosition();;
+        singlePlayer.moveLorenzoOnePosition();
     }
 
     public void start(){
