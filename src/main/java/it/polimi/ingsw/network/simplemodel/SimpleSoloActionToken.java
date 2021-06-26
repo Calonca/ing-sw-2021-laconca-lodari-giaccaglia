@@ -2,29 +2,28 @@ package it.polimi.ingsw.network.simplemodel;
 
 import it.polimi.ingsw.network.assets.tokens.ActionTokenAsset;
 
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SimpleSoloActionToken extends SimpleModelElement{
 
     ActionTokenAsset soloActionToken;
-    UUID soloActionTokenId;
+    String soloActionTokenName;
 
     private final AtomicBoolean hasTokenBeenShown = new AtomicBoolean(true);
 
 
     public SimpleSoloActionToken(){}
 
-    public SimpleSoloActionToken(UUID soloActionTokenId){
-        this.soloActionTokenId = soloActionTokenId;
+    public SimpleSoloActionToken(String soloActionTokenName){
+        this.soloActionTokenName = soloActionTokenName;
     }
 
     @Override
     public void update(SimpleModelElement element) {
 
         SimpleSoloActionToken serverActionToken = (SimpleSoloActionToken) element;
-        soloActionTokenId = serverActionToken.soloActionTokenId;
-        soloActionToken = ActionTokenAsset.fromUUID(soloActionTokenId);
+        soloActionTokenName = serverActionToken.soloActionTokenName;
+        soloActionToken = ActionTokenAsset.fromName(soloActionTokenName);
         hasTokenBeenShown.set(false);
 
     }

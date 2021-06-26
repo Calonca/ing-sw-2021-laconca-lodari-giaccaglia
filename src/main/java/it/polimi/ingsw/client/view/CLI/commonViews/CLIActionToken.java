@@ -51,7 +51,6 @@ public class CLIActionToken extends ViewBuilder{
                 getClient().changeViewBuilder(new CLIActionToken());
             }
         }
-
     }
 
 

@@ -77,7 +77,7 @@ public enum Element {
             @Override
             public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate){
                 it.polimi.ingsw.network.simplemodel.SimpleFaithTrack track = new SimpleFaithTrack();
-                return track.faithTrackConstructor(gameModel.getCurrentPlayer().getSerializedFaithTrack());
+                return track.faithTrackConstructor(gameModel.getPlayer(playerRequestingUpdate).get().getSerializedFaithTrack());
             }
 
         },
@@ -151,9 +151,7 @@ public enum Element {
 
         @Override
         public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate){
-            return new SimpleSoloActionToken(
-
-                    UUID.nameUUIDFromBytes(gameModel.showLastActivatedSoloActionToken().name().getBytes(StandardCharsets.UTF_8))
+            return new SimpleSoloActionToken(gameModel.showLastActivatedSoloActionToken().name()
             );
         }
         },

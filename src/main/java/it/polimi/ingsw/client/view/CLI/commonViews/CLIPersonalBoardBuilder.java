@@ -13,6 +13,7 @@ public final class CLIPersonalBoardBuilder{
     }
 
     public static void buildViewForViewing(int playerIndex, PersonalBoardBody.ViewMode viewMode){
+
         PersonalBoardBody.seePersonalBoard(playerIndex, viewMode);
         PlayersInfo playersInfo = (getSimpleModel().getElem(PlayersInfo.class).orElseThrow());
         PlayersInfo.SimplePlayerInfo playerInfo = playersInfo.getSimplePlayerInfoMap().get(playerIndex);

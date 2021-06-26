@@ -50,6 +50,7 @@ public class CLI {
                 Runnable toRun = afterInput;
                 afterInput = this::show;
                 inputMessage = "Not asking for input";
+
                 errorMessage = null;
                 toRun.run();
             }

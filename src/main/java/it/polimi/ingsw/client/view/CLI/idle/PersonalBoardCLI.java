@@ -31,4 +31,5 @@ public class PersonalBoardCLI extends IDLEViewBuilderCLI{
             CLIPersonalBoardBuilder.buildViewForViewing(playerIndex, viewMode);
         }
     }
+
 }

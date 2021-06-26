@@ -14,12 +14,11 @@ public class ElementsInNetwork extends ServerToClientMessage {
 
     public ElementsInNetwork(){}
 
-    public ElementsInNetwork(List<SimpleModelElement> commonSimpleModelElements, Map<Integer, List<SimpleModelElement>> playersElementsMap, int playerIndex) {
+    public ElementsInNetwork(List<SimpleModelElement> commonSimpleModelElements, Map<Integer, List<SimpleModelElement>> playersElementsMap) {
 
         super();
         this.playerSimpleModelElements = commonSimpleModelElements;
         this.playerElementsMap = playersElementsMap;
-        this.playerIndex = playerIndex;
 
     }
 

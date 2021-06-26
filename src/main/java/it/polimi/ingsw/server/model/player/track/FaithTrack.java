@@ -59,7 +59,7 @@ public class FaithTrack {
     public void cheat(){
 
         playerPiece.setValue(7);
-        lorenzoPiece.setValue(7);
+        lorenzoPiece.setValue(6);
     }
 
     public String serializeFaithTrack(){

@@ -1,9 +1,7 @@
 package it.polimi.ingsw.network.assets.tokens;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.UUID;
 /**
  *  <p>Enum class for <em>Solo Action Tokens</em> for the <em>Solo Mode</em>.<br>
  *  Each Token represents an effect applied once it is picked from the SinglePlayerDeck.</p>
@@ -193,9 +191,9 @@ public enum ActionTokenAsset {
 
     public abstract void setEffectDescription(String effectDescription);
 
-    public static ActionTokenAsset fromUUID(UUID tokenId){
+    public static ActionTokenAsset fromName(String tokenName){
         return Arrays.stream(vals)
-                .filter(token -> UUID.nameUUIDFromBytes(token.name().getBytes(StandardCharsets.UTF_8)).equals(tokenId))
+                .filter(token -> token.name().equals(tokenName))
                 .findFirst()
                 .orElse(EMPTY);
     }

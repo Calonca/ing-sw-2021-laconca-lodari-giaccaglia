@@ -227,6 +227,12 @@ public class Match {
         Pair<State, List<Element>> data = gameStrategy.execute(game, event);
         data.getValue().add(Element.PlayersInfo);
 
+      if(data.getValue().contains(Element.SimpleFaithTrack)) {
+            List<Element> elements = new ArrayList<>();
+            elements.add(Element.SimpleFaithTrack);
+            updateElementsForAllPlayers(elements);
+        }
+
         playerSendingEvent.setCurrentState(data.getKey());
 
         notifyStateToAllPlayers(data.getValue(), nicknameOfPlayerSendingEvent);
@@ -309,16 +315,16 @@ public class Match {
         Player player = game.getPlayer(playerJoining).get();
         int playerIndex = game.getPlayerIndex(player);
 
-        Map<Integer, List<SimpleModelElement>> playersElems = IntStream.range(0, onlineUsers.size()).boxed().collect(Collectors.toMap(
+        Map<Integer, List<SimpleModelElement>> playersElems = IntStream.range(0, maxPlayers).boxed().collect(Collectors.toMap(
                 index -> index,
                 index -> {
                     List<Element> elementsToUpdate = Element.getAllPlayerElementsAsList();
-                    return elementsToUpdate.stream().map(element -> element.buildSimpleModelElement(game, playerIndex)).collect(Collectors.toList());
+                    return Element.buildPlayerSimpleModelElements(game, elementsToUpdate, index);
                 }
         ));
 
         List<SimpleModelElement> commonElements = Element.buildCommonSimpleModelElements(game, Element.getAllCommonElementsAsList(), playerIndex);
-        ElementsInNetwork elementsInNetwork = new ElementsInNetwork(commonElements, playersElems, playerIndex);
+        ElementsInNetwork elementsInNetwork = new ElementsInNetwork(commonElements, playersElems);
 
         clientsStream().forEach(clientHandler -> {
         try{
@@ -328,6 +334,32 @@ public class Match {
         }
 
     });
+    }
+
+    public void updateElementsForAllPlayers(List<Element> elements){
+
+
+        Map<Integer, List<SimpleModelElement>> playersElems = IntStream.range(0, maxPlayers).boxed().collect(Collectors.toMap(
+
+                index -> index,
+                index -> Element.buildPlayerSimpleModelElements(game, elements, index)
+        ));
+
+
+        clientsStream().forEach(clientHandler -> {
+
+            Player player = game.getPlayer(clientHandler.getNickname()).get();
+            List<SimpleModelElement> commonElements = Element.buildCommonSimpleModelElements(game, elements, game.getPlayerIndex(player));
+            ElementsInNetwork elementsInNetwork = new ElementsInNetwork(commonElements, playersElems);
+
+            try{
+                clientHandler.sendAnswerMessage(elementsInNetwork);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        });
+
     }
 
 

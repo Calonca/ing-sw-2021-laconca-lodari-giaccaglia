@@ -36,7 +36,6 @@ public class InitialOrFinalPhaseCLI extends InitialOrFinalPhaseViewBuilder imple
     protected void showVaticanReportInfoBeforeTransition(){
 
         VaticanReportInfo reportInfo = getSimpleModel().getElem(VaticanReportInfo.class).get();
-
         if(reportInfo.hasReportOccurred() && !reportInfo.hasReportBeenShown()){
             reportInfo.reportWillBeShown();
             if(getClient().isCLI()) {

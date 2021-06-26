@@ -87,7 +87,7 @@ public class SimpleModel {
         for(SimpleModelElement element : elementsInNetwork.getCommonSimpleModelElements()){
             String elemName = element.getClass().getSimpleName();
             updateSimpleModelElement(elemName, element);
-         //   support.firePropertyChange(elemName,null,getElem(elemName));
+            support.firePropertyChange(elemName,null,getElem(elemName));
         }
 
         Map<Integer, List<SimpleModelElement>> playersElements = elementsInNetwork.getPlayerElements();
@@ -99,7 +99,6 @@ public class SimpleModel {
             for (SimpleModelElement element : elements)
                 playerCache.updateSimpleModelElement(element);
         });
-
     }
 
     public int getNumOfPlayers(){
