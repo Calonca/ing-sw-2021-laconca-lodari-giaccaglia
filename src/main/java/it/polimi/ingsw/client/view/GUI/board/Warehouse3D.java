@@ -11,6 +11,7 @@ import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ProductionViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
+import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.network.simplemodel.SelectablePositions;
 import it.polimi.ingsw.network.simplemodel.SimpleWarehouseLeadersDepot;
 import javafx.application.Platform;
@@ -30,7 +31,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Warehouse3D implements PropertyChangeListener {
 
-    private Group wareGroup;
+    private final Group wareGroup;
     private final PlayerCache cache;
     private final BoardView3D view3D;
     private DragAndDropHandler dropHandler;
@@ -98,6 +99,8 @@ public class Warehouse3D implements PropertyChangeListener {
 
         SimpleWarehouseLeadersDepot simpleWarehouseLeadersDepot = cache.getElem(SimpleWarehouseLeadersDepot.class).orElseThrow();
         Map<Integer,Integer> selectedPositionsMap = selectablePositions.getUpdatedSelectablePositions(toSelect.getChosenInputPos());
+        System.out.println("Selected inputs: "+ JsonUtility.serialize(toSelect.getChosenInputPos()));
+        System.out.println("Ware map: "+ JsonUtility.serialize(selectedPositionsMap));
 
         AtomicInteger gPos = new AtomicInteger();
         for(Map.Entry<Integer, List<Pair<ResourceAsset, Boolean>>> line: simpleWarehouseLeadersDepot.getDepots().entrySet()) {
@@ -111,7 +114,7 @@ public class Warehouse3D implements PropertyChangeListener {
                     if (true) {
                         toSelect.setNextInputPos(globalPos, e.getKey());
                         updateSelected();
-                        view3D.getStrongBox().updateStrongBox(view3D);
+                        view3D.getStrongBox().updateStrongBox();
                         testShape.setOnMousePressed(n -> {
                         });
                         if (toSelect.getPointedResource().isEmpty()) {
@@ -150,7 +153,7 @@ public class Warehouse3D implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         //Event is a state
-        if (evt.getOldValue()!=null && evt.getOldValue().equals("old:"+cache.getCurrentState()))
+        if (evt.getPropertyName().equals(evt.getNewValue()))
             Platform.runLater(this::buildView);
     }
 }

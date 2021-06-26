@@ -13,6 +13,7 @@ import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.simplemodel.SelectablePositions;
 import it.polimi.ingsw.network.simplemodel.SimpleDiscardBox;
 import it.polimi.ingsw.network.simplemodel.SimpleStrongBox;
+import javafx.application.Platform;
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
@@ -20,6 +21,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape3D;
 import javafx.util.Pair;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -29,60 +32,24 @@ import java.util.stream.Collectors;
 import static it.polimi.ingsw.client.view.GUI.board.Text3D.addTextOnGroup;
 import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.getThisPlayerCache;
 
-public class Box3D {
+public class Box3D implements PropertyChangeListener {
 
-    public static void discardBuilder(BoardView3D view3D, Group parent, Rectangle board, DragAndDropHandler dropHandler){
-        Group discardBoxGroup = new Group();
-        Point3D initialPos = new Point3D(800,800,0);
-        SimpleDiscardBox simpleDiscardBox =  getThisPlayerCache().getElem(SimpleDiscardBox.class).orElseThrow();
-        //Pos       //Res           //NOfRes
-        final Set<Map.Entry<Integer, Pair<ResourceAsset, Integer>>> entries = simpleDiscardBox.getResourceMap()
-                .entrySet().stream().sorted(Map.Entry.comparingByKey()).collect(Collectors.toCollection(LinkedHashSet::new));
-        final double lineHeight = 150;
-        int addedLines = 0;
-        for (Map.Entry<Integer, Pair<ResourceAsset, Integer>> line : entries) {
-            Group lineGroup = new Group();
+    private final BoardView3D view3D;
 
-            Integer num = line.getValue().getValue();
-            addTextOnGroup(lineGroup, 0, String.valueOf(num));
-
-            lineGroup.setTranslateY(lineHeight * addedLines);
-
-            int gPos = line.getKey();
-
-            ResourceGUI resTest = ResourceGUI.fromAsset(line.getValue().getKey());
-            Shape3D shape = ResourceGUI.addAndGetShape(discardBoxGroup,resTest,new Point3D(0,lineHeight * addedLines,0));
-            discardBoxGroup.getChildren().add(lineGroup);
-            DragAndDropData dragAndDropData = new DragAndDropData();
-            dragAndDropData.setResourceGUI(resTest);
-            dragAndDropData.setShape3D(shape);
-            dragAndDropData.setAvailable(simpleDiscardBox.isPosAvailable(gPos));
-            dragAndDropData.setAvailablePos(simpleDiscardBox.getAvailableMovingPositions().get(gPos));
-            dragAndDropData.setGlobalPos(gPos!=0?gPos:null);
-            if (view3D.mode.equals(BoardView3D.Mode.MOVING_RES))
-                dragAndDropData.setOnDrop(()->{
-                    ResourceMarketViewBuilder.sendMove(gPos,dropHandler.getLastDroppedPos());
-                });
-            dropHandler.addShape(dragAndDropData);
-
-            addedLines++;
-        }
-        addDiscardButton(view3D, discardBoxGroup, simpleDiscardBox, addedLines);
-
-        NodeAdder.addNodeToParent(parent, board, discardBoxGroup, initialPos);
-        view3D.setDiscardBox(discardBoxGroup);
+    public Box3D(BoardView3D view3D) {
+        this.view3D = view3D;
     }
 
-    public void strongBuilder(BoardView3D view3D, Group parent, Rectangle board){
+    public void strongBuilder(Group parent, Rectangle board){
         if (strongBoxGroup==null) {
-          strongBoxInit(view3D, parent, board);
+          strongBoxInit(parent, board);
         }
-        updateStrongBox(view3D);
+        updateStrongBox();
     }
 
-    public void updateStrongBox(BoardView3D view3D) {
-        SimpleStrongBox simpleStrongBox =  getThisPlayerCache().getElem(SimpleStrongBox.class).orElseThrow();
-        SelectablePositions selectablePositions = getThisPlayerCache().getElem(SelectablePositions.class).orElseThrow();
+    public void updateStrongBox() {
+        SimpleStrongBox simpleStrongBox =  view3D.getCache().getElem(SimpleStrongBox.class).orElseThrow();
+        SelectablePositions selectablePositions = view3D.getCache().getElem(SelectablePositions.class).orElseThrow();
         ResChoiceRowGUI toSelect = view3D.getToSelect();
         Map<Integer,Integer> selectablePositionsMap = new HashMap<>();
         if (toSelect!=null)
@@ -121,7 +88,7 @@ public class Box3D {
                     if (toSelect.choosingInput())
                         view3D.getToSelect().setNextInputPos(gPos, line.getValue().getKey());
                     else view3D.getToSelect().setNextInputPos(0, line.getValue().getKey());
-                    updateStrongBox(view3D);
+                    updateStrongBox();
                     view3D.getWarehouse().updateSelected();
                     if (view3D.getToSelect().getPointedResource().isEmpty()){
                         if (view3D.mode.equals(BoardView3D.Mode.SELECT_CARD_SHOP)) {
@@ -137,21 +104,21 @@ public class Box3D {
         }
     }
 
-    private static class StrongLine {
+    private class StrongLine {
         Shape3D shape;
         ResourceGUI res;
         Text3D resNum,selected;
 
     }
 
-    private static final Map<Integer, StrongLine> strongMap = new HashMap<>();
-    private static Group strongBoxGroup = null;
+    private final Map<Integer, StrongLine> strongMap = new HashMap<>();
 
-    private void strongBoxInit(BoardView3D view3D, Group parent, Rectangle board) {
+    private Group strongBoxGroup = null;
+    private void strongBoxInit(Group parent, Rectangle board) {
         strongBoxGroup = new Group();
 
         Point3D initialPos = new Point3D(200,1350,0);
-        SimpleStrongBox simpleStrongBox =  getThisPlayerCache().getElem(SimpleStrongBox.class).orElseThrow();
+        SimpleStrongBox simpleStrongBox =  view3D.getCache().getElem(SimpleStrongBox.class).orElseThrow();
 
         //                  Pos           Res                 number   selected
         final Set<Map.Entry<Integer, Pair<ResourceAsset, Pair<Integer, Integer>>>> entries = simpleStrongBox.getResourceMap().entrySet();
@@ -208,6 +175,56 @@ public class Box3D {
 
             discardBoxGroup.getChildren().add(discardButton);
         }
+    }
+
+    public static void discardBuilder(BoardView3D view3D, Group parent, Rectangle board, DragAndDropHandler dropHandler){
+        Group discardBoxGroup = new Group();
+        Point3D initialPos = new Point3D(800,800,0);
+        SimpleDiscardBox simpleDiscardBox =  getThisPlayerCache().getElem(SimpleDiscardBox.class).orElseThrow();
+        //Pos       //Res           //NOfRes
+        final Set<Map.Entry<Integer, Pair<ResourceAsset, Integer>>> entries = simpleDiscardBox.getResourceMap()
+                .entrySet().stream().sorted(Map.Entry.comparingByKey()).collect(Collectors.toCollection(LinkedHashSet::new));
+        final double lineHeight = 150;
+        int addedLines = 0;
+        for (Map.Entry<Integer, Pair<ResourceAsset, Integer>> line : entries) {
+            Group lineGroup = new Group();
+
+            Integer num = line.getValue().getValue();
+            addTextOnGroup(lineGroup, 0, String.valueOf(num));
+
+            lineGroup.setTranslateY(lineHeight * addedLines);
+
+            int gPos = line.getKey();
+
+            ResourceGUI resTest = ResourceGUI.fromAsset(line.getValue().getKey());
+            Shape3D shape = ResourceGUI.addAndGetShape(discardBoxGroup,resTest,new Point3D(0,lineHeight * addedLines,0));
+            discardBoxGroup.getChildren().add(lineGroup);
+            DragAndDropData dragAndDropData = new DragAndDropData();
+            dragAndDropData.setResourceGUI(resTest);
+            dragAndDropData.setShape3D(shape);
+            dragAndDropData.setAvailable(simpleDiscardBox.isPosAvailable(gPos));
+            dragAndDropData.setAvailablePos(simpleDiscardBox.getAvailableMovingPositions().get(gPos));
+            dragAndDropData.setGlobalPos(gPos!=0?gPos:null);
+            if (view3D.mode.equals(BoardView3D.Mode.MOVING_RES))
+                dragAndDropData.setOnDrop(()->{
+                    ResourceMarketViewBuilder.sendMove(gPos,dropHandler.getLastDroppedPos());
+                });
+            dropHandler.addShape(dragAndDropData);
+
+            addedLines++;
+        }
+        addDiscardButton(view3D, discardBoxGroup, simpleDiscardBox, addedLines);
+
+        NodeAdder.addNodeToParent(parent, board, discardBoxGroup, initialPos);
+        view3D.setDiscardBox(discardBoxGroup);
+    }
+
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        //Event is a state
+        if (evt.getPropertyName().equals(evt.getNewValue()))
+            Platform.runLater(this::updateStrongBox);
     }
 
 

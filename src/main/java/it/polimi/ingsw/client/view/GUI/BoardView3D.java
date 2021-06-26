@@ -7,7 +7,6 @@ import it.polimi.ingsw.client.view.GUI.board.Warehouse3D;
 import it.polimi.ingsw.client.view.GUI.layout.ResChoiceRowGUI;
 import it.polimi.ingsw.client.view.GUI.util.DragAndDropHandler;
 import it.polimi.ingsw.client.view.GUI.util.NodeAdder;
-import it.polimi.ingsw.client.view.GUI.util.ResourceGUI;
 import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ProductionViewBuilder;
 import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
@@ -26,9 +25,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape3D;
 import javafx.scene.transform.Rotate;
-import org.jetbrains.annotations.NotNull;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -48,7 +45,6 @@ public class BoardView3D {
                 final Rectangle boardRec = board.boardRec;
                 final Group parent = board.parent;
                 Box3D.discardBuilder(board,parent,boardRec , ddHandler);
-                new Box3D().strongBuilder(board,parent,boardRec);
                 board.getWarehouse().setDropHandler(ddHandler);
                 ddHandler.startDragAndDropOnEach(parent,boardRec);
             }
@@ -60,7 +56,7 @@ public class BoardView3D {
                 CardShopGUI.addChosenCard();
                 board.resRowBuilder(parent,boardRec);
                 board.getWarehouse().updateSelected();
-                new Box3D().strongBuilder(board,parent,boardRec);
+                board.getStrongBox().updateStrongBox();
             }
         },
         SELECT_RESOURCE_FOR_PROD(){
@@ -69,32 +65,26 @@ public class BoardView3D {
                 final Group parent = board.parent;
                 board.resRowBuilder(parent,boardRec);
                 board.getWarehouse().updateSelected();
-                new Box3D().strongBuilder(board,parent,boardRec);
+                board.getStrongBox().updateStrongBox();
             }
         },
         CHOOSE_PRODUCTION() {
             public void run(BoardView3D board) {
                 final Group parent = board.parent;
-                final Rectangle boardRec = board.boardRec;
                 board.productionBuilder(parent);
-                new Box3D().strongBuilder(board,parent,boardRec);
             }
 
         },
         CHOOSE_POS_FOR_CARD() {
             public void run(BoardView3D board) {
-                final Rectangle boardRec = board.boardRec;
                 final Group parent = board.parent;
                 CardShopGUI.addChosenCard();
                 board.productionBuilder(parent);
-                new Box3D().strongBuilder(board,parent,boardRec);
             }
         },
         BACKGROUND(){
             public void run(BoardView3D board) {
-                final Rectangle boardRec = board.boardRec;
                 final Group parent = board.parent;
-                new Box3D().strongBuilder(board,parent,boardRec);
                 board.productionBuilder(parent);
             }
         };
@@ -254,6 +244,10 @@ public class BoardView3D {
         warehouse = new Warehouse3D(cache,this, parent, boardRec);
         warehouse.wareBuilder();
         cache.addPropertyChangeListener(warehouse);
+
+        Box3D strongBox = new Box3D(this);
+        strongBox.strongBuilder(parent,boardRec);
+        cache.addPropertyChangeListener(strongBox);
 
         return parent;
     }
