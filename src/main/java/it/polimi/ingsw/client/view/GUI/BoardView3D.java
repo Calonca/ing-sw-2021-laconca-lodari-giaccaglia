@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view.GUI;
 import it.polimi.ingsw.client.simplemodel.PlayerCache;
 import it.polimi.ingsw.client.view.GUI.board.Box3D;
 import it.polimi.ingsw.client.view.GUI.board.FaithTrack;
+import it.polimi.ingsw.client.view.GUI.board.InfoTiles;
 import it.polimi.ingsw.client.view.GUI.board.Warehouse3D;
 import it.polimi.ingsw.client.view.GUI.layout.ResChoiceRowGUI;
 import it.polimi.ingsw.client.view.GUI.util.DragAndDropHandler;
@@ -240,6 +241,11 @@ public class BoardView3D {
         faithBoard=new FaithTrack();
         faithBoard.faithTrackBuilder(this,parent, boardRec,playerNumber,cache);
         getSimpleModel().addPropertyChangeListener(faithBoard);
+
+
+        InfoTiles infoTiles=new InfoTiles();
+        infoTiles.infoBuilder(this,parent, boardRec,playerNumber,cache);
+        getSimpleModel().addPropertyChangeListener(infoTiles);
 
         warehouse = new Warehouse3D(cache,this, parent, boardRec);
         warehouse.wareBuilder();

@@ -4,6 +4,7 @@ package it.polimi.ingsw.client.view.GUI;
 import it.polimi.ingsw.client.view.GUI.board.CamState;
 import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
+import it.polimi.ingsw.network.assets.leaders.NetworkDevelopmentDiscountLeaderCard;
 import it.polimi.ingsw.network.assets.leaders.NetworkMarketLeaderCard;
 import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
@@ -111,18 +112,34 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
 
         root3D.getChildren().add(marketBoardRectangle);
         List<LeaderCardAsset> activeBonus = activeLeaders.getPlayerLeaders();
-        for(int i=0;i<activeBonus.size();i++)
-        {
 
-            if(activeBonus.get(i).getNetworkLeaderCard().isLeaderActive())
-                if(activeBonus.get(i).getNetworkLeaderCard() instanceof NetworkMarketLeaderCard)
-                {
-                    sceneLeadersToAdd=new Rectangle(150,100);
+
+        for (LeaderCardAsset bonus : activeBonus) {
+
+            int count = 0;
+            if (bonus.getNetworkLeaderCard().isLeaderActive())
+                if (bonus.getNetworkLeaderCard() instanceof NetworkMarketLeaderCard) {
+                    count++;
+                    sceneLeadersToAdd = new Rectangle(150, 100);
                     sceneLeadersToAdd.setTranslateY(250);
-                    sceneLeadersToAdd.setTranslateX(-50*(4+i));
+                    sceneLeadersToAdd.setTranslateX(-50 - 200 * count);
                     sceneLeadersToAdd.setTranslateZ(-10);
 
-                    sceneLeadersToAdd.setFill(new ImagePattern(new Image(activeBonus.get(i).getCardPaths().getKey().toString(),false)));
+                    sceneLeadersToAdd.setFill(new ImagePattern(new Image(bonus.getCardPaths().getKey().toString(), false)));
+                    leaders.getChildren().add(sceneLeadersToAdd);
+
+                }
+
+            count = 0;
+            if (bonus.getNetworkLeaderCard().isLeaderActive())
+                if (bonus.getNetworkLeaderCard() instanceof NetworkDevelopmentDiscountLeaderCard) {
+                    count++;
+                    sceneLeadersToAdd = new Rectangle(150, 100);
+                    sceneLeadersToAdd.setTranslateY(600);
+                    sceneLeadersToAdd.setTranslateX(-50 - 200 * count);
+                    sceneLeadersToAdd.setTranslateZ(-10);
+
+                    sceneLeadersToAdd.setFill(new ImagePattern(new Image(bonus.getCardPaths().getKey().toString(), false)));
                     leaders.getChildren().add(sceneLeadersToAdd);
 
                 }
