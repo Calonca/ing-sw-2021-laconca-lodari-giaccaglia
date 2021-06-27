@@ -16,9 +16,9 @@ import javafx.util.Duration;
 public enum CamState {
     TOP(new Point3D(0,-300,-900),new Point3D(0,0,0)),
     LOOK_AT_OTHERS(new Point3D(-500,5000,-3500),new Point3D(75,0,0)),
-    LOOK_AT_SECOND(new Point3D(0,0,-10000),new Point3D(0,0,270)),
-    LOOK_AT_THIRD(new Point3D(0,0,-10000),new Point3D(0,0,180)),
-    LOOK_AT_FOURTH(new Point3D(0,0,-10000),new Point3D(0,0,90)),
+    LOOK_AT_SECOND(new Point3D(0,0,-4000),new Point3D(0,0,270)),
+    LOOK_AT_THIRD(new Point3D(0,0,-4000),new Point3D(0,0,180)),
+    LOOK_AT_FOURTH(new Point3D(0,0,-4000),new Point3D(0,0,90)),
     SEE_SHOP_MARKET(new Point3D(-500,300,-1700),new Point3D(45,0,0)),
     SEE_SHOP(new Point3D(-1000,300,-1700),new Point3D(45,0,0)),
     SELECT_CARD_SHOP(new Point3D(-200,0,-600),new Point3D(0,0,0)),

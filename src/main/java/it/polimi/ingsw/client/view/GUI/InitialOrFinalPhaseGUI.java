@@ -15,14 +15,12 @@ import javafx.scene.control.Button;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -87,19 +85,16 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
 
     }
 
-    public List<ImageView> getSetupLeaderIcons() {
+    public List<ImageView> getInitialLeaderIcons() {
         SimplePlayerLeaders simplePlayerLeaders = getSimpleModel().getPlayerCache(getClient().getCommonData().getThisPlayerIndex()).getElem(SimplePlayerLeaders.class).orElseThrow();
         List<LeaderCardAsset> leaderCardAssets=simplePlayerLeaders.getPlayerLeaders();
         List<ImageView> resultList=new ArrayList<>();
-        Path path;
 
         for (LeaderCardAsset leaderCardAsset : leaderCardAssets) {
             if(!leaderCardAsset.getNetworkLeaderCard().isLeaderActive())
             {
-                path = leaderCardAsset.getCardPaths().getKey();
                 leadersUUIDs.add(leaderCardAsset.getCardId());
-                ImageView temp = new ImageView(new Image(path.toString(), true));
-                temp.setPreserveRatio(true);
+                ImageView temp = CardSelector.imageViewFromAsset(leaderCardAsset.getCardPaths().getKey());
                 temp.setFitHeight(cardLen);
                 resultList.add(temp);}
         }
@@ -118,9 +113,9 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
         Effect dropShadow=new DropShadow(BlurType.GAUSSIAN, Color.rgb(0,0,0,0.5),10,0.7,5,5);
 
         ImageView leaderBut;
-        for(int i=0;i<getSetupLeaderIcons().size();i++)
+        for(int i=0;i<getInitialLeaderIcons().size();i++)
         {
-            leaderBut= getSetupLeaderIcons().get(i);
+            leaderBut= getInitialLeaderIcons().get(i);
             leaderBut.setLayoutY(cardsY);
             leaderBut.setLayoutX(cardsStartingX+i*(cardLen*(462.0/709)+paddingBetweenCards));
             leaderBut.setEffect(dropShadow);
@@ -129,7 +124,7 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
             sceneLeadersImageView.add(leaderBut);
         }
 
-        for(int i=0; i<getSetupLeaderIcons().size();i++)
+        for(int i=0; i<getInitialLeaderIcons().size();i++)
             selectedLeaders.add(false);
 
 

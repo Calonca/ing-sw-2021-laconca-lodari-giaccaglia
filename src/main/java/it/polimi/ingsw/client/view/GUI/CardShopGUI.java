@@ -7,7 +7,6 @@ import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCardColor;
 import it.polimi.ingsw.network.assets.leaders.NetworkDevelopmentDiscountLeaderCard;
-import it.polimi.ingsw.network.assets.leaders.NetworkMarketLeaderCard;
 import it.polimi.ingsw.network.simplemodel.SimpleCardShop;
 import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
 import javafx.application.Platform;
@@ -98,7 +97,7 @@ public class CardShopGUI extends CardShopViewBuilder {
                 if (simpleCardShop.getCardFront(NetworkDevelopmentCardColor.fromInt(j),3-i).isPresent())
                 {
                     path=simpleCardShop.getCardFront(NetworkDevelopmentCardColor.fromInt(j),3-i).get().getCardPaths().getKey();
-                    tempImage = new ImageView(new Image(path.toString(), true));
+                    tempImage = CardSelector.imageViewFromAsset(path);
                     ColorAdjust colorAdjust=new ColorAdjust();
                     colorAdjust.setBrightness(-0.40);
                     availableCards.add(simpleCardShop.getCardFront(NetworkDevelopmentCardColor.fromInt(j),3-i).get().getDevelopmentCard().isSelectable());
@@ -118,11 +117,11 @@ public class CardShopGUI extends CardShopViewBuilder {
 
                     for(int k=1;k<stackHeight;k++)
                     {
-                        if(k==stackHeight-2)
+                        if(k==stackHeight-1)
                             path=simpleCardShop.getSecondCard(NetworkDevelopmentCardColor.fromInt(j),3-i).get().getCardPaths().getKey();
                         else
                             path=simpleCardShop.getCardFront(NetworkDevelopmentCardColor.fromInt(j),3-i).get().getCardPaths().getKey();
-                        tempStackImage=new ImageView(new Image(path.toString(), true));
+                        tempStackImage=CardSelector.imageViewFromAsset(path);
                         tempStackImage.setLayoutX(cardsHGap+(cardsHGap+cardWidth)*j);
                         tempStackImage.setLayoutY(20+(cardsHGap+cardWidth*(741/504.0))*i);
                         tempStackImage.setRotate(Math.random() * ((cardTilt*50 - -cardTilt*50) + 1) + -5);
@@ -203,9 +202,8 @@ public class CardShopGUI extends CardShopViewBuilder {
             if(activeBonus.get(i).getNetworkLeaderCard().isLeaderActive())
                 if(activeBonus.get(i).getNetworkLeaderCard() instanceof NetworkDevelopmentDiscountLeaderCard)
                 {
-                    temp=new ImageView(new Image(activeBonus.get(i).getCardPaths().getKey().toString(),false));
+                    temp=CardSelector.imageViewFromAsset(activeBonus.get(i).getCardPaths().getKey());
                     temp.setFitHeight(100);
-                    temp.setPreserveRatio(true);
                     temp.setLayoutX(20+100*i);
                     temp.setLayoutY(len-100);
 
@@ -231,7 +229,7 @@ public class CardShopGUI extends CardShopViewBuilder {
     public static void addChosenCard(){
         SimpleCardShop simpleCardShop = getSimpleModel().getElem(SimpleCardShop.class).orElseThrow();
         Path path = simpleCardShop.getPurchasedCard().orElseThrow().getCardPaths().getKey();
-        ImageView imageView = new ImageView(new Image(path.toString(), true));
+        ImageView imageView = CardSelector.imageViewFromAsset(path);
         if (chosenCard==null) {
             chosenCard = new Group();
             Playground.addNodeToThisPlayer(chosenCard, new Point3D(-500, -100, 0));

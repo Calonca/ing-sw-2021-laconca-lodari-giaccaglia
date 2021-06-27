@@ -31,11 +31,9 @@ import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import javafx.util.Pair;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
-import java.nio.file.Path;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * This scene is composed by a small card selector (2max), a resource selector and a confirmation button
@@ -116,12 +114,13 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         List<ImageView> resultList=new ArrayList<>();
 
         for (LeaderCardAsset leaderCardAsset : leaderCardAssets) {
-            Path path = leaderCardAsset.getCardPaths().getKey();
             leadersUUIDs.add(leaderCardAsset.getCardId());
-            ImageView temp = new ImageView(new Image(path.toString(), true));
-            temp.setPreserveRatio(true);
+
+            ImageView temp = CardSelector.imageViewFromAsset(leaderCardAsset.getCardPaths().getKey());
             temp.setFitHeight(leaderSize);
             resultList.add(temp);
+
+
         }
         return resultList;
 

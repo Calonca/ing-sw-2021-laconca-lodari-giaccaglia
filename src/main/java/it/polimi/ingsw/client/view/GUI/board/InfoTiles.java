@@ -119,12 +119,11 @@ public class InfoTiles implements PropertyChangeListener {
 
                     Rectangle actionTokenRectangle=new Rectangle(100,100);
                     actionTokenRectangle.setFill(new ImagePattern(new Image(tokenAsset.getFrontPath().toString())));
-                    NodeAdder.addNodeToParent(infoGroup,infoGroup,actionTokenRectangle,infoGroup.localToParent(-100,-100,1250));
+                    NodeAdder.addNodeToParent(infoGroup,infoGroup,actionTokenRectangle,infoGroup.localToParent(-100,-100,1000));
                 }
 
                 for(int i=0;i<playersInfo.getSimplePlayerInfoMap().size();i++)
                 {
-                    if(playersInfo.getSimplePlayerInfoMap().get(i).getPlayerIndex()!=playerNumber)
                         NodeAdder.addNodeToParent(infoGroup, infoGroup,playerStatsTile(playersInfo.getSimplePlayerInfoMap().get(i),getSimpleModel().getPlayerCache(i).getCurrentState()),new Point3D(-400,210*i,1100));
 
                 }

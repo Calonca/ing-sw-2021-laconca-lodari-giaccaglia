@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view.GUI;
 
 
 import it.polimi.ingsw.client.view.GUI.board.CamState;
+import it.polimi.ingsw.client.view.GUI.util.CardSelector;
 import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
 import it.polimi.ingsw.network.assets.leaders.NetworkDevelopmentDiscountLeaderCard;
@@ -125,7 +126,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
                     sceneLeadersToAdd.setTranslateX(-50 - 200 * count);
                     sceneLeadersToAdd.setTranslateZ(-10);
 
-                    sceneLeadersToAdd.setFill(new ImagePattern(new Image(bonus.getCardPaths().getKey().toString(), false)));
+                    sceneLeadersToAdd.setFill(CardSelector.imagePatternFromAsset(bonus.getCardPaths().getKey()));
                     leaders.getChildren().add(sceneLeadersToAdd);
 
                 }
@@ -139,7 +140,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
                     sceneLeadersToAdd.setTranslateX(-50 - 200 * count);
                     sceneLeadersToAdd.setTranslateZ(-10);
 
-                    sceneLeadersToAdd.setFill(new ImagePattern(new Image(bonus.getCardPaths().getKey().toString(), false)));
+                    sceneLeadersToAdd.setFill(CardSelector.imagePatternFromAsset(bonus.getCardPaths().getKey()));
                     leaders.getChildren().add(sceneLeadersToAdd);
 
                 }

@@ -6,6 +6,7 @@ import it.polimi.ingsw.client.view.GUI.board.FaithTrack;
 import it.polimi.ingsw.client.view.GUI.board.InfoTiles;
 import it.polimi.ingsw.client.view.GUI.board.Warehouse3D;
 import it.polimi.ingsw.client.view.GUI.layout.ResChoiceRowGUI;
+import it.polimi.ingsw.client.view.GUI.util.CardSelector;
 import it.polimi.ingsw.client.view.GUI.util.DragAndDropHandler;
 import it.polimi.ingsw.client.view.GUI.util.NodeAdder;
 import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
@@ -180,7 +181,7 @@ public class BoardView3D {
                     temp.setTranslateY(500);
                     temp.setTranslateX(200*i);
 
-                    temp.setFill(new ImagePattern(new Image(activeBonus.get(i).getCardPaths().getKey().toString(),false)));
+                    temp.setFill(CardSelector.imagePatternFromAsset(activeBonus.get(i).getCardPaths().getKey()));
                     NodeAdder.addNodeToParent(parent, boardRec,temp,new Point3D(-300,500+150*i,0));
                 }
 
@@ -334,17 +335,19 @@ public class BoardView3D {
                 rectangle.setOpacity(0);
             } else {
                 path = simpleCardCells.getDevCardsCells().get(key).get().get(simpleCardCells.getDevCardsCells().get(key).get().size()-1).getCardPaths().getKey();
-                tempImage = new ImagePattern(new Image(path.toString(), false));
+                tempImage = CardSelector.imagePatternFromAsset(path);
                 System.out.println(path);
             }
-            rectangle.setLayoutX(400 + 250 * key);
+
+                rectangle.setLayoutX(400 + 250 * key);
             rectangle.setLayoutY(0);
             rectangle.setOnMouseClicked(p -> {
                 if (mode.equals(Mode.CHOOSE_POS_FOR_CARD) && simpleCardCells.isSpotAvailable(key)) {
                     CardShopViewBuilder.sendCardPlacementPosition(key);
                 } else if (mode.equals(Mode.CHOOSE_PRODUCTION))
                     if (value.isPresent())
-                        ProductionViewBuilder.sendChosenProduction(key);
+                        if(value.get().getDevelopmentCard().isSelectable())
+                            ProductionViewBuilder.sendChosenProduction(key);
             });
             rectangle.setFill(tempImage);
 
@@ -368,7 +371,7 @@ public class BoardView3D {
                     temp.setTranslateY(250);
                     temp.setLayoutX(400 + 750 + 250 * (count + 1));
 
-                    temp.setFill(new ImagePattern(new Image(bonus.getCardPaths().getKey().toString(), false)));
+                    temp.setFill(CardSelector.imagePatternFromAsset(bonus.getCardPaths().getKey()));
                     NodeAdder.addNodeToParent(productions, temp, new Point3D(680 + 220 * (count + 1), 700, -20));
 
                 }

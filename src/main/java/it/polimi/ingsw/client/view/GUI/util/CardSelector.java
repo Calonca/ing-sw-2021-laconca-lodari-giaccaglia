@@ -2,11 +2,36 @@ package it.polimi.ingsw.client.view.GUI.util;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.ImagePattern;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CardSelector {
+
+
+
+    public static ImageView imageViewFromAsset(Path path)
+    {
+        String now=path.toString();
+        now=now.replace("\\","/");
+        ImageView temp = new ImageView(new Image(now));
+        temp.setPreserveRatio(true);
+        return temp;
+
+
+    }
+
+
+    public static ImagePattern imagePatternFromAsset(Path path)
+    {
+        String now=path.toString();
+        now=now.replace("\\","/");
+        return new ImagePattern(new Image(now));
+
+
+    }
     public void cardSelectorFromImage(List<Boolean> selected, List<ImageView> scenesLeadersToChoose, int maxselection)
     {
 
