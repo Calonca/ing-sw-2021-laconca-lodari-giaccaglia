@@ -1272,10 +1272,10 @@ public class Serializator extends JsonUtility {
 
 
         Match matchDeserialized = Deserializator.deserializeMatch("/savedMatches/pa|076cc1e7-5606-4710-92a9-fd907f564b5e.json");
+                serializeSinglePlayerStatesTransitionTable();
+        serializeMultiPlayerStatesTransitionTable();
 
  */
-        serializeSinglePlayerStatesTransitionTable();
-        serializeMultiPlayerStatesTransitionTable();
 
 
 

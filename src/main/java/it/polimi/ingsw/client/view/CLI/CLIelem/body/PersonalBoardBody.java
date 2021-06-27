@@ -16,6 +16,7 @@ import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Column;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.RecursiveList;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
 import it.polimi.ingsw.client.view.CLI.textUtil.Background;
+import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ProductionViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
@@ -290,9 +291,9 @@ public class PersonalBoardBody extends CLIelem {
         faithPointsPos.ifPresent(discardBoxMap::remove);
 
         Stream<Option> optionList = discardBoxMap.entrySet().stream().sorted(Map.Entry.comparingByKey())
-                .map(e->optionFromAsset(e.getValue().getKey(),e.getValue().getValue(),0, getSelectableMove(board,e.getKey()),e.getKey()));
+                .map(e->optionFromAsset(e.getValue().getKey(),e.getValue().getValue(),0, getSelectableMove(board,e.getKey()),e.getKey(), false, null));
         Column discardedBoxList = new Column(optionList);
-        Option faith = optionFromAsset(ResourceAsset.FAITH,faithPoints,0,false,-100);
+        Option faith = optionFromAsset(ResourceAsset.FAITH,faithPoints,0,false,-100, false, null);
         faith.setMode(Option.VisMode.NO_NUMBER);
         discardedBoxList.addElem(faith);
         Option discard = Option.from("Discard", ResourceMarketViewBuilder::sendDiscard);
@@ -374,7 +375,9 @@ public class PersonalBoardBody extends CLIelem {
                                     (int)board.resChoiceRow.getChosenInputPos().stream().filter(p->p.equals(e.getKey())).count():
                                     0)
                             ,selectable,
-                            e.getKey() );
+                            e.getKey(),
+                            false,
+                            null);
                     if (board.mode.equals(Mode.MOVING_RES))
                         strongOption.setEnabled(false);
                     return strongOption;
@@ -383,10 +386,16 @@ public class PersonalBoardBody extends CLIelem {
 
     }
 
-    private Option optionFromAsset(ResourceAsset asset, int numOf, int selected, boolean selectable, int globalPos){
+    private Option optionFromAsset(ResourceAsset asset, int numOf, int selected, boolean selectable, int globalPos, boolean isLeaderDepot, ResourceAsset leaderAsset){
         Drawable dw = new Drawable();
         ResourceCLI resourceCLI = ResourceCLI.fromAsset(asset);
-        dw.add(0, (numOf ==1?"": numOf +" ")+resourceCLI.getFullName()+" ",resourceCLI.getC(), Background.DEFAULT);
+
+        if(isLeaderDepot)
+            dw.add(0, (numOf == 1 ? "" : numOf + " ") + resourceCLI.getFullName() + " ", Color.WHITE, ResourceCLI.fromAsset(leaderAsset).getB());
+        else
+            dw.add(0, (numOf ==1?"": numOf +" ")+resourceCLI.getFullName()+" ",resourceCLI.getC(), Background.DEFAULT);
+
+
         dw.add(0, (selected==0?"         ":selected+" selected"),resourceCLI.getC(), Background.DEFAULT);
         Runnable r=()->{
             if (mode.equals(Mode.MOVING_RES)) {
@@ -470,6 +479,7 @@ public class PersonalBoardBody extends CLIelem {
     private static Column wareBuilder(SimpleWarehouseLeadersDepot simpleWare, PersonalBoardBody body){
         Column wareGrid = new Column();
         Map<Integer, List<Pair<ResourceAsset, Boolean>>> resMap = simpleWare.getDepots();
+        Map<Integer, ResourceAsset> leaderDepotsMap = simpleWare.getResourcesTypesOfLeaderDepots();
         List<Map.Entry<Integer, List<Pair<ResourceAsset, Boolean>>>> toSort = new ArrayList<>(resMap.entrySet());
         toSort.sort(Map.Entry.comparingByKey());
         List<Row> rows = new ArrayList<>();
@@ -481,11 +491,15 @@ public class PersonalBoardBody extends CLIelem {
                         boolean selectable;
                         Pair<ResourceAsset,Boolean> pair = e.getValue().get(i);
                         if (body.mode.equals(Mode.MOVING_RES)) selectable = body.getSelectableMove(body, rowStart + i);
-                        else if (body.mode.equals(Mode.SELECT_CARD_SHOP)) selectable = body.getSelected(pair);
+                        else if (body.mode.equals(Mode.SELECT_CARD_SHOP)) selectable = body.getSelected(pair, rowStart + i);
                         else if (body.mode.equals(Mode.SELECT_RES_FOR_PROD)) selectable = body.getSelectableInProd(rowStart+i);
                         else selectable = false;
 
-                        return body.optionFromAsset(pair.getKey(), 1, 0,selectable , rowStart + i);
+                        boolean isLeaderDepot = leaderDepotsMap.containsKey(rowStart + i);
+                        if(isLeaderDepot)
+                            return body.optionFromAsset(pair.getKey(), 1, 0, selectable , rowStart + i, true, leaderDepotsMap.get(rowStart + i));
+                        else
+                            return body.optionFromAsset(pair.getKey(), 1, 0, selectable , rowStart + i, false, null);
                     }));
             rows.add(row1);
             pos+=e.getValue().size();
@@ -502,9 +516,10 @@ public class PersonalBoardBody extends CLIelem {
                 .getUpdatedSelectablePositions(resChoiceRow.getChosenInputPos()).containsKey(gPos);
     }
 
-    private boolean getSelected(Pair<ResourceAsset, Boolean> pair) {
+    private boolean getSelected(Pair<ResourceAsset, Boolean> pair, int globalPos) {
         return resChoiceRow.getPointedResource().isPresent()
                 && pair.getKey().equals(resChoiceRow.getPointedResource().get())
+                && !resChoiceRow.getChosenInputPos().contains(globalPos)
                 && pair.getValue().equals(false);
     }
 

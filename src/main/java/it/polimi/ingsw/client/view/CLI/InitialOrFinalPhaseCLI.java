@@ -13,6 +13,7 @@ public class InitialOrFinalPhaseCLI extends InitialOrFinalPhaseViewBuilder imple
     public InitialOrFinalPhaseCLI(boolean isInitial) {
         super(isInitial);
     }
+
     @Override
     public void run() {
 

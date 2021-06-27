@@ -11,8 +11,6 @@ public class SimpleWarehouseLeadersDepot extends SimpleModelElement{
 
     private Map<Integer, List<Integer>> availableMovingPositions;
 
-
-
     private Map<Integer, ResourceAsset> resourcesTypesOfLeaderDepots;  // key -> leader depot spot ; value -> resource types
 
     public SimpleWarehouseLeadersDepot(){}
@@ -43,6 +41,10 @@ public class SimpleWarehouseLeadersDepot extends SimpleModelElement{
 
     public Map<Integer, List<Integer>> getAvailableMovingPositions(){
         return availableMovingPositions;
+    }
+
+    public Map<Integer, ResourceAsset> getResourcesTypesOfLeaderDepots(){
+        return resourcesTypesOfLeaderDepots;
     }
 
 }

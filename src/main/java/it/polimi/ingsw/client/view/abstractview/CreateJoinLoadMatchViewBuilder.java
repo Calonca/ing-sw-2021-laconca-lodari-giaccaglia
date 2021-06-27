@@ -37,7 +37,7 @@ public abstract class CreateJoinLoadMatchViewBuilder extends ViewBuilder {
             coloredOnlineNames = Arrays
                     .stream(onlineNames)
                     .filter(Objects::nonNull)
-                    .map( name -> Color.colorString( name, Color.BIGHT_GREEN ) )
+                    .map( name -> Color.colorString( name, Color.BRIGHT_GREEN) )
                     .toArray( String[]::new);
         else
             coloredOnlineNames = new String[]{Color.colorString( "No players online", Color.BRIGHT_RED )};

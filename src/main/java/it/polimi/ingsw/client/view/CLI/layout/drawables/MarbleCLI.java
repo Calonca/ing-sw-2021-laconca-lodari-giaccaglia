@@ -28,13 +28,16 @@ public enum MarbleCLI {
     }
 
     public Drawable toBigDrawable(){
+        return toBigDrawableCustomXPos(0);
+    }
 
+    public Drawable toBigDrawableCustomXPos(int xPos){
         Drawable dwList = new Drawable();
-        dwList.add(0,"    █      ",c,Background.DEFAULT);
-        dwList.add(0," ███████   ",c,Background.DEFAULT);
-        dwList.add(0,"█████████  ",c,Background.DEFAULT);
-        dwList.add(0," ███████   ",c,Background.DEFAULT);
-        dwList.add(0,"    █      ",c,Background.DEFAULT);
+        dwList.add(xPos,"    █      ",c,Background.DEFAULT);
+        dwList.add(xPos," ███████   ",c,Background.DEFAULT);
+        dwList.add(xPos,"█████████  ",c,Background.DEFAULT);
+        dwList.add(xPos," ███████   ",c,Background.DEFAULT);
+        dwList.add(xPos,"    █      ",c,Background.DEFAULT);
         return dwList;
     }
 

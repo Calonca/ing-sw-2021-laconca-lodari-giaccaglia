@@ -65,7 +65,7 @@ public class LobbyCLI extends LobbyViewBuilderCLI {
 
         drawable.add(0,"╔════════════════════════════╗");
         drawable.add(0,"║                            ║");
-        drawable.add(new DrawableLine(8, yPosMatchPlayerText, "Match Players", Color.BIGHT_GREEN, Background.DEFAULT));
+        drawable.add(new DrawableLine(8, yPosMatchPlayerText, "Match Players", Color.BRIGHT_GREEN, Background.DEFAULT));
         drawable.add(0,"║ ────────────────────────── ║");
 
 

@@ -13,7 +13,7 @@ public class SinglePlayerDeck {
     /**
      * <p>Represents the actual structure of the stack of {@link SoloActionToken SoloActionTokens}.
      */
-    private final List<SoloActionToken> actionTokens = Arrays.stream(SoloActionToken.values()).collect(Collectors.toList());
+    private final List<SoloActionToken> actionTokens = Arrays.stream(SoloActionToken.values()).filter(token -> token!=SoloActionToken.EMPTY).collect(Collectors.toList());
 
     private SoloActionToken lastActivatedToken;
 

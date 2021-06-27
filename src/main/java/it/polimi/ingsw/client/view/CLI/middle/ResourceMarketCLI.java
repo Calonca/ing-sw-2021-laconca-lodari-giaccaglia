@@ -63,18 +63,11 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
 
         for(ResourceAsset res : marketBonuses.getMarketBonusResources()) {
 
-            if (res == ResourceAsset.STONE)
-                activeConversions.addElem(buildResourceChoice(MarbleAsset.GRAY, 3));
-            else if (res == ResourceAsset.SERVANT)
-                activeConversions.addElem(buildResourceChoice(MarbleAsset.PURPLE, 1));
-            else if (res == ResourceAsset.GOLD)
-                activeConversions.addElem(buildResourceChoice(MarbleAsset.YELLOW, 0));
-            else if (res == ResourceAsset.SHIELD)
-                activeConversions.addElem(buildResourceChoice(MarbleAsset.BLUE, 2));
+            addConversionsToColumn(activeConversions, res);
         }
 
 
-        int width = numOfConversions==0 ? 100 : 80;
+        int width = numOfConversions == 0 ? 100 : 80;
 
         root.addElem(new SizedBox(width,0));
 
@@ -139,15 +132,9 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
 
         List<ResourceAsset> marketBonusResources=marketBonuses.getMarketBonusResources();
 
-        for(ResourceAsset res : marketBonusResources)
-            if(res==ResourceAsset.STONE)
-                activeConversions.addElem(buildResourceChoice(MarbleAsset.GRAY,3));
-            else if(res==ResourceAsset.SERVANT)
-                activeConversions.addElem(buildResourceChoice(MarbleAsset.PURPLE,2));
-            else if(res==ResourceAsset.GOLD)
-                activeConversions.addElem(buildResourceChoice(MarbleAsset.YELLOW,0));
-            else if(res==ResourceAsset.SHIELD)
-                activeConversions.addElem(buildResourceChoice(MarbleAsset.BLUE,1));
+        for(ResourceAsset res : marketBonusResources) {
+            addConversionsToColumn(activeConversions, res);
+        }
 
         String text = conversionString(numOfConversions);
         root.selectInEnabledOption(getCLIView(), text);
@@ -156,6 +143,17 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
         getCLIView().setBody(CanvasBody.centered(root));
         getCLIView().show();
 
+    }
+
+    private void addConversionsToColumn(Column activeConversions, ResourceAsset res) {
+        if(res==ResourceAsset.STONE)
+            activeConversions.addElem(buildResourceChoice(MarbleAsset.GRAY,3));
+        else if(res==ResourceAsset.SERVANT)
+            activeConversions.addElem(buildResourceChoice(MarbleAsset.PURPLE,1));
+        else if(res==ResourceAsset.GOLD)
+            activeConversions.addElem(buildResourceChoice(MarbleAsset.YELLOW,0));
+        else if(res==ResourceAsset.SHIELD)
+            activeConversions.addElem(buildResourceChoice(MarbleAsset.BLUE,2));
     }
 
     private String conversionString(int index){
@@ -186,10 +184,13 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
         MarbleCLI marbleCli = MarbleCLI.fromAsset(res);
         String resourceSymbol = marbleCli.fromMarbleCLI().getNameWithSpaces();
         Drawable conversionDrawable = new Drawable();
-        conversionDrawable.add(marbleCli.toBigDrawable());
-        DrawableLine arrow = new DrawableLine(12, 2, " --> ", Color.BIGHT_GREEN, Background.DEFAULT);
-        conversionDrawable.add(arrow);
-        DrawableLine resource = new DrawableLine(19, 2, resourceSymbol, Color.BRIGHT_WHITE, marbleCli.fromMarbleCLI().getB());
+        conversionDrawable.add(MarbleCLI.WHITE.toBigDrawable());
+        DrawableLine arrow1 = new DrawableLine(12, 2, " --> ", Color.BRIGHT_GREEN, Background.DEFAULT);
+        conversionDrawable.add(arrow1);
+        conversionDrawable.add(marbleCli.toBigDrawableCustomXPos(20));
+        DrawableLine arrow2 = new DrawableLine(32, 2, " --> ", Color.BRIGHT_GREEN, Background.DEFAULT);
+        conversionDrawable.add(arrow2);
+        DrawableLine resource = new DrawableLine(40, 2, resourceSymbol, Color.BRIGHT_WHITE, marbleCli.fromMarbleCLI().getB());
 
         Drawable dw = new Drawable(conversionDrawable, resource);
 

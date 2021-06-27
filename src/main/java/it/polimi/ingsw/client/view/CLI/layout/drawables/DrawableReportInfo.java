@@ -40,7 +40,7 @@ public class DrawableReportInfo {
         if (hasTriggeredVaticanReport || lorenzoTriggeredVaticanReport) {
 
             if(lorenzoTriggeredVaticanReport)
-                drawable.add(new DrawableLine(9, 1, "  Lorenzo", Color.BRIGHT_RED, Background.DEFAULT));
+                drawable.add(new DrawableLine(9, 1, " Lorenzo", Color.BRIGHT_RED, Background.DEFAULT));
 
             drawable.add(0, "║═══════           ════════║");
             drawable.add(new DrawableLine(9, 2, "Triggered", Color.BRIGHT_YELLOW, Background.DEFAULT));

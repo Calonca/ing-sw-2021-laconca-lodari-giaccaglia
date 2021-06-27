@@ -59,7 +59,7 @@ public class FaithTrack {
     public void cheat(){
 
         playerPiece.setValue(7);
-        lorenzoPiece.setValue(6);
+        lorenzoPiece.setValue(5);
     }
 
     public String serializeFaithTrack(){
@@ -122,7 +122,11 @@ public class FaithTrack {
      * @return the boolean returned value of FaithCell's {@link FaithCell#isPopeSpace() isPopeSpace} method
      */
     public boolean isPieceInPopeSpaceForTheFirstTime(MutablePair<Piece, Integer> piece){
-        return (track.get(piece.getValue()).isPopeSpace()) && !hasNextPopeSpaceBeenReported();
+        return (track.get(piece.getValue()).isPopeSpace()) && !checkPopeSpace(piece);
+    }
+
+    private boolean checkPopeSpace(MutablePair<Piece, Integer> piece){
+        return playerTilesStatus.get(track.get(piece.getValue()).getZone().getZoneNumber());
     }
 
 
@@ -146,7 +150,7 @@ public class FaithTrack {
         if(currentZone!=-1)
             return currentZone;
         else
-           return IntStream.range(maxPosition, track.size())
+           return IntStream.rangeClosed(maxPosition, track.size())
                    .sorted()
                    .map(position -> track.get(position).getZone().getZoneNumber())
                    .filter(zone -> zone!=-1)

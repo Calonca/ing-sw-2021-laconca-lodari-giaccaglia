@@ -34,7 +34,9 @@ public class ChoosingMarketBonus implements GameStrategy {
 
         Box marketBox = gamemodel.getBoxOfResourcesFromMarketBoard();
         gamemodel.getCurrentPlayer().getPersonalBoard().setMarketBox(marketBox);
+
         elementsToUpdate.add(Element.SimpleStrongBox);
+        elementsToUpdate.add(Element.SimpleDiscardBox);
         return new Pair<>(State.CHOOSING_POSITION_FOR_RESOURCES, elementsToUpdate);
 
     }

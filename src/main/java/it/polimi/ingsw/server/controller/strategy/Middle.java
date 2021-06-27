@@ -1,7 +1,5 @@
 package it.polimi.ingsw.server.controller.strategy;
 
-import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
-import it.polimi.ingsw.server.controller.EventValidationFailedException;
 import it.polimi.ingsw.server.messages.clienttoserver.events.MiddlePhaseEvent;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.messages.messagebuilders.Element;
@@ -27,6 +25,7 @@ public class Middle implements GameStrategy {
         MiddlePhaseEvent middlePhaseEvent = (MiddlePhaseEvent) event;
 
         int msg=middlePhaseEvent.getChoice();
+        IDLE.isSinglePlayerInFirstIDLE = false;
 
         if(msg==0)
             return new Pair<>(State.CHOOSING_MARKET_LINE, elementsToUpdate);

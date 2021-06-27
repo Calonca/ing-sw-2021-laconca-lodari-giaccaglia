@@ -127,12 +127,6 @@ public final class CLIPlayersInfoBuilder{
         int index = playerInfo.getPlayerIndex();
         int victoryPoints = playerInfo.getCurrentVictoryPoints();
 
-        String farthestPlayer = Color.colorString("Farthest player!", Color.RED);
-        String online = Color.colorString("Online", Color.BIGHT_GREEN);
-        String offline = Color.colorString("Offline", Color.RED);
-
-        String connection = playerInfo.isOnline() ? online : offline;
-
 
         int nicknameLength = nickname.length();
         String spaces = StringUtil.spaces(nicknameLength + 1);
@@ -147,7 +141,14 @@ public final class CLIPlayersInfoBuilder{
 
         drawable.add(0,"║ Player index : " + StringUtil.untilReachingSize(index + 1, 2)+"          ║");
         drawable.add(0,"║ ────────────────────────── ║");
-        drawable.add(0,"║ Connection : " + connection+ "        ║");
+        drawable.add(0,"║ Connection :               ║");
+
+        if(playerInfo.isOnline())
+            drawable.add(new DrawableLine(14, 3, "Online", Color.BRIGHT_GREEN, Background.DEFAULT));
+        else
+            drawable.add(new DrawableLine(14, 3, "Offline", Color.RED, Background.DEFAULT));
+
+
         drawable.add(0,"║ ────────────────────────── ║");
         drawable.add(0,"║ Faith track position : "  + StringUtil.untilReachingSize(position,2)+"  ║");
 
@@ -161,8 +162,21 @@ public final class CLIPlayersInfoBuilder{
         drawable.add(0,"║ Points : " + StringUtil.untilReachingSize(victoryPoints, 2) + "                ║");
         drawable.add(0,"║ ────────────────────────── ║");
 
-        if(playersInfo.getFarthestPlayer().contains(index))
-            drawable.add(0,"║ "+ farthestPlayer + "           ║");
+        drawable.add(0,"║                            ║");
+
+        if(playersInfo.getSimplePlayerInfoMap().size()>1 && playersInfo.getFarthestPlayer().contains(index)) {
+            drawable.add(new DrawableLine(2, 10, "Farthest player!", Color.RED, Background.DEFAULT));
+        }
+        else if(playersInfo.getSimplePlayerInfoMap().size()==1){
+
+            if(playerInfo.getCurrentPosition()>playerInfo.getLorenzoPosition())
+                drawable.add(new DrawableLine(2, 10, "You are ahead Lorenzo!", Color.BRIGHT_RED, Background.DEFAULT));
+            else if(playerInfo.getCurrentPosition()<playerInfo.getLorenzoPosition())
+                drawable.add(new DrawableLine(2, 10, "Lorenzo is ahead you!", Color.RED, Background.DEFAULT));
+            else
+                drawable.add(new DrawableLine(2, 10, "Same position of Lorenzo!", Color.YELLOW, Background.DEFAULT));
+        }
+
         else
             drawable.add(0,"║                          ║");
 
@@ -182,12 +196,12 @@ public final class CLIPlayersInfoBuilder{
 
         DrawableLine farthestPlayer = new DrawableLine(1, 0, "Farthest player!", Color.RED, Background.DEFAULT);
 
-        String online = Color.colorString("Online", Color.BIGHT_GREEN);
+        String online = Color.colorString("Online", Color.BRIGHT_GREEN);
         String offline = Color.colorString("Offline", Color.RED);
 
         DrawableLine playerConnectionStatus;
         if(playerInfo.isOnline())
-            playerConnectionStatus = new DrawableLine(1, 0, "Online", Color.BIGHT_GREEN, Background.DEFAULT);
+            playerConnectionStatus = new DrawableLine(1, 0, "Online", Color.BRIGHT_GREEN, Background.DEFAULT);
         else
             playerConnectionStatus = new DrawableLine(1, 0, "Offline", Color.RED, Background.DEFAULT);
 

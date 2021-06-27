@@ -40,7 +40,7 @@ public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.m
     public boolean validate(GameModel gameModel) {
 
         initializeMiddlePhaseEventValidation(gameModel);
-        buildResourcesPairList();
+        buildResourcesPairSet();
         buildResourcesArray();
 
 
@@ -61,8 +61,8 @@ public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.m
         return selectedResourcesPairSet.stream().allMatch(
                 pair -> {
                     if(pair.getKey()>=-8 && pair.getKey()<=-5){
-
-                        Resource resource = Resource.fromIntFixed(pair.getKey());
+                        int localPos = pair.getKey() + 8;
+                        Resource resource = Resource.fromIntFixed(localPos);
                         int alreadySelectedResources = currentPlayerPersonalBoard.getStrongBox().getNSelected(resource);
                         int availableResources = currentPlayerPersonalBoard.getStrongBox().getNumberOf(resource);
 
@@ -170,9 +170,22 @@ public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.m
         return isValidationOk;
     }
 
-    private void buildResourcesPairList(){
+    private void buildResourcesPairSet(){
 
         selectedResourcesPairSet = inputPositionsToChoose.stream().map(
+                position -> {
+                    int positionOccurrences = inputPositionsToChoose.stream().filter(positionToFind -> positionToFind.equals(position)).mapToInt(positionToFind -> 1).sum();
+                    return new Pair<>(position, positionOccurrences);
+                }
+
+        ).collect(Collectors.toSet());
+
+
+    }
+
+    private void buildResourcesArray(){
+
+        Set<Pair<Integer, Integer>> pairSetWithLocalPositions = inputPositionsToChoose.stream().map(
                 position -> {
                     int positionOccurrences = inputPositionsToChoose.stream().filter(positionToFind -> positionToFind.equals(position)).mapToInt(positionToFind -> 1).sum();
                     int localPos = position>=0 ? position : position + 8;
@@ -182,14 +195,7 @@ public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.m
         ).collect(Collectors.toSet());
 
 
-
-
-
-    }
-
-    private void buildResourcesArray(){
-
-        for (Pair<Integer, Integer> resourceIntegerPair : selectedResourcesPairSet)
+        for (Pair<Integer, Integer> resourceIntegerPair : pairSetWithLocalPositions)
             resourcesToConvertArray[resourceIntegerPair.getKey()] += resourceIntegerPair.getValue();
 
     }

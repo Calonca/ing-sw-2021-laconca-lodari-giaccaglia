@@ -70,7 +70,7 @@ public class CLIActionToken extends ViewBuilder{
 
         drawable.add(0,"╔════════════════════════════════╗");
         drawable.add(0,"║                                ║");
-        drawable.add(new DrawableLine(8, 1, "Action Token", Color.BIGHT_GREEN, Background.DEFAULT));
+        drawable.add(new DrawableLine(8, 1, "Action Token", Color.BRIGHT_GREEN, Background.DEFAULT));
         drawable.add(0,"║ ────────────────────────────── ║");
 
         drawable.add(0,"║                                ║");

@@ -468,6 +468,10 @@ public class GameModel {
         }
     }
 
+    public void clearPlayersTriggeringVaticanReportList(){
+        vaticanReportTriggers.clear();
+    }
+
 
     /**
      * Method to execute a Vatican Report, when one or more players reaches a PopeSpace, both for <em>MultiPlayer</em>
@@ -641,6 +645,9 @@ public class GameModel {
     }
 
    public boolean handleVaticanReport(){
+
+       if(!vaticanReportTriggers.isEmpty())
+           return false;
 
         buildVaticanReportTriggersList();
 
