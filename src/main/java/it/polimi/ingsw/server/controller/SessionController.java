@@ -170,7 +170,7 @@ public class SessionController {
         String path = folderAbsolutePath + '/' + sessionName + ".json";
         File f = new File(path);
         if(f.exists() && !f.isDirectory()) {
-            SessionController session = Deserializator.deserializeSession("savedSession");
+            SessionController session = Deserializator.deserializeSession(path);
             session.matches.values().forEach(Match::restoreMatch);
             return Optional.of(session);
         }
@@ -225,6 +225,7 @@ public class SessionController {
 
         }
     }
+
 
     public Optional<Match> loadMatch(UUID gameId) {
 
