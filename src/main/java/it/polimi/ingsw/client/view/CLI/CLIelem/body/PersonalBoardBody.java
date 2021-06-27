@@ -27,7 +27,6 @@ import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.simplemodel.*;
 import javafx.util.Pair;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -335,7 +334,6 @@ public class PersonalBoardBody extends CLIelem {
         return new Row(Stream.concat(Stream.ofNullable(basicProdOption),normalProdsList));
     }
 
-    @NotNull
     private Runnable getProdRunnable(int prodPos) {
         return () -> {
             if (mode.equals(Mode.CHOOSE_POS_FOR_CARD)) {
@@ -435,7 +433,6 @@ public class PersonalBoardBody extends CLIelem {
         return o;
     }
 
-    @NotNull
     private Runnable getSelectedForProdRunnable(ResourceAsset asset, int globalPos) {
         Runnable r;
         r= ()->{

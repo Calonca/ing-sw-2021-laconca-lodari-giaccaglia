@@ -7,7 +7,6 @@ import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCardColor;
 import it.polimi.ingsw.network.assets.leaders.*;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import javafx.util.Pair;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,7 +75,6 @@ public class DrawableLeader {
         return dwl;
     }
 
-    @NotNull
     public static List<Drawable> linesWithResRequirements(Drawable dwl, int heightUntilNow, List<Pair<ResourceAsset, Integer>> resCost) {
         List<Drawable> reqLines = IntStream.range(0, 4)
                 .mapToObj(i->{

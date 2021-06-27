@@ -5,7 +5,6 @@ import it.polimi.ingsw.client.view.CLI.textUtil.Characters;
 import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 import it.polimi.ingsw.client.view.CLI.textUtil.StringUtil;
 import javafx.util.Pair;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -50,7 +49,6 @@ public class Canvas {
         return printer;
     }
 
-    @NotNull
     private static String[] generateLine(String lineChars) {
         return lineChars.chars().mapToObj(c->String.valueOf((char) c)).toArray(String[]::new);
     }
