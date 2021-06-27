@@ -26,7 +26,7 @@ public class SessionController {
     private transient List<ClientHandler> playersInLobby = new ArrayList<>();
     private static SessionController single_instance = null;
     private final String matchesFolderName = "src/savedMatches";
-    private static final String sessionFolderName = "src/savedSession";
+    private static final String sessionFolderName = "savedSession";
     private final int maxSecondsOffline = 1800; //30 minutes
     private final AtomicBoolean isDebugMode = new AtomicBoolean(false);
 
@@ -165,17 +165,17 @@ public class SessionController {
 
     private static Optional<SessionController> reloadSessionIfPresent() {
 
-        File folder = new File(Paths.get(sessionFolderName).toAbsolutePath().toString());
+        String sessionName = "session";
+        String folderAbsolutePath = Paths.get(sessionFolderName).toAbsolutePath().toString();
+        String path = folderAbsolutePath + '/' + sessionName + ".json";
+        File f = new File(path);
+        if(f.exists() && !f.isDirectory()) {
+            SessionController session = Deserializator.deserializeSession("savedSession");
+            session.matches.values().forEach(Match::restoreMatch);
+            return Optional.of(session);
+        }
 
-        return Arrays
-                .stream(folder.listFiles())
-                .filter(File::isFile)
-                .findFirst()
-                .map(file -> {
-                    SessionController session = Deserializator.deserializeSession(folder.toString() + '/' + file.getName());
-                    session.matches.values().forEach(Match::restoreMatch);
-                    return session;
-                });
+        return Optional.empty();
     }
 
     //saved match for a player
@@ -218,7 +218,7 @@ public class SessionController {
             String path = folderAbsolutePath + '/' + sessionName + ".json";
 
             try {
-                Serializator.serializeSession(path);
+                Serializator.serializeSession("savedSession");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -269,8 +269,5 @@ public class SessionController {
         }
 
     }
-
-
-
 
 }

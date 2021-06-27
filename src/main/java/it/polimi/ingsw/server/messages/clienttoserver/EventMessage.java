@@ -25,7 +25,7 @@ public class EventMessage extends ClientToServerMessage implements ServerMessage
                 ((Event) event).setPlayerNickname(match.getPlayerNicknameFromHandler(clientHandler));
                 match.validateEvent(event);
                 match.transitionToNextState(event);
-                SessionController.getInstance().saveMatch(match);
+              //  SessionController.getInstance().saveMatch(match);
                 SessionController.getInstance().saveSessionController();
 
             } catch (EventValidationFailedException e) {
