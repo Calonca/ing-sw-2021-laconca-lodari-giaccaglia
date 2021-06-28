@@ -260,7 +260,7 @@ public class GameModel {
      */
     public Optional<Player> getPlayer(String nickname) {
           return players.values().stream()
-                  .filter(player1 -> player1.getNickName().equals(nickname))
+                  .filter(player1 -> player1.getNickname().equals(nickname))
                 .findAny();
     }
 
@@ -412,7 +412,7 @@ public class GameModel {
     }
 
     public DevelopmentCardColor getDevCardColorOutOfStock(){
-        return cardShop.getColourOutOfStock();
+        return cardShop.getColorOutOfStock();
     }
 
     /**
@@ -513,11 +513,11 @@ public class GameModel {
      * Returns the action that the opponent in the single player game, Lorenzo il Magnifico, will perform.
      * @return the action of Lorenzo il Magnifico.
      */
-    public SoloActionToken showSoloActionTokenOnTop(){
+    public SoloActionToken getSoloActionTokenOnTop(){
         return soloDeck.showToken();
     }
 
-    public SoloActionToken showLastActivatedSoloActionToken(){
+    public SoloActionToken getLastActivatedSoloActionToken(){
         if(!isSinglePlayer)
             return SoloActionToken.EMPTY;
         return soloDeck.showLastActivatedToken();

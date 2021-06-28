@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view.CLI.middle;
 
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.PersonalBoardBody;
 import it.polimi.ingsw.client.view.CLI.commonViews.CLIPersonalBoardBuilder;
+import it.polimi.ingsw.client.view.CLI.commonViews.CLIReportInfoBuilder;
 
 public class MiddlePersonalBoardCLI extends MiddlePhaseCLI {
 
@@ -25,7 +26,8 @@ public class MiddlePersonalBoardCLI extends MiddlePhaseCLI {
         if (isMoving) {
             CLIPersonalBoardBuilder.buildViewForMoving();
         } else {
-            showVaticanReportInfoBeforeTransition();
+            getClient().saveViewBuilder(this);
+            CLIReportInfoBuilder.showVaticanReportInfoBeforeTransition(new MiddleReportInfoCLI());
             CLIPersonalBoardBuilder.buildViewForViewing(playerIndex, viewMode);
         }
     }

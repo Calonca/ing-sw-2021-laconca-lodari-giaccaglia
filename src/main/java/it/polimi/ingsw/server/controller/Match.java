@@ -109,7 +109,7 @@ public class Match {
             onlineUsers.add(clientHandler);
             Player player = game.getPlayer(nickName).get();
             game.setOnlinePlayer(player);
-            if(game.getCurrentPlayer().getNickName().equals(player.getNickName()))
+            if(game.getCurrentPlayer().getNickname().equals(player.getNickname()))
                 game.setCurrentPlayer(player);
 
         }
@@ -142,7 +142,7 @@ public class Match {
         game.start();
         game.getCurrentPlayer().setCurrentState(State.SETUP_PHASE);
         List<Element> elements = new ArrayList<>(Arrays.asList(Element.values()));
-        notifyStateToAllPlayers(elements, game.getCurrentPlayer().getNickName());
+        notifyStateToAllPlayers(elements, game.getCurrentPlayer().getNickname());
     }
 
     public boolean isGameActive(){
@@ -159,7 +159,7 @@ public class Match {
 
     private Optional<ClientHandler> currentUser(){
 
-        String nickname = game.getCurrentPlayer().getNickName();
+        String nickname = game.getCurrentPlayer().getNickname();
         return onlineUsers.stream().filter(user->user.getNickname().equals(nickname)).findFirst();
     }
 
@@ -208,7 +208,6 @@ public class Match {
             throw new EventValidationFailedException();
     }
 
-
     public void transitionToNextState(Validable event) throws EventValidationFailedException {
 
         String nicknameOfPlayerSendingEvent = ((Event)event).getPlayerNickname();
@@ -234,11 +233,11 @@ public class Match {
         }
 
         playerSendingEvent.setCurrentState(data.getKey());
-
         notifyStateToAllPlayers(data.getValue(), nicknameOfPlayerSendingEvent);
 
 
-        if (playerSendingEvent.getCurrentState().equals(State.IDLE) && playerSendingEvent.equals(game.getCurrentPlayer())) {
+        if ((playerSendingEvent.getCurrentState().equals(State.IDLE)
+                        && playerSendingEvent.equals(game.getCurrentPlayer()))){
 
             if(game.getCurrentPlayer().equals(playerSendingEvent)) {
 
@@ -247,10 +246,8 @@ public class Match {
                 if (game.getCurrentPlayer().getCurrentState().equals(State.SETUP_PHASE)) {
 
                     List<Element> elems = new ArrayList<>(Arrays.asList(Element.values()));
-
                     playerSendingEvent = game.getCurrentPlayer();
-
-                    notifyStateToAllPlayers(elems, playerSendingEvent.getNickName());
+                    notifyStateToAllPlayers(elems, playerSendingEvent.getNickname());
 
                 } else {
 
@@ -258,7 +255,29 @@ public class Match {
                     IDLE IDLEStrategy = new IDLE();
                     Pair<State, List<Element>> data2 = IDLEStrategy.execute(game, null);
                     playerSendingEvent.setCurrentState(data2.getKey());
-                    notifyStateToAllPlayers(data2.getValue(), playerSendingEvent.getNickName());
+
+
+                    if(playerSendingEvent.getCurrentState().equals(State.END_PHASE) && game.getMacroGamePhase().equals(GameModel.MacroGamePhase.GameEnded) && !game.isSinglePlayer()){
+
+                        setMatchPlayersOutcomes();
+                        notifyStateToAllPlayers(data2.getValue(), playerSendingEvent.getNickname());
+
+                        for(Player player : game.getMatchPlayers().values()){
+
+                            if(!player.equals(playerSendingEvent)){
+                                List<Element> elementsToUpdate = new ArrayList<>();
+                                elementsToUpdate.add(Element.EndGameInfo);
+                                player.setCurrentState(State.END_PHASE);
+                                game.setCurrentPlayer(player);
+
+                                notifyStateToAllPlayers(elementsToUpdate, player.getNickname());
+                            }
+                        }
+                    }
+
+                    else
+                        notifyStateToAllPlayers(data2.getValue(), playerSendingEvent.getNickname());
+
                 }
             }
 
@@ -283,7 +302,7 @@ public class Match {
                     IDLE IDLEStrategy = new IDLE();
                     Pair<State, List<Element>> data = IDLEStrategy.execute(game, null);
                     newCurrentPlayer.setCurrentState(data.getKey());
-                    notifyStateToAllPlayers(data.getValue(), newCurrentPlayer.getNickName());
+                    notifyStateToAllPlayers(data.getValue(), newCurrentPlayer.getNickname());
                 }
             }
 
@@ -384,6 +403,20 @@ public class Match {
 
     public void setReasonOfGameEnd(String reasonOfGameEnd){
         this.reasonOfGameEnd = reasonOfGameEnd;
+    }
+
+    private void setMatchPlayersOutcomes(){
+
+       int highestScore = game.getMatchPlayers().values().stream().map(Player::getCurrentGamePoints).mapToInt(score -> score).max().orElse(0);
+       game.getMatchPlayers()
+               .keySet()
+               .forEach(index -> {
+                   Player player = game.getMatchPlayers().get(index);
+                   boolean hasWon = player.getCurrentGamePoints() == highestScore;
+                  player.setMatchOutcome(hasWon);
+
+               });
+
     }
 
     public Date getCreatedTime(){

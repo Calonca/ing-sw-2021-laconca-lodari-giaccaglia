@@ -3,9 +3,14 @@ package it.polimi.ingsw.client.view.CLI;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.LeaderBody;
 import it.polimi.ingsw.client.view.CLI.commonViews.CLIActionToken;
 import it.polimi.ingsw.client.view.CLI.idle.ReportInfoCLI;
+import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 import it.polimi.ingsw.client.view.abstractview.InitialOrFinalPhaseViewBuilder;
+import it.polimi.ingsw.network.simplemodel.EndGameInfo;
 import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
 import it.polimi.ingsw.network.simplemodel.VaticanReportInfo;
+
+import java.util.Objects;
+import java.util.Optional;
 
 
 public class InitialOrFinalPhaseCLI extends InitialOrFinalPhaseViewBuilder implements CLIBuilder {
@@ -17,6 +22,7 @@ public class InitialOrFinalPhaseCLI extends InitialOrFinalPhaseViewBuilder imple
     @Override
     public void run() {
 
+        showWarningIfLastTurn();
         if(getSimpleModel().isSinglePlayer() && isInitial && !isFirstTurn()) {
             getClient().saveViewBuilder(this);
             CLIActionToken.showActionTokenBeforeTransition();
@@ -44,6 +50,14 @@ public class InitialOrFinalPhaseCLI extends InitialOrFinalPhaseViewBuilder imple
                 getClient().changeViewBuilder(new ReportInfoCLI());
             }
 
+        }
+    }
+
+    protected void showWarningIfLastTurn() {
+        Optional<EndGameInfo> endGameInfoOptional = getSimpleModel().getElem(EndGameInfo.class);
+        if (endGameInfoOptional.isPresent() && Objects.nonNull(endGameInfoOptional.get().getCauseOfEndStringWithNames())) {
+            String endGameReason = (getSimpleModel().getElem(EndGameInfo.class).orElseThrow()).getCauseOfEndStringWithNames();
+            getCLIView().setSubTitle("Last turn! " + endGameReason, Color.BRIGHT_PURPLE, 1);
         }
     }
 

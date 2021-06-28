@@ -51,7 +51,7 @@ public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.m
                 && checkResourcesPositionIndexes()
                 && checkPositionsValidity()
                 && checkAvailabilityOfResourcesToConvert()
-                && checkPositionOfResourcesToConvert()
+               // && checkPositionOfResourcesToConvert()
                 && checkThatResourcesAreNotSelected();
 
     }

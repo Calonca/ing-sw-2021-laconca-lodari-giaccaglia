@@ -25,6 +25,10 @@ public abstract class IDLEViewBuilder extends ViewBuilder{
         else if(IDLE.name().equals(propertyName)){
             getClient().changeViewBuilder(IDLEViewBuilder.getBuilder(getClient().isCLI()));
         }
+        else if (END_PHASE.name().equals(propertyName)) {
+            getClient().changeViewBuilder(WinLooseBuilder.getBuilder(getClient().isCLI()));
+        }
+
         else ViewBuilder.printWrongStateReceived(evt);
     }
 }

@@ -2,12 +2,14 @@ package it.polimi.ingsw.server.controller;
 
 public enum EndGameReason {
 
-    //common reasons
-    TRACK_END(" has reached the last space of his Faith Track!"),
+    //multiplayer reasons
+    TRACK_END(" has reached the last space of the Faith Track!"),
+
+
 
     MULTIPLE_TRACK_END(" have reached the last space of their Faith Track"),
 
-    SEVENTH_CARD_PURCHASED(" has  bought his 7th Development Card!"),
+    SEVENTH_CARD_PURCHASED(" has bought his 7th Development Card!"),
 
     //solo game reasons
 

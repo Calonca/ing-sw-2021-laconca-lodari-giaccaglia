@@ -42,8 +42,8 @@ public enum Element {
         @Override
         public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate){
             return new EndGameInfo(
-                    GameInfoMessageBuilder.endGameInfoMap(gameModel),
-                    GameInfoMessageBuilder.getPlayersEndingTheGame(gameModel), gameModel.getThisMatch().getReasonOfGameEnd());
+                    GameInfoMessageBuilder.getPlayersEndingTheGame(gameModel), gameModel.getThisMatch().getReasonOfGameEnd(),
+                    GameInfoMessageBuilder.getMatchOutcomeMap(gameModel));
         }
     },
 
@@ -151,7 +151,7 @@ public enum Element {
 
         @Override
         public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate){
-            return new SimpleSoloActionToken(gameModel.showLastActivatedSoloActionToken().name()
+            return new SimpleSoloActionToken(gameModel.getLastActivatedSoloActionToken().name()
             );
         }
         },

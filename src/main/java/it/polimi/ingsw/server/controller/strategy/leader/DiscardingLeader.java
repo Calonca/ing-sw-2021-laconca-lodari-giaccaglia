@@ -40,23 +40,21 @@ public class DiscardingLeader implements GameStrategy {
 
             if (gamemodel.isSinglePlayer()) {
 
-                endGameReason = EndGameReason.LORENZO_REACHED_END.getEndGameReason();
+                endGameReason = EndGameReason.TRACK_END_SOLO.getEndGameReason();
+                gamemodel.getThisMatch().setReasonOfGameEnd(endGameReason);
+                gamemodel.getSinglePlayer().setMatchOutcome(true);
                 elementsToUpdate.add(Element.EndGameInfo);
                 return FinalStrategy.handleSinglePlayerEndGameStrategy(elementsToUpdate, gamemodel, endGameReason);
 
             }
 
 
-            if (gamemodel.getPlayersEndingTheGame().size() > 1)
-                endGameReason = EndGameReason.MULTIPLE_TRACK_END.getEndGameReason();
 
-            else
-                endGameReason = EndGameReason.TRACK_END.getEndGameReason();
-
+            endGameReason = EndGameReason.TRACK_END.getEndGameReason();
 
             gamemodel.getThisMatch().setReasonOfGameEnd(endGameReason);
 
-            FinalStrategy.setMacroGamePhase(gamemodel, elementsToUpdate);
+            FinalStrategy.setLastTurnMacroGamePhase(gamemodel, elementsToUpdate);
 
             return new Pair<>(State.IDLE, elementsToUpdate);
 

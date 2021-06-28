@@ -15,6 +15,7 @@ public class LeadersCLI extends IDLEViewBuilderCLI{
 
     @Override
     public void run() {
+        showWarningIfLastTurn();
         CLILeadersBuilder.buildView(nextViewBuilder, playerIndex);
     }
 }

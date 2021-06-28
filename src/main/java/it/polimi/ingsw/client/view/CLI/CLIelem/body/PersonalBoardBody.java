@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.simplemodel.PlayerCache;
 import it.polimi.ingsw.client.simplemodel.SimpleModel;
 import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.CLI.CLIelem.CLIelem;
+import it.polimi.ingsw.client.view.CLI.endgame.WinLooseCLI;
 import it.polimi.ingsw.client.view.CLI.idle.IDLEViewBuilderCLI;
 import it.polimi.ingsw.client.view.CLI.idle.PlayersInfoCLI;
 import it.polimi.ingsw.client.view.CLI.middle.MiddlePhaseCLI;
@@ -223,7 +224,7 @@ public class PersonalBoardBody extends CLIelem {
     Map<ViewMode, Runnable> viewModeBuilders;
     ViewBuilder requestBuilder;
 
-    public enum ViewMode{IDLE, MIDDLE, PLAYERS_INFO_IDLE, PLAYERS_INFO_MIDDLE}
+    public enum ViewMode{IDLE, MIDDLE, PLAYERS_INFO_IDLE, PLAYERS_INFO_MIDDLE, PLAYERS_INFO_END}
 
     public PersonalBoardBody(PlayerCache cache, Mode mode) {
 
@@ -235,6 +236,7 @@ public class PersonalBoardBody extends CLIelem {
         viewModeBuilders.put(ViewMode.MIDDLE, () -> requestBuilder = new MiddlePhaseCLI());
         viewModeBuilders.put(ViewMode.PLAYERS_INFO_IDLE, () -> requestBuilder = new PlayersInfoCLI());
         viewModeBuilders.put(ViewMode.PLAYERS_INFO_MIDDLE, () -> requestBuilder = new MiddlePlayersInfoCLI());
+        viewModeBuilders.put(ViewMode.PLAYERS_INFO_END, () -> requestBuilder = new WinLooseCLI());
 
     }
 

@@ -6,6 +6,7 @@ import it.polimi.ingsw.client.view.CLI.layout.drawables.Timer;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Column;
 import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
+import it.polimi.ingsw.network.simplemodel.VaticanReportInfo;
 
 import static it.polimi.ingsw.client.view.CLI.layout.drawables.DrawableReportInfo.buildReports;
 import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.*;
@@ -41,5 +42,18 @@ public final class CLIReportInfoBuilder {
         Timer.showSecondsOnCLI(getCLIView(), "Vatican Report occurred! . Seconds left for viewing : ");
         getClient().changeViewBuilder(getClient().getSavedViewBuilder());
 
+    }
+
+    public static void showVaticanReportInfoBeforeTransition(ViewBuilder nextViewBuilder){
+
+        VaticanReportInfo reportInfo = getSimpleModel().getElem(VaticanReportInfo.class).get();
+
+        if(reportInfo.hasReportOccurred() && !reportInfo.hasReportBeenShown()){
+            reportInfo.reportWillBeShown();
+            if(getClient().isCLI()) {
+                getClient().changeViewBuilder(nextViewBuilder);
+            }
+
+        }
     }
 }

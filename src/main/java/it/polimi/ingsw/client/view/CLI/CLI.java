@@ -23,6 +23,7 @@ public class CLI {
 
     private final Client client;
     private Optional<Title> title;
+    private Optional<Title> subTitle;
     private Optional<CLIelem> body;
     public final AtomicBoolean stopASAP;
 
@@ -42,6 +43,7 @@ public class CLI {
         stopASAP = new AtomicBoolean(false);
         this.client = client;
         title = Optional.empty();
+        subTitle = Optional.empty();
         body = Optional.empty();
         Thread inputThread = new Thread(() -> {
             Scanner scanner = new Scanner(System.in);
@@ -80,6 +82,22 @@ public class CLI {
         this.title = Optional.of(title1);
     }
 
+    public void setSubTitle(String subTitle, Color color, int height){
+
+        if(isTitleBlocked)
+            return;
+
+        Title subTitle1 = new Title(subTitle, color, height);
+        this.subTitle.ifPresent(t->t.removeFromListeners(client));
+        subTitle1.addToListeners(client);
+        this.subTitle = Optional.of(subTitle1);
+    }
+
+    public void removeSubTitle(){
+        body.ifPresent(b->b.removeFromListeners(client));
+        body = Optional.empty();
+    }
+
     public void setTitleWhenBlocked(String title){
 
         Title title1 = new Title(title);
@@ -88,7 +106,6 @@ public class CLI {
         this.title = Optional.of(title1);
 
     }
-
 
     public void setTitle(Title title){
 
@@ -136,8 +153,10 @@ public class CLI {
         cli.title.ifPresent(t->t.removeFromListeners(cli.client));
         cli.title = Optional.empty();
 
+        /*
         cli.body.ifPresent(b->b.removeFromListeners(cli.client));
         cli.body = Optional.empty();
+        */
 
         cli.deleteText();
     }
@@ -237,6 +256,7 @@ public class CLI {
     private synchronized void display(){
         putStartDiv();
         title.ifPresent(t-> print(t.toString()));
+        subTitle.ifPresent(value -> print(value.toString()));
         putDivider();
         body.ifPresent(b-> print(b.toString()));
 

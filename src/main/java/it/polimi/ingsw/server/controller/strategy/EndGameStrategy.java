@@ -16,6 +16,8 @@ public class EndGameStrategy implements GameStrategy{
     @Override
     public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event) {
 
+        elementsToUpdate.add(Element.EndGameInfo);
+        
         return new Pair<>(State.END_PHASE, elementsToUpdate);
 
     }

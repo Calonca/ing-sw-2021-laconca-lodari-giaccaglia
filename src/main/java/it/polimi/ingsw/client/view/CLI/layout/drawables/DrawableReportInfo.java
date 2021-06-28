@@ -9,18 +9,22 @@ import it.polimi.ingsw.client.view.CLI.textUtil.Background;
 import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 import it.polimi.ingsw.client.view.CLI.textUtil.StringUtil;
 import it.polimi.ingsw.network.simplemodel.PlayersInfo;
+import it.polimi.ingsw.network.simplemodel.SimplePlayerInfo;
 import it.polimi.ingsw.network.simplemodel.TileState;
 import it.polimi.ingsw.network.simplemodel.VaticanReportInfo;
 import javafx.util.Pair;
 
+import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.getCommonData;
+
 public class DrawableReportInfo {
 
-    public static Drawable fromVaticanReportStatus(VaticanReportInfo vaticanReportInfo, int playerIndex, PlayersInfo.SimplePlayerInfo playerInfo) {
+    public static Drawable fromVaticanReportStatus(VaticanReportInfo vaticanReportInfo, int playerIndex, SimplePlayerInfo playerInfo) {
 
-        Background back = Background.DEFAULT;
 
         boolean hasTriggeredVaticanReport = vaticanReportInfo.getPlayersTriggeringVaticanReport().contains(playerIndex);
         boolean lorenzoTriggeredVaticanReport = vaticanReportInfo.getPlayersTriggeringVaticanReport().size() == 1 &&  vaticanReportInfo.getPlayersTriggeringVaticanReport().contains(-1) && !hasTriggeredVaticanReport;
+
+        boolean isPlayerViewingAndReporting = vaticanReportInfo.getPlayersTriggeringVaticanReport().contains(playerIndex);
         String nickname = playerInfo.getNickname();
         int nicknameLength = nickname.length();
 
@@ -31,7 +35,7 @@ public class DrawableReportInfo {
         String delimiter = "═".repeat(28-3-nicknameLength-1);
         Drawable drawable = new Drawable();
         drawable.add(0,"╔══");
-        drawable.add(new DrawableLine(3,0, nickname, Color.BRIGHT_WHITE, back));
+        drawable.add(new DrawableLine(3,0, nickname, Color.BRIGHT_WHITE, Background.DEFAULT));
         drawable.add(new DrawableLine(3+nicknameLength,0, delimiter));
         drawable.add(new DrawableLine(27, 0, "╗"));
         drawable.add(0, "║                          ║");
@@ -41,6 +45,8 @@ public class DrawableReportInfo {
 
             if(lorenzoTriggeredVaticanReport)
                 drawable.add(new DrawableLine(9, 1, " Lorenzo", Color.BRIGHT_RED, Background.DEFAULT));
+            else if(isPlayerViewingAndReporting && getCommonData().getThisPlayerIndex() == playerIndex)
+                drawable.add(new DrawableLine(9, 1, "   You", Color.BRIGHT_RED, Background.DEFAULT));
 
             drawable.add(0, "║═══════           ════════║");
             drawable.add(new DrawableLine(9, 2, "Triggered", Color.BRIGHT_YELLOW, Background.DEFAULT));
@@ -85,7 +91,7 @@ public class DrawableReportInfo {
         Row row = new Row();
 
         for (int i = 0; i < players; i++) {
-            PlayersInfo.SimplePlayerInfo playerInfo = playersInfo.getSimplePlayerInfoMap().get(i);
+            SimplePlayerInfo playerInfo = playersInfo.getSimplePlayerInfoMap().get(i);
             Option o = Option.noNumber(fromVaticanReportStatus(vaticanReportInfo, i, playerInfo));
             row.addElem(o);
             row.addElem(new SizedBox(0, 2));

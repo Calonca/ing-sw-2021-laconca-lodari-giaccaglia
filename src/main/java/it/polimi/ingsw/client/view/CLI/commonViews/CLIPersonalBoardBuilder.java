@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view.CLI.commonViews;
 
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.PersonalBoardBody;
 import it.polimi.ingsw.network.simplemodel.PlayersInfo;
+import it.polimi.ingsw.network.simplemodel.SimplePlayerInfo;
 
 import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.*;
 
@@ -16,7 +17,7 @@ public final class CLIPersonalBoardBuilder{
 
         PersonalBoardBody.seePersonalBoard(playerIndex, viewMode);
         PlayersInfo playersInfo = (getSimpleModel().getElem(PlayersInfo.class).orElseThrow());
-        PlayersInfo.SimplePlayerInfo playerInfo = playersInfo.getSimplePlayerInfoMap().get(playerIndex);
+        SimplePlayerInfo playerInfo = playersInfo.getSimplePlayerInfoMap().get(playerIndex);
 
         String title;
         if(playerIndex == getCommonData().getThisPlayerIndex())

@@ -83,7 +83,7 @@ public class MoveResourceEventTest {
         System.out.println(resourceNumber);
         gameModelTest.getCurrentPlayer().getPersonalBoard().setMarketBox(discardBox);
         clientEventTest = new MoveResourceEvent(resourceNumber - 4, resourceNumber);
-        clientEventTest.setPlayerNickname(gameModelTest.getCurrentPlayer().getNickName());
+        clientEventTest.setPlayerNickname(gameModelTest.getCurrentPlayer().getNickname());
 
     }
 
@@ -110,6 +110,6 @@ public class MoveResourceEventTest {
       //  System.out.println(resourceNumber);
          gameModelTest.getCurrentPlayer().getPersonalBoard().setMarketBox(discardBox);
         clientEventTest = new MoveResourceEvent(resourceNumber - 4, resourceNumber);
-        clientEventTest.setPlayerNickname(gameModelTest.getCurrentPlayer().getNickName());
+        clientEventTest.setPlayerNickname(gameModelTest.getCurrentPlayer().getNickname());
     }
 }

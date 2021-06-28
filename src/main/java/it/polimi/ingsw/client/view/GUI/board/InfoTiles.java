@@ -3,7 +3,6 @@ package it.polimi.ingsw.client.view.GUI.board;
 import it.polimi.ingsw.client.simplemodel.PlayerCache;
 import it.polimi.ingsw.client.view.GUI.BoardView3D;
 import it.polimi.ingsw.client.view.GUI.util.NodeAdder;
-import it.polimi.ingsw.client.view.GUI.util.ResourceGUI;
 import it.polimi.ingsw.network.assets.tokens.ActionTokenAsset;
 import it.polimi.ingsw.network.simplemodel.*;
 import javafx.application.Platform;
@@ -11,9 +10,7 @@ import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape3D;
 import javafx.scene.text.Text;
@@ -56,7 +53,7 @@ public class InfoTiles implements PropertyChangeListener {
 
 
 
-    public AnchorPane playerStatsTile(PlayersInfo.SimplePlayerInfo playerInfo,String state)
+    public AnchorPane playerStatsTile(SimplePlayerInfo playerInfo, String state)
     {
         AnchorPane anchor=new AnchorPane();
 

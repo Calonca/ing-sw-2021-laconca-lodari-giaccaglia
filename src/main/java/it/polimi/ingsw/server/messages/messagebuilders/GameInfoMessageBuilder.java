@@ -2,8 +2,7 @@ package it.polimi.ingsw.server.messages.messagebuilders;
 
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.simplemodel.ActiveLeaderBonusInfo;
-import it.polimi.ingsw.network.simplemodel.EndGameInfo;
-import it.polimi.ingsw.network.simplemodel.PlayersInfo;
+import it.polimi.ingsw.network.simplemodel.SimplePlayerInfo;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.player.Player;
@@ -20,31 +19,16 @@ import java.util.stream.IntStream;
 
 public class GameInfoMessageBuilder {
 
-    public static Map<Integer, EndGameInfo.PlayerInfo> endGameInfoMap(GameModel gameModel){
-
-        Map<Integer, Player> players = gameModel.getMatchPlayers();
-
-        return players.keySet().stream().collect(Collectors.toMap(
-
-                playerIndex -> playerIndex, playerIndex -> {
-
-                    Player player = players.get(playerIndex);
-
-                    return new EndGameInfo.PlayerInfo(
-
-                            player.getCurrentGamePoints(),
-                            player.getMatchOutCome(),
-                            player.getPlayerPosition(),
-                            player.getLorenzoPosition(),
-                            player.getNickName()
-                    );
-                }
-        ));
-
-    }
-
     public static List<Integer> getPlayersEndingTheGame(GameModel gameModel) {
         return new ArrayList<>(gameModel.getPlayersEndingTheGame().keySet());
+    }
+
+    public static Map<Integer, Boolean> getMatchOutcomeMap(GameModel gameModel){
+
+        return gameModel.getMatchPlayers().keySet().stream().collect(Collectors.toMap(
+                index -> index,
+                index -> gameModel.getPlayer(index).get().getMatchOutCome()
+        ));
     }
 
     public static List<ResourceAsset> depotBonusResources(GameModel gameModel){
@@ -103,11 +87,11 @@ public class GameInfoMessageBuilder {
 
     }
 
-    public static Map<Integer, PlayersInfo.SimplePlayerInfo> getSimplePlayerInfoMap(GameModel gameModel){
+    public static Map<Integer, SimplePlayerInfo> getSimplePlayerInfoMap(GameModel gameModel){
 
         int numOfPlayers = gameModel.getMatchPlayers().size();
 
-        Map<Integer, PlayersInfo.SimplePlayerInfo> simplePlayerInfoMap = IntStream.range(0, numOfPlayers).boxed().collect(Collectors.toMap(
+        Map<Integer, SimplePlayerInfo> simplePlayerInfoMap = IntStream.range(0, numOfPlayers).boxed().collect(Collectors.toMap(
 
                 playerIndex -> playerIndex,
 
@@ -117,10 +101,10 @@ public class GameInfoMessageBuilder {
                     int currentVictoryPoints = player.getCurrentGamePoints();
                     int currentPosition = player.getPlayerPosition();
                     int currentLorenzoPosition = player.getLorenzoPosition();
-                    String nickname = player.getNickName();
+                    String nickname = player.getNickname();
                     boolean isOnline = player.isOnline();
 
-                    PlayersInfo.SimplePlayerInfo playerInfo = new PlayersInfo.SimplePlayerInfo(
+                    SimplePlayerInfo playerInfo = new SimplePlayerInfo(
                             currentVictoryPoints,
                             currentPosition,
                             currentLorenzoPosition,

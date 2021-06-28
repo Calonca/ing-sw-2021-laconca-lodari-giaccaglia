@@ -13,9 +13,7 @@ public class VaticanReportStrategy {
 
     public static Pair<State, List<Element>>  addFaithPointsToPlayer(GameModel gameModel, List<Element> elementsToUpdate) {
 
-        boolean notCurrentPlayerReachedEnd = false;
-        boolean currentPlayerReachedEnd = false;
-        String endGameReason = null;
+        String endGameReason;
 
         PersonalBoard currentBoard = gameModel.getCurrentPlayer().getPersonalBoard();
 
@@ -27,9 +25,27 @@ public class VaticanReportStrategy {
             if (gameModel.handleVaticanReport())
                 elementsToUpdate.add(Element.VaticanReportInfo);
 
-            if (gameModel.checkTrackStatus()) {
-                handleCommonEndGameStrategy(gameModel);
-                notCurrentPlayerReachedEnd = true;
+            if (gameModel.checkTrackStatus()) { //lorenzo or a different player from current reached track end
+                FinalStrategy.setLastTurnMacroGamePhase(gameModel, elementsToUpdate);
+
+                if(gameModel.isSinglePlayer()) {
+                    endGameReason = EndGameReason.LORENZO_REACHED_END.getEndGameReason();
+                    gameModel.getThisMatch().setReasonOfGameEnd(endGameReason);
+                    gameModel.getSinglePlayer().setMatchOutcome(false);
+                    return FinalStrategy.handleSinglePlayerEndGameStrategy(elementsToUpdate, gameModel, endGameReason);
+                }
+                else {
+
+                    if(gameModel.getPlayersAtTheEndOfTheFaithTrack().size()>1)
+                        endGameReason = EndGameReason.MULTIPLE_TRACK_END.getEndGameReason();
+                    else
+                        endGameReason = EndGameReason.TRACK_END.getEndGameReason();
+
+                    gameModel.getThisMatch().setReasonOfGameEnd(endGameReason);
+
+                    FinalStrategy.setLastTurnMacroGamePhase(gameModel, elementsToUpdate);
+                }
+
 
             }
         }
@@ -38,49 +54,42 @@ public class VaticanReportStrategy {
 
         positionsToAdd = currentBoard.getFaithToAdd();
 
-        for (int i = 0; i < positionsToAdd; i++) {
+        for (int i = 0; i < positionsToAdd; i++)
+        {
             gameModel.getCurrentPlayer().moveOnePosition();
             if (gameModel.handleVaticanReport())
                 elementsToUpdate.add(Element.VaticanReportInfo);
 
-            if (gameModel.checkTrackStatus()) { // player reached end
+            if (gameModel.checkTrackStatus() && !gameModel.getMacroGamePhase().equals(GameModel.MacroGamePhase.LastTurn)) {
+                FinalStrategy.setLastTurnMacroGamePhase(gameModel, elementsToUpdate);// player reached end
 
-                if (gameModel.isSinglePlayer()) {
+                if (gameModel.isSinglePlayer() && gameModel.getSinglePlayer().getPlayerPosition() == 24) {
 
                     endGameReason = EndGameReason.TRACK_END_SOLO.getEndGameReason();
-                    currentPlayerReachedEnd = true;
+                    gameModel.getThisMatch().setReasonOfGameEnd(endGameReason);
+                    gameModel.getSinglePlayer().setMatchOutcome(true);
+
+                    return FinalStrategy.handleSinglePlayerEndGameStrategy(elementsToUpdate, gameModel, endGameReason);
                 }
 
-                FinalStrategy.setMacroGamePhase(gameModel, elementsToUpdate);
+                else {
+
+                    if(gameModel.getPlayersAtTheEndOfTheFaithTrack().size()>1)
+                        endGameReason = EndGameReason.MULTIPLE_TRACK_END.getEndGameReason();
+                    else
+                        endGameReason = EndGameReason.TRACK_END.getEndGameReason();
+
+                    gameModel.getThisMatch().setReasonOfGameEnd(endGameReason);
+
+                    FinalStrategy.setLastTurnMacroGamePhase(gameModel, elementsToUpdate);
+                }
 
             }
         }
 
         currentBoard.setFaithToZero();
 
-        if (notCurrentPlayerReachedEnd) {
-
-        State nextState = State.IDLE;
-        if(gameModel.isSinglePlayer() && gameModel.getSinglePlayer().getCurrentState().equals(State.IDLE))
-            nextState = gameModel.getCurrentPlayer().anyLeaderPlayable() ? State.INITIAL_PHASE : State.MIDDLE_PHASE;
-
-        return new Pair<>(nextState, elementsToUpdate);
-        }
-
-        else if (currentPlayerReachedEnd)
-            return FinalStrategy.handleSinglePlayerEndGameStrategy(elementsToUpdate, gameModel, endGameReason);
-        else
-            return FinalStrategy.handleCommonEndGameStrategy(elementsToUpdate, gameModel);
-
+        return FinalStrategy.handleCommonEndGameStrategy(elementsToUpdate, gameModel);
     }
 
-    private static void handleCommonEndGameStrategy(GameModel gameModel){
-
-        if (gameModel.getMacroGamePhase().equals(GameModel.MacroGamePhase.ActiveGame))
-            gameModel.setMacroGamePhase(GameModel.MacroGamePhase.LastTurn);
-
-        else if (gameModel.getPlayerIndex(gameModel.getCurrentPlayer()) == (gameModel.getOnlinePlayers().size() - 1))
-            gameModel.setMacroGamePhase(GameModel.MacroGamePhase.GameEnded);
-
-    }
 }

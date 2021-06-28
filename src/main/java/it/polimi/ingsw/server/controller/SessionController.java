@@ -7,7 +7,6 @@ import it.polimi.ingsw.server.messages.messagebuilders.Element;
 import it.polimi.ingsw.server.utils.Deserializator;
 import it.polimi.ingsw.server.utils.Serializator;
 import javafx.util.Pair;
-import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -58,9 +57,9 @@ public class SessionController {
         playersInLobby.add(clientHandler);
     }
 
-    public Match getLastMatch(){
+  /*  public Match getLastMatch(){
            return matches.get(matches.size()-1);
-    }
+    } */
 
     public Optional<Match> getMatch(UUID matchId){
         return Optional.of(matches.get(matchId));
@@ -179,7 +178,7 @@ public class SessionController {
     }
 
     //saved match for a player
-    public Optional<UUID> checkForSavedMatches(String nickname){
+   /* public Optional<UUID> checkForSavedMatches(String nickname){
 
         File folder = new File(matchesFolderName);
         folder = new File(folder.getAbsolutePath());
@@ -188,7 +187,7 @@ public class SessionController {
                 .filter(s -> s.contains(nickname))
                 .map(s->UUID.fromString(StringUtils.substringAfterLast(s,"|")))
                 .findFirst();
-    }
+    } */
 
     public void saveMatch(Match match){
 
@@ -218,7 +217,7 @@ public class SessionController {
             String path = folderAbsolutePath + '/' + sessionName + ".json";
 
             try {
-                Serializator.serializeSession("savedSession");
+                Serializator.serializeSession(path);
             } catch (IOException e) {
                 e.printStackTrace();
             }

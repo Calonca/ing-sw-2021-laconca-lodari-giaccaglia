@@ -1,8 +1,10 @@
 package it.polimi.ingsw.server.controller.strategy;
 
+import it.polimi.ingsw.server.controller.strategy.cardmarket.MarketCardsCheck;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.messages.messagebuilders.Element;
 import it.polimi.ingsw.server.model.GameModel;
+import it.polimi.ingsw.server.model.solo.SoloActionToken;
 import it.polimi.ingsw.server.model.states.State;
 import javafx.util.Pair;
 
@@ -16,52 +18,59 @@ import java.util.List;
 public class IDLE implements GameStrategy {
 
     List<Element> elementsToUpdate = new ArrayList<>();
+    GameModel gameModel;
     public static boolean isSinglePlayerInFirstIDLE = true;
 
-    public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event)
+    public Pair<State, List<Element>> execute(GameModel gameModel, Validable event)
     {
 
-        if(gamemodel.getMacroGamePhase().equals(GameModel.MacroGamePhase.LastTurn))
-            return new Pair<>(State.IDLE, elementsToUpdate);
+        this.gameModel = gameModel;
 
-        else if(gamemodel.getMacroGamePhase().equals(GameModel.MacroGamePhase.GameEnded)) {
-            elementsToUpdate.add(Element.EndGameInfo);
-            return new Pair<>(State.END_PHASE, elementsToUpdate);
+        if(gameModel.getMacroGamePhase().equals(GameModel.MacroGamePhase.LastTurn)) {
+            if (gameModel.getPlayerIndex(gameModel.getCurrentPlayer()) == 0) {
+                gameModel.setMacroGamePhase(GameModel.MacroGamePhase.GameEnded);
+                elementsToUpdate.add(Element.EndGameInfo);
+                return new Pair<>(State.END_PHASE, elementsToUpdate);
+            }
         }
 
 
-        if(gamemodel.getCurrentPlayer().anyLeaderPlayable()) {
+        if(gameModel.getCurrentPlayer().anyLeaderPlayable())
+           return handleIDLETransition(State.INITIAL_PHASE);
 
-            if(gamemodel.isSinglePlayer()) {
-                executeActionTokenStrategy(gamemodel, elementsToUpdate);
-                return  VaticanReportStrategy.addFaithPointsToPlayer(gamemodel, elementsToUpdate);
+        else
+          return handleIDLETransition(State.MIDDLE_PHASE);
+
+    }
+
+    private Pair<State, List<Element>> handleIDLETransition(State nextMultiplayerState){
+
+        if(gameModel.isSinglePlayer()) {
+            if(isSinglePlayerInFirstIDLE) {
+                return new Pair<>(nextMultiplayerState, elementsToUpdate);
             }
 
-            gamemodel.getCurrentPlayer().setCurrentState(State.INITIAL_PHASE);
-            return new Pair<>(State.INITIAL_PHASE, elementsToUpdate);
+            executeActionTokenStrategy(gameModel, elementsToUpdate);
+            SoloActionToken executedToken = gameModel.getLastActivatedSoloActionToken();
+            if(executedToken.equals(SoloActionToken.ADD2FAITH) || executedToken.equals(SoloActionToken.SHUFFLE_ADD1FAITH))
+                return  VaticanReportStrategy.addFaithPointsToPlayer(gameModel, elementsToUpdate);
+            else
+                return MarketCardsCheck.checkMarketCards(gameModel, elementsToUpdate);
+
+
         }
 
-        else{
-
-            if(gamemodel.isSinglePlayer()) {
-                executeActionTokenStrategy(gamemodel, elementsToUpdate);
-                return  VaticanReportStrategy.addFaithPointsToPlayer(gamemodel, elementsToUpdate);
-            }
-
-            gamemodel.getCurrentPlayer().setCurrentState(State.MIDDLE_PHASE);
-            return new Pair<>(State.MIDDLE_PHASE, elementsToUpdate);
-        }
+        return new Pair<>(nextMultiplayerState, elementsToUpdate);
 
     }
 
     private void executeActionTokenStrategy(GameModel gameModel, List<Element> elementsToUpdate){
-        if(isSinglePlayerInFirstIDLE) {
-            return;
-        }
         gameModel.activateSoloActionToken();
         elementsToUpdate.add(Element.SimpleSoloActionToken);
         elementsToUpdate.add(Element.SimpleCardShop);
         elementsToUpdate.add(Element.SimpleFaithTrack);
+
+
     }
 
 }

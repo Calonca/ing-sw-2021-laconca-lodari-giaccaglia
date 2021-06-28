@@ -19,6 +19,7 @@ import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 import it.polimi.ingsw.client.view.CLI.textUtil.StringUtil;
 import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 import it.polimi.ingsw.network.simplemodel.PlayersInfo;
+import it.polimi.ingsw.network.simplemodel.SimplePlayerInfo;
 import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
 
 import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.*;
@@ -49,7 +50,7 @@ public final class CLIPlayersInfoBuilder{
 
         for (int playerIndex = 0; playerIndex<players; playerIndex++) {
 
-            Column leaderCard = row.addAndGetColumn();
+            Column playerInfo = row.addAndGetColumn();
 
             if(getThisPlayerCache().getCurrentState().equals(State.IDLE.toString())) {
                 boardViewBuilder = new PersonalBoardCLI(playerIndex, false, PersonalBoardBody.ViewMode.PLAYERS_INFO_IDLE);
@@ -64,7 +65,7 @@ public final class CLIPlayersInfoBuilder{
             ViewBuilder finalBoardViewBuilder = boardViewBuilder;
             ViewBuilder finalLeadersViewBuilder = leadersViewBuilder;
             Option visibleInfo = Option.noNumber(fromPlayerInfo(playersInfo, playerIndex));
-            leaderCard.addElem(visibleInfo);
+            playerInfo.addElem(visibleInfo);
 
 
             Option personalBoardOption = Option.from("Personal Board",  () -> getClient().changeViewBuilder(finalBoardViewBuilder));
@@ -94,21 +95,19 @@ public final class CLIPlayersInfoBuilder{
 
 
 
-            Row boardRow = leaderCard.addAndGetRow();
+            Row boardRow = playerInfo.addAndGetRow();
             boardRow.addElem(personalBoardOption);
-            boardRow.addElem(new SizedBox(2,0));
 
-            Row lineRow1 = leaderCard.addAndGetRow();
-            lineRow1.addElem(new SizedBox(2, 0));
+            Row lineRow1 = playerInfo.addAndGetRow();
             lineRow1.addElem(line1);
 
-            Row leadersRow = leaderCard.addAndGetRow();
+            Row leadersRow = playerInfo.addAndGetRow();
             leadersRow.addElem(playerLeadersOption);
-            leadersRow.addElem(new SizedBox(2,0));
 
-            Row lineRow2 = leaderCard.addAndGetRow();
-            lineRow2.addElem(new SizedBox(2, 0));
+            Row lineRow2 = playerInfo.addAndGetRow();
             lineRow2.addElem(line2);
+
+            playerInfo.addElem(new SizedBox(3, 0 ));
 
             boardRow.setFirstIdx(playerIndex*2);
         }
@@ -121,10 +120,9 @@ public final class CLIPlayersInfoBuilder{
 
         Background back = Background.DEFAULT;
 
-        PlayersInfo.SimplePlayerInfo playerInfo = playersInfo.getSimplePlayerInfoMap().get(playerIndex);
+        SimplePlayerInfo playerInfo = playersInfo.getSimplePlayerInfoMap().get(playerIndex);
         String nickname = playerInfo.getNickname();
         int position = playerInfo.getCurrentPosition();
-        int index = playerInfo.getPlayerIndex();
         int victoryPoints = playerInfo.getCurrentVictoryPoints();
 
 
@@ -139,14 +137,14 @@ public final class CLIPlayersInfoBuilder{
         drawable.add(new DrawableLine(3+nicknameLength,0, delimiter));
         drawable.add(new DrawableLine(29, 0, "╗"));
 
-        drawable.add(0,"║ Player index : " + StringUtil.untilReachingSize(index + 1, 2)+"          ║");
+        drawable.add(0,"║ Player index : " + StringUtil.untilReachingSize(playerIndex + 1, 2)+"          ║");
         drawable.add(0,"║ ────────────────────────── ║");
         drawable.add(0,"║ Connection :               ║");
 
         if(playerInfo.isOnline())
-            drawable.add(new DrawableLine(14, 3, "Online", Color.BRIGHT_GREEN, Background.DEFAULT));
+            drawable.add(new DrawableLine(14, 3, " Online", Color.BRIGHT_GREEN, Background.DEFAULT));
         else
-            drawable.add(new DrawableLine(14, 3, "Offline", Color.RED, Background.DEFAULT));
+            drawable.add(new DrawableLine(14, 3, " Offline", Color.RED, Background.DEFAULT));
 
 
         drawable.add(0,"║ ────────────────────────── ║");
@@ -159,26 +157,36 @@ public final class CLIPlayersInfoBuilder{
 
         }
         drawable.add(0,"║ ────────────────────────── ║");
-        drawable.add(0,"║ Points : " + StringUtil.untilReachingSize(victoryPoints, 2) + "                ║");
+        drawable.add(0,"║ Points : " + StringUtil.untilReachingSize(victoryPoints, 3) + "               ║");
         drawable.add(0,"║ ────────────────────────── ║");
 
         drawable.add(0,"║                            ║");
 
-        if(playersInfo.getSimplePlayerInfoMap().size()>1 && playersInfo.getFarthestPlayer().contains(index)) {
-            drawable.add(new DrawableLine(2, 10, "Farthest player!", Color.RED, Background.DEFAULT));
+        int yPos;
+
+        if(playersInfo.getSimplePlayerInfoMap().size()==1)
+            yPos = 10;
+        else
+            yPos = 9;
+
+        if(playersInfo.getSimplePlayerInfoMap().size()>1 && playersInfo.getFarthestPlayer().contains(playerIndex)) {
+            drawable.add(0,"║                            ║");
+            drawable.add(new DrawableLine(2, yPos, "     Farthest player!", Color.RED, Background.DEFAULT));
+
+
         }
         else if(playersInfo.getSimplePlayerInfoMap().size()==1){
-
+            drawable.add(0,"║                            ║");
             if(playerInfo.getCurrentPosition()>playerInfo.getLorenzoPosition())
-                drawable.add(new DrawableLine(2, 10, "You are ahead Lorenzo!", Color.BRIGHT_RED, Background.DEFAULT));
+                drawable.add(new DrawableLine(2, yPos, "  You are ahead Lorenzo!", Color.BRIGHT_RED, Background.DEFAULT));
             else if(playerInfo.getCurrentPosition()<playerInfo.getLorenzoPosition())
-                drawable.add(new DrawableLine(2, 10, "Lorenzo is ahead you!", Color.RED, Background.DEFAULT));
+                drawable.add(new DrawableLine(2, yPos, "  Lorenzo is ahead you!", Color.RED, Background.DEFAULT));
             else
-                drawable.add(new DrawableLine(2, 10, "Same position of Lorenzo!", Color.YELLOW, Background.DEFAULT));
+                drawable.add(new DrawableLine(2, yPos, "Same position of Lorenzo!", Color.YELLOW, Background.DEFAULT));
         }
 
         else
-            drawable.add(0,"║                          ║");
+            drawable.add(0,"║                            ║");
 
         drawable.add(0,"╚════════════════════════════╝");
 

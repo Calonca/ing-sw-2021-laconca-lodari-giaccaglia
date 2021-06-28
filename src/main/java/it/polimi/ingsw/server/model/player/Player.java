@@ -179,7 +179,7 @@ public class Player {
      * Method to get Player nickname , declared at client side game setup
      * @return Player nickname
      */
-    public String getNickName() {
+    public String getNickname() {
         return nickName;
     }
 

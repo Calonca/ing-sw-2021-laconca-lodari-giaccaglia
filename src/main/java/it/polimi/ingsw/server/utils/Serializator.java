@@ -27,6 +27,7 @@ import javafx.util.Pair;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
@@ -73,7 +74,7 @@ public class Serializator extends JsonUtility {
 
     private static Map<UUID , LeaderCardAsset> networkLeaderCardsAssetsMapBuilder() {
 
-            AtomicReference<Integer> i = new AtomicReference<>(0);
+        AtomicReference<Integer> i = new AtomicReference<>(0);
 
         return Deserializator.networkLeaderCardsDeserialization().keySet().stream().collect(Collectors.toMap(index -> index , index -> {
 
@@ -98,6 +99,7 @@ public class Serializator extends JsonUtility {
     }
 
     public static void leaderCardsArraySerialization() {
+
         Resource bonus;
         Production addProd;
         Pair<Resource, Integer> costTest;
@@ -124,8 +126,6 @@ public class Serializator extends JsonUtility {
         level=1;
 
         series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
-
-
 
 
         addProd=new Production(new int[]{2,0,0,0,0,0,0},new int[]{0,1,1,1,0,0,0});
@@ -848,10 +848,9 @@ public class Serializator extends JsonUtility {
         level=1;
         color=DevelopmentCardColor.GREEN ;
 
-       /* series.add(new NetworkDevelopmentCard(level, color,addProd,points,requirementsTest));
-        Gson gsonprint= new Gson();
+        series.add(new DevelopmentCard(level, color,addProd, victoryPoints,requirementsTest));
+        Gson gsonprint= new GsonBuilder().setPrettyPrinting().create();
         System.out.println(gsonprint.toJson(series));
-        */
 
 
         Leader leader;
@@ -1145,7 +1144,7 @@ public class Serializator extends JsonUtility {
         series2.add(new DevelopmentDiscountLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,costTest));
 
 
-        serialize(writeConfigPathString +"LeadersConfig.json", series2.toArray(Leader[]::new), Leader[].class,  customGsonBuilder.registerTypeAdapterFactory(GsonAdapters.gsonLeaderAdapter).create());
+        //  serialize(writeConfigPathString +"LeadersConfig.json", series2.toArray(Leader[]::new), Leader[].class,  customGsonBuilder.registerTypeAdapterFactory(GsonAdapters.gsonLeaderAdapter).create());
      /*   String serialized = gson1.toJson(series2.toArray(Leader[]::new), Leader[].class);
         Writer writer = new FileWriter("src/main/resources/config/LeadersConfig.json");
         writer.write(serialized);
@@ -1171,7 +1170,7 @@ public class Serializator extends JsonUtility {
 
         Map<ActionTokenAsset, Pair<Path, String>> tokens = Arrays.stream(ActionTokenAsset.values())
                 .collect(Collectors.toMap(token -> token,
-                token -> new Pair<>(token.getFrontPath(), token.getEffectDescription())));
+                        token -> new Pair<>(token.getFrontPath(), token.getEffectDescription())));
 
         String path = "src/main/resources/clientconfig/TokenAssetsConfig.json";
         serialize(path ,tokens, Map.class, customGson);
@@ -1217,7 +1216,7 @@ public class Serializator extends JsonUtility {
     public static void serializeMatch(Match match, String path) throws IOException {
 
         Gson  gson = customGsonBuilder.
-                 registerTypeAdapterFactory(GsonAdapters.gsonLeaderAdapter)
+                registerTypeAdapterFactory(GsonAdapters.gsonLeaderAdapter)
                 .registerTypeAdapterFactory(GsonAdapters.gsonDepotAdapter)
                 .registerTypeAdapterFactory(GsonAdapters.gsonStrategyAdapter)
                 .registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).create();
@@ -1276,6 +1275,9 @@ public class Serializator extends JsonUtility {
         serializeMultiPlayerStatesTransitionTable();
 
  */
+
+        leaderCardsArraySerialization();
+
 
 
 

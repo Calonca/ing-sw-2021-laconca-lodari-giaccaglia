@@ -40,7 +40,6 @@ public abstract class InitialOrFinalPhaseViewBuilder extends ViewBuilder {
         }else if (State.FINAL_PHASE.name().equals(propertyName)) {
             getClient().changeViewBuilder(getBuilder(getClient().isCLI(), false));
         }else if (State.END_PHASE.name().equals(propertyName)) {
-
             getClient().changeViewBuilder(WinLooseBuilder.getBuilder(getClient().isCLI()));
         }else if(State.IDLE.name().equals(propertyName)) {
             getClient().changeViewBuilder(IDLEViewBuilder.getBuilder(getClient().isCLI()));

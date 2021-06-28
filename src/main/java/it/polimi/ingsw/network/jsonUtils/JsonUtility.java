@@ -76,10 +76,8 @@ public class JsonUtility {
     public static <T> T deserializeFromAbsolutePath(String name, Class<T> destinationClass, Gson customGson) {
 
         String jsonString = null;
-        File f = new File(name);
-        String absolutePath = f.getAbsolutePath();
         try {
-            jsonString = Files.readString(Path.of(absolutePath), StandardCharsets.US_ASCII);
+            jsonString = Files.readString(Path.of(name), StandardCharsets.US_ASCII);
         } catch (IOException e) {
             e.printStackTrace();
         }

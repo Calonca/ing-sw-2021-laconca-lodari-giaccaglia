@@ -11,6 +11,7 @@ import java.util.Objects;
 public class Title extends CLIelem{
     private String title;
     private Color color = null;
+    private int height = 1;
 
     public Title(String title) {
         this.title = title;
@@ -29,6 +30,12 @@ public class Title extends CLIelem{
         }
     }
 
+    public Title(String title, Color color, int height) {
+            this.title = title;
+            this.height = height;
+            this.color = color;
+    }
+
     @Override
     public String toString() {
         Canvas canvas = Canvas.withBorder(CLI.width,1);
@@ -36,6 +43,7 @@ public class Title extends CLIelem{
 
         if(Objects.isNull(color))
             color = Color.DEFAULT;
+
         dwl.addToCenter(CLI.width,title, color, Background.DEFAULT);
 
         canvas.addDrawable(dwl);

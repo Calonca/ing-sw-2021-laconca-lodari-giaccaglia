@@ -8,16 +8,15 @@ import it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent.Choos
 import it.polimi.ingsw.server.messages.messagebuilders.Element;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
-import it.polimi.ingsw.server.model.cards.production.ProductionCardCell;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.player.board.PersonalBoard;
 import it.polimi.ingsw.server.model.states.State;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * This implementation allows the user to place the selected card in an available space. Upon calling this is
@@ -43,18 +42,8 @@ public class ChoosingSpaceForDevelopmentCard implements GameStrategy {
         elementsToUpdate.add(Element.SimpleProductions);
 
         if(gamemodel.isSinglePlayer() && (gamemodel.isSomeDevCardColourOutOfStock() || currentBoard.playerHasSevenCards())) {
-            String endGameReason = null;
-            elementsToUpdate.add(Element.EndGameInfo);
-
-            if (gamemodel.isSomeDevCardColourOutOfStock())
-                endGameReason = EndGameReason.NO_MORE_DEVCARD_TYPE.getEndGameReason();
-
-            else if (currentBoard.playerHasSevenCards())
-                endGameReason = EndGameReason.SEVENTH_CARD_PURCHASED_SOLO.getEndGameReason();
-
-            FinalStrategy.handleSinglePlayerEndGameStrategy(elementsToUpdate, gamemodel, endGameReason);
+           return MarketCardsCheck.checkMarketCards(gamemodel, elementsToUpdate);
         }
-
 
 
         else if (currentBoard.playerHasSevenCards() && !gamemodel.isSinglePlayer())
@@ -63,18 +52,14 @@ public class ChoosingSpaceForDevelopmentCard implements GameStrategy {
 
                 int currentPlayerIndex = gamemodel.getPlayerPosition(gamemodel.getCurrentPlayer());
 
-                Map<Integer, Player> player = gamemodel.getMatchPlayers().keySet().stream().filter(playerIndex -> playerIndex.equals(currentPlayerIndex)).collect(Collectors.toMap(
-                        playerIndex -> playerIndex,
-                        playerIndex -> gamemodel.getPlayer(playerIndex).get()
-                ));
 
-                gamemodel.setPlayersEndingTheGame(player);
+                Map<Integer, Player> playersEndingTheGame = new HashMap<>();
+                playersEndingTheGame.put(currentPlayerIndex, gamemodel.getPlayer(currentPlayerIndex).get());
+                gamemodel.setPlayersEndingTheGame(playersEndingTheGame);
 
                 String reasonOfEnd = EndGameReason.SEVENTH_CARD_PURCHASED.getEndGameReason();
-
                 gamemodel.getThisMatch().setReasonOfGameEnd(reasonOfEnd);
-
-                FinalStrategy.setMacroGamePhase(gamemodel, elementsToUpdate);
+                FinalStrategy.setLastTurnMacroGamePhase(gamemodel, elementsToUpdate);
 
         }
 

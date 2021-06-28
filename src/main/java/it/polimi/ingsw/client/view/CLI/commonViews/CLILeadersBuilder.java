@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view.CLI.commonViews;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.LeaderBody;
 import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 import it.polimi.ingsw.network.simplemodel.PlayersInfo;
+import it.polimi.ingsw.network.simplemodel.SimplePlayerInfo;
 import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
 
 import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.*;
@@ -12,7 +13,7 @@ public final class CLILeadersBuilder{
     public static void buildView(ViewBuilder nextViewBuilder, int playerIndex) {
 
         PlayersInfo playersInfo = (getSimpleModel().getElem(PlayersInfo.class).orElseThrow());
-        PlayersInfo.SimplePlayerInfo playerInfo = playersInfo.getSimplePlayerInfoMap().get(playerIndex);
+        SimplePlayerInfo playerInfo = playersInfo.getSimplePlayerInfoMap().get(playerIndex);
         SimplePlayerLeaders simplePlayerLeaders = getSimpleModel().getPlayerCache(playerIndex).getElem(SimplePlayerLeaders.class).orElseThrow();
 
         getCLIView().clearScreen();

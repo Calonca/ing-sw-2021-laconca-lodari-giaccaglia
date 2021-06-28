@@ -3,21 +3,19 @@ package it.polimi.ingsw.client.view.GUI;
 import it.polimi.ingsw.client.view.abstractview.WinLooseBuilder;
 import it.polimi.ingsw.network.simplemodel.EndGameInfo;
 import it.polimi.ingsw.network.simplemodel.PlayersInfo;
+import it.polimi.ingsw.network.simplemodel.SimplePlayerInfo;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.SubScene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
-import java.awt.*;
 import java.beans.PropertyChangeEvent;
-import java.io.IOException;
 import java.net.URL;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class WinLooseGUI extends WinLooseBuilder implements GUIView {
@@ -64,9 +62,13 @@ public class WinLooseGUI extends WinLooseBuilder implements GUIView {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals(PlayersInfo.SimplePlayerInfo.class.getSimpleName()))
+        if (evt.getPropertyName().equals(SimplePlayerInfo.class.getSimpleName()))
         {
-        int numberOfWinners=getEndGameInfo().getPlayersEndingTheGame().size();
+           EndGameInfo endGameInfo = getSimpleModel().getElem(EndGameInfo.class).orElseThrow();
+           PlayersInfo simplePlayersInfo = getSimpleModel().getElem(PlayersInfo.class).orElseThrow();
+           Map<Integer, SimplePlayerInfo> simplePlayerInfoMap = simplePlayersInfo.getSimplePlayerInfoMap();
+
+        int numberOfWinners=endGameInfo.getPlayersEndingTheGame().size();
         Text text;
         int cd;
         for(int i=0;i<numberOfWinners;i++)
@@ -74,16 +76,16 @@ public class WinLooseGUI extends WinLooseBuilder implements GUIView {
 
             winLoosePane.getChildren().clear();
                 //todo make text look better
-                text=new Text(getEndGameInfo().getPlayerInfo(getEndGameInfo().getPlayersEndingTheGame().get(i)).getPlayerNickname());
+                text=new Text(simplePlayerInfoMap.get(endGameInfo.getPlayersEndingTheGame().get(i)).getNickname());
                 text.setLayoutY(len/3);
                 text.setLayoutX((i+1)*width/(numberOfWinners+1));
                 winLoosePane.getChildren().add(text);
 
-                cd=getEndGameInfo().getPlayerInfo(getEndGameInfo().getPlayersEndingTheGame().get(i)).getVictoryPoints();
+                cd=simplePlayerInfoMap.get(endGameInfo.getPlayersEndingTheGame().get(i)).getCurrentVictoryPoints();
                 text=new Text(Integer.toString(cd));
                 winLoosePane.getChildren().add(text);
 
-                cd=getEndGameInfo().getPlayerInfo(getEndGameInfo().getPlayersEndingTheGame().get(i)).getVictoryPoints();
+                cd=simplePlayerInfoMap.get(endGameInfo.getPlayersEndingTheGame().get(i)).getCurrentVictoryPoints();
                 text=new Text(Integer.toString(cd));
                 winLoosePane.getChildren().add(text);
 

@@ -127,9 +127,7 @@ public class CardShop {
      */
     public boolean isSomeColourOutOfStock(){
         return Arrays.stream(DevelopmentCardColor.values()).filter(color -> !color.equals(DevelopmentCardColor.INVALID))
-                .map(color -> devDecks.get(color))
-                .anyMatch(deckList -> deckList.values().stream()
-                        .allMatch(DevelopmentCardDeck::isDeckEmpty));
+                .anyMatch(this::isColorOutOfStock);
     }
 
     /**
@@ -140,11 +138,9 @@ public class CardShop {
      *
      * @return {@link DevelopmentCardColor} no longer available in the {@link CardShop#devDecks devDecks} structure.
      */
-    public DevelopmentCardColor getColourOutOfStock() {
+    public DevelopmentCardColor getColorOutOfStock() {
         return Arrays.stream(DevelopmentCardColor.values())
-                .filter(color -> devDecks.get(color).values()
-                        .stream()
-                        .allMatch(DevelopmentCardDeck::isDeckEmpty))
+                .filter(this::isColorOutOfStock)
                 .findFirst()
                 .get();
     }

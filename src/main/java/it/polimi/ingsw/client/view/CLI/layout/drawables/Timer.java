@@ -11,7 +11,7 @@ public class Timer{
     public static void showSecondsOnCLI(CLI cli, String baseText){
                 cli.blockTitleChanges();
 
-                for(int time=5; time>=0; time--){
+                for(int time=1; time>=0; time--){
 
                     String titleString = baseText + time;
                     Title title = new Title(titleString, Color.GREEN);

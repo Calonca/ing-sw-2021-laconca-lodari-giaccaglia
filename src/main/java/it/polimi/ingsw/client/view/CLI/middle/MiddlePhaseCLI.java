@@ -6,15 +6,17 @@ import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.PersonalBoardBody;
 import it.polimi.ingsw.client.view.CLI.CardShopCLI;
 import it.polimi.ingsw.client.view.CLI.commonViews.CLIActionToken;
+import it.polimi.ingsw.client.view.CLI.commonViews.CLIReportInfoBuilder;
 import it.polimi.ingsw.client.view.CLI.layout.Option;
 import it.polimi.ingsw.client.view.CLI.layout.SizedBox;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.Drawable;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
+import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 import it.polimi.ingsw.client.view.abstractview.MiddlePhaseViewBuilder;
+import it.polimi.ingsw.network.simplemodel.EndGameInfo;
 import it.polimi.ingsw.network.simplemodel.PlayersInfo;
 import it.polimi.ingsw.network.simplemodel.SimpleCardShop;
 import it.polimi.ingsw.network.simplemodel.SimpleProductions;
-import it.polimi.ingsw.network.simplemodel.VaticanReportInfo;
 
 import java.beans.PropertyChangeEvent;
 
@@ -25,12 +27,15 @@ public class MiddlePhaseCLI extends MiddlePhaseViewBuilder implements CLIBuilder
     @Override
     public void run() {
 
+        showWarningIfLastTurn();
         if(getSimpleModel().isSinglePlayer() && !isFirstTurn()) {
             getClient().saveViewBuilder(this);
             CLIActionToken.showActionTokenBeforeTransition();
         }
 
-        showVaticanReportInfoBeforeTransition();
+        getClient().saveViewBuilder(this);
+        CLIReportInfoBuilder.showVaticanReportInfoBeforeTransition(new MiddleReportInfoCLI());
+
         getCLIView().setTitle("Select a choice");
 
         Row row = new Row();
@@ -92,20 +97,6 @@ public class MiddlePhaseCLI extends MiddlePhaseViewBuilder implements CLIBuilder
         return o;
     }
 
-    protected void showVaticanReportInfoBeforeTransition(){
-
-        VaticanReportInfo reportInfo = getSimpleModel().getElem(VaticanReportInfo.class).get();
-
-        if(reportInfo.hasReportOccurred() && !reportInfo.hasReportBeenShown()){
-            reportInfo.reportWillBeShown();
-            if(getClient().isCLI()) {
-                getClient().saveViewBuilder(this);
-                getClient().changeViewBuilder(new MiddleReportInfoCLI());
-            }
-
-        }
-    }
-
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
@@ -115,6 +106,22 @@ public class MiddlePhaseCLI extends MiddlePhaseViewBuilder implements CLIBuilder
         }
 
         else super.propertyChange(evt);
+    }
+
+    protected void showWarningIfLastTurn() {
+
+            PlayersInfo playersInfo = getSimpleModel().getElem(PlayersInfo.class).orElseThrow();
+
+            if (playersInfo.getSimplePlayerInfoMap().size() > 1) {
+            EndGameInfo endGameInfo = getSimpleModel().getElem(EndGameInfo.class).orElseThrow();
+
+            if (endGameInfo.isCauseOfEndBeenAnnounced()) {
+                endGameInfo.handleCauseOfEndString(playersInfo.getSimplePlayerInfoMap());
+                String endGameReason = endGameInfo.getCauseOfEndStringWithNames();
+                getCLIView().setSubTitle("Last turn! " + endGameReason, Color.BRIGHT_PURPLE, 1);
+            }
+
+        }
     }
 
 }
