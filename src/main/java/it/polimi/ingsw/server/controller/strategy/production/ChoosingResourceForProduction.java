@@ -52,6 +52,9 @@ public class ChoosingResourceForProduction implements GameStrategy {
 
             elementsToUpdate.add(Element.SimpleWareHouseLeadersDepot);
             elementsToUpdate.add(Element.SimpleFaithTrack);
+            elementsToUpdate.add(Element.SimpleProductions);
+            elementsToUpdate.add(Element.SimpleCardCells);
+            elementsToUpdate.add(Element.SelectablePositions);
 
 
             return new Pair<>(State.CHOOSING_PRODUCTION, elementsToUpdate);

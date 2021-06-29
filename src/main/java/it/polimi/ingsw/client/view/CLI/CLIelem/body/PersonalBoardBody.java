@@ -356,13 +356,19 @@ public class PersonalBoardBody extends CLIelem {
 
     public static Row strongBoxBuilder(SimpleStrongBox simpleStrongBox, PersonalBoardBody board){
 
+        SelectablePositions selectablePositions = board.cache.getElem(SelectablePositions.class).orElseThrow();
         Map<Integer, Pair<ResourceAsset, Pair<Integer, Integer>>> strongBoxMap = simpleStrongBox.getResourceMap();
+        Map<Integer,Integer> selectablePositionsMap = new HashMap<>();
+        if(Objects.nonNull(board.resChoiceRow))
+            selectablePositionsMap = selectablePositions.getUpdatedSelectablePositions(board.resChoiceRow.getChosenInputPos());
+
+        Map<Integer, Integer> finalSelectablePositionsMap = selectablePositionsMap;
 
         Stream<Option> optionList = strongBoxMap.entrySet().stream().sorted(Map.Entry.comparingByKey())
                 .map(e-> {
                     boolean selectable;
                     if (board.mode.equals(Mode.SELECT_CARD_SHOP))
-                        selectable = numAndSel(e).getKey() > numAndSel(e).getValue() &&
+                        selectable = finalSelectablePositionsMap.containsKey(e.getKey()) && finalSelectablePositionsMap.get(e.getKey()) > 0 &&
                                 board.resChoiceRow.getPointedResource().isPresent() &&
                                 board.resChoiceRow.getPointedResource().get().equals(e.getValue().getKey());
                     else if (board.mode.equals(Mode.SELECT_RES_FOR_PROD))
@@ -396,7 +402,7 @@ public class PersonalBoardBody extends CLIelem {
             dw.add(0, (numOf ==1?"": numOf +" ")+resourceCLI.getFullName()+" ",resourceCLI.getC(), Background.DEFAULT);
 
 
-        dw.add(0, (selected==0?"         ":selected+" selected"),resourceCLI.getC(), Background.DEFAULT);
+        dw.add(0, (selected==0 ? "         ":selected+" selected"),resourceCLI.getC(), Background.DEFAULT);
         Runnable r=()->{
             if (mode.equals(Mode.MOVING_RES)) {
                 if (lastSelectedPosition == null) {

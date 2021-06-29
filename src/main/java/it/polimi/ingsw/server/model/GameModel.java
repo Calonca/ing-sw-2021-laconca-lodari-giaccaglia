@@ -646,7 +646,8 @@ public class GameModel {
 
    public boolean handleVaticanReport(){
 
-       vaticanReportTriggers.clear();;  //new vatican report -> new list
+        if(!vaticanReportTriggers.isEmpty()) //vatican report already occurred in this phase
+            return false;
 
         buildVaticanReportTriggersList();
 

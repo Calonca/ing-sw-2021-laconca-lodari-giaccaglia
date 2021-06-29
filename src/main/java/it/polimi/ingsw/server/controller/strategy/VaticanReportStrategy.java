@@ -16,6 +16,7 @@ public class VaticanReportStrategy {
         String endGameReason;
 
         PersonalBoard currentBoard = gameModel.getCurrentPlayer().getPersonalBoard();
+        gameModel.clearPlayersTriggeringVaticanReportList(); // clear vatican report triggers for the next report
 
         int positionsToAdd = currentBoard.getBadFaithToAdd();
 

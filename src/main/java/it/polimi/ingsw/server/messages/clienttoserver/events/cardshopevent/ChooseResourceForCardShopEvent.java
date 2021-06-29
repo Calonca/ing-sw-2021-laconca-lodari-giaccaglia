@@ -1,13 +1,12 @@
 package it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent;
 
+import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
+import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.player.board.PersonalBoard;
 import it.polimi.ingsw.server.model.states.State;
-import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
-import it.polimi.ingsw.server.model.GameModel;
 
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -57,7 +56,6 @@ public class ChooseResourceForCardShopEvent extends it.polimi.ingsw.network.mess
         return isGameStarted(gameModel)
                 && checkResourcesPositionIndexes()
                 && checkIndexes ()
-                && checkResourcesMatchingRequirements(gameModel.getCardShop().getCopyOfPurchasedCard())
                 && checkResourceRequirements()
                 && validateDevCardRequirements(gameModel.getCardShop().getCopyOfPurchasedCard());
     }
@@ -109,11 +107,6 @@ public class ChooseResourceForCardShopEvent extends it.polimi.ingsw.network.mess
 
     }
 
-    private boolean checkResourcesMatchingRequirements(DevelopmentCard card){
-
-        return Arrays.equals(card.getCostAsArray(), chosenResourcesAsArray);
-    }
-
     private void buildResourcesArray(){
 
        chosenResourcesAsArray = new int[]{0,0,0,0};
@@ -121,8 +114,6 @@ public class ChooseResourceForCardShopEvent extends it.polimi.ingsw.network.mess
 
         for (Integer resourceGlobalPosition : chosenResources)
         {
-
-
         resourceNumber  =  currentPlayerPersonalBoard.getResourceAtPosition(resourceGlobalPosition).getResourceNumber();
         chosenResourcesAsArray[resourceNumber] =  chosenResourcesAsArray[resourceNumber] + 1;
         }

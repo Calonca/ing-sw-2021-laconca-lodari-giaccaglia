@@ -242,11 +242,14 @@ public class WarehouseLeadersDepots implements StorageUnit {
      * @return true if the given resources were found, else false
      */
     public boolean enoughResourcesForProductions(int[] resources){
+
         int totalToFind = Arrays.stream(resources).reduce(0, Integer::sum);
         if (totalToFind>getOccupiedSpotsNum())
             return false;
+
         for (int c=0;c<depotAtPosition.size();c++){
-            if (!getResourceAt(c).equals(Resource.EMPTY) && resources[getResourceAt(c).getResourceNumber()]>0 && totalToFind>0) {
+            int resourceSelected = (!getResourceAt(c).equals(Resource.EMPTY) && getSelected(getResourceAt(c).getResourceNumber())) ? 1  : 0;
+            if (!getResourceAt(c).equals(Resource.EMPTY) && (resources[getResourceAt(c).getResourceNumber()] - resourceSelected)>0 && totalToFind>0) {
                 totalToFind -=1;
                 resources[getResourceAt(c).getResourceNumber()]-=1;
             }

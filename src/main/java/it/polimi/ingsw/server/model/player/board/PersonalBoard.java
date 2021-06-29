@@ -85,7 +85,7 @@ public class PersonalBoard {
         warehouseLeadersDepots = new WarehouseLeadersDepots();
         strongBox = Box.strongBox();
         discardBox = Box.discardBox();
-       /* strongBox.addResources(new int[]{10,10,10,10});   //to test CardShop
+       /* strongBox.addResources(new int[]{20,20,20,20});   //to test CardShop
         warehouseLeadersDepots.addResource(new Pair<>(0,Resource.GOLD));
         warehouseLeadersDepots.addResource(new Pair<>(1,Resource.SERVANT));
         warehouseLeadersDepots.addResource(new Pair<>(3,Resource.STONE)); */
@@ -141,9 +141,11 @@ public class PersonalBoard {
 
                     Map<Integer, Integer> outputs = productions.containsKey(productionIndex) ?  productions.get(productionIndex).getOutputsMap() : new HashMap<>();
 
-                    boolean isAvailable =  productions.containsKey(productionIndex) && hasResources( productions.get(productionIndex).getInputs());
+
 
                     boolean isSelected = prodsSelected.containsKey(productionIndex) && prodsSelected.get(productionIndex);
+
+                    boolean isAvailable = !isSelected && productions.containsKey(productionIndex) && hasResources( productions.get(productionIndex).getInputs());
 
                     Pair<Map<Integer, Integer>, Map<Integer, Integer>> inputsAndOutPuts = new Pair<>(inputs, outputs);
 
@@ -591,14 +593,18 @@ public class PersonalBoard {
     public boolean hasResources(int[] toCheck)
     {
 
-        Box box= getStrongBox();
         //Goes up to toChoose
         int[] inputOfLengthResources = IntStream.concat(Arrays.stream(toCheck),IntStream.generate(()->0)).limit(Resource.nRes+3).toArray();
+
         //For physical resources
-        int[] toFindInWarehouse =IntStream.range(0,Resource.nRes).map(pos -> inputOfLengthResources[pos]-box.getNumberOf(Resource.fromInt(pos))).map(res -> Math.max(res, 0)).toArray();
+        int[] toFindInWarehouse =IntStream.range(0,Resource.nRes).sorted()
+                .map(pos -> inputOfLengthResources[pos]- strongBox.getNumberOfNotSelected(Resource.fromInt(pos)))
+                .map(res -> Math.max(res, 0))
+                .toArray();
+
         if(!getWarehouseLeadersDepots().enoughResourcesForProductions(toFindInWarehouse))
             return false;
-        return Arrays.stream(inputOfLengthResources).limit(Resource.nRes).reduce(0, Integer::sum)+inputOfLengthResources[6]<=numOfResources();
+        return Arrays.stream(inputOfLengthResources).limit(Resource.nRes).reduce(0, Integer::sum) + inputOfLengthResources[6]<=numOfResources();
 
     }
 

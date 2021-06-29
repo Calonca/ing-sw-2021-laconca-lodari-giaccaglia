@@ -63,10 +63,10 @@ public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.m
                     if(pair.getKey()>=-8 && pair.getKey()<=-5){
                         int localPos = pair.getKey() + 8;
                         Resource resource = Resource.fromIntFixed(localPos);
-                        int alreadySelectedResources = currentPlayerPersonalBoard.getStrongBox().getNSelected(resource);
-                        int availableResources = currentPlayerPersonalBoard.getStrongBox().getNumberOf(resource);
+                     //   int alreadySelectedResources = currentPlayerPersonalBoard.getStrongBox().getNSelected(resource);
+                        int availableResources = currentPlayerPersonalBoard.getStrongBox().getNumberOfNotSelected(resource);
 
-                        return availableResources - alreadySelectedResources >= pair.getValue();
+                        return availableResources >= pair.getValue();
 
                     }
                     else {
@@ -120,7 +120,7 @@ public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.m
 
                     if(position>=-8 && position<-4) {
                             Resource resourceAtPos = currentPlayerPersonalBoard.getResourceAtPosition(position);
-                            return currentPlayerPersonalBoard.getStrongBox().getNumberOf(resourceAtPos) >= positionOccurrences;
+                            return currentPlayerPersonalBoard.getStrongBox().getNumberOfNotSelected(resourceAtPos) >= positionOccurrences;
                         }
                     else if(positionOccurrences>1)
                         return false;
@@ -185,18 +185,21 @@ public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.m
 
     private void buildResourcesArray(){
 
+             //   resource, numOf
         Set<Pair<Integer, Integer>> pairSetWithLocalPositions = inputPositionsToChoose.stream().map(
                 position -> {
                     int positionOccurrences = inputPositionsToChoose.stream().filter(positionToFind -> positionToFind.equals(position)).mapToInt(positionToFind -> 1).sum();
-                    int localPos = position>=0 ? position : position + 8;
-                    return new Pair<>(localPos, positionOccurrences);
+                    int resourceNumber = currentPlayerPersonalBoard.getResourceAtPosition(position).getResourceNumber();
+                    return new Pair<>(resourceNumber, positionOccurrences);
                 }
 
         ).collect(Collectors.toSet());
 
 
-        for (Pair<Integer, Integer> resourceIntegerPair : pairSetWithLocalPositions)
+        for (Pair<Integer, Integer> resourceIntegerPair : pairSetWithLocalPositions) {
+
             resourcesToConvertArray[resourceIntegerPair.getKey()] += resourceIntegerPair.getValue();
+        }
 
     }
 

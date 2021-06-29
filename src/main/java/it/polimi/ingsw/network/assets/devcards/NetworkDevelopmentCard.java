@@ -47,7 +47,7 @@ public class NetworkDevelopmentCard {
         return cardType;
     }
 
-    public List<Pair<ResourceAsset,Integer>> getCostList(){
+    public List<Pair<ResourceAsset,Integer>> getCostList(){  //not discounted
         return costList;
     }
 

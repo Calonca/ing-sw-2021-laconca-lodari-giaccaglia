@@ -52,8 +52,9 @@ public class IDLE implements GameStrategy {
             if(executedToken.equals(SoloActionToken.ADD2FAITH) || executedToken.equals(SoloActionToken.SHUFFLE_ADD1FAITH)) {
 
                 Pair<State, List<Element>> tokenPair =  VaticanReportStrategy.addFaithPointsStrategy(gameModel, elementsToUpdate);
-                if(tokenPair.getKey().equals(State.END_PHASE))
+                if(tokenPair.getKey().equals(State.END_PHASE)) {
                     return tokenPair;
+                }
             }
             else if(gameModel.isSinglePlayer() && (gameModel.isSomeDevCardColourOutOfStock() || gameModel.getCurrentPlayer().getPersonalBoard().playerHasSevenCards()))
                 return MarketCardsCheck.checkMarketCards(gameModel, elementsToUpdate);

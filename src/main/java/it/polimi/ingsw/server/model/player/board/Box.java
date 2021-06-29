@@ -2,10 +2,8 @@ package it.polimi.ingsw.server.model.player.board;
 import it.polimi.ingsw.server.model.Resource;
 import javafx.util.Pair;
 
-import java.util.Arrays;
-import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
 import static java.lang.Integer.max;
 import static java.lang.Math.min;
 
@@ -185,14 +183,20 @@ public class Box implements StorageUnit {
         deselectN(1,Resource.fromInt(globalPos-globalPosition));
     }
 
-    /** Returns how many {@link Resource resources} of the given type there are
+    /** Returns how many not selected {@link Resource resources} of the given type there are
      * @param type is a {@link Resource}
-     * @return number of {@link Resource resources} of the given type in the deposit
+     * @return number of not selected {@link Resource resources} of the given type in the deposit
      */
     public int getNumberOf(Resource type){
         if(type.equals(Resource.EMPTY))
             return 0;
         return nResAtPos[type.getResourceNumber()];
+    }
+
+    public int getNumberOfNotSelected(Resource type){
+        if(type.equals(Resource.EMPTY))
+            return 0;
+        return nResAtPos[type.getResourceNumber()] - nSel[type.getResourceNumber()];
     }
 
 

@@ -205,8 +205,7 @@ public class SimpleDepotsMessageBuilder {
 
                     boolean isSelectable = false;
 
-                    if(!resourceAtPos.equals(Resource.EMPTY)) {
-
+                    if(!resourceAtPos.equals(Resource.EMPTY) && !warehouseLeadersDepots.getSelected(resourceAtPos.getResourceNumber())) {
 
                         if (resourcesToChoose.containsKey(Resource.TO_CHOOSE.getResourceNumber())
                                 && resourcesToChoose.get(Resource.TO_CHOOSE.getResourceNumber())>0)
@@ -225,7 +224,7 @@ public class SimpleDepotsMessageBuilder {
 
     }
 
-    //                      position      numOfRes  isSelectable
+    //                      position                          numOfRes  isSelectable
     private static Map<Pair<Integer, ResourceAsset>, MutablePair<Integer, Boolean>> getSelectableStrongBoxPositions(Box strongBox, Map<Integer, Integer> resourcesToChoose) {
 
         int strongBoxCells = strongBox.getNumOfResourcesTypes();
@@ -253,8 +252,11 @@ public class SimpleDepotsMessageBuilder {
                                 && resourcesToChoose.get(Resource.TO_CHOOSE.getResourceNumber())>0)
                             isSelectable = true;
 
-                        else
-                            isSelectable = resourcesToChoose.get(resourceAtPos.getResourceNumber()) > 0 && (strongBox.getNSelected(resourceAtPos) != strongBox.getNumberOf(resourceAtPos));
+                        else {
+
+                            isSelectable = resourcesToChoose.get(resourceAtPos.getResourceNumber()) > 0 && strongBox.getNumberOfNotSelected(resourceAtPos) > 0;
+
+                        }
 
                     }
 
