@@ -18,6 +18,11 @@ public abstract class CreateJoinLoadMatchViewBuilder extends ViewBuilder {
         else return new it.polimi.ingsw.client.view.GUI.CreateJoinLoadMatch();
     }
 
+    /**
+     * Method to get information regarding active and joinable matches
+     * @param uuidPair is the match's UUID
+     * @return the match's players information
+     */
 
     public static Pair<String, String> idAndNames(Map.Entry<UUID, Pair<String[], String[]>> uuidPair){
         String matchIdString = "Match ID : " + uuidPair.getKey().toString().substring( 0, 8 );

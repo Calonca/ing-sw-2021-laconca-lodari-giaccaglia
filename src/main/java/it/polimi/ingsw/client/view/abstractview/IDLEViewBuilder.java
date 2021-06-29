@@ -14,6 +14,11 @@ public abstract class IDLEViewBuilder extends ViewBuilder{
         else return new IDLEViewBuilderGUI();
     }
 
+
+    /**
+     * This listener centralizes the actions regarding player's waiting for  and starting their turn
+     * @param evt not null
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         String propertyName = evt.getPropertyName();

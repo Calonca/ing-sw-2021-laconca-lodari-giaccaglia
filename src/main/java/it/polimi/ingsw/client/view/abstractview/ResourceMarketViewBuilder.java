@@ -56,6 +56,10 @@ public abstract class ResourceMarketViewBuilder extends ViewBuilder{
     }
 
 
+    /**
+     * This listener centralizes the interaction with ResourceMarket
+     * @param evt
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         String propertyName = evt.getPropertyName();

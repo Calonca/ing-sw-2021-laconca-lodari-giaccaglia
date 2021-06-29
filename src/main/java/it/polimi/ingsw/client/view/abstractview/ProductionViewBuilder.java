@@ -40,6 +40,10 @@ public abstract class ProductionViewBuilder extends ViewBuilder{
      */
     public abstract void choosingResForProduction();
 
+    /**
+     * This method centralizes the interaction with Productions
+     * @param evt is not null
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         String propertyName = evt.getPropertyName();

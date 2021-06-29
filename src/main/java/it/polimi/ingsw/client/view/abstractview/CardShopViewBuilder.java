@@ -66,6 +66,10 @@ public abstract class CardShopViewBuilder extends ViewBuilder{
     }
 
 
+    /**
+     * This method centralizes all the actions regarding the interaction with the CardShop
+     * @param evt can't be null
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         String propertyName = evt.getPropertyName();

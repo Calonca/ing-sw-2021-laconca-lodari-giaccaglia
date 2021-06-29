@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+
+/**
+ * This is a helper class to select resources conversion.
+ */
 public class ResChoiceRow {
 
     protected int arrowPos;

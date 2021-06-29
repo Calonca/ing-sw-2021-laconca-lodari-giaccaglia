@@ -28,6 +28,10 @@ public abstract class InitialOrFinalPhaseViewBuilder extends ViewBuilder {
         else return new InitialOrFinalPhaseGUI(initial);
     }
 
+    /**
+     * This listener centralizes the possible interaction with Leader during the player turn
+     * @param evt not null
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         String propertyName = evt.getPropertyName();
