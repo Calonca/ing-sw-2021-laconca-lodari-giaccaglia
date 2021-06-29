@@ -14,7 +14,11 @@ public class MatchesData extends it.polimi.ingsw.network.messages.servertoclient
         super(matchesData);
     }
 
-
+    /**
+     * This method sets the correct data to be acquired by the listener
+     * @param serverHandler
+     * @throws IOException
+     */
     @Override
     public void processMessage(ServerHandler serverHandler) throws IOException {
         serverHandler.getClient().getCommonData().setMatchesData(Optional.ofNullable(matchesData));

@@ -14,6 +14,11 @@ public class JoinStatus extends it.polimi.ingsw.network.messages.servertoclient.
         super(parent, joinedMatchUUID, m, playerIndex);
     }
 
+    /**
+     * This method sets the correct data to be acquired by the listener
+     * @param serverHandler is the corresponding Client's ServerHandler
+     * @throws IOException
+     */
     @Override
     public void processMessage(ServerHandler serverHandler) throws IOException {
         if (joinedMatchUUID==null)

@@ -10,6 +10,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+
+/**
+ * This class contains all the information regarding the players that the Client needs to play the game. It is updated by the Controller after each game phase.
+ */
 public class PlayerCache {
 
     private String currentState;

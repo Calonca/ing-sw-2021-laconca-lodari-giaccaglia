@@ -13,6 +13,10 @@ import javafx.util.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This implementation effectly finalizes the player's production
+ */
+
 public class FinalProductionStrategy implements GameStrategy {
 
     @Override

@@ -13,8 +13,11 @@ public class EventNotValid extends it.polimi.ingsw.network.messages.servertoclie
         super(clientToServerMessage);
     }
 
+
     /**
      * Notifies the last valid state when the last event was not valid
+     * @param serverHandler is the corresponding Client's ServerHandler
+     * @throws IOException
      */
     @Override
     public void processMessage(ServerHandler serverHandler) throws IOException {

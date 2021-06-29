@@ -18,6 +18,9 @@ import java.beans.PropertyChangeEvent;
 public class CLIActionToken extends ViewBuilder{
 
 
+    /**
+     * This method shows the retrieved action token's information on the screen
+     */
     @Override
     public void run() {
 
@@ -41,6 +44,9 @@ public class CLIActionToken extends ViewBuilder{
 
     }
 
+    /**
+     * This method is used to synchronize with the listener's update from server
+     */
     public static void showActionTokenBeforeTransition(){
 
         SimpleSoloActionToken soloActionToken = getSimpleModel().getPlayerCache(0).getElem(SimpleSoloActionToken.class).get();
@@ -54,6 +60,10 @@ public class CLIActionToken extends ViewBuilder{
     }
 
 
+    /**
+     * This method fills the screen with fancy ASCII
+     * @return the corresponding action token's Drawable
+     */
     private static Drawable buildActionTokenBox(){
 
         SimpleSoloActionToken actionToken = getSimpleModel().getPlayerCache(0).getElem(SimpleSoloActionToken.class).orElseThrow();

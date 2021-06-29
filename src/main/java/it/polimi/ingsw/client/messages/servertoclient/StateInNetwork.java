@@ -12,6 +12,12 @@ public class StateInNetwork extends it.polimi.ingsw.network.messages.servertocli
         super(playerNumber, state, playerSimpleModelElements, commonSimpleModelElements);
     }
 
+    /**
+     * This method forces the Client on a certain view, according to the server rules
+     * @param serverHandler is the corresponding Client's ServerHandler
+     * @throws IOException
+     */
+
     @Override
     public void processMessage(ServerHandler serverHandler) throws IOException {
         serverHandler.getClient().setState(this);

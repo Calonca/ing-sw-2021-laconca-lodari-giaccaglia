@@ -9,6 +9,10 @@ import java.beans.PropertyChangeSupport;
 import java.util.*;
 import java.util.stream.IntStream;
 
+
+/**
+ * This class contains all the information regarding the state of the game that the Client needs to play. It is updated by the Controller after each game phase.
+ */
 public class SimpleModel {
 
     private static int numOfPlayers;

@@ -12,6 +12,9 @@ import javafx.util.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This implementation effectively performs the action chosen by the player on Leader
+ */
 public class ExecuteLeaderAction implements GameStrategy {
 
     List<Element> elementsToUpdate = new ArrayList<>();
