@@ -43,14 +43,24 @@ public class CommonData {
     private boolean connectionStatus = false;
     private final PropertyChangeSupport support;
 
+
+    /**
+     * @return the callers' player index
+     */
     public Integer getThisPlayerIndex() {
         return thisPlayerIndex;
     }
 
+    /**
+     * @return the current player index
+     */
     public int getCurrentPlayerIndex() {
         return currentPlayerIndex;
     }
 
+    /**
+     * @return the match ID
+     */
     public Optional<UUID> getMatchId() {
         return Optional.ofNullable(matchId);
     }
@@ -73,6 +83,9 @@ public class CommonData {
         return Optional.of(savedMatchesData);
     }
 
+    /**
+     * @return the player already in the match, if any is present
+     */
     public Optional<String[]> playersOfMatch() {
 
         if(Objects.nonNull(matchId) && matchesData.isPresent()){
@@ -100,6 +113,10 @@ public class CommonData {
         support.removePropertyChangeListener(pcl);
     }
 
+
+    /**
+     * Method called when informations regarding the match are updated in any way
+     */
     public void setMatchesData(Optional<Map<Pair<UUID,Boolean>,Pair<String[], String[]>>> newValue) {
         Optional<Map<Pair<UUID,Boolean>,Pair<String[], String[]>>> oldValue = matchesData;
         this.matchesData = newValue;
@@ -122,12 +139,21 @@ public class CommonData {
         }
     }
 
+
+    /**
+     * Method used during transition
+     * @param currentPlayerIndex is an existing and online player index
+     */
     public void setCurrentPlayer(int currentPlayerIndex) {
         int oldPlayerIndex = this.currentPlayerIndex;
         this.currentPlayerIndex = currentPlayerIndex;
         support.firePropertyChange(currentPlayerString,oldPlayerIndex,currentPlayerIndex);
     }
 
+    /**
+     * Method called to update a player's connection status
+     * @param connectionStatus is true if online
+     */
     public void setConnectionStatus(boolean connectionStatus){
         boolean oldConnectionStatus = this.connectionStatus;
         this.connectionStatus = connectionStatus;

@@ -4,7 +4,6 @@ import it.polimi.ingsw.network.assets.leaders.NetworkLeaderCard;
 import javafx.util.Pair;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.UUID;
 
 public class LeaderCardAsset extends CardAsset{

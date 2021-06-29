@@ -2,7 +2,6 @@ package it.polimi.ingsw.client.view.CLI.layout.recursivelist;
 
 import it.polimi.ingsw.client.view.CLI.layout.GridElem;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.Canvas;
-import it.polimi.ingsw.client.view.CLI.layout.recursivelist.RecursiveList;
 
 import java.util.stream.Stream;
 

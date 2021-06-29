@@ -20,6 +20,11 @@ public abstract class CreateJoinLoadMatchViewBuilder extends ViewBuilder {
         else return new it.polimi.ingsw.client.view.GUI.CreateJoinLoadMatch();
     }
 
+    /**
+     * Method to get information regarding active and joinable matches
+     * @param uuidPair is the match's UUID
+     * @return the match's players information
+     */
 
     public static Pair<String, String> idAndNames(Map.Entry<UUID, Pair<String[], String[]>> uuidPair){
         String matchIdString = "Match ID : " + uuidPair.getKey().toString().substring( 0, 8 );
@@ -30,6 +35,13 @@ public abstract class CreateJoinLoadMatchViewBuilder extends ViewBuilder {
         return new Pair<>(matchIdString,coloredNames);
     }
 
+
+    /**
+     * This is a method to get pre-formatted colored names
+     * @param onlineNames are online players' names
+     * @param offlineNames are offline players' names
+     * @return the string colored of corresponding colors for online and offline players
+     */
     private static String coloredNames(String[] onlineNames, String[] offlineNames){
 
         String[] coloredOnlineNames;

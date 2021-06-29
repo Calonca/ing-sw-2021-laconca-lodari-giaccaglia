@@ -1,12 +1,13 @@
 package it.polimi.ingsw.client.simplemodel;
 
 import it.polimi.ingsw.server.model.Resource;
-import it.polimi.ingsw.server.model.cards.*;
-import it.polimi.ingsw.server.model.player.leaders.Leader;
+import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.market.Marble;
 import it.polimi.ingsw.server.model.market.MarketBoard;
 import it.polimi.ingsw.server.model.market.MarketLine;
-import it.polimi.ingsw.server.model.player.board.*;
+import it.polimi.ingsw.server.model.player.board.Box;
+import it.polimi.ingsw.server.model.player.board.PersonalBoard;
+import it.polimi.ingsw.server.model.player.leaders.Leader;
 
 
 /**

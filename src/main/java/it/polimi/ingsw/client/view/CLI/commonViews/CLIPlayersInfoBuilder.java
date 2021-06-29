@@ -38,6 +38,9 @@ public final class CLIPlayersInfoBuilder{
 
     }
 
+    /**
+     * @return a column displaying PlayersInfo class informations
+     */
     private static Column buildInfo(){
 
         PlayersInfo playersInfo = getSimpleModel().getElem(PlayersInfo.class).get();
@@ -116,6 +119,12 @@ public final class CLIPlayersInfoBuilder{
 
     }
 
+
+    /**
+     * @param playersInfo is a SimpleNodel element
+     * @param playerIndex is the corresponding player's index
+     * @return the corresponding Drawable
+     */
     private static Drawable fromPlayerInfo(PlayersInfo playersInfo, int playerIndex){
 
         Background back = Background.DEFAULT;

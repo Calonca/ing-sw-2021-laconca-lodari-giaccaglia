@@ -45,6 +45,9 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
     double len= GUI.GUIlen;
 
 
+    /**
+     * This method allows the client to estabilish a connection to the server
+     */
     @Override
     public void run() {
 
@@ -74,7 +77,7 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
 
 
     /**
-     * The first scene needs a parent, starting from the second this method will only return SubScene
+     * This method is called once upon initialization
      * @return the first game scene
      */
     public SubScene getRoot() {
@@ -93,6 +96,9 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
     }
     //Add buttons here that call client.changeViewBuilder(new *****, this);
 
+    /**
+     * @return a button that also controls the input logic
+     */
     public Button validationButton()
     {
         Button button=new Button();
@@ -117,6 +123,11 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
     }
 
 
+    /**
+     * This method adds various textfields and a button to the Pane
+     * @param url is ignored
+     * @param resourceBundle is ignored
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

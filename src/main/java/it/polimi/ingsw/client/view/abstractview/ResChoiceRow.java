@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+
+/**
+ * This is a helper class to select resources conversion.
+ */
 public class ResChoiceRow {
 
     protected int arrowPos;
@@ -24,15 +28,24 @@ public class ResChoiceRow {
         this.chosenOutputRes = new ArrayList<>();
     }
 
+    /**
+     * Called when the player has to make a selection on TO CHOOSE resources
+     * @return the chosen input resources
+     */
     public boolean choosingInput(){
         return in.size()>chosenInputPos.size();
     }
+
+
 
     public void setOnChosenOutput(Runnable r) {
         outRunnable = r;
     }
 
 
+    /**
+     * Gets the next TO CHOOSE resource "in line"
+     */
     public Optional<ResourceAsset> getPointedResource(){
         if (arrowPos>=in.size()+out.size())
             return Optional.empty();
@@ -40,6 +53,9 @@ public class ResChoiceRow {
         return Optional.ofNullable(res);
     }
 
+    /**
+     * sets the next TO CHOOSE resource "in line"
+     */
     private void setPointedResource(ResourceAsset res){
         if (choosingInput()) {
             in.set(arrowPos, res);
@@ -50,14 +66,25 @@ public class ResChoiceRow {
 
 
 
+    /**
+     * When all TO CHOOSE resource are temporarily transformed in concrete resources
+     */
     protected boolean resAreChosen(){
         return arrowPos>=in.size()+out.size();
     }
 
+
+    /**
+     * Number of TO CHOOSE resources in input
+     */
     protected int numOfOutputChoices(){
         return (int) out.stream().filter(r->r.equals(ResourceAsset.TO_CHOOSE)).count();
     }
 
+
+    /**
+     * Number of already chosen resources
+     */
     public int getIndex() {
         return arrowPos;
     }

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Before the initial choice, Past is set to true, so the Leader logic will acquire that information.
+ * This implementation allows the user to choose the various game phases. It uses an integer as a choice
  */
 
 public class Middle implements GameStrategy {

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.model.market;
 
-import com.google.gson.annotations.SerializedName;
 import it.polimi.ingsw.server.model.Resource;
 
 import java.util.Arrays;

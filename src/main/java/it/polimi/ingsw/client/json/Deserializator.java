@@ -26,7 +26,9 @@ public class Deserializator extends JsonUtility {
 
     public static final String clientConfigPathString = "/clientconfig/";
 
-    //helper method to initialize gameModel list of 16 cards.leaders
+    /**
+     *  @return a Leader array from json of lenght 16
+     */
     public static List<NetworkLeaderCard> leaderCardsDeserialization() {
 
         NetworkLeaderCard[] leaders = deserializeFromSourceRoot(
@@ -36,7 +38,9 @@ public class Deserializator extends JsonUtility {
 
         return (Arrays.asList(leaders));
     }
-    //helper method to load a 48 devcards array from json
+    /**
+     *  @return A DevelopmentCard array from json of lenght 48
+     */
     public static List<NetworkDevelopmentCard> devCardsListDeserialization() {
         NetworkDevelopmentCard[] cardsArray = deserializeFromSourceRoot(
                 clientConfigPathString + "DevelopmentCardConfig.json", NetworkDevelopmentCard[].class,
@@ -46,10 +50,20 @@ public class Deserializator extends JsonUtility {
         return (Arrays.asList(cardsArray));
     }
 
+
+    /**
+     *
+     * @return the mapping of DevelopmentCards to UUIDs
+     */
     public static Map<UUID, NetworkDevelopmentCard> devCardsMap() {
         return devCardsListDeserialization().stream().collect(Collectors.toMap(x -> UUID.randomUUID(), Function.identity()));
     }
 
+
+    /**
+     *
+     * @return the mapping of DevelopmentCard to UUIDs
+     */
     public static Map<UUID, DevelopmentCardAsset> networkDevCardsAssetsDeserialization() {
 
         Type type = new TypeToken<Map<UUID, DevelopmentCardAsset> >(){}.getType();
@@ -58,19 +72,29 @@ public class Deserializator extends JsonUtility {
 
     }
 
+    /**
+     *
+     * @return the mapping of Leader to UUIDs
+     */
     public static Map<UUID, LeaderCardAsset> networkLeaderCardsAssetsMapDeserialization() {
         Gson gson = customGsonBuilder.registerTypeAdapterFactory(CommonGsonAdapters.gsonNetworkLeaderAdapter).registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).create();
         Type type = new TypeToken<Map<UUID, LeaderCardAsset> >(){}.getType();
         return deserializeFromSourceRoot(clientConfigPathString + "ClientNetLeaderCardsAssetsMap.json", type ,gson);
 
     }
-
+    /**
+     * Initializes the standard Marble resources
+     */
     public static void initializeMarblesFromConfig(){
         Type type = new TypeToken <Map<MarbleAsset, Path>>(){}.getType();
         Map<MarbleAsset, Path> marblesMap = JsonUtility.deserializeFromSourceRoot(clientConfigPathString + "MarblesAssetsConfig.json", type, customGson);
         marblesMap.forEach(MarbleAsset::setPath);
     }
 
+
+    /**
+     * Initializes the standard action tokens
+     */
     public static void initializeActionTokenFromConfig(){
         Type type = new TypeToken<Map<ActionTokenAsset, Pair<Path, String>>>(){}.getType();
         Map<ActionTokenAsset, Pair<Path, String>> tokensMap = Deserializator.deserializeFromSourceRoot(clientConfigPathString + "TokenAssetsConfig.json", type, customGson);

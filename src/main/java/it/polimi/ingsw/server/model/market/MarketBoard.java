@@ -1,18 +1,24 @@
 package it.polimi.ingsw.server.model.market;
 
 import com.rits.cloning.Cloner;
-import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.server.model.Resource;
-import it.polimi.ingsw.server.model.player.board.*;
+import it.polimi.ingsw.server.model.player.board.Box;
+import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.server.utils.Deserializator;
 import javafx.util.Pair;
-import java.io.*;
-import java.util.*;
-import java.util.function.*;
-import java.util.stream.*;
-import java.util.concurrent.ThreadLocalRandom;
 
-import static java.util.stream.Collectors.*;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+import static java.util.stream.Collectors.counting;
+import static java.util.stream.Collectors.groupingBy;
 
 /**
  * Matrix data structure to store {@link Marble MarketMarbles} representing {@link Resource Resources}

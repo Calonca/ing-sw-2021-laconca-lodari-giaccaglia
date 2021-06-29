@@ -82,6 +82,10 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
         Playground.changeCamState(CamState.SEE_RESOURCE_MARKET);
     }
 
+    /**
+     * This method gets called on start and every time market is refreshed
+     * @return the Resource Market group
+     */
     public Group getRoot() {
 
         root3D = new Group();
@@ -387,6 +391,10 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
     double bonusStartingX=-400;
     double bonusY=500;
     @Override
+
+    /**
+     * This method is called during CHOOSING_CONVERSION_FOR_WHITEMARBLE
+     */
     public void chooseMarbleConversion() {
 
         //todo generalize

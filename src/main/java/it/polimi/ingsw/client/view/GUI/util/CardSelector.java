@@ -11,7 +11,9 @@ import java.util.List;
 public class CardSelector {
 
 
-
+    /**
+     * Helper method to convert path and acquire image
+     */
     public static ImageView imageViewFromAsset(Path path)
     {
         String now=path.toString();
@@ -24,6 +26,9 @@ public class CardSelector {
     }
 
 
+    /**
+     * Helper method to convert path and acquire image
+     */
     public static ImagePattern imagePatternFromAsset(Path path)
     {
         String now=path.toString();
@@ -32,6 +37,12 @@ public class CardSelector {
 
 
     }
+
+    /**
+     * @param selected is a card selection's list
+     * @param scenesLeadersToChoose are the associated imageViews
+     * @param maxselection is the max number of concurrent selected cards
+     */
     public void cardSelectorFromImage(List<Boolean> selected, List<ImageView> scenesLeadersToChoose, int maxselection)
     {
 

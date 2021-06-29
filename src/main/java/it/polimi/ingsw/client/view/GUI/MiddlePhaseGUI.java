@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.view.GUI;
+
 import it.polimi.ingsw.client.view.abstractview.MiddlePhaseViewBuilder;
 import it.polimi.ingsw.network.simplemodel.SimpleCardShop;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.SubScene;
@@ -34,6 +34,10 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
 
     }
 
+    /**
+     * This method gets called every MIDDLE_PHASE
+     * @return the middle phase subscene
+     */
     public SubScene getRoot() {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/MiddlePhase.fxml"));
@@ -50,7 +54,10 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
     }
 
 
-
+    /**
+     * This method is used to send the corresponding choice's message
+     * @param choice is a valid choice
+     */
     public void sendChoice(Choice choice) {
 
         sendMessage(choice);

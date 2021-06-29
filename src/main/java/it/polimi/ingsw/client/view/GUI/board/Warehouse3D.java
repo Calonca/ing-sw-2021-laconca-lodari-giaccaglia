@@ -53,11 +53,17 @@ public class Warehouse3D implements PropertyChangeListener {
         NodeAdder.addNodeToParent(parent, board, wareGroup, initialPos);
     }
 
+    /**
+     * @param dropHandler is the corresponding action Drag and Drop helper
+     */
     public void setDropHandler(DragAndDropHandler dropHandler) {
         this.dropHandler = dropHandler;
         buildView();
     }
 
+    /**
+     *
+     */
     private void buildView(){
         List<Node> wareNodes = new ArrayList<>();
 
@@ -93,6 +99,10 @@ public class Warehouse3D implements PropertyChangeListener {
 
     }
 
+
+    /**
+     *
+     */
     public void updateSelected() {
         ResChoiceRowGUI toSelect = view3D.getToSelect();
         SelectablePositions selectablePositions = cache.getElem(SelectablePositions.class).orElseThrow();
@@ -132,6 +142,9 @@ public class Warehouse3D implements PropertyChangeListener {
     }
 
 
+    /**
+     *
+     */
     private void addToDropHandler(BoardView3D view3D, DragAndDropHandler dropHandler, SimpleWarehouseLeadersDepot simpleWarehouseLeadersDepot, int globalPos, ResourceGUI resourceGUI, Shape3D testShape) {
         DragAndDropData dragAndDropData = new DragAndDropData();
         dragAndDropData.setResourceGUI(resourceGUI);

@@ -16,6 +16,10 @@ public class CanvasBody extends CLIelem {
         return body;
     }
 
+    /**
+     * @param gridElem is a valid element
+     * @return the corresponding CanvasBody
+     */
     public static CanvasBody fromGrid(GridElem gridElem) {
         CanvasBody body = new CanvasBody(CLI.width,cli.getMaxBodyHeight());
         body.gridElem = gridElem;

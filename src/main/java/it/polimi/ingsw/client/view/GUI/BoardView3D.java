@@ -22,7 +22,7 @@ import it.polimi.ingsw.network.simplemodel.SimpleCardShop;
 import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
 import it.polimi.ingsw.network.simplemodel.SimpleProductions;
 import javafx.geometry.Point3D;
-import javafx.scene.*;
+import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
@@ -35,12 +35,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.*;
+import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.getSimpleModel;
+import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.getThisPlayerCache;
 
 public class BoardView3D {
 
     public enum Mode{
 
+        /**
+         * This mode allows the player to move resourcesì according to the rules, or from the discard box
+         */
         MOVING_RES() {
             public void run(BoardView3D board) {
                 final DragAndDropHandler ddHandler = new DragAndDropHandler();
@@ -51,6 +55,9 @@ public class BoardView3D {
                 ddHandler.startDragAndDropOnEach(parent,boardRec);
             }
         },
+        /**
+         * This mode allows the player to choose a selectable card from the Card Shop
+         */
         SELECT_CARD_SHOP(){
             public void run(BoardView3D board) {
                 final Rectangle boardRec = board.boardRec;
@@ -61,6 +68,9 @@ public class BoardView3D {
                 board.getStrongBox().updateStrongBox();
             }
         },
+        /**
+         * This mode allows the player to choose valid resources to execute their selected production
+         */
         SELECT_RESOURCE_FOR_PROD(){
             public void run(BoardView3D board) {
                 final Rectangle boardRec = board.boardRec;
@@ -70,6 +80,9 @@ public class BoardView3D {
                 board.getStrongBox().updateStrongBox();
             }
         },
+        /**
+         * This mode allows the player to select an available production
+         */
         CHOOSE_PRODUCTION() {
             public void run(BoardView3D board) {
                 final Group parent = board.parent;
@@ -77,6 +90,9 @@ public class BoardView3D {
             }
 
         },
+        /**
+         * This mode allows the player to choose a valid SimpleCardCell position for the newly acquired card
+         */
         CHOOSE_POS_FOR_CARD() {
             public void run(BoardView3D board) {
                 final Group parent = board.parent;
@@ -146,6 +162,10 @@ public class BoardView3D {
         this.strongBox = strongBox;
     }
 
+
+    /**
+     * This method is called to refresh the position's of the deposit leaders
+     */
     public void refreshLeaders() {
         if(this.leadersGroup!=null)
             this.leadersGroup.getChildren().clear();
@@ -159,6 +179,11 @@ public class BoardView3D {
         return cache;
     }
 
+
+    /**
+     * This method is used to add elements to the leaderGroup
+     * @param parent
+     */
     public void addLeaders(Group parent) {
         SimplePlayerLeaders activeLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).orElseThrow();
 
@@ -221,6 +246,12 @@ public class BoardView3D {
         return strongBox;
     }
 
+
+    /**
+     * This method is called upon board initialization
+     * @param clockwiseIndex is the clockwise index from the starting player
+     * @return a group containing the PlayerBoard information
+     */
     public Group getRoot(int clockwiseIndex) {
 
         parent = new Group();
@@ -261,6 +292,11 @@ public class BoardView3D {
     }
 
 
+    /**
+     * This method is used to initialize the deposits
+     * @param parent is the Board 3D main group
+     * @param board is the Board 3D rectangle
+     */
     public void resRowBuilder(Group parent, Rectangle board){
         Point3D initialPos = new Point3D(-100,800,0);
 
@@ -288,7 +324,10 @@ public class BoardView3D {
         NodeAdder.addNodeToParent(parent, board, resRowGroup, initialPos);
     }
 
-
+    /**
+     * Is used to initialize the productions
+     * @param parent is the Board 3D main group
+     */
     private void productionBuilder(Group parent) {
         Group productions = new Group();
         Button productionButton = new Button();

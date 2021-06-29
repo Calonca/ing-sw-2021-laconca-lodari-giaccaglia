@@ -7,6 +7,9 @@ import javafx.util.Pair;
 
 import java.util.List;
 
+/**
+ * This implementation manages the end of turn. It sets the correct next state, wether it is turn end, final phase or end game
+ */
 public class FinalStrategy {
 
     public static Pair<State, List<Element>> handleCommonEndGameStrategy(List<Element> elementsToUpdate,GameModel gameModel){

@@ -42,7 +42,9 @@ public class CardShopCLI extends CardShopViewBuilder {
     }
 
 
-
+    /**
+     * This method builds the ASCII Card Shop
+     */
     @Override
     public void run() {
         getCLIView().setTitle("Card Shop");
@@ -116,7 +118,7 @@ public class CardShopCLI extends CardShopViewBuilder {
 
 
     /**
-     * Get called when choosing resources to buy the card
+     * This method is called during SELECT_RESOURCES_FOR_DEVCARD
      */
     @Override
     public void selectResources() {
@@ -139,7 +141,7 @@ public class CardShopCLI extends CardShopViewBuilder {
     }
 
     /**
-     * Gets called when the player needs to place the development card on his personal board
+     * This method is called during CHOOSING_POSITION_FOR_DEVCARD
      */
     @Override
     public void choosePositionForCard() {

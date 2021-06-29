@@ -1,11 +1,11 @@
 package it.polimi.ingsw.server.messages.clienttoserver.events.setupphaseevent;
 
 import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
-import it.polimi.ingsw.server.model.states.State;
+import it.polimi.ingsw.network.util.Util;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
-import it.polimi.ingsw.network.util.Util;
+import it.polimi.ingsw.server.model.states.State;
 import javafx.util.Pair;
 
 import java.util.Arrays;

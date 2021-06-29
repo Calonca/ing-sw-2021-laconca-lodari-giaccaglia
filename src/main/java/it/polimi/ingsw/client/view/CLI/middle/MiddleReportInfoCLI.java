@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.view.CLI.middle;
 
-import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 import it.polimi.ingsw.client.view.CLI.commonViews.CLIReportInfoBuilder;
+import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 
 public class MiddleReportInfoCLI extends MiddlePhaseCLI {
 

@@ -32,10 +32,19 @@ public abstract class MiddlePhaseViewBuilder extends ViewBuilder {
         else return new MiddlePhaseGUI();
     }
 
+
+    /**
+     * @param c is a middle phase choice (0,1 or 2);
+     */
     public void sendMessage(Choice c){
         c.getR().run();
     }
 
+
+    /**
+     * This listener helps to centralize the interaction with the Board's Production during a player's turn
+     * @param evt not null
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         String propertyName = evt.getPropertyName();
@@ -49,6 +58,10 @@ public abstract class MiddlePhaseViewBuilder extends ViewBuilder {
         else ViewBuilder.printWrongStateReceived(evt);
     }
 
+    /**
+     * This listener ends the player's turn
+     * @param evt not null
+     */
     public static void middlePhaseCommonTransition(PropertyChangeEvent evt){
         String propertyName = evt.getPropertyName();
 

@@ -21,6 +21,9 @@ public class MiddlePersonalBoardCLI extends MiddlePhaseCLI {
         this.viewMode = viewMode;
     }
 
+    /**
+     * This method is to disambiguate between viewing or moving the personal board
+     */
     @Override
     public void run() {
         if (isMoving) {

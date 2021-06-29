@@ -13,6 +13,10 @@ public abstract class SetupPhaseViewBuilder extends ViewBuilder {
         else return new it.polimi.ingsw.client.view.GUI.SetupPhase();
     }
 
+    /**
+     * The setup phase just waits for the game to start
+     * @param evt is not null
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(State.IDLE.name()))

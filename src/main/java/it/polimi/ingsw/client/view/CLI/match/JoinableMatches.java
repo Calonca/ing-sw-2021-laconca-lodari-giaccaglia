@@ -12,6 +12,10 @@ import java.util.UUID;
 
 public class JoinableMatches extends CreateJoinLoadMatchCLI implements CLIBuilder {
 
+
+    /**
+     * The player is asked to choose a match to join, after they are displayed
+     */
     @Override
     public void run() {
 

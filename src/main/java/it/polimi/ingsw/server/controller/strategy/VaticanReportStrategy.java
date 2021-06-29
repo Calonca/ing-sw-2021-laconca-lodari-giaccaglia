@@ -9,6 +9,9 @@ import javafx.util.Pair;
 
 import java.util.List;
 
+/**
+ * When a vatican report occurs, all the listeners get notified
+ */
 public class VaticanReportStrategy {
 
     public static Pair<State, List<Element>> addFaithPointsStrategy(GameModel gameModel, List<Element> elementsToUpdate) {

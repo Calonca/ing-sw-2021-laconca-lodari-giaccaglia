@@ -43,8 +43,9 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
     List<ImageView> sceneLeadersImageView =new ArrayList<>();
 
 
-
-
+    /**
+     * @param isInitial is true if the state it's INITIAL_PHASE
+     */
     public InitialOrFinalPhaseGUI(boolean isInitial) {
         super(isInitial);
     }
@@ -67,9 +68,9 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
     }
 
 
-
-
-
+    /**
+     * @return a Subscene, this gets called every initial and final phase, if they occur
+     */
     public SubScene getRoot() {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/InitialOrFinalPhase.fxml"));
@@ -85,6 +86,10 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
 
     }
 
+    /**
+     * Helper method to centralize the image acquisition
+     * @return a list of LeaderAsset ImageViews
+     */
     public List<ImageView> getInitialLeaderIcons() {
         SimplePlayerLeaders simplePlayerLeaders = getSimpleModel().getPlayerCache(getClient().getCommonData().getThisPlayerIndex()).getElem(SimplePlayerLeaders.class).orElseThrow();
         List<LeaderCardAsset> leaderCardAssets=simplePlayerLeaders.getPlayerLeaders();
@@ -102,6 +107,11 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
 
     }
 
+    /**
+     * This method adds the initial resources to choose from, as well as the initial leaders
+     * @param url is ignored
+     * @param resourceBundle is ignored
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

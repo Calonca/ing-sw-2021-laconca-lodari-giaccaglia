@@ -12,6 +12,10 @@ import static it.polimi.ingsw.client.simplemodel.State.MIDDLE_PHASE;
 public abstract class InitialOrFinalPhaseViewBuilder extends ViewBuilder {
     public static boolean isInitial;
 
+
+    /**
+     * @param isInitial is a boolean to control the next transition
+     */
     public InitialOrFinalPhaseViewBuilder(boolean isInitial) {
         InitialOrFinalPhaseViewBuilder.isInitial = isInitial;
 
@@ -28,6 +32,10 @@ public abstract class InitialOrFinalPhaseViewBuilder extends ViewBuilder {
         else return new InitialOrFinalPhaseGUI(initial);
     }
 
+    /**
+     * This listener centralizes the possible interaction with Leader during the player turn
+     * @param evt not null
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         String propertyName = evt.getPropertyName();

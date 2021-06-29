@@ -22,7 +22,9 @@ import java.beans.PropertyChangeEvent;
 
 import static it.polimi.ingsw.client.simplemodel.State.*;
 
-
+/**
+ * During IDLE phase a CLI user can see the other players' board, as well as every other information
+ */
 public class IDLEViewBuilderCLI extends IDLEViewBuilder implements CLIBuilder {
 
     @Override

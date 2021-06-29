@@ -13,6 +13,10 @@ import java.util.stream.Stream;
 
 public class MiddleProductionViewCLI extends ProductionViewBuilder implements CLIBuilder {
 
+
+    /**
+     * This method starts the view, asking the player to terminate or choose a production
+     */
     @Override
     public void run() {
         PersonalBoardBody board = new PersonalBoardBody(getThisPlayerCache(), PersonalBoardBody.Mode.CHOOSE_PRODUCTION);
@@ -26,6 +30,9 @@ public class MiddleProductionViewCLI extends ProductionViewBuilder implements CL
         getCLIView().show();
     }
 
+    /**
+     * This method is called after selecting a selectable production
+     */
     @Override
     public void choosingResForProduction() {
 

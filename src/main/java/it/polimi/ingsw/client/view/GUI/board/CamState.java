@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client.view.GUI.board;
 
-import it.polimi.ingsw.client.view.GUI.BoardView3D;
 import it.polimi.ingsw.client.view.GUI.Playground;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;

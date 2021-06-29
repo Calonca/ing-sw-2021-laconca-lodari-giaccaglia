@@ -12,7 +12,8 @@ import it.polimi.ingsw.network.simplemodel.SimpleMarketBoard;
 
 import java.beans.PropertyChangeEvent;
 
-import static it.polimi.ingsw.client.simplemodel.State.*;
+import static it.polimi.ingsw.client.simplemodel.State.CHOOSING_POSITION_FOR_RESOURCES;
+import static it.polimi.ingsw.client.simplemodel.State.CHOOSING_WHITEMARBLE_CONVERSION;
 
 /**
  * Used to take the resources from the market and place them in the personalBoard
@@ -31,14 +32,26 @@ public abstract class ResourceMarketViewBuilder extends ViewBuilder{
         getClient().getServerHandler().sendCommandMessage(new EventMessage(new ChooseLineEvent(line)));
     }
 
+
+    /**
+     * Method used during CHOOSING_WHITEMARBLE_CONVERSION
+     * @param resourceNumber is an active white marble conversion bonus
+     */
     public static void sendWhiteMarbleConversion(int resourceNumber){
         getClient().getServerHandler().sendCommandMessage(new EventMessage(new ChooseWhiteMarbleConversionEvent(resourceNumber)));
     }
 
+    /**
+     * Method used after selecting a line to place the taken resources
+     */
     public static void sendMove(int startPos, int endPos){
         getClient().getServerHandler().sendCommandMessage(new EventMessage(new MoveResourceEvent(startPos, endPos)));
     }
 
+
+    /**
+     * Method used after finishing to place the taken resources
+     */
     public static void sendDiscard(){
         getClient().getServerHandler().sendCommandMessage(new EventMessage(new DiscardResourcesEvent()));
     }
@@ -56,6 +69,10 @@ public abstract class ResourceMarketViewBuilder extends ViewBuilder{
     }
 
 
+    /**
+     * This listener centralizes the interaction with ResourceMarket
+     * @param evt
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         String propertyName = evt.getPropertyName();
@@ -66,5 +83,9 @@ public abstract class ResourceMarketViewBuilder extends ViewBuilder{
         } else MiddlePhaseViewBuilder.middlePhaseCommonTransition(evt);
     }
 
+
+    /**
+     * Method used when more than one market leader is active and white marbles are picked in the Resource Market
+     */
     public abstract void chooseMarbleConversion();
 }

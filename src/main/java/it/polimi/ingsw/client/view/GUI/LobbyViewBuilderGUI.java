@@ -9,17 +9,17 @@ import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Node;
-
 import javafx.scene.SubScene;
 import javafx.scene.layout.AnchorPane;
-
 import javafx.scene.shape.Sphere;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import javafx.util.Pair;
 
 import java.beans.PropertyChangeEvent;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * Waiting screen
@@ -29,6 +29,10 @@ public class LobbyViewBuilderGUI extends LobbyViewBuilder {
     Text playerNames;
     Text playerText;
 
+
+    /**
+     * While waiting for the match to start, the player can see some information regarding the game status
+     */
     @Override
     public void run() {
 
@@ -41,6 +45,10 @@ public class LobbyViewBuilderGUI extends LobbyViewBuilder {
 
     }
 
+    /**
+     * Gets called once, upon entering the match
+     * @return a waiting screen subscene
+     */
     public SubScene getRoot() {
 
 
@@ -131,6 +139,10 @@ public class LobbyViewBuilderGUI extends LobbyViewBuilder {
     }
 
 
+    /**
+     * Here the info regarding the game gets updated in real time
+     * @param evt
+     */
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(CommonData.matchesDataString) || evt.getPropertyName().equals(CommonData.thisMatchData) |! evt.getPropertyName().equals(PlayersInfo.class.getSimpleName()))
             Platform.runLater(()->

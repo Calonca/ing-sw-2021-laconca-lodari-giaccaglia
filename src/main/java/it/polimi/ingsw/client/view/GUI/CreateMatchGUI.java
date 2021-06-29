@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client.view.GUI;
 
-import it.polimi.ingsw.client.view.CLI.match.LobbyViewBuilderCLI;
 import it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.LobbyViewBuilder;
 import it.polimi.ingsw.network.messages.clienttoserver.CreateMatchRequest;

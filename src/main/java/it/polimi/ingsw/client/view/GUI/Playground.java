@@ -13,7 +13,7 @@ import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Shape3D;
 import javafx.scene.shape.Sphere;
 
-import java.util.*;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 

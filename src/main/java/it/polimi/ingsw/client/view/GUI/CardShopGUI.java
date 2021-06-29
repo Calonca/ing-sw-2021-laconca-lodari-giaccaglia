@@ -12,13 +12,14 @@ import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.geometry.Point3D;
-import javafx.scene.*;
+import javafx.scene.Group;
+import javafx.scene.ImageCursor;
+import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -28,8 +29,8 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.ingsw.client.simplemodel.State.*;
 import static it.polimi.ingsw.client.simplemodel.State.CHOOSING_POSITION_FOR_DEVCARD;
+import static it.polimi.ingsw.client.simplemodel.State.CHOOSING_RESOURCES_FOR_DEVCARD;
 
 
 public class CardShopGUI extends CardShopViewBuilder {
@@ -67,7 +68,7 @@ public class CardShopGUI extends CardShopViewBuilder {
     }
 
     /**
-     * This runnable simply enables the card shop to be used by the player
+     * This runnable simply enables the correct personal board mode
      */
     @Override
     public void run() {
@@ -83,6 +84,10 @@ public class CardShopGUI extends CardShopViewBuilder {
     }
 
 
+    /**
+     * This method is called once upon initialization and every time the shop refreshes
+     * @return the CardShop Subscene
+     */
     public SubScene getRoot() {
         Button validationButton= validationButton();
         Path path;
@@ -226,6 +231,10 @@ public class CardShopGUI extends CardShopViewBuilder {
     }
 
     public static Group chosenCard;
+
+    /**
+     * This method is called by the PersonalBoard to acquire the newly bought card
+     */
     public static void addChosenCard(){
         SimpleCardShop simpleCardShop = getSimpleModel().getElem(SimpleCardShop.class).orElseThrow();
         Path path = simpleCardShop.getPurchasedCard().orElseThrow().getCardPaths().getKey();
@@ -290,7 +299,7 @@ public class CardShopGUI extends CardShopViewBuilder {
 
 
     /**
-     * Get called when choosing resources to buy the card
+     * Get called during SELECTING_RESOURCES_FOR_DEVCARD
      */
     @Override
     public void selectResources() {
@@ -305,7 +314,7 @@ public class CardShopGUI extends CardShopViewBuilder {
     }
 
     /**
-     * Gets called when the player needs to place the development card on his personal board
+     * Gets called during CHOOSING_POSITION_FOR_DEVCARD
      */
     @Override
     public void choosePositionForCard() {

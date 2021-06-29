@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.messages.clienttoserver.events;
 
-import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.server.model.GameModel;
+import it.polimi.ingsw.server.model.states.State;
 
 /**
  * Client side {@link it.polimi.ingsw.network.messages.clienttoserver.events.Event Event} created when a {@link State#MIDDLE_PHASE MIDDLE_PHASE}

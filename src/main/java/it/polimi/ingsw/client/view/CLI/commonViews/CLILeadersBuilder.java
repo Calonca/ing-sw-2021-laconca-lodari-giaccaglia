@@ -10,6 +10,11 @@ import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.*;
 
 public final class CLILeadersBuilder{
 
+    /**
+     * This method displays the leader after acquiring them from the updated network
+     * @param nextViewBuilder is the game phase to go to after selection
+     * @param playerIndex is this player's index
+     */
     public static void buildView(ViewBuilder nextViewBuilder, int playerIndex) {
 
         PlayersInfo playersInfo = (getSimpleModel().getElem(PlayersInfo.class).orElseThrow());
