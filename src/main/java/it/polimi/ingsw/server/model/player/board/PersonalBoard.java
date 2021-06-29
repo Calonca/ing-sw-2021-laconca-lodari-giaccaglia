@@ -85,7 +85,7 @@ public class PersonalBoard {
         warehouseLeadersDepots = new WarehouseLeadersDepots();
         strongBox = Box.strongBox();
         discardBox = Box.discardBox();
-       /* strongBox.addResources(new int[]{20,20,20,20});   //to test CardShop
+      /*  strongBox.addResources(new int[]{20,20,20,20});   //to test CardShop
         warehouseLeadersDepots.addResource(new Pair<>(0,Resource.GOLD));
         warehouseLeadersDepots.addResource(new Pair<>(1,Resource.SERVANT));
         warehouseLeadersDepots.addResource(new Pair<>(3,Resource.STONE)); */

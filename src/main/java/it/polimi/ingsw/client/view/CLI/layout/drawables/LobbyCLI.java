@@ -82,12 +82,10 @@ public class LobbyCLI extends LobbyViewBuilderCLI {
             else
                 drawable.add(0, "║ Player " + playerIndex + " is : " + StringUtil.untilReachingSize(players[i], 13) + "║");
 
-            drawable.add(0, "║ ────────────────────────── ║");
+            if(i!=players.length -1)
+                drawable.add(0, "║ ────────────────────────── ║");
         }
 
-
-
-        drawable.add(0,"║                            ║");
         drawable.add(0,"╚════════════════════════════╝");
 
         return drawable;

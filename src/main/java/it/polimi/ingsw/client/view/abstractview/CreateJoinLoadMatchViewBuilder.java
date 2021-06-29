@@ -1,10 +1,12 @@
 package it.polimi.ingsw.client.view.abstractview;
 
+import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.view.CLI.match.CreateJoinLoadMatchCLI;
 import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 import javafx.util.Pair;
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.beans.PropertyChangeEvent;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Objects;
@@ -86,5 +88,12 @@ public abstract class CreateJoinLoadMatchViewBuilder extends ViewBuilder {
 
     }
 
+    @Override
+    public void propertyChange (PropertyChangeEvent evt) {
+
+        String propertyName = evt.getPropertyName();
+        if (propertyName.equals(CommonData.matchesDataString))
+            run();
+    }
 
 }

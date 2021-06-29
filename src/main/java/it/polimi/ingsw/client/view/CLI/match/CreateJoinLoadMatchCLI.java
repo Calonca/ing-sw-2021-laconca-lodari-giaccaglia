@@ -8,7 +8,13 @@ import it.polimi.ingsw.client.view.CLI.CLIelem.body.SpinnerBody;
 import it.polimi.ingsw.client.view.CLI.layout.GridElem;
 import it.polimi.ingsw.client.view.CLI.layout.Option;
 import it.polimi.ingsw.client.view.CLI.layout.SizedBox;
+import it.polimi.ingsw.client.view.CLI.layout.drawables.Drawable;
+import it.polimi.ingsw.client.view.CLI.layout.drawables.DrawableLine;
+import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Column;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
+import it.polimi.ingsw.client.view.CLI.textUtil.Background;
+import it.polimi.ingsw.client.view.CLI.textUtil.Color;
+import it.polimi.ingsw.client.view.CLI.textUtil.StringUtil;
 import it.polimi.ingsw.client.view.abstractview.CreateJoinLoadMatchViewBuilder;
 import it.polimi.ingsw.network.messages.clienttoserver.JoinMatchRequest;
 import it.polimi.ingsw.network.messages.clienttoserver.SendNickname;
@@ -107,8 +113,92 @@ public class CreateJoinLoadMatchCLI extends CreateJoinLoadMatchViewBuilder imple
 
     }
 
+    protected Column buildMatchInfo(Map<UUID,  Pair<String[], String[]>> match){
+
+        Column grid = new Column();
+        Row row = new Row();
+
+        match.forEach((key, matchPlayersPair) -> {
+            Column lobbyInfo = row.addAndGetColumn();
+            Option lobby = Option.from(
+                    buildLobbyBox(matchPlayersPair.getKey(), matchPlayersPair.getValue(), key), getRunnableForMatch(key));
+
+            lobbyInfo.addElem(lobby);
+            lobbyInfo.addElem(new SizedBox(3, 0 ));
+        });
+
+        grid.addElem(row);
+        return grid;
+
+    }
+
+    private Runnable getRunnableForMatch(UUID matchId){
+
+        LobbyViewBuilderCLI joinMatch = new LobbyViewBuilderCLI();
+        joinMatch.setMatchId( matchId );
+
+        return () -> {
+            getClient().getServerHandler().sendCommandMessage(new JoinMatchRequest(matchId,getCommonData().getCurrentNick()));
+            getClient().changeViewBuilder( joinMatch );
+        };
+    }
+
+    private static Drawable buildLobbyBox(String[] onlinePlayers, String[] offlinePlayers, UUID matchId){
+
+        Drawable drawable= new Drawable();
+
+
+
+
+        drawable.add(0,"╔════════════════════════════╗");
+        drawable.add(0,"║                            ║");
+        drawable.add(new DrawableLine(8, 1, "Lobby Players", Color.BRIGHT_GREEN, Background.DEFAULT));
+        drawable.add(0,"║ Match ID : " + StringUtil.untilReachingSize(matchId.toString().substring(0,8), 16)  + "║");
+        drawable.add(0,"║════════════════════════════║");
+
+
+        for(int i=0; i<onlinePlayers.length; i++){
+            int playerIndex = i+1;
+            if(onlinePlayers[i].equals("available slot")){
+                drawable.add(0,"║                            ║");
+                drawable.add(0,"║" + StringUtil.untilReachingSize("     × Available slot × ", 28) + "║");
+            }
+            else {
+
+                drawable.add(0,"║ Player " + playerIndex + " is : " + StringUtil.untilReachingSize(onlinePlayers[i], 13) + "║");
+                drawable.add(0,"║ Connection :               ║");
+                drawable.add(new DrawableLine(15, 5, "Online", Color.BRIGHT_GREEN, Background.DEFAULT));
+
+            }
+
+            drawable.add(0, "║ ────────────────────────── ║");
+        }
+
+        int posY = onlinePlayers.length * 3 + 2 + 2;
+
+        for(int i=0; i<offlinePlayers.length; i++){
+
+            int playerIndex = i+1;
+
+            drawable.add(0, "║ Player " + playerIndex + " is : " + StringUtil.untilReachingSize(offlinePlayers[i], 13) + "║");
+             drawable.add(0,"║ Connection :               ║");
+            drawable.add(new DrawableLine(14, posY + 1, " Offline", Color.RED, Background.DEFAULT));
+
+            if(i!=offlinePlayers.length-1)
+                drawable.add(0, "║ ────────────────────────── ║");
+
+            posY = posY + 3;
+        }
+
+        drawable.add(0,"╚════════════════════════════╝");
+
+        return drawable;
+    }
+
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+
 
     }
 

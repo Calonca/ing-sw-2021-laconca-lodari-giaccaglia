@@ -13,8 +13,9 @@ import it.polimi.ingsw.client.view.CLI.layout.drawables.DrawableLine;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.ResourceCLI;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Column;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
-import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 import it.polimi.ingsw.client.view.CLI.middle.MiddlePhaseCLI;
+import it.polimi.ingsw.client.view.CLI.textUtil.Background;
+import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
@@ -50,30 +51,16 @@ public class CardShopCLI extends CardShopViewBuilder {
         Column grid = new Column();
 
 
-        ActiveLeaderBonusInfo cardShopDiscounts = getThisPlayerCache().getElem(ActiveLeaderBonusInfo.class).orElseThrow();
+        ActiveLeaderBonusInfo activeDiscounts = getThisPlayerCache().getElem(ActiveLeaderBonusInfo.class).orElseThrow();
 
 
-        List<Pair<ResourceAsset,Integer>> discountResources=cardShopDiscounts.getDiscountedResources();
+        List<Pair<ResourceAsset,Integer>> discountResources= activeDiscounts.getDiscountedResources();
 
+        Column bonusColumn= grid.addAndGetColumn();
 
-        if(!discountResources.isEmpty())
-        {
-            Row bonusRow=new Row();
-            bonusRow.addElem(Option.noNumber("BONUSES: "));
-            grid.addElem(bonusRow);
-
-            Drawable drawable=new Drawable();
-            for(Pair<ResourceAsset,Integer> resources: discountResources){
-                ResourceCLI res= ResourceCLI.fromAsset(resources.getKey());
-                drawable.add(new DrawableLine(discountResources.indexOf(resources)*10, 0, res.getSymbol(), Color.BRIGHT_WHITE,res.getB()));
-                drawable.add(new DrawableLine(discountResources.indexOf(resources)*10 + 4,0, " x "+discountResources.get(0).getValue()));
-
-            }
-
-
-
-            bonusRow.addElem(Option.noNumber(drawable));
-        }
+        if(activeDiscounts.getDiscountedResources().size()>0)
+            buildDiscountsColumn(bonusColumn, activeDiscounts);
+        grid.addElem(bonusColumn);
 
         for (int i = 3; i >= 1; i--) {
             Row verTest = new Row();
@@ -102,6 +89,31 @@ public class CardShopCLI extends CardShopViewBuilder {
         getCLIView().show();
 
     }
+
+    private void buildDiscountsColumn(Column bonusColumn, ActiveLeaderBonusInfo discounts){
+        Drawable dr = new Drawable();
+        dr.add(new DrawableLine(-27, 0, "Active Discounts: ", Color.YELLOW, Background.DEFAULT));
+        bonusColumn.addElem(Option.noNumber(dr));
+
+        List<Pair<ResourceAsset,Integer>> discountsList = discounts.getDiscountedResources();
+        for(Pair<ResourceAsset, Integer> pair : discountsList){
+           bonusColumn.addElem(addDiscountToColumn(pair));
+        }
+    }
+
+    private Option addDiscountToColumn(Pair<ResourceAsset,Integer> discountPair){
+
+        ResourceCLI resourceCLI = ResourceCLI.fromAsset(discountPair.getKey());
+        String resourceSymbol =resourceCLI.getFullName();
+        DrawableLine resource = new DrawableLine(-27, -2, resourceSymbol, Color.BRIGHT_WHITE, resourceCLI.getB());
+        Drawable dw = new Drawable();
+        dw.add(resource);
+        return Option.noNumber(dw);
+    }
+
+
+
+
 
     /**
      * Get called when choosing resources to buy the card

@@ -48,62 +48,25 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
         getCLIView().setTitle("Take resources from the resource market");
 
         Row root = new Row();
-        Column activeConversions = root.addAndGetColumn();
+
 
         ActiveLeaderBonusInfo marketBonuses = getThisPlayerCache().getElem(ActiveLeaderBonusInfo.class).orElseThrow();
-
+        Column activeConversions = root.addAndGetColumn();
         numOfConversions = marketBonuses.getMarketBonusResources().size();
-
-        if (numOfConversions!=0) {
-            activeConversions.addElem(new SizedBox(20, 0));
-            activeConversions.addElem(Option.noNumber("Active White Marble conversions"));
-        }
-
-
-
-        for(ResourceAsset res : marketBonuses.getMarketBonusResources()) {
-
-            addConversionsToColumn(activeConversions, res);
-        }
-
+        if(numOfConversions>0)
+            buildConversionColumn(activeConversions, marketBonuses);
 
         int width = numOfConversions == 0 ? 100 : 80;
-
         root.addElem(new SizedBox(width,0));
 
         Column grid = root.addAndGetColumn();
-
-        Row gridAndLines = grid.addAndGetRow();
-
-
-
-        Column marbleGrid = gridAndLines.addAndGetColumn();
-
-        MarbleAsset[][] marketMatrix = getMarketMatrix();
-        int rows = marketMatrix.length;
-        int columns = marketMatrix.length>0?marketMatrix[0].length:0;
-
-        for (MarbleAsset[] assetRow : marketMatrix) {
-            marbleGrid.addElem(new Row(buildResourceOptionStream(assetRow)));
-            marbleGrid.addElem(new SizedBox(2,0));
-        }
-
-        Column lastColumn = gridAndLines.addAndGetColumn();
-        lastColumn.addElem(new SizedBox(0,MarbleCLI.height()/2));
-        List<Option> collect = buildLineStream(0, rows).collect(Collectors.toList());
-        for (int i = 0, collectSize = collect.size(); i < collectSize; i++) {
-            Option o = collect.get(i);
-            lastColumn.addElem(o);
-            if (i<collectSize-1)
-                lastColumn.addElem(new SizedBox(0, MarbleCLI.height() - 1));
-        }
-
-        Row lastLine = new Row(buildLineStream(rows, rows+columns));
-        lastLine.addElem(buildResourceOption(getSimpleMarketBoard().getSlideMarble()));
-        grid.addElem(lastLine);
+        buildMarketGrid(grid);
 
         getCLIView().setBody(CanvasBody.centered(root));
 
+        MarbleAsset[][] marketMatrix = getMarketMatrix();
+        int rows = marketMatrix.length;
+        int columns = marketMatrix.length>0 ? marketMatrix[0].length : 0;
         getCLIView().runOnIntInput("Select a row or column to take resources","Incorrect line",0,rows+columns,
             ()->{
                 if(!marketBonuses.getMarketBonusResources().isEmpty())
@@ -114,6 +77,7 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
 
         getCLIView().show();
     }
+
 
     @Override
     public void choosePositions() {
@@ -145,7 +109,19 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
 
     }
 
+    private void buildConversionColumn(Column activeConversions, ActiveLeaderBonusInfo marketBonuses){
+
+            activeConversions.addElem(new SizedBox(20, 0));
+            activeConversions.addElem(Option.noNumber("Active White Marble conversions"));
+
+        for(ResourceAsset res : marketBonuses.getMarketBonusResources()) {
+            addConversionsToColumn(activeConversions, res);
+        }
+
+    }
+
     private void addConversionsToColumn(Column activeConversions, ResourceAsset res) {
+
         if(res==ResourceAsset.STONE)
             activeConversions.addElem(buildResourceChoice(MarbleAsset.GRAY,3));
         else if(res==ResourceAsset.SERVANT)
@@ -156,6 +132,38 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
             activeConversions.addElem(buildResourceChoice(MarbleAsset.BLUE,2));
     }
 
+    private void buildMarketGrid(Column grid){
+
+        Row gridAndLines = grid.addAndGetRow();
+
+        Column marbleGrid = gridAndLines.addAndGetColumn();
+
+        MarbleAsset[][] marketMatrix = getMarketMatrix();
+        int rows = marketMatrix.length;
+        int columns = marketMatrix.length>0?marketMatrix[0].length:0;
+
+        for (MarbleAsset[] assetRow : marketMatrix) {
+            marbleGrid.addElem(new Row(buildResourceOptionStream(assetRow)));
+            marbleGrid.addElem(new SizedBox(2,0));
+        }
+
+        Column lastColumn = gridAndLines.addAndGetColumn();
+        lastColumn.addElem(new SizedBox(0,MarbleCLI.height()/2));
+        List<Option> collect = buildLineStream(0, rows).collect(Collectors.toList());
+        for (int i = 0, collectSize = collect.size(); i < collectSize; i++) {
+            Option o = collect.get(i);
+            lastColumn.addElem(o);
+            if (i<collectSize-1)
+                lastColumn.addElem(new SizedBox(0, MarbleCLI.height() - 1));
+        }
+
+        Row lastLine = new Row(buildLineStream(rows, rows+columns));
+        lastLine.addElem(buildResourceOption(getSimpleMarketBoard().getSlideMarble()));
+
+        grid.addElem(lastLine);
+
+    }
+
     private String conversionString(int index){
 
         if(index==2)
@@ -164,7 +172,6 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
             return "Select the second White Marble conversion";
 
     }
-
 
     private Stream<Option> buildLineStream(int start, int stop){
         return IntStream.range(start,stop).mapToObj(i->Option.noNumber(StringUtil.untilReachingSize(" Line "+i,MarbleCLI.width())));

@@ -29,8 +29,6 @@ public abstract class CardShopViewBuilder extends ViewBuilder{
         isIdlePhase = isIdle;
     }
 
-    public CardShopViewBuilder() { CardShopViewBuilder.viewing =true;
-    }
 
     public static ViewBuilder getBuilder(boolean isCLI, boolean viewing) {
         if (isCLI) return new CardShopCLI(viewing);
