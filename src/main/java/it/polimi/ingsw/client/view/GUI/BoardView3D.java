@@ -163,6 +163,8 @@ public class BoardView3D {
         SimplePlayerLeaders activeLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).orElseThrow();
 
         Rectangle temp;
+     
+
 
         /*     temp=new Rectangle(150,150);
         temp.setTranslateY(500);
@@ -171,18 +173,17 @@ public class BoardView3D {
         addNodeToParent(parent,board,temp,new Point3D(-300,500+150,0));
         */
         List<LeaderCardAsset> activeBonus = activeLeaders.getPlayerLeaders();
-        for(int i=0;i<activeBonus.size();i++)
-        {
+        int count=0;
 
-            if(activeBonus.get(i).getNetworkLeaderCard().isLeaderActive())
-                if(activeBonus.get(i).getNetworkLeaderCard() instanceof NetworkDepositLeaderCard)
-                {
-                    temp=new Rectangle(150,100);
-                    temp.setTranslateY(500);
-                    temp.setTranslateX(200*i);
 
-                    temp.setFill(CardSelector.imagePatternFromAsset(activeBonus.get(i).getCardPaths().getKey()));
-                    NodeAdder.addNodeToParent(parent, boardRec,temp,new Point3D(-300,500+150*i,0));
+        for (LeaderCardAsset bonus : activeBonus) {
+
+            if (bonus.getNetworkLeaderCard().isLeaderActive())
+                if (bonus.getNetworkLeaderCard() instanceof NetworkDepositLeaderCard) {
+                    temp = new Rectangle(300, 450);
+                    temp.setFill(CardSelector.imagePatternFromAsset(bonus.getCardPaths().getKey()));
+                    NodeAdder.addNodeToParent(parent, boardRec, temp, new Point3D(-600 + 300 * count, 725, 0));
+                    count++;
                 }
 
         }

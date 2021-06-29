@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.GUI;
 import it.polimi.ingsw.client.view.abstractview.MiddlePhaseViewBuilder;
 import it.polimi.ingsw.network.simplemodel.SimpleCardShop;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.SubScene;
@@ -65,10 +66,10 @@ public class MiddlePhaseGUI extends MiddlePhaseViewBuilder implements GUIView {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        Playground.refreshCardShop();
 
         cardButton.setOnAction( p ->
         {
-
             sendChoice(Choice.CARD_SHOP);
         });
         SimpleCardShop simpleCardShop=getSimpleModel().getElem(SimpleCardShop.class).orElseThrow();

@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view.GUI.board;
 import it.polimi.ingsw.client.simplemodel.PlayerCache;
 import it.polimi.ingsw.client.view.GUI.BoardView3D;
 
+import it.polimi.ingsw.client.view.GUI.WinLooseGUI;
 import it.polimi.ingsw.client.view.GUI.util.NodeAdder;
 import it.polimi.ingsw.client.view.GUI.util.ResourceGUI;
 
@@ -38,17 +39,13 @@ public class FaithTrack implements PropertyChangeListener {
     final double faithStartingY=120;
     final int boardWidth = 2407;
     final int boardHeight = 1717;
-    private final List<Rectangle> popeTiles=new ArrayList<>();
-    private Rectangle firstTile;
-    private Rectangle secondTile;
-    private Rectangle thirdTile;
+
     private Shape3D player;
     private int playerPos;
     private Shape3D lorenzo;
     private int lorenzoPos;
     int playerNumber;
     private final Group faithGroup=new Group();
-    private Group infoGroup;
     private PlayerCache cache;
     private BoardView3D view3D;
 
@@ -69,39 +66,8 @@ public class FaithTrack implements PropertyChangeListener {
 
 
 
-        firstTile=new Rectangle(200,200);
-        firstTile.setLayoutX(0);
-        firstTile.setLayoutY(0);
-        NodeAdder.addNodeToParent(faithGroup,faithGroup,firstTile,board.localToParent(new Point3D(560,235,-50)));
-        ImagePattern tempImage = new ImagePattern(new Image("assets/track/FAVOUR_TILE_1_INACTIVE.png"));
-        firstTile.setFill(tempImage);
-
-        infoGroup=new Group();
-        secondTile=new Rectangle(200,200);
-        secondTile.setLayoutX(0);
-        secondTile.setLayoutY(0);
-        NodeAdder.addNodeToParent(faithGroup,faithGroup,secondTile,board.localToParent(new Point3D(1150,110,0)));
-
-        tempImage = new ImagePattern(new Image("assets/track/FAVOUR_TILE_2_INACTIVE.png"));
-        secondTile.setFill(tempImage);
-
-
-        thirdTile=new Rectangle(200,200);
-        thirdTile.setLayoutX(0);
-        thirdTile.setLayoutY(0);
-        NodeAdder.addNodeToParent(faithGroup,faithGroup,thirdTile,board.localToParent(new Point3D(1860,235,0)));
-
-        tempImage = new ImagePattern(new Image("assets/track/FAVOUR_TILE_3_INACTIVE.png"));
-        thirdTile.setFill(tempImage);
-
-
-        popeTiles.add(firstTile);
-        popeTiles.add(secondTile);
-        popeTiles.add(thirdTile);
-
 
         parent.getChildren().add(faithGroup);
-        parent.getChildren().add(infoGroup);
 
 
 
@@ -154,30 +120,7 @@ public class FaithTrack implements PropertyChangeListener {
             if (getSimpleModel().getPlayersCaches().length==1)
                 moveLorenzo(simpleFaithTrack.getLorenzoPosition(), simpleFaithTrack);
 
-            Runnable done = () -> {
-                infoGroup.getChildren().clear();
 
-                if(getSimpleModel().getElem(VaticanReportInfo.class).isPresent())
-                {
-
-                        VaticanReportInfo vaticanReportInfo;
-                        vaticanReportInfo=getSimpleModel().getElem(VaticanReportInfo.class).get();
-
-                        if(vaticanReportInfo.getPopeTileStateMap().get(playerNumber).getKey()!=-1)
-                            if(vaticanReportInfo.getPopeTileStateMap().get(playerNumber).getValue().equals(TileState.ACTIVE))
-                                popeTiles.get(vaticanReportInfo.getPopeTileStateMap().get(playerNumber).getKey()).setFill(new ImagePattern(new Image("assets/track/FAVOUR_TILE_"+vaticanReportInfo.getPopeTileStateMap().get(playerNumber).getKey()+"_ACTIVE.png")));
-                            else if(vaticanReportInfo.getPopeTileStateMap().get(playerNumber).getValue().equals(TileState.INACTIVE))
-                                popeTiles.get(vaticanReportInfo.getPopeTileStateMap().get(playerNumber).getKey()).setOpacity(0);
-
-                        System.out.println(vaticanReportInfo.getPopeTileStateMap().get(playerNumber));
-
-
-
-                }
-
-                };
-
-            Platform.runLater(done);
         }
 
     }
