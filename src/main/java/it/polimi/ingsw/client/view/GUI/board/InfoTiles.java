@@ -25,18 +25,13 @@ import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.getSimpleMode
 public class InfoTiles implements PropertyChangeListener {
 
 
-    double faithStartingX=150;
-    double faithStartingY=120;
-    final int boardWidth = 2407;
-    final int boardHeight = 1717;
     List<Rectangle> popeTiles=new ArrayList<>();
     Rectangle firstTile;
     Rectangle secondTile;
     Rectangle thirdTile;
-    Shape3D player;
-    Shape3D lorenzo;
+
+    List<ImagePattern> tileImages;
     int playerNumber;
-    List<AnchorPane> playersInfo;
     Group infoGroup=new Group();
     private PlayerCache cache;
 
@@ -45,11 +40,45 @@ public class InfoTiles implements PropertyChangeListener {
         this.playerNumber =playerNumber;
         this.cache = cache;
 
+        Group popeGroup=new Group();
+        firstTile=new Rectangle(200,200);
+        firstTile.setLayoutX(0);
+        firstTile.setLayoutY(0);
+        NodeAdder.addNodeToParent(popeGroup,firstTile,board.localToParent(new Point3D(560,235,-50)));
+        ImagePattern tempImage = new ImagePattern(new Image("assets/track/FAVOUR_TILE_1_INACTIVE.png"));
+        firstTile.setFill(tempImage);
+
+        secondTile=new Rectangle(200,200);
+        secondTile.setLayoutX(0);
+        secondTile.setLayoutY(0);
+        NodeAdder.addNodeToParent(popeGroup,secondTile,board.localToParent(new Point3D(1150,110,-50)));
+
+        tempImage = new ImagePattern(new Image("assets/track/FAVOUR_TILE_2_INACTIVE.png"));
+        secondTile.setFill(tempImage);
+
+
+        thirdTile=new Rectangle(200,200);
+        thirdTile.setLayoutX(0);
+        thirdTile.setLayoutY(0);
+        NodeAdder.addNodeToParent(popeGroup,thirdTile,board.localToParent(new Point3D(1860,235,-50)));
+
+        tempImage = new ImagePattern(new Image("assets/track/FAVOUR_TILE_3_INACTIVE.png"));
+        thirdTile.setFill(tempImage);
+
+
+        popeTiles.add(firstTile);
+        popeTiles.add(secondTile);
+        popeTiles.add(thirdTile);
+
+        parent.getChildren().add(popeGroup);
         parent.getChildren().add(infoGroup);
 
-
-
+        tileImages=new ArrayList<>();
+        tileImages.add(new ImagePattern(new Image("assets/track/FAVOUR_TILE_1_ACTIVE.png")));
+        tileImages.add(new ImagePattern(new Image("assets/track/FAVOUR_TILE_2_ACTIVE.png")));
+        tileImages.add(new ImagePattern(new Image("assets/track/FAVOUR_TILE_3_ACTIVE.png")));
     }
+
 
 
 
@@ -115,9 +144,40 @@ public class InfoTiles implements PropertyChangeListener {
                     ActionTokenAsset tokenAsset = actionToken.getSoloActionToken();
 
                     Rectangle actionTokenRectangle=new Rectangle(100,100);
-                    actionTokenRectangle.setFill(new ImagePattern(new Image(tokenAsset.getFrontPath().toString())));
+                    System.out.println(tokenAsset.getFrontPath().toString().replace("\\","/"));
+                    actionTokenRectangle.setFill(new ImagePattern(new Image(tokenAsset.getFrontPath().toString().replace("\\","/"))));
                     NodeAdder.addNodeToParent(infoGroup,infoGroup,actionTokenRectangle,infoGroup.localToParent(-100,-100,1000));
                 }
+
+                    if(getSimpleModel().getElem(VaticanReportInfo.class).isPresent())
+                    {
+
+                        VaticanReportInfo vaticanReportInfo;
+                        vaticanReportInfo=getSimpleModel().getElem(VaticanReportInfo.class).get();
+                        if(vaticanReportInfo.hasReportOccurred())
+                        {
+                            int tileNumber=vaticanReportInfo.getPopeTileStateMap().get(playerNumber).getKey()+1;
+
+                            if(vaticanReportInfo.getPopeTileStateMap().get(playerNumber).getValue().equals(TileState.DISCARDED))
+                                popeTiles.get(vaticanReportInfo.getPopeTileStateMap().get(playerNumber).getKey()).setOpacity(0);
+
+                            if(vaticanReportInfo.getPopeTileStateMap().get(playerNumber).getValue().equals(TileState.ACTIVE))
+                                popeTiles.get(vaticanReportInfo.getPopeTileStateMap().get(playerNumber).getKey()).setFill(new ImagePattern(new Image("assets/track/FAVOUR_TILE_"+tileNumber+"_ACTIVE.png")));
+
+                                System.out.println(vaticanReportInfo.getPopeTileStateMap().get(playerNumber).getValue());
+
+                        }
+
+                        // if(vaticanReportInfo.getPlayersTriggeringVaticanReport().contains(playerNumber))
+                    /*    if(!vaticanReportInfo.hasReportBeenShown())
+                        {
+                            if(vaticanReportInfo.getPopeTileStateMap().get(playerNumber).getValue().equals(TileState.DISCARDED))
+                                popeTiles.get(vaticanReportInfo.getPopeTileStateMap().get(playerNumber).getKey()).setOpacity(0);
+                            vaticanReportInfo.reportWillBeShown();
+                        }*/
+
+                    }
+
 
                 for(int i=0;i<playersInfo.getSimplePlayerInfoMap().size();i++)
                 {

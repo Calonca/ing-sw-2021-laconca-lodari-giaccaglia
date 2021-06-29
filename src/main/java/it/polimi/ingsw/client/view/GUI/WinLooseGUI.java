@@ -18,13 +18,11 @@ import java.net.URL;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-public class WinLooseGUI extends WinLooseBuilder implements GUIView {
+public class WinLooseGUI extends WinLooseBuilder {
 
 
     AnchorPane winLoosePane;
 
-    double width=600;
-    double len=500;
     @Override
     public void run() {
         SubScene root=getRoot();
@@ -45,56 +43,85 @@ public class WinLooseGUI extends WinLooseBuilder implements GUIView {
     public SubScene getRoot() {
 
 
+        double width=GUI.GUIwidth;
+        double len=GUI.GUIlen;
+
         winLoosePane=new AnchorPane();
-        winLoosePane.setMinSize(1800,1000);
+            winLoosePane.setMinSize(GUI.GUIwidth,GUI.GUIlen);
+
+        PlayersInfo simplePlayersInfo = getSimpleModel().getElem(PlayersInfo.class).orElseThrow();
+        Map<Integer, SimplePlayerInfo> simplePlayerInfoMap = simplePlayersInfo.getSimplePlayerInfoMap();
+
+        int players=simplePlayersInfo.getSimplePlayerInfoMap().size();
+        Text text;
+        text=new Text("OUTCOME:  " +  getThisPlayerCache().getCurrentState());
+        text.setLayoutX(900);
+        text.setLayoutY(150);
+        winLoosePane.getChildren().add(text);
+
+        double startingX=GUI.GUIwidth/(players+1)-100;
+        for(int i=0;i<players;i++)
+        {
 
 
+
+            //todo make text look better
+
+            AnchorPane anchor=new AnchorPane();
+
+
+
+
+
+            text=new Text("NICK:  " + simplePlayerInfoMap.get(i).getNickname());
+            text.setLayoutX(50);
+            text.setLayoutY(50);
+            anchor.getChildren().add(text);
+
+            anchor.setMinSize(200,200);
+
+
+            text=new Text("FAITH:  " + simplePlayerInfoMap.get(i).getCurrentPosition());
+            text.setLayoutX(50);
+            text.setLayoutY(110);
+
+            anchor.getChildren().add(text);
+
+            text=new Text("PLAYER INDEX:  " + simplePlayerInfoMap.get(i).getPlayerIndex());
+            text.setLayoutX(50);
+            text.setLayoutY(80);
+
+            anchor.getChildren().add(text);
+
+            text=new Text("VICTORY POINTS:  " + simplePlayerInfoMap.get(i).getCurrentVictoryPoints());
+            text.setLayoutX(50);
+            text.setLayoutY(150);
+            anchor.setLayoutY(len/2);
+            anchor.setLayoutX(startingX+200*i);
+            System.out.println(startingX);
+
+
+            anchor.getChildren().add(text);
+            anchor.setId("background");
+
+            winLoosePane.getChildren().add(anchor);
+
+
+        }
         return new SubScene(winLoosePane,GUI.GUIwidth,GUI.GUIlen);
 
 
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
 
-
-    }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals(SimplePlayerInfo.class.getSimpleName()))
-        {
-           EndGameInfo endGameInfo = getSimpleModel().getElem(EndGameInfo.class).orElseThrow();
-           PlayersInfo simplePlayersInfo = getSimpleModel().getElem(PlayersInfo.class).orElseThrow();
-           Map<Integer, SimplePlayerInfo> simplePlayerInfoMap = simplePlayersInfo.getSimplePlayerInfoMap();
 
-        int numberOfWinners=endGameInfo.getPlayersEndingTheGame().size();
-        Text text;
-        int cd;
-        for(int i=0;i<numberOfWinners;i++)
-        {
-
-            winLoosePane.getChildren().clear();
-                //todo make text look better
-                text=new Text(simplePlayerInfoMap.get(endGameInfo.getPlayersEndingTheGame().get(i)).getNickname());
-                text.setLayoutY(len/3);
-                text.setLayoutX((i+1)*width/(numberOfWinners+1));
-                winLoosePane.getChildren().add(text);
-
-                cd=simplePlayerInfoMap.get(endGameInfo.getPlayersEndingTheGame().get(i)).getCurrentVictoryPoints();
-                text=new Text(Integer.toString(cd));
-                winLoosePane.getChildren().add(text);
-
-                cd=simplePlayerInfoMap.get(endGameInfo.getPlayersEndingTheGame().get(i)).getCurrentVictoryPoints();
-                text=new Text(Integer.toString(cd));
-                winLoosePane.getChildren().add(text);
-
-
-
-        }
     }
-    }
+
 }
+
 
 /*ObservableList<Node> workingCollection = FXCollections.observableArrayList(((Pane)getClient().getStage().getScene().getRoot()).getChildren());
             Collections.swap(workingCollection, 0, 1);
