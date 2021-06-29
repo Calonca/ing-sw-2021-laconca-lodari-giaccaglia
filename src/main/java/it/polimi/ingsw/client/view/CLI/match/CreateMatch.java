@@ -2,7 +2,6 @@ package it.polimi.ingsw.client.view.CLI.match;
 
 import it.polimi.ingsw.client.view.CLI.CLIBuilder;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Title;
-import it.polimi.ingsw.client.view.CLI.layout.drawables.LobbyCLI;
 import it.polimi.ingsw.client.view.abstractview.CreateMatchViewBuilder;
 import it.polimi.ingsw.network.messages.clienttoserver.CreateMatchRequest;
 
@@ -10,6 +9,10 @@ import java.beans.PropertyChangeEvent;
 
 public class CreateMatch extends CreateMatchViewBuilder implements CLIBuilder {
 
+
+    /**
+     * After receiving input, a message regarding the number of players gets sent to the server
+     */
     @Override
     public void run() {
 

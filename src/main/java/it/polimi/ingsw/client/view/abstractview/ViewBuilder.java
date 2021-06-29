@@ -39,10 +39,19 @@ public abstract class ViewBuilder implements Runnable, PropertyChangeListener
         return simpleModel;
     }
 
+
+    /**
+     * Method to disambiguate wether it is or not the first turn
+     * @return true if it's the first turn
+     */
     public static boolean isFirstTurn(){
         return isFirstTurn;
     }
 
+
+    /**
+     * Method to set wether it is or not the first turn
+     */
     public static void setNotFirstTurn(){
         isFirstTurn = false;
     }

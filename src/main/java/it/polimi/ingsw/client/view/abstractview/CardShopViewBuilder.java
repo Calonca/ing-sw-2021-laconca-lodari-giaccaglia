@@ -11,7 +11,8 @@ import it.polimi.ingsw.network.simplemodel.SimpleCardShop;
 import java.beans.PropertyChangeEvent;
 import java.util.List;
 
-import static it.polimi.ingsw.client.simplemodel.State.*;
+import static it.polimi.ingsw.client.simplemodel.State.CHOOSING_POSITION_FOR_DEVCARD;
+import static it.polimi.ingsw.client.simplemodel.State.CHOOSING_RESOURCES_FOR_DEVCARD;
 
 public abstract class CardShopViewBuilder extends ViewBuilder{
 
@@ -19,11 +20,21 @@ public abstract class CardShopViewBuilder extends ViewBuilder{
 
     public static boolean isIdlePhase;
 
+    /**
+     * Method to initialize the viewBuilder
+     * @param viewing represents the card shop state
+     */
     public CardShopViewBuilder(boolean viewing) {
         CardShopViewBuilder.viewing = viewing;
         isIdlePhase = false;
     }
 
+
+    /**
+     *
+     * @param viewing represents the card shop state
+     * @param isIdle represents the player state
+     */
     public CardShopViewBuilder(boolean viewing, boolean isIdle){
         CardShopViewBuilder.viewing = viewing;
         isIdlePhase = isIdle;
@@ -38,14 +49,28 @@ public abstract class CardShopViewBuilder extends ViewBuilder{
     }
 
 
+    /**
+     * Method used in CHOOSING_RESOURCE_FOR_DEVCARD
+     * @param positions are board resources' position
+     */
     public static void sendResourcesToBuy(List<Integer> positions){
         getClient().getServerHandler().sendCommandMessage(new EventMessage(new ChooseResourceForCardShopEvent(positions)));
     }
 
+    /**CHOOSING_POSITION_FOR_DEVCARD
+     * Method used in CHOOSING_DEVELOPMENT_CARD
+     * @param cardColor represents a valid development card color
+     * @param cardLevel is a valid development card level
+     */
     protected void sendChosenCard(int cardColor, int cardLevel){
         getClient().getServerHandler().sendCommandMessage(new EventMessage(new ChooseCardEvent(cardColor,cardLevel)));
     }
 
+
+    /**
+     * Method used inCHOOSING_POSITION_FOR_DEVCARD
+     * @param position represents a SimpleCardCells position
+     */
     public static void sendCardPlacementPosition(int position) {
         getClient().getServerHandler().sendCommandMessage(new EventMessage(new ChooseCardPositionEvent(position)));
     }

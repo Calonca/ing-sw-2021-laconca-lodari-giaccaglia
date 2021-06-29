@@ -23,6 +23,10 @@ public class SimpleModel {
 
     private final PropertyChangeSupport support;
 
+    /**
+     * Method to initializde the SimpleModel, containing all game-specific informations, shared by all players
+     * @param numberOfPlayers is the number of players in the game
+     */
     public SimpleModel(int numberOfPlayers){
         playersCacheList = new ArrayList<>(numberOfPlayers);
         support = new PropertyChangeSupport(this);
@@ -37,6 +41,7 @@ public class SimpleModel {
         commonSimpleModelElementsMap.put(VaticanReportInfo.class.getSimpleName(), new VaticanReportInfo());
     }
 
+
     public PlayerCache[] getPlayersCaches() {
         return playersCacheList.toArray(PlayerCache[]::new);
     }
@@ -44,14 +49,25 @@ public class SimpleModel {
     public PlayerCache getPlayerCache(int playerNumber){
         return playersCacheList.get(playerNumber);
     }
-
+    /**
+     * Method to subscribe to the Property Change Support
+     * @param pcl is a valid listener
+     */
     public void addPropertyChangeListener(PropertyChangeListener pcl) {
         support.addPropertyChangeListener(pcl);
     }
+
+    /**
+     * Method to unsubscribe to the Property Change Support
+     * @param pcl is a valid listener
+     */
     public void removePropertyChangeListener(PropertyChangeListener pcl) {
         support.removePropertyChangeListener(pcl);
     }
 
+    /**
+     * This method is called to update some simple model elements after each game stage
+     */
     public void updateSimpleModelElement(String name, SimpleModelElement element){
         commonSimpleModelElementsMap.get(name).update(element);
     }
@@ -70,6 +86,10 @@ public class SimpleModel {
         return commonSimpleModelElementsMap.get(name);
     }
 
+    /**
+     * Method used by the client to access game-specific informations
+     * @return a valid encapsulated SimpleModelElement, may be empty
+     */
     public void updateSimpleModel(StateInNetwork stateInNetwork){
 
         PlayerCache playerCache = getPlayerCache(stateInNetwork.getPlayerNumber());
@@ -86,6 +106,11 @@ public class SimpleModel {
 
     }
 
+
+    /**
+     * Method used for the initialization on game start
+     * @param elementsInNetwork represent the elements to update
+     */
     public void initializeSimpleModelWhenJoining(ElementsInNetwork elementsInNetwork){
 
         for(SimpleModelElement element : elementsInNetwork.getCommonSimpleModelElements()){

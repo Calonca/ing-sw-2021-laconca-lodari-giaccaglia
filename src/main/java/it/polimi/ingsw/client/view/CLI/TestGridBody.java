@@ -1,10 +1,10 @@
 package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
-import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Column;
 import it.polimi.ingsw.client.view.CLI.layout.Option;
-import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.Canvas;
+import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Column;
+import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
 import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 
 import java.beans.PropertyChangeEvent;

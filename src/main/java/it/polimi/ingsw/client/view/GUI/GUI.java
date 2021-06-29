@@ -26,6 +26,11 @@ public class GUI extends Application {
         launch(args);
     }
 
+    /**
+     * Method to BootsTrap the graphics
+     * @param stage is provided by the application
+     * @throws Exception if incorrect basic configuration
+     */
     @Override
     public void start(Stage stage) throws Exception {
         Client client = ViewBuilder.getClient();

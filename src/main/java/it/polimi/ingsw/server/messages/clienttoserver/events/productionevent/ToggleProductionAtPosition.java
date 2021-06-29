@@ -2,12 +2,10 @@ package it.polimi.ingsw.server.messages.clienttoserver.events.productionevent;
 
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.cards.production.Production;
 import it.polimi.ingsw.server.model.player.board.PersonalBoard;
 import it.polimi.ingsw.server.model.states.State;
 
-import java.util.List;
 import java.util.Optional;
 
 public class ToggleProductionAtPosition extends it.polimi.ingsw.network.messages.clienttoserver.events.productionevent.ToggleProductionAtPosition implements Validable {

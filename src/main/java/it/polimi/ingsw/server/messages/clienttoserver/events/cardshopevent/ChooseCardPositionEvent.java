@@ -1,10 +1,10 @@
 package it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent;
 
-import it.polimi.ingsw.server.model.player.board.PersonalBoard;
-import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
+import it.polimi.ingsw.server.model.player.board.PersonalBoard;
+import it.polimi.ingsw.server.model.states.State;
 
 /**
  * Client side Event created when {@link GameModel#currentPlayer currentPlayer} has to place a {@link it.polimi.ingsw.server.model.cards.DevelopmentCard NetworkDevelopmentCard}

@@ -13,6 +13,11 @@ import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.*;
 
 public final class CLIReportInfoBuilder {
 
+
+    /**
+     * Shows vatican report when it occurs
+     * @param nextViewBuilder is the next state's ViewBuilder
+     */
     public static void showReport(ViewBuilder nextViewBuilder){
 
         getCLIView().setTitle("Vatican Report info");
@@ -25,6 +30,7 @@ public final class CLIReportInfoBuilder {
         getCLIView().show();
 
     }
+
 
 
     public static void showReportWithTimer(){

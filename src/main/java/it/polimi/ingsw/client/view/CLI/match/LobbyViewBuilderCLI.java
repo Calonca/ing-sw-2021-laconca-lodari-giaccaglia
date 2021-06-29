@@ -14,6 +14,10 @@ import java.beans.PropertyChangeEvent;
 
 public class LobbyViewBuilderCLI extends LobbyViewBuilder implements CLIBuilder {
 
+
+    /**
+     * In this state the player can see all the match's information, while waiting for it to start
+     */
     @Override
     public void run() {
 

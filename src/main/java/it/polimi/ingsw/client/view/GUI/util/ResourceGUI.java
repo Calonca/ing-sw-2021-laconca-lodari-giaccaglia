@@ -1,16 +1,13 @@
 package it.polimi.ingsw.client.view.GUI.util;
 
-import it.polimi.ingsw.client.view.CLI.layout.drawables.ResourceCLI;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
-import javafx.scene.shape.MeshView;
 import javafx.scene.shape.Shape3D;
 import javafx.scene.shape.TriangleMesh;
 
-import java.awt.*;
 import java.util.Arrays;
 
 public enum ResourceGUI {

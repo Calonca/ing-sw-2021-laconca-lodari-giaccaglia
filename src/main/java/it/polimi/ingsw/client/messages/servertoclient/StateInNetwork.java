@@ -6,6 +6,10 @@ import it.polimi.ingsw.network.simplemodel.SimpleModelElement;
 import java.io.IOException;
 import java.util.List;
 
+
+/**
+ * This is a message to set a state on the client, based on their last message and state
+ */
 public class StateInNetwork extends it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork implements ClientMessage {
 
     public StateInNetwork(int playerNumber, String state, List<SimpleModelElement> playerSimpleModelElements, List<SimpleModelElement> commonSimpleModelElements) {

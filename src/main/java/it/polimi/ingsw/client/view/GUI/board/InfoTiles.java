@@ -12,7 +12,6 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape3D;
 import javafx.scene.text.Text;
 
 import java.beans.PropertyChangeEvent;
@@ -35,6 +34,14 @@ public class InfoTiles implements PropertyChangeListener {
     Group infoGroup=new Group();
     private PlayerCache cache;
 
+    /**
+     * This method adds the infoGroup to the Board 3D for future updates
+     * @param view3D is the Board 3D
+     * @param parent is the Board 3D main group
+     * @param board is the Board 3D image rectangle
+     * @param playerNumber is the player index
+     * @param cache is the player cache
+     */
     public void infoBuilder(BoardView3D view3D, Group parent, Rectangle board, int playerNumber, PlayerCache cache){
 
         this.playerNumber =playerNumber;
@@ -80,8 +87,12 @@ public class InfoTiles implements PropertyChangeListener {
     }
 
 
-
-
+    /**
+     * This is a converter to centralize the information display
+     * @param playerInfo the corresponding PlayerInfo
+     * @param state the corresponding State
+     * @return the corresponding anchorpane
+     */
     public AnchorPane playerStatsTile(SimplePlayerInfo playerInfo, String state)
     {
         AnchorPane anchor=new AnchorPane();
@@ -128,6 +139,10 @@ public class InfoTiles implements PropertyChangeListener {
     }
 
 
+    /**
+     * This method updates the information regarding the Vatican event and Faith track in real time
+     * @param evt is not null
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(PlayersInfo.class.getSimpleName()))

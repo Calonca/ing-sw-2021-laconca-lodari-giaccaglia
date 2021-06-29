@@ -19,6 +19,10 @@ public class InitialOrFinalPhaseCLI extends InitialOrFinalPhaseViewBuilder imple
         super(isInitial);
     }
 
+
+    /**
+     * This method disambiguates wether it is turn start or end to instantiate the correct game phase
+     */
     @Override
     public void run() {
 

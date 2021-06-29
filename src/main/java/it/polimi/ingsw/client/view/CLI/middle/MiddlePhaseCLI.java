@@ -24,6 +24,11 @@ import static it.polimi.ingsw.client.simplemodel.State.MIDDLE_PHASE;
 
 public class MiddlePhaseCLI extends MiddlePhaseViewBuilder implements CLIBuilder {
 
+
+    /**
+     * The player is presented various options: production,market,personal board,move resources,
+     * warehouse,card shop, players info
+     */
     @Override
     public void run() {
 

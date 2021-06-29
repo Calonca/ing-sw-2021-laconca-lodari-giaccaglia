@@ -47,6 +47,10 @@ public class WinLooseCLI extends WinLooseBuilder implements CLIBuilder {
 
     }
 
+
+    /**
+     * @return a column displaying PlayersInfo data regarding the end of the game
+     */
     private static Column buildInfo(){
 
         PlayersInfo playersInfo = getSimpleModel().getElem(PlayersInfo.class).get();

@@ -32,6 +32,10 @@ public abstract class MiddlePhaseViewBuilder extends ViewBuilder {
         else return new MiddlePhaseGUI();
     }
 
+
+    /**
+     * @param c is a middle phase choice (0,1 or 2);
+     */
     public void sendMessage(Choice c){
         c.getR().run();
     }

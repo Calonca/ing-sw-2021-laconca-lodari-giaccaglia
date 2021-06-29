@@ -32,6 +32,10 @@ public class Client implements Runnable
     private Map<ViewBuilder, List<State>> viewBuilderMap;
     private boolean gameHasBeenLoaded;
 
+
+    /**
+     * Initializes client's state map
+     */
     private void initializeViewBuilderMap(){
 
         viewBuilderMap = new HashMap<>();
@@ -78,6 +82,10 @@ public class Client implements Runnable
 
     }
 
+    /**
+     * Sets the JavaFX stage for the client
+     * @param stage is provided on start by the application
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }
@@ -86,6 +94,11 @@ public class Client implements Runnable
         return stage;
     }
 
+
+    /**
+     * Boolean to disambiguate wether it is a command line or graphic user interface
+     * @param isCli is true if the player is using command line
+     */
     public void setCLIOrGUI(boolean isCli){
         this.isCLI = isCli;
         ViewBuilder.setCommonData(commonData);
@@ -97,10 +110,15 @@ public class Client implements Runnable
         }
     }
 
+    /**
+     * @return the set connection IP
+     */
     public String getIp() {
         return ip;
     }
-
+    /**
+     * @return the set TCP port
+     */
     public int getPort() {
         return port;
     }
@@ -108,11 +126,15 @@ public class Client implements Runnable
     public ViewBuilder getCurrentViewBuilder() {
         return currentViewBuilder;
     }
-
+    /**
+     * @return the previously saved view builder, to get restored after an announcement
+     */
     public ViewBuilder getSavedViewBuilder() {
         return savedViewBuilder;
     }
-
+    /**
+     * Saves the state of the current view builder, to get restored after an announcement
+     */
     public void saveViewBuilder(ViewBuilder savedViewBuilder){
         this.savedViewBuilder = savedViewBuilder;
     }
@@ -217,6 +239,11 @@ public class Client implements Runnable
         return simpleModel;
     }
 
+
+    /**
+     * After receiving the corresponding network messages, the client transitions
+     * @param stateInNetwork is a network message
+     */
     public void setState(StateInNetwork stateInNetwork){
 
         //System.out.println("Client " + commonData.getThisPlayerIndex() + " received: "+"client "+ stateInNetwork.getPlayerNumber() + " "+ stateInNetwork.getState());

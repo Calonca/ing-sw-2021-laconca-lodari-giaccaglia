@@ -11,6 +11,9 @@ import java.beans.PropertyChangeEvent;
 
 public class ConnectToServer extends ConnectToServerViewBuilder implements CLIBuilder {
 
+    /**
+     * This method acquires the initial data to start the server connection
+     */
     @Override
     public void run() {
         getCLIView().setBody(buildBody());

@@ -13,6 +13,11 @@ import java.util.UUID;
 public class CreatedMatchStatus extends it.polimi.ingsw.network.messages.servertoclient.CreatedMatchStatus implements ClientMessage {
 
 
+    /**
+     * @param parent is a sample message
+     * @param matchId is the match UUID
+     * @param m is a message for the user
+     */
     public CreatedMatchStatus(ClientToServerMessage parent, UUID matchId, motive m) {
         super(parent, matchId, m);
     }

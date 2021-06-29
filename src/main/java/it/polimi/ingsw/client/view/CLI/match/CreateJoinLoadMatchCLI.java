@@ -95,6 +95,11 @@ public class CreateJoinLoadMatchCLI extends CreateJoinLoadMatchViewBuilder imple
         return optionList.stream().flatMap(o->Stream.of(o, new SizedBox(1,0)));
     }
 
+
+    /**
+     * @param matchesData is the matches data map
+     * @return the corresponding Option stream
+     */
     protected Stream<Option> getMatchesOptionList(Map<UUID, Pair<String[], String[]>> matchesData){
 
         Option loadMatch = Option.from("Go back" , () -> {

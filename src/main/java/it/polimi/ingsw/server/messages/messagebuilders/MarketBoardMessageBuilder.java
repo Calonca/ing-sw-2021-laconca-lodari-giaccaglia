@@ -2,14 +2,12 @@ package it.polimi.ingsw.server.messages.messagebuilders;
 
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.market.Marble;
-import javafx.util.Pair;
 
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
-import static java.util.stream.Collectors.groupingBy;
 
 public class MarketBoardMessageBuilder {
 

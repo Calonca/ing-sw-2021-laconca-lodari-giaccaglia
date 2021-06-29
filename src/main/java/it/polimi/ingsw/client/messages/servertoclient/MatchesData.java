@@ -8,6 +8,10 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+
+/**
+ * This is a message to update the existing and in progress matches
+ */
 public class MatchesData extends it.polimi.ingsw.network.messages.servertoclient.MatchesData implements ClientMessage {
 
     public MatchesData(Map<Pair<UUID, Boolean>, Pair<String[], String[]>> matchesData) {

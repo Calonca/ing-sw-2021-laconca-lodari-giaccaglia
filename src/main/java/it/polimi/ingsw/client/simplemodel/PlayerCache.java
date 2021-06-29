@@ -21,18 +21,34 @@ public class PlayerCache {
 
     private Map<String , SimpleModelElement> playerSimpleModelElementsMap = new HashMap<>();
 
+    /**
+     * Method to subscribe to the Property Change Support
+     * @param pcl is a valid listener
+     */
     public void addPropertyChangeListener(PropertyChangeListener pcl) {
         support.addPropertyChangeListener(pcl);
     }
 
+    /**
+     * Method to unsubscribe to the Property Change Support
+     * @param pcl is a valid listener
+     */
     public void removePropertyChangeListener(PropertyChangeListener pcl) {
         support.removePropertyChangeListener(pcl);
     }
 
+    /**
+     * This method is called to update some player-specific elements after each game stage
+     */
     public void updatePlayerElements(List<SimpleModelElement> elements) {
         elements.forEach(this::updateSimpleModelElement);
     }
 
+
+    /**
+     * This method is called to update some elements after each game state
+     * @param state is a string representing a valid state
+     */
     public void updateState(String state){
         String oldState = currentState;
         currentState = state;
@@ -43,16 +59,31 @@ public class PlayerCache {
         support.firePropertyChange(currentState,"old:"+oldState, currentState);
     }
 
+
+    /**
+     * Method used by the client to access player-specific informations
+     * @param name
+     * @return a valid SimpleModelElement
+     */
     public SimpleModelElement getElem(String name){
         return playerSimpleModelElementsMap.get(name);
     }
 
+
+    /**
+     * This method is called to update some simple model elements after each game stage
+     */
     public void updateSimpleModelElement(SimpleModelElement element){
         String elemName = element.getClass().getSimpleName();
         playerSimpleModelElementsMap.get(elemName).update(element);
         support.firePropertyChange(elemName,null,getElem(elemName));
     }
 
+
+    /**
+     * Method used by the client to access player-specific informations
+     * @return a valid encapsulated SimpleModelElement, may be empty
+     */
     public <T extends SimpleModelElement> Optional<T> getElem(Class<T> s){
         Optional<T> result;
         try {
@@ -63,6 +94,10 @@ public class PlayerCache {
         return result;
     }
 
+
+    /**
+     * Method to initialize the Player Cache, containing all player-specific informations
+     */
     public PlayerCache(){
 
         this.support = new PropertyChangeSupport(this);
@@ -90,6 +125,9 @@ public class PlayerCache {
 
     }
 
+    /**
+     * @return current player state
+     */
     public String getCurrentState() {
         return currentState;
     }

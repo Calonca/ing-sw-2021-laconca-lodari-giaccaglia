@@ -7,6 +7,9 @@ import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * This message is sent after an incorrect or malicious message is sent to the server
+ */
 public class EventNotValid extends it.polimi.ingsw.network.messages.servertoclient.EventNotValid implements ClientMessage {
 
     public EventNotValid(ClientToServerMessage clientToServerMessage) {

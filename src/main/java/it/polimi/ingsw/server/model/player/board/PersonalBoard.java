@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.player.board;
 
-import it.polimi.ingsw.server.model.*;
+import it.polimi.ingsw.network.util.Util;
+import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.cards.CardShop;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
@@ -10,7 +11,6 @@ import it.polimi.ingsw.server.model.player.leaders.DevelopmentDiscountLeader;
 import it.polimi.ingsw.server.model.player.leaders.Leader;
 import it.polimi.ingsw.server.model.player.leaders.ProductionLeader;
 import it.polimi.ingsw.server.model.player.track.FaithTrack;
-import it.polimi.ingsw.network.util.Util;
 import javafx.util.Pair;
 
 import java.util.*;

@@ -40,6 +40,10 @@ public class Box3D implements PropertyChangeListener {
         this.view3D = view3D;
     }
 
+    /**
+     * @param parent is the Board 3D main Group
+     * @param board is the Board 3D rectangle
+     */
     public void strongBuilder(Group parent, Rectangle board){
         if (strongBoxGroup==null) {
           strongBoxInit(parent, board);
@@ -47,6 +51,9 @@ public class Box3D implements PropertyChangeListener {
         updateStrongBox();
     }
 
+    /**
+     * Method to refresh the StrongBox
+     */
     public void updateStrongBox() {
         SimpleStrongBox simpleStrongBox =  view3D.getCache().getElem(SimpleStrongBox.class).orElseThrow();
         SelectablePositions selectablePositions = view3D.getCache().getElem(SelectablePositions.class).orElseThrow();
@@ -154,6 +161,12 @@ public class Box3D implements PropertyChangeListener {
         view3D.setStrongBox(this);
     }
 
+    /**
+     * @param view3D is the Board 3D
+     * @param discardBoxGroup is a SimpleModel element
+     * @param simpleDiscardBox is a SimpleModel element
+     * @param addedLines is a position counter
+     */
     private static void addDiscardButton(BoardView3D view3D, Group discardBoxGroup, SimpleDiscardBox simpleDiscardBox, int addedLines) {
         if (simpleDiscardBox.isDiscardable()) {
             Button discardButton = new Button();
@@ -177,6 +190,13 @@ public class Box3D implements PropertyChangeListener {
         }
     }
 
+    /**
+     * This method initializes the DiscardBox
+     * @param view3D is Board 3D
+     * @param parent is Board 3D main group
+     * @param board is Board 3d Image Rectangle
+     * @param dropHandler is a DragAndDrop helper
+     */
     public static void discardBuilder(BoardView3D view3D, Group parent, Rectangle board, DragAndDropHandler dropHandler){
         Group discardBoxGroup = new Group();
         Point3D initialPos = new Point3D(800,800,0);

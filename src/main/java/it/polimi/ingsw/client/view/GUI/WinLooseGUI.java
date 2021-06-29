@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client.view.GUI;
 
 import it.polimi.ingsw.client.view.abstractview.WinLooseBuilder;
-import it.polimi.ingsw.network.simplemodel.EndGameInfo;
 import it.polimi.ingsw.network.simplemodel.PlayersInfo;
 import it.polimi.ingsw.network.simplemodel.SimplePlayerInfo;
 import javafx.animation.Interpolator;
@@ -14,15 +13,17 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.beans.PropertyChangeEvent;
-import java.net.URL;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 public class WinLooseGUI extends WinLooseBuilder {
 
 
     AnchorPane winLoosePane;
 
+
+    /**
+     * Upon game end, the final information get displayed
+     */
     @Override
     public void run() {
         SubScene root=getRoot();
@@ -40,6 +41,11 @@ public class WinLooseGUI extends WinLooseBuilder {
         System.out.println(GUI.getRealPane().getChildren());
     }
 
+
+    /**
+     * Method called only once, during END_PHASE
+     * @return the ending SubScene
+     */
     public SubScene getRoot() {
 
 

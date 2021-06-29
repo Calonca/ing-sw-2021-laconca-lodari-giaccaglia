@@ -12,6 +12,10 @@ import static it.polimi.ingsw.client.simplemodel.State.MIDDLE_PHASE;
 public abstract class InitialOrFinalPhaseViewBuilder extends ViewBuilder {
     public static boolean isInitial;
 
+
+    /**
+     * @param isInitial is a boolean to control the next transition
+     */
     public InitialOrFinalPhaseViewBuilder(boolean isInitial) {
         InitialOrFinalPhaseViewBuilder.isInitial = isInitial;
 

@@ -31,6 +31,10 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
 
     int numOfConversions;
 
+
+    /**
+     * This method initializes the market marbles and eventually displays the market bonuses
+     */
     @Override
     public void run() {
 
@@ -115,12 +119,18 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
         getCLIView().show();
     }
 
+    /**
+     * This method is called during CHOOSING_POSITION_FOR_RESOURCES
+     */
     @Override
     public void choosePositions() {
         PersonalBoardBody board = new PersonalBoardBody(getThisPlayerCache(), PersonalBoardBody.Mode.MOVING_RES);
         board.preparePersonalBoard( "Select move starting position or discard resources");
     }
 
+    /**
+     * This method is called during CHOOSING_WHITEMARBLE_CONVERSION
+     */
     @Override
     public void chooseMarbleConversion() {
 
@@ -145,6 +155,9 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
 
     }
 
+    /**
+     * This method converts resourceAssets to MarbleAssets
+     */
     private void addConversionsToColumn(Column activeConversions, ResourceAsset res) {
         if(res==ResourceAsset.STONE)
             activeConversions.addElem(buildResourceChoice(MarbleAsset.GRAY,3));
@@ -155,6 +168,7 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
         else if(res==ResourceAsset.SHIELD)
             activeConversions.addElem(buildResourceChoice(MarbleAsset.BLUE,2));
     }
+
 
     private String conversionString(int index){
 
@@ -174,10 +188,20 @@ public class ResourceMarketCLI extends ResourceMarketViewBuilder implements CLIB
         return Arrays.stream(res).map(this::buildResourceOption);
     }
 
+    /**
+     * @param res is a marbleAsset
+     * @return the corresponding Option
+     */
     private Option buildResourceOption(MarbleAsset res){
         return Option.noNumber(MarbleCLI.fromAsset(res).toBigDrawable());
     }
 
+    /**
+     *
+     * @param res is a marbleAsset
+     * @param resourceNumber is the corresponding resource number
+     * @return is the corresponding selectable Option
+     */
     private Option buildResourceChoice(MarbleAsset res, int resourceNumber){
 
 

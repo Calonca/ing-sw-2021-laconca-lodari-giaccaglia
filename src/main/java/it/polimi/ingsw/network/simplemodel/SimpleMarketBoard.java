@@ -1,18 +1,12 @@
 package it.polimi.ingsw.network.simplemodel;
 
 import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
-import javafx.util.Pair;
 
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
-import static java.util.stream.Collectors.groupingBy;
 
 public class SimpleMarketBoard extends SimpleModelElement{
 

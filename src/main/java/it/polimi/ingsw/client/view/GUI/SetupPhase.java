@@ -20,20 +20,24 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.SubScene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import javafx.util.Pair;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.UUID;
 
 /**
  * This scene is composed by a small card selector (2max), a resource selector and a confirmation button
@@ -74,6 +78,9 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
   //  List<LeaderCardAsset> leaderCardAssets=simplePlayerLeaders.getPlayerLeaders();
 
 
+    /**
+     * This method appends the Setup Phase Subscene to the current view
+     */
     @Override
     public void run() {
         SubScene root=getRoot();
@@ -93,6 +100,11 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
 
     }
 
+
+    /**
+     * This method is called once during setup phase initialization or in case of invalid input
+     * @return the Setup Phase subscene
+     */
     public SubScene getRoot() {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/SetupMenu.fxml"));
@@ -108,6 +120,11 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
 
     }
 
+
+    /**
+     * This is a helper method used to centralize the card acquisition
+     * @return the corresponding List of ImageViews
+     */
     public List<ImageView> getSetupLeaderIcons() {
         SimplePlayerLeaders simplePlayerLeaders = getSimpleModel().getPlayerCache(getClient().getCommonData().getThisPlayerIndex()).getElem(SimplePlayerLeaders.class).orElseThrow();
         List<LeaderCardAsset> leaderCardAssets=simplePlayerLeaders.getPlayerLeaders();
@@ -180,6 +197,9 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         return confirm;
     }
 
+    /**
+     * Service method used to center an image
+     */
     public void spawnResourceSupply()
     {
         ImageView resourceSupply=new ImageView(new Image("assets/punchboard/ResourceSupply.png"));
@@ -191,6 +211,12 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         setupAnchor.getChildren().add(resourceSupply);
     }
 
+
+    /**
+     * This method initializes four resource buttons to choose from and four leaders, that are togglable, and a confirmation button
+     * @param url is ignored
+     * @param resourceBundle is ignored
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {

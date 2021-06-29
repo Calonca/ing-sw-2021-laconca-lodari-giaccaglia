@@ -6,9 +6,11 @@ import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape3D;
-import javafx.scene.transform.Rotate;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
@@ -36,6 +38,12 @@ public class DragAndDropHandler {
         return shapes.stream().filter(d->d.globalPos!=null).filter(d->d.globalPos==pos).findFirst();
     }
 
+
+    /**
+     * @param globGroup the corresponding group in which to start
+     * @param dragArea the starting drag area
+     * @param gPos the starting global position
+     */
     public void startDragAndDrop(Group globGroup,Rectangle dragArea, int gPos) {
 
         if (extendedArea==null){
@@ -138,6 +146,9 @@ public class DragAndDropHandler {
     }
 
 
+    /**
+     * @return the position of the last dropped element
+     */
     public int getLastDroppedPos() {
         return lastDroppedPos;
     }

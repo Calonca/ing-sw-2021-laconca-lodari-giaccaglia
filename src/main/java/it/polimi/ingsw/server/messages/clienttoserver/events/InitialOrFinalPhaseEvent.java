@@ -1,8 +1,8 @@
 package it.polimi.ingsw.server.messages.clienttoserver.events;
 
 import it.polimi.ingsw.server.messages.clienttoserver.events.leaderphaseevent.LeaderValidation;
-import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.server.model.GameModel;
+import it.polimi.ingsw.server.model.states.State;
 
 import java.util.UUID;
 

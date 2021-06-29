@@ -1,9 +1,7 @@
 package it.polimi.ingsw.network.assets.leaders;
 
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
-import it.polimi.ingsw.server.model.Resource;
 
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 

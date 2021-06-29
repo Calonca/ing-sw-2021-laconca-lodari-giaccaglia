@@ -7,7 +7,6 @@ import it.polimi.ingsw.client.view.CLI.CLIelem.CLIelem;
 import it.polimi.ingsw.client.view.CLI.endgame.WinLooseCLI;
 import it.polimi.ingsw.client.view.CLI.idle.IDLEViewBuilderCLI;
 import it.polimi.ingsw.client.view.CLI.idle.PlayersInfoCLI;
-import it.polimi.ingsw.client.view.CLI.middle.MiddlePhaseCLI;
 import it.polimi.ingsw.client.view.CLI.layout.GridElem;
 import it.polimi.ingsw.client.view.CLI.layout.Option;
 import it.polimi.ingsw.client.view.CLI.layout.ResChoiceRowCLI;
@@ -16,13 +15,14 @@ import it.polimi.ingsw.client.view.CLI.layout.drawables.*;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Column;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.RecursiveList;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
+import it.polimi.ingsw.client.view.CLI.middle.MiddlePhaseCLI;
+import it.polimi.ingsw.client.view.CLI.middle.MiddlePlayersInfoCLI;
 import it.polimi.ingsw.client.view.CLI.textUtil.Background;
 import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ProductionViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
-import it.polimi.ingsw.client.view.CLI.middle.MiddlePlayersInfoCLI;
 import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
@@ -41,6 +41,9 @@ public class PersonalBoardBody extends CLIelem {
 
     public enum Mode{
 
+        /**
+         * In this mode the user is allowed to move resources between DiscardBox and various deposit rows
+         */
         MOVING_RES(){
             @Override
             public String getString(PersonalBoardBody board) {
@@ -78,6 +81,9 @@ public class PersonalBoardBody extends CLIelem {
             }
         },
 
+        /**
+         * In this mode the used is allowed to make a selection on the Card Shop
+         */
         SELECT_CARD_SHOP(){
             @Override
             public String getString(PersonalBoardBody board) {
@@ -102,6 +108,10 @@ public class PersonalBoardBody extends CLIelem {
                 return  CanvasBody.fromGrid(board.root).toString();
             }
         },
+
+        /**
+         * In this mode the user is allowed to select each resource position for a DevelopmentCard to be placed
+         */
         SELECT_RES_FOR_PROD(){
             @Override
             public String getString(PersonalBoardBody board) {
@@ -126,6 +136,9 @@ public class PersonalBoardBody extends CLIelem {
             }
         },
 
+        /**
+         * In this mode the user is allowed to choose one of the three SimpleCardCells
+         */
         CHOOSE_POS_FOR_CARD(){
             @Override
             public String getString(PersonalBoardBody board) {
@@ -148,6 +161,9 @@ public class PersonalBoardBody extends CLIelem {
             }
         },
 
+        /**
+         * This is IDLE mode
+         */
         VIEWING() {
 
             @Override
@@ -179,6 +195,10 @@ public class PersonalBoardBody extends CLIelem {
             }
         },
 
+
+        /**
+         * In this mode the user is allowed to select an available production to make
+         */
         CHOOSE_PRODUCTION(){
             @Override
             public String getString(PersonalBoardBody board) {
@@ -272,6 +292,13 @@ public class PersonalBoardBody extends CLIelem {
         this.productions = productions;
     }
 
+    //todo review this doc
+    /**
+     * This method is called during moving phase
+     * @param board is the player's board
+     * @param pos is the starting position
+     * @return true if the selected position is available
+     */
     private boolean getSelectableMove(PersonalBoardBody board, int pos){
         boolean selectable = false;
         if (board.mode.equals(Mode.MOVING_RES)){
@@ -285,6 +312,11 @@ public class PersonalBoardBody extends CLIelem {
         return selectable;
     }
 
+    /**
+     * @param simpleDiscardBox is a SimpleModel element
+     * @param board is the player's board
+     * @return a column containing the DiscardBox informations
+     */
     private Column discardBoxBuilder(SimpleDiscardBox simpleDiscardBox, PersonalBoardBody board){
         Map<Integer, Pair<ResourceAsset, Integer>> discardBoxMap = simpleDiscardBox.getResourceMap();
         Optional<Integer> faithPointsPos = discardBoxMap.entrySet().stream().filter(e->e.getValue().getKey().equals(ResourceAsset.FAITH)).map(Map.Entry::getKey).findFirst();
@@ -304,6 +336,10 @@ public class PersonalBoardBody extends CLIelem {
 
     }
 
+    /**
+     * @param simpleCardCells is a SimpleModel element
+     * @return a column containing the SimpleCardCells informations
+     */
     public Row productionsBuilder(SimpleCardCells simpleCardCells){
         Map<Integer,Optional<NetworkDevelopmentCard>> frontCards=simpleCardCells.getDevCardsOnTop().entrySet().stream()
                 .collect(Collectors.toMap(Map.Entry::getKey, e->e.getValue().map(DevelopmentCardAsset::getDevelopmentCard)));
@@ -336,6 +372,11 @@ public class PersonalBoardBody extends CLIelem {
         return new Row(Stream.concat(Stream.ofNullable(basicProdOption),normalProdsList));
     }
 
+    /**
+     * This method is called for player's interaction with DevelopmentCard
+     * @param prodPos is a valid SimpleCardCells position
+     * @return the corresponding Runnable
+     */
     private Runnable getProdRunnable(int prodPos) {
         return () -> {
             if (mode.equals(Mode.CHOOSE_POS_FOR_CARD)) {
@@ -346,6 +387,12 @@ public class PersonalBoardBody extends CLIelem {
         };
     }
 
+
+    /**
+     * @param simpleCardCells is a SimpleModel element
+     * @param prodPos is a valid SimpleCardCells position
+     * @param cell is an option to use
+     */
     private void setProdAvailable(SimpleCardCells simpleCardCells, int prodPos, Option cell) {
         if (mode.equals(Mode.CHOOSE_POS_FOR_CARD))
             cell.setEnabled(simpleCardCells.isSpotAvailable(prodPos));
@@ -354,6 +401,12 @@ public class PersonalBoardBody extends CLIelem {
         else cell.setMode(Option.VisMode.NO_NUMBER);
     }
 
+
+    /**
+     * @param simpleStrongBox is a SimpleModel element
+     * @param board is the player's board
+     * @return a row containing the SimpleStronBox informations
+     */
     public static Row strongBoxBuilder(SimpleStrongBox simpleStrongBox, PersonalBoardBody board){
 
         SelectablePositions selectablePositions = board.cache.getElem(SelectablePositions.class).orElseThrow();
@@ -392,6 +445,17 @@ public class PersonalBoardBody extends CLIelem {
 
     }
 
+
+    /**
+     * @param asset is a valid resource asset
+     * @param numOf
+     * @param selected is a selected position
+     * @param selectable is the selection condition
+     * @param globalPos is the resource global position
+     * @param isLeaderDepot indicates if it's in a leader's depot
+     * @param leaderAsset represent the corresponding leader's asset
+     * @return
+     */
     private Option optionFromAsset(ResourceAsset asset, int numOf, int selected, boolean selectable, int globalPos, boolean isLeaderDepot, ResourceAsset leaderAsset){
         Drawable dw = new Drawable();
         ResourceCLI resourceCLI = ResourceCLI.fromAsset(asset);
@@ -441,6 +505,13 @@ public class PersonalBoardBody extends CLIelem {
         return o;
     }
 
+
+    /**
+     * This method uses resChoiceRow to transform TO CHOOSE in concrete resourcee
+     * @param asset is a valid resource asset
+     * @param globalPos is the resource global position
+     * @return the corresponding runnable
+     */
     private Runnable getSelectedForProdRunnable(ResourceAsset asset, int globalPos) {
         Runnable r;
         r= ()->{
@@ -465,6 +536,9 @@ public class PersonalBoardBody extends CLIelem {
         return r;
     }
 
+    /**
+     * Method called upon entering move mode
+     */
     public void initializeMove() {
         SimpleDiscardBox sd = cache.getElem(SimpleDiscardBox.class).orElseThrow();
         SimpleWarehouseLeadersDepot sw = cache.getElem(SimpleWarehouseLeadersDepot.class).orElseThrow();
@@ -476,11 +550,20 @@ public class PersonalBoardBody extends CLIelem {
         wareHouseLeadersDepot = wareBuilder(sw,this);
     }
 
+    /**
+     * Method called upon selecting the resource or the position of a DevelopmentCard
+     */
     public void initializeBuyOrChoosePos() {
         wareHouseLeadersDepot = wareBuilder(cache.getElem(SimpleWarehouseLeadersDepot.class).orElseThrow(), this);
         strongBox = strongBoxBuilder(cache.getElem(SimpleStrongBox.class).orElseThrow(), this);
     }
 
+
+    /**
+     * @param simpleWare is a SimpleModel element
+     * @param body is a CLI body
+     * @return a column containing the SimpleWareHouseLeaderDepot informations
+     */
     private static Column wareBuilder(SimpleWarehouseLeadersDepot simpleWare, PersonalBoardBody body){
         Column wareGrid = new Column();
         Map<Integer, List<Pair<ResourceAsset, Boolean>>> resMap = simpleWare.getDepots();
@@ -516,11 +599,21 @@ public class PersonalBoardBody extends CLIelem {
         return wareGrid;
     }
 
+    /**
+     * @param gPos is a production global position
+     * @return
+     */
     private boolean getSelectableInProd(Integer gPos){
         return cache.getElem(SelectablePositions.class).orElseThrow()
                 .getUpdatedSelectablePositions(resChoiceRow.getChosenInputPos()).containsKey(gPos);
     }
 
+    /**
+     *
+     * @param pair
+     * @param globalPos
+     * @return
+     */
     private boolean getSelected(Pair<ResourceAsset, Boolean> pair, int globalPos) {
         return resChoiceRow.getPointedResource().isPresent()
                 && pair.getKey().equals(resChoiceRow.getPointedResource().get())
@@ -528,6 +621,13 @@ public class PersonalBoardBody extends CLIelem {
                 && pair.getValue().equals(false);
     }
 
+    /**
+     *
+     * @param r runnable associated with the option
+     * @param card is a valid DevelopmentCard
+     * @param stackHeight is the number of developmentCards in the stack
+     * @return the corresponding option
+     */
     public static Option prodOption(Runnable r, NetworkDevelopmentCard card,int stackHeight){
         Drawable d = DrawableDevCard.fromDevCardAsset(card,stackHeight);
         Option o = Option.from(d,r);
@@ -543,6 +643,10 @@ public class PersonalBoardBody extends CLIelem {
         setTop(topColumn);
     }
 
+    /**
+     * Initializes the personalboard for the first time
+     * @param message is the command line message for the player
+     */
     public void preparePersonalBoard(String message){
 
         initializeFaithTrack(getSimpleModel());

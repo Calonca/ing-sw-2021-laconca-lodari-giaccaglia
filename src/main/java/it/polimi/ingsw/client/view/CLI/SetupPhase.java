@@ -1,23 +1,17 @@
 package it.polimi.ingsw.client.view.CLI;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Title;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.SetupBody;
 import it.polimi.ingsw.client.view.abstractview.SetupPhaseViewBuilder;
-import it.polimi.ingsw.network.jsonUtils.JsonUtility;
-import it.polimi.ingsw.network.simplemodel.SimpleFaithTrack;
 import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
 import it.polimi.ingsw.network.util.Util;
 
-import java.beans.PropertyChangeEvent;
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.nio.file.Path;
-
 public class SetupPhase extends SetupPhaseViewBuilder implements CLIBuilder {
 
+
+    /**
+     * This method shows the setupPhase and allows the user to select the initial leaders and bonuses if available
+     */
     @Override
     public void run() {
         String title = "Select resources and the two leaders you want to keep";

@@ -1,18 +1,11 @@
 package it.polimi.ingsw.network.assets.marbles;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
-import it.polimi.ingsw.network.jsonUtils.JsonUtility;
-import it.polimi.ingsw.server.utils.Deserializator;
 
-import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.Map;
 import java.util.UUID;
 
 /**

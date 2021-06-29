@@ -10,7 +10,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.SubScene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableView;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
@@ -91,6 +94,10 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
     }
 
 
+    /**
+     * This method is called once upon initialization, and every time the view refreshes
+     * @return
+     */
     public SubScene getRoot() {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/CreateJoinLoadMatch.fxml"));
@@ -212,6 +219,11 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
     }
 
 
+    /**
+     * This method adds a grid to the Pane
+     * @param url is ignored
+     * @param resourceBundle is ignored
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {

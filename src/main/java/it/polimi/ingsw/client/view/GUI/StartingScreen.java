@@ -1,25 +1,10 @@
 package it.polimi.ingsw.client.view.GUI;
 
-import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.view.abstractview.ConnectToServerViewBuilder;
-import javafx.application.Platform;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.SubScene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Text;
+
 import java.beans.PropertyChangeEvent;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -32,6 +17,9 @@ public class StartingScreen extends ConnectToServerViewBuilder implements GUIVie
 
     public AnchorPane startingPane;
 
+    /**
+     * This method is used to BootsTrap the GUI
+     */
     @Override
     public void run() {
 

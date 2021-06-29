@@ -15,6 +15,10 @@ import java.util.stream.Stream;
 
 public class LoadableMatches extends CreateJoinLoadMatchCLI implements CLIBuilder {
 
+
+    /**
+     * This method displays the loadable matches, and then the player is asked to choose one
+     */
     @Override
     public void run() {
 
