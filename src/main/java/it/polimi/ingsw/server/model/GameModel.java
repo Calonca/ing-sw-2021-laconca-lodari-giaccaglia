@@ -646,8 +646,7 @@ public class GameModel {
 
    public boolean handleVaticanReport(){
 
-       if(!vaticanReportTriggers.isEmpty())
-           return false;
+       vaticanReportTriggers.clear();;  //new vatican report -> new list
 
         buildVaticanReportTriggersList();
 
@@ -661,6 +660,7 @@ public class GameModel {
     }
 
     public List<Integer> getVaticanReportTriggers(){
+
         return vaticanReportTriggers;
     }
 

@@ -94,8 +94,8 @@ public class CLI {
     }
 
     public void removeSubTitle(){
-        body.ifPresent(b->b.removeFromListeners(client));
-        body = Optional.empty();
+        subTitle.ifPresent(b->b.removeFromListeners(client));
+        subTitle = Optional.empty();
     }
 
     public void setTitleWhenBlocked(String title){
@@ -153,10 +153,9 @@ public class CLI {
         cli.title.ifPresent(t->t.removeFromListeners(cli.client));
         cli.title = Optional.empty();
 
-        /*
         cli.body.ifPresent(b->b.removeFromListeners(cli.client));
         cli.body = Optional.empty();
-        */
+
 
         cli.deleteText();
     }

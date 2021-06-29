@@ -43,24 +43,24 @@ public class IDLE implements GameStrategy {
 
     }
 
-    private Pair<State, List<Element>> handleIDLETransition(State nextMultiplayerState){
+    private Pair<State, List<Element>> handleIDLETransition(State nextPossibleState){
 
-        if(gameModel.isSinglePlayer()) {
-            if(isSinglePlayerInFirstIDLE) {
-                return new Pair<>(nextMultiplayerState, elementsToUpdate);
-            }
+        if(gameModel.isSinglePlayer() && !isSinglePlayerInFirstIDLE) {
 
             executeActionTokenStrategy(gameModel, elementsToUpdate);
             SoloActionToken executedToken = gameModel.getLastActivatedSoloActionToken();
-            if(executedToken.equals(SoloActionToken.ADD2FAITH) || executedToken.equals(SoloActionToken.SHUFFLE_ADD1FAITH))
-                return  VaticanReportStrategy.addFaithPointsToPlayer(gameModel, elementsToUpdate);
-            else
-                return MarketCardsCheck.checkMarketCards(gameModel, elementsToUpdate);
+            if(executedToken.equals(SoloActionToken.ADD2FAITH) || executedToken.equals(SoloActionToken.SHUFFLE_ADD1FAITH)) {
 
+                Pair<State, List<Element>> tokenPair =  VaticanReportStrategy.addFaithPointsStrategy(gameModel, elementsToUpdate);
+                if(tokenPair.getKey().equals(State.END_PHASE))
+                    return tokenPair;
+            }
+            else if(gameModel.isSinglePlayer() && (gameModel.isSomeDevCardColourOutOfStock() || gameModel.getCurrentPlayer().getPersonalBoard().playerHasSevenCards()))
+                return MarketCardsCheck.checkMarketCards(gameModel, elementsToUpdate);
 
         }
 
-        return new Pair<>(nextMultiplayerState, elementsToUpdate);
+        return new Pair<>(nextPossibleState, elementsToUpdate);
 
     }
 

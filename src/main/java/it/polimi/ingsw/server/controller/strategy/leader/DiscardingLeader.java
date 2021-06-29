@@ -20,47 +20,45 @@ public class DiscardingLeader implements GameStrategy {
 
     List<Element> elementsToUpdate = new ArrayList<>();
 
-    public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event) {
+    public Pair<State, List<Element>> execute(GameModel gameModel, Validable event) {
 
-        State currentState = gamemodel.getCurrentPlayer().getCurrentState();
+        State currentState = gameModel.getCurrentPlayer().getCurrentState();
 
         State nextPossibleState = currentState.equals(State.INITIAL_PHASE) ? State.MIDDLE_PHASE : State.IDLE;
         elementsToUpdate.add(Element.SimpleFaithTrack);
         elementsToUpdate.add(Element.SimplePlayerLeaders);
 
-        gamemodel.getCurrentPlayer().discardLeader(((InitialOrFinalPhaseEvent) event).getLeaderId());
-        gamemodel.getCurrentPlayer().moveOnePosition();
+        gameModel.getCurrentPlayer().discardLeader(((InitialOrFinalPhaseEvent) event).getLeaderId());
+        gameModel.getCurrentPlayer().moveOnePosition();
 
-        if(gamemodel.handleVaticanReport())
+        if(gameModel.handleVaticanReport())
             elementsToUpdate.add(Element.VaticanReportInfo);
 
-        if (gamemodel.checkTrackStatus()) {
+        if (gameModel.checkTrackStatus() && !gameModel.getMacroGamePhase().equals(GameModel.MacroGamePhase.LastTurn)) {
 
             String endGameReason;
 
-            if (gamemodel.isSinglePlayer()) {
+            if (gameModel.isSinglePlayer()) {
 
                 endGameReason = EndGameReason.TRACK_END_SOLO.getEndGameReason();
-                gamemodel.getThisMatch().setReasonOfGameEnd(endGameReason);
-                gamemodel.getSinglePlayer().setMatchOutcome(true);
+                gameModel.getThisMatch().setReasonOfGameEnd(endGameReason);
+                gameModel.getSinglePlayer().setMatchOutcome(true);
                 elementsToUpdate.add(Element.EndGameInfo);
-                return FinalStrategy.handleSinglePlayerEndGameStrategy(elementsToUpdate, gamemodel, endGameReason);
+                return FinalStrategy.handleSinglePlayerEndGameStrategy(elementsToUpdate, gameModel, endGameReason);
 
             }
 
-
-
             endGameReason = EndGameReason.TRACK_END.getEndGameReason();
 
-            gamemodel.getThisMatch().setReasonOfGameEnd(endGameReason);
+            gameModel.getThisMatch().setReasonOfGameEnd(endGameReason);
 
-            FinalStrategy.setLastTurnMacroGamePhase(gamemodel, elementsToUpdate);
+            FinalStrategy.setLastTurnMacroGamePhase(gameModel, elementsToUpdate);
 
             return new Pair<>(State.IDLE, elementsToUpdate);
 
         }
 
-        else return gamemodel.getCurrentPlayer().anyLeaderPlayable()
+        else return gameModel.getCurrentPlayer().anyLeaderPlayable()
                 ? new Pair<>(currentState, elementsToUpdate)
                 : new Pair<>(nextPossibleState, elementsToUpdate);
 

@@ -19,7 +19,7 @@ public class ReportInfoCLI extends IDLEViewBuilderCLI {
 
     @Override
     public void run() {
-        showWarningIfLastTurn();
+    //    showWarningIfLastTurn();
         if(isAfterReport)
             CLIReportInfoBuilder.showReportWithTimer();
         else

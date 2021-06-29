@@ -31,7 +31,7 @@ public class ResChoiceRowCLI extends ResChoiceRow {
 
     private Row selectedResourcesRow(){
         String resToChooseString = "Resources to choose: ";
-        String chosenResString= in.size()+out.size()==0?"No resources to choose from":"Your chosen resources";
+        String chosenResString= in.size()+out.size()==0? "You don't have resources to choose!" : "Your chosen resources";
         int CenterX = 1+ CLI.getCenterX()-(ResourceCLI.width())/2;
         int startPositionX = 0;
         //int startPositionX = CenterX-resToChooseString.length()-(ResourceCLI.width()+1)*(arrowPos);

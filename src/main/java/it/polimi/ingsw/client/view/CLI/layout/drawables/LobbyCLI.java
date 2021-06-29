@@ -55,7 +55,12 @@ public class LobbyCLI extends LobbyViewBuilderCLI {
         Drawable drawable= new Drawable();
         int yPosMatchPlayerText = 1;
         if(playerindex!=-1 && !players[playerindex].equals("available slot")) {
-            playerInSetup = players[playerindex] + " is in Setup Phase";
+
+            if(playerindex == getCommonData().getThisPlayerIndex())
+                playerInSetup = "Your Setup Phase is starting!";
+            else
+                playerInSetup = players[playerindex] + " is in Setup Phase";
+
             drawable.add(0, " " + playerInSetup, Color.BRIGHT_YELLOW, Background.DEFAULT);
             drawable.add(0, "");
             yPosMatchPlayerText = 3;

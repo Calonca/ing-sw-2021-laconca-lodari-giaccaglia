@@ -3,6 +3,7 @@ package it.polimi.ingsw.network.simplemodel;
 import javafx.util.Pair;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -30,7 +31,8 @@ public class VaticanReportInfo extends SimpleModelElement{
     @Override
     public void update(SimpleModelElement element) {
         VaticanReportInfo serverElement = (VaticanReportInfo)element;
-        playersTriggeringVaticanReport = serverElement.playersTriggeringVaticanReport;
+        if(!serverElement.playersTriggeringVaticanReport.isEmpty() || !(playersTriggeringVaticanReport ==null))
+            playersTriggeringVaticanReport = serverElement.playersTriggeringVaticanReport;
         popeTileState = serverElement.popeTileState;
         hasReportBeenShown.set(false);
 
@@ -45,7 +47,7 @@ public class VaticanReportInfo extends SimpleModelElement{
     }
 
     public boolean hasReportOccurred(){
-        return !playersTriggeringVaticanReport.isEmpty();
+        return Objects.nonNull(playersTriggeringVaticanReport) && !playersTriggeringVaticanReport.isEmpty();
     }
 
 

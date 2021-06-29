@@ -2,12 +2,12 @@ package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.LeaderBody;
 import it.polimi.ingsw.client.view.CLI.commonViews.CLIActionToken;
+import it.polimi.ingsw.client.view.CLI.commonViews.CLIReportInfoBuilder;
 import it.polimi.ingsw.client.view.CLI.idle.ReportInfoCLI;
 import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 import it.polimi.ingsw.client.view.abstractview.InitialOrFinalPhaseViewBuilder;
 import it.polimi.ingsw.network.simplemodel.EndGameInfo;
 import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
-import it.polimi.ingsw.network.simplemodel.VaticanReportInfo;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -22,13 +22,17 @@ public class InitialOrFinalPhaseCLI extends InitialOrFinalPhaseViewBuilder imple
     @Override
     public void run() {
 
-        showWarningIfLastTurn();
+        getClient().saveViewBuilder(this);
+
         if(getSimpleModel().isSinglePlayer() && isInitial && !isFirstTurn()) {
-            getClient().saveViewBuilder(this);
             CLIActionToken.showActionTokenBeforeTransition();
         }
 
-        showVaticanReportInfoBeforeTransition();
+        CLIReportInfoBuilder.showVaticanReportInfoBeforeTransition(new ReportInfoCLI()); //TODO do not use ReportInfoCLI (inherits from IDLEViewBuilderCLI)
+
+        showWarningIfLastTurn();
+
+
         SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).orElseThrow();
 
         String initial = "Initial";
@@ -39,18 +43,6 @@ public class InitialOrFinalPhaseCLI extends InitialOrFinalPhaseViewBuilder imple
         getCLIView().disableViewMode();
         getCLIView().show();
 
-    }
-    protected void showVaticanReportInfoBeforeTransition(){
-
-        VaticanReportInfo reportInfo = getSimpleModel().getElem(VaticanReportInfo.class).get();
-        if(reportInfo.hasReportOccurred() && !reportInfo.hasReportBeenShown()){
-            reportInfo.reportWillBeShown();
-            if(getClient().isCLI()) {
-                getClient().saveViewBuilder(this);
-                getClient().changeViewBuilder(new ReportInfoCLI());
-            }
-
-        }
     }
 
     protected void showWarningIfLastTurn() {

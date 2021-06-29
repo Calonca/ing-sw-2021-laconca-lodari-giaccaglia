@@ -11,7 +11,7 @@ import java.util.List;
 
 public class VaticanReportStrategy {
 
-    public static Pair<State, List<Element>>  addFaithPointsToPlayer(GameModel gameModel, List<Element> elementsToUpdate) {
+    public static Pair<State, List<Element>> addFaithPointsStrategy(GameModel gameModel, List<Element> elementsToUpdate) {
 
         String endGameReason;
 
@@ -25,7 +25,7 @@ public class VaticanReportStrategy {
             if (gameModel.handleVaticanReport())
                 elementsToUpdate.add(Element.VaticanReportInfo);
 
-            if (gameModel.checkTrackStatus()) { //lorenzo or a different player from current reached track end
+            if (gameModel.checkTrackStatus() && !gameModel.getMacroGamePhase().equals(GameModel.MacroGamePhase.LastTurn)) { //lorenzo or a different player from current reached track end
                 FinalStrategy.setLastTurnMacroGamePhase(gameModel, elementsToUpdate);
 
                 if(gameModel.isSinglePlayer()) {

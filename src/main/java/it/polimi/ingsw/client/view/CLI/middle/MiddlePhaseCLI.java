@@ -27,11 +27,12 @@ public class MiddlePhaseCLI extends MiddlePhaseViewBuilder implements CLIBuilder
     @Override
     public void run() {
 
-        showWarningIfLastTurn();
+
         if(getSimpleModel().isSinglePlayer() && !isFirstTurn()) {
             getClient().saveViewBuilder(this);
             CLIActionToken.showActionTokenBeforeTransition();
         }
+        showWarningIfLastTurn();
 
         getClient().saveViewBuilder(this);
         CLIReportInfoBuilder.showVaticanReportInfoBeforeTransition(new MiddleReportInfoCLI());

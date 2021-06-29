@@ -34,7 +34,7 @@ public class FinalProductionStrategy implements GameStrategy {
 
         if(actionToPerform==0){    // 0 to produce
             personalBoard.produce();
-            return VaticanReportStrategy.addFaithPointsToPlayer(gamemodel, elementsToUpdate);
+            return VaticanReportStrategy.addFaithPointsStrategy(gamemodel, elementsToUpdate);
         }
 
         else // 1 revert all and go back to middle phase

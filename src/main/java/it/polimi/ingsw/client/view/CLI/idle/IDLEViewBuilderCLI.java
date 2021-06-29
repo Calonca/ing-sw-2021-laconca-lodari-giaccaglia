@@ -28,9 +28,10 @@ public class IDLEViewBuilderCLI extends IDLEViewBuilder implements CLIBuilder {
     @Override
     public void run() {
 
-        showWarningIfLastTurn();
+
         getClient().saveViewBuilder(this);
         CLIReportInfoBuilder.showVaticanReportInfoBeforeTransition(new ReportInfoCLI());
+        showWarningIfLastTurn();
 
         getCLIView().setTitle("Waiting for initial game phase, what do you want to do?");
 
@@ -100,6 +101,7 @@ public class IDLEViewBuilderCLI extends IDLEViewBuilder implements CLIBuilder {
 
             if (getSimpleModel().getPlayersCaches().length != 1) {
                 run(); // to update players info leader option
+
                 Timer.showSecondsOnCLI(getCLIView(), "It's almost your turn! Seconds left : ");
             }
             getClient().changeViewBuilder(InitialOrFinalPhaseViewBuilder.getBuilder(getClient().isCLI(), true));
@@ -122,7 +124,6 @@ public class IDLEViewBuilderCLI extends IDLEViewBuilder implements CLIBuilder {
         PlayersInfo playersInfo = getSimpleModel().getElem(PlayersInfo.class).orElseThrow();
         if(playersInfo.getSimplePlayerInfoMap().size()>1) {
             EndGameInfo endGameInfo = getSimpleModel().getElem(EndGameInfo.class).orElseThrow();
-
 
             if (endGameInfo.isCauseOfEndBeenAnnounced()) {
                 endGameInfo.handleCauseOfEndString(playersInfo.getSimplePlayerInfoMap());

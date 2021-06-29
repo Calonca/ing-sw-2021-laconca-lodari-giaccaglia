@@ -30,7 +30,7 @@ public class DiscardingResources implements GameStrategy {
 
         currentBoard.discardResources();
 
-        return VaticanReportStrategy.addFaithPointsToPlayer(gameModel, elementsToUpdate);
+        return VaticanReportStrategy.addFaithPointsStrategy(gameModel, elementsToUpdate);
     }
 
 
