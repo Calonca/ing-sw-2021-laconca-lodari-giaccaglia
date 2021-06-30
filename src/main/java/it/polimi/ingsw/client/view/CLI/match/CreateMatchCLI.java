@@ -7,7 +7,7 @@ import it.polimi.ingsw.network.messages.clienttoserver.CreateMatchRequest;
 
 import java.beans.PropertyChangeEvent;
 
-public class CreateMatch extends CreateMatchViewBuilder implements CLIBuilder {
+public class CreateMatchCLI extends CreateMatchViewBuilder implements CLIBuilder {
 
 
     /**

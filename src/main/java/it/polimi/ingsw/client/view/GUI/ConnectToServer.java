@@ -170,7 +170,7 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(CommonData.matchesDataString))
             Platform.runLater(()->
-                    getClient().changeViewBuilder(new CreateJoinLoadMatch()));
+                    getClient().changeViewBuilder(new CreateJoinLoadMatchGUI()));
 
     }
 }

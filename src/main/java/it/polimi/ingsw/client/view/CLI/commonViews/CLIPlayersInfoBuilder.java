@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client.view.CLI.commonViews;
 
+import it.polimi.ingsw.client.simplemodel.PlayerCache;
+import it.polimi.ingsw.client.simplemodel.SimpleModel;
 import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.PersonalBoardBody;
@@ -43,7 +45,8 @@ public final class CLIPlayersInfoBuilder{
      */
     private static Column buildInfo(){
 
-        PlayersInfo playersInfo = getSimpleModel().getElem(PlayersInfo.class).get();
+        SimpleModel simpleModel = getSimpleModel();
+        PlayersInfo playersInfo = simpleModel.getElem(PlayersInfo.class).get();
         int players = playersInfo.getSimplePlayerInfoMap().size();
 
         Column grid = new Column();
@@ -54,6 +57,7 @@ public final class CLIPlayersInfoBuilder{
         for (int playerIndex = 0; playerIndex<players; playerIndex++) {
 
             Column playerInfo = row.addAndGetColumn();
+
 
             if(getThisPlayerCache().getCurrentState().equals(State.IDLE.toString())) {
                 boardViewBuilder = new PersonalBoardCLI(playerIndex, false, PersonalBoardBody.ViewMode.PLAYERS_INFO_IDLE);
@@ -77,26 +81,57 @@ public final class CLIPlayersInfoBuilder{
             Option playerLeadersOption = Option.from("Leaders", () -> getClient().changeViewBuilder(finalLeadersViewBuilder));
 
 
-
-            String state = getSimpleModel().getPlayerCache(playerIndex).getCurrentState();
-            SimplePlayerLeaders simplePlayerLeaders = getSimpleModel().getPlayerCache(playerIndex).getElem(SimplePlayerLeaders.class).orElseThrow();
+            PlayerCache cache = simpleModel.getPlayerCache(playerIndex);
+            String state = cache.getCurrentState();
+            boolean isOnline = playersInfo.getSimplePlayerInfoMap().get(playerIndex).isOnline();
+            SimplePlayerLeaders simplePlayerLeaders = cache.getElem(SimplePlayerLeaders.class).orElseThrow();
 
 
 
             if(simplePlayerLeaders.getPlayerLeaders().isEmpty())
                 playerLeadersOption = Option.noNumber(" No leaders available!");
 
-            if(state.equals(State.SETUP_PHASE.toString())) {
-                playerLeadersOption = Option.noNumber(" Player is choosing match Leaders!");
-                personalBoardOption = Option.noNumber(" Player is setting up the Board");
+
+
+            if(state.equals(State.SETUP_PHASE.toString()) || state.equals("BEFORE_SETUP")) {
+
+                String leaderOptionText = "";
+                String personalBoardOptionText = "";
+
+                if (state.equals(State.SETUP_PHASE.toString())) {
+
+                    if (isOnline) {
+
+                        leaderOptionText = " Player is choosing match Leaders!";
+                        personalBoardOptionText = " Player is setting up the Board!";
+
+                    } else {
+
+                        leaderOptionText = " Player was choosing match Leaders!";
+                        personalBoardOptionText = " Player was setting up the Board!";
+
+                    }
+                } else if (state.equals("BEFORE_SETUP")) {
+
+                    if(isOnline) {
+
+                        leaderOptionText = " Player is waiting for setup turn";
+                        personalBoardOptionText = " Player is waiting for setup turn";
+                    }
+
+                    else {
+
+                        leaderOptionText = " Player was waiting for setup turn";
+                        personalBoardOptionText = " Player was waiting for setup turn";
+
+                    }
+
+
+                }
+
+                personalBoardOption = Option.noNumber(leaderOptionText);
+                playerLeadersOption = Option.noNumber(personalBoardOptionText);
             }
-            else if(state.equals("BEFORE_SETUP")) {
-                personalBoardOption = Option.noNumber(" Player is waiting for his setup turn");
-                playerLeadersOption = Option.noNumber(" Player is waiting for his setup turn");
-            }
-
-
-
 
             Row boardRow = playerInfo.addAndGetRow();
             boardRow.addElem(personalBoardOption);

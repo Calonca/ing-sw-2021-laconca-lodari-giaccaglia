@@ -20,7 +20,6 @@ import it.polimi.ingsw.network.messages.clienttoserver.JoinMatchRequest;
 import it.polimi.ingsw.network.messages.clienttoserver.SendNickname;
 import javafx.util.Pair;
 
-import java.beans.PropertyChangeEvent;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -85,15 +84,15 @@ public class CreateJoinLoadMatchCLI extends CreateJoinLoadMatchViewBuilder imple
 
     private Stream<GridElem> getNewOptionList(){
 
-        Option loadMatch = Option.from("Load Match" , () -> getClient().changeViewBuilder(new LoadableMatches()));
+        Option loadMatch = Option.from("Load Match" , () -> getClient().changeViewBuilder(new LoadableMatchesCLI()));
         if(getCommonData().getSavedMatchesData().isEmpty())
             loadMatch.setEnabled(false);
 
-        Option joinMatch = Option.from("Join Match" , () -> getClient().changeViewBuilder(new JoinableMatches()));
+        Option joinMatch = Option.from("Join Match" , () -> getClient().changeViewBuilder(new JoinableMatchesCLI()));
         if(getCommonData().getAvailableMatchesData().isEmpty())
             joinMatch.setEnabled(false);
 
-        Option newMatch = Option.from("New Match",()->getClient().changeViewBuilder(new CreateMatch()));
+        Option newMatch = Option.from("New Match",()->getClient().changeViewBuilder(new CreateMatchCLI()));
 
         List<Option> optionList = new ArrayList<>();
         Collections.addAll(optionList, loadMatch, joinMatch, newMatch);
@@ -153,6 +152,7 @@ public class CreateJoinLoadMatchCLI extends CreateJoinLoadMatchViewBuilder imple
         Drawable drawable= new Drawable();
 
 
+        System.out.println(onlinePlayers.length + " " + offlinePlayers.length);
 
 
         drawable.add(0,"╔════════════════════════════╗");
@@ -162,7 +162,11 @@ public class CreateJoinLoadMatchCLI extends CreateJoinLoadMatchViewBuilder imple
         drawable.add(0,"║════════════════════════════║");
 
 
+        int posY = 0;
+
         for(int i=0; i<onlinePlayers.length; i++){
+
+            posY = 3 + i*3 + 2;
             int playerIndex = i+1;
             if(onlinePlayers[i].equals("available slot")){
                 drawable.add(0,"║                            ║");
@@ -172,27 +176,32 @@ public class CreateJoinLoadMatchCLI extends CreateJoinLoadMatchViewBuilder imple
 
                 drawable.add(0,"║ Player " + playerIndex + " is : " + StringUtil.untilReachingSize(onlinePlayers[i], 13) + "║");
                 drawable.add(0,"║ Connection :               ║");
-                drawable.add(new DrawableLine(15, 5, "Online", Color.BRIGHT_GREEN, Background.DEFAULT));
+                drawable.add(new DrawableLine(15, posY, "Online", Color.BRIGHT_GREEN, Background.DEFAULT));
 
             }
 
             drawable.add(0, "║ ────────────────────────── ║");
         }
 
-        int posY = onlinePlayers.length * 3 + 2 + 2;
 
-        for(int i=0; i<offlinePlayers.length; i++){
 
-            int playerIndex = i+1;
-
-            drawable.add(0, "║ Player " + playerIndex + " is : " + StringUtil.untilReachingSize(offlinePlayers[i], 13) + "║");
-             drawable.add(0,"║ Connection :               ║");
-            drawable.add(new DrawableLine(14, posY + 1, " Offline", Color.RED, Background.DEFAULT));
-
-            if(i!=offlinePlayers.length-1)
-                drawable.add(0, "║ ────────────────────────── ║");
+        for(int i=0; i<offlinePlayers.length; i++) {
 
             posY = posY + 3;
+            int playerIndex = i + 1;
+            if (offlinePlayers[i].equals("available slot")) {
+                drawable.add(0, "║                            ║");
+                drawable.add(0, "║" + StringUtil.untilReachingSize("     × Available slot × ", 28) + "║");
+            } else {
+
+                drawable.add(0, "║ Player " + playerIndex + " is : " + StringUtil.untilReachingSize(offlinePlayers[i], 13) + "║");
+                drawable.add(0, "║ Connection :               ║");
+                drawable.add(new DrawableLine(14, posY, " Offline", Color.RED, Background.DEFAULT));
+
+                if (i != offlinePlayers.length - 1)
+                    drawable.add(0, "║ ────────────────────────── ║");
+
+            }
         }
 
         drawable.add(0,"╚════════════════════════════╝");
@@ -200,11 +209,5 @@ public class CreateJoinLoadMatchCLI extends CreateJoinLoadMatchViewBuilder imple
         return drawable;
     }
 
-
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-
-
-    }
 
 }

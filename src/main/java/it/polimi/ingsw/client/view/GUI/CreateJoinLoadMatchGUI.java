@@ -29,7 +29,7 @@ import java.util.*;
 /**
  * The user will be asked if they want to join a match of their choosing or create one.
  */
-public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implements GUIView {
+public class CreateJoinLoadMatchGUI extends CreateJoinLoadMatchViewBuilder implements GUIView {
 
     @FXML
     public TableView<MatchRow> guiMatchesData;
@@ -46,7 +46,7 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
     public double tileWidth=width/(maxcolumn+1);
     public double tileheight=len/7;
 
-    public class MatchRow {
+    public static class MatchRow {
         Map.Entry<UUID, Pair<String[], String[]>> uuidPair;
         boolean isSaved;
         public MatchRow(Map.Entry<UUID, Pair<String[], String[]>> uuidPair,boolean isSaved) {
@@ -138,8 +138,8 @@ public class CreateJoinLoadMatch extends CreateJoinLoadMatchViewBuilder implemen
      */
     public List<MatchRow> dataToRow() {
         List<MatchRow> templist=new ArrayList<>();
-        (getClient().getCommonData().getAvailableMatchesData().orElse(new HashMap<>()).entrySet()).forEach(e -> templist.add(new MatchRow(e,false)));
-        (getClient().getCommonData().getSavedMatchesData().orElse(new HashMap<>()).entrySet()).forEach(e -> templist.add(new MatchRow(e,true)));
+        (getClient().getCommonData().getAvailableMatchesData().orElse(new HashMap<>()).entrySet()).forEach(e -> templist.add(new MatchRow(e, false)));
+        (getClient().getCommonData().getSavedMatchesData().orElse(new HashMap<>()).entrySet()).forEach(e -> templist.add(new MatchRow(e, true)));
 
         return templist;
     }

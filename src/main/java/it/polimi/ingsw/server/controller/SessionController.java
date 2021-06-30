@@ -22,7 +22,7 @@ public class SessionController {
     private HashMap<UUID,Match> matches = new HashMap<>();
 
     private HashMap<UUID, Long> matchesDisconnectionTimes = new HashMap<>();
-    private transient List<ClientHandler> playersInLobby = new ArrayList<>();
+    private transient List<ClientHandler> clientsInLobby = new ArrayList<>();
     private static SessionController single_instance = null;
     private final String matchesFolderName = "src/savedMatches";
     private static final String sessionFolderName = "savedSession";
@@ -54,7 +54,7 @@ public class SessionController {
         return isDebugMode.get();
     }
     public void addPlayerToLobby(ClientHandler clientHandler){
-        playersInLobby.add(clientHandler);
+        clientsInLobby.add(clientHandler);
     }
 
   /*  public Match getLastMatch(){
@@ -92,7 +92,7 @@ public class SessionController {
     public void startMatchAndNotifyStateIfPossible(Match match) {
 
         if (!match.canAddPlayer()) {
-            playersInLobby.removeAll(match.clientsStream().collect(Collectors.toList()));
+            clientsInLobby.removeAll(match.clientsStream().collect(Collectors.toList()));
             match.startGame();
         }
     }
@@ -109,14 +109,26 @@ public class SessionController {
     public void notifyPlayerDisconnection(Match match, String playerNickname){
         List<Element> elements = new ArrayList<>();
         elements.add(Element.PlayersInfo);
+        updateAvailableMatchesAfterDisconnection(); // updates matches info to clients not in game;
         match.notifyStateToAllPlayers(elements, playerNickname);
         match.transitionToNextStateAfterDisconnection(playerNickname);
 
     }
 
+    private void updateAvailableMatchesAfterDisconnection(){
+
+        clientsInLobby.forEach(client -> {
+            try {
+                client.sendAnswerMessage(new MatchesData(SessionController.getInstance().matchesData(client)));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
 
     public void notifyPlayersInLobby(ClientHandler cl){
-        playersInLobby.forEach(
+        clientsInLobby.forEach(
                 clientHandler -> {
                     try {
                         clientHandler.sendAnswerMessage(new MatchesData(matchesData(clientHandler)));
@@ -139,7 +151,6 @@ public class SessionController {
                 .limit(20)
                 .collect(Collectors.toMap(
                         entry -> {
-
                             UUID matchId = entry.getKey();
                             Boolean isSavedMatch = matches.get(matchId).wasClientInMatch(clientHandler.getNickname());
                             return new Pair<>(matchId, isSavedMatch);
@@ -156,7 +167,7 @@ public class SessionController {
         Arrays.stream(folder.listFiles()).filter(File::isFile).forEach((file)->{
 
                 Match match = Deserializator.deserializeMatch(folder.toString() +'/' + file.getName());
-                match.getGame().setMatch(match);
+                match.getGame().get().setMatch(match);
                 matches.put(match.getMatchId(),match);
         });
 
@@ -254,7 +265,8 @@ public class SessionController {
 
     public void registerDisconnection(Match match){
         matchesDisconnectionTimes.put(match.getMatchId(),System.currentTimeMillis());
-        match.stopGame();
+
+        match.stopGameIfPresent();
 
     }
 

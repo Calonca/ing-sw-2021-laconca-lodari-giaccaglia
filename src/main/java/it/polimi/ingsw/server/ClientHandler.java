@@ -38,8 +38,6 @@ public class ClientHandler implements Runnable
         clientAddress = client.getInetAddress();
     }
 
-    ClientHandler(){}
-
     /**
      * Connects to the client and runs the event loop.
      */
@@ -55,7 +53,7 @@ public class ClientHandler implements Runnable
         }
 
         System.out.println("Connected to " + client.getInetAddress());
-        SessionController.getInstance().addPlayerToLobby(this);;
+        SessionController.getInstance().addPlayerToLobby(this);
 
         try {
             handleClientConnection();

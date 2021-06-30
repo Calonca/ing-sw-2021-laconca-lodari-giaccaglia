@@ -49,11 +49,15 @@ public class Match {
 
     private void setGameMatch(){
 
-        game.setMatch(this);
+        if(Objects.nonNull(game))
+            game.setMatch(this);
+
         offlineUsers.forEach(user ->
         {
-            Player player = game.getPlayer(user.getNickname()).get();
-            game.setOfflinePlayer(player);
+            if(Objects.nonNull(game) && game.getPlayer(user.getNickname()).isPresent()) {
+                Player player = game.getPlayer(user.getNickname()).get();
+                game.setOfflinePlayer(player);
+            }
         });
 
     }
@@ -86,8 +90,10 @@ public class Match {
             onlineUsers.remove(user);
             offlineUsers.add(user);
 
-            Player player = game.getPlayer(user.getNickname()).get();
-            game.setOfflinePlayer(player);
+           if(Objects.nonNull(game)) {  // game was created/existed before disconnection
+               Player player = game.getPlayer(user.getNickname()).get();
+               game.setOfflinePlayer(player);
+           }
         }
     }
 
@@ -149,12 +155,13 @@ public class Match {
         return Objects.nonNull(game) && game.isGameActive();
     }
 
-    public GameModel getGame(){
-        return game;
+    public Optional<GameModel> getGame(){
+        return Optional.ofNullable(game);
     }
 
-    public void stopGame(){
-        game.stop();
+    public void stopGameIfPresent(){
+        if(Objects.nonNull(game))
+            game.stop();
     }
 
     private Optional<ClientHandler> currentUser(){
@@ -178,10 +185,10 @@ public class Match {
     public String[] getOnlinePlayers(){
 
         if(onlineUsers.isEmpty())
-            return new String[] {};
+            return Stream.generate(() -> "available slot").limit(maxPlayers - offlineUsers.size()).toArray(String[]::new);
 
         return Stream.concat(onlineUsers.stream().map(ClientHandler::getNickname),
-                Stream.generate(()-> "available slot")).limit(maxPlayers).toArray(String[]::new);
+                Stream.generate(()-> "available slot")).limit(maxPlayers - offlineUsers.size()).toArray(String[]::new);
 
     }
 
@@ -318,7 +325,7 @@ public class Match {
 
         clientsStream().forEach(clientHandler -> {
 
-            StateInNetwork stateInNetwork = state.toStateMessage(getGame(), elems, game.getPlayerIndex(player));
+            StateInNetwork stateInNetwork = state.toStateMessage(game, elems, game.getPlayerIndex(player));
 
             try {
                 clientHandler.sendAnswerMessage(stateInNetwork);

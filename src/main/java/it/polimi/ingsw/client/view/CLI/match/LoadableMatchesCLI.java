@@ -6,11 +6,10 @@ import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Column;
 import javafx.util.Pair;
 
-import java.beans.PropertyChangeEvent;
 import java.util.Map;
 import java.util.UUID;
 
-public class LoadableMatches extends CreateJoinLoadMatchCLI implements CLIBuilder {
+public class LoadableMatchesCLI extends CreateJoinLoadMatchCLI implements CLIBuilder {
 
 
     /**
@@ -34,10 +33,4 @@ public class LoadableMatches extends CreateJoinLoadMatchCLI implements CLIBuilde
 
     }
 
-
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-
-
-    }
 }
