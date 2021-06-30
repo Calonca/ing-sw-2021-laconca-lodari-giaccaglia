@@ -211,14 +211,14 @@ public class SimpleDepotsMessageBuilder {
 
                     boolean isSelectable = false;
 
-                    if(!resourceAtPos.equals(Resource.EMPTY) && !warehouseLeadersDepots.getSelected(resourceAtPos.getResourceNumber())) {
+                    if(!resourceAtPos.equals(Resource.EMPTY) && !warehouseLeadersDepots.getSelected(position)) {
 
                         if (resourcesToChoose.containsKey(Resource.TO_CHOOSE.getResourceNumber())
                                 && resourcesToChoose.get(Resource.TO_CHOOSE.getResourceNumber())>0)
                             isSelectable = true;
 
                         else
-                            isSelectable = resourcesToChoose.get(resourceNumber) > 0 && !warehouseLeadersDepots.getSelected(resourceNumber);
+                            isSelectable = resourcesToChoose.get(resourceNumber) > 0 && !warehouseLeadersDepots.getSelected(position);
 
                     }
                     return new MutablePair<>(numOfResource, isSelectable);
