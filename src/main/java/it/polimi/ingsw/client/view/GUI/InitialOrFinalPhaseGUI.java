@@ -96,12 +96,12 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
         List<ImageView> resultList=new ArrayList<>();
 
         for (LeaderCardAsset leaderCardAsset : leaderCardAssets) {
-            if(!leaderCardAsset.getNetworkLeaderCard().isLeaderActive())
-            {
+
                 leadersUUIDs.add(leaderCardAsset.getCardId());
                 ImageView temp = CardSelector.imageViewFromAsset(leaderCardAsset.getCardPaths().getKey());
                 temp.setFitHeight(cardLen);
-                resultList.add(temp);}
+                resultList.add(temp);
+
         }
         return resultList;
 
@@ -122,6 +122,7 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
         SimplePlayerLeaders simplePlayerLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).orElseThrow();
         Effect dropShadow=new DropShadow(BlurType.GAUSSIAN, Color.rgb(0,0,0,0.5),10,0.7,5,5);
 
+        List<Boolean> leaderPlayability=new ArrayList<>();
         ImageView leaderBut;
         for(int i=0;i<getInitialLeaderIcons().size();i++)
         {
@@ -130,7 +131,8 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
             leaderBut.setLayoutX(cardsStartingX+i*(cardLen*(462.0/709)+paddingBetweenCards));
             leaderBut.setEffect(dropShadow);
             leaderBut.setRotate(Math.random() * (cardTilt - -cardTilt + 1) + -1 );
-            leaderPane.getChildren().add(leaderBut);
+            if(!simplePlayerLeaders.getPlayerLeaders().get(i).getNetworkLeaderCard().isLeaderActive())
+                leaderPane.getChildren().add(leaderBut);
             sceneLeadersImageView.add(leaderBut);
         }
 
