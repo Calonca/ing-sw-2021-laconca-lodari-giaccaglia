@@ -69,7 +69,7 @@ public enum Element {
         SimplePlayerLeaders(false) {
             @Override
             public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate) {
-                return new SimplePlayerLeaders(PlayerLeadersMessageBuilder.playerLeadersMap(gameModel));
+                return new SimplePlayerLeaders(PlayerLeadersMessageBuilder.playerLeadersMap(gameModel, playerRequestingUpdate));
             }
         },
 
@@ -85,7 +85,7 @@ public enum Element {
         SimpleStrongBox(false) {
             @Override
             public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate){
-                return new SimpleStrongBox(SimpleDepotsMessageBuilder.getSimpleStrongBox(gameModel));
+                return new SimpleStrongBox(SimpleDepotsMessageBuilder.getSimpleStrongBox(gameModel, playerRequestingUpdate));
             }
         },
 
@@ -94,9 +94,9 @@ public enum Element {
             public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate){
                 return new SimpleDiscardBox(
 
-                        SimpleDepotsMessageBuilder.getSimpleDiscardBox(gameModel),
-                        SimpleDepotsMessageBuilder.getAvailableMovingPositionsForResourceInDiscardBoxAtPos(gameModel) ,
-                        SimpleDepotsMessageBuilder.isDiscardBoxDiscardable(gameModel));
+                        SimpleDepotsMessageBuilder.getSimpleDiscardBox(gameModel, playerRequestingUpdate),
+                        SimpleDepotsMessageBuilder.getAvailableMovingPositionsForResourceInDiscardBoxAtPos(gameModel, playerRequestingUpdate) ,
+                        SimpleDepotsMessageBuilder.isDiscardBoxDiscardable(gameModel, playerRequestingUpdate));
 
             }
         },
@@ -164,14 +164,14 @@ public enum Element {
                 if(currentPlayerState.equals(State.CHOOSING_RESOURCE_FOR_PRODUCTION))
                     return new SelectablePositions(
 
-                            SimpleDepotsMessageBuilder.getSelectableWarehousePositionsForProduction(gameModel),
-                            SimpleDepotsMessageBuilder.getSelectableStrongBoxPositionsForProduction(gameModel)
+                            SimpleDepotsMessageBuilder.getSelectableWarehousePositionsForProduction(gameModel, playerRequestingUpdate),
+                            SimpleDepotsMessageBuilder.getSelectableStrongBoxPositionsForProduction(gameModel, playerRequestingUpdate)
                     );
 
                 else if(currentPlayerState.equals(State.CHOOSING_RESOURCES_FOR_DEVCARD))
                     return new SelectablePositions(
 
-                            SimpleDepotsMessageBuilder.getSelectableWarehousePositionsForDevCardPurchase(gameModel),
+                            SimpleDepotsMessageBuilder.getSelectableWarehousePositionsForDevCardPurchase(gameModel, playerRequestingUpdate),
                             SimpleDepotsMessageBuilder.getSelectableStrongBoxPositionsForDevCardPurchase(gameModel)
                     );
 

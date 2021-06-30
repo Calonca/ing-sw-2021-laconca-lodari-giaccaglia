@@ -21,9 +21,6 @@ public abstract class SetupPhaseViewBuilder extends ViewBuilder {
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(State.IDLE.name()))
             getClient().changeViewBuilder(IDLEViewBuilder.getBuilder(getClient().isCLI()));
-        else{
-            printWrongStateReceived(evt);
-        }
     }
 
 }

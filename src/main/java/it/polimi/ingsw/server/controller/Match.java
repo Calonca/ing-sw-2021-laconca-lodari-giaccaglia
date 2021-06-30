@@ -136,11 +136,15 @@ public class Match {
                 .anyMatch(user-> user.getNickname().equals(nickname));
     }
 
-    void addPlayer(String nickname, ClientHandler clientHandler){
-        if(offlineUsers.stream().anyMatch(user -> user.getNickname().equals(nickname)))
+    public int addPlayer(String nickname, ClientHandler clientHandler){
+        if(offlineUsers.stream().anyMatch(user -> user.getNickname().equals(nickname))) {
             setOnlineUser(nickname, clientHandler);
-        else
+            return game.getPlayerIndex(game.getPlayer(nickname).get());
+        }
+        else {
             onlineUsers.add(clientHandler);
+            return getLastPos();
+        }
     }
 
     public void startGame() {
@@ -155,7 +159,7 @@ public class Match {
         return Objects.nonNull(game) && game.isGameActive();
     }
 
-    public Optional<GameModel> getGame(){
+    public Optional<GameModel> getGameIfPresent(){
         return Optional.ofNullable(game);
     }
 
@@ -308,24 +312,36 @@ public class Match {
 
                     IDLE IDLEStrategy = new IDLE();
                     Pair<State, List<Element>> data = IDLEStrategy.execute(game, null);
+
                     newCurrentPlayer.setCurrentState(data.getKey());
                     notifyStateToAllPlayers(data.getValue(), newCurrentPlayer.getNickname());
                 }
-            }
 
+                else if(newCurrentPlayer.getCurrentState().equals(State.SETUP_PHASE)){
+
+                    List<Element> elements = new ArrayList<>(Arrays.asList(Element.values()));
+
+                    newCurrentPlayer.setCurrentState(State.SETUP_PHASE);
+                    notifyStateToAllPlayers(elements, newCurrentPlayer.getNickname());
+                }
+
+
+
+            }
         }
 
 
     }
 
-    public void notifyStateToAllPlayers(List<Element> elems, String playerNotifying){
+    public void notifyStateToAllPlayers(List<Element> elements, String playerNotifying){
 
         Player player = game.getPlayer(playerNotifying).get();
-        State state = player.getCurrentState();
+
+       State state = player.getCurrentState();
 
         clientsStream().forEach(clientHandler -> {
 
-            StateInNetwork stateInNetwork = state.toStateMessage(game, elems, game.getPlayerIndex(player));
+            StateInNetwork stateInNetwork = state.toStateMessage(game, elements, game.getPlayerIndex(player));
 
             try {
                 clientHandler.sendAnswerMessage(stateInNetwork);
@@ -387,8 +403,6 @@ public class Match {
         });
 
     }
-
-
 
     public String getSaveName(){
 

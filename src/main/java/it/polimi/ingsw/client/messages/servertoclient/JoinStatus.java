@@ -28,7 +28,7 @@ public class JoinStatus extends it.polimi.ingsw.network.messages.servertoclient.
         if (joinedMatchUUID==null)
             serverHandler.getClient().changeViewBuilder(CreateJoinLoadMatchCLI.getBuilder(serverHandler.getClient().isCLI()));
 
-        //Todo make a view do the transition.
+
         else serverHandler.getClient().getCommonData().setStartData(joinedMatchUUID,playerIndex);
     }
 }

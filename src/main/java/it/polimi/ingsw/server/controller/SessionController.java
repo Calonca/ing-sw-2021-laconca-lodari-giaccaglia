@@ -4,6 +4,8 @@ package it.polimi.ingsw.server.controller;
 import it.polimi.ingsw.network.messages.servertoclient.MatchesData;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.messages.messagebuilders.Element;
+import it.polimi.ingsw.server.model.GameModel;
+import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.server.utils.Deserializator;
 import it.polimi.ingsw.server.utils.Serializator;
 import javafx.util.Pair;
@@ -81,9 +83,10 @@ public class SessionController {
         Match match = matches.get(matchID);
 
         if (match.canAddPlayer() || match.isPlayerOffline(nickname)){
-            match.addPlayer(nickname,clientHandler);
+            int playerIndex = match.addPlayer(nickname,clientHandler);
             clientHandler.setMatch(match);
-            return match.getLastPos();
+
+            return playerIndex;
         }
 
         else return -1;
@@ -100,18 +103,29 @@ public class SessionController {
     public void joinMatchAndNotifyStateIfPossible(Match match, String playerNickname){
 
             List<Element> elements = Element.getAsList();
+
+            if(match.getGameIfPresent().isPresent()){
+                GameModel game = match.getGameIfPresent().get();
+
+                if(!game.isSinglePlayer() && game.getPlayer(playerNickname).isPresent())
+                    game.getPlayer(playerNickname).get().setCurrentState(State.IDLE); // if multiplayer, when player joins goes to IDLE phase;
+            }
+
             match.notifyStateToAllPlayers(elements, playerNickname);
             match.updateOtherPlayersCachesMessage(playerNickname);
-
 
     }
 
     public void notifyPlayerDisconnection(Match match, String playerNickname){
+
         List<Element> elements = new ArrayList<>();
         elements.add(Element.PlayersInfo);
         updateAvailableMatchesAfterDisconnection(); // updates matches info to clients not in game;
-        match.notifyStateToAllPlayers(elements, playerNickname);
-        match.transitionToNextStateAfterDisconnection(playerNickname);
+
+        if(match.getGameIfPresent().isPresent()) { // if game is present, notify players
+            match.notifyStateToAllPlayers(elements, playerNickname);
+            match.transitionToNextStateAfterDisconnection(playerNickname);
+        }
 
     }
 
@@ -143,10 +157,16 @@ public class SessionController {
 
         return matches.entrySet().stream()
                 .filter(match->
-                        (clientHandler.getMatch().isPresent() && clientHandler.getMatch().get().getMatchId().equals(match.getKey()))
+
+
+                        (clientHandler.getMatch().isPresent() && clientHandler.getMatch().get().getMatchId().equals(match.getKey())) // match was saved
                         ||
-                        (match.getValue().canAddPlayer())
-                        || (match.getValue().wasClientInMatch(clientHandler.getNickname()))
+                        (match.getValue().isNicknameAvailable(clientHandler.getNickname()) && match.getValue().canAddPlayer()) // player can join match if there is enough space and nickname constraints are met
+
+                        || (match.getValue().wasClientInMatch(clientHandler.getNickname())) // client was in match
+
+
+
                 ).sorted((m1, m2) -> m2.getValue().getCreatedTime().compareTo(m1.getValue().getCreatedTime()))
                 .limit(20)
                 .collect(Collectors.toMap(
@@ -167,7 +187,7 @@ public class SessionController {
         Arrays.stream(folder.listFiles()).filter(File::isFile).forEach((file)->{
 
                 Match match = Deserializator.deserializeMatch(folder.toString() +'/' + file.getName());
-                match.getGame().get().setMatch(match);
+                match.getGameIfPresent().get().setMatch(match);
                 matches.put(match.getMatchId(),match);
         });
 
@@ -235,7 +255,6 @@ public class SessionController {
 
         }
     }
-
 
     public Optional<Match> loadMatch(UUID gameId) {
 

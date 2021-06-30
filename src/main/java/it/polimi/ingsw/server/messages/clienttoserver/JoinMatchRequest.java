@@ -45,6 +45,7 @@ public class JoinMatchRequest extends it.polimi.ingsw.network.messages.clienttos
                 clientHandler.getMatch().ifPresent(m-> sessionController.joinMatchAndNotifyStateIfPossible(m, nickName));
 
             }
+
             else {
 
                 sessionController.notifyPlayersInLobby(clientHandler);

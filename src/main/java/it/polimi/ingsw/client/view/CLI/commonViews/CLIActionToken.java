@@ -38,7 +38,7 @@ public class CLIActionToken extends ViewBuilder{
 
         getCLIView().show();
         getCLIView().runOnInput("", () -> {});
-        Timer.showSecondsOnCLI(getCLIView(), "Here is this turn Action Token! . Seconds left for viewing : ");
+        Timer.showSecondsOnCLI(getCLIView(), "Here is this turn Action Token! . Seconds left for viewing : ", 2);
         getClient().changeViewBuilder(getClient().getSavedViewBuilder());
 
 

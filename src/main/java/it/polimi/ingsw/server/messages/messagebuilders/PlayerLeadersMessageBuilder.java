@@ -17,17 +17,17 @@ public class PlayerLeadersMessageBuilder {
                         //value -> true if INACTIVE leader is playable , otherwise false. If leader is ACTIVE, value is false
 
 
-    public static Map<UUID, Pair<Boolean, Boolean>> playerLeadersMap(GameModel gameModel){
+    public static Map<UUID, Pair<Boolean, Boolean>> playerLeadersMap(GameModel gameModel, int playerRequestingUpdate){
 
-        Player currentPlayer = gameModel.getCurrentPlayer();
+        Player player = gameModel.getPlayer(playerRequestingUpdate).get();
 
-        return currentPlayer.getLeadersUUIDs().stream().collect(Collectors.toMap(
+        return player.getLeadersUUIDs().stream().collect(Collectors.toMap(
                 leaderId -> leaderId,
                 leaderId -> new Pair<>(
-                        currentPlayer.getLeader(leaderId).get().getState().equals(LeaderState.ACTIVE),
+                        player.getLeader(leaderId).get().getState().equals(LeaderState.ACTIVE),
 
-                        (currentPlayer.getPersonalBoard().isLeaderRequirementsSatisfied(currentPlayer.getLeader(leaderId).get())
-                        && currentPlayer.getLeader(leaderId).get().getState().equals(LeaderState.INACTIVE))
+                        (player.getPersonalBoard().isLeaderRequirementsSatisfied(player.getLeader(leaderId).get())
+                        && player.getLeader(leaderId).get().getState().equals(LeaderState.INACTIVE))
 
         )));
 

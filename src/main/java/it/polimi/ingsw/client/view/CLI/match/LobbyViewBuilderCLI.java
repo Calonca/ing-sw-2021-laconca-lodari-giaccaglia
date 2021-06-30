@@ -37,7 +37,7 @@ public class LobbyViewBuilderCLI extends LobbyViewBuilder implements CLIBuilder 
         if (evt.getPropertyName().equals(CommonData.matchesDataString) || evt.getPropertyName().equals(CommonData.thisMatchData) |! evt.getPropertyName().equals(PlayersInfo.class.getSimpleName()))
             getClient().changeViewBuilder(LobbyViewBuilder.getBuilder(getClient().isCLI()));
         else if (evt.getPropertyName().equals(State.SETUP_PHASE.toString())) {
-            Timer.showSecondsOnCLI(getCLIView(), "Ready for Setup Phase, seconds left : ");
+            Timer.showSecondsOnCLI(getCLIView(), "Ready for Setup Phase, seconds left : ", 2);
             getClient().changeViewBuilder(new SetupPhase());
 
         } else if (evt.getPropertyName().equals(PlayersInfo.class.getSimpleName())) {

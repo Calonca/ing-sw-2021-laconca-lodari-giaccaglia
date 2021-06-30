@@ -10,6 +10,7 @@ import it.polimi.ingsw.client.view.CLI.layout.Option;
 import it.polimi.ingsw.client.view.CLI.layout.SizedBox;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.Drawable;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.DrawableLine;
+import it.polimi.ingsw.client.view.CLI.layout.drawables.Timer;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Column;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
 import it.polimi.ingsw.client.view.CLI.textUtil.Background;
@@ -142,8 +143,10 @@ public class CreateJoinLoadMatchCLI extends CreateJoinLoadMatchViewBuilder imple
         joinMatch.setMatchId( matchId );
 
         return () -> {
-            getClient().getServerHandler().sendCommandMessage(new JoinMatchRequest(matchId,getCommonData().getCurrentNick()));
+
             getClient().changeViewBuilder( joinMatch );
+            Timer.showSecondsOnCLI(getCLIView(), "Loading data, seconds left : ", 2);
+            getClient().getServerHandler().sendCommandMessage(new JoinMatchRequest(matchId,getCommonData().getCurrentNick()));
         };
     }
 
@@ -184,8 +187,12 @@ public class CreateJoinLoadMatchCLI extends CreateJoinLoadMatchViewBuilder imple
         }
 
 
+        if(posY == 0)
+            posY = 2;
+
 
         for(int i=0; i<offlinePlayers.length; i++) {
+
 
             posY = posY + 3;
             int playerIndex = i + 1;

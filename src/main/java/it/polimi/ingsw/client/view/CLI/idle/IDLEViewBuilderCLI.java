@@ -104,7 +104,7 @@ public class IDLEViewBuilderCLI extends IDLEViewBuilder implements CLIBuilder {
             if (getSimpleModel().getPlayersCaches().length != 1) {
                 run(); // to update players info leader option
 
-                Timer.showSecondsOnCLI(getCLIView(), "It's almost your turn! Seconds left : ");
+                Timer.showSecondsOnCLI(getCLIView(), "It's almost your turn! Seconds left : ", 2);
             }
             getClient().changeViewBuilder(InitialOrFinalPhaseViewBuilder.getBuilder(getClient().isCLI(), true));
 
@@ -112,7 +112,7 @@ public class IDLEViewBuilderCLI extends IDLEViewBuilder implements CLIBuilder {
 
             if (getSimpleModel().getPlayersCaches().length != 1) {
                 run(); // to update players info leader option
-                Timer.showSecondsOnCLI(getCLIView(), "It's almost your turn! Seconds left : ");
+                Timer.showSecondsOnCLI(getCLIView(), "It's almost your turn! Seconds left : ", 2);
             }
 
             getClient().changeViewBuilder(MiddlePhaseViewBuilder.getBuilder(getClient().isCLI()));

@@ -8,10 +8,10 @@ import java.util.concurrent.TimeUnit;
 
 public class Timer{
 
-    public static void showSecondsOnCLI(CLI cli, String baseText){
+    public static void showSecondsOnCLI(CLI cli, String baseText, int seconds){
                 cli.blockTitleChanges();
 
-                for(int time=5; time>=0; time--){
+                for(int time=seconds; time>=0; time--){
 
                     String titleString = baseText + time;
                     Title title = new Title(titleString, Color.GREEN);

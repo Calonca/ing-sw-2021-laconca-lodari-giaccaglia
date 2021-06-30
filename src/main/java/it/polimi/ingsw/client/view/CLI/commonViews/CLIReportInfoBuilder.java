@@ -45,7 +45,7 @@ public final class CLIReportInfoBuilder {
         getCLIView().setBody(body);
         getCLIView().show();
 
-        Timer.showSecondsOnCLI(getCLIView(), "Vatican Report occurred! . Seconds left for viewing : ");
+        Timer.showSecondsOnCLI(getCLIView(), "Vatican Report occurred! . Seconds left for viewing : ", 2);
         getClient().changeViewBuilder(getClient().getSavedViewBuilder());
 
     }

@@ -27,7 +27,7 @@ public class LobbyCLI extends LobbyViewBuilderCLI {
         Map<UUID, Pair<String[], String[]>> availableMatches = getCommonData().getAvailableMatchesData().get();
 
         UUID matchId = getClient().getCommonData().getMatchId().get();
-        String[] players = availableMatches.get(matchId).getKey();
+        String[] players = availableMatches.get(matchId).getKey();  // picking online players !!
 
         int leftPlayers = (int)(Arrays.stream(players).filter(player -> player.equals("available slot")).count());
 

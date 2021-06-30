@@ -127,6 +127,7 @@ public class ClientHandler implements Runnable
         if(Objects.nonNull(match)) {
             SessionController session = SessionController.getInstance();
             session.setPlayerOffline(this);
+
             session.notifyPlayerDisconnection(match, nickname);
             session.saveSessionController();
         }
