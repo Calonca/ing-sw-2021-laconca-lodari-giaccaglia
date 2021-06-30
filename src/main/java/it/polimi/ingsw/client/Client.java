@@ -281,9 +281,10 @@ public class Client implements Runnable
             }
 
         }
-
-        simpleModel.updateSimpleModel(stateInNetwork);
-
+        if (isCLI)
+            simpleModel.updateSimpleModel(stateInNetwork);
+        else
+            Platform.runLater(()->simpleModel.updateSimpleModel(stateInNetwork));
     }
 
 }

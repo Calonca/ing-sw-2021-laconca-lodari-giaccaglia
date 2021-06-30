@@ -37,7 +37,7 @@ public class CreateJoinLoadMatchCLI extends CreateJoinLoadMatchViewBuilder imple
 
                 {
                     getCLIView().clearScreen();
-                    getCLIView().setTitle(new Title("Hey "+ getCommonData().getCurrentNick()+", what do you want to do?"));
+                    getCLIView().setTitle(new Title("Hey "+ getCommonData().getCurrentNick()+", what do you want to do?",Color.BLUE));
 
                     Stream<GridElem> optionsToAdd = getNewOptionList();
                     Row initialRow = new Row(optionsToAdd);

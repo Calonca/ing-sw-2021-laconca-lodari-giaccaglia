@@ -15,7 +15,7 @@ public class IDLEViewBuilderGUI extends IDLEViewBuilder implements GUIView
     public void run() {
         Playground.refreshCardShop();
         Playground.getThisPlayerBoard().refreshLeaders();
-
+        //Playground.getThisPlayerBoard().setMode(BoardView3D.Mode.MOVING_RES);
     }
 
 

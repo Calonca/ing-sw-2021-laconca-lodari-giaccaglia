@@ -29,8 +29,7 @@ public class Playground {
     private static Playground singleton;
     private static final BoardStateController controller=new BoardStateController();
     private static final Point3D tableCenter = new Point3D(400,-3500,0);
-    double width=1800;
-    double len=1000;
+
     private boolean active=false;
 
     public Group root;
@@ -52,9 +51,6 @@ public class Playground {
                     i-> new BoardView3D(i,getSimpleModel().getPlayerCache(i))
                     ));
             singleton.runforStart();
-            Platform.runLater(()->{
-                singleton.boards.values().forEach(b->b.setMode(BoardView3D.Mode.BACKGROUND));
-            });
 
         }
         return singleton;
@@ -116,9 +112,6 @@ public class Playground {
 
     public SubScene getRoot() {
 
-        AnchorPane boardPane=new AnchorPane();
-        boardPane.setMinSize(1800,1000);
-
         PerspectiveCamera camera = new PerspectiveCamera();
 
         root = new Group();
@@ -144,17 +137,21 @@ public class Playground {
         root.getChildren().add(table);
 
 
-
         final int thisPlayerIndex = getCommonData().getThisPlayerIndex();
         //Orders the other players' boards based on their position in respect to the player controlling the GUI
         Map<Integer,BoardView3D> boardsClockWise = boards.entrySet().stream().collect(Collectors.toMap(e->
-                        (e.getKey()<thisPlayerIndex?e.getKey()+boards.size():e.getKey())-thisPlayerIndex,
+                        e.getKey()-thisPlayerIndex,
                 Map.Entry::getValue
         ));
 
-        //Adds the tables in clockwise order
+        //Sets the counter-clock-wise index of the boards
+        boardsClockWise.entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
+                .forEach(e-> e.getValue().setCounterClockWiseIdx(e.getKey()));
+
         root.getChildren().addAll((boardsClockWise.entrySet().stream().sorted(Map.Entry.comparingByKey())
-                .map(e->e.getValue().getRoot(e.getKey()))
+                .filter(e->e.getKey()<=getThisPlayerBoard().getCounterClockWiseIdx())
+                .map(e->e.getValue().getRoot())
                 .collect(Collectors.toList())));
 
         CamState.setCamera(camera);
@@ -163,7 +160,7 @@ public class Playground {
             camState.animateWithKeyCode(pressed);
         });
 
-        SubScene scene = new SubScene(root, width, len,true,SceneAntialiasing.DISABLED);
+        SubScene scene = new SubScene(root, GUI.GUIwidth, GUI.GUIlen,true,SceneAntialiasing.DISABLED);
         scene.setCamera(camera);
 
         cardShopGUI=new CardShopGUI();
@@ -172,8 +169,7 @@ public class Playground {
         refreshMarket();
         refreshCardShop();
 
-        boardPane.getChildren().add(scene);
-        return new SubScene(boardPane,width,len);
+        return scene;
 
     }
 

@@ -4,6 +4,8 @@ import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 
+import java.util.List;
+
 public class NodeAdder {
 
 
@@ -20,5 +22,12 @@ public class NodeAdder {
         shape.setTranslateY(shift.getY());
         shape.setTranslateZ(shift.getZ());
         parent.getChildren().add(shape);
+    }
+
+    public static void shiftAndAddToList(List<Node> parent, Node shape, Point3D shift){
+        shape.setTranslateX(shift.getX());
+        shape.setTranslateY(shift.getY());
+        shape.setTranslateZ(shift.getZ());
+        parent.add(shape);
     }
 }

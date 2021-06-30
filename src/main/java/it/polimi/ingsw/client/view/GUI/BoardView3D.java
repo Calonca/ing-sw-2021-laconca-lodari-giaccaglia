@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.GUI;
 
 import it.polimi.ingsw.client.simplemodel.PlayerCache;
+import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.GUI.board.Box3D;
 import it.polimi.ingsw.client.view.GUI.board.FaithTrack;
 import it.polimi.ingsw.client.view.GUI.board.InfoTiles;
@@ -9,36 +10,30 @@ import it.polimi.ingsw.client.view.GUI.layout.ResChoiceRowGUI;
 import it.polimi.ingsw.client.view.GUI.util.CardSelector;
 import it.polimi.ingsw.client.view.GUI.util.DragAndDropHandler;
 import it.polimi.ingsw.client.view.GUI.util.NodeAdder;
-import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
-import it.polimi.ingsw.client.view.abstractview.ProductionViewBuilder;
 import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
 import it.polimi.ingsw.network.assets.leaders.NetworkDepositLeaderCard;
-import it.polimi.ingsw.network.assets.leaders.NetworkProductionLeaderCard;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
-import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.network.simplemodel.SimpleCardCells;
 import it.polimi.ingsw.network.simplemodel.SimpleCardShop;
 import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
 import it.polimi.ingsw.network.simplemodel.SimpleProductions;
+import javafx.application.Platform;
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 
-import java.nio.file.Path;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.getSimpleModel;
-import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.getThisPlayerCache;
 
-public class BoardView3D {
+public class BoardView3D implements PropertyChangeListener {
 
     public enum Mode{
 
@@ -85,8 +80,7 @@ public class BoardView3D {
          */
         CHOOSE_PRODUCTION() {
             public void run(BoardView3D board) {
-                final Group parent = board.parent;
-                board.productionBuilder(parent);
+                board.productions.updateProds();
             }
 
         },
@@ -95,15 +89,12 @@ public class BoardView3D {
          */
         CHOOSE_POS_FOR_CARD() {
             public void run(BoardView3D board) {
-                final Group parent = board.parent;
+                board.productions.updateProds();
                 CardShopGUI.addChosenCard();
-                board.productionBuilder(parent);
             }
         },
         BACKGROUND(){
             public void run(BoardView3D board) {
-                final Group parent = board.parent;
-                board.productionBuilder(parent);
             }
         };
 
@@ -114,14 +105,14 @@ public class BoardView3D {
     public BoardView3D(int playerNumber, PlayerCache cache) {
         this.playerNumber = playerNumber;
         this.cache = cache;
+        cache.addPropertyChangeListener(this);
     }
 
     public Mode mode = Mode.BACKGROUND;
-    private int playerNumber;
-    private PlayerCache cache;
-
-    double width=1800;
-    double len=1000;
+    private final int playerNumber;
+    private int counterClockWiseIdx;
+    private final PlayerCache cache;
+    private boolean initialized = false;
 
     public Rectangle boardRec;
     public Group parent;
@@ -139,7 +130,7 @@ public class BoardView3D {
     protected ResChoiceRowGUI toSelect;
 
     protected Group leadersGroup=new Group();
-    protected Group productions;
+    protected Productions3D productions;
 
 
     public void setFaithTrack(Group faithTrack) {
@@ -162,6 +153,9 @@ public class BoardView3D {
         this.strongBox = strongBox;
     }
 
+    public int getCounterClockWiseIdx() {
+        return counterClockWiseIdx;
+    }
 
     /**
      * This method is called to refresh the position's of the deposit leaders
@@ -185,21 +179,12 @@ public class BoardView3D {
      * @param parent
      */
     public void addLeaders(Group parent) {
-        SimplePlayerLeaders activeLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).orElseThrow();
+        SimplePlayerLeaders activeLeaders = cache.getElem(SimplePlayerLeaders.class).orElseThrow();
 
         Rectangle temp;
-     
 
-
-        /*     temp=new Rectangle(150,150);
-        temp.setTranslateY(500);
-        temp.setTranslateX(200);
-
-        addNodeToParent(parent,board,temp,new Point3D(-300,500+150,0));
-        */
         List<LeaderCardAsset> activeBonus = activeLeaders.getPlayerLeaders();
         int count=0;
-
 
         for (LeaderCardAsset bonus : activeBonus) {
 
@@ -213,8 +198,6 @@ public class BoardView3D {
 
         }
         leadersGroup.setTranslateY(500);
-
-
     }
 
     public void reset(){
@@ -225,9 +208,6 @@ public class BoardView3D {
             toSelect.clear();
             toSelect = null;}
 
-        if (productions!=null)
-            productions.getChildren().clear();
-
         if (CardShopGUI.chosenCard!=null)
             CardShopGUI.chosenCard.getChildren().clear();
     }
@@ -235,7 +215,7 @@ public class BoardView3D {
     public void setMode(Mode mode){
         reset();
         this.mode = mode;
-        mode.run(this);
+        Platform.runLater(()->mode.run(this));
     }
 
     public ResChoiceRowGUI getToSelect() {
@@ -247,13 +227,16 @@ public class BoardView3D {
     }
 
 
+    public void setCounterClockWiseIdx(int counterClockWiseIdx) {
+        this.counterClockWiseIdx = counterClockWiseIdx;
+    }
+
     /**
      * This method is called upon board initialization
-     * @param clockwiseIndex is the clockwise index from the starting player
      * @return a group containing the PlayerBoard information
      */
-    public Group getRoot(int clockwiseIndex) {
-
+    public synchronized Group getRoot() {
+        initialized=true;
         parent = new Group();
 
         final double boardWidth=2402;
@@ -267,14 +250,13 @@ public class BoardView3D {
         boardRec.setTranslateY(-320);
         boardRec.setTranslateZ(1500);
         Point3D tbc= Playground.getTableCenter();
-        Rotate rotateCam3 = new Rotate((-clockwiseIndex*90), tbc.getX(),tbc.getY(),tbc.getZ(),Rotate.Z_AXIS);
+        Rotate rotateCam3 = new Rotate((-this.counterClockWiseIdx *90), tbc.getX(),tbc.getY(),tbc.getZ(),Rotate.Z_AXIS);
         parent.getTransforms().add(rotateCam3);
         parent.getChildren().add(boardRec);
 
         faithBoard=new FaithTrack();
         faithBoard.faithTrackBuilder(this,parent, boardRec,playerNumber,cache);
         cache.addPropertyChangeListener(faithBoard);
-
 
         InfoTiles infoTiles=new InfoTiles();
         infoTiles.infoBuilder(this,parent, boardRec,playerNumber,cache);
@@ -288,12 +270,16 @@ public class BoardView3D {
         strongBox.strongBuilder(parent,boardRec);
         cache.addPropertyChangeListener(strongBox);
 
+        productions = new Productions3D(this);
+        productions.updateProds();
+        cache.addPropertyChangeListener(productions);
+
         return parent;
     }
 
 
     /**
-     * This method is used to initialize the deposits
+     * This method is used to initialize the resource selection
      * @param parent is the Board 3D main group
      * @param board is the Board 3D rectangle
      */
@@ -324,104 +310,12 @@ public class BoardView3D {
         NodeAdder.addNodeToParent(parent, board, resRowGroup, initialPos);
     }
 
-    /**
-     * Is used to initialize the productions
-     * @param parent is the Board 3D main group
-     */
-    private void productionBuilder(Group parent) {
-        Group productions = new Group();
-        Button productionButton = new Button();
-        productionButton.setText("Produce");
-        productionButton.setLayoutX(500);
-        productionButton.setLayoutY(1550);
-        productionButton.setTranslateZ(-15);
-        productionButton.setPrefHeight(80);
-        productionButton.setPrefWidth(200);
-        productionButton.setStyle("-fx-font-size:30");
-
-        productionButton.setOpacity(mode.equals(Mode.CHOOSE_PRODUCTION)?1:0);
-
-        productionButton.setOnAction(e -> {
-            if (mode.equals(Mode.CHOOSE_PRODUCTION))
-                ProductionViewBuilder.sendProduce();
-        });
-
-        productions.getChildren().add(productionButton);
-
-        Rectangle basic=new Rectangle(300,300);
-        basic.setOpacity(0);
-        //basic.setMouseTransparent(true);
-
-        NodeAdder.addNodeToParent(productions,basic,new Point3D(600,1200,0));
-        basic.setOnMouseClicked(p->{
-            if (mode.equals(Mode.CHOOSE_PRODUCTION)) {
-                ProductionViewBuilder.sendChosenProduction(0);
-            }
-        });
-
-        SimpleCardCells simpleCardCells = cache.getElem(SimpleCardCells.class).orElseThrow();
-        Map<Integer,Optional<DevelopmentCardAsset>> frontCards=simpleCardCells.getDevCardsOnTop();
-
-        for (Map.Entry<Integer, Optional<DevelopmentCardAsset>> entry : frontCards.entrySet()) {
-            Integer key = entry.getKey();
-            Optional<DevelopmentCardAsset> value = entry.getValue();
-            ImagePattern tempImage;
-            Path path;
-            Rectangle rectangle = new Rectangle(462, 698);
-            //rectangle.setMouseTransparent(true);
-            System.out.println(JsonUtility.serialize(value.orElse(null)));
-            if (value.isEmpty()) {
-                tempImage = new ImagePattern(new Image("assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_BLUE_1.png"));
-                rectangle.setOpacity(0);
-            } else {
-                path = simpleCardCells.getDevCardsCells().get(key).get().get(simpleCardCells.getDevCardsCells().get(key).get().size()-1).getCardPaths().getKey();
-                tempImage = CardSelector.imagePatternFromAsset(path);
-                System.out.println(path);
-            }
-
-                rectangle.setLayoutX(400 + 250 * key);
-            rectangle.setLayoutY(0);
-            rectangle.setOnMouseClicked(p -> {
-                if (mode.equals(Mode.CHOOSE_POS_FOR_CARD) && simpleCardCells.isSpotAvailable(key)) {
-                    CardShopViewBuilder.sendCardPlacementPosition(key);
-                } else if (mode.equals(Mode.CHOOSE_PRODUCTION))
-                    if (value.isPresent())
-                        if(value.get().getDevelopmentCard().isSelectable())
-                            ProductionViewBuilder.sendChosenProduction(key);
-            });
-            rectangle.setFill(tempImage);
-
-
-
-
-
-            NodeAdder.addNodeToParent(productions, rectangle, new Point3D(20 + 220 * key, 700, -20));
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (!initialized && evt.getPropertyName().equals(State.IDLE.toString())){
+            Playground.getPlayground().root.getChildren().add(getRoot());
         }
-
-        SimplePlayerLeaders activeLeaders = cache.getElem(SimplePlayerLeaders.class).orElseThrow();
-
-        List<LeaderCardAsset> activeBonus = activeLeaders.getPlayerLeaders();
-        Rectangle temp;
-        Path path;
-        for (LeaderCardAsset bonus : activeBonus) {
-            int count = 0;
-            if (bonus.getNetworkLeaderCard().isLeaderActive())
-                if (bonus.getNetworkLeaderCard() instanceof NetworkProductionLeaderCard) {
-                    temp = new Rectangle(462, 698);
-                    temp.setTranslateY(250);
-                    temp.setLayoutX(400 + 750 + 250 * (count + 1));
-
-                    temp.setFill(CardSelector.imagePatternFromAsset(bonus.getCardPaths().getKey()));
-                    NodeAdder.addNodeToParent(productions, temp, new Point3D(680 + 220 * (count + 1), 700, -20));
-
-                }
-
-
-        }
-        NodeAdder.addNodeToParent(parent, boardRec, productions, new Point3D(0,0,0));
-        this.productions = productions;
     }
-
 
 }
 
