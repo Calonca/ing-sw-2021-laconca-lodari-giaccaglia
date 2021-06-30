@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model;
 
 import com.rits.cloning.Cloner;
+import it.polimi.ingsw.network.util.Util;
 import it.polimi.ingsw.server.controller.Match;
 import it.polimi.ingsw.server.model.cards.CardShop;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
@@ -112,11 +113,12 @@ public class GameModel {
      * Constructor for a game of Maestri del Rinascimento.
      * @param nicknames a List of unique names of players.
      * @param isSinglePlayer Indicates if it is a single player game or not.
+     * @param onlineUsers
      */
-    public GameModel(List<String> nicknames, boolean isSinglePlayer,Match match){
+    public GameModel(Map<Integer, String> nicknames, boolean isSinglePlayer, Match match, List<Integer> onlineUsers){
         this.match = match;
         this.isSinglePlayer = isSinglePlayer;
-        commonInit(nicknames);
+        commonInit(nicknames, onlineUsers);
 
         if(isSinglePlayer) soloModeInit(players.get(0));
 
@@ -127,9 +129,9 @@ public class GameModel {
 
     /**
      * Initializes common attributes between single player and multi player game.
-     * @param nicknames a List of unique names of players.
+     * @param playersMap a Map of unique index - name entries;
      */
-    private void commonInit(List<String> nicknames){
+    private void commonInit(Map<Integer, String> playersMap, List<Integer> onlineUsersIndexes){
 
         try {
             resourcesMarket = MarketBoard.initializeMarketBoard();
@@ -142,9 +144,10 @@ public class GameModel {
             e.printStackTrace();
         }
 
-        players = IntStream.range(0, nicknames.size())
-                .boxed()
-                .collect(Collectors.toMap(Function.identity(), i ->
+        players = playersMap.entrySet().stream()
+                .collect(Collectors.toMap(Map.Entry::getKey,
+
+                        entry ->
                         {
                             List<UUID> leaderKeys = new ArrayList<>(leaders.keySet());
 
@@ -159,17 +162,20 @@ public class GameModel {
                                     .collect(Collectors.toMap
                                             (keys::get, k -> leaders.remove(keys.get(k))));
 
-                           return new Player(nicknames.get(i), initialLeaders);
+                           return new Player(playersMap.get(entry.getKey()), initialLeaders);
                         }));
 
-        onlinePlayers = IntStream.range(0, nicknames.size())
-                .boxed()
-                .collect(Collectors.toMap(Function.identity(), i -> players.get(i)));
+        onlinePlayers = onlineUsersIndexes.stream().collect(Collectors.toMap(
+                index -> index,
+                index -> players.get(index)
+        ));
+
+        onlinePlayers.values().forEach(player -> player.setCurrentStatus(true));
 
         players.values().forEach((player)-> player.setStatesTransitionTable(StatesTransitionTable.fromIsSinglePlayer(isSinglePlayer))
         );
 
-        setCurrentPlayer(players.get(0));
+        setCurrentPlayer(players.get(onlineUsersIndexes.get(0)));
     }
 
     /**
@@ -276,14 +282,12 @@ public class GameModel {
 
 
     /**
-     * Method to get a <em>playerNumber</em> associated with a Player.
-     * @param player Player to determine the <em>playerNumber</em>
-     * @return <em>playerNumber</em> associated with the Player if present, otherwise -1;
+     * Method to get a <em>numberOfPlayerSendingEvent</em> associated with a Player.
+     * @param player Player to determine the <em>numberOfPlayerSendingEvent</em>
+     * @return <em>numberOfPlayerSendingEvent</em> associated with the Player if present, otherwise -1;
      */
     public int getPlayerIndex(Player player){
-        return (Objects.nonNull(player) && players.containsValue(player)) ?
-                getPlayerIndex(player, players)
-                : -1;
+        return Util.getKeyByValue(players, player).orElse(-1);
     }
 
     public List<UUID> getRemainingLeadersUUIDs (){
@@ -303,8 +307,8 @@ public class GameModel {
         return currentPlayer.anyLeaderPlayable();
     }
 
-    public void discardLeadersOnSetupPhase(List<UUID> chosenLeaders){
-        currentPlayer.getLeadersUUIDs().stream().filter(leaderId -> !chosenLeaders.contains(leaderId)).forEach(leaderId -> currentPlayer.discardLeader(leaderId));
+    public void discardLeadersOnSetupPhase(Player player, List<UUID> chosenLeaders){
+        player.getLeadersUUIDs().stream().filter(leaderId -> !chosenLeaders.contains(leaderId)).forEach(player::discardLeader);
     }
 
     public void setOfflinePlayer(Player player){
@@ -372,7 +376,7 @@ public class GameModel {
      */
     public Optional<Player> getNextPlayer() {
 
-        int currentPlayerIndex = getPlayerIndex(currentPlayer, onlinePlayers);
+        int currentPlayerIndex = Util.getKeyByValue(players, currentPlayer).get();
 
         //finds index of first online player
         Optional<Integer> optPlayerIndex = IntStream.concat(
@@ -634,7 +638,6 @@ public class GameModel {
     public int getPlayerPosition(Player player){
         return player.getPlayerPosition();
     }
-
 
     public void setMatch(Match match){
         this.match = match;

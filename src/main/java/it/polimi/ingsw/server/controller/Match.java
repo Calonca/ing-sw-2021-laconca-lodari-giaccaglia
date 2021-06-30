@@ -4,6 +4,7 @@ import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
 import it.polimi.ingsw.network.messages.servertoclient.state.ElementsInNetwork;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
 import it.polimi.ingsw.network.simplemodel.SimpleModelElement;
+import it.polimi.ingsw.network.util.Util;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.controller.strategy.GameStrategy;
 import it.polimi.ingsw.server.controller.strategy.IDLE;
@@ -23,9 +24,10 @@ import java.util.stream.Stream;
 public class Match {
 
     private final UUID matchId;
-    private final List<ClientHandler> onlineUsers = new ArrayList<>();
-    private final List<ClientHandler> offlineUsers = new ArrayList<>();
+    private final Map<Integer, ClientHandler> onlineUsers = new HashMap<>();
+    private final Map<Integer, ClientHandler> offlineUsers = new HashMap<>();
     private GameModel game;
+    private int currentPlayersAmount = 0;
     private final int maxPlayers;
     private final Date createdTime;
     private String reasonOfGameEnd;
@@ -39,11 +41,12 @@ public class Match {
     }
 
     private void setUserMatchesAfterServerRecovery(){
-        offlineUsers.forEach(user -> user.setMatch(this));
+        offlineUsers.values().forEach(user -> user.setMatch(this));
     }
 
     private void setAllUsersOffline(){
-        offlineUsers.addAll(onlineUsers);
+
+        offlineUsers.putAll(onlineUsers);
         onlineUsers.clear();
     }
 
@@ -52,7 +55,7 @@ public class Match {
         if(Objects.nonNull(game))
             game.setMatch(this);
 
-        offlineUsers.forEach(user ->
+        offlineUsers.values().forEach(user ->
         {
             if(Objects.nonNull(game) && game.getPlayer(user.getNickname()).isPresent()) {
                 Player player = game.getPlayer(user.getNickname()).get();
@@ -64,7 +67,7 @@ public class Match {
 
     public String getPlayerNicknameFromHandler(ClientHandler clientHandler){
 
-        return onlineUsers.stream()
+        return onlineUsers.values().stream()
                 .filter(user -> user == clientHandler)
                 .findFirst().get()
                 .getNickname();
@@ -80,15 +83,16 @@ public class Match {
 
     public void setOfflineUser(ClientHandler clientHandler){
 
-        Optional<ClientHandler> optUser = onlineUsers
+        Optional<ClientHandler> optUser = onlineUsers.values()
                 .stream()
                 .filter(user -> user.equals(clientHandler))
                 .findFirst();
 
         if(optUser.isPresent()){
             ClientHandler user = optUser.get();
-            onlineUsers.remove(user);
-            offlineUsers.add(user);
+            int userIndex = Util.getKeyByValue(onlineUsers, user).get();
+            onlineUsers.remove(userIndex);
+            offlineUsers.put(userIndex, user);
 
            if(Objects.nonNull(game)) {  // game was created/existed before disconnection
                Player player = game.getPlayer(user.getNickname()).get();
@@ -98,25 +102,29 @@ public class Match {
     }
 
     public boolean isPlayerOffline(String nickname){
-        return offlineUsers.stream().anyMatch(user -> user.getNickname().equals(nickname));
+        return offlineUsers.values().stream().anyMatch(user -> user.getNickname().equals(nickname));
     }
 
     //called when reconnecting
     public void setOnlineUser(String nickName, ClientHandler clientHandler){
 
-        Optional<ClientHandler> optUser = offlineUsers.stream()
+        Optional<ClientHandler> optUser = offlineUsers.values().stream()
                 .filter(user -> user.getNickname().equals(nickName))
                 .findFirst();
 
         if(optUser.isPresent()){
 
             ClientHandler user = optUser.get();
-            offlineUsers.remove(user);
-            onlineUsers.add(clientHandler);
-            Player player = game.getPlayer(nickName).get();
-            game.setOnlinePlayer(player);
-            if(game.getCurrentPlayer().getNickname().equals(player.getNickname()))
-                game.setCurrentPlayer(player);
+            int userIndex = Util.getKeyByValue(offlineUsers, user).get();
+            offlineUsers.remove(userIndex);
+            onlineUsers.put(userIndex, clientHandler);
+
+            if(Objects.nonNull(game)) {  // if game has been created set player online after reconnecting
+                Player player = game.getPlayer(nickName).get();
+                game.setOnlinePlayer(player);
+                if (game.getCurrentPlayer().getNickname().equals(player.getNickname()))
+                    game.setCurrentPlayer(player);
+            }
 
         }
 
@@ -127,28 +135,40 @@ public class Match {
     }
 
     public boolean isNicknameAvailable(String nickname){
-        return onlineUsers.stream()
+        return onlineUsers.values().stream()
                 .noneMatch(user-> user.getNickname().equals(nickname));
     }
 
     public boolean wasClientInMatch(String nickname){
-        return offlineUsers.stream()
+        return offlineUsers.values().stream()
                 .anyMatch(user-> user.getNickname().equals(nickname));
     }
 
     public int addPlayer(String nickname, ClientHandler clientHandler){
-        if(offlineUsers.stream().anyMatch(user -> user.getNickname().equals(nickname))) {
+        if(offlineUsers.values().stream().anyMatch(user -> user.getNickname().equals(nickname))) {
             setOnlineUser(nickname, clientHandler);
             return game.getPlayerIndex(game.getPlayer(nickname).get());
         }
         else {
-            onlineUsers.add(clientHandler);
-            return getLastPos();
+            onlineUsers.put(currentPlayersAmount, clientHandler);
+            int playerIndex = currentPlayersAmount;
+            currentPlayersAmount = currentPlayersAmount+1;
+            return playerIndex ;
         }
     }
 
     public void startGame() {
-        this.game = new GameModel(onlineUsers.stream().map(ClientHandler::getNickname).collect(Collectors.toList()), onlineUsers.size()==1,this);
+
+        Map<Integer, String> playersMap =  Stream
+                .concat(onlineUsers.entrySet().stream(), offlineUsers.entrySet().stream())
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        entry -> entry.getValue().getNickname()));
+
+        List<Integer> onlineUsersIndexes = new ArrayList<>(onlineUsers.keySet());
+
+        this.game = new GameModel(playersMap, playersMap.size()==1, this, onlineUsersIndexes);
+
         game.start();
         game.getCurrentPlayer().setCurrentState(State.SETUP_PHASE);
         List<Element> elements = new ArrayList<>(Arrays.asList(Element.values()));
@@ -171,7 +191,7 @@ public class Match {
     private Optional<ClientHandler> currentUser(){
 
         String nickname = game.getCurrentPlayer().getNickname();
-        return onlineUsers.stream().filter(user->user.getNickname().equals(nickname)).findFirst();
+        return onlineUsers.values().stream().filter(user->user.getNickname().equals(nickname)).findFirst();
     }
 
     boolean isSetupPhase(){
@@ -191,14 +211,14 @@ public class Match {
         if(onlineUsers.isEmpty())
             return Stream.generate(() -> "available slot").limit(maxPlayers - offlineUsers.size()).toArray(String[]::new);
 
-        return Stream.concat(onlineUsers.stream().map(ClientHandler::getNickname),
+        return Stream.concat(onlineUsers.values().stream().map(ClientHandler::getNickname),
                 Stream.generate(()-> "available slot")).limit(maxPlayers - offlineUsers.size()).toArray(String[]::new);
 
     }
 
     public String[] getOfflinePlayers(){
 
-        return offlineUsers.stream().map(ClientHandler::getNickname).toArray(String[]::new);
+        return offlineUsers.values().stream().map(ClientHandler::getNickname).toArray(String[]::new);
 
     }
 
@@ -211,7 +231,7 @@ public class Match {
     public boolean shouldDisplay(Match current){return canAddPlayer() || sameID(current.matchId);}
 
     public Stream<ClientHandler> clientsStream(){
-        return onlineUsers.stream();
+        return onlineUsers.values().stream();
     }
 
     public void validateEvent(Validable event) throws EventValidationFailedException {
@@ -301,6 +321,7 @@ public class Match {
             return;
 
         Player playerDisconnected = game.getPlayer(playerNickname).get();
+
         if(game.getCurrentPlayer().equals(playerDisconnected)){
 
             if(game.getNextPlayer().isPresent()) {
@@ -406,16 +427,12 @@ public class Match {
 
     public String getSaveName(){
 
-        return onlineUsers
+        return onlineUsers.values()
                 .stream()
                 .map(ClientHandler::getNickname)
                 .collect(Collectors.joining("," , "[","]"))
                 .concat("|")
                 .concat(matchId.toString());
-    }
-
-    public int getLastPos() {
-        return onlineUsers.size()-1;
     }
 
     public String getReasonOfGameEnd(){
@@ -446,6 +463,38 @@ public class Match {
 
     public boolean areAllPlayersOffline(){
         return onlineUsers.isEmpty();
+    }
+
+    public void notifyPlayerDisconnection(String playerNickname){
+
+        List<Element> elements = new ArrayList<>();
+        elements.add(Element.PlayersInfo);
+
+        if(getGameIfPresent().isPresent()) { // if game is present, notify players
+            notifyStateToAllPlayers(elements, playerNickname);
+            transitionToNextStateAfterDisconnection(playerNickname);
+        }
+
+
+    }
+
+    public void joinMatchAndNotifyStateIfPossible(String playerNickname){
+
+        List<Element> elements = Element.getAsList();
+
+        if(Objects.nonNull(game)){
+
+            if(!game.isSinglePlayer() && game.getPlayer(playerNickname).isPresent()) {
+                Player player = game.getPlayer(playerNickname).get();
+                if(!player.getCurrentState().equals(State.SETUP_PHASE)) //if player disconnected not during/before setup
+                    player.setCurrentState(State.IDLE); // if multiplayer, when player joins goes to IDLE phase, but only if he ;
+                player.getPersonalBoard().removeSelected();
+            }
+        }
+
+        notifyStateToAllPlayers(elements, playerNickname);
+        updateOtherPlayersCachesMessage(playerNickname);
+
     }
 
 }

@@ -12,8 +12,9 @@ import java.util.List;
  */
 public class StateInNetwork extends it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork implements ClientMessage {
 
-    public StateInNetwork(int playerNumber, String state, List<SimpleModelElement> playerSimpleModelElements, List<SimpleModelElement> commonSimpleModelElements) {
-        super(playerNumber, state, playerSimpleModelElements, commonSimpleModelElements);
+    public StateInNetwork(int playerIndex, int currentPlayerIndex, String state, List<SimpleModelElement> playerSimpleModelElements, List<SimpleModelElement> commonSimpleModelElements) {
+
+        super(playerIndex, currentPlayerIndex, state, playerSimpleModelElements, commonSimpleModelElements);
     }
 
     /**

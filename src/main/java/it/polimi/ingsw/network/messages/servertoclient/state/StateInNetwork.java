@@ -14,14 +14,19 @@ public class StateInNetwork extends ServerToClientMessage {
     /**
      * The index in the players array of the player receiving a state update
      */
-    protected int playerNumber;
+    protected int numberOfPlayerSendingEvent;
+    protected int currentPlayerNumber;
     protected String state;
     protected List<SimpleModelElement> playerSimpleModelElements;
     protected List<SimpleModelElement> commonSimpleModelElements;
 
 
-    public int getPlayerNumber() {
-        return playerNumber;
+    public int getNumberOfPlayerSendingEvent() {
+        return numberOfPlayerSendingEvent;
+    }
+
+    public int getCurrentPlayerNumber(){
+        return currentPlayerNumber;
     }
 
     public String getState(){
@@ -31,13 +36,15 @@ public class StateInNetwork extends ServerToClientMessage {
     public StateInNetwork(){}
 
 
-    public StateInNetwork(int playerNumber, String state, List<SimpleModelElement> playerSimpleModelElements, List<SimpleModelElement> commonSimpleModelElements) {
+    public StateInNetwork(int numberOfPlayerSendingEvent, int currentPlayerNumber, String state, List<SimpleModelElement> playerSimpleModelElements, List<SimpleModelElement> commonSimpleModelElements) {
 
         super();
-        this.playerNumber = playerNumber;
+        this.numberOfPlayerSendingEvent = numberOfPlayerSendingEvent;
+        this.currentPlayerNumber = currentPlayerNumber;
         this.state = state;
         this.playerSimpleModelElements = playerSimpleModelElements;
         this.commonSimpleModelElements = commonSimpleModelElements;
+
 
     }
 

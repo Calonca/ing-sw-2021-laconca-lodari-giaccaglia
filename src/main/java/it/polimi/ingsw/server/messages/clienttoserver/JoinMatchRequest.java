@@ -42,7 +42,7 @@ public class JoinMatchRequest extends it.polimi.ingsw.network.messages.clienttos
             if(isGameActive) {  //at least one player is already in game or at least one player was previously online and playing.
 
                 clientHandler.sendAnswerMessage(new JoinStatus(this, matchId, JoinStatus.motive.SUCCESS, playerIndex));
-                clientHandler.getMatch().ifPresent(m-> sessionController.joinMatchAndNotifyStateIfPossible(m, nickName));
+                clientHandler.getMatch().ifPresent(m-> m.joinMatchAndNotifyStateIfPossible(nickName));
 
             }
 

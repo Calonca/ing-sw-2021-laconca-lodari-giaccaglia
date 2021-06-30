@@ -98,12 +98,11 @@ public class CLI {
         subTitle = Optional.empty();
     }
 
-    public void setTitleWhenBlocked(String title){
+    public void setTitleWhenBlocked(Title title){
 
-        Title title1 = new Title(title);
         this.title.ifPresent(t->t.removeFromListeners(client));
-        title1.addToListeners(client);
-        this.title = Optional.of(title1);
+        title.addToListeners(client);
+        this.title = Optional.of(title);
 
     }
 

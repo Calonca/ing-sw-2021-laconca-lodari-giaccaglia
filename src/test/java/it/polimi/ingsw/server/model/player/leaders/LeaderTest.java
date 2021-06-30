@@ -10,7 +10,9 @@ import javafx.util.Pair;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -37,10 +39,11 @@ public class LeaderTest
         requirementsTest.add(costTest);
         requirementsCardsTest.add(cardcostTest);
 
-        List<String> nicknames = new ArrayList<>();
-        nicknames.add("testPlayer");
-        boolean isSinglePlayer = true;
-        GameModel gamemodel = new GameModel(nicknames, isSinglePlayer,null);
+        Map<Integer, String> players = new HashMap<>();
+        players.put(0,"testPlayer1");
+        List<Integer> onlineUsers = new ArrayList<>(players.keySet());
+
+        GameModel gamemodel = new GameModel(players, true,null, onlineUsers);
 
         Leader leadertestDD;
         Leader leadertestD;
@@ -162,15 +165,17 @@ public class LeaderTest
         DevelopmentCard testcard= new DevelopmentCard(1,DevelopmentCardColor.BLUE,new Production(new int[]{0,0,0,0,0,0,2},new int[]{0,0,0,0,0,1,1}));
 
         List<Pair<Resource, Integer>> requirementsTest = new ArrayList<>();
-        List<Pair<DevelopmentCardColor, Integer>> requirementsCardsTest = new ArrayList<Pair<DevelopmentCardColor, Integer>>();
+        List<Pair<DevelopmentCardColor, Integer>> requirementsCardsTest = new ArrayList<>();
 
         requirementsTest.add(costTest);
         requirementsCardsTest.add(cardcostTest);
 
-        List<String> nicknames = new ArrayList<>();
-        nicknames.add("testPlayer");
+        Map<Integer, String> players = new HashMap<>();
+        players.put(0,"testPlayer1");
+        List<Integer> onlineUsers = new ArrayList<>(players.keySet());
+
         boolean isSinglePlayer = true;
-        GameModel gamemodel = new GameModel(nicknames, isSinglePlayer,null);
+        GameModel gamemodel = new GameModel(players, isSinglePlayer,null, onlineUsers);
 
 
         Leader test=new MarketLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, bonus);
@@ -195,10 +200,12 @@ public class LeaderTest
         requirementsTest.add(costTest);
         requirementsCardsTest.add(cardcostTest);
 
-        List<String> nicknames = new ArrayList<>();
-        nicknames.add("testPlayer");
+        Map<Integer, String> players = new HashMap<>();
+        players.put(0,"testPlayer1");
+        List<Integer> onlineUsers = new ArrayList<>(players.keySet());
+
         boolean isSinglePlayer = true;
-        GameModel gamemodel = new GameModel(nicknames, isSinglePlayer,null);
+        GameModel gamemodel = new GameModel(players, isSinglePlayer,null, onlineUsers);
 
         Leader test=new MarketLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, bonus);
         assertTrue(gamemodel.anyLeaderPlayableForCurrentPlayer());

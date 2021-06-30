@@ -24,7 +24,7 @@ public class SetupPhaseEvent extends Event {
      * Client side {@link Event} constructor invoked when {@link State#SETUP_PHASE SETUP_PHASE}
      * action is performed.
      *
-     * @param initialResources int value representing initial amount of resources player can choose, according to his <em>playerNumber</em>
+     * @param initialResources int value representing initial amount of resources player can choose, according to his <em>numberOfPlayerSendingEvent</em>
      * @param initialDiscardedLeaders int value representing amount of <em>leaderCards</em> each player has to diascard after setup phase.
      * @param playerNumber int value ranging from 1 to 4 representing the number of the player performing setup phase.
      */

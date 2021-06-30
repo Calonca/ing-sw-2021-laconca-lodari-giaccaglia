@@ -183,11 +183,11 @@ public class InfoTiles implements PropertyChangeListener {
 
                         }
 
-                        // if(vaticanReportInfo.getPlayersTriggeringVaticanReport().contains(playerNumber))
+                        // if(vaticanReportInfo.getPlayersTriggeringVaticanReport().contains(numberOfPlayerSendingEvent))
                     /*    if(!vaticanReportInfo.hasReportBeenShown())
                         {
-                            if(vaticanReportInfo.getPopeTileStateMap().get(playerNumber).getValue().equals(TileState.DISCARDED))
-                                popeTiles.get(vaticanReportInfo.getPopeTileStateMap().get(playerNumber).getKey()).setOpacity(0);
+                            if(vaticanReportInfo.getPopeTileStateMap().get(numberOfPlayerSendingEvent).getValue().equals(TileState.DISCARDED))
+                                popeTiles.get(vaticanReportInfo.getPopeTileStateMap().get(numberOfPlayerSendingEvent).getKey()).setOpacity(0);
                             vaticanReportInfo.reportWillBeShown();
                         }*/
 

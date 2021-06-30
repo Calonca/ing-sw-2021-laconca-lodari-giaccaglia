@@ -149,9 +149,11 @@ public enum State {
      */
     public StateInNetwork toStateMessage(GameModel gameModel, List<Element> elementsToUpdate, int playerRequestingUpdate) {
 
+        int currentPlayerIndex = gameModel.getPlayerIndex(gameModel.getCurrentPlayer());
 
         return new StateInNetwork(
                 playerRequestingUpdate,
+                currentPlayerIndex,
                 this.toString(),
                 Element.buildPlayerSimpleModelElements(gameModel, elementsToUpdate, playerRequestingUpdate),
                 Element.buildCommonSimpleModelElements(gameModel, elementsToUpdate, playerRequestingUpdate));

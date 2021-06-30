@@ -8,9 +8,7 @@ import it.polimi.ingsw.server.model.market.MarketLine;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static it.polimi.ingsw.network.jsonUtils.JsonUtility.deserializeFromString;
 import static it.polimi.ingsw.network.jsonUtils.JsonUtility.serialize;
@@ -53,13 +51,15 @@ public class ChooseWhiteMarbleConversionEventTest {
 
 
     private void initializeGameModel(){
-        List<String> players = new ArrayList<>();
-        players.add("testPlayer1");
-        players.add("testPlayer2");
-        players.add("testPlayer3");
-        players.add("testPlayer4");
+        Map<Integer, String> players = new HashMap<>();
+        players.put(0,"testPlayer1");
+        players.put(1,"testPlayer2");
+        players.put(2,"testPlayer3");
+        players.put(3,"testPlayer4");
 
-        gameModelTest = new GameModel(players, false , null);
+        List<Integer> onlineUsers = new ArrayList<>(players.keySet());
+
+        gameModelTest = new GameModel(players, false , null, onlineUsers);
         gameModelTest.start();
     }
 

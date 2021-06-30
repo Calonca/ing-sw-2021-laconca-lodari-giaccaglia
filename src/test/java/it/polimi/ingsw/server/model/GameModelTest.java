@@ -1,14 +1,16 @@
 package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
 import it.polimi.ingsw.server.model.player.Player;
+import it.polimi.ingsw.server.model.states.State;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -53,10 +55,12 @@ public class GameModelTest {
 
     private void setUpNewSingleGamerGameModel() {
 
-        List<String> players = new ArrayList<>();
-        players.add("testPlayer");
+        Map<Integer, String> players = new HashMap<>();
+        players.put(0,"testPlayer1");
+        List<Integer> onlineUsers = new ArrayList<>(players.keySet());
+
         boolean isSinglePlayer = true;
-        gameModelTest = new GameModel(players, isSinglePlayer, null);
+        gameModelTest = new GameModel(players, isSinglePlayer, null, onlineUsers);
         testPlayer = gameModelTest.getPlayer(players.get(0)).get();
 
         assertEquals(testPlayer, gameModelTest.getSinglePlayer());
@@ -70,15 +74,14 @@ public class GameModelTest {
     }
 
     private void setUpNewMultiPlayerGameModel() {
+        Map<Integer, String> players = new HashMap<>();
+        players.put(0,"testPlayer1");
+        players.put(1,"testPlayer2");
+        players.put(2,"testPlayer3");
+        players.put(3,"testPlayer4");
+        List<Integer> onlineUsers = new ArrayList<>(players.keySet());
 
-        List<String> players = new ArrayList<>();
-        players.add("testPlayer1");
-        players.add("testPlayer2");
-        players.add("testPlayer3");
-        players.add("testPlayer4");
-
-        boolean isSinglePlayer = false;
-        gameModelTest = new GameModel(players, false, null);
+        gameModelTest = new GameModel(players, false, null, onlineUsers);
     }
 
     private void testPurchaseCard(DevelopmentCardColor color){

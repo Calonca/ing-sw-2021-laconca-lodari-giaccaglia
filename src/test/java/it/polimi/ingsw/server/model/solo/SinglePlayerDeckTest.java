@@ -8,10 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
@@ -87,10 +84,12 @@ public class SinglePlayerDeckTest {
     private void testToken() throws NoSuchFieldException, IllegalAccessException {
 
 
-        List<String> players = new ArrayList<>();
-        players.add("testPlayer");
+        Map<Integer, String> players = new HashMap<>();
+        players.put(0,"testPlayer1");
+        List<Integer> onlineUsers = new ArrayList<>(players.keySet());
+
         boolean isSinglePlayer = true;
-        GameModel gameModelTest = new GameModel(players, isSinglePlayer,null);
+        GameModel gameModelTest = new GameModel(players, isSinglePlayer,null, onlineUsers);
         SoloActionToken tokenTest = gameModelTest.getSoloActionTokenOnTop();
         gameModelTest.activateSoloActionToken();
 

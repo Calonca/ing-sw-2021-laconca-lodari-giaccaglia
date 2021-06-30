@@ -246,11 +246,11 @@ public class Client implements Runnable
      */
     public void setState(StateInNetwork stateInNetwork){
 
-        //System.out.println("Client " + commonData.getThisPlayerIndex() + " received: "+"client "+ stateInNetwork.getPlayerNumber() + " "+ stateInNetwork.getState());
+        //System.out.println("Client " + commonData.getThisPlayerIndex() + " received: "+"client "+ stateInNetwork.getNumberOfPlayerSendingEvent() + " "+ stateInNetwork.getState());
 
         //System.out.println(JsonUtility.serialize(stateInNetwork));
 
-        commonData.setCurrentPlayer(stateInNetwork.getPlayerNumber());
+        commonData.setCurrentPlayer(stateInNetwork.getCurrentPlayerNumber());
 
         if (simpleModel==null){
             try {
@@ -266,7 +266,7 @@ public class Client implements Runnable
 
         if(!gameHasBeenLoaded) {
 
-            if (stateInNetwork.getPlayerNumber() == commonData.getThisPlayerIndex()) {
+            if (stateInNetwork.getNumberOfPlayerSendingEvent() == commonData.getThisPlayerIndex()) {
 
                 gameHasBeenLoaded = true;
                 State state = State.valueOf(stateInNetwork.getState());

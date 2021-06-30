@@ -92,7 +92,7 @@ public class SimpleModel {
      */
     public void updateSimpleModel(StateInNetwork stateInNetwork){
 
-        PlayerCache playerCache = getPlayerCache(stateInNetwork.getPlayerNumber());
+        PlayerCache playerCache = getPlayerCache(stateInNetwork.getNumberOfPlayerSendingEvent());
         playerCache.updatePlayerElements(stateInNetwork.getPlayerSimpleModelElements());
 
         for(SimpleModelElement element : stateInNetwork.getCommonSimpleModelElements()){
