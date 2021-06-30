@@ -14,7 +14,7 @@ public class StateInNetwork extends it.polimi.ingsw.network.messages.servertocli
 
     public StateInNetwork(int playerIndex, int currentPlayerIndex, String state, List<SimpleModelElement> playerSimpleModelElements, List<SimpleModelElement> commonSimpleModelElements) {
 
-        super(playerIndex, currentPlayerIndex, state, playerSimpleModelElements, commonSimpleModelElements);
+        super(playerIndex, currentPlayerIndex,-1 ,state, playerSimpleModelElements, commonSimpleModelElements);
     }
 
     /**

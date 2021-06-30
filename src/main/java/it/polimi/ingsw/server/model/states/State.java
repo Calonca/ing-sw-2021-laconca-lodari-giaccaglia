@@ -7,6 +7,7 @@ import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.market.Marble;
 import it.polimi.ingsw.server.model.market.MarketBoard;
 import it.polimi.ingsw.server.model.market.MarketLine;
+import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.player.board.Box;
 import it.polimi.ingsw.server.model.player.board.PersonalBoard;
 import it.polimi.ingsw.server.model.player.leaders.Leader;
@@ -150,10 +151,13 @@ public enum State {
     public StateInNetwork toStateMessage(GameModel gameModel, List<Element> elementsToUpdate, int playerRequestingUpdate) {
 
         int currentPlayerIndex = gameModel.getPlayerIndex(gameModel.getCurrentPlayer());
+        Player currentPlayer = gameModel.getCurrentPlayer();
+        int indexOfPlayerInSetup = currentPlayer.getCurrentState().equals(State.SETUP_PHASE) ? gameModel.getPlayerIndex(currentPlayer) : -1;
 
         return new StateInNetwork(
                 playerRequestingUpdate,
                 currentPlayerIndex,
+                indexOfPlayerInSetup,
                 this.toString(),
                 Element.buildPlayerSimpleModelElements(gameModel, elementsToUpdate, playerRequestingUpdate),
                 Element.buildCommonSimpleModelElements(gameModel, elementsToUpdate, playerRequestingUpdate));

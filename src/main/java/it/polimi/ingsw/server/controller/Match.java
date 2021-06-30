@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
+import it.polimi.ingsw.network.messages.servertoclient.MatchesData;
 import it.polimi.ingsw.network.messages.servertoclient.state.ElementsInNetwork;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
 import it.polimi.ingsw.network.simplemodel.SimpleModelElement;
@@ -147,7 +148,7 @@ public class Match {
     public int addPlayer(String nickname, ClientHandler clientHandler){
         if(offlineUsers.values().stream().anyMatch(user -> user.getNickname().equals(nickname))) {
             setOnlineUser(nickname, clientHandler);
-            return game.getPlayerIndex(game.getPlayer(nickname).get());
+            return Util.getKeyByValue(onlineUsers, clientHandler).get();
         }
         else {
             onlineUsers.put(currentPlayersAmount, clientHandler);
@@ -387,6 +388,8 @@ public class Match {
         ));
 
         List<SimpleModelElement> commonElements = Element.buildCommonSimpleModelElements(game, Element.getAllCommonElementsAsList(), playerIndex);
+
+
         ElementsInNetwork elementsInNetwork = new ElementsInNetwork(commonElements, playersElems);
 
         clientsStream().forEach(clientHandler -> {
@@ -413,6 +416,7 @@ public class Match {
 
             Player player = game.getPlayer(clientHandler.getNickname()).get();
             List<SimpleModelElement> commonElements = Element.buildCommonSimpleModelElements(game, elements, game.getPlayerIndex(player));
+
             ElementsInNetwork elementsInNetwork = new ElementsInNetwork(commonElements, playersElems);
 
             try{
@@ -471,6 +475,8 @@ public class Match {
         elements.add(Element.PlayersInfo);
 
         if(getGameIfPresent().isPresent()) { // if game is present, notify players
+
+            sendUpdatedMatchInfo();
             notifyStateToAllPlayers(elements, playerNickname);
             transitionToNextStateAfterDisconnection(playerNickname);
         }
@@ -478,22 +484,38 @@ public class Match {
 
     }
 
+    private void sendUpdatedMatchInfo(){
+
+        onlineUsers.values().forEach(client -> {
+            try {
+                client.sendAnswerMessage(new MatchesData(SessionController.getInstance().matchesData(client)));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+
+
     public void joinMatchAndNotifyStateIfPossible(String playerNickname){
 
         List<Element> elements = Element.getAsList();
+
+        updateOtherPlayersCachesMessage(playerNickname);
+        sendUpdatedMatchInfo();
 
         if(Objects.nonNull(game)){
 
             if(!game.isSinglePlayer() && game.getPlayer(playerNickname).isPresent()) {
                 Player player = game.getPlayer(playerNickname).get();
                 if(!player.getCurrentState().equals(State.SETUP_PHASE)) //if player disconnected not during/before setup
-                    player.setCurrentState(State.IDLE); // if multiplayer, when player joins goes to IDLE phase, but only if he ;
-                player.getPersonalBoard().removeSelected();
+                    player.setCurrentState(State.IDLE); // if multiplayer, when player joins goes to IDLE phase, but only if he finished setup_phase
+
+                player.getPersonalBoard().removeSelected(); // selected resources are deselected
             }
         }
 
         notifyStateToAllPlayers(elements, playerNickname);
-        updateOtherPlayersCachesMessage(playerNickname);
 
     }
 

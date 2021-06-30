@@ -36,7 +36,8 @@ public class CommonData {
     private Map<UUID, Pair<String[], String[]>> availableMatchesData;
     private Map<UUID, Pair<String[], String[]>> savedMatchesData;
 
-    private Integer thisPlayerIndex;
+    private static Integer thisPlayerIndex;
+
     private int currentPlayerIndex = -1;
     private UUID matchId;
     private String currentNick;
@@ -47,7 +48,7 @@ public class CommonData {
     /**
      * @return the callers' player index
      */
-    public Integer getThisPlayerIndex() {
+    public static Integer getThisPlayerIndex() {
         return thisPlayerIndex;
     }
 

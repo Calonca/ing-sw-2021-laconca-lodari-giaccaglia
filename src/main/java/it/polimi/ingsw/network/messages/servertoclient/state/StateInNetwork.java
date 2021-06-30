@@ -16,18 +16,10 @@ public class StateInNetwork extends ServerToClientMessage {
      */
     protected int numberOfPlayerSendingEvent;
     protected int currentPlayerNumber;
+    protected int indexOfPlayerInSetup = -1;
     protected String state;
     protected List<SimpleModelElement> playerSimpleModelElements;
     protected List<SimpleModelElement> commonSimpleModelElements;
-
-
-    public int getNumberOfPlayerSendingEvent() {
-        return numberOfPlayerSendingEvent;
-    }
-
-    public int getCurrentPlayerNumber(){
-        return currentPlayerNumber;
-    }
 
     public String getState(){
         return state;
@@ -35,12 +27,19 @@ public class StateInNetwork extends ServerToClientMessage {
 
     public StateInNetwork(){}
 
-
-    public StateInNetwork(int numberOfPlayerSendingEvent, int currentPlayerNumber, String state, List<SimpleModelElement> playerSimpleModelElements, List<SimpleModelElement> commonSimpleModelElements) {
+    public StateInNetwork(int numberOfPlayerSendingEvent,
+                          int currentPlayerNumber,
+                          int indexOfPlayerInSetup,
+                          String state,
+                          List<SimpleModelElement> playerSimpleModelElements,
+                          List<SimpleModelElement> commonSimpleModelElements) {
 
         super();
         this.numberOfPlayerSendingEvent = numberOfPlayerSendingEvent;
         this.currentPlayerNumber = currentPlayerNumber;
+        this.indexOfPlayerInSetup = indexOfPlayerInSetup;
+
+
         this.state = state;
         this.playerSimpleModelElements = playerSimpleModelElements;
         this.commonSimpleModelElements = commonSimpleModelElements;
@@ -56,4 +55,15 @@ public class StateInNetwork extends ServerToClientMessage {
         return commonSimpleModelElements;
     }
 
+    public int getNumberOfPlayerSendingEvent() {
+        return numberOfPlayerSendingEvent;
+    }
+
+    public int getCurrentPlayerNumber(){
+        return currentPlayerNumber;
+    }
+
+    public int getIndexOfPlayerInSetup(){
+        return indexOfPlayerInSetup;
+    }
 }

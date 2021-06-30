@@ -96,7 +96,7 @@ public class SessionController {
         }
     }
 
-    public void updateAvailableMatchesAfterDisconnection(){
+    public void sendUpdatedAvailableMatches(){
 
         clientsInLobby.forEach(client -> {
             try {

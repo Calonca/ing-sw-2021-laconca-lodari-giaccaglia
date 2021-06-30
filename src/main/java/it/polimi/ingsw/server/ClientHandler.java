@@ -128,8 +128,8 @@ public class ClientHandler implements Runnable
             SessionController session = SessionController.getInstance();
             session.setPlayerOffline(this);
 
+            session.sendUpdatedAvailableMatches(); // updates matches info to clients not in game;
             match.notifyPlayerDisconnection(nickname);
-            session.updateAvailableMatchesAfterDisconnection(); // updates matches info to clients not in game;
             session.saveSessionController();
         }
     }

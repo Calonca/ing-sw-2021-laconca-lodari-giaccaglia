@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.CLI.layout.drawables;
 
+import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
 import it.polimi.ingsw.client.view.CLI.layout.Option;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Column;
@@ -50,13 +51,14 @@ public class LobbyCLI extends LobbyViewBuilderCLI {
 
 
         int playerIndex = getCommonData().getCurrentPlayerIndex();
+        String thisPlayerNick = getCommonData().getCurrentNick();
         String playerInSetup;
 
         Drawable drawable= new Drawable();
         int yPos = 1;
         if(playerIndex!=-1 && !onlinePlayers[playerIndex].equals("available slot")) {
 
-            if(playerIndex == getCommonData().getThisPlayerIndex())
+            if(playerIndex == CommonData.getThisPlayerIndex())
                 playerInSetup = "Your Setup Phase is starting!";
             else
                 playerInSetup = onlinePlayers[playerIndex] + " is in Setup Phase";

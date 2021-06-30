@@ -147,6 +147,7 @@ public class CreateJoinLoadMatchCLI extends CreateJoinLoadMatchViewBuilder imple
             getClient().changeViewBuilder( joinMatch );
             Timer.showSecondsOnCLI(getCLIView(), "Loading data, seconds left : ", 2);
             getClient().getServerHandler().sendCommandMessage(new JoinMatchRequest(matchId,getCommonData().getCurrentNick()));
+
         };
     }
 
