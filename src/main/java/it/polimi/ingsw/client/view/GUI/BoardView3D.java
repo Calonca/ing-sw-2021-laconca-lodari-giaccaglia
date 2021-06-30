@@ -192,7 +192,7 @@ public class BoardView3D implements PropertyChangeListener {
                 if (bonus.getNetworkLeaderCard() instanceof NetworkDepositLeaderCard) {
                     temp = new Rectangle(300, 450);
                     temp.setFill(CardSelector.imagePatternFromAsset(bonus.getCardPaths().getKey()));
-                    NodeAdder.addNodeToParent(parent, boardRec, temp, new Point3D(-600 + 300 * count, 725, 0));
+                    NodeAdder.addNodeToParent(parent, boardRec, temp, new Point3D(-600 - 300 * count, 725, 0));
                     count++;
                 }
 
