@@ -79,7 +79,7 @@ public class CardShopGUI extends CardShopViewBuilder {
             choosePositionForCard();
         } else {
             active=true;
-            Playground.getPlayground().changeCamState(CamState.SEE_SHOP);
+            Playground.changeCamState(CamState.SEE_SHOP);
         }
     }
 

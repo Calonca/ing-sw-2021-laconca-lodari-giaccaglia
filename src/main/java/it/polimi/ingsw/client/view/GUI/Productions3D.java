@@ -14,6 +14,7 @@ import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
@@ -66,17 +67,19 @@ public class Productions3D implements PropertyChangeListener {
         prodList.add(productionButton);
 
         Rectangle basic=new Rectangle(300,300);
-        basic.setOpacity(0);
+        basic.setOpacity(0.2);
+        SimpleCardCells simpleCardCells = cache.getElem(SimpleCardCells.class).orElseThrow();
+        setProdAvailable(simpleCardCells,0, basic);
+
         //basic.setMouseTransparent(true);
 
         NodeAdder.shiftAndAddToList(prodList,basic,new Point3D(600,1200,0));
         basic.setOnMouseClicked(p->{
-            if (mode.equals(BoardView3D.Mode.CHOOSE_PRODUCTION)) {
+            if (mode.equals(BoardView3D.Mode.CHOOSE_PRODUCTION) && simpleCardCells.isProductionAtPositionAvailable(0).orElse(false)) {
                 ProductionViewBuilder.sendChosenProduction(0);
             }
         });
 
-        SimpleCardCells simpleCardCells = cache.getElem(SimpleCardCells.class).orElseThrow();
         Map<Integer, Optional<DevelopmentCardAsset>> frontCards=simpleCardCells.getDevCardsOnTop();
 
         for (Map.Entry<Integer, Optional<DevelopmentCardAsset>> entry : frontCards.entrySet()) {
@@ -89,22 +92,24 @@ public class Productions3D implements PropertyChangeListener {
             System.out.println(JsonUtility.serialize(value.orElse(null)));
             if (value.isEmpty()) {
                 tempImage = new ImagePattern(new Image("assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_BLUE_1.png"));
-                rectangle.setOpacity(0);
+                rectangle.setOpacity(0.2);
             } else {
-                path = simpleCardCells.getDevCardsCells().get(key).get().get(simpleCardCells.getDevCardsCells().get(key).get().size()-1).getCardPaths().getKey();
+                path = simpleCardCells.getDevCardsCells().get(key).orElseThrow()
+                        .get(simpleCardCells.getDevCardsCells().get(key).orElseThrow().size()-1).getCardPaths().getKey();
                 tempImage = CardSelector.imagePatternFromAsset(path);
                 System.out.println(path);
             }
+
+            setProdAvailable(simpleCardCells,key, rectangle);
 
             rectangle.setLayoutX(400 + 250 * key);
             rectangle.setLayoutY(0);
             rectangle.setOnMouseClicked(p -> {
                 if (mode.equals(BoardView3D.Mode.CHOOSE_POS_FOR_CARD) && simpleCardCells.isSpotAvailable(key)) {
                     CardShopViewBuilder.sendCardPlacementPosition(key);
-                } else if (mode.equals(BoardView3D.Mode.CHOOSE_PRODUCTION))
-                    if (value.isPresent())
-                        if(value.get().getDevelopmentCard().isSelectable())
-                            ProductionViewBuilder.sendChosenProduction(key);
+                } else if (mode.equals(BoardView3D.Mode.CHOOSE_PRODUCTION) && simpleCardCells.isProductionAtPositionAvailable(key).orElse(false))
+                    if (value.isPresent() && value.get().getDevelopmentCard().isSelectable())
+                        ProductionViewBuilder.sendChosenProduction(key);
             });
             rectangle.setFill(tempImage);
 
@@ -125,6 +130,24 @@ public class Productions3D implements PropertyChangeListener {
         }
         prodGroup.getChildren().setAll(prodList);
     }
+
+    private void setProdAvailable(SimpleCardCells simpleCardCells, int prodPos, Rectangle cell) {
+
+        BoardView3D.Mode mode = view3D.mode;
+        if (mode.equals(BoardView3D.Mode.CHOOSE_POS_FOR_CARD))
+            setSelectedColor(cell,simpleCardCells.isSpotAvailable(prodPos));
+        else if (mode.equals(BoardView3D.Mode.CHOOSE_PRODUCTION))
+            setSelectedColor(cell,simpleCardCells.getSimpleProductions().isProductionAtPositionAvailable(prodPos).orElse(false));
+        else setSelectedColor(cell,false);
+    }
+
+    private void setSelectedColor(Rectangle cell, boolean enabled) {
+        double v = enabled?+0.40:0;
+        ColorAdjust colorAdjust=new ColorAdjust();
+        colorAdjust.setBrightness(+v);
+        cell.setEffect(colorAdjust);
+    }
+
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
