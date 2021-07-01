@@ -172,6 +172,7 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
                 event.addResource(new Pair<>(1,resourceSelector.getChosenOutputRes().get(1)));
 
             System.out.println(JsonUtility.serialize(event));
+            setupAnchor.getChildren().clear();
             getClient().getServerHandler().sendCommandMessage(new EventMessage(event));
 
         });
