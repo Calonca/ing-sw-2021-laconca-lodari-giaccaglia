@@ -72,6 +72,7 @@ public class BoardView3D implements PropertyChangeListener {
                 board.resRowBuilder(parent,boardRec);
                 board.getWarehouse().updateSelected();
                 board.getStrongBox().updateStrongBox();
+                board.productions.updateProds();
             }
         },
         /**
@@ -208,10 +209,10 @@ public class BoardView3D implements PropertyChangeListener {
             CardShopGUI.chosenCard.getChildren().clear();
     }
 
-    public void setMode(Mode mode){
+    public void setMode(Mode m){
         reset();
-        this.mode = mode;
-        Platform.runLater(()->mode.run(this));
+        this.mode = m;
+        Platform.runLater(()->m.run(this));
     }
 
     public ResChoiceRowGUI getToSelect() {

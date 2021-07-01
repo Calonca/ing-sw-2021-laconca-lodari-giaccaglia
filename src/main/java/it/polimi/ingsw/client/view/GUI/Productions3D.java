@@ -40,14 +40,40 @@ public class Productions3D implements PropertyChangeListener {
         Group parent = view3D.parent;
         BoardView3D.Mode mode = view3D.mode;
         PlayerCache cache = view3D.getCache();
+        List<Node> prodList = new ArrayList<>();
 
         if (prodGroup == null)
         {
             prodGroup = new Group();
             NodeAdder.addNodeToParent(parent, view3D.boardRec, prodGroup, new Point3D(0,0,0));
         }
+
+        SimpleCardCells simpleCardCells = cache.getElem(SimpleCardCells.class).orElseThrow();
+        Button basicButton = new Button();
+        basicButton.setText("Basic");
+        basicButton.setId("basic");
+        basicButton.setLayoutX(620);
+        basicButton.setLayoutY(1000);
+        basicButton.setTranslateZ(-20);
+        basicButton.setPrefHeight(80);
+        basicButton.setPrefWidth(200);
+        basicButton.setStyle("-fx-font-size:20");
+
+        basicButton.setOpacity(mode.equals(BoardView3D.Mode.CHOOSE_PRODUCTION)?1:0);
+
+        basicButton.setOnMouseClicked(p->{
+            if (mode.equals(BoardView3D.Mode.CHOOSE_PRODUCTION) && simpleCardCells.isProductionAtPositionAvailable(0).orElse(false)) {
+                ProductionViewBuilder.sendChosenProduction(0);
+            }
+        });
+
+        prodList.add(basicButton);
+
+
+
         Button productionButton = new Button();
         productionButton.setText("Produce");
+        basicButton.setId("produce");
         productionButton.setLayoutX(500);
         productionButton.setLayoutY(1550);
         productionButton.setTranslateZ(-15);
@@ -62,24 +88,10 @@ public class Productions3D implements PropertyChangeListener {
                 ProductionViewBuilder.sendProduce();
         });
 
-        List<Node> prodList = new ArrayList<>();
 
         prodList.add(productionButton);
 
-        Rectangle basic=new Rectangle(300,300);
-        basic.setOpacity(0.2);
-        SimpleCardCells simpleCardCells = cache.getElem(SimpleCardCells.class).orElseThrow();
-        setProdAvailable(simpleCardCells,0, basic);
-
-        //basic.setMouseTransparent(true);
-
-        NodeAdder.shiftAndAddToList(prodList,basic,new Point3D(600,1200,0));
-        basic.setOnMouseClicked(p->{
-            if (mode.equals(BoardView3D.Mode.CHOOSE_PRODUCTION) && simpleCardCells.isProductionAtPositionAvailable(0).orElse(false)) {
-                ProductionViewBuilder.sendChosenProduction(0);
-            }
-        });
-
+        //setProdAvailable(simpleCardCells,0, basic);
         Map<Integer, Optional<DevelopmentCardAsset>> frontCards=simpleCardCells.getDevCardsOnTop();
 
         for (Map.Entry<Integer, Optional<DevelopmentCardAsset>> entry : frontCards.entrySet()) {
@@ -88,11 +100,10 @@ public class Productions3D implements PropertyChangeListener {
             ImagePattern tempImage;
             Path path;
             Rectangle rectangle = new Rectangle(462, 698);
-            //rectangle.setMouseTransparent(true);
             System.out.println(JsonUtility.serialize(value.orElse(null)));
             if (value.isEmpty()) {
                 tempImage = new ImagePattern(new Image("assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_BLUE_1.png"));
-                rectangle.setOpacity(0.2);
+                rectangle.setOpacity(1);
             } else {
                 path = simpleCardCells.getDevCardsCells().get(key).orElseThrow()
                         .get(simpleCardCells.getDevCardsCells().get(key).orElseThrow().size()-1).getCardPaths().getKey();
@@ -152,7 +163,7 @@ public class Productions3D implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         //Event is a state
-        if (evt.getPropertyName().equals(evt.getNewValue()))
+        if (evt.getPropertyName().equals(evt.getNewValue())&&view3D.mode.equals(BoardView3D.Mode.BACKGROUND))
             Platform.runLater(this::updateProds);
     }
 }
