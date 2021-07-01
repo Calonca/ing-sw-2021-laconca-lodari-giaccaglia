@@ -131,11 +131,12 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
             if (bonus.getNetworkLeaderCard().isLeaderActive())
                 if (bonus.getNetworkLeaderCard() instanceof NetworkMarketLeaderCard) {
                     count++;
-                    sceneLeadersToAdd = new Rectangle(150, 100);
+                    sceneLeadersToAdd = new Rectangle(150, 250);
                     sceneLeadersToAdd.setTranslateY(250);
                     sceneLeadersToAdd.setTranslateX(-50 - 400 * count);
                     sceneLeadersToAdd.setTranslateZ(-10);
 
+                    sceneLeadersToAdd.setRotate(-90);
                     sceneLeadersToAdd.setFill(CardSelector.imagePatternFromAsset(bonus.getCardPaths().getKey()));
                     leaders.getChildren().add(sceneLeadersToAdd);
 
