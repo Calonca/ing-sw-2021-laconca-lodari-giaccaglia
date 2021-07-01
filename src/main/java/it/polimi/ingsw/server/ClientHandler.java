@@ -127,7 +127,7 @@ public class ClientHandler implements Runnable
             try {
                 int counter = 0;
                 while (true) {
-                    Thread.sleep(5000);  // send a ping every SOCKET_TIMEOUT/2 seconds
+                    Thread.sleep(5000);  // send a ping every SOCKET_TIMEOUT/4 seconds
                     ServerToClientMessage pingMessage = (new PingMessageFromServer("Ping #" + counter));
                     sendAnswerMessage(pingMessage);
                     counter++;
