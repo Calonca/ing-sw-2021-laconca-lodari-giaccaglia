@@ -33,12 +33,12 @@ public class IDLEViewBuilderCLI extends IDLEViewBuilder implements CLIBuilder {
 
 
         getClient().saveViewBuilder(this);
-        CLIReportInfoBuilder.showVaticanReportInfoBeforeTransition(new ReportInfoCLI());
+        CLIReportInfoBuilder.showVaticanReportInfoBeforeTransition(new IDLEReportInfoCLI());
         showWarningIfLastTurn();
 
         getCLIView().setTitle("Waiting for initial game phase, what do you want to do?");
 
-        Row initialRow = getNewRow();
+        Row initialRow = getRowOfOptions();
         CanvasBody horizontalListBody = CanvasBody.centered(initialRow);
         getCLIView().setBody(horizontalListBody);
         initialRow.selectInEnabledOption(getCLIView(),"Select a choice");
@@ -46,36 +46,42 @@ public class IDLEViewBuilderCLI extends IDLEViewBuilder implements CLIBuilder {
 
     }
 
-    private Row getNewRow() {
+    private Row getRowOfOptions() {
+
         Row row = new Row();
 
         Drawable moveResourcesDw = new Drawable();
         moveResourcesDw.add(0, "Move resources");
         moveResourcesDw.add(0, " in Warehouse");
-        row.addElem(idlePhaseOption(moveResourcesDw, () -> getClient().changeViewBuilder(new PersonalBoardCLI(-1, true)), true));
+        row.addElem(idlePhaseOption(moveResourcesDw, () -> getClient().changeViewBuilder(new IDLEPersonalBoardCLI(-1, true)), true));
         row.addElem(new SizedBox(6, 0));
 
         Drawable vaticanReportDw = new Drawable();
         vaticanReportDw.add(0, "See Vatican Report");
-        vaticanReportDw.add(0, "    status");
+        vaticanReportDw.add(0, "     status");
 
         boolean enabled = false;
         if (getSimpleModel().getElem(VaticanReportInfo.class).get().hasReportOccurred())
             enabled = true;
 
-        row.addElem(idlePhaseOption(vaticanReportDw, () -> getClient().changeViewBuilder(new ReportInfoCLI(new IDLEViewBuilderCLI())), enabled));
+        row.addElem(idlePhaseOption(vaticanReportDw, () -> getClient().changeViewBuilder(new IDLEReportInfoCLI(new IDLEViewBuilderCLI())), enabled));
         row.addElem(new SizedBox(6, 0));
+
+        Drawable resourceMarketDw = new Drawable();
+        resourceMarketDw.add(0,"      Look at");
+        resourceMarketDw.add(0,"the resource market");
+        row.addElem(idlePhaseOption(resourceMarketDw, () -> getClient().changeViewBuilder(new IDLEResourceMarket()), true));
 
         Drawable playersInfoDw = new Drawable();
         playersInfoDw.add(0, "See players");
         playersInfoDw.add(0, "   info");
-        row.addElem(idlePhaseOption(playersInfoDw, () -> getClient().changeViewBuilder(new PlayersInfoCLI()), true));
+        row.addElem(idlePhaseOption(playersInfoDw, () -> getClient().changeViewBuilder(new IDLEPlayersInfoCLI()), true));
         row.addElem(new SizedBox(6, 0));
 
         Drawable boardDw = new Drawable();
         boardDw.add(0, "  See your");
         boardDw.add(0, "Personal Board");
-        row.addElem(idlePhaseOption(boardDw, () -> getClient().changeViewBuilder(new PersonalBoardCLI(CommonData.getThisPlayerIndex(), false, PersonalBoardBody.ViewMode.IDLE)), true));
+        row.addElem(idlePhaseOption(boardDw, () -> getClient().changeViewBuilder(new IDLEPersonalBoardCLI(CommonData.getThisPlayerIndex(), false, PersonalBoardBody.ViewMode.IDLE)), true));
         row.addElem(new SizedBox(6, 0));
 
         Drawable viewCardShop = new Drawable();
@@ -83,6 +89,8 @@ public class IDLEViewBuilderCLI extends IDLEViewBuilder implements CLIBuilder {
         viewCardShop.add(0, "from the Card Shop");
         row.addElem(idlePhaseOption(viewCardShop, () -> getClient().changeViewBuilder(new CardShopCLI(true, true)), true));
         row.addElem(new SizedBox(6, 0));
+
+
 
         row.selectInEnabledOption(getCLIView(), "Select a idle phase option");
 

@@ -3,7 +3,7 @@ package it.polimi.ingsw.client.view.CLI;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.LeaderBody;
 import it.polimi.ingsw.client.view.CLI.commonViews.CLIActionToken;
 import it.polimi.ingsw.client.view.CLI.commonViews.CLIReportInfoBuilder;
-import it.polimi.ingsw.client.view.CLI.idle.ReportInfoCLI;
+import it.polimi.ingsw.client.view.CLI.idle.IDLEReportInfoCLI;
 import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 import it.polimi.ingsw.client.view.abstractview.InitialOrFinalPhaseViewBuilder;
 import it.polimi.ingsw.network.simplemodel.EndGameInfo;
@@ -32,7 +32,7 @@ public class InitialOrFinalPhaseCLI extends InitialOrFinalPhaseViewBuilder imple
             CLIActionToken.showActionTokenBeforeTransition();
         }
 
-        CLIReportInfoBuilder.showVaticanReportInfoBeforeTransition(new ReportInfoCLI()); //TODO do not use ReportInfoCLI (inherits from IDLEViewBuilderCLI)
+        CLIReportInfoBuilder.showVaticanReportInfoBeforeTransition(new IDLEReportInfoCLI()); //TODO do not use IDLEReportInfoCLI (inherits from IDLEViewBuilderCLI)
 
         showWarningIfLastTurn();
 

@@ -24,7 +24,6 @@ public class CLIActionToken extends ViewBuilder{
     @Override
     public void run() {
 
-        String coloredTitle = Color.colorString("Here is this turn Action Token! . Seconds left for viewing : 6", Color.GREEN);
         Title title = new Title("Here is this turn Action Token! . Seconds left for viewing : 6", Color.GREEN);
 
         getCLIView().setTitle(title.toString());

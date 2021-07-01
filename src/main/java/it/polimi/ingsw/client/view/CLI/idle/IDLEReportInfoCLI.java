@@ -3,16 +3,16 @@ package it.polimi.ingsw.client.view.CLI.idle;
 import it.polimi.ingsw.client.view.CLI.commonViews.CLIReportInfoBuilder;
 import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 
-public class ReportInfoCLI extends IDLEViewBuilderCLI {
+public class IDLEReportInfoCLI extends IDLEViewBuilderCLI {
 
     private ViewBuilder nextViewBuilder;
     private final boolean isAfterReport;
 
-    public ReportInfoCLI(){
+    public IDLEReportInfoCLI(){
         this.isAfterReport = true;
     }
 
-    public ReportInfoCLI(ViewBuilder nextViewBuilder){
+    public IDLEReportInfoCLI(ViewBuilder nextViewBuilder){
         this.isAfterReport = false;
         this.nextViewBuilder = nextViewBuilder;
     }

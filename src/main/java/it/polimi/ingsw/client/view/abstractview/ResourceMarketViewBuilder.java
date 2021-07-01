@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.view.abstractview;
 
-import it.polimi.ingsw.client.view.CLI.middle.ResourceMarketCLI;
+import it.polimi.ingsw.client.view.CLI.middle.MiddleResourceMarketCLI;
 import it.polimi.ingsw.client.view.GUI.ResourceMarketGUI;
 import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
 import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
@@ -21,7 +21,7 @@ import static it.polimi.ingsw.client.simplemodel.State.CHOOSING_WHITEMARBLE_CONV
 public abstract class ResourceMarketViewBuilder extends ViewBuilder{
 
     public static ViewBuilder getBuilder(boolean isCLI) {
-        if (isCLI) return new ResourceMarketCLI();
+        if (isCLI) return new MiddleResourceMarketCLI();
         else return new ResourceMarketGUI();
     }
 
