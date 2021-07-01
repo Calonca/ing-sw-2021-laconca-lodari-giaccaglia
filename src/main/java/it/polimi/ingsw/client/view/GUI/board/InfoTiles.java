@@ -163,7 +163,8 @@ public class InfoTiles implements PropertyChangeListener {
                     System.out.println(tokenAsset.getFrontPath().toString().replace("\\","/"));
                     actionTokenRectangle.setFill(new ImagePattern(new Image(tokenAsset.getFrontPath().toString().replace("\\","/"))));
                     NodeAdder.addNodeToParent(infoGroup,infoGroup,actionTokenRectangle,infoGroup.localToParent(-100,-100,1000));
-                    Playground.refreshCardShop();
+                    if (tokenAsset.isDiscardingCard())
+                        Playground.refreshCardShop();
                 }
 
                     if(getSimpleModel().getElem(VaticanReportInfo.class).isPresent())
