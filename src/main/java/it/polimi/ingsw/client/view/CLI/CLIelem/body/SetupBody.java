@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.CLI.CLIelem.body;
 
 import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.view.CLI.CLIelem.CLIelem;
 import it.polimi.ingsw.client.view.CLI.layout.GridElem;
 import it.polimi.ingsw.client.view.CLI.layout.Option;
@@ -58,7 +59,7 @@ public class SetupBody extends CLIelem {
         layout.addElem(resChoiceRow.getGridElem());
         Row selectingLeaderRow = new Row();
         if (!resAreChosen()) {
-            layout.selectAndRunOption(cli);
+            layout.selectInEnabledOption(cli,"");
         }else {
 
             selectingLeaderRow = choosingLeadersRow();
@@ -67,7 +68,7 @@ public class SetupBody extends CLIelem {
         }
 
         if (resAreChosen() && !leadersAreChosen()){
-            selectingLeaderRow.selectAndRunOption(cli);
+            selectingLeaderRow.selectInEnabledOption(cli,"");
         }
 
         if (resAreChosen() && leadersAreChosen())
@@ -79,7 +80,7 @@ public class SetupBody extends CLIelem {
                     e.printStackTrace();
                 }
 
-                SetupPhaseEvent event = new SetupPhaseEvent(chosenRes.size(),2,client.getCommonData().getThisPlayerIndex());
+                SetupPhaseEvent event = new SetupPhaseEvent(chosenRes.size(),2, CommonData.getThisPlayerIndex());
                 selected.stream().filter(p->p.left.equals(true)).forEach(p->event.addChosenLeader(p.right));
                 if (chosenRes.size()>0)
                     event.addResource(new Pair<>(0,chosenRes.get(0).getResourceNumber()));
