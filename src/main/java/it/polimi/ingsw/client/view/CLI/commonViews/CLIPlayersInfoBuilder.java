@@ -213,14 +213,17 @@ public final class CLIPlayersInfoBuilder{
         else
             yPos = 9;
 
-        if(playersInfo.getSimplePlayerInfoMap().size()>1 && playersInfo.getFarthestPlayer().contains(playerIndex)) {
-            drawable.add(0,"║                            ║");
-            drawable.add(new DrawableLine(2, yPos, "     Farthest player!", Color.RED, Background.DEFAULT));
+        drawable.add(0,"║                            ║");
 
+        if(playersInfo.getSimplePlayerInfoMap().size()>1) {
+
+            if(playersInfo.getFarthestPlayer().contains(playerIndex))
+                drawable.add(new DrawableLine(2, yPos, "     Farthest player!", Color.RED, Background.DEFAULT));
+            if(getCommonData().getCurrentPlayerIndex() == playerIndex)
+                drawable.add(new DrawableLine(2, yPos + 1, "     Current player!", Color.GOLD, Background.DEFAULT));
 
         }
         else if(playersInfo.getSimplePlayerInfoMap().size()==1){
-            drawable.add(0,"║                            ║");
             if(playerInfo.getCurrentPosition()>playerInfo.getLorenzoPosition())
                 drawable.add(new DrawableLine(2, yPos, "  You are ahead Lorenzo!", Color.BRIGHT_RED, Background.DEFAULT));
             else if(playerInfo.getCurrentPosition()<playerInfo.getLorenzoPosition())
@@ -229,35 +232,10 @@ public final class CLIPlayersInfoBuilder{
                 drawable.add(new DrawableLine(2, yPos, "Same position of Lorenzo!", Color.YELLOW, Background.DEFAULT));
         }
 
-        else
-            drawable.add(0,"║                            ║");
 
         drawable.add(0,"╚════════════════════════════╝");
 
         return drawable;
-
-
-        /*
-                Background back = Background.DEFAULT;
-
-        PlayersInfo.SimplePlayerInfo playerInfo = playersInfo.getSimplePlayerInfoMap().get(playerIndex);
-        String nickname = playerInfo.getNickname();
-        int position = playerInfo.getCurrentPosition();
-        int index = playerInfo.getPlayerIndex();
-        int victoryPoints = playerInfo.getCurrentVictoryPoints();
-
-        DrawableLine farthestPlayer = new DrawableLine(1, 0, "Farthest player!", Color.RED, Background.DEFAULT);
-
-        String online = Color.colorString("Online", Color.BRIGHT_GREEN);
-        String offline = Color.colorString("Offline", Color.RED);
-
-        DrawableLine playerConnectionStatus;
-        if(playerInfo.isOnline())
-            playerConnectionStatus = new DrawableLine(1, 0, "Online", Color.BRIGHT_GREEN, Background.DEFAULT);
-        else
-            playerConnectionStatus = new DrawableLine(1, 0, "Offline", Color.RED, Background.DEFAULT);
-
-         */
 
 
     }

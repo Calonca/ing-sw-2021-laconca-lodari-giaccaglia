@@ -16,6 +16,7 @@ public class StateInNetwork extends ServerToClientMessage {
      */
     protected int numberOfPlayerSendingEvent;
     protected int currentPlayerNumber;
+    protected String currentPlayerNickname;
     protected int indexOfPlayerInSetup = -1;
     protected String state;
     protected List<SimpleModelElement> playerSimpleModelElements;
@@ -30,6 +31,7 @@ public class StateInNetwork extends ServerToClientMessage {
     public StateInNetwork(int numberOfPlayerSendingEvent,
                           int currentPlayerNumber,
                           int indexOfPlayerInSetup,
+                          String currentPlayerNickname,
                           String state,
                           List<SimpleModelElement> playerSimpleModelElements,
                           List<SimpleModelElement> commonSimpleModelElements) {
@@ -38,8 +40,7 @@ public class StateInNetwork extends ServerToClientMessage {
         this.numberOfPlayerSendingEvent = numberOfPlayerSendingEvent;
         this.currentPlayerNumber = currentPlayerNumber;
         this.indexOfPlayerInSetup = indexOfPlayerInSetup;
-
-
+        this.currentPlayerNickname = currentPlayerNickname;
         this.state = state;
         this.playerSimpleModelElements = playerSimpleModelElements;
         this.commonSimpleModelElements = commonSimpleModelElements;
@@ -65,5 +66,9 @@ public class StateInNetwork extends ServerToClientMessage {
 
     public int getIndexOfPlayerInSetup(){
         return indexOfPlayerInSetup;
+    }
+
+    public String getCurrentPlayerNickname(){
+        return currentPlayerNickname;
     }
 }

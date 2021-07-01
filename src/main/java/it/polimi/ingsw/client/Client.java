@@ -155,7 +155,7 @@ public class Client implements Runnable
 
         /* Open connection to the server and start a thread for handling
          * communication. */
-        if (ip==null||commonData.getCurrentNick()==null){
+        if (ip==null||commonData.getThisPlayerNickname()==null){
             changeViewBuilder(ConnectToServerViewBuilder.getBuilder(isCLI));
             //changeViewBuilder(new TestGridBody());
             return;}
@@ -266,7 +266,7 @@ public class Client implements Runnable
 
         //System.out.println(JsonUtility.serialize(stateInNetwork));
 
-        commonData.setCurrentPlayer(stateInNetwork.getCurrentPlayerNumber());
+        commonData.setCurrentPlayer(stateInNetwork.getCurrentPlayerNumber(), stateInNetwork.getCurrentPlayerNickname());
 
         if (Objects.isNull(simpleModel)){
          initializeSimpleModel();

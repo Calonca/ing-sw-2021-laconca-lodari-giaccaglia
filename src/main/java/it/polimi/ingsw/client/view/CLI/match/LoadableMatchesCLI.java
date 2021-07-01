@@ -20,7 +20,7 @@ public class LoadableMatchesCLI extends CreateJoinLoadMatchCLI implements CLIBui
 
         getCLIView().clearScreen();
 
-        getCLIView().setTitle( new Title( "Hey " + getCommonData().getCurrentNick() + ", here are the available matches to load" ));
+        getCLIView().setTitle( new Title( "Hey " + getCommonData().getThisPlayerNickname() + ", here are the available matches to load" ));
 
         Map<UUID, Pair<String[], String[]>> savedMatches = getCommonData().getSavedMatchesData().get();
 

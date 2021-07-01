@@ -40,6 +40,8 @@ public class GameModel {
      */
     private Map<Integer, Player> players;
 
+    private int indexOfPlayerWithInkWell;
+
     /**
      * List of currently online players among ones in {@link GameModel#players} list.
      */
@@ -176,6 +178,7 @@ public class GameModel {
         );
 
         setCurrentPlayer(players.get(onlineUsersIndexes.get(0)));
+        indexOfPlayerWithInkWell = getPlayerIndex(currentPlayer);
     }
 
     /**
@@ -376,7 +379,7 @@ public class GameModel {
      */
     public Optional<Player> getNextPlayer() {
 
-        int currentPlayerIndex = Util.getKeyByValue(players, currentPlayer).get();
+        int currentPlayerIndex = getPlayerIndex(currentPlayer);
 
         //finds index of first online player
         Optional<Integer> optPlayerIndex = IntStream.concat(
@@ -711,5 +714,13 @@ public class GameModel {
 
     }
 
+    public int getIndexOfPlayerWithInkWell(){
+        return indexOfPlayerWithInkWell;
+    }
+
+    //updates player with inkwell by giving it to the previous player to the current following counterclockwise order
+    public void updateIndexOfPlayerWithInkWell(){
+        indexOfPlayerWithInkWell = getPlayerIndex(getNextPlayer().get());
+    }
 
 }

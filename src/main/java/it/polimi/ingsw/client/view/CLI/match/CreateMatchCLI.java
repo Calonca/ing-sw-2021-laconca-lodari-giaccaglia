@@ -21,7 +21,7 @@ public class CreateMatchCLI extends CreateMatchViewBuilder implements CLIBuilder
         {
             int numberOfPlayers = getCLIView().getLastInt();
             getCLIView().clearScreen();
-            getClient().getServerHandler().sendCommandMessage(new CreateMatchRequest(numberOfPlayers,getCommonData().getCurrentNick()));
+            getClient().getServerHandler().sendCommandMessage(new CreateMatchRequest(numberOfPlayers,getCommonData().getThisPlayerNickname()));
             getClient().changeViewBuilder(new LobbyViewBuilderCLI());
         });
         getCLIView().show();

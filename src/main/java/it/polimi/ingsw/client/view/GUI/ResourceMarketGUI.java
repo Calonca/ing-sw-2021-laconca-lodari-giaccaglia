@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view.GUI;
 
 import it.polimi.ingsw.client.view.GUI.board.CamState;
 import it.polimi.ingsw.client.view.GUI.util.CardSelector;
+import it.polimi.ingsw.client.view.abstractview.MiddlePhaseViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ResourceMarketViewBuilder;
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
 import it.polimi.ingsw.network.assets.leaders.NetworkDevelopmentDiscountLeaderCard;
@@ -26,8 +27,12 @@ import javafx.scene.shape.Sphere;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
+import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
+
+import static it.polimi.ingsw.client.simplemodel.State.CHOOSING_POSITION_FOR_RESOURCES;
+import static it.polimi.ingsw.client.simplemodel.State.CHOOSING_WHITEMARBLE_CONVERSION;
 
 /**
  * The market is generated via a subscene that is attached to the main scene
@@ -68,9 +73,10 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
     double buttonsTranslateY=550;
     public List<List<Sphere>> rows=new ArrayList<>();
     public List<List<Sphere>> columns=new ArrayList<>();
-    private Group root3D;
+    private Group root3D=new Group();
     private Group buttons;
     boolean active=false;
+    List<LeaderCardAsset> activeBonus;
 
 
     /**
@@ -88,7 +94,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
      */
     public Group getRoot() {
 
-        root3D = new Group();
+        root3D.getChildren().clear();
         //root3D.setRotate(-90);
         buttons = new Group();
         Group leaders=new Group();
@@ -116,32 +122,18 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
         marketBoardRectangle.setTranslateY(marketTranslateY);
 
         root3D.getChildren().add(marketBoardRectangle);
-        List<LeaderCardAsset> activeBonus = activeLeaders.getPlayerLeaders();
+        activeBonus = activeLeaders.getPlayerLeaders();
 
-
+        int count = 0;
         for (LeaderCardAsset bonus : activeBonus) {
 
-            int count = 0;
+
             if (bonus.getNetworkLeaderCard().isLeaderActive())
                 if (bonus.getNetworkLeaderCard() instanceof NetworkMarketLeaderCard) {
                     count++;
                     sceneLeadersToAdd = new Rectangle(150, 100);
                     sceneLeadersToAdd.setTranslateY(250);
-                    sceneLeadersToAdd.setTranslateX(-50 - 200 * count);
-                    sceneLeadersToAdd.setTranslateZ(-10);
-
-                    sceneLeadersToAdd.setFill(CardSelector.imagePatternFromAsset(bonus.getCardPaths().getKey()));
-                    leaders.getChildren().add(sceneLeadersToAdd);
-
-                }
-
-            count = 0;
-            if (bonus.getNetworkLeaderCard().isLeaderActive())
-                if (bonus.getNetworkLeaderCard() instanceof NetworkDevelopmentDiscountLeaderCard) {
-                    count++;
-                    sceneLeadersToAdd = new Rectangle(150, 100);
-                    sceneLeadersToAdd.setTranslateY(600);
-                    sceneLeadersToAdd.setTranslateX(-50 - 200 * count);
+                    sceneLeadersToAdd.setTranslateX(-50 - 400 * count);
                     sceneLeadersToAdd.setTranslateZ(-10);
 
                     sceneLeadersToAdd.setFill(CardSelector.imagePatternFromAsset(bonus.getCardPaths().getKey()));
@@ -179,6 +171,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
         toPut.setMaterial(new PhongMaterial(colors.get(getSimpleMarketBoard().getSlideMarble().ordinal())));
         generateRow(rows,columnButtonOffset);
 
+
         MarbleAsset[][] marketMatrix=getMarketMatrix();
 
         for(int j = 0; j< NUMBEROFROWS; j++)
@@ -188,6 +181,12 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
 
         getClient().getStage().show();
         toPut.translateZProperty().set(toPut.getTranslateZ()-100);
+
+
+        if (getThisPlayerCache().getCurrentState().equals(CHOOSING_WHITEMARBLE_CONVERSION.name())){
+            chooseMarbleConversion();
+            System.out.println("canapa indiana");
+        }
 
         return root3D;
 
@@ -413,7 +412,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
 
         List<ResourceAsset> toChoose=simplePlayerLeaders.getMarketBonusResources();
 
-
+        System.out.println("QUESTA è LA SIZE"+ toChoose.size());
         for(int i=0;i<toChoose.size();i++) {
             int finalI = i;
 
@@ -431,6 +430,16 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
             });
         }
 
+    }
+
+    public void propertyChange(PropertyChangeEvent evt) {
+        String propertyName = evt.getPropertyName();
+        if (CHOOSING_POSITION_FOR_RESOURCES.name().equals(propertyName)) {
+            choosePositions();
+        } else  if (CHOOSING_WHITEMARBLE_CONVERSION.name().equals(propertyName)) {
+            Playground.refreshMarket();
+            chooseMarbleConversion();
+        } else MiddlePhaseViewBuilder.middlePhaseCommonTransition(evt);
     }
 
 }

@@ -49,32 +49,31 @@ public class LobbyCLI extends LobbyViewBuilderCLI {
 
     private static Drawable lobbyBox(String[] onlinePlayers, String[] offlinePlayers){
 
-
-        int playerIndex = getCommonData().getCurrentPlayerIndex();
-        String thisPlayerNick = getCommonData().getCurrentNick();
         String playerInSetup;
 
         Drawable drawable= new Drawable();
         int yPos = 1;
-        if(playerIndex!=-1 && !onlinePlayers[playerIndex].equals("available slot")) {
 
-            if(playerIndex == CommonData.getThisPlayerIndex())
+        if(!getCommonData().getCurrentPlayerNickname().isBlank()) {
+
+            if (getCommonData().getCurrentPlayerIndex() == CommonData.getThisPlayerIndex())
                 playerInSetup = "Your Setup Phase is starting!";
             else
-                playerInSetup = onlinePlayers[playerIndex] + " is in Setup Phase";
+                playerInSetup = getCommonData().getCurrentPlayerNickname() + " is in Setup Phase";
 
             drawable.add(0, " " + playerInSetup, Color.BRIGHT_YELLOW, Background.DEFAULT);
             drawable.add(0, "");
             yPos = 3;
+
         }
-
-
 
         drawable.add(0,"╔════════════════════════════╗");
         drawable.add(0,"║                            ║");
         drawable.add(new DrawableLine(8, yPos, "Match Players", Color.BRIGHT_GREEN, Background.DEFAULT));
         drawable.add(0,"║ ────────────────────────── ║");
 
+
+        int playerIndex;
 
         for(int i=0; i<onlinePlayers.length; i++){
             playerIndex = i+1;
