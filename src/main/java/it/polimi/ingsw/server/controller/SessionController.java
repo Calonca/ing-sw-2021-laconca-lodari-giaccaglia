@@ -23,8 +23,8 @@ public class SessionController {
     private HashMap<UUID, Long> matchesDisconnectionTimes = new HashMap<>();
     private transient List<ClientHandler> clientsInLobby = new ArrayList<>();
     private static SessionController single_instance = null;
-    private final String matchesFolderName = "src/savedMatches";
-    private static final String sessionFolderName = "savedSession";
+    private final String matchesFolderName = "savedSession/session.json";
+    private static final String sessionPath = "session.json";
     private final int maxSecondsOffline = 1800; //30 minutes
     private final AtomicBoolean isDebugMode = new AtomicBoolean(false);
 
@@ -162,7 +162,7 @@ public class SessionController {
     private static Optional<SessionController> reloadSessionIfPresent() {
 
         String sessionName = "session";
-        String folderAbsolutePath = Paths.get(sessionFolderName).toAbsolutePath().toString();
+        String folderAbsolutePath = Paths.get(sessionPath).toAbsolutePath().toString();
         String path = folderAbsolutePath + '/' + sessionName + ".json";
         File f = new File(path);
         if(f.exists() && !f.isDirectory()) {
@@ -206,20 +206,16 @@ public class SessionController {
 
     public void saveSessionController() {
 
-
         if(!isDebugMode.get()) {
 
-            String sessionName = "session";
-            String folderAbsolutePath = Paths.get(sessionFolderName).toAbsolutePath().toString();
-            String path = folderAbsolutePath + '/' + sessionName + ".json";
-
             try {
-                Serializator.serializeSession(path);
+                Serializator.serializeSession(sessionPath);
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
         }
+
     }
 
     public Optional<Match> loadMatch(UUID gameId) {

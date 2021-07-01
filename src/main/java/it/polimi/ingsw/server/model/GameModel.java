@@ -720,15 +720,7 @@ public class GameModel {
 
     //updates player with inkwell by giving it to the previous player to the current following counterclockwise order
     public void updateIndexOfPlayerWithInkWell(){
-
-        int currentPlayerIndex = getPlayerIndex(currentPlayer);
-
-        indexOfPlayerWithInkWell = IntStream
-                .concat(Util.reverseStream(0, currentPlayerIndex), Util.reverseStream(currentPlayerIndex + 1, players.size()))
-                .boxed()
-                .filter(index -> players.get(index).isOnline())
-                .findFirst().get();
-
+        indexOfPlayerWithInkWell = getPlayerIndex(getNextPlayer().get());
     }
 
 }
