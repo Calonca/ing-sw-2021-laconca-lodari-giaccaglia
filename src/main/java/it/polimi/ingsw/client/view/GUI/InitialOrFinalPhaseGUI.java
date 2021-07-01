@@ -64,6 +64,7 @@ public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder imple
         root.setId("LEADER");
         GUI.addLast(root);
         Playground.getThisPlayerBoard().setMode(BoardView3D.Mode.BACKGROUND);
+        Playground.refreshCardShop();
         System.out.println(GUI.getRealPane().getChildren());
     }
 

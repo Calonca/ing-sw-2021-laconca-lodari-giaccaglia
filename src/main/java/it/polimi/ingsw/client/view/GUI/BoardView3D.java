@@ -28,6 +28,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.getCLIView;
 import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.getSimpleModel;
 
 public class BoardView3D implements PropertyChangeListener {
@@ -42,7 +43,8 @@ public class BoardView3D implements PropertyChangeListener {
                 final DragAndDropHandler ddHandler = new DragAndDropHandler();
                 final Rectangle boardRec = board.boardRec;
                 final Group parent = board.parent;
-                Box3D.discardBuilder(board,parent,boardRec , ddHandler);
+                if (!board.getCache().getCurrentState().equals(State.IDLE.toString()))
+                    Box3D.discardBuilder(board,parent,boardRec , ddHandler);
                 board.getWarehouse().setDropHandler(ddHandler);
                 ddHandler.startDragAndDropOnEach(parent,boardRec);
             }
