@@ -13,8 +13,7 @@ public class IDLEViewBuilderGUI extends IDLEViewBuilder implements GUIView
      */
     @Override
     public void run() {
-        Playground.refreshCardShop();
-        //Playground.getThisPlayerBoard().setMode(BoardView3D.Mode.MOVING_RES);
+        Playground.getThisPlayerBoard().setMode(BoardView3D.Mode.MOVING_RES);
     }
 
 
