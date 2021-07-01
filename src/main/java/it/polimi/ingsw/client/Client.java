@@ -230,9 +230,9 @@ public class Client implements Runnable
      */
     public synchronized void terminate()
     {
-        if (ViewBuilder.getCLIView().stopASAP.get()) {
+        //Does things to terminate the app
+        if (isCLI)
             ViewBuilder.getCLIView().clearScreen();
-        }
     }
 
     public SimpleModel getSimpleModel() {

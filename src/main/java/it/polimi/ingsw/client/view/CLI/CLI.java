@@ -25,7 +25,6 @@ public class CLI {
     private Optional<Title> title;
     private Optional<Title> subTitle;
     private Optional<CLIelem> body;
-    public final AtomicBoolean stopASAP;
 
     private String inputMessage, errorMessage;
     private String lastInput;
@@ -40,7 +39,6 @@ public class CLI {
     public static final int width =190;//Usually 190
 
     public CLI(Client client) {
-        stopASAP = new AtomicBoolean(false);
         this.client = client;
         title = Optional.empty();
         subTitle = Optional.empty();
