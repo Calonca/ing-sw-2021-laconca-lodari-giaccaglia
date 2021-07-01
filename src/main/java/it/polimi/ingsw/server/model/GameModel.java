@@ -503,7 +503,9 @@ public class GameModel {
                      .orElse(-1);
          }
 
+         if(popeSpacePosition!=-1)
             players.values().forEach(player -> player.turnPopeFavourTileInFaithTrack(popeSpacePosition));
+
      }   
 
 
