@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.GUI;
 
 
+import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.view.GUI.layout.ResChoiceRowGUI;
 import it.polimi.ingsw.client.view.GUI.util.CardSelector;
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
@@ -156,42 +157,22 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         confirm.setEffect(effect);
         confirm.setOnAction(p -> {
 
-            int resToChoose = Util.resourcesToChooseOnSetup(getCommonData().getThisPlayerIndex());
-            SetupPhaseEvent event = new SetupPhaseEvent(resToChoose,2,getClient().getCommonData().getThisPlayerIndex());
+            int resToChoose = Util.resourcesToChooseOnSetup(CommonData.getThisPlayerIndex());
+            SetupPhaseEvent event = new SetupPhaseEvent(resToChoose,2, CommonData.getThisPlayerIndex());
 
             for(int i = 0; i< leaderImageViews.size(); i++)
                 if(selectedLeaders.get(i))
                     event.addChosenLeader(leadersUUIDs.get(i));
 
-
-            List<Integer> converter=new ArrayList<>();
-            int tempResCount=0;
-            for (Integer selectedResource : resourceSelector.getChosenInputPos()) tempResCount += selectedResource;
-
-
-            if(tempResCount<resToChoose)
-                return;
-
-            System.out.println(tempResCount);
             System.out.println(resToChoose);
 
-            for(int i=0;i<resourceSelector.getChosenInputPos().size();i++)
-                if (resourceSelector.getChosenInputPos().get(i) ==1)
-                    converter.add(i);
-                else if(selectedResources.get(i) ==2)
-                {
-                    converter.add(i);
-                    converter.add(i);
-                }
             if (resToChoose>0)
-                event.addResource(new Pair<>(0,0));
+                event.addResource(new Pair<>(0,resourceSelector.getChosenOutputRes().get(0)));
             if (resToChoose>1)
-                event.addResource(new Pair<>(1,1));
+                event.addResource(new Pair<>(1,resourceSelector.getChosenOutputRes().get(1)));
 
             System.out.println(JsonUtility.serialize(event));
             getClient().getServerHandler().sendCommandMessage(new EventMessage(event));
-
-
 
         });
         return confirm;
@@ -288,30 +269,34 @@ public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupP
         }
 
 
-        int resourcesCount=Util.resourcesToChooseOnSetup(getClient().getCommonData().getThisPlayerIndex());
+        int resourcesCount=Util.resourcesToChooseOnSetup(CommonData.getThisPlayerIndex());
 
 
         List<ResourceAsset> resourcesToChoose =new ArrayList<>();
         for(int i=0;i<resourcesCount;i++)
             resourcesToChoose.add(ResourceAsset.TO_CHOOSE);
 
-        resourceSelector=new ResChoiceRowGUI(0, resourcesToChoose,new ArrayList<>());
+        resourceSelector=new ResChoiceRowGUI(0, new ArrayList<>(),resourcesToChoose);
 
 
         Group group=resourceSelector.getRowGroup();
+        group.setScaleX(0.4);
+        group.setScaleY(0.4);
+        group.setScaleZ(0.4);
+
+        group.setLayoutX(1700);
+        group.setLayoutY(100);
+
+        setupAnchor.getChildren().add(group);
 
         for(int i=0;i<resourceImageViews.size();i++) {
             int finalI = i;
             resourceImageViews.get(i).setOnMouseClicked(p->
                     {
-                        if(resourceSelector.getChosenInputPos().size()==resourcesCount)
+                        if(resourceSelector.getPointedResource().isEmpty())
                             return;
-                        resourceSelector.setNextInputPos(finalI,ResourceAsset.fromInt(finalI));
+                        resourceSelector.setNextInputPos(0,ResourceAsset.fromInt(finalI));
                         System.out.println("CHOOSIN");
-                        ImageView toAdd=new ImageView(resourceImageViews.get(finalI).getImage());
-                        toAdd.setLayoutX(width/6+resourceSize*finalI);
-                        toAdd.setLayoutY(len/2);
-                        setupAnchor.getChildren().add(toAdd);
                     });
         }
 
