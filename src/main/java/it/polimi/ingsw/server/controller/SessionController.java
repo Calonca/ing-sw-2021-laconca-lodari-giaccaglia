@@ -9,37 +9,38 @@ import javafx.util.Pair;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 
 public class SessionController {
     
-    private HashMap<UUID,Match> matches = new HashMap<>();
+    private final ConcurrentHashMap<UUID,Match> matches = new ConcurrentHashMap<>();
 
-    private HashMap<UUID, Long> matchesDisconnectionTimes = new HashMap<>();
-    private transient List<ClientHandler> clientsInLobby = new ArrayList<>();
+    private final ConcurrentHashMap<UUID, Long> matchesDisconnectionTimes = new ConcurrentHashMap<>();
+    private final transient List<ClientHandler> clientsNotInLobby = new ArrayList<>();
     private static SessionController single_instance = null;
-    private final String matchesFolderName = "savedSession/session.json";
     private static final String sessionPath = "session.json";
-    private final int maxSecondsOffline = 1800; //30 minutes
+    private final int maxSecondsOffline = 1800000; //30 minutes
     private final AtomicBoolean isDebugMode = new AtomicBoolean(false);
+    private transient Thread deadMatchesChecker;
 
     public static SessionController getInstance()
     {
-        if (Objects.isNull(single_instance))
+        if (Objects.isNull(single_instance)) {
             CreateSessionController();
+            startDeadMatchesChecker();
+        }
         return single_instance;
     }
-
     private static void CreateSessionController(){
 
         reloadSessionIfPresent().ifPresentOrElse(
                 loadedSession -> single_instance = loadedSession,
                 () -> single_instance = new SessionController());
+
     }
 
     private SessionController(){}
@@ -52,13 +53,10 @@ public class SessionController {
     public boolean getDebugMode(){
         return isDebugMode.get();
     }
-    public void addPlayerToLobby(ClientHandler clientHandler){
-        clientsInLobby.add(clientHandler);
-    }
 
-  /*  public Match getLastMatch(){
-           return matches.get(matches.size()-1);
-    } */
+    public void addPlayerToLobby(ClientHandler clientHandler){
+        clientsNotInLobby.add(clientHandler);
+    }
 
     public Optional<Match> getMatch(UUID matchId){
         return Optional.of(matches.get(matchId));
@@ -91,14 +89,14 @@ public class SessionController {
     public void startMatchAndNotifyStateIfPossible(Match match) {
 
         if (!match.canAddPlayer()) {
-            clientsInLobby.removeAll(match.clientsStream().collect(Collectors.toList()));
+            clientsNotInLobby.removeAll(match.clientsStream().collect(Collectors.toList()));
             match.startGame();
         }
     }
 
     public void sendUpdatedAvailableMatches(){
 
-        clientsInLobby.forEach(client -> {
+        clientsNotInLobby.forEach(client -> {
             try {
                 client.sendAnswerMessage(new MatchesData(SessionController.getInstance().matchesData(client)));
             } catch (IOException e) {
@@ -108,7 +106,7 @@ public class SessionController {
     }
 
     public void notifyPlayersInLobby(ClientHandler cl){
-        clientsInLobby.forEach(
+        clientsNotInLobby.forEach(
                 clientHandler -> {
                     try {
                         clientHandler.sendAnswerMessage(new MatchesData(matchesData(clientHandler)));
@@ -146,62 +144,21 @@ public class SessionController {
                 ));
     }
 
-    private void reloadSavedMatches() {
-
-        File folder = new File(Paths.get(matchesFolderName).toAbsolutePath().toString());
-
-        Arrays.stream(folder.listFiles()).filter(File::isFile).forEach((file)->{
-
-                Match match = Deserializator.deserializeMatch(folder.toString() +'/' + file.getName());
-                match.getGameIfPresent().get().setMatch(match);
-                matches.put(match.getMatchId(),match);
-        });
-
-    }
-
     private static Optional<SessionController> reloadSessionIfPresent() {
 
-        String sessionName = "session";
-        String folderAbsolutePath = Paths.get(sessionPath).toAbsolutePath().toString();
-        String path = folderAbsolutePath + '/' + sessionName + ".json";
-        File f = new File(path);
+        File f = new File(sessionPath);
         if(f.exists() && !f.isDirectory()) {
-            SessionController session = Deserializator.deserializeSession(path);
-            session.matches.values().forEach(Match::restoreMatch);
-            return Optional.of(session);
-        }
+                SessionController session = Deserializator.deserializeSession(sessionPath);
 
-        return Optional.empty();
-    }
-
-    //saved match for a player
-   /* public Optional<UUID> checkForSavedMatches(String nickname){
-
-        File folder = new File(matchesFolderName);
-        folder = new File(folder.getAbsolutePath());
-
-        return Arrays.stream(folder.listFiles()).filter(File::isFile).map(File::getName)
-                .filter(s -> s.contains(nickname))
-                .map(s->UUID.fromString(StringUtils.substringAfterLast(s,"|")))
-                .findFirst();
-    } */
-
-    public void saveMatch(Match match){
-
-        if(!isDebugMode.get()) {
-
-            String gameName = match.getSaveName();
-            String folderAbsolutePath = Paths.get(matchesFolderName).toAbsolutePath().toString();
-            String path = folderAbsolutePath + '/' + gameName + ".json";
-
-            try {
-                Serializator.serializeMatch(match, path);
-            } catch (IOException e) {
-                e.printStackTrace();
+            if(Objects.nonNull(session)) {
+                session.matches.values().forEach(Match::restoreMatch);
+                return Optional.of(session);
+            }
+            else return Optional.empty();
             }
 
-        }
-
+            else
+                return Optional.empty();
     }
 
     public void saveSessionController() {
@@ -218,34 +175,22 @@ public class SessionController {
 
     }
 
-    public Optional<Match> loadMatch(UUID gameId) {
-
-        File folder = new File(matchesFolderName);
-        return Arrays.stream(folder.listFiles()).filter(File::isFile)
-                .filter(file -> file.getName().contains(gameId.toString()))
-                .findFirst()
-                .map((file -> Deserializator.deserializeMatch(file.getName() + ".json")));
-
-    }
-
     public void deleteGame(UUID gameId){
-        File folder = new File(Paths.get(matchesFolderName).toAbsolutePath().toString());
-        Arrays.stream(folder.listFiles()).filter(File::isFile)
-                .filter(file -> file.getName().contains(gameId.toString()))
-                .findFirst().ifPresent(File::delete);
+        matches.remove(gameId);
+        matchesDisconnectionTimes.remove(gameId);
+        saveSessionController();
     }
 
     public boolean checkGameTimeout(UUID gameId){
 
         long currentTime =  System.currentTimeMillis();
         long disconnectionTime = matchesDisconnectionTimes.get(gameId);
-        int elapsedTimeInSeconds = (int) TimeUnit.MILLISECONDS.toSeconds(currentTime - disconnectionTime);
+        long elapsedTimeInSeconds = currentTime - disconnectionTime;
         return elapsedTimeInSeconds > maxSecondsOffline;
 
     }
-
     public void registerDisconnection(Match match){
-        matchesDisconnectionTimes.put(match.getMatchId(),System.currentTimeMillis());
+        matchesDisconnectionTimes.put(match.getMatchId(), System.currentTimeMillis());
         match.stopGameIfPresent();
 
     }
@@ -259,7 +204,52 @@ public class SessionController {
             if(match.areAllPlayersOffline())
                 registerDisconnection(match);
         }
+        else
+            removeClientIfPresent(clientHandler);
+    }
+    
+    public void removeClientIfPresent(ClientHandler clientHandler){
+        clientsNotInLobby.remove(clientHandler);
+    }
+
+    private static void startDeadMatchesChecker(){
+
+        SessionController sessionController = getInstance();
+
+        if(Objects.isNull(sessionController.deadMatchesChecker)){
+
+            sessionController.deadMatchesChecker = new Thread(() ->{
+
+
+                try {
+
+                    while(true){
+                        Thread.sleep(300000);  // check every 5 minutes
+               /*     sessionController.matches.keySet().forEach(matchId -> {
+                        if(sessionController.checkGameTimeout(matchId))
+                            sessionController.deleteGame(matchId);
+                    });
+                    */
+
+                        for (UUID uuid : sessionController.matches.keySet()) {
+
+                            if (sessionController.checkGameTimeout(uuid))
+                                sessionController.deleteGame(uuid);
+
+                        }
+                    }
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            });
+
+
+           sessionController.deadMatchesChecker.start();
+        }
 
     }
+
+
 
 }

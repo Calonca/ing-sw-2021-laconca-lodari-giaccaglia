@@ -7,7 +7,7 @@ import it.polimi.ingsw.client.view.abstractview.SetupPhaseViewBuilder;
 import it.polimi.ingsw.network.simplemodel.SimplePlayerLeaders;
 import it.polimi.ingsw.network.util.Util;
 
-public class SetupPhase extends SetupPhaseViewBuilder implements CLIBuilder {
+public class SetupPhaseCLI extends SetupPhaseViewBuilder implements CLIBuilder {
 
 
     /**

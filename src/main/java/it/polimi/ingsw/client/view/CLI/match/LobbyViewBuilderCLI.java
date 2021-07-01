@@ -3,7 +3,7 @@ package it.polimi.ingsw.client.view.CLI.match;
 import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.CLI.CLIBuilder;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Title;
-import it.polimi.ingsw.client.view.CLI.SetupPhase;
+import it.polimi.ingsw.client.view.CLI.SetupPhaseCLI;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.LobbyCLI;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.Timer;
 import it.polimi.ingsw.client.view.abstractview.LobbyViewBuilder;
@@ -35,7 +35,7 @@ public class LobbyViewBuilderCLI extends LobbyViewBuilder implements CLIBuilder 
 
         if (evt.getPropertyName().equals(State.SETUP_PHASE.toString())) {
             Timer.showSecondsOnCLI(getCLIView(), "Ready for Setup Phase, seconds left : ", 5);
-            getClient().changeViewBuilder(new SetupPhase());
+            getClient().changeViewBuilder(new SetupPhaseCLI());
         }
 
         else{

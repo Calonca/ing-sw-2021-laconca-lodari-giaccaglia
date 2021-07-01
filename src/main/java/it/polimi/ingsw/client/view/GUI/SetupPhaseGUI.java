@@ -4,6 +4,7 @@ package it.polimi.ingsw.client.view.GUI;
 import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.view.GUI.layout.ResChoiceRowGUI;
 import it.polimi.ingsw.client.view.GUI.util.CardSelector;
+import it.polimi.ingsw.client.view.abstractview.SetupPhaseViewBuilder;
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
@@ -43,7 +44,7 @@ import java.util.UUID;
 /**
  * This scene is composed by a small card selector (2max), a resource selector and a confirmation button
  */
-public class SetupPhase extends  it.polimi.ingsw.client.view.abstractview.SetupPhaseViewBuilder implements GUIView {
+public class SetupPhaseGUI extends SetupPhaseViewBuilder implements GUIView {
 
 
     private final int LEADERNUMBER=4;

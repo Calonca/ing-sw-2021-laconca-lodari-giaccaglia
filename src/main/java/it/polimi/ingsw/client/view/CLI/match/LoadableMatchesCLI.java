@@ -28,7 +28,7 @@ public class LoadableMatchesCLI extends CreateJoinLoadMatchCLI implements CLIBui
 
         CanvasBody body = CanvasBody.centered(grid);
         getCLIView().setBody(body);
-        grid.selectInEnabledOption(getCLIView(), "Select an option");
+        grid.selectInEnabledOption(getCLIView(), "Select an option or press ENTER to go back", () -> getClient().changeViewBuilder(new CreateJoinLoadMatchCLI()));
         getCLIView().show();
 
     }

@@ -195,14 +195,6 @@ public class Match {
         return onlineUsers.values().stream().filter(user->user.getNickname().equals(nickname)).findFirst();
     }
 
-    boolean isSetupPhase(){
-        return game.getOnlinePlayers()
-                .values()
-                .stream()
-                .map(Player::getCurrentState)
-                .anyMatch(state -> state.equals(State.SETUP_PHASE));
-    }
-
     public UUID getMatchId() {
         return matchId;
     }
@@ -224,12 +216,6 @@ public class Match {
     }
 
     public boolean sameID(UUID uuid) {return uuid.equals(matchId);}
-
-    /**
-     * Displays matches that the client can join or the current match
-     * @param current the current match.
-     */
-    public boolean shouldDisplay(Match current){return canAddPlayer() || sameID(current.matchId);}
 
     public Stream<ClientHandler> clientsStream(){
         return onlineUsers.values().stream();
