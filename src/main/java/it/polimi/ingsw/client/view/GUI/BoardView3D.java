@@ -2,10 +2,7 @@ package it.polimi.ingsw.client.view.GUI;
 
 import it.polimi.ingsw.client.simplemodel.PlayerCache;
 import it.polimi.ingsw.client.simplemodel.State;
-import it.polimi.ingsw.client.view.GUI.board.Box3D;
-import it.polimi.ingsw.client.view.GUI.board.FaithTrack;
-import it.polimi.ingsw.client.view.GUI.board.InfoTiles;
-import it.polimi.ingsw.client.view.GUI.board.Warehouse3D;
+import it.polimi.ingsw.client.view.GUI.board.*;
 import it.polimi.ingsw.client.view.GUI.layout.ResChoiceRowGUI;
 import it.polimi.ingsw.client.view.GUI.util.CardSelector;
 import it.polimi.ingsw.client.view.GUI.util.DragAndDropHandler;
@@ -258,6 +255,10 @@ public class BoardView3D implements PropertyChangeListener {
         InfoTiles infoTiles=new InfoTiles();
         infoTiles.infoBuilder(this,parent, boardRec,playerNumber,cache);
         getSimpleModel().addPropertyChangeListener(infoTiles);
+
+        ActionToken t = new ActionToken();
+        t.actionTokenBuilder(this);
+        cache.addPropertyChangeListener(t);
 
         warehouse = new Warehouse3D(cache,this, parent, boardRec);
         warehouse.wareBuilder();
