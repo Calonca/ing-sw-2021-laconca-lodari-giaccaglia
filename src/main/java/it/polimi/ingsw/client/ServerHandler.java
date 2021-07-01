@@ -4,12 +4,16 @@ import it.polimi.ingsw.client.messages.servertoclient.ClientMessage;
 import it.polimi.ingsw.client.view.CLI.match.CreateJoinLoadMatchCLI;
 import it.polimi.ingsw.client.view.abstractview.ConnectToServerViewBuilder;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
+import it.polimi.ingsw.network.messages.clienttoserver.PingMessageFromClient;
 import it.polimi.ingsw.network.messages.clienttoserver.SendNickname;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 
@@ -24,6 +28,8 @@ public class ServerHandler implements Runnable
     private ObjectInputStream input;
     private final Client owner;
     private final AtomicBoolean shouldStop = new AtomicBoolean(false);
+    private Thread ping;
+
 
     /**
      * Initializes a new handler using a specific socket connected to
@@ -51,6 +57,9 @@ public class ServerHandler implements Runnable
             return;
         }
 
+
+        startPing();
+
         try {
             handleClientConnection();
         } catch (IOException e) {
@@ -60,6 +69,9 @@ public class ServerHandler implements Runnable
         try {
             server.close();
         } catch (IOException ignored) { }
+        if(ping.isAlive()){
+            stopPing();
+        }
         owner.terminate();
     }
 
@@ -68,24 +80,24 @@ public class ServerHandler implements Runnable
      * them in the order they are received.
      * @throws IOException If a communication error occurs.
      */
-    private void handleClientConnection() throws IOException
-    {
+    private void handleClientConnection() throws IOException {
 
         String nickname = owner.getCommonData().getThisPlayerNickname();
         getClient().getServerHandler().sendCommandMessage(new SendNickname(nickname));
 
         owner.changeViewBuilder(CreateJoinLoadMatchCLI.getBuilder(owner.isCLI()));
-        try {
             boolean stop = false;
             while (!stop) {
                 /* read commands from the server and process them */
                 try {
+
                     String next = input.readObject().toString();
                     ClientMessage command = ClientMessage.deserialize(next);
                     command.processMessage(this);
 
 
-                } catch (IOException e) {
+                } catch (SocketTimeoutException e) {
+                    //   MessageUtility.displayErrorMessage("Lost connection with the server");
                     /* Check if we were interrupted because another thread has asked us to stop */
                     if (shouldStop.get()) {
                         /* Yes, exit the loop gracefully */
@@ -94,13 +106,19 @@ public class ServerHandler implements Runnable
                         /* No, rethrow the exception */
                         throw e;
                     }
+                } catch (IOException e) {
+                    System.out.println("Client: Disconnected from the server");
+                    if (shouldStop.get()) {
+                        /* Yes, exit the loop gracefully */
+                        stop = true;
+                    }else throw e;
+                } catch (ClassNotFoundException | ClassCastException e) {
+                    System.out.println("invalid stream from server" + e.toString());
+                    break;
                 }
-            }
-        } catch (ClassNotFoundException | ClassCastException e) {
-            System.out.println("invalid stream from server" + e.toString());
-        }
 
-    }
+            }
+        }
 
     /**
      * The game instance associated with this client.
@@ -137,4 +155,34 @@ public class ServerHandler implements Runnable
         } catch (IOException ignored) { }
     }
 
+    private void startPing(){
+        try {
+            InetAddress serverInetAddress = InetAddress.getByName(getClient().getIp());
+
+            ping = new Thread(() -> {
+
+                try {
+                    int counter = 0;
+                    while (true) {
+                        Thread.sleep(5000);
+                        ClientToServerMessage pingMessage = new PingMessageFromClient("Ping #" + counter);
+                        sendCommandMessage(pingMessage);
+                        counter++;
+                    }
+                } catch (InterruptedException e) {
+                //    System.out.println("Ping system disable");
+                } finally {
+                    Thread.currentThread().interrupt();
+                }
+            });
+            ping.start();
+
+        } catch (UnknownHostException e) {
+            System.out.println("Unable to convert IP address to InetAddress");
+        }
+    }
+
+    private void stopPing(){
+        ping.interrupt();
+    }
 }

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.model.market;
 
-import com.rits.cloning.Cloner;
 import it.polimi.ingsw.server.model.Resource;
 import it.polimi.ingsw.server.model.player.board.Box;
 import it.polimi.ingsw.server.model.states.State;
@@ -103,7 +102,7 @@ public class MarketBoard {
     }
 
     public Marble[][] getMarbleMatrix(){
-        return new Cloner().deepClone(marbleMatrix);
+        return marbleMatrix;
     }
 
     public Marble getSlideMarble(){

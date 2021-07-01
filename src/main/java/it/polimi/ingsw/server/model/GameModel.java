@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.model;
 
-import com.rits.cloning.Cloner;
 import it.polimi.ingsw.network.util.Util;
 import it.polimi.ingsw.server.controller.Match;
 import it.polimi.ingsw.server.model.cards.CardShop;
@@ -302,8 +301,7 @@ public class GameModel {
     }
 
     public Map<UUID, Leader> getLeaders () {
-        Cloner c = new Cloner();
-        return c.deepClone(leaders);
+        return leaders;
     }
 
     public boolean anyLeaderPlayableForCurrentPlayer(){
@@ -564,11 +562,11 @@ public class GameModel {
     }
 
     public Marble[][] getMarketMarbles(){
-        return new Cloner().deepClone(resourcesMarket.getMarbleMatrix());
+        return resourcesMarket.getMarbleMatrix();
     }
 
     public Marble getSlideMarble(){
-        return new Cloner().deepClone(resourcesMarket.getSlideMarble());
+        return resourcesMarket.getSlideMarble();
     }
 
     public Marble[] getPickedMarbles(){

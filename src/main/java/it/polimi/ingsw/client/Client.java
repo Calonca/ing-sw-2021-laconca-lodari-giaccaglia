@@ -31,6 +31,7 @@ public class Client implements Runnable
     private boolean isCLI;
     private Map<ViewBuilder, List<State>> viewBuilderMap;
     private boolean gameHasBeenLoaded;
+    public final int SOCKET_TIMEOUT_S = 20;
 
 
     /**
@@ -162,6 +163,7 @@ public class Client implements Runnable
         Socket server;
         try {
             server = new Socket(ip, port);
+            server.setSoTimeout(SOCKET_TIMEOUT_S * 1000);
         } catch (IOException e) {
             System.out.println("server unreachable");
             changeViewBuilder(ConnectToServerViewBuilder.getBuilder(isCLI));
