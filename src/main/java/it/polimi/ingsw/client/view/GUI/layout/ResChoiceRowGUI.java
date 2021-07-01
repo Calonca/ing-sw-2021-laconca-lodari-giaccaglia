@@ -37,7 +37,8 @@ public class ResChoiceRowGUI extends ResChoiceRow {
         final int dividerHeight = lineHeight*addedLines;
         addedLines++;
         addRes(rowGroup, addedLines, out);
-        Text3D.addTextOnGroup(rowGroup,dividerHeight,-200,"inputs/outputs");
+        if (!in.isEmpty())
+            Text3D.addTextOnGroup(rowGroup,dividerHeight,-200,"inputs/outputs");
 
         //final int numOfOut = numOfOutputChoices();
         //if (numOfOut>0) {

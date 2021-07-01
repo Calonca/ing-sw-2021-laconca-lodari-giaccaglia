@@ -2,10 +2,7 @@ package it.polimi.ingsw.client.view.GUI;
 
 import it.polimi.ingsw.client.simplemodel.PlayerCache;
 import it.polimi.ingsw.client.simplemodel.State;
-import it.polimi.ingsw.client.view.GUI.board.Box3D;
-import it.polimi.ingsw.client.view.GUI.board.FaithTrack;
-import it.polimi.ingsw.client.view.GUI.board.InfoTiles;
-import it.polimi.ingsw.client.view.GUI.board.Warehouse3D;
+import it.polimi.ingsw.client.view.GUI.board.*;
 import it.polimi.ingsw.client.view.GUI.layout.ResChoiceRowGUI;
 import it.polimi.ingsw.client.view.GUI.util.CardSelector;
 import it.polimi.ingsw.client.view.GUI.util.DragAndDropHandler;
@@ -160,12 +157,11 @@ public class BoardView3D implements PropertyChangeListener {
     /**
      * This method is called to refresh the position's of the deposit leaders
      */
-    public void refreshLeaders() {
+    public void refreshLeaders(SimplePlayerLeaders leaders) {
         if(this.leadersGroup!=null)
             this.leadersGroup.getChildren().clear();
         Group leadersGroup=new Group();
-        addLeaders(leadersGroup);
-        //addNodeToParent(parent, board, leadersGroup, new Point3D(0,0,0));
+        addLeaders(leadersGroup, leaders);
         parent.getChildren().add(leadersGroup);
     }
 
@@ -175,11 +171,9 @@ public class BoardView3D implements PropertyChangeListener {
 
 
     /**
-     * This method is used to add elements to the leaderGroup
-     * @param parent
+     * This method is used to add elements to the deposit leaderGroup
      */
-    public void addLeaders(Group parent) {
-        SimplePlayerLeaders activeLeaders = cache.getElem(SimplePlayerLeaders.class).orElseThrow();
+    public void addLeaders(Group leaderGroup, SimplePlayerLeaders activeLeaders) {
 
         Rectangle temp;
 
@@ -192,7 +186,7 @@ public class BoardView3D implements PropertyChangeListener {
                 if (bonus.getNetworkLeaderCard() instanceof NetworkDepositLeaderCard) {
                     temp = new Rectangle(300, 450);
                     temp.setFill(CardSelector.imagePatternFromAsset(bonus.getCardPaths().getKey()));
-                    NodeAdder.addNodeToParent(parent, boardRec, temp, new Point3D(-600 - 300 * count, 725, 0));
+                    NodeAdder.addNodeToParent(leaderGroup, boardRec, temp, new Point3D(-600 - 300 * count, 725, 0));
                     count++;
                 }
 
@@ -262,6 +256,10 @@ public class BoardView3D implements PropertyChangeListener {
         infoTiles.infoBuilder(this,parent, boardRec,playerNumber,cache);
         getSimpleModel().addPropertyChangeListener(infoTiles);
 
+        ActionToken t = new ActionToken();
+        t.actionTokenBuilder(this);
+        cache.addPropertyChangeListener(t);
+
         warehouse = new Warehouse3D(cache,this, parent, boardRec);
         warehouse.wareBuilder();
         cache.addPropertyChangeListener(warehouse);
@@ -273,6 +271,8 @@ public class BoardView3D implements PropertyChangeListener {
         productions = new Productions3D(this);
         productions.updateProds();
         cache.addPropertyChangeListener(productions);
+
+        refreshLeaders(cache.getElem(SimplePlayerLeaders.class).orElseThrow());
 
         return parent;
     }
@@ -312,8 +312,13 @@ public class BoardView3D implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        //Adds other players boards after setupPhase
         if (!initialized && evt.getPropertyName().equals(State.IDLE.toString())){
             Playground.getPlayground().root.getChildren().add(getRoot());
+        } else if (evt.getPropertyName().equals(SimplePlayerLeaders.class.getSimpleName())&&initialized){
+            Platform.runLater(()->{
+                refreshLeaders((SimplePlayerLeaders) evt.getNewValue());
+            });
         }
     }
 
