@@ -17,8 +17,11 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
-public class ShowingDevelopmentCardsMarketTest {
+public class AcquiringDevelopmentCardTest {
+
+
 
     @Test
     public void execute()
@@ -41,4 +44,6 @@ public class ShowingDevelopmentCardsMarketTest {
         assertEquals(State.CHOOSING_RESOURCES_FOR_DEVCARD, new AcquiringDevelopmentCard().execute(gamemodel, serverEvent).getKey());
 
     }
+
+
 }

@@ -5,9 +5,12 @@ import it.polimi.ingsw.client.view.GUI.util.CardSelector;
 import it.polimi.ingsw.client.view.GUI.util.NodeAdder;
 import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ProductionViewBuilder;
+import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
+import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
+import it.polimi.ingsw.network.messages.clienttoserver.events.productionevent.FinalProductionPhaseEvent;
 import it.polimi.ingsw.network.simplemodel.SimpleCardCells;
 import javafx.application.Platform;
 import javafx.geometry.Point3D;
@@ -119,7 +122,6 @@ public class Productions3D implements PropertyChangeListener {
                 if (mode.equals(BoardView3D.Mode.CHOOSE_POS_FOR_CARD) && simpleCardCells.isSpotAvailable(key)) {
                     CardShopViewBuilder.sendCardPlacementPosition(key);
                 } else if (mode.equals(BoardView3D.Mode.CHOOSE_PRODUCTION) && simpleCardCells.isProductionAtPositionAvailable(key).orElse(false))
-                    if (value.isPresent() && value.get().getDevelopmentCard().isSelectable())
                         ProductionViewBuilder.sendChosenProduction(key);
             });
             rectangle.setFill(tempImage);

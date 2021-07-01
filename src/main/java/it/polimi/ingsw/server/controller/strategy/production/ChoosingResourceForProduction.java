@@ -48,6 +48,8 @@ public class ChoosingResourceForProduction implements GameStrategy {
 
             );
 
+
+            //todo try to cover in test
             chosenOutputResources.forEach(resourceNumber -> personalBoard.performChoiceOnOutput(Resource.fromIntFixed(resourceNumber)));
 
             elementsToUpdate.add(Element.SimpleWareHouseLeadersDepot);
