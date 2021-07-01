@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view.GUI.board;
 
 import it.polimi.ingsw.client.simplemodel.PlayerCache;
 import it.polimi.ingsw.client.view.GUI.BoardView3D;
+import it.polimi.ingsw.client.view.GUI.Playground;
 import it.polimi.ingsw.client.view.GUI.util.NodeAdder;
 import it.polimi.ingsw.network.assets.tokens.ActionTokenAsset;
 import it.polimi.ingsw.network.simplemodel.*;
@@ -162,6 +163,7 @@ public class InfoTiles implements PropertyChangeListener {
                     System.out.println(tokenAsset.getFrontPath().toString().replace("\\","/"));
                     actionTokenRectangle.setFill(new ImagePattern(new Image(tokenAsset.getFrontPath().toString().replace("\\","/"))));
                     NodeAdder.addNodeToParent(infoGroup,infoGroup,actionTokenRectangle,infoGroup.localToParent(-100,-100,1000));
+                    Playground.refreshCardShop();
                 }
 
                     if(getSimpleModel().getElem(VaticanReportInfo.class).isPresent())
