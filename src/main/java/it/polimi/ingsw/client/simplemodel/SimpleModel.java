@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.simplemodel;
 
+import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.messages.servertoclient.ElementsInNetwork;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
 import it.polimi.ingsw.network.simplemodel.*;
@@ -92,7 +93,7 @@ public class SimpleModel {
      */
     public void updateSimpleModel(StateInNetwork stateInNetwork){
 
-        PlayerCache playerCache = getPlayerCache(stateInNetwork.getPlayerNumber());
+        PlayerCache playerCache = getPlayerCache(stateInNetwork.getNumberOfPlayerSendingEvent());
         playerCache.updatePlayerElements(stateInNetwork.getPlayerSimpleModelElements());
 
         for(SimpleModelElement element : stateInNetwork.getCommonSimpleModelElements()){
@@ -101,7 +102,12 @@ public class SimpleModel {
             support.firePropertyChange(elemName,null,getElem(elemName));
         }
 
-        playerCache.updateState(stateInNetwork.getState());
+        String state = stateInNetwork.getState();
+
+        //if state from network equals "SETUP_PHASE" and another player is in "SETUP_PHASE", ignore state update.
+        // This occurs in multiplayer game when a player waiting for SETUP_PHASE disconnects and then reconnects
+        if(!(state.equals("SETUP_PHASE") && stateInNetwork.getIndexOfPlayerInSetup() != CommonData.getThisPlayerIndex()))
+            playerCache.updateState(stateInNetwork.getState());
 
 
     }

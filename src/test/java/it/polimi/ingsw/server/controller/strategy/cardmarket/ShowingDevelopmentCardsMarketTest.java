@@ -12,7 +12,9 @@ import it.polimi.ingsw.server.model.states.State;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
@@ -29,10 +31,12 @@ public class ShowingDevelopmentCardsMarketTest {
 
         Validable serverEvent = JsonUtility.deserializeFromString(serializedEvent, it.polimi.ingsw.server.messages.clienttoserver.events.cardshopevent.ChooseCardEvent.class, gson);
 
-        List<String> nicknames = new ArrayList<>();
-        nicknames.add("testPlayer");
+        Map<Integer, String> players = new HashMap<>();
+        players.put(0,"testPlayer1");
+        List<Integer> onlineUsers = new ArrayList<>(players.keySet());
+
         boolean isSinglePlayer = true;
-        GameModel gamemodel = new GameModel(nicknames, isSinglePlayer,null);
+        GameModel gamemodel = new GameModel(players, isSinglePlayer,null, onlineUsers);
 
         assertEquals(State.CHOOSING_RESOURCES_FOR_DEVCARD, new AcquiringDevelopmentCard().execute(gamemodel, serverEvent).getKey());
 

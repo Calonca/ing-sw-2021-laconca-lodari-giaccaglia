@@ -6,6 +6,7 @@ import it.polimi.ingsw.server.messages.clienttoserver.events.setupphaseevent.Set
 import it.polimi.ingsw.server.messages.messagebuilders.Element;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
+import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.states.State;
 import javafx.util.Pair;
 
@@ -20,7 +21,7 @@ import java.util.stream.IntStream;
 public class Setup implements GameStrategy {
 
     List<Element> elementsToUpdate = new ArrayList<>();
-    int currentPlayerNumber;
+    int indexOfPlayerInSetupPhase;
 
     public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event)
     {
@@ -28,17 +29,18 @@ public class Setup implements GameStrategy {
         SetupPhaseEvent clientEvent = ((SetupPhaseEvent) event);
 
         List<UUID> chosenLeaders = clientEvent.getChosenLeaders();
-        currentPlayerNumber = gamemodel.getPlayerIndex(gamemodel.getCurrentPlayer());
+        indexOfPlayerInSetupPhase = clientEvent.getPlayerNumber();
+        Player playerInSetupPhase = gamemodel.getPlayer(indexOfPlayerInSetupPhase).get();
 
         List<Pair<Integer, Resource>> resources = clientEvent.getChosenResources();
 
 
         for(Pair<Integer, Resource> resource : resources)
-            gamemodel.getCurrentPlayer().getPersonalBoard().getWarehouseLeadersDepots().addResource(resource);
+            playerInSetupPhase.getPersonalBoard().getWarehouseLeadersDepots().addResource(resource);
 
 
-        gamemodel.discardLeadersOnSetupPhase(chosenLeaders);
-        IntStream.range(0, Util.initialFaithPoints(currentPlayerNumber)).forEach(i -> gamemodel.getCurrentPlayer().moveOnePosition());
+        gamemodel.discardLeadersOnSetupPhase(playerInSetupPhase, chosenLeaders);
+        IntStream.range(0, Util.initialFaithPoints(indexOfPlayerInSetupPhase)).forEach(i -> playerInSetupPhase.moveOnePosition());
 
         buildElementsList();
 
@@ -51,7 +53,7 @@ public class Setup implements GameStrategy {
         elementsToUpdate.add(Element.SimpleWareHouseLeadersDepot);
         elementsToUpdate.add(Element.SimplePlayerLeaders);
 
-        if(Util.initialFaithPoints(currentPlayerNumber)!=0)
+        if(Util.initialFaithPoints(indexOfPlayerInSetupPhase)!=0)
             elementsToUpdate.add(Element.SimpleFaithTrack);
     }
 

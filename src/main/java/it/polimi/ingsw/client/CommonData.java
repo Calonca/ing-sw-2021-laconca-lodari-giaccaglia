@@ -36,8 +36,10 @@ public class CommonData {
     private Map<UUID, Pair<String[], String[]>> availableMatchesData;
     private Map<UUID, Pair<String[], String[]>> savedMatchesData;
 
-    private Integer thisPlayerIndex;
+    private static Integer thisPlayerIndex;
+
     private int currentPlayerIndex = -1;
+    private String currentPlayerNickname = "";
     private UUID matchId;
     private String currentNick;
     private boolean connectionStatus = false;
@@ -47,7 +49,7 @@ public class CommonData {
     /**
      * @return the callers' player index
      */
-    public Integer getThisPlayerIndex() {
+    public static Integer getThisPlayerIndex() {
         return thisPlayerIndex;
     }
 
@@ -144,9 +146,10 @@ public class CommonData {
      * Method used during transition
      * @param currentPlayerIndex is an existing and online player index
      */
-    public void setCurrentPlayer(int currentPlayerIndex) {
+    public void setCurrentPlayer(int currentPlayerIndex, String currentPlayerNickname) {
         int oldPlayerIndex = this.currentPlayerIndex;
         this.currentPlayerIndex = currentPlayerIndex;
+        this.currentPlayerNickname = currentPlayerNickname;
         support.firePropertyChange(currentPlayerString,oldPlayerIndex,currentPlayerIndex);
     }
 
@@ -171,13 +174,16 @@ public class CommonData {
         support.firePropertyChange(thisMatchData,oldMatchId,matchId);
     }
 
-    public void setCurrentNick(String currentNick) {
+    public void setThisPlayerNickname(String currentNick) {
         this.currentNick = currentNick;
 
     }
 
-    public String getCurrentNick() {
+    public String getThisPlayerNickname() {
         return this.currentNick;
     }
 
+    public String getCurrentPlayerNickname(){
+        return currentPlayerNickname;
+    }
 }

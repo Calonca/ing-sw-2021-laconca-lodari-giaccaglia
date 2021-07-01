@@ -15,7 +15,7 @@ public class Timer{
 
                     String titleString = baseText + time;
                     Title title = new Title(titleString, Color.GREEN);
-                    cli.setTitleWhenBlocked(title.toString());
+                    cli.setTitleWhenBlocked(title);
                     cli.show();
                     try {
                         TimeUnit.SECONDS.sleep(1);

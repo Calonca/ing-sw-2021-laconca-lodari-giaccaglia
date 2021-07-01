@@ -3,9 +3,6 @@ package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.network.messages.servertoclient.MatchesData;
 import it.polimi.ingsw.server.ClientHandler;
-import it.polimi.ingsw.server.messages.messagebuilders.Element;
-import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.server.utils.Deserializator;
 import it.polimi.ingsw.server.utils.Serializator;
 import javafx.util.Pair;
@@ -26,8 +23,8 @@ public class SessionController {
     private HashMap<UUID, Long> matchesDisconnectionTimes = new HashMap<>();
     private transient List<ClientHandler> clientsInLobby = new ArrayList<>();
     private static SessionController single_instance = null;
-    private final String matchesFolderName = "src/savedMatches";
-    private static final String sessionFolderName = "savedSession";
+    private final String matchesFolderName = "savedSession/session.json";
+    private static final String sessionPath = "session.json";
     private final int maxSecondsOffline = 1800; //30 minutes
     private final AtomicBoolean isDebugMode = new AtomicBoolean(false);
 
@@ -85,7 +82,6 @@ public class SessionController {
         if (match.canAddPlayer() || match.isPlayerOffline(nickname)){
             int playerIndex = match.addPlayer(nickname,clientHandler);
             clientHandler.setMatch(match);
-
             return playerIndex;
         }
 
@@ -100,36 +96,7 @@ public class SessionController {
         }
     }
 
-    public void joinMatchAndNotifyStateIfPossible(Match match, String playerNickname){
-
-            List<Element> elements = Element.getAsList();
-
-            if(match.getGameIfPresent().isPresent()){
-                GameModel game = match.getGameIfPresent().get();
-
-                if(!game.isSinglePlayer() && game.getPlayer(playerNickname).isPresent())
-                    game.getPlayer(playerNickname).get().setCurrentState(State.IDLE); // if multiplayer, when player joins goes to IDLE phase;
-            }
-
-            match.notifyStateToAllPlayers(elements, playerNickname);
-            match.updateOtherPlayersCachesMessage(playerNickname);
-
-    }
-
-    public void notifyPlayerDisconnection(Match match, String playerNickname){
-
-        List<Element> elements = new ArrayList<>();
-        elements.add(Element.PlayersInfo);
-        updateAvailableMatchesAfterDisconnection(); // updates matches info to clients not in game;
-
-        if(match.getGameIfPresent().isPresent()) { // if game is present, notify players
-            match.notifyStateToAllPlayers(elements, playerNickname);
-            match.transitionToNextStateAfterDisconnection(playerNickname);
-        }
-
-    }
-
-    private void updateAvailableMatchesAfterDisconnection(){
+    public void sendUpdatedAvailableMatches(){
 
         clientsInLobby.forEach(client -> {
             try {
@@ -139,7 +106,6 @@ public class SessionController {
             }
         });
     }
-
 
     public void notifyPlayersInLobby(ClientHandler cl){
         clientsInLobby.forEach(
@@ -159,7 +125,7 @@ public class SessionController {
                 .filter(match->
 
 
-                        (clientHandler.getMatch().isPresent() && clientHandler.getMatch().get().getMatchId().equals(match.getKey())) // match was saved
+                        (clientHandler.getMatch().isPresent() && clientHandler.getMatch().get().getMatchId().equals(match.getKey())) // match was saved and was not restored
                         ||
                         (match.getValue().isNicknameAvailable(clientHandler.getNickname()) && match.getValue().canAddPlayer()) // player can join match if there is enough space and nickname constraints are met
 
@@ -172,7 +138,7 @@ public class SessionController {
                 .collect(Collectors.toMap(
                         entry -> {
                             UUID matchId = entry.getKey();
-                            Boolean isSavedMatch = matches.get(matchId).wasClientInMatch(clientHandler.getNickname());
+                            Boolean isSavedMatch = matches.get(matchId).wasClientInMatch(clientHandler.getNickname()) && matches.get(matchId).getOnlinePlayers().length == 0;
                             return new Pair<>(matchId, isSavedMatch);
                         },
 
@@ -196,7 +162,7 @@ public class SessionController {
     private static Optional<SessionController> reloadSessionIfPresent() {
 
         String sessionName = "session";
-        String folderAbsolutePath = Paths.get(sessionFolderName).toAbsolutePath().toString();
+        String folderAbsolutePath = Paths.get(sessionPath).toAbsolutePath().toString();
         String path = folderAbsolutePath + '/' + sessionName + ".json";
         File f = new File(path);
         if(f.exists() && !f.isDirectory()) {
@@ -240,20 +206,16 @@ public class SessionController {
 
     public void saveSessionController() {
 
-
         if(!isDebugMode.get()) {
 
-            String sessionName = "session";
-            String folderAbsolutePath = Paths.get(sessionFolderName).toAbsolutePath().toString();
-            String path = folderAbsolutePath + '/' + sessionName + ".json";
-
             try {
-                Serializator.serializeSession(path);
+                Serializator.serializeSession(sessionPath);
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
         }
+
     }
 
     public Optional<Match> loadMatch(UUID gameId) {
@@ -284,7 +246,6 @@ public class SessionController {
 
     public void registerDisconnection(Match match){
         matchesDisconnectionTimes.put(match.getMatchId(),System.currentTimeMillis());
-
         match.stopGameIfPresent();
 
     }

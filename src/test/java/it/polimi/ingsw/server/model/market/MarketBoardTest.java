@@ -6,9 +6,7 @@ import it.polimi.ingsw.server.model.player.board.Box;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -21,10 +19,14 @@ public class MarketBoardTest {
 
     @Before
     public void setUp() throws Exception {
-        List<String> players = new ArrayList<>();
-        players.add("testPlayer");
-        boolean isSinglePlayer = true;
-        gameModelTest = new GameModel(players, isSinglePlayer, null);
+        Map<Integer, String> players = new HashMap<>();
+        players.put(0,"testPlayer1");
+        players.put(1,"testPlayer2");
+        players.put(2,"testPlayer3");
+
+        List<Integer> onlineUsers = new ArrayList<>(players.keySet());
+
+        gameModelTest = new GameModel(players, true, null, onlineUsers);
         areThereWhiteMarbles = false;
     }
 

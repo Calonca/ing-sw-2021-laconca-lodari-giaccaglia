@@ -65,7 +65,7 @@ public class SelectablePositions extends SimpleModelElement{
         if(Objects.isNull(resourcesToChoose))
             buildResourcesToChoose();
         indexOfCurrentResourceToChoose = chosenInputPos.size();
-        if(indexOfCurrentResourceToChoose == resourcesToChoose.size())
+        if(Objects.isNull(resourcesToChoose) || indexOfCurrentResourceToChoose == resourcesToChoose.size())
             return new HashMap<>();
         if(!chosenInputPos.isEmpty())
             updateAvailability(chosenInputPos);

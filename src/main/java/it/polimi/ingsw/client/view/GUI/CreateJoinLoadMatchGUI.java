@@ -198,7 +198,7 @@ public class CreateJoinLoadMatchGUI extends CreateJoinLoadMatchViewBuilder imple
         joinMatchButton.setLayoutX(tileWidth/2);
         joinMatchButton.setOnAction( p ->
         {
-           getClient().getServerHandler().sendCommandMessage(new JoinMatchRequest(matchRow.getId(),getClient().getCommonData().getCurrentNick()));
+           getClient().getServerHandler().sendCommandMessage(new JoinMatchRequest(matchRow.getId(),getClient().getCommonData().getThisPlayerNickname()));
            getClient().changeViewBuilder(LobbyViewBuilder.getBuilder(getClient().isCLI()));
         });
 

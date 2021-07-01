@@ -9,7 +9,9 @@ import javafx.util.Pair;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -30,10 +32,13 @@ public class ProductionLeaderTest {
         requirementsTest.add(costTest);
         requirementsCardsTest.add(cardcostTest);
 
-        List<String> nicknames = new ArrayList<>();
-        nicknames.add("testPlayer");
+        Map<Integer, String> players = new HashMap<>();
+        players.put(0,"testPlayer1");
+
+        List<Integer> onlineUsers = new ArrayList<>(players.keySet());
+
         boolean isSinglePlayer = true;
-        GameModel gamemodel = new GameModel(nicknames, isSinglePlayer,null);
+        GameModel gamemodel = new GameModel(players, isSinglePlayer,null, onlineUsers);
         Player player = gamemodel.getCurrentPlayer();
 
         Leader leadertest = new ProductionLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, productiontest);

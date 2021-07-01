@@ -155,7 +155,7 @@ public class Client implements Runnable
 
         /* Open connection to the server and start a thread for handling
          * communication. */
-        if (ip==null||commonData.getCurrentNick()==null){
+        if (ip==null||commonData.getThisPlayerNickname()==null){
             changeViewBuilder(ConnectToServerViewBuilder.getBuilder(isCLI));
             //changeViewBuilder(new TestGridBody());
             return;}
@@ -209,7 +209,7 @@ public class Client implements Runnable
         getCommonData().addPropertyChangeListener(obj);
         if (simpleModel!=null){
             simpleModel.addPropertyChangeListener(obj);
-            simpleModel.getPlayerCache(commonData.getThisPlayerIndex()).addPropertyChangeListener(obj);
+            simpleModel.getPlayerCache(CommonData.getThisPlayerIndex()).addPropertyChangeListener(obj);
         }
     }
 
@@ -217,7 +217,7 @@ public class Client implements Runnable
         getCommonData().removePropertyChangeListener(obj);
         if (simpleModel!=null){
             simpleModel.removePropertyChangeListener(obj);
-            simpleModel.getPlayerCache(commonData.getThisPlayerIndex()).removePropertyChangeListener(obj);
+            simpleModel.getPlayerCache(CommonData.getThisPlayerIndex()).removePropertyChangeListener(obj);
         }
     }
 
@@ -236,7 +236,23 @@ public class Client implements Runnable
     }
 
     public SimpleModel getSimpleModel() {
+
+        if(Objects.isNull(simpleModel))
+            initializeSimpleModel();
+
         return simpleModel;
+    }
+
+    public void initializeSimpleModel(){
+
+        try {
+            int numOfPlayers = getCommonData().playersOfMatch().map(o->o.length).orElse(0);
+            simpleModel = new SimpleModel(numOfPlayers);
+        }catch (NoSuchElementException e){
+            System.out.println("Received a state before entering a match");
+        }
+
+        ViewBuilder.setSimpleModel(simpleModel);
     }
 
 
@@ -246,27 +262,20 @@ public class Client implements Runnable
      */
     public void setState(StateInNetwork stateInNetwork){
 
-        //System.out.println("Client " + commonData.getThisPlayerIndex() + " received: "+"client "+ stateInNetwork.getPlayerNumber() + " "+ stateInNetwork.getState());
+        //System.out.println("Client " + commonData.getThisPlayerIndex() + " received: "+"client "+ stateInNetwork.getNumberOfPlayerSendingEvent() + " "+ stateInNetwork.getState());
 
         //System.out.println(JsonUtility.serialize(stateInNetwork));
 
-        commonData.setCurrentPlayer(stateInNetwork.getPlayerNumber());
+        commonData.setCurrentPlayer(stateInNetwork.getCurrentPlayerNumber(), stateInNetwork.getCurrentPlayerNickname());
 
-        if (simpleModel==null){
-            try {
-                int numOfPlayers = getCommonData().playersOfMatch().map(o->o.length).orElse(0);
-                simpleModel = new SimpleModel(numOfPlayers);
-            }catch (NoSuchElementException e){
-                System.out.println("Received a state before entering a match");
-            }
-
-            ViewBuilder.setSimpleModel(simpleModel);
+        if (Objects.isNull(simpleModel)){
+         initializeSimpleModel();
         }
 
 
         if(!gameHasBeenLoaded) {
 
-            if (stateInNetwork.getPlayerNumber() == commonData.getThisPlayerIndex()) {
+            if (stateInNetwork.getNumberOfPlayerSendingEvent() == CommonData.getThisPlayerIndex()) {
 
                 gameHasBeenLoaded = true;
                 State state = State.valueOf(stateInNetwork.getState());
@@ -275,7 +284,12 @@ public class Client implements Runnable
 
                 simpleModel.updateSimpleModel(stateInNetwork);
 
-                ViewBuilder viewBuilderToInvoke = viewBuilderMap.keySet().stream().filter(key -> viewBuilderMap.get(key).equals(mapKey)).findFirst().orElseThrow();
+                ViewBuilder viewBuilderToInvoke;
+                if(simpleModel.getPlayerCache(CommonData.getThisPlayerIndex()).getCurrentState().equals("BEFORE_SETUP"))
+                   viewBuilderToInvoke = LobbyViewBuilder.getBuilder(isCLI);
+                else
+                    viewBuilderToInvoke = viewBuilderMap.keySet().stream().filter(key -> viewBuilderMap.get(key).equals(mapKey)).findFirst().orElseThrow();
+
                 changeViewBuilder(viewBuilderToInvoke);
 
             }

@@ -67,7 +67,7 @@ public class CreateMatchGUI extends CreateJoinLoadMatchViewBuilder implements GU
         b.setOnAction(p ->
         {
 
-            getClient().getServerHandler().sendCommandMessage(new CreateMatchRequest(playerCount,getCommonData().getCurrentNick()));
+            getClient().getServerHandler().sendCommandMessage(new CreateMatchRequest(playerCount,getCommonData().getThisPlayerNickname()));
             getClient().changeViewBuilder(LobbyViewBuilder.getBuilder(getClient().isCLI()));
             ((Pane)getClient().getStage().getScene().getRoot()).getChildren().remove(1);
 

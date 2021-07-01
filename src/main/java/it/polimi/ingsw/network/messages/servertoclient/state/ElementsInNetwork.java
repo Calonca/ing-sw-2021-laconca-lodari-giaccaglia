@@ -19,7 +19,6 @@ public class ElementsInNetwork extends ServerToClientMessage {
         super();
         this.playerSimpleModelElements = commonSimpleModelElements;
         this.playerElementsMap = playersElementsMap;
-
     }
 
     public List<SimpleModelElement> getCommonSimpleModelElements(){
@@ -29,6 +28,7 @@ public class ElementsInNetwork extends ServerToClientMessage {
     public Map<Integer, List<SimpleModelElement>> getPlayerElements(){
         return playerElementsMap;
     }
+
 
 
 }

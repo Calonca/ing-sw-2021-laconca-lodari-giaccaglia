@@ -67,12 +67,12 @@ public class Player {
     public Player(String nickName, Map<UUID, Leader> initialLeaders) {
         leaders = initialLeaders;
         personalBoard= new PersonalBoard();
-        currentlyOnline = true;
+        currentlyOnline = false;
         currentState = State.SETUP_PHASE;
         marketBonus=new boolean[4];
         this.nickName = nickName;
         initializeFaithTrack();
-       // faithTrack.cheat();
+     //   faithTrack.cheat();
 
     }
 

@@ -1,6 +1,9 @@
 package it.polimi.ingsw.network.util;
 
 import java.util.Arrays;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 public class Util
@@ -38,5 +41,25 @@ public class Util
         else
             return resources;
     }
+
+    public static <K, V> Optional<K> getKeyByValue(Map<K, V> map, V value) {
+        return map.entrySet()
+                .stream()
+                .filter(entry -> Objects.equals(entry.getValue(), value))
+                .map(Map.Entry::getKey)
+                .findFirst();
+    }
+
+    public static IntStream reverseStream(int from, int to) {
+        return IntStream.range(from, to)
+                .map(i -> to - i + from - 1);
+    }
+
+    public static IntStream reverseStreamRangeClosed(int from, int to) {
+        return IntStream.rangeClosed(from, to)
+                .map(i -> to - i + from);
+    }
+
+
 
 }

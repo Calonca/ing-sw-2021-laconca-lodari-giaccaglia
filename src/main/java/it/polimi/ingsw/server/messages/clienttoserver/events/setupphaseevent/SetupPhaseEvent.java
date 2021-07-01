@@ -5,6 +5,7 @@ import it.polimi.ingsw.network.util.Util;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Resource;
+import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.states.State;
 import javafx.util.Pair;
 
@@ -32,11 +33,11 @@ public class SetupPhaseEvent extends it.polimi.ingsw.network.messages.clienttose
     }
 
     /**
-     * @return true if {@link SetupPhaseEvent#playerNumber} associated with this event matches the {@link GameModel#currentPlayer}, otherwise
-     * false.
+     * @return true if {@link SetupPhaseEvent#playerNumber} associated with this event corresponds to an online player,
+     * otherwise false
      */
     private boolean validatePlayerNumber() {
-        return playerNumber == gamemodel.getPlayerIndex(gamemodel.getCurrentPlayer());
+        return gamemodel.getOnlinePlayers().containsKey(playerNumber);
     }
 
     /**
@@ -44,11 +45,13 @@ public class SetupPhaseEvent extends it.polimi.ingsw.network.messages.clienttose
      */
     private boolean validateLeaders() {
 
+        Player player = gamemodel.getPlayer(playerNumber).get();
+
         if(chosenLeaders.size() == initialDiscardedLeaders && initialDiscardedLeaders == 2)
         {
             boolean validationOk;
             for (UUID leaderId: chosenLeaders) {
-                validationOk = gamemodel.getCurrentPlayer().isLeaderAvailable(leaderId);
+                validationOk = player.isLeaderAvailable(leaderId);
                 if(!validationOk) return false;
             }
 
@@ -62,7 +65,6 @@ public class SetupPhaseEvent extends it.polimi.ingsw.network.messages.clienttose
      * {@link SetupPhaseEvent#playerNumber}, otherwise false.
      */
     private boolean validateResourcesAmount() {
-        int playerNumber = gamemodel.getPlayerIndex(gamemodel.getCurrentPlayer());
         int resourcesFromPlayerNumber = Util.resourcesToChooseOnSetup(playerNumber);
         int resourcesAmount = resources.length;
         return resourcesFromPlayerNumber == resourcesAmount;
@@ -143,6 +145,10 @@ public class SetupPhaseEvent extends it.polimi.ingsw.network.messages.clienttose
 
     public List<Pair<Integer, Resource>> getChosenResources(){
         return Arrays.stream(resources).map(pair -> new Pair<>(pair.getKey(), Resource.fromIntFixed(pair.getValue()))).collect(Collectors.toList());
+    }
+
+    public int getPlayerNumber(){
+        return playerNumber;
     }
 
 }

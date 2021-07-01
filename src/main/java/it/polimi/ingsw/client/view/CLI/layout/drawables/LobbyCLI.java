@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.CLI.layout.drawables;
 
+import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
 import it.polimi.ingsw.client.view.CLI.layout.Option;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Column;
@@ -9,7 +10,6 @@ import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 import it.polimi.ingsw.client.view.CLI.textUtil.StringUtil;
 import javafx.util.Pair;
 
-import java.beans.PropertyChangeEvent;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.UUID;
@@ -27,12 +27,13 @@ public class LobbyCLI extends LobbyViewBuilderCLI {
         Map<UUID, Pair<String[], String[]>> availableMatches = getCommonData().getAvailableMatchesData().get();
 
         UUID matchId = getClient().getCommonData().getMatchId().get();
-        String[] players = availableMatches.get(matchId).getKey();  // picking online players !!
+        String[] onlinePlayers = availableMatches.get(matchId).getKey();
+        String[] offlinePlayers = availableMatches.get(matchId).getValue();
 
-        int leftPlayers = (int)(Arrays.stream(players).filter(player -> player.equals("available slot")).count());
+        int leftPlayers = (int)(Arrays.stream(onlinePlayers).filter(player -> player.equals("available slot")).count());
 
         Column grid = new Column();
-        Option lobby = Option.noNumber(lobbyBox(players));
+        Option lobby = Option.noNumber(lobbyBox(onlinePlayers, offlinePlayers));
         grid.addElem(lobby);
         CanvasBody body = CanvasBody.centered(grid);
 
@@ -46,45 +47,62 @@ public class LobbyCLI extends LobbyViewBuilderCLI {
     }
 
 
-    private static Drawable lobbyBox(String[] players){
+    private static Drawable lobbyBox(String[] onlinePlayers, String[] offlinePlayers){
 
-
-        int playerindex = getCommonData().getCurrentPlayerIndex();
         String playerInSetup;
 
         Drawable drawable= new Drawable();
-        int yPosMatchPlayerText = 1;
-        if(playerindex!=-1 && !players[playerindex].equals("available slot")) {
+        int yPos = 1;
 
-            if(playerindex == getCommonData().getThisPlayerIndex())
+        if(!getCommonData().getCurrentPlayerNickname().isBlank()) {
+
+            if (getCommonData().getCurrentPlayerIndex() == CommonData.getThisPlayerIndex())
                 playerInSetup = "Your Setup Phase is starting!";
             else
-                playerInSetup = players[playerindex] + " is in Setup Phase";
+                playerInSetup = getCommonData().getCurrentPlayerNickname() + " is in Setup Phase";
 
             drawable.add(0, " " + playerInSetup, Color.BRIGHT_YELLOW, Background.DEFAULT);
             drawable.add(0, "");
-            yPosMatchPlayerText = 3;
+            yPos = 3;
+
         }
-
-
 
         drawable.add(0,"╔════════════════════════════╗");
         drawable.add(0,"║                            ║");
-        drawable.add(new DrawableLine(8, yPosMatchPlayerText, "Match Players", Color.BRIGHT_GREEN, Background.DEFAULT));
+        drawable.add(new DrawableLine(8, yPos, "Match Players", Color.BRIGHT_GREEN, Background.DEFAULT));
         drawable.add(0,"║ ────────────────────────── ║");
 
 
-        for(int i=0; i<players.length; i++){
-            int playerIndex = i+1;
-            if(players[i].equals("available slot")){
+        int playerIndex;
+
+        for(int i=0; i<onlinePlayers.length; i++){
+            playerIndex = i+1;
+            if(onlinePlayers[i].equals("available slot")){
                 drawable.add(0, "║" + StringUtil.untilReachingSize(" Waiting for player", 28) + "║");
             }
             else
-                drawable.add(0, "║ Player " + playerIndex + " is : " + StringUtil.untilReachingSize(players[i], 13) + "║");
-
-            if(i!=players.length -1)
+                drawable.add(0, "║ Player " + playerIndex + " is : " + StringUtil.untilReachingSize(onlinePlayers[i], 13) + "║");
                 drawable.add(0, "║ ────────────────────────── ║");
         }
+
+        if(offlinePlayers.length>0) {
+
+            yPos = yPos + 2 + onlinePlayers.length * 2;
+
+            drawable.add(0, "║                            ║");
+            drawable.add(new DrawableLine(7, yPos, "Offline Players", Color.RED, Background.DEFAULT));
+
+            for (int i = 0; i < offlinePlayers.length; i++) {
+                String offlinePlayerString =  "× " + offlinePlayers[i] + " ×";
+                drawable.add(0, "║ " + StringUtil.untilReachingSize(offlinePlayerString, 27) + "║");
+
+                if (i != onlinePlayers.length - 1)
+                    drawable.add(0, "║ ────────────────────────── ║");
+            }
+
+        }
+
+
 
         drawable.add(0,"╚════════════════════════════╝");
 
@@ -93,13 +111,4 @@ public class LobbyCLI extends LobbyViewBuilderCLI {
     }
 
 
-    @Override
-    public void run() {
-
-    }
-
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-
-    }
 }

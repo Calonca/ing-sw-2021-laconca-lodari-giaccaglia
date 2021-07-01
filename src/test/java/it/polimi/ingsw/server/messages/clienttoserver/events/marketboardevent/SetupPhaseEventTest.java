@@ -27,13 +27,12 @@ public class SetupPhaseEventTest {
 
     @Before
     public void setup(){
-        List<String> players = new ArrayList<>();
-        players.add("testPlayer1");
-        players.add("testPlayer2");
-        players.add("testPlayer3");
+        Map<Integer, String> players = new HashMap<>();
+        players.put(0,"testPlayer1");
+        players.put(1,"testPlayer2");
 
         initializeGameModel(players);
-        gameModelTest.setCurrentPlayer(gameModelTest.getPlayer("testPlayer3").get());
+        gameModelTest.setCurrentPlayer(gameModelTest.getPlayer("testPlayer2").get());
         gson = JsonUtility.customGson;
         playerLeadersUUIDs = gameModelTest.getCurrentPlayer().getLeadersUUIDs();
     }
@@ -87,12 +86,11 @@ public class SetupPhaseEventTest {
         initialDiscardedLeaders.add(playerLeadersUUIDs.get(2));
         initialDiscardedLeaders.add(playerLeadersUUIDs.get(3));
 
-        initializeEvent(2,initialResources,initialDiscardedLeaders);
+        initializeEvent(1,initialResources,initialDiscardedLeaders);
     }
 
 
     private void anotherValidTestInitialization(){
-
 
         initialResources = new ArrayList<>();
         initialResources.add(new Pair<>(4, 2));
@@ -101,18 +99,18 @@ public class SetupPhaseEventTest {
         initialDiscardedLeaders.add(playerLeadersUUIDs.get(2));
         initialDiscardedLeaders.add(playerLeadersUUIDs.get(3));
 
-        initializeEvent(2,initialResources,initialDiscardedLeaders);
+        initializeEvent(1,initialResources,initialDiscardedLeaders);
 
     }
 
 
     private void invalidResourcesTestInitialization(){
 
-        List<String> players = new ArrayList<>();
-        players.add("testPlayer1");
-        players.add("testPlayer2");
-        players.add("testPlayer3");
-        players.add("testPlayer4");
+        Map<Integer, String> players = new HashMap<>();
+        players.put(0,"testPlayer1");
+        players.put(1,"testPlayer2");
+        players.put(2,"testPlayer3");
+        players.put(3,"testPlayer4");
         initializeGameModel(players);
         gameModelTest.setCurrentPlayer(gameModelTest.getPlayer("testPlayer3").get());
         playerLeadersUUIDs = gameModelTest.getCurrentPlayer().getLeadersUUIDs();
@@ -125,7 +123,7 @@ public class SetupPhaseEventTest {
         initialDiscardedLeaders.add(playerLeadersUUIDs.get(2));
         initialDiscardedLeaders.add(playerLeadersUUIDs.get(3));
 
-        initializeEvent(4,initialResources,initialDiscardedLeaders);
+        initializeEvent(3,initialResources,initialDiscardedLeaders);
     }
 
     private void invalidLeadersTestInitialization(){
@@ -137,7 +135,7 @@ public class SetupPhaseEventTest {
         initialDiscardedLeaders = new ArrayList<>(2);
         initialDiscardedLeaders.add(gameModelTest.getRemainingLeadersUUIDs().get(1));
         initialDiscardedLeaders.add(playerLeadersUUIDs.get(3));
-        initializeEvent(4,initialResources,initialDiscardedLeaders);
+        initializeEvent(3,initialResources,initialDiscardedLeaders);
 
     }
 
@@ -154,8 +152,9 @@ public class SetupPhaseEventTest {
         }
     }
 
-    private void initializeGameModel(List<String> players){
-        gameModelTest = new GameModel(players, false, null);
+    private void initializeGameModel(Map<Integer, String> players){
+        List<Integer> onlineUsers = new ArrayList<>(players.keySet());
+        gameModelTest = new GameModel(players, false, null, onlineUsers);
         gameModelTest.start();
     }
 

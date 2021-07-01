@@ -12,7 +12,9 @@ import it.polimi.ingsw.server.model.GameModel;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TogglingForProductionTest {
 
@@ -25,11 +27,12 @@ public class TogglingForProductionTest {
         Gson gson = new GsonBuilder().registerTypeAdapterFactory(CommonGsonAdapters.gsonEventMessageAdapter).create();
 
         Validable serverEvent = JsonUtility.deserializeFromString(serializedEvent, it.polimi.ingsw.server.messages.clienttoserver.events.productionevent.ToggleProductionAtPosition.class, gson);
-        List<String> nicknames = new ArrayList<>();
-        nicknames.add("testPlayer");
+        Map<Integer, String> players = new HashMap<>();
+        players.put(0,"testPlayer1");
+        List<Integer> onlineUsers = new ArrayList<>(players.keySet());
 
         boolean isSinglePlayer = true;
-        GameModel gamemodel = new GameModel(nicknames, isSinglePlayer,null);
+        GameModel gamemodel = new GameModel(players, isSinglePlayer,null, onlineUsers);
 
        // assertEquals(new TogglingForProduction().execute(gamemodel, serverEvent).getKey(), State.CHOOSING_PRODUCTION);
 

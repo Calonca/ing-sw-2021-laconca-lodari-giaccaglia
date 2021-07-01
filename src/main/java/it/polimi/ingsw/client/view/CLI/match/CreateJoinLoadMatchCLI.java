@@ -37,7 +37,7 @@ public class CreateJoinLoadMatchCLI extends CreateJoinLoadMatchViewBuilder imple
 
                 {
                     getCLIView().clearScreen();
-                    getCLIView().setTitle(new Title("Hey "+ getCommonData().getCurrentNick()+", what do you want to do?",Color.BLUE));
+                    getCLIView().setTitle(new Title("Hey "+ getCommonData().getThisPlayerNickname()+", what do you want to do?",Color.BLUE));
 
                     Stream<GridElem> optionsToAdd = getNewOptionList();
                     Row initialRow = new Row(optionsToAdd);
@@ -73,7 +73,7 @@ public class CreateJoinLoadMatchCLI extends CreateJoinLoadMatchViewBuilder imple
         LobbyViewBuilderCLI joinMatch = new LobbyViewBuilderCLI();
         joinMatch.setMatchId( uuidPair.getKey() );
         Runnable r = () -> {
-            getClient().getServerHandler().sendCommandMessage(new JoinMatchRequest(uuidPair.getKey(),getCommonData().getCurrentNick()));
+            getClient().getServerHandler().sendCommandMessage(new JoinMatchRequest(uuidPair.getKey(),getCommonData().getThisPlayerNickname()));
             getClient().changeViewBuilder( joinMatch );
         };
 
@@ -109,7 +109,7 @@ public class CreateJoinLoadMatchCLI extends CreateJoinLoadMatchViewBuilder imple
     protected Stream<Option> getMatchesOptionList(Map<UUID, Pair<String[], String[]>> matchesData){
 
         Option loadMatch = Option.from("Go back" , () -> {
-            getClient().getServerHandler().sendCommandMessage(new SendNickname(getCommonData().getCurrentNick()));
+            getClient().getServerHandler().sendCommandMessage(new SendNickname(getCommonData().getThisPlayerNickname()));
             getClient().changeViewBuilder(new CreateJoinLoadMatchCLI());
         });
 
@@ -146,7 +146,8 @@ public class CreateJoinLoadMatchCLI extends CreateJoinLoadMatchViewBuilder imple
 
             getClient().changeViewBuilder( joinMatch );
             Timer.showSecondsOnCLI(getCLIView(), "Loading data, seconds left : ", 2);
-            getClient().getServerHandler().sendCommandMessage(new JoinMatchRequest(matchId,getCommonData().getCurrentNick()));
+            getClient().getServerHandler().sendCommandMessage(new JoinMatchRequest(matchId,getCommonData().getThisPlayerNickname()));
+
         };
     }
 

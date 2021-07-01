@@ -71,7 +71,7 @@ public class ServerHandler implements Runnable
     private void handleClientConnection() throws IOException
     {
 
-        String nickname = owner.getCommonData().getCurrentNick();
+        String nickname = owner.getCommonData().getThisPlayerNickname();
         getClient().getServerHandler().sendCommandMessage(new SendNickname(nickname));
 
         owner.changeViewBuilder(CreateJoinLoadMatchCLI.getBuilder(owner.isCLI()));

@@ -7,11 +7,13 @@ import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.market.Marble;
 import it.polimi.ingsw.server.model.market.MarketBoard;
 import it.polimi.ingsw.server.model.market.MarketLine;
+import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.player.board.Box;
 import it.polimi.ingsw.server.model.player.board.PersonalBoard;
 import it.polimi.ingsw.server.model.player.leaders.Leader;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *  <p>Enum class for player turn phases represented as FSM States. Game turn is divided in three macro phases.<br>
@@ -149,9 +151,31 @@ public enum State {
      */
     public StateInNetwork toStateMessage(GameModel gameModel, List<Element> elementsToUpdate, int playerRequestingUpdate) {
 
+        Player currentPlayer = gameModel.getCurrentPlayer();
+        int currentPlayerIndex = gameModel.getPlayerIndex(currentPlayer);
+        int indexOfPlayerInSetup =
+                currentPlayer.getCurrentState().equals(State.SETUP_PHASE) ?
+
+                        gameModel.getPlayerIndex(currentPlayer) :
+
+                gameModel.getOnlinePlayers()
+                        .entrySet()
+                        .stream()
+                        .filter(player -> player.getValue().getCurrentState().equals(State.SETUP_PHASE))
+                        .map(Map.Entry::getKey)
+                        .findFirst()
+                        .orElse(-1);
+
+
+
+
+        String currentPlayerNickname = gameModel.getCurrentPlayer().getNickname();
 
         return new StateInNetwork(
                 playerRequestingUpdate,
+                currentPlayerIndex,
+                indexOfPlayerInSetup,
+                currentPlayerNickname,
                 this.toString(),
                 Element.buildPlayerSimpleModelElements(gameModel, elementsToUpdate, playerRequestingUpdate),
                 Element.buildCommonSimpleModelElements(gameModel, elementsToUpdate, playerRequestingUpdate));

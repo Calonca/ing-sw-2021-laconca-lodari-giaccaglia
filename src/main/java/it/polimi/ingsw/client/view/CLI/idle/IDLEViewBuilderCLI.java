@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.CLI.idle;
 
+import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.view.CLI.CLIBuilder;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.PersonalBoardBody;
@@ -74,7 +75,7 @@ public class IDLEViewBuilderCLI extends IDLEViewBuilder implements CLIBuilder {
         Drawable boardDw = new Drawable();
         boardDw.add(0, "  See your");
         boardDw.add(0, "Personal Board");
-        row.addElem(idlePhaseOption(boardDw, () -> getClient().changeViewBuilder(new PersonalBoardCLI(getCommonData().getThisPlayerIndex(), false, PersonalBoardBody.ViewMode.IDLE)), true));
+        row.addElem(idlePhaseOption(boardDw, () -> getClient().changeViewBuilder(new PersonalBoardCLI(CommonData.getThisPlayerIndex(), false, PersonalBoardBody.ViewMode.IDLE)), true));
         row.addElem(new SizedBox(6, 0));
 
         Drawable viewCardShop = new Drawable();
@@ -87,7 +88,6 @@ public class IDLEViewBuilderCLI extends IDLEViewBuilder implements CLIBuilder {
 
         return row;
     }
-
 
     private Option idlePhaseOption(Drawable d, Runnable r, boolean enabled) {
         Option o = Option.from(d, r);
@@ -116,7 +116,7 @@ public class IDLEViewBuilderCLI extends IDLEViewBuilder implements CLIBuilder {
             }
 
             getClient().changeViewBuilder(MiddlePhaseViewBuilder.getBuilder(getClient().isCLI()));
-        } else if (IDLE.name().equals(propertyName) || evt.getPropertyName().equals(PlayersInfo.class.getSimpleName())) {
+        } else if (IDLE.name().equals(propertyName) || propertyName.equals(PlayersInfo.class.getSimpleName()) || propertyName.equals(CommonData.currentPlayerString)) {
             run();
         } else super.propertyChange(evt);
     }
