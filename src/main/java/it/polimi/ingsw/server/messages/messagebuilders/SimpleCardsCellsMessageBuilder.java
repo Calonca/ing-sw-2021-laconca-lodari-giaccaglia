@@ -12,9 +12,11 @@ import java.util.stream.Collectors;
 
 public class SimpleCardsCellsMessageBuilder {
 
-    public static Map<Integer, List<Pair<UUID, Boolean>>> cardCellsAdapter(GameModel gameModel){
+    public static Map<Integer, List<Pair<UUID, Boolean>>> cardCellsAdapter(GameModel gameModel, int indexOfPlayerRequestingUpdate){
 
-        Map<Integer, List<DevelopmentCard>> visibleCardCells = gameModel.getCurrentPlayer().getPersonalBoard().getVisibleCardsOnCells();
+
+
+        Map<Integer, List<DevelopmentCard>> visibleCardCells = gameModel.getPlayer(indexOfPlayerRequestingUpdate).get().getPersonalBoard().getVisibleCardsOnCells();
 
         return visibleCardCells.keySet().stream().collect(Collectors.toMap(
                 integer -> integer,
@@ -25,7 +27,7 @@ public class SimpleCardsCellsMessageBuilder {
                     if(visibleCardCells.get(integer).size()>0)
                         cardIds = visibleCardCells.get(integer)
                                 .stream()
-                                .map(card -> new Pair<>(card.getCardId(), checkProductionRequirements(gameModel, integer)))
+                                .map(card -> new Pair<>(card.getCardId(), checkProductionRequirements(gameModel, integer, indexOfPlayerRequestingUpdate)))
                                 .collect(Collectors.toList());
                     return cardIds;
 
@@ -35,8 +37,8 @@ public class SimpleCardsCellsMessageBuilder {
     }
 
 
-    private static boolean checkProductionRequirements(GameModel gameModel, int cardPosition){
-        Boolean[] prods = gameModel.getCurrentPlayer().getPersonalBoard().getAvailableProductions();
+    private static boolean checkProductionRequirements(GameModel gameModel, int cardPosition, int indexOfPlayerRequestingUpdate){
+        Boolean[] prods = gameModel.getPlayer(indexOfPlayerRequestingUpdate).get().getPersonalBoard().getAvailableProductions();
         return prods[cardPosition];
     }
 

@@ -31,9 +31,9 @@ public class GameInfoMessageBuilder {
         ));
     }
 
-    public static List<ResourceAsset> depotBonusResources(GameModel gameModel){
+    public static List<ResourceAsset> depotBonusResources(GameModel gameModel, int playerIndex){
 
-        return gameModel.getCurrentPlayer().getActiveLeaders().stream().filter(leader ->
+        return gameModel.getPlayer(playerIndex).get().getActiveLeaders().stream().filter(leader ->
                 leader instanceof DepositLeader).map(depositLeader -> {
 
                     ResourceAsset asset = ResourceAsset.fromInt(((DepositLeader) depositLeader).getLeaderDepot().geResourceType());
@@ -44,9 +44,9 @@ public class GameInfoMessageBuilder {
 
     }
 
-    public static List<Pair<ResourceAsset, Integer>> discountBonusResources(GameModel gameModel){
+    public static List<Pair<ResourceAsset, Integer>> discountBonusResources(GameModel gameModel, int playerIndex){
 
-        return gameModel.getCurrentPlayer().getActiveLeaders().stream().filter(leader -> leader instanceof DevelopmentDiscountLeader).map(discountLeader -> {
+        return gameModel.getPlayer(playerIndex).get().getActiveLeaders().stream().filter(leader -> leader instanceof DevelopmentDiscountLeader).map(discountLeader -> {
 
                     DevelopmentDiscountLeader developmentDiscountLeader = (DevelopmentDiscountLeader) discountLeader;
 
@@ -59,9 +59,9 @@ public class GameInfoMessageBuilder {
         }).collect(Collectors.toList());
     }
 
-    public static List<ResourceAsset> marketBonusResources(GameModel gameModel){
+    public static List<ResourceAsset> marketBonusResources(GameModel gameModel, int playerIndex){
 
-        return gameModel.getCurrentPlayer().getActiveLeaders().stream().filter(leader -> leader instanceof MarketLeader).map(marketBonusLeader -> {
+        return gameModel.getPlayer(playerIndex).get().getActiveLeaders().stream().filter(leader -> leader instanceof MarketLeader).map(marketBonusLeader -> {
 
                     ResourceAsset asset = ResourceAsset.fromInt(((MarketLeader) marketBonusLeader).getResourceBonusType());
 
@@ -71,9 +71,9 @@ public class GameInfoMessageBuilder {
 
     }
 
-    public static List<ActiveLeaderBonusInfo.SimpleProductionBonus> productionBonusResources(GameModel gameModel){
+    public static List<ActiveLeaderBonusInfo.SimpleProductionBonus> productionBonusResources(GameModel gameModel, int playerIndex){
 
-        return gameModel.getCurrentPlayer().getActiveLeaders().stream().filter(leader -> leader instanceof ProductionLeader).map(productionLeader -> {
+        return gameModel.getPlayer(playerIndex).get().getActiveLeaders().stream().filter(leader -> leader instanceof ProductionLeader).map(productionLeader -> {
 
             ProductionLeader leader = ((ProductionLeader) productionLeader);
 

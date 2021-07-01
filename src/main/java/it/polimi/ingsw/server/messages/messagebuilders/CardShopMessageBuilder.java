@@ -49,7 +49,8 @@ public class CardShopMessageBuilder {
                                             if (netCards.size() > 0) {
                                                 DevelopmentCardAsset cardOnTop = netCards.get(0);
                                                 DevelopmentCard card = gameModel.getDevCardsMap().get(cardOnTop.getCardId());
-                                                boolean isPurchasable = checkCardRequirements(gameModel, card);
+                                                int playerIndex = gameModel.getPlayerIndex(gameModel.getCurrentPlayer());
+                                                boolean isPurchasable = checkCardRequirements(gameModel, card, playerIndex);
                                                 cardOnTop.getDevelopmentCard().setSelectable(isPurchasable);
                                             }
 
@@ -97,13 +98,13 @@ public class CardShopMessageBuilder {
     }
 
         //        resourceInt  amount
-    public static Map<Integer, Integer> costMapOfPurchasedCardWithDiscounts(GameModel gameModel) {
+    public static Map<Integer, Integer> costMapOfPurchasedCardWithDiscounts(GameModel gameModel, int playerRequestingUpdate) {
 
         Map<Integer, Integer> costList = new HashMap<>();
 
         if (gameModel.getCardShop().getCopyOfPurchasedCard() != null) {
 
-            List<Integer> discounts = Arrays.stream((gameModel.getCurrentPlayer().getPersonalBoard().getDiscounts())).boxed().collect(Collectors.toList());
+            List<Integer> discounts = Arrays.stream((gameModel.getPlayer(playerRequestingUpdate).get().getPersonalBoard().getDiscounts())).boxed().collect(Collectors.toList());
 
             DevelopmentCard purchasedCard = gameModel.getCardShop().getCopyOfPurchasedCard();
 
@@ -125,8 +126,8 @@ public class CardShopMessageBuilder {
 
     }
 
-    private static boolean checkCardRequirements(GameModel gameModel, DevelopmentCard card){
-        return gameModel.getCurrentPlayer().getPersonalBoard().areDevCardRequirementsSatisfied(card);
+    private static boolean checkCardRequirements(GameModel gameModel, DevelopmentCard card, int playerIndex){
+        return gameModel.getPlayer(playerIndex).get().getPersonalBoard().areDevCardRequirementsSatisfied(card);
 
     }
 }
