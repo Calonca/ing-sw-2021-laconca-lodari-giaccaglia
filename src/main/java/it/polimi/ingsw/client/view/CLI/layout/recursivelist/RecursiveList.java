@@ -101,17 +101,6 @@ public abstract class RecursiveList extends GridElem {
             lastSelectedOption.perform();
     }
 
-    public void selectAndRunOption(CLI cli)
-    {
-        Runnable r = ()->{
-            int choice = cli.getLastInt();
-            selectOptionAtPosition(choice);
-            performLastChoice();
-        };
-        cli.runOnIntInput("Select a choice:","Select a valid choice", getFirstIdx(), getNextElemIndex(),r);
-    }
-
-
     public void selectInEnabledOption(CLI cli, String message)
     {
         selectInEnabledOption(cli,message,null);

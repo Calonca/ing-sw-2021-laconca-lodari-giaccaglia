@@ -41,7 +41,7 @@ public class IDLEViewBuilderCLI extends IDLEViewBuilder implements CLIBuilder {
         Row initialRow = getNewRow();
         CanvasBody horizontalListBody = CanvasBody.centered(initialRow);
         getCLIView().setBody(horizontalListBody);
-        initialRow.selectAndRunOption(getCLIView());
+        initialRow.selectInEnabledOption(getCLIView(),"");
         getCLIView().show();
 
     }

@@ -57,7 +57,7 @@ public class CreateJoinLoadMatchCLI extends CreateJoinLoadMatchViewBuilder imple
 
                     horizontalListBody.setPerformer(performer);
                     getCLIView().setBody(horizontalListBody);
-                    initialRow.selectAndRunOption(getCLIView());
+                    initialRow.selectInEnabledOption(getCLIView(),"");
                     getCLIView().show();
                 }
 
