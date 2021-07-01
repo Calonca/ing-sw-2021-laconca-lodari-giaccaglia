@@ -150,52 +150,37 @@ public class InfoTiles implements PropertyChangeListener {
         {
             PlayersInfo playersInfo =  (PlayersInfo) evt.getNewValue();
 
-
             Runnable done = () -> {
                 infoGroup.getChildren().clear();
 
-                if (getSimpleModel().getPlayersCaches().length==1)
+                if(getSimpleModel().getElem(VaticanReportInfo.class).isPresent())
                 {
-                    SimpleSoloActionToken actionToken = getSimpleModel().getPlayerCache(0).getElem(SimpleSoloActionToken.class).orElseThrow();
-                    ActionTokenAsset tokenAsset = actionToken.getSoloActionToken();
 
-                    Rectangle actionTokenRectangle=new Rectangle(100,100);
-                    System.out.println(tokenAsset.getFrontPath().toString().replace("\\","/"));
-                    actionTokenRectangle.setFill(new ImagePattern(new Image(tokenAsset.getFrontPath().toString().replace("\\","/"))));
-                    NodeAdder.addNodeToParent(infoGroup,infoGroup,actionTokenRectangle,infoGroup.localToParent(-100,-100,1000));
-                    if (tokenAsset.isDiscardingCard())
-                        Playground.refreshCardShop();
-                }
-
-                    if(getSimpleModel().getElem(VaticanReportInfo.class).isPresent())
+                    VaticanReportInfo vaticanReportInfo;
+                    vaticanReportInfo=getSimpleModel().getElem(VaticanReportInfo.class).get();
+                    if(vaticanReportInfo.hasReportOccurred())
                     {
+                        int tileNumber=vaticanReportInfo.getPopeTileStateMap().get(playerNumber).getKey()+1;
 
-                        VaticanReportInfo vaticanReportInfo;
-                        vaticanReportInfo=getSimpleModel().getElem(VaticanReportInfo.class).get();
-                        if(vaticanReportInfo.hasReportOccurred())
-                        {
-                            int tileNumber=vaticanReportInfo.getPopeTileStateMap().get(playerNumber).getKey()+1;
+                        if(vaticanReportInfo.getPopeTileStateMap().get(playerNumber).getValue().equals(TileState.DISCARDED))
+                            popeTiles.get(vaticanReportInfo.getPopeTileStateMap().get(playerNumber).getKey()).setOpacity(0);
 
-                            if(vaticanReportInfo.getPopeTileStateMap().get(playerNumber).getValue().equals(TileState.DISCARDED))
-                                popeTiles.get(vaticanReportInfo.getPopeTileStateMap().get(playerNumber).getKey()).setOpacity(0);
+                        if(vaticanReportInfo.getPopeTileStateMap().get(playerNumber).getValue().equals(TileState.ACTIVE))
+                            popeTiles.get(vaticanReportInfo.getPopeTileStateMap().get(playerNumber).getKey()).setFill(new ImagePattern(new Image("assets/track/FAVOUR_TILE_"+tileNumber+"_ACTIVE.png")));
 
-                            if(vaticanReportInfo.getPopeTileStateMap().get(playerNumber).getValue().equals(TileState.ACTIVE))
-                                popeTiles.get(vaticanReportInfo.getPopeTileStateMap().get(playerNumber).getKey()).setFill(new ImagePattern(new Image("assets/track/FAVOUR_TILE_"+tileNumber+"_ACTIVE.png")));
-
-                                System.out.println(vaticanReportInfo.getPopeTileStateMap().get(playerNumber).getValue());
-
-                        }
-
-                        // if(vaticanReportInfo.getPlayersTriggeringVaticanReport().contains(numberOfPlayerSendingEvent))
-                    /*    if(!vaticanReportInfo.hasReportBeenShown())
-                        {
-                            if(vaticanReportInfo.getPopeTileStateMap().get(numberOfPlayerSendingEvent).getValue().equals(TileState.DISCARDED))
-                                popeTiles.get(vaticanReportInfo.getPopeTileStateMap().get(numberOfPlayerSendingEvent).getKey()).setOpacity(0);
-                            vaticanReportInfo.reportWillBeShown();
-                        }*/
+                            System.out.println(vaticanReportInfo.getPopeTileStateMap().get(playerNumber).getValue());
 
                     }
 
+                    // if(vaticanReportInfo.getPlayersTriggeringVaticanReport().contains(numberOfPlayerSendingEvent))
+                /*    if(!vaticanReportInfo.hasReportBeenShown())
+                    {
+                        if(vaticanReportInfo.getPopeTileStateMap().get(numberOfPlayerSendingEvent).getValue().equals(TileState.DISCARDED))
+                            popeTiles.get(vaticanReportInfo.getPopeTileStateMap().get(numberOfPlayerSendingEvent).getKey()).setOpacity(0);
+                        vaticanReportInfo.reportWillBeShown();
+                    }*/
+
+                }
 
                 for(int i=0;i<playersInfo.getSimplePlayerInfoMap().size();i++)
                 {
@@ -205,9 +190,7 @@ public class InfoTiles implements PropertyChangeListener {
 
             };
 
-
             Platform.runLater(done);
         }
-
     }
 }
