@@ -34,7 +34,7 @@ public class LobbyViewBuilderCLI extends LobbyViewBuilder implements CLIBuilder 
     public void propertyChange(PropertyChangeEvent evt) {
 
         if (evt.getPropertyName().equals(State.SETUP_PHASE.toString())) {
-            Timer.showSecondsOnCLI(getCLIView(), "Ready for Setup Phase, seconds left : ", 2);
+            Timer.showSecondsOnCLI(getCLIView(), "Ready for Setup Phase, seconds left : ", 5);
             getClient().changeViewBuilder(new SetupPhase());
         }
 

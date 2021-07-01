@@ -323,6 +323,13 @@ public class Match {
 
         Player playerDisconnected = game.getPlayer(playerNickname).get();
 
+        //if player disconnecting was the one with the inkwell, inkwell is given to the previous player
+        //in counterclockwise order
+
+        if(game.getPlayerIndex(playerDisconnected) == game.getIndexOfPlayerWithInkWell())
+            game.updateIndexOfPlayerWithInkWell();
+
+
         if(game.getCurrentPlayer().equals(playerDisconnected)){
 
             if(game.getNextPlayer().isPresent()) {
@@ -495,8 +502,6 @@ public class Match {
         });
     }
 
-
-
     public void joinMatchAndNotifyStateIfPossible(String playerNickname){
 
         List<Element> elements = Element.getAsList();
@@ -508,8 +513,16 @@ public class Match {
 
             if(!game.isSinglePlayer() && game.getPlayer(playerNickname).isPresent()) {
                 Player player = game.getPlayer(playerNickname).get();
-                if(!player.getCurrentState().equals(State.SETUP_PHASE)) //if player disconnected not during/before setup
-                    player.setCurrentState(State.IDLE); // if multiplayer, when player joins goes to IDLE phase, but only if he finished setup_phase
+                if(!player.getCurrentState().equals(State.SETUP_PHASE)) { //if player disconnected not during/before setup
+
+                    if(game.getOnlinePlayers().size()==1){
+                        State state = player.anyLeaderPlayable() ? State.INITIAL_PHASE : State.MIDDLE_PHASE;
+                        player.setCurrentState(state);
+                    }
+                    else
+                        player.setCurrentState(State.IDLE); // if multiplayer, when player joins goes to IDLE phase, but only if he finished setup_phase
+
+                }
 
                 player.getPersonalBoard().removeSelected(); // selected resources are deselected
             }

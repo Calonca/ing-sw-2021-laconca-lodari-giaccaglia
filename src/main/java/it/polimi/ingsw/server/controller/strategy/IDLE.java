@@ -27,7 +27,7 @@ public class IDLE implements GameStrategy {
         this.gameModel = gameModel;
 
         if(gameModel.getMacroGamePhase().equals(GameModel.MacroGamePhase.LastTurn)) {
-            if (gameModel.getPlayerIndex(gameModel.getCurrentPlayer()) == 0) {
+            if (gameModel.getPlayerIndex(gameModel.getCurrentPlayer()) == gameModel.getIndexOfPlayerWithInkWell()) {
                 gameModel.setMacroGamePhase(GameModel.MacroGamePhase.GameEnded);
                 elementsToUpdate.add(Element.EndGameInfo);
                 return new Pair<>(State.END_PHASE, elementsToUpdate);

@@ -50,5 +50,16 @@ public class Util
                 .findFirst();
     }
 
+    public static IntStream reverseStream(int from, int to) {
+        return IntStream.range(from, to)
+                .map(i -> to - i + from - 1);
+    }
+
+    public static IntStream reverseStreamRangeClosed(int from, int to) {
+        return IntStream.rangeClosed(from, to)
+                .map(i -> to - i + from);
+    }
+
+
 
 }

@@ -111,7 +111,7 @@ public class ConnectToServer extends ConnectToServerViewBuilder implements GUIVi
                 if(isIPAddr(addressText.getCharacters().toString()))
                     if(Integer.parseInt(portText.getCharacters().toString())<65536)
                     {
-                        getClient().getCommonData().setCurrentNick(nickText.getCharacters().toString());
+                        getClient().getCommonData().setThisPlayerNickname(nickText.getCharacters().toString());
                         getClient().setServerConnection(addressText.getCharacters().toString(),Integer.parseInt(portText.getCharacters().toString()));
                         getClient().run();
                         return;

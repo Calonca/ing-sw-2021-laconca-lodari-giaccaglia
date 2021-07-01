@@ -19,7 +19,7 @@ public class JoinableMatchesCLI extends CreateJoinLoadMatchCLI implements CLIBui
     public void run() {
 
         getCLIView().clearScreen();
-        getCLIView().setTitle( new Title( "Hey " + getCommonData().getCurrentNick() + ", here are the available matches to join" ));
+        getCLIView().setTitle( new Title( "Hey " + getCommonData().getThisPlayerNickname() + ", here are the available matches to join" ));
 
         Map<UUID, Pair<String[], String[]>> savedMatches = getCommonData().getAvailableMatchesData().get();
         Column grid = buildMatchInfo(savedMatches);

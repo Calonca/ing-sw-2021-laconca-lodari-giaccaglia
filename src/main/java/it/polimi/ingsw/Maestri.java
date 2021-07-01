@@ -79,7 +79,7 @@ public class Maestri {
         if (args.length==4||args.length==3)
             client.setServerConnection(args[2], Integer.parseInt(args[1]));
         if (args.length==4) {
-            client.getCommonData().setCurrentNick(args[3]);
+            client.getCommonData().setThisPlayerNickname(args[3]);
         }
         if (isCli) client.run();
         else GUI.main(args);
