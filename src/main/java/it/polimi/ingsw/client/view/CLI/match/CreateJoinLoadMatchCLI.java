@@ -50,14 +50,14 @@ public class CreateJoinLoadMatchCLI extends CreateJoinLoadMatchViewBuilder imple
                         Stream<GridElem> updatedOptionsToAdd = getNewOptionList();
                         Row updatedRow = new Row((updatedOptionsToAdd));
                         getCLIView().setBody(CanvasBody.centered(updatedRow));
-                        updatedRow.selectInEnabledOption(getCLIView(), "", () -> getClient().changeViewBuilder(new CreateJoinLoadMatchCLI()));
+                        updatedRow.selectInEnabledOption(getCLIView(), "Select a choice", () -> getClient().changeViewBuilder(new CreateJoinLoadMatchCLI()));
                         getCLIView().show();
 
                     };
 
                     horizontalListBody.setPerformer(performer);
                     getCLIView().setBody(horizontalListBody);
-                    initialRow.selectInEnabledOption(getCLIView(),"");
+                    initialRow.selectInEnabledOption(getCLIView(),"Select a choice");
                     getCLIView().show();
                 }
 

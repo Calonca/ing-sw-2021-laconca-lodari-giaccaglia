@@ -59,7 +59,7 @@ public class SetupBody extends CLIelem {
         layout.addElem(resChoiceRow.getGridElem());
         Row selectingLeaderRow = new Row();
         if (!resAreChosen()) {
-            layout.selectInEnabledOption(cli,"");
+            layout.selectInEnabledOption(cli,"Select a resource");
         }else {
 
             selectingLeaderRow = choosingLeadersRow();
@@ -68,7 +68,7 @@ public class SetupBody extends CLIelem {
         }
 
         if (resAreChosen() && !leadersAreChosen()){
-            selectingLeaderRow.selectInEnabledOption(cli,"");
+            selectingLeaderRow.selectInEnabledOption(cli,"Select a leader");
         }
 
         if (resAreChosen() && leadersAreChosen())
