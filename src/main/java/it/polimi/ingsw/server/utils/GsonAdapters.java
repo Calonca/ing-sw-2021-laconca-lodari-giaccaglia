@@ -126,6 +126,7 @@ public class GsonAdapters {
         gsonToServerMessageAdapter.registerSubtype(JoinMatchRequest.class);
         gsonToServerMessageAdapter.registerSubtype(EventMessage.class);
         gsonToServerMessageAdapter.registerSubtype(SendNickname.class);
+        gsonToServerMessageAdapter.registerSubtype(PingMessageFromClient.class);
 
         return gsonToServerMessageAdapter;
 

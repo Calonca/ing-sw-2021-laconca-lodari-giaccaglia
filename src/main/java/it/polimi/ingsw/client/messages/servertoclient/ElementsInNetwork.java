@@ -19,4 +19,5 @@ public class ElementsInNetwork extends it.polimi.ingsw.network.messages.serverto
     public void processMessage(ServerHandler serverHandler) throws IOException {
         serverHandler.getClient().getSimpleModel().initializeSimpleModelWhenJoining(this);
     }
+
 }

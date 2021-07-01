@@ -17,6 +17,11 @@ public class Server
      */
     public static int SOCKET_PORT = 7831;
 
+    /**
+     * Timeout for the socket.
+     */
+    public static final int SOCKET_TIMEOUT_S = 20;
+
     public static void main(String[] args)
     {
         if (args.length==2){
@@ -59,6 +64,7 @@ public class Server
                 /* accepts connections; for every connection we accept,
                  * create a new Thread executing a ClientHandler */
                 Socket client = socket.accept();
+                client.setSoTimeout(SOCKET_TIMEOUT_S * 1000);
                 ClientHandler clientHandler = new ClientHandler(client);
                 Thread thread = new Thread(clientHandler, "server_" + client.getInetAddress());
                 thread.start();

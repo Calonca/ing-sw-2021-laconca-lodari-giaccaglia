@@ -16,6 +16,7 @@ public class GsonAdapters {
         gsonToClientAdapter.registerSubtype(StateInNetwork.class);
         gsonToClientAdapter.registerSubtype(EventNotValid.class);
         gsonToClientAdapter.registerSubtype(ElementsInNetwork.class);
+        gsonToClientAdapter.registerSubtype(PingMessageFromServer.class);
 
         return gsonToClientAdapter;
 

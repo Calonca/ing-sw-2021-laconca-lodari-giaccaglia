@@ -1,10 +1,7 @@
 package it.polimi.ingsw.network.jsonUtils;
 
 import it.polimi.ingsw.network.assets.leaders.*;
-import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
-import it.polimi.ingsw.network.messages.clienttoserver.CreateMatchRequest;
-import it.polimi.ingsw.network.messages.clienttoserver.JoinMatchRequest;
-import it.polimi.ingsw.network.messages.clienttoserver.SendNickname;
+import it.polimi.ingsw.network.messages.clienttoserver.*;
 import it.polimi.ingsw.network.messages.clienttoserver.events.*;
 import it.polimi.ingsw.network.messages.clienttoserver.events.cardshopevent.ChooseCardEvent;
 import it.polimi.ingsw.network.messages.clienttoserver.events.cardshopevent.ChooseCardPositionEvent;
@@ -51,6 +48,7 @@ public class CommonGsonAdapters {
         s2cAdapter.registerSubtype(EventNotValid.class);
         s2cAdapter.registerSubtype(StateInNetwork.class);
         s2cAdapter.registerSubtype(ElementsInNetwork.class);
+        s2cAdapter.registerSubtype(PingMessageFromServer.class);
 
         return s2cAdapter;
 
@@ -64,6 +62,7 @@ public class CommonGsonAdapters {
         clientToJsonAdapter.registerSubtype(JoinMatchRequest.class);
         clientToJsonAdapter.registerSubtype(EventMessage.class);
         clientToJsonAdapter.registerSubtype(SendNickname.class);
+        clientToJsonAdapter.registerSubtype(PingMessageFromClient.class);
 
         return clientToJsonAdapter;
 
