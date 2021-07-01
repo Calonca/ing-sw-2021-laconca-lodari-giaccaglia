@@ -189,6 +189,7 @@ public class SessionController {
         return elapsedTimeInSeconds > maxSecondsOffline;
 
     }
+
     public void registerDisconnection(Match match){
         matchesDisconnectionTimes.put(match.getMatchId(), System.currentTimeMillis());
         match.stopGameIfPresent();
@@ -231,12 +232,12 @@ public class SessionController {
                     });
                     */
 
-                        for (UUID uuid : sessionController.matches.keySet()) {
+                      /*  for (UUID uuid : sessionController.matches.keySet()) {
 
                             if (sessionController.checkGameTimeout(uuid))
                                 sessionController.deleteGame(uuid);
 
-                        }
+                        } */
                     }
 
                 } catch (InterruptedException e) {

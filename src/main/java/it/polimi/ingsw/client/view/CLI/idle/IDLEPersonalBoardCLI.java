@@ -4,18 +4,18 @@ import it.polimi.ingsw.client.view.CLI.CLIelem.body.PersonalBoardBody;
 import it.polimi.ingsw.client.view.CLI.commonViews.CLIPersonalBoardBuilder;
 import it.polimi.ingsw.client.view.CLI.commonViews.CLIReportInfoBuilder;
 
-public class PersonalBoardCLI extends IDLEViewBuilderCLI{
+public class IDLEPersonalBoardCLI extends IDLEViewBuilderCLI{
 
     int playerIndex;
     boolean isMoving;
     PersonalBoardBody.ViewMode viewMode;
 
-    public PersonalBoardCLI(int playerIndex, boolean isMoving){
+    public IDLEPersonalBoardCLI(int playerIndex, boolean isMoving){
         this.playerIndex = playerIndex;
         this.isMoving = isMoving;
     }
 
-    public PersonalBoardCLI(int playerIndex, boolean isMoving, PersonalBoardBody.ViewMode viewMode){
+    public IDLEPersonalBoardCLI(int playerIndex, boolean isMoving, PersonalBoardBody.ViewMode viewMode){
         this.playerIndex = playerIndex;
         this.isMoving = isMoving;
         this.viewMode = viewMode;
@@ -26,7 +26,7 @@ public class PersonalBoardCLI extends IDLEViewBuilderCLI{
     public void run() {
         showWarningIfLastTurn();
         getClient().saveViewBuilder(this);
-        CLIReportInfoBuilder.showVaticanReportInfoBeforeTransition(new ReportInfoCLI());
+        CLIReportInfoBuilder.showVaticanReportInfoBeforeTransition(new IDLEReportInfoCLI());
         if (isMoving) {
             CLIPersonalBoardBuilder.buildViewForMoving();
         } else {

@@ -41,7 +41,6 @@ public class CardShopCLI extends CardShopViewBuilder {
         super(viewing, isIdle);
     }
 
-
     /**
      * This method builds the ASCII Card Shop
      */
@@ -112,9 +111,6 @@ public class CardShopCLI extends CardShopViewBuilder {
         dw.add(resource);
         return Option.noNumber(dw);
     }
-
-
-
 
 
     /**

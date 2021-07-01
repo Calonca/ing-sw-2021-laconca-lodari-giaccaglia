@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.CLI.middle;
 
 
+import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.view.CLI.CLIBuilder;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.PersonalBoardBody;
@@ -44,13 +45,26 @@ public class MiddlePhaseCLI extends MiddlePhaseViewBuilder implements CLIBuilder
 
         getCLIView().setTitle("Select a choice");
 
+        Row row = getRowOfOptions();
+        getCLIView().setBody(CanvasBody.centered(row));
+        getCLIView().show();
+    }
+
+    private Row getRowOfOptions(){
+
         Row row = new Row();
 
         SimpleProductions simpleProductions = getThisPlayerCache().getElem(SimpleProductions.class).orElseThrow();
         Drawable productionDw = new Drawable();
-        productionDw.add(0,"Make a production");
+        productionDw.add(0,"   Make a production");
         productionDw.add(0,"on your personal board");
         row.addElem(middlePhaseOption(productionDw,()-> sendMessage(Choice.PRODUCTION), simpleProductions.isAnyProductionAvailable()));
+        row.addElem(new SizedBox(4,0));
+
+        Drawable resourceMkViewing = new Drawable();
+        resourceMkViewing.add(0,"      Look at");
+        resourceMkViewing.add(0,"the resource market");
+        row.addElem(middlePhaseOption(resourceMkViewing,()-> getClient().changeViewBuilder(new MiddleResourceMarketCLIViewing()), true));
         row.addElem(new SizedBox(4,0));
 
         Drawable resourceMk = new Drawable();
@@ -60,7 +74,7 @@ public class MiddlePhaseCLI extends MiddlePhaseViewBuilder implements CLIBuilder
         row.addElem(new SizedBox(4,0));
 
         Drawable viewCardShop = new Drawable();
-        viewCardShop.add(0,"Look at cards");
+        viewCardShop.add(0,"  Look at cards");
         viewCardShop.add(0,"from the Card Shop");
         row.addElem(middlePhaseOption(viewCardShop,()-> getClient().changeViewBuilder(new CardShopCLI(true)), true));
         row.addElem(new SizedBox(4,0));
@@ -68,7 +82,7 @@ public class MiddlePhaseCLI extends MiddlePhaseViewBuilder implements CLIBuilder
         Drawable viewPersonalBoard = new Drawable();
         viewPersonalBoard.add(0," Look at your");
         viewPersonalBoard.add(0,"Personal Board");
-        row.addElem(middlePhaseOption(viewPersonalBoard, () -> getClient().changeViewBuilder(new MiddlePersonalBoardCLI(getCommonData().getThisPlayerIndex(), false, PersonalBoardBody.ViewMode.MIDDLE)), true));
+        row.addElem(middlePhaseOption(viewPersonalBoard, () -> getClient().changeViewBuilder(new MiddlePersonalBoardCLI(CommonData.getThisPlayerIndex(), false, PersonalBoardBody.ViewMode.MIDDLE)), true));
         row.addElem(new SizedBox(4,0));
 
         Drawable moveResourcesDw = new Drawable();
@@ -79,7 +93,7 @@ public class MiddlePhaseCLI extends MiddlePhaseViewBuilder implements CLIBuilder
 
         SimpleCardShop simpleCardShop = getSimpleModel().getElem(SimpleCardShop.class).orElseThrow();
         Drawable buyCard = new Drawable();
-        buyCard.add(0,"Buy a card");
+        buyCard.add(0,"   Buy a card");
         buyCard.add(0,"from the Card Shop");
         row.addElem(middlePhaseOption(buyCard,()-> sendMessage(Choice.CARD_SHOP), simpleCardShop.getIsAnyCardPurchasable()));
         row.addElem(new SizedBox(4,0));
@@ -92,8 +106,7 @@ public class MiddlePhaseCLI extends MiddlePhaseViewBuilder implements CLIBuilder
 
         row.selectInEnabledOption(getCLIView(), "Select a middle phase option");
 
-        getCLIView().setBody(CanvasBody.centered(row));
-        getCLIView().show();
+        return row;
     }
 
     private Option middlePhaseOption(Drawable d, Runnable r, boolean enabled){
@@ -102,7 +115,6 @@ public class MiddlePhaseCLI extends MiddlePhaseViewBuilder implements CLIBuilder
         o.setEnabled(enabled);
         return o;
     }
-
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {

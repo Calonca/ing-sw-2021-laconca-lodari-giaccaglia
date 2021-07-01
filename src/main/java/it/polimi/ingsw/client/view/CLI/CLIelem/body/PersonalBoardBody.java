@@ -6,7 +6,7 @@ import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.CLI.CLIelem.CLIelem;
 import it.polimi.ingsw.client.view.CLI.endgame.WinLooseCLI;
 import it.polimi.ingsw.client.view.CLI.idle.IDLEViewBuilderCLI;
-import it.polimi.ingsw.client.view.CLI.idle.PlayersInfoCLI;
+import it.polimi.ingsw.client.view.CLI.idle.IDLEPlayersInfoCLI;
 import it.polimi.ingsw.client.view.CLI.layout.GridElem;
 import it.polimi.ingsw.client.view.CLI.layout.Option;
 import it.polimi.ingsw.client.view.CLI.layout.ResChoiceRowCLI;
@@ -254,7 +254,7 @@ public class PersonalBoardBody extends CLIelem {
         viewModeBuilders = new HashMap<>();
         viewModeBuilders.put(ViewMode.IDLE, () -> requestBuilder = new IDLEViewBuilderCLI());
         viewModeBuilders.put(ViewMode.MIDDLE, () -> requestBuilder = new MiddlePhaseCLI());
-        viewModeBuilders.put(ViewMode.PLAYERS_INFO_IDLE, () -> requestBuilder = new PlayersInfoCLI());
+        viewModeBuilders.put(ViewMode.PLAYERS_INFO_IDLE, () -> requestBuilder = new IDLEPlayersInfoCLI());
         viewModeBuilders.put(ViewMode.PLAYERS_INFO_MIDDLE, () -> requestBuilder = new MiddlePlayersInfoCLI());
         viewModeBuilders.put(ViewMode.PLAYERS_INFO_END, () -> requestBuilder = new WinLooseCLI());
 
