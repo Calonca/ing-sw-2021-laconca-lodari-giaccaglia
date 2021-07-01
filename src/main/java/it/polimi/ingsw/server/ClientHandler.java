@@ -133,7 +133,7 @@ public class ClientHandler implements Runnable
                     counter++;
                 }
             } catch (InterruptedException e) {
-                System.out.println("Ping Interrupted");
+                System.out.println("Ping Communication Interrupted with " + client.getInetAddress());
             } catch (IOException e) {
                 System.out.println("Unable to send event to client");
             } finally {
@@ -143,7 +143,6 @@ public class ClientHandler implements Runnable
 
         ping.start();
     }
-
 
     /**
      * The game instance associated with this client.
@@ -195,6 +194,11 @@ public class ClientHandler implements Runnable
             match.notifyPlayerDisconnection(nickname);
             session.saveSessionController();
         }
+
+        else
+            SessionController.getInstance().removeClientIfPresent(this);
+
+
 
     }
 

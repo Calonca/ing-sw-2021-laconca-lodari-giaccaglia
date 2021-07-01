@@ -34,13 +34,13 @@ public class JsonUtility {
                .setPrettyPrinting();
    }
 
-
-    public static <T> T deserialize(String jsonPath, Class<T> destinationClass, boolean isPathFromSourceRoot){
-        if(isPathFromSourceRoot)
+    public static <T> T deserialize(String jsonPath, Class<T> destinationClass){
+      //  if(isPathFromSourceRoot)
             return deserializeFromSourceRoot(jsonPath,destinationClass, customGson);
 
+        /*
         else
-            return deserializeFromAbsolutePath(jsonPath, destinationClass, customGson);
+            return deserialize(jsonPath, destinationClass, customGson); */
 
     }
 
@@ -76,7 +76,7 @@ public class JsonUtility {
         return deserializeFromString(jsonString, destinationClass, customGson);
     }
 
-    public static <T> T deserializeFromAbsolutePath(String name, Class<T> destinationClass, Gson customGson) {
+    public static <T> T deserialize(String name, Class<T> destinationClass, Gson customGson) {
 
         String jsonString = null;
         try {

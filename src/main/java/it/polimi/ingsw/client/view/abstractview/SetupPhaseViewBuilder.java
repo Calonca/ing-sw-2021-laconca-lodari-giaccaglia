@@ -1,7 +1,8 @@
 package it.polimi.ingsw.client.view.abstractview;
 
 import it.polimi.ingsw.client.simplemodel.State;
-import it.polimi.ingsw.client.view.CLI.SetupPhase;
+import it.polimi.ingsw.client.view.CLI.SetupPhaseCLI;
+import it.polimi.ingsw.client.view.GUI.SetupPhaseGUI;
 
 import java.beans.PropertyChangeEvent;
 
@@ -9,8 +10,8 @@ public abstract class SetupPhaseViewBuilder extends ViewBuilder {
 
     public static ViewBuilder getBuilder(boolean isCLI){
         if (isCLI)
-            return new SetupPhase();
-        else return new it.polimi.ingsw.client.view.GUI.SetupPhase();
+            return new SetupPhaseCLI();
+        else return new SetupPhaseGUI();
     }
 
     /**

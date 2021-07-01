@@ -18,7 +18,7 @@ public class FaithCellTest {
     @Before
     public void setUp() throws Exception {
 
-        JsonObject jsonFaithTrackClass = deserialize("/config/FaithTrackConfig.json",JsonObject.class, true);
+        JsonObject jsonFaithTrackClass = deserialize("/config/FaithTrackConfig.json",JsonObject.class);
         JsonElement jsonFaithTrackList = jsonFaithTrackClass.get("track");
         Type myListType = new TypeToken<List<FaithCell>>() {}.getType();
         myList = deserialize(jsonFaithTrackList, myListType);

@@ -30,7 +30,7 @@ import java.util.stream.IntStream;
 public class Deserializator extends JsonUtility {
 
     public static MarketBoard marketBoardDeserialization(){
-        return deserialize(readConfigPathString + "MarketBoardConfig.json", MarketBoard.class, true);
+        return deserialize(readConfigPathString + "MarketBoardConfig.json", MarketBoard.class);
     }
 
     public static CardShop cardShopDeserialization(){
@@ -214,7 +214,7 @@ public class Deserializator extends JsonUtility {
     }
 
     public static FaithTrack faithTrackDeserialization(){
-        return deserialize(readConfigPathString + "FaithTrackConfig.json", FaithTrack.class, true);
+        return deserialize(readConfigPathString + "FaithTrackConfig.json", FaithTrack.class);
     }
 
     //helper method to load a 48 devcards array from json
@@ -280,7 +280,7 @@ public class Deserializator extends JsonUtility {
                 .registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).create();
 
 
-        Match match = JsonUtility.deserializeFromAbsolutePath(path, Match.class, gson);
+        Match match = JsonUtility.deserialize(path, Match.class, gson);
         return match;
     }
 
@@ -294,7 +294,7 @@ public class Deserializator extends JsonUtility {
                 .registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).create();
 
 
-        SessionController sessionController = JsonUtility.deserializeFromAbsolutePath(path, SessionController.class, gson);
+        SessionController sessionController = JsonUtility.deserialize(path, SessionController.class, gson);
         return sessionController;
     }
 
