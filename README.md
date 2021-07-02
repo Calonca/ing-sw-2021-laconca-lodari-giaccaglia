@@ -39,9 +39,9 @@ Prof: Pierluigi San Pietro
 ```bash
 java -jar Maestri.jar
 ```
-4. The output will look like:
+4. With the following arguments:
 ```bash
-Usage: java -jar Maestri.jar [mode] [port] [ip] [nickname]
+java -jar Maestri.jar [mode] [port] [ip] [nickname]
 
 Modes:
   -c,--cli        Starts the CLI and connects to server with port, ip and nickname
