@@ -120,6 +120,7 @@ public class Playground {
             Node root = getRoot();
             root.setId("3DVIEW");
             GUI.getRealPane().getChildren().add(1,root);
+            LobbyViewBuilderGUI.clearForeground();
             System.out.println(GUI.getRealPane().getChildren());
         }
     }

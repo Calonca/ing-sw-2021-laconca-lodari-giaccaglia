@@ -11,6 +11,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.SubScene;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
 import javafx.scene.shape.Sphere;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
@@ -26,8 +27,9 @@ import java.util.UUID;
  */
 public class LobbyViewBuilderGUI extends LobbyViewBuilder {
 
-    Text playerNames;
-    Text playerText;
+    private Text playerNames;
+    private Text playerText;
+    private static AnchorPane createPane;
 
 
     /**
@@ -51,8 +53,7 @@ public class LobbyViewBuilderGUI extends LobbyViewBuilder {
      */
     public SubScene getRoot() {
 
-
-        AnchorPane createPane = new AnchorPane();
+        createPane = new AnchorPane();
 
         createPane.setMinSize(500,400);
         Sphere circle1=new Sphere();
@@ -138,6 +139,14 @@ public class LobbyViewBuilderGUI extends LobbyViewBuilder {
 
     }
 
+    /**
+     * Clears the foreground
+     */
+    public static void clearForeground()
+    {
+        if (createPane!=null)
+            createPane.getChildren().clear();
+    }
 
     /**
      * Here the info regarding the game gets updated in real time
