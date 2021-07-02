@@ -1,8 +1,6 @@
 package it.polimi.ingsw.client.view.GUI;
 
-import it.polimi.ingsw.network.simplemodel.EndGameInfo;
-import it.polimi.ingsw.network.simplemodel.PlayersInfo;
-import it.polimi.ingsw.network.simplemodel.SimplePlayerInfo;
+import it.polimi.ingsw.client.view.abstractview.DisconnectViewBuilder;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -13,10 +11,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
-import java.beans.PropertyChangeEvent;
-import java.util.Map;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class DisconnectGUI extends LobbyViewBuilderGUI {
+public class DisconnectGUI extends DisconnectViewBuilder implements GUIView {
+
     AnchorPane winLoosePane;
 
     Text countDown;
@@ -54,12 +53,12 @@ public class DisconnectGUI extends LobbyViewBuilderGUI {
 
 
 
-        countDown=new Text("DISCONNECTED, THE SERVER WILL CLOSE IN:");
+        countDown=new Text(disconnectedString +seconds);
         countDown.setLayoutX(width/2);
         countDown.setLayoutY(len/2);
         winLoosePane.getChildren().add(countDown);
 
-        waitingThread(5);
+        startWaitingThread();
 
         return new SubScene(winLoosePane,GUI.GUIwidth,GUI.GUIlen);
 
@@ -67,26 +66,18 @@ public class DisconnectGUI extends LobbyViewBuilderGUI {
     }
 
 
+    @Override
+    public void updateCountDown(int remaining) {
+        Platform.runLater(()->countDown.setText(disconnectedString +  remaining));
+    }
 
-    public void waitingThread(int remainingSeconds) {
+    @Override
+    public void exit() {
+        Platform.exit();
+    }
 
-        Thread thread=new Thread(()->
-        {
-            try {
-                for(int i=remainingSeconds;i>0;i--)
-                {
-                    System.out.println(i);
-                    Thread.sleep(1000);
-                    int finalI = i-1;
-                    Platform.runLater(()->countDown.setText("DISCONNECTED, THE SERVER WILL CLOSE IN:" +  finalI));
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
 
-            Platform.exit();
-        });
-
-        thread.start();
     }
 }

@@ -104,8 +104,8 @@ public class Client implements Runnable
         this.isCLI = isCli;
         ViewBuilder.setCommonData(commonData);
         ViewBuilder.setClient(this);
-        CLI cli = new CLI(this);
         if(isCli) {
+            CLI cli = new CLI(this);
             ViewBuilder.setCLIView(cli);
             CLIelem.setCli(cli);
         }
@@ -232,7 +232,8 @@ public class Client implements Runnable
      */
     public synchronized void terminate()
     {
-        //Does things to terminate the app
+        //Terminates the app
+        serverHandler.stop();
         if (isCLI)
             ViewBuilder.getCLIView().clearScreen();
     }

@@ -9,6 +9,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import javax.swing.text.View;
+
 /**
  * The GUIStarter will call this method. The first stage will be replaced each view transition, and all the buttons and containers
  * already defined in the FXML files will be given a function accordingly. Each time the stage is replaced, the client will be
@@ -49,6 +51,15 @@ public class GUI extends Application {
         client.getStage().show();
         client.run();
 
+    }
+
+    @Override
+    public void stop() throws Exception {
+        super.stop();
+
+        final Client client = ViewBuilder.getClient();
+        if (client !=null)
+            client.terminate();
     }
 
     private static StackPane realPane = null;

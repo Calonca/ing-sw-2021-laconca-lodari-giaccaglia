@@ -10,6 +10,7 @@ import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.network.simplemodel.SimpleCardCells;
+import it.polimi.ingsw.network.simplemodel.SimpleProductions;
 import javafx.application.Platform;
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
@@ -50,6 +51,8 @@ public class Productions3D implements PropertyChangeListener {
         }
 
         SimpleCardCells simpleCardCells = cache.getElem(SimpleCardCells.class).orElseThrow();
+
+       //System.out.println(JsonUtility.serialize(simpleCardCells));
         Button basicButton = new Button();
         basicButton.setText("Basic");
         basicButton.setId("basic");
@@ -69,8 +72,6 @@ public class Productions3D implements PropertyChangeListener {
         });
 
         prodList.add(basicButton);
-
-
 
         Button productionButton = new Button();
         productionButton.setText("Produce");
@@ -101,7 +102,6 @@ public class Productions3D implements PropertyChangeListener {
             ImagePattern tempImage;
             Path path;
             Rectangle rectangle = new Rectangle(462, 698);
-            System.out.println(JsonUtility.serialize(value.orElse(null)));
             if (value.isEmpty()) {
                 tempImage = new ImagePattern(new Image("assets/devCards/grayed out/BACK/Masters of Renaissance__Cards_BACK_BLUE_1.png"));
                 rectangle.setOpacity(1);
@@ -109,7 +109,6 @@ public class Productions3D implements PropertyChangeListener {
                 path = simpleCardCells.getDevCardsCells().get(key).orElseThrow()
                         .get(simpleCardCells.getDevCardsCells().get(key).orElseThrow().size()-1).getCardPaths().getKey();
                 tempImage = CardSelector.imagePatternFromAsset(path);
-                System.out.println(path);
             }
 
             setProdAvailable(simpleCardCells,key, rectangle);
@@ -139,6 +138,7 @@ public class Productions3D implements PropertyChangeListener {
             temp.setLayoutX(400 + 750 + 250 * (count + 1));
 
             temp.setFill(CardSelector.imagePatternFromAsset(value.getCardPaths().getKey()));
+            setProdAvailable(simpleCardCells,key, temp);
 
             temp.setOnMouseClicked(p -> {
                 if (mode.equals(BoardView3D.Mode.CHOOSE_POS_FOR_CARD) && (true || simpleCardCells.isSpotAvailable(key))) {

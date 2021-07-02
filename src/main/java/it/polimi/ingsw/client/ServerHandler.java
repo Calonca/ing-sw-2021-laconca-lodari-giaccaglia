@@ -3,6 +3,7 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.messages.servertoclient.ClientMessage;
 import it.polimi.ingsw.client.view.CLI.match.CreateJoinLoadMatchCLI;
 import it.polimi.ingsw.client.view.abstractview.ConnectToServerViewBuilder;
+import it.polimi.ingsw.client.view.abstractview.DisconnectViewBuilder;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.PingMessageFromClient;
 import it.polimi.ingsw.network.messages.clienttoserver.SendNickname;
@@ -64,6 +65,7 @@ public class ServerHandler implements Runnable
             handleClientConnection();
         } catch (IOException e) {
             System.out.println("server " + server.getInetAddress() + " connection dropped");
+            getClient().changeViewBuilder(DisconnectViewBuilder.getBuilder(owner.isCLI()));
         }
 
         try {
@@ -111,7 +113,7 @@ public class ServerHandler implements Runnable
                     if (shouldStop.get()) {
                         /* Yes, exit the loop gracefully */
                         stop = true;
-                    }else throw e;
+                    } throw e;
                 } catch (ClassNotFoundException | ClassCastException e) {
                     System.out.println("invalid stream from server" + e.toString());
                     break;
