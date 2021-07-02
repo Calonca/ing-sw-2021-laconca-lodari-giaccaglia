@@ -14,6 +14,9 @@ import javafx.util.Duration;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * This controller is used to communicate the player that he got disconnected from the server.
+ */
 public class DisconnectGUI extends DisconnectViewBuilder implements GUIView {
 
     AnchorPane winLoosePane;

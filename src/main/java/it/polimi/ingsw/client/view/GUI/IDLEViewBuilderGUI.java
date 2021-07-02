@@ -5,6 +5,9 @@ import it.polimi.ingsw.client.view.abstractview.IDLEViewBuilder;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * This is the controller associated to IDLE, in which the player can look around and move resources freely on their board
+ */
 public class IDLEViewBuilderGUI extends IDLEViewBuilder implements GUIView
 {
 

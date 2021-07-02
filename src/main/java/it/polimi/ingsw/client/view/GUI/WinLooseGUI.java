@@ -16,6 +16,10 @@ import javafx.util.Duration;
 import java.beans.PropertyChangeEvent;
 import java.util.Map;
 
+
+/**
+ * Final screen controller class
+ */
 public class WinLooseGUI extends WinLooseBuilder {
 
 

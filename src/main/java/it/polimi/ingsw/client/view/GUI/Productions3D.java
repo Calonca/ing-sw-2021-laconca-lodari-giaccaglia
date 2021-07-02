@@ -25,6 +25,9 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * This class contains all information regarding all the possible productions
+ */
 public class Productions3D implements PropertyChangeListener {
 
     private final BoardView3D view3D;
@@ -35,7 +38,7 @@ public class Productions3D implements PropertyChangeListener {
     }
 
     /**
-     * Is used to initialize the productions
+     * Method to initialize or refresh the productions
      */
     public void updateProds() {
         Group parent = view3D.parent;
@@ -155,6 +158,12 @@ public class Productions3D implements PropertyChangeListener {
         prodGroup.getChildren().setAll(prodList);
     }
 
+    /**
+     * This method is used to validate a production selection
+     * @param simpleCardCells is the player's simplecardcells
+     * @param prodPos is the production to validate's position
+     * @param cell is the representation of the production
+     */
     private void setProdAvailable(SimpleCardCells simpleCardCells, int prodPos, Rectangle cell) {
 
         BoardView3D.Mode mode = view3D.mode;
@@ -165,6 +174,11 @@ public class Productions3D implements PropertyChangeListener {
         else setSelectedColor(cell,false);
     }
 
+    /**
+     * This method is used to assign a color to a rectangle representing a card
+     * @param cell is the card representation
+     * @param enabled is the card validation result
+     */
     private void setSelectedColor(Rectangle cell, boolean enabled) {
         double v = enabled?+0.40:0;
         ColorAdjust colorAdjust=new ColorAdjust();

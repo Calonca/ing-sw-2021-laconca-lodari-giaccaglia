@@ -124,6 +124,8 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
         root3D.getChildren().add(marketBoardRectangle);
         activeBonus = activeLeaders.getPlayerLeaders();
 
+
+
         int count = 0;
         for (LeaderCardAsset bonus : activeBonus) {
 
@@ -194,7 +196,12 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
     }
 
 
-
+    /**
+     * Helper method to easily move spheres
+     * @param sphere is the object to move
+     * @param x is the position shift
+     * @param duration is the animation duration
+     */
     public void moveX(Sphere sphere,double x, Duration duration)
     {
         TranslateTransition transition = new TranslateTransition(Duration.seconds(0.75), sphere);
@@ -204,6 +211,12 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
         transition.play();
     }
 
+    /**
+     * Helper method to easily move spheres
+     * @param sphere is the object to move
+     * @param y is the position shift
+     * @param duration is the animation duration
+     */
     public void moveY(Sphere sphere,double y, Duration duration)
     {
         TranslateTransition transition = new TranslateTransition(Duration.seconds(0.75), sphere);
@@ -319,11 +332,16 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
 
     }
 
-    public void setBut(Button but,int i)
+    /**
+     * This method generates columns buttons from the original rows
+     * @param columnButton is a button to set
+     * @param i is an index
+     */
+    public void setBut(Button columnButton,int i)
     {
-        but.setGraphic(new Text(Integer.toString(i)));
+        columnButton.setGraphic(new Text(Integer.toString(i)));
 
-        but.setOnAction( p-> {
+        columnButton.setOnAction( p-> {
 
             if(active)
                 return;
@@ -432,6 +450,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
         }
 
     }
+
 
     public void propertyChange(PropertyChangeEvent evt) {
         String propertyName = evt.getPropertyName();

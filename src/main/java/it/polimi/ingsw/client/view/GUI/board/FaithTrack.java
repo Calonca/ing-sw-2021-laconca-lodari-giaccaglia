@@ -117,7 +117,7 @@ public class FaithTrack implements PropertyChangeListener {
 
 
     /**
-     * Here the info regarding the players board gets updatedin real time
+     * Here the info regarding the players board gets updated in real time
      * @param evt can't be null
      */
     @Override
