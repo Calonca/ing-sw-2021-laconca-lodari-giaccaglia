@@ -21,6 +21,9 @@ import java.util.List;
 
 import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.getSimpleModel;
 
+/**
+ * Represents the action token in the single player game
+ */
 public class ActionToken implements PropertyChangeListener {
 
     Group tokenGroup = null;
