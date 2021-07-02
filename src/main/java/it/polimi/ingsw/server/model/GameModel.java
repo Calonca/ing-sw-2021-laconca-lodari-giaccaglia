@@ -439,14 +439,12 @@ public class GameModel {
     public boolean addFaithPointToOtherPlayers() {
 
         if(!isSinglePlayer) {
-            return players.values().stream()
+            players.values().stream()
                     .filter(player -> !(player == currentPlayer))
-                    .map(player -> {
+                    .forEach(Player::moveOnePosition);
 
-                        player.moveOnePosition();
-                        return player.isInPopeSpaceForTheFirstTime();
-
-                    }).anyMatch(player -> true);
+            return players.values().stream()
+                    .filter(player -> !(player == currentPlayer)).anyMatch(Player::isInPopeSpaceForTheFirstTime);
         }
         else
             singlePlayer.moveLorenzoOnePosition();

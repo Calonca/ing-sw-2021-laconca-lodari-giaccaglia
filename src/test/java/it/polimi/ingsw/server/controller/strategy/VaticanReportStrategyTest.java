@@ -119,7 +119,7 @@ public class VaticanReportStrategyTest {
         Map<Integer, String> players = new HashMap<>();
         players.put(0,"testPlayer1");
         players.put(1,"testPlayer2");
-        players.put(2,"testPlayer2");
+        players.put(2,"testPlayer3");
         List<Integer> onlineUsers = new ArrayList<>(players.keySet());
 
 
@@ -155,7 +155,7 @@ public class VaticanReportStrategyTest {
         Map<Integer, String> players = new HashMap<>();
         players.put(0,"testPlayer1");
         players.put(1,"testPlayer2");
-        players.put(2,"testPlayer2");
+        players.put(2,"testPlayer3");
         List<Integer> onlineUsers = new ArrayList<>(players.keySet());
 
 
@@ -189,7 +189,7 @@ public class VaticanReportStrategyTest {
         Map<Integer, String> players = new HashMap<>();
         players.put(0,"testPlayer1");
         players.put(1,"testPlayer2");
-        players.put(2,"testPlayer2");
+        players.put(2,"testPlayer3");
         List<Integer> onlineUsers = new ArrayList<>(players.keySet());
 
 
@@ -270,7 +270,7 @@ public class VaticanReportStrategyTest {
         Map<Integer, String> players = new HashMap<>();
         players.put(0,"testPlayer1");
         players.put(1,"testPlayer2");
-        players.put(2,"testPlayer2");
+        players.put(2,"testPlayer3");
         List<Integer> onlineUsers = new ArrayList<>(players.keySet());
 
 

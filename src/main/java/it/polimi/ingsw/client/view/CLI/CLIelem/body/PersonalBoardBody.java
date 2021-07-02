@@ -344,7 +344,9 @@ public class PersonalBoardBody extends CLIelem {
         Stream<Option> leaderProdsList = simpleCardCells.getActiveProductionLeaders().size()>0 ? buildLeaderProductionsList(simpleCardCells) : Stream.empty();
         Stream<Option> normalProdsList = buildNormalProductionsList(simpleCardCells);
 
-        return new Row(Stream.concat(Stream.concat(Stream.ofNullable(basicProdOption),leaderProdsList) , normalProdsList));
+        Column basicAndLeaderColumn = new Column(Stream.concat(Stream.ofNullable(basicProdOption),leaderProdsList));
+
+        return new Row(Stream.concat(Stream.of(basicAndLeaderColumn) , normalProdsList));
 
     }
 
