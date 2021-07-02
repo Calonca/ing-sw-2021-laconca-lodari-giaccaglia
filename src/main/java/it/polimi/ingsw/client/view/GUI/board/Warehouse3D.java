@@ -117,8 +117,7 @@ public class Warehouse3D implements PropertyChangeListener {
 
         SimpleWarehouseLeadersDepot simpleWarehouseLeadersDepot = cache.getElem(SimpleWarehouseLeadersDepot.class).orElseThrow();
         Map<Integer,Integer> selectedPositionsMap = selectablePositions.getUpdatedSelectablePositions(toSelect.getChosenInputPos());
-        System.out.println("Selected inputs: "+ JsonUtility.serialize(toSelect.getChosenInputPos()));
-        System.out.println("Ware map: "+ JsonUtility.serialize(selectedPositionsMap));
+
 
         AtomicInteger gPos = new AtomicInteger();
         for(Map.Entry<Integer, List<Pair<ResourceAsset, Boolean>>> line: simpleWarehouseLeadersDepot.getDepots().entrySet()) {

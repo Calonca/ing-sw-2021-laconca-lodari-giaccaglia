@@ -111,7 +111,6 @@ public class CardShopGUI extends CardShopViewBuilder {
                     else {
                         int finalI = i;
                         int finalJ = j;
-                        System.out.println("cane");
                         tempImage.setOnMouseClicked( p ->sendChosenCard(finalJ, 3-finalI) );
                     }
                     tempImage.setRotate(Math.random() * (cardTilt - -cardTilt + 1) + -1 );

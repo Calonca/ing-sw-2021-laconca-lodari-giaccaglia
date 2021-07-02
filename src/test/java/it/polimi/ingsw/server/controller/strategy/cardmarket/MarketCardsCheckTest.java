@@ -107,7 +107,7 @@ public class MarketCardsCheckTest {
 
         boolean isSinglePlayer = true;
 
-        //todo try to mock test
+
         GameModel gamemodel = new GameModel(players, isSinglePlayer,new Match(1), onlineUsers);
         gamemodel.getCurrentPlayer().getPersonalBoard().getStrongBox().addResources(new int[]{10,10,10,10});
         gamemodel.getCardShop().purchaseCard(DevelopmentCardColor.BLUE,1);

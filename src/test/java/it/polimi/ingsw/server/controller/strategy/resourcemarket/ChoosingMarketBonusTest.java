@@ -45,7 +45,6 @@ public class ChoosingMarketBonusTest {
         GameModel gamemodel = new GameModel(players, isSinglePlayer,null, onlineUsers);
 
 
-        //todo THIS IS A RANDOM TEST. fix
         gamemodel.chooseLineFromMarketBoard(MarketLine.FIRST_COLUMN);
 
         if(gamemodel.getNumberOfWhiteMarblesInPickedLine()>1)

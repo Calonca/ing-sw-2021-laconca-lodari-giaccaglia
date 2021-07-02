@@ -86,7 +86,6 @@ public class Box3D implements PropertyChangeListener {
                 ResourceGUI.setColor(resTest, shape, false, isSelectable);
                 //ResourceGUI.setColor(resTest, shape, toSelect.getChosenInputPos().contains(gPos), isSelectable);
             }
-            System.out.println("Pos "+gPos+" sel: "+numSelectable);
             sLine.selected.setText((int) numOfSelected);
             boolean finalIsSelectable = isSelectable;
             int finalAddedLines = addedLines;

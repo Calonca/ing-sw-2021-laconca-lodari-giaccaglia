@@ -32,7 +32,7 @@ public class InitialOrFinalPhaseCLI extends InitialOrFinalPhaseViewBuilder imple
             CLIActionToken.showActionTokenBeforeTransition();
         }
 
-        CLIReportInfoBuilder.showVaticanReportInfoBeforeTransition(new IDLEReportInfoCLI()); //TODO do not use IDLEReportInfoCLI (inherits from IDLEViewBuilderCLI)
+        CLIReportInfoBuilder.showVaticanReportInfoBeforeTransition(new IDLEReportInfoCLI());
 
         showWarningIfLastTurn();
 

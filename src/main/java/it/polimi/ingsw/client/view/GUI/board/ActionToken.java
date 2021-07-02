@@ -21,6 +21,9 @@ import java.util.List;
 
 import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.getSimpleModel;
 
+/**
+ * Represents the action token in the single player game
+ */
 public class ActionToken implements PropertyChangeListener {
 
     Group tokenGroup = null;
@@ -57,7 +60,6 @@ public class ActionToken implements PropertyChangeListener {
             ActionTokenAsset tokenAsset = actionToken.getSoloActionToken();
 
             Rectangle actionTokenRectangle=new Rectangle(200,200);
-            System.out.println(tokenAsset.getFrontPath().toString().replace("\\","/"));
             actionTokenRectangle.setFill(new ImagePattern(new Image(tokenAsset.getFrontPath().toString().replace("\\","/"))));
             tokenGroup.getChildren().setAll(actionTokenRectangle);
             Playground.refreshCardShop();

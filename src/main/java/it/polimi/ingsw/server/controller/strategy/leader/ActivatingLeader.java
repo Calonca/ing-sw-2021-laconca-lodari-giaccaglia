@@ -21,7 +21,7 @@ public class ActivatingLeader implements GameStrategy {
     public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event)
     {
 
-        //todo try to mock test
+
         State currentState = gamemodel.getGamePhase();
         State nextPossibleState = currentState.equals(State.INITIAL_PHASE) ? State.MIDDLE_PHASE : State.IDLE;
 
