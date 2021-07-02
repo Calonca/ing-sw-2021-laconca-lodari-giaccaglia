@@ -43,6 +43,9 @@ public class Playground {
     private CamState camState = CamState.TOP;
     private Map<Integer, BoardView3D> boards;
 
+    /**
+     * Returns an instance of the playground using the singleton pattern
+     */
     public synchronized static Playground getPlayground()
     {
         if (singleton ==null) {
@@ -57,6 +60,7 @@ public class Playground {
         }
         return singleton;
     }
+
 
     public static Point3D getTableCenter() {
         return tableCenter;
@@ -99,6 +103,9 @@ public class Playground {
 
     }
 
+    /**
+     * Adds the playground to the view
+     */
     private synchronized void runforStart() {
         if (!active)
         {
@@ -125,10 +132,13 @@ public class Playground {
 
         root = new Group();
 
+
+        //Used to visualize the center of the table
         Sphere pivotSphere = new Sphere(100);
         pivotSphere.setTranslateX(tableCenter.getX());
         pivotSphere.setTranslateY(tableCenter.getY());
         pivotSphere.setTranslateZ(tableCenter.getZ());
+        pivotSphere.setOpacity(0);
 
         root.getChildren().add(pivotSphere);
 

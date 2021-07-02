@@ -131,25 +131,23 @@ public class Productions3D implements PropertyChangeListener {
         }
 
          Map<Integer,LeaderCardAsset> activeBonus = simpleCardCells.getActiveProductionLeaders();
-        AtomicInteger count = new AtomicInteger();
 
         activeBonus.forEach((key, value) -> {
             Rectangle temp;
             temp = new Rectangle(462, 698);
-            temp.setTranslateY(250);
-            temp.setLayoutX(400 + 750 + 250 * (count.get() + 1));
 
             temp.setFill(CardSelector.imagePatternFromAsset(value.getCardPaths().getKey()));
             setProdAvailable(simpleCardCells,key, temp);
-
+            System.out.println(value.getCardId());
             temp.setOnMouseClicked(p -> {
+                System.out.println(key);
+                System.out.println(value.getCardId());
                 if (mode.equals(BoardView3D.Mode.CHOOSE_POS_FOR_CARD) && (true || simpleCardCells.isSpotAvailable(key))) {
                     CardShopViewBuilder.sendCardPlacementPosition(key);
                 } else if (mode.equals(BoardView3D.Mode.CHOOSE_PRODUCTION) && (true || simpleCardCells.isProductionAtPositionAvailable(key).orElse(false)))
                     ProductionViewBuilder.sendChosenProduction(key);
             });
-            NodeAdder.shiftAndAddToList(prodList, temp, new Point3D(680 + 220 * (count.get() + 1), 700, -20));
-            count.getAndIncrement();
+            NodeAdder.shiftAndAddToList(prodList, temp, new Point3D(420 + (470 * key), 700, -20));
         });
 
         prodGroup.getChildren().setAll(prodList);
