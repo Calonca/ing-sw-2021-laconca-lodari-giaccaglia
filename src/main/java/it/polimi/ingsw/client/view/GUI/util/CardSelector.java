@@ -16,9 +16,9 @@ public class CardSelector {
      */
     public static ImageView imageViewFromAsset(Path path)
     {
-        String now=path.toString();
-        now=now.replace("\\","/");
-        ImageView temp = new ImageView(new Image(now));
+        String convertToUrl=path.toString();
+        convertToUrl=convertToUrl.replace("\\","/");
+        ImageView temp = new ImageView(new Image(convertToUrl));
         temp.setPreserveRatio(true);
         return temp;
 

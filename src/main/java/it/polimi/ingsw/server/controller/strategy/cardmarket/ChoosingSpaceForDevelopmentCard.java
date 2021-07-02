@@ -46,6 +46,7 @@ public class ChoosingSpaceForDevelopmentCard implements GameStrategy {
         }
 
 
+        //todo try to mock test
         else if (currentBoard.playerHasSevenCards() && !gamemodel.isSinglePlayer())
 
         {

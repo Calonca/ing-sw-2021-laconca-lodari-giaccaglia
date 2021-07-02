@@ -117,8 +117,8 @@ public enum Element {
             @Override
             public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate){
                 return new SimpleCardCells(
-                        SimpleCardsCellsMessageBuilder.cardCellsAdapter(gameModel),
-                        gameModel.getCurrentPlayer().getPersonalBoard().getAvailableSpotsForDevCard(gameModel.getCardShop().getCopyOfPurchasedCard())
+                        SimpleCardsCellsMessageBuilder.cardCellsAdapter(gameModel, playerRequestingUpdate),
+                        gameModel.getPlayer(playerRequestingUpdate).get().getPersonalBoard().getAvailableSpotsForDevCard(gameModel.getCardShop().getCopyOfPurchasedCard())
                 );
             }
         },
@@ -129,10 +129,10 @@ public enum Element {
             public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate){
                 return new ActiveLeaderBonusInfo(
 
-                        GameInfoMessageBuilder.depotBonusResources(gameModel),
-                        GameInfoMessageBuilder.discountBonusResources(gameModel),
-                        GameInfoMessageBuilder.marketBonusResources(gameModel),
-                        GameInfoMessageBuilder.productionBonusResources(gameModel));
+                        GameInfoMessageBuilder.depotBonusResources(gameModel, playerRequestingUpdate),
+                        GameInfoMessageBuilder.discountBonusResources(gameModel, playerRequestingUpdate),
+                        GameInfoMessageBuilder.marketBonusResources(gameModel, playerRequestingUpdate),
+                        GameInfoMessageBuilder.productionBonusResources(gameModel, playerRequestingUpdate));
             }
         },
 
@@ -141,7 +141,7 @@ public enum Element {
         public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate){
             return new SimpleProductions(
 
-                    SimpleProductionsMessageBuilder.simpleProductionsMap(gameModel),
+                    SimpleProductionsMessageBuilder.simpleProductionsMap(gameModel, playerRequestingUpdate),
                     gameModel.getPlayer(playerRequestingUpdate).get().getPersonalBoard().getLastSelectedProductionPosition());
 
            }
@@ -151,8 +151,7 @@ public enum Element {
 
         @Override
         public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate){
-            return new SimpleSoloActionToken(gameModel.getLastActivatedSoloActionToken().name()
-            );
+            return new SimpleSoloActionToken(gameModel.getLastActivatedSoloActionToken().name());
         }
         },
 
@@ -172,7 +171,7 @@ public enum Element {
                     return new SelectablePositions(
 
                             SimpleDepotsMessageBuilder.getSelectableWarehousePositionsForDevCardPurchase(gameModel, playerRequestingUpdate),
-                            SimpleDepotsMessageBuilder.getSelectableStrongBoxPositionsForDevCardPurchase(gameModel)
+                            SimpleDepotsMessageBuilder.getSelectableStrongBoxPositionsForDevCardPurchase(gameModel, playerRequestingUpdate)
                     );
 
                 return new SelectablePositions();

@@ -146,7 +146,7 @@ public class SimpleDepotsMessageBuilder {
     public static Map<Pair<Integer, ResourceAsset>, MutablePair<Integer, Boolean>> getSelectableWarehousePositionsForDevCardPurchase(GameModel gameModel, int playerRequestingUpdate) {
 
         WarehouseLeadersDepots warehouseLeadersDepots = gameModel.getPlayer(playerRequestingUpdate).get().getPersonalBoard().getWarehouseLeadersDepots();
-        Map<Integer, Integer> devCardCostMap = CardShopMessageBuilder.costMapOfPurchasedCardWithDiscounts(gameModel);
+        Map<Integer, Integer> devCardCostMap = CardShopMessageBuilder.costMapOfPurchasedCardWithDiscounts(gameModel, playerRequestingUpdate);
         return getSelectableWarehousePositions(warehouseLeadersDepots, devCardCostMap);
 
     }
@@ -163,10 +163,10 @@ public class SimpleDepotsMessageBuilder {
     }
 
     //                    position                       numOfRes  isSelectable
-    public static Map<Pair<Integer, ResourceAsset>, MutablePair<Integer, Boolean>> getSelectableStrongBoxPositionsForDevCardPurchase(GameModel gameModel) {
+    public static Map<Pair<Integer, ResourceAsset>, MutablePair<Integer, Boolean>> getSelectableStrongBoxPositionsForDevCardPurchase(GameModel gameModel, int playerRequestingUpdate) {
 
-        Map<Integer, Integer> devCardCostMap = CardShopMessageBuilder.costMapOfPurchasedCardWithDiscounts(gameModel);
-        Box strongBox = gameModel.getCurrentPlayer().getPersonalBoard().getStrongBox();
+        Map<Integer, Integer> devCardCostMap = CardShopMessageBuilder.costMapOfPurchasedCardWithDiscounts(gameModel, playerRequestingUpdate);
+        Box strongBox = gameModel.getPlayer(playerRequestingUpdate).get().getPersonalBoard().getStrongBox();
 
         return getSelectableStrongBoxPositions(strongBox, devCardCostMap);
 

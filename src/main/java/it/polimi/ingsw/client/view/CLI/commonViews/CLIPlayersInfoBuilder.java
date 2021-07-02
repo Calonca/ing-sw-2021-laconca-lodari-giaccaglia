@@ -5,9 +5,9 @@ import it.polimi.ingsw.client.simplemodel.SimpleModel;
 import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.PersonalBoardBody;
-import it.polimi.ingsw.client.view.CLI.idle.LeadersCLI;
-import it.polimi.ingsw.client.view.CLI.idle.PersonalBoardCLI;
-import it.polimi.ingsw.client.view.CLI.idle.PlayersInfoCLI;
+import it.polimi.ingsw.client.view.CLI.idle.IDLELeadersCLI;
+import it.polimi.ingsw.client.view.CLI.idle.IDLEPersonalBoardCLI;
+import it.polimi.ingsw.client.view.CLI.idle.IDLEPlayersInfoCLI;
 import it.polimi.ingsw.client.view.CLI.layout.Option;
 import it.polimi.ingsw.client.view.CLI.layout.SizedBox;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.Drawable;
@@ -60,12 +60,12 @@ public final class CLIPlayersInfoBuilder{
 
 
             if(getThisPlayerCache().getCurrentState().equals(State.IDLE.toString())) {
-                boardViewBuilder = new PersonalBoardCLI(playerIndex, false, PersonalBoardBody.ViewMode.PLAYERS_INFO_IDLE);
-                leadersViewBuilder = new LeadersCLI(new PlayersInfoCLI(), playerIndex);
+                boardViewBuilder = new IDLEPersonalBoardCLI(playerIndex, false, PersonalBoardBody.ViewMode.PLAYERS_INFO_IDLE);
+                leadersViewBuilder = new IDLELeadersCLI(new IDLEPlayersInfoCLI(), playerIndex);
             }
             else {
                 boardViewBuilder = new MiddlePersonalBoardCLI(playerIndex, false, PersonalBoardBody.ViewMode.PLAYERS_INFO_MIDDLE);
-                leadersViewBuilder = new LeadersCLI(new MiddlePlayersInfoCLI(), playerIndex);
+                leadersViewBuilder = new IDLELeadersCLI(new MiddlePlayersInfoCLI(), playerIndex);
             }
 
 
@@ -239,4 +239,6 @@ public final class CLIPlayersInfoBuilder{
 
 
     }
+
+
 }
