@@ -181,6 +181,34 @@ public class VaticanReportStrategyTest {
 
     }
 
+    @Test
+    public void badFaithAddition() {
+
+
+
+        Map<Integer, String> players = new HashMap<>();
+        players.put(0,"testPlayer1");
+        players.put(1,"testPlayer2");
+        players.put(2,"testPlayer2");
+        List<Integer> onlineUsers = new ArrayList<>(players.keySet());
+
+
+
+        boolean isSinglePlayer = false;
+        GameModel gamemodel = new GameModel(players, isSinglePlayer,new Match(2), onlineUsers);
+
+        gamemodel.getCurrentPlayer().getPersonalBoard().setBadFaithToAdd(3);
+
+        gamemodel.setMacroGamePhase(GameModel.MacroGamePhase.ActiveGame);
+        VaticanReportStrategy.addFaithPointsStrategy(gamemodel,new ArrayList<>());
+
+        assertEquals(0,gamemodel.getPlayer(0).orElseThrow().getPlayerPosition());
+        assertEquals(3,gamemodel.getPlayer(1).orElseThrow().getPlayerPosition());
+        assertEquals(3,gamemodel.getPlayer(2).orElseThrow().getPlayerPosition());
+
+
+    }
+
 
     @Test
     public void executeMultiplayerLorenzoWinner() {
