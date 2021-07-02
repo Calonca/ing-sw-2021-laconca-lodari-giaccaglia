@@ -149,8 +149,6 @@ public class ClientHandlerTest {
         //1 Received state message
         JsonObject obj = toJsonObject(input1.readObject().toString());
         assertEquals(StateInNetwork.class.getSimpleName(),obj.get("type").getAsString());
-       // todo restore code here
-        // assertEquals(SETUP_PHASE.class.getSimpleName(),obj.get("stateInNetwork").getAsJsonObject().get("type").getAsString());
     }
 
 
