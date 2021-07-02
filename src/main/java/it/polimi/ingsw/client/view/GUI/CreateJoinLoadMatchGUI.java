@@ -42,8 +42,8 @@ public class CreateJoinLoadMatchGUI extends CreateJoinLoadMatchViewBuilder imple
     double HGap=50;
     double width=GUI.GUIwidth;
     double len= GUI.GUIlen;
-    int maxcolumn=3;
-    public double tileWidth=width/(maxcolumn+1);
+    int maxcolumn=2;
+    public double tileWidth=(-100+width)/(maxcolumn+1);
     public double tileheight=len/7;
 
     public static class MatchRow {

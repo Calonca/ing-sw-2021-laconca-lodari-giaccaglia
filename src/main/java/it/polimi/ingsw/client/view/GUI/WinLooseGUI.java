@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.GUI;
 
 import it.polimi.ingsw.client.view.abstractview.WinLooseBuilder;
+import it.polimi.ingsw.network.simplemodel.EndGameInfo;
 import it.polimi.ingsw.network.simplemodel.PlayersInfo;
 import it.polimi.ingsw.network.simplemodel.SimplePlayerInfo;
 import javafx.animation.Interpolator;
@@ -77,7 +78,15 @@ public class WinLooseGUI extends WinLooseBuilder {
 
 
 
-
+            if(getClient().getSimpleModel().isSinglePlayer())
+            {
+                EndGameInfo endGameInfo = getSimpleModel().getElem(EndGameInfo.class).orElseThrow();
+                text=new Text(endGameInfo.getCauseOfEndStringWithNames());
+                text.setLayoutX(50);
+                text.setLayoutY(30);
+                anchor.getChildren().add(text);
+                System.out.println(endGameInfo.getCauseOfEndStringWithNames());
+            }
 
             text=new Text("NICK:  " + simplePlayerInfoMap.get(i).getNickname());
             text.setLayoutX(50);
