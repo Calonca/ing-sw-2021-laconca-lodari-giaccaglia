@@ -404,17 +404,27 @@ public class GameModel {
         return true;
     }
 
+    /**
+     * Method used before CHOOSING_RESOURCES_FOR_DEVELOPMENT_CARD
+     */
     public DevelopmentCard takePurchasedCardFromShop(){
         return cardShop.takePurchasedCard();
     }
 
+    /**
+     * @return true if there are no Cards of a given DevelopmentCardColor
+     */
     public boolean isCardColorOutOfStock(DevelopmentCardColor color){
         return cardShop.isColorOutOfStock(color);
     }
 
+    /**
+     * @return true if there are no Cards of a DevelopmentCardColor
+     */
     public boolean isSomeDevCardColourOutOfStock(){
         return cardShop.isSomeColourOutOfStock();
     }
+
 
     public DevelopmentCardColor getDevCardColorOutOfStock(){
         return cardShop.getColorOutOfStock();

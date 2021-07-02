@@ -22,6 +22,10 @@ public class Server
      */
     public static final int SOCKET_TIMEOUT_S = 20;
 
+    /**
+     * Main Server loop
+     * @param args are the command line or manually inserted at run time arguments
+     */
     public static void main(String[] args)
     {
         if (args.length==2){
