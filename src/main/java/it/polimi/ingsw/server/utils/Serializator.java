@@ -46,8 +46,6 @@ public class Serializator extends JsonUtility {
     public static final String frontLeaderCardGrayedOutPathString = "/assets/leaders/grayed out/FRONT/Masters of Renaissance_Cards_FRONT_";
     public static final String backLeaderCardGrayedOutPathString = "/assets/leaders/grayed out/BACK/Masters of Renaissance__Cards_BACK.png";
 
-    //helper method to serialize cardshop configuration
-
     public static void cardShopSerialization(){
         CardShop shop = new CardShop(Deserializator.devCardsDeckDeserialization());
         serialize(writeConfigPathString + "CardShopConfig.json", shop, CardShop.class, customGson);
@@ -111,6 +109,316 @@ public class Serializator extends JsonUtility {
 
         ArrayList<DevelopmentCard> series=new ArrayList<>();
         ArrayList<Leader> series2=new ArrayList<>();
+
+        int victoryPoints;
+        int level;
+
+        //61
+        addProd=new Production(new int[]{1,0,0,0,0,0,0},new int[]{0,0,0,0,1,0,1});
+        costTestCards = new Pair<>(DevelopmentCardColor.GREEN, 1);
+
+        requirementsTest = new ArrayList<>();
+
+        requirementsTestCards = new ArrayList<>();
+        requirementsTestCards.add(costTestCards);
+
+        victoryPoints=4;
+        level=2;
+
+        series2.add(new ProductionLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,addProd,level));
+
+
+
+        //60
+        addProd=new Production(new int[]{0,0,0,1,0,0,0},new int[]{0,0,0,0,1,0,1});
+        costTestCards = new Pair<>(DevelopmentCardColor.PURPLE, 1);
+
+        requirementsTest = new ArrayList<>();
+
+        requirementsTestCards = new ArrayList<>();
+        requirementsTestCards.add(costTestCards);
+
+        victoryPoints=4;
+        level=2;
+
+        series2.add(new ProductionLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,addProd,level));
+
+
+        //59
+        addProd=new Production(new int[]{0,1,0,0,0,0,0},new int[]{0,0,0,0,1,0,1});
+        costTestCards = new Pair<>(DevelopmentCardColor.BLUE, 1);
+
+        requirementsTest = new ArrayList<>();
+
+        requirementsTestCards = new ArrayList<>();
+        requirementsTestCards.add(costTestCards);
+
+        victoryPoints=4;
+        level=2;
+
+        series2.add(new ProductionLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,addProd,level));
+
+        //58
+        addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,0,0,0,1,0,1});
+        costTestCards = new Pair<>(DevelopmentCardColor.YELLOW, 1);
+
+        requirementsTest = new ArrayList<>();
+
+        requirementsTestCards = new ArrayList<>();
+        requirementsTestCards.add(costTestCards);
+
+        victoryPoints=4;
+        level=2;
+
+        series2.add(new ProductionLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,addProd,level));
+
+
+        //57
+        addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,0,0,0,1,0,1});
+        costTestCards = new Pair<>(DevelopmentCardColor.PURPLE, 2);
+        costTestCards2 = new Pair<>(DevelopmentCardColor.GREEN, 1);
+
+        requirementsTest = new ArrayList<>();
+
+        requirementsTestCards = new ArrayList<>();
+        requirementsTestCards.add(costTestCards);
+        requirementsTestCards.add(costTestCards2);
+
+        victoryPoints=5;
+        level=1;
+        bonus= Resource.GOLD;
+
+        series2.add(new MarketLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,bonus));
+
+
+        //55
+        addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,0,0,0,1,0,1});
+        costTestCards = new Pair<>(DevelopmentCardColor.BLUE, 2);
+        costTestCards2 = new Pair<>(DevelopmentCardColor.YELLOW, 1);
+
+        requirementsTest = new ArrayList<>();
+
+        requirementsTestCards = new ArrayList<>();
+        requirementsTestCards.add(costTestCards);
+        requirementsTestCards.add(costTestCards2);
+
+        victoryPoints=5;
+        bonus= Resource.STONE;
+
+
+        series2.add(new MarketLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,bonus));
+
+
+
+        //54
+        addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,0,0,0,1,0,1});
+        costTestCards = new Pair<>(DevelopmentCardColor.GREEN, 2);
+        costTestCards2 = new Pair<>(DevelopmentCardColor.PURPLE, 1);
+
+        requirementsTest = new ArrayList<>();
+
+        requirementsTestCards = new ArrayList<>();
+        requirementsTestCards.add(costTestCards);
+        requirementsTestCards.add(costTestCards2);
+
+        victoryPoints=5;
+        bonus = Resource.SHIELD;
+
+
+        series2.add(new MarketLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,bonus));
+
+
+        //53
+        addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,0,0,0,1,0,1});
+        costTestCards = new Pair<>(DevelopmentCardColor.YELLOW, 2);
+        costTestCards2 = new Pair<>(DevelopmentCardColor.BLUE, 1);
+
+        requirementsTest = new ArrayList<>();
+
+        requirementsTestCards = new ArrayList<>();
+        requirementsTestCards.add(costTestCards);
+        requirementsTestCards.add(costTestCards2);
+
+        victoryPoints=5;
+        bonus = Resource.SERVANT;
+
+
+        series2.add(new MarketLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,bonus));
+
+
+        LeaderDepot depo;
+
+        //52
+        addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,0,0,0,1,0,1});
+        costTest = new Pair<>(Resource.SHIELD, 5);
+        costTestCards2 = new Pair<>(DevelopmentCardColor.BLUE, 1);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTestCards = new ArrayList<>();
+
+        requirementsTest.add(costTest);
+
+        victoryPoints=3;
+        depo=new LeaderDepot(0, Resource.GOLD);
+
+        series2.add(new DepositLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,depo));
+
+
+        //51
+        addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,0,0,0,1,0,1});
+        costTest = new Pair<>(Resource.SERVANT, 5);
+        costTestCards2 = new Pair<>(DevelopmentCardColor.BLUE, 1);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTestCards = new ArrayList<>();
+
+        requirementsTest.add(costTest);
+
+        victoryPoints=3;
+        depo=new LeaderDepot(6, Resource.SHIELD);
+
+        series2.add(new DepositLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,depo));
+
+
+
+        //50
+        addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,0,0,0,1,0,1});
+        costTest = new Pair<>(Resource.STONE, 5);
+        costTestCards2 = new Pair<>(DevelopmentCardColor.BLUE, 1);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTestCards = new ArrayList<>();
+
+        requirementsTest.add(costTest);
+
+        victoryPoints=3;
+        depo=new LeaderDepot(0, Resource.SERVANT);
+
+        series2.add(new DepositLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,depo));
+
+
+
+
+        //49
+        addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,0,0,0,1,0,1});
+        costTest = new Pair<>(Resource.GOLD, 5);
+        costTestCards2 = new Pair<>(DevelopmentCardColor.BLUE, 1);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTestCards = new ArrayList<>();
+
+        requirementsTest.add(costTest);
+
+        victoryPoints=3;
+        depo=new LeaderDepot(0, Resource.STONE);
+
+        series2.add(new DepositLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,depo));
+
+
+
+
+        //48
+        addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,0,0,0,1,0,1});
+        costTestCards = new Pair<>(DevelopmentCardColor.YELLOW, 1);
+        costTestCards2 = new Pair<>(DevelopmentCardColor.PURPLE, 1);
+
+
+        requirementsTest = new ArrayList<>();
+        requirementsTestCards = new ArrayList<>();
+
+        requirementsTestCards.add(costTestCards);
+        requirementsTestCards.add(costTestCards2);
+
+
+        victoryPoints=2;
+        costTest = new Pair<>(Resource.GOLD, 1);
+
+
+        series2.add(new DevelopmentDiscountLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,costTest));
+
+
+
+        //47
+        addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,0,0,0,1,0,1});
+        costTestCards = new Pair<>(DevelopmentCardColor.GREEN, 1);
+        costTestCards2 = new Pair<>(DevelopmentCardColor.BLUE, 1);
+
+
+        requirementsTest = new ArrayList<>();
+        requirementsTestCards = new ArrayList<>();
+
+        requirementsTestCards.add(costTestCards);
+        requirementsTestCards.add(costTestCards2);
+
+
+        victoryPoints=2;
+        costTest = new Pair<>(Resource.STONE, 1);
+
+
+        series2.add(new DevelopmentDiscountLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,costTest));
+
+
+
+        //46
+        addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,0,0,0,1,0,1});
+        costTestCards = new Pair<>(DevelopmentCardColor.PURPLE, 1);
+        costTestCards2 = new Pair<>(DevelopmentCardColor.BLUE, 1);
+
+
+        requirementsTest = new ArrayList<>();
+        requirementsTestCards = new ArrayList<>();
+
+        requirementsTestCards.add(costTestCards);
+        requirementsTestCards.add(costTestCards2);
+
+
+        victoryPoints=2;
+        costTest = new Pair<>(Resource.SHIELD, 1);
+
+
+        series2.add(new DevelopmentDiscountLeader(  LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,costTest));
+
+
+
+        //45
+        addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,0,0,0,1,0,1});
+        costTestCards = new Pair<>(DevelopmentCardColor.YELLOW, 1);
+        costTestCards2 = new Pair<>(DevelopmentCardColor.GREEN, 1);
+
+
+        requirementsTest = new ArrayList<>();
+        requirementsTestCards = new ArrayList<>();
+
+        requirementsTestCards.add(costTestCards);
+        requirementsTestCards.add(costTestCards2);
+
+
+        victoryPoints=2;
+        costTest = new Pair<>(Resource.SERVANT, 1);
+
+
+        series2.add(new DevelopmentDiscountLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,costTest));
+
+
+        //  serialize(writeConfigPathString +"LeadersConfig.json", series2.toArray(Leader[]::new), Leader[].class,  customGsonBuilder.registerTypeAdapterFactory(GsonAdapters.gsonLeaderAdapter).create());
+     /*   String serialized = gson1.toJson(series2.toArray(Leader[]::new), Leader[].class);
+        Writer writer = new FileWriter("src/main/resources/config/LeadersConfig.json");
+        writer.write(serialized);
+        writer.flush(); //flush data to file   <---
+        writer.close(); //close write          <---  */
+
+
+        //   Leader[] cards.leaders = deserialize("src/main/resources/config/LeadersConfig.json" , Leader[].class);
+    }
+
+    public static void devCardsArraySerialization(){
+        Production addProd;
+        Pair<Resource, Integer> costTest;
+        Pair<Resource, Integer> costTest2;
+        Pair<Resource, Integer> costTest3;
+        List<Pair<Resource, Integer>> requirementsTest;
+
+        ArrayList<DevelopmentCard> series=new ArrayList<>();
 
         int victoryPoints;
         DevelopmentCardColor color;
@@ -851,308 +1159,6 @@ public class Serializator extends JsonUtility {
         Gson gsonprint= new GsonBuilder().setPrettyPrinting().create();
         System.out.println(gsonprint.toJson(series));
 
-
-
-        Leader leader;
-        ProductionLeader cjclem;
-
-
-        //61
-        addProd=new Production(new int[]{1,0,0,0,0,0,0},new int[]{0,0,0,0,1,0,1});
-        costTestCards = new Pair<>(DevelopmentCardColor.GREEN, 1);
-
-        requirementsTest = new ArrayList<>();
-
-        requirementsTestCards = new ArrayList<>();
-        requirementsTestCards.add(costTestCards);
-
-        victoryPoints=4;
-        level=2;
-
-        series2.add(new ProductionLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,addProd,level));
-
-
-
-        //60
-        addProd=new Production(new int[]{0,0,0,1,0,0,0},new int[]{0,0,0,0,1,0,1});
-        costTestCards = new Pair<>(DevelopmentCardColor.PURPLE, 1);
-
-        requirementsTest = new ArrayList<>();
-
-        requirementsTestCards = new ArrayList<>();
-        requirementsTestCards.add(costTestCards);
-
-        victoryPoints=4;
-        level=2;
-
-        series2.add(new ProductionLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,addProd,level));
-
-
-        //59
-        addProd=new Production(new int[]{0,1,0,0,0,0,0},new int[]{0,0,0,0,1,0,1});
-        costTestCards = new Pair<>(DevelopmentCardColor.BLUE, 1);
-
-        requirementsTest = new ArrayList<>();
-
-        requirementsTestCards = new ArrayList<>();
-        requirementsTestCards.add(costTestCards);
-
-        victoryPoints=4;
-        level=2;
-
-        series2.add(new ProductionLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,addProd,level));
-
-        //58
-        addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,0,0,0,1,0,1});
-        costTestCards = new Pair<>(DevelopmentCardColor.YELLOW, 1);
-
-        requirementsTest = new ArrayList<>();
-
-        requirementsTestCards = new ArrayList<>();
-        requirementsTestCards.add(costTestCards);
-
-        victoryPoints=4;
-        level=2;
-
-        series2.add(new ProductionLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,addProd,level));
-
-
-        //57
-        addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,0,0,0,1,0,1});
-        costTestCards = new Pair<>(DevelopmentCardColor.PURPLE, 2);
-        costTestCards2 = new Pair<>(DevelopmentCardColor.GREEN, 1);
-
-        requirementsTest = new ArrayList<>();
-
-        requirementsTestCards = new ArrayList<>();
-        requirementsTestCards.add(costTestCards);
-        requirementsTestCards.add(costTestCards2);
-
-        victoryPoints=5;
-        level=1;
-        bonus= Resource.GOLD;
-
-        series2.add(new MarketLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,bonus));
-
-
-        //55
-        addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,0,0,0,1,0,1});
-        costTestCards = new Pair<>(DevelopmentCardColor.BLUE, 2);
-        costTestCards2 = new Pair<>(DevelopmentCardColor.YELLOW, 1);
-
-        requirementsTest = new ArrayList<>();
-
-        requirementsTestCards = new ArrayList<>();
-        requirementsTestCards.add(costTestCards);
-        requirementsTestCards.add(costTestCards2);
-
-        victoryPoints=5;
-        bonus= Resource.STONE;
-
-
-        series2.add(new MarketLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,bonus));
-
-
-
-        //54
-        addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,0,0,0,1,0,1});
-        costTestCards = new Pair<>(DevelopmentCardColor.GREEN, 2);
-        costTestCards2 = new Pair<>(DevelopmentCardColor.PURPLE, 1);
-
-        requirementsTest = new ArrayList<>();
-
-        requirementsTestCards = new ArrayList<>();
-        requirementsTestCards.add(costTestCards);
-        requirementsTestCards.add(costTestCards2);
-
-        victoryPoints=5;
-        bonus = Resource.SHIELD;
-
-
-        series2.add(new MarketLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,bonus));
-
-
-        //53
-        addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,0,0,0,1,0,1});
-        costTestCards = new Pair<>(DevelopmentCardColor.YELLOW, 2);
-        costTestCards2 = new Pair<>(DevelopmentCardColor.BLUE, 1);
-
-        requirementsTest = new ArrayList<>();
-
-        requirementsTestCards = new ArrayList<>();
-        requirementsTestCards.add(costTestCards);
-        requirementsTestCards.add(costTestCards2);
-
-        victoryPoints=5;
-        bonus = Resource.SERVANT;
-
-
-        series2.add(new MarketLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,bonus));
-
-
-        LeaderDepot depo;
-
-        //52
-        addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,0,0,0,1,0,1});
-        costTest = new Pair<>(Resource.SHIELD, 5);
-        costTestCards2 = new Pair<>(DevelopmentCardColor.BLUE, 1);
-
-        requirementsTest = new ArrayList<>();
-        requirementsTestCards = new ArrayList<>();
-
-        requirementsTest.add(costTest);
-
-        victoryPoints=3;
-        depo=new LeaderDepot(0, Resource.GOLD);
-
-        series2.add(new DepositLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,depo));
-
-
-        //51
-        addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,0,0,0,1,0,1});
-        costTest = new Pair<>(Resource.SERVANT, 5);
-        costTestCards2 = new Pair<>(DevelopmentCardColor.BLUE, 1);
-
-        requirementsTest = new ArrayList<>();
-        requirementsTestCards = new ArrayList<>();
-
-        requirementsTest.add(costTest);
-
-        victoryPoints=3;
-        depo=new LeaderDepot(6, Resource.SHIELD);
-
-        series2.add(new DepositLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,depo));
-
-
-
-        //50
-        addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,0,0,0,1,0,1});
-        costTest = new Pair<>(Resource.STONE, 5);
-        costTestCards2 = new Pair<>(DevelopmentCardColor.BLUE, 1);
-
-        requirementsTest = new ArrayList<>();
-        requirementsTestCards = new ArrayList<>();
-
-        requirementsTest.add(costTest);
-
-        victoryPoints=3;
-        depo=new LeaderDepot(0, Resource.SERVANT);
-
-        series2.add(new DepositLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,depo));
-
-
-
-
-        //49
-        addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,0,0,0,1,0,1});
-        costTest = new Pair<>(Resource.GOLD, 5);
-        costTestCards2 = new Pair<>(DevelopmentCardColor.BLUE, 1);
-
-        requirementsTest = new ArrayList<>();
-        requirementsTestCards = new ArrayList<>();
-
-        requirementsTest.add(costTest);
-
-        victoryPoints=3;
-        depo=new LeaderDepot(0, Resource.STONE);
-
-        series2.add(new DepositLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,depo));
-
-
-
-
-        //48
-        addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,0,0,0,1,0,1});
-        costTestCards = new Pair<>(DevelopmentCardColor.YELLOW, 1);
-        costTestCards2 = new Pair<>(DevelopmentCardColor.PURPLE, 1);
-
-
-        requirementsTest = new ArrayList<>();
-        requirementsTestCards = new ArrayList<>();
-
-        requirementsTestCards.add(costTestCards);
-        requirementsTestCards.add(costTestCards2);
-
-
-        victoryPoints=2;
-        costTest = new Pair<>(Resource.GOLD, 1);
-
-
-        series2.add(new DevelopmentDiscountLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,costTest));
-
-
-
-        //47
-        addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,0,0,0,1,0,1});
-        costTestCards = new Pair<>(DevelopmentCardColor.GREEN, 1);
-        costTestCards2 = new Pair<>(DevelopmentCardColor.BLUE, 1);
-
-
-        requirementsTest = new ArrayList<>();
-        requirementsTestCards = new ArrayList<>();
-
-        requirementsTestCards.add(costTestCards);
-        requirementsTestCards.add(costTestCards2);
-
-
-        victoryPoints=2;
-        costTest = new Pair<>(Resource.STONE, 1);
-
-
-        series2.add(new DevelopmentDiscountLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,costTest));
-
-
-
-        //46
-        addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,0,0,0,1,0,1});
-        costTestCards = new Pair<>(DevelopmentCardColor.PURPLE, 1);
-        costTestCards2 = new Pair<>(DevelopmentCardColor.BLUE, 1);
-
-
-        requirementsTest = new ArrayList<>();
-        requirementsTestCards = new ArrayList<>();
-
-        requirementsTestCards.add(costTestCards);
-        requirementsTestCards.add(costTestCards2);
-
-
-        victoryPoints=2;
-        costTest = new Pair<>(Resource.SHIELD, 1);
-
-
-        series2.add(new DevelopmentDiscountLeader(  LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,costTest));
-
-
-
-        //45
-        addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,0,0,0,1,0,1});
-        costTestCards = new Pair<>(DevelopmentCardColor.YELLOW, 1);
-        costTestCards2 = new Pair<>(DevelopmentCardColor.GREEN, 1);
-
-
-        requirementsTest = new ArrayList<>();
-        requirementsTestCards = new ArrayList<>();
-
-        requirementsTestCards.add(costTestCards);
-        requirementsTestCards.add(costTestCards2);
-
-
-        victoryPoints=2;
-        costTest = new Pair<>(Resource.SERVANT, 1);
-
-
-        series2.add(new DevelopmentDiscountLeader(LeaderState.INACTIVE,victoryPoints,requirementsTest,requirementsTestCards,costTest));
-
-
-        //  serialize(writeConfigPathString +"LeadersConfig.json", series2.toArray(Leader[]::new), Leader[].class,  customGsonBuilder.registerTypeAdapterFactory(GsonAdapters.gsonLeaderAdapter).create());
-     /*   String serialized = gson1.toJson(series2.toArray(Leader[]::new), Leader[].class);
-        Writer writer = new FileWriter("src/main/resources/config/LeadersConfig.json");
-        writer.write(serialized);
-        writer.flush(); //flush data to file   <---
-        writer.close(); //close write          <---  */
-
-
-        //   Leader[] cards.leaders = deserialize("src/main/resources/config/LeadersConfig.json" , Leader[].class);
     }
 
     public static void developmentCardsArraySerialization(){
@@ -1997,18 +2003,5 @@ public class Serializator extends JsonUtility {
         JsonUtility.serializeBigObject(path, sessionController, SessionController.class, gson);
     };
 
-
-
-    public static void main(String[] args) throws IOException, ClassNotFoundException, IllegalAccessException, InstantiationException {
-
-
-    /*    List<DevelopmentCard> cards = Deserializator.devCardsListDeserialization();
-        cards.forEach(DevelopmentCard::fun);
-        Gson gsonprint= new GsonBuilder().setPrettyPrinting().create();
-        System.out.println(gsonprint.toJson(cards));*/
-
-        devCardsAssetsMapSerialization();
-
-    }
 }
 
