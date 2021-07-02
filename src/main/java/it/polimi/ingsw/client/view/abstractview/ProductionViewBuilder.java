@@ -46,6 +46,8 @@ public abstract class ProductionViewBuilder extends ViewBuilder{
      * @param chosenOutputRes are chosen output resources
      */
     public static void sendChosenResources(List<Integer> chosenInputPos,List<Integer> chosenOutputRes){
+        System.out.println("input pos "+chosenInputPos);
+        System.out.println("input pos "+chosenOutputRes);
         getClient().getServerHandler().sendCommandMessage(new EventMessage(new ChooseResourcesForProductionEvent(chosenInputPos,chosenOutputRes)));
     }
 

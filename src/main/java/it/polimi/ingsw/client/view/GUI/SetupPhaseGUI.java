@@ -170,7 +170,6 @@ public class SetupPhaseGUI extends SetupPhaseViewBuilder implements GUIView {
             if (resToChoose>1 && resourceSelector.getChosenOutputRes().size()>1)
                 event.addResource(new Pair<>(1,resourceSelector.getChosenOutputRes().get(1)));
 
-            System.out.println(JsonUtility.serialize(event));
 
            if (resourceSelector.getChosenOutputRes().size()==resToChoose) {
                setupAnchor.getChildren().clear();
@@ -299,7 +298,6 @@ public class SetupPhaseGUI extends SetupPhaseViewBuilder implements GUIView {
                         if(resourceSelector.getPointedResource().isEmpty())
                             return;
                         resourceSelector.setNextInputPos(0,ResourceAsset.fromInt(finalI));
-                        System.out.println("CHOOSIN");
                     });
         }
 

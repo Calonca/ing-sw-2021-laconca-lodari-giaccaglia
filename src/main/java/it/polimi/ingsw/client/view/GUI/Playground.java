@@ -75,7 +75,6 @@ public class Playground {
         if(getClient().getCommonData().getCurrentPlayerIndex() != CommonData.getThisPlayerIndex())
             return;
         Playground p = getPlayground();
-        System.out.println("REFRESHING CARD SHOP");
         if(p.cardShop!=null)
             p.cardShop.getChildren().clear();
         Group cardShop=new Group();
@@ -89,7 +88,6 @@ public class Playground {
      */
     public static void refreshMarket() {
         Playground p = getPlayground();
-        System.out.println("REFRESHING MARKET");
         if(p.resourceMarket!=null)
             p.resourceMarket.getChildren().clear();
         Group resourceMarket=new Group();

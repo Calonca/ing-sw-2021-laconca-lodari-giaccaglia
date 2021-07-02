@@ -175,7 +175,6 @@ public class InfoTiles implements PropertyChangeListener {
                         if(vaticanReportInfo.getPopeTileStateMap().get(playerNumber).getValue().equals(TileState.ACTIVE))
                             popeTiles.get(vaticanReportInfo.getPopeTileStateMap().get(playerNumber).getKey()).setFill(new ImagePattern(new Image("assets/track/FAVOUR_TILE_"+tileNumber+"_ACTIVE.png")));
 
-                            System.out.println(vaticanReportInfo.getPopeTileStateMap().get(playerNumber).getValue());
 
                     }
 

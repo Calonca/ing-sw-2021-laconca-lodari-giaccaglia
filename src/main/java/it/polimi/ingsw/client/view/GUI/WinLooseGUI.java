@@ -89,7 +89,6 @@ public class WinLooseGUI extends WinLooseBuilder {
                 text.setLayoutX(50);
                 text.setLayoutY(30);
                 anchor.getChildren().add(text);
-                System.out.println(endGameInfo.getCauseOfEndStringWithNames());
             }
 
             text=new Text("NICK:  " + simplePlayerInfoMap.get(i).getNickname());
@@ -117,7 +116,6 @@ public class WinLooseGUI extends WinLooseBuilder {
             text.setLayoutY(150);
             anchor.setLayoutY(len/2);
             anchor.setLayoutX(startingX+200*i);
-            System.out.println(startingX);
 
 
             anchor.getChildren().add(text);

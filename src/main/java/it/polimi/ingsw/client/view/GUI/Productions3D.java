@@ -90,7 +90,6 @@ public class Productions3D implements PropertyChangeListener {
         productionButton.setOnAction(e -> {
             if (mode.equals(BoardView3D.Mode.CHOOSE_PRODUCTION))
                 ProductionViewBuilder.sendProduce();
-            System.out.println(cache.getCurrentState());
             productionButton.setOpacity(0);
             basicButton.setOpacity(0);
         });
@@ -121,7 +120,6 @@ public class Productions3D implements PropertyChangeListener {
             rectangle.setLayoutX(400 + 250 * key);
             rectangle.setLayoutY(0);
             rectangle.setOnMouseClicked(p -> {
-                System.out.println("Card id is: "+value.map(CardAsset::getCardId));
                 if (mode.equals(BoardView3D.Mode.CHOOSE_POS_FOR_CARD) && (true || simpleCardCells.isSpotAvailable(key))) {
                     CardShopViewBuilder.sendCardPlacementPosition(key);
                 } else if (mode.equals(BoardView3D.Mode.CHOOSE_PRODUCTION) && ( true || simpleCardCells.isProductionAtPositionAvailable(key).orElse(false)))
@@ -141,10 +139,7 @@ public class Productions3D implements PropertyChangeListener {
 
             temp.setFill(CardSelector.imagePatternFromAsset(value.getCardPaths().getKey()));
             setProdAvailable(simpleCardCells,key, temp);
-            System.out.println(value.getCardId());
             temp.setOnMouseClicked(p -> {
-                System.out.println(key);
-                System.out.println(value.getCardId());
                 if (mode.equals(BoardView3D.Mode.CHOOSE_POS_FOR_CARD) && (true || simpleCardCells.isSpotAvailable(key))) {
                     CardShopViewBuilder.sendCardPlacementPosition(key);
                 } else if (mode.equals(BoardView3D.Mode.CHOOSE_PRODUCTION) && (true || simpleCardCells.isProductionAtPositionAvailable(key).orElse(false)))

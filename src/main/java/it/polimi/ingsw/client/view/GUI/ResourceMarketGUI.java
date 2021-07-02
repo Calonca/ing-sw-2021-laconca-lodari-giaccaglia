@@ -188,7 +188,6 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
 
         if (getThisPlayerCache().getCurrentState().equals(CHOOSING_WHITEMARBLE_CONVERSION.name())){
             chooseMarbleConversion();
-            System.out.println("canapa indiana");
         }
 
         return root3D;
@@ -287,7 +286,6 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
             {
 
                 sendLine(NUMBEROFCOLUMNS + NUMBEROFROWS-1-buttonIndexY);
-                System.out.println(7-1-buttonIndexY);
 
             });
             transition.play();
@@ -381,7 +379,6 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
             transition.setDelay(new Duration(1300));
             transition.setOnFinished(e->
                     sendLine(i));
-            System.out.println(i);
             transition.play();
 
             active=false;
@@ -431,7 +428,6 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
 
         List<ResourceAsset> toChoose=simplePlayerLeaders.getMarketBonusResources();
 
-        System.out.println("QUESTA è LA SIZE"+ toChoose.size());
         for(int i=0;i<toChoose.size();i++) {
             int finalI = i;
 

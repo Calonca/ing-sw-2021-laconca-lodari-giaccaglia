@@ -164,7 +164,6 @@ public class LobbyViewBuilderGUI extends LobbyViewBuilder {
                 String[] players = availableMatches.get(matchId).getKey();
 
                 int leftPlayers = (int)(Arrays.stream(players).filter(player -> player.equals("available slot")).count());
-                System.out.println(Arrays.toString(players));
 
                 playerNames.setText(Arrays.toString(players));
 

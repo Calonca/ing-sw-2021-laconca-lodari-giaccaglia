@@ -57,7 +57,6 @@ public class ActionToken implements PropertyChangeListener {
             ActionTokenAsset tokenAsset = actionToken.getSoloActionToken();
 
             Rectangle actionTokenRectangle=new Rectangle(200,200);
-            System.out.println(tokenAsset.getFrontPath().toString().replace("\\","/"));
             actionTokenRectangle.setFill(new ImagePattern(new Image(tokenAsset.getFrontPath().toString().replace("\\","/"))));
             tokenGroup.getChildren().setAll(actionTokenRectangle);
             Playground.refreshCardShop();
