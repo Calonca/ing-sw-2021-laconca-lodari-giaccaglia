@@ -4,6 +4,7 @@ package it.polimi.ingsw.client.view.GUI;
 import it.polimi.ingsw.client.view.GUI.board.CamState;
 import it.polimi.ingsw.client.view.GUI.util.CardSelector;
 import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
+import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCardColor;
 import it.polimi.ingsw.network.assets.leaders.NetworkDevelopmentDiscountLeaderCard;
@@ -89,7 +90,6 @@ public class CardShopGUI extends CardShopViewBuilder {
      * @return the CardShop Subscene
      */
     public SubScene getRoot() {
-        Button validationButton= validationButton();
         Path path;
         ImageView tempImage;
         SimpleCardShop simpleCardShop = getSimpleCardShop();
@@ -108,6 +108,12 @@ public class CardShopGUI extends CardShopViewBuilder {
                     availableCards.add(simpleCardShop.getCardFront(NetworkDevelopmentCardColor.fromInt(j),3-i).get().getDevelopmentCard().isSelectable());
                     if(!simpleCardShop.getCardFront(NetworkDevelopmentCardColor.fromInt(j),3-i).get().getDevelopmentCard().isSelectable())
                         tempImage.setEffect(colorAdjust);
+                    else {
+                        int finalI = i;
+                        int finalJ = j;
+                        System.out.println("cane");
+                        tempImage.setOnMouseClicked( p ->sendChosenCard(finalJ, 3-finalI) );
+                    }
                     tempImage.setRotate(Math.random() * (cardTilt - -cardTilt + 1) + -1 );
 
                     double cardWidth=(width-cardsVGap*4.5)/COLUMNS;
@@ -159,39 +165,6 @@ public class CardShopGUI extends CardShopViewBuilder {
 
 
 
-        CardSelector cardSelector=new CardSelector();
-        cardSelector.cardSelectorFromImage(selectedSceneCards,scenesCardsToChoose,1);
-
-        selectedSceneCards.addListener((ListChangeListener<Boolean>) c -> {
-            c.next();
-            getClient().getStage().getScene().setCursor(ImageCursor.HAND);
-
-
-            if(c.getAddedSubList().get(0))
-            {
-                //ViewPersonalBoard.getController().highlightTrue(selectedSceneCards,scenesCardsToChoose);
-                for (Boolean aBoolean : selectedSceneCards)
-                    if (aBoolean)
-                    {
-                        scenesCardsToChoose.get(c.getFrom()).setLayoutY(scenesCardsToChoose.get(c.getFrom()).getLayoutY()-15);
-                        System.out.println(c.getFrom());
-
-
-                    }
-                //scenesCardsToChoose.get(selectedSceneCards.indexOf(aBoolean)).setLayoutX(scenesCardsToChoose.get(selectedSceneCards.indexOf(aBoolean)).getLayoutX()+10);
-            }
-            else
-            {
-                scenesCardsToChoose.get(c.getFrom()).setLayoutY(scenesCardsToChoose.get(c.getFrom()).getLayoutY()+15);
-
-                //ViewPersonalBoard.getController().dehighlightTrue(selectedSceneCards,scenesCardsToChoose);
-
-            }
-
-
-
-
-        });
 
 
         SimplePlayerLeaders activeLeaders = getThisPlayerCache().getElem(SimplePlayerLeaders.class).orElseThrow();
@@ -218,7 +191,6 @@ public class CardShopGUI extends CardShopViewBuilder {
 
         }
 
-        cardsAnchor.getChildren().add(validationButton);
 
 
         getClient().getStage().show();
@@ -251,47 +223,7 @@ public class CardShopGUI extends CardShopViewBuilder {
      * Service method
      * @return a button according to parameters
      */
-    public Button validationButton()
-    {
 
-        Button confirm=new Button();
-        confirm.setText("CONFIRM");
-        confirm.setLayoutY(len-80);
-        confirm.setLayoutX(width/2);
-        confirm.setOnAction(p -> {
-
-
-
-            int temp=0;
-
-            int selectedCards=0;
-            error.setOpacity(0);
-            for(Boolean prod : selectedSceneCards)
-            {
-                if(prod)
-                {
-                    selectedCards++;
-                    temp=selectedSceneCards.indexOf(prod);
-                    break;
-
-                }
-            }
-            if(selectedCards==0)
-            {
-                errorChoice.setOpacity(1);
-                return;
-            }
-
-            System.out.println("temp is" + temp + "temp%4 is" + temp%4);
-            if(temp<4)
-                sendChosenCard(temp%4, 3);
-            else if(temp<8)
-                sendChosenCard(temp%4, 2);
-            else sendChosenCard(temp%4, 1);
-
-        });
-        return confirm;
-    }
 
 
 
