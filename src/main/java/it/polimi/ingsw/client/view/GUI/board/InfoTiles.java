@@ -22,6 +22,7 @@ import java.util.List;
 
 import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.getSimpleModel;
 
+
 public class InfoTiles implements PropertyChangeListener {
 
 
@@ -188,7 +189,8 @@ public class InfoTiles implements PropertyChangeListener {
 
                 for(int i=0;i<playersInfo.getSimplePlayerInfoMap().size();i++)
                 {
-                        NodeAdder.addNodeToParent(infoGroup, infoGroup,playerStatsTile(playersInfo.getSimplePlayerInfoMap().get(i),getSimpleModel().getPlayerCache(i).getCurrentState()),new Point3D(-675,210*i,1450));
+                        NodeAdder.addNodeToParent(infoGroup, infoGroup,playerStatsTile(playersInfo.getSimplePlayerInfoMap().get(i),getSimpleModel().getPlayerCache(i).getCurrentState()),
+                                new Point3D(2100,-900+(210*i),1400));
 
                 }
 
