@@ -191,7 +191,6 @@ public class SessionController {
         else
            disconnectionTime = matchesDisconnectionTimes.get(gameId);
 
-
         long elapsedTimeInSeconds = currentTime - disconnectionTime;
         return elapsedTimeInSeconds > maxSecondsOffline;
 

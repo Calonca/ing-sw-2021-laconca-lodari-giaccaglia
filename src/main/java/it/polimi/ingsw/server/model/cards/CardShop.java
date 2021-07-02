@@ -59,14 +59,11 @@ public class CardShop {
      */
     public void discardCard(DevelopmentCardColor color, int amount){
 
-        // TODO IMPLEMENTARE LOGICA SINGLE PLAYER DI FINE GIOCO
-        int discarded = 0;
         for(int i=0; i<amount; i++){
             for(int j = 1; j<= maxLevel; j++) {
 
                 if (!devDecks.get(color).get(j).isDeckEmpty()) {
                     devDecks.get(color).get(j).getCard();
-                    discarded++;
                     break;
                 }
             }
@@ -169,11 +166,13 @@ public class CardShop {
         return devDecks.keySet()
                 .stream()
                 .collect(
-                        Collectors.toMap(colorKey -> colorKey ,  colorKey ->
-                    devDecks.get(colorKey)
-                            .keySet()
-                            .stream()
-                            .collect(Collectors.toMap(intKey -> intKey,
+
+                        Collectors.toMap(colorKey -> colorKey ,
+                                colorKey ->
+                                        devDecks.get(colorKey)
+                                        .keySet()
+                                         .stream()
+                            .            collect(Collectors.toMap(intKey -> intKey,
 
                                     intKey-> {
 

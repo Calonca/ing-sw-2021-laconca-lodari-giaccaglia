@@ -90,7 +90,7 @@ public class Serializator extends JsonUtility {
     }
 
     public static void devCardsAssetsMapSerialization(){
-        serialize(writeConfigPathString + "DevCardsAssetsMapConfig.json", devCardsAssetsBuilder(), Map.class, customGson);
+        serialize(writeConfigPathString + "DevCardsAssetsMapConfig.json", devCardsAssetsBuilder(), Map.class, customGsonBuilder.registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).create());
     }
 
     public static void networkLeaderCardsAssetsMapSerialization(){
@@ -765,7 +765,7 @@ public class Serializator extends JsonUtility {
 
 
 
-        //64
+        //44
         addProd=new Production(new int[]{0,2,0,0,0,0,0},new int[]{1,0,1,1,0,0,0});
         costTest = new Pair<>(Resource.SHIELD, 3);
         costTest2 = new Pair<>(Resource.SERVANT, 4);
@@ -781,7 +781,7 @@ public class Serializator extends JsonUtility {
 
 
 
-        //63
+        //45
         addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{1,0,0,0,0,0,0});
         costTest = new Pair<>(Resource.STONE, 1);
         costTest2 = new Pair<>(Resource.SHIELD, 1);
@@ -798,7 +798,7 @@ public class Serializator extends JsonUtility {
         series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
 
 
-        //62
+        //46
         addProd=new Production(new int[]{0,1,0,0,0,0,0},new int[]{0,0,0,1,0,0,0});
         costTest = new Pair<>(Resource.STONE, 1);
         costTest2 = new Pair<>(Resource.SERVANT, 1);
@@ -815,7 +815,7 @@ public class Serializator extends JsonUtility {
         series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
 
 
-        //56
+        //47
         addProd=new Production(new int[]{1,0,0,0,0,0,0},new int[]{0,0,1,0,0,0,0});
         costTest = new Pair<>(Resource.SHIELD, 1);
         costTest2 = new Pair<>(Resource.SERVANT, 1);
@@ -833,7 +833,7 @@ public class Serializator extends JsonUtility {
 
 
 
-        //45
+        //48
         addProd=new Production(new int[]{1,0,0,0,0,0,0},new int[]{0,0,1,0,0,0,0});
         costTest = new Pair<>(Resource.SHIELD, 1);
         costTest2 = new Pair<>(Resource.SERVANT, 1);
@@ -850,6 +850,7 @@ public class Serializator extends JsonUtility {
         series.add(new DevelopmentCard(level, color,addProd, victoryPoints,requirementsTest));
         Gson gsonprint= new GsonBuilder().setPrettyPrinting().create();
         System.out.println(gsonprint.toJson(series));
+
 
 
         Leader leader;
@@ -1154,6 +1155,766 @@ public class Serializator extends JsonUtility {
         //   Leader[] cards.leaders = deserialize("src/main/resources/config/LeadersConfig.json" , Leader[].class);
     }
 
+    public static void developmentCardsArraySerialization(){
+
+        Resource bonus;
+        Production addProd;
+        Pair<Resource, Integer> costTest;
+        Pair<Resource, Integer> costTest2;
+        Pair<Resource, Integer> costTest3;
+        List<Pair<Resource, Integer>> requirementsTest;
+        Pair<DevelopmentCardColor, Integer> costTestCards;
+        Pair<DevelopmentCardColor, Integer> costTestCards2;
+        List<Pair<DevelopmentCardColor, Integer>> requirementsTestCards;
+
+        ArrayList<DevelopmentCard> series=new ArrayList<>();
+        ArrayList<Leader> series2=new ArrayList<>();
+
+        int victoryPoints;
+        DevelopmentCardColor color;
+        int level;
+
+        //1
+        addProd=new Production(new int[]{1,0,0,0,0,0,0},new int[]{0,0,0,0,2,0,0});
+        costTest = new Pair<>(Resource.SHIELD, 2);
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        victoryPoints=1;
+        color=DevelopmentCardColor.GREEN;
+        level=1;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+
+        //2
+        addProd=new Production(new int[]{2,0,0,0,0,0,0},new int[]{0,1,1,1,0,0,0});
+        costTest = new Pair<>(Resource.SERVANT, 3);
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        victoryPoints=3;
+        level=1;
+        color=DevelopmentCardColor.PURPLE;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+
+        //3
+        addProd=new Production(new int[]{0,0,0,2,0,0,0},new int[]{1,1,1,0,0,0,0});
+        costTest = new Pair<>(Resource.GOLD, 3);
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        victoryPoints=3;
+        level=1;
+        color=DevelopmentCardColor.BLUE;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+
+        //4
+        addProd=new Production(new int[]{0,2,0,0,0,0,0},new int[]{1,0,1,1,0,0,0});
+        costTest = new Pair<>(Resource.STONE, 3);
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        victoryPoints=3;
+        level=1;
+        color=DevelopmentCardColor.YELLOW;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+        //5
+        addProd=new Production(new int[]{0,1,0,1,0,0,0},new int[]{2,0,0,0,1,0,0});
+        costTest = new Pair<>(Resource.SHIELD, 2);
+        costTest2 = new Pair<>(Resource.GOLD, 2);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        requirementsTest.add(costTest2);
+        victoryPoints=4;
+        level=1;
+        color=DevelopmentCardColor.GREEN;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+
+        //6
+        addProd=new Production(new int[]{1,0,1,0,0,0,0},new int[]{0,0,0,2,1,0,0});
+        costTest = new Pair<>(Resource.SERVANT, 2);
+        costTest2 = new Pair<>(Resource.STONE, 2);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        requirementsTest.add(costTest2);
+        victoryPoints=4;
+        level=1;
+        color=DevelopmentCardColor.PURPLE;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+        //7
+
+        addProd=new Production(new int[]{0,0,1,1,0,0,0},new int[]{0,2,0,0,1,0,0});
+        costTest = new Pair<>(Resource.GOLD, 2);
+        costTest2 = new Pair<>(Resource.SERVANT, 2);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        requirementsTest.add(costTest2);
+        victoryPoints=4;
+        level=1;
+        color=DevelopmentCardColor.BLUE;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+
+
+        //8
+
+        addProd=new Production(new int[]{1,1,0,0,0,0,0},new int[]{0,0,2,0,1,0,0});
+        costTest = new Pair<>(Resource.STONE, 2);
+        costTest2 = new Pair<>(Resource.SHIELD, 2);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        requirementsTest.add(costTest2);
+        victoryPoints=4;
+        level=1;
+        color=DevelopmentCardColor.YELLOW;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+
+        //9
+
+        addProd=new Production(new int[]{0,0,0,1,0,0,0},new int[]{0,0,0,0,2,0,0});
+        costTest = new Pair<>(Resource.SHIELD, 4);
+        //costTest2 = new Pair<>(Resource.SHIELD, 2);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        //requirementsTest.add(costTest2);
+        victoryPoints=5;
+        level=2;
+        color=DevelopmentCardColor.GREEN;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+//10
+        addProd=new Production(new int[]{1,0,0,0,0,0,0},new int[]{0,0,0,0,2,0,0});
+        costTest = new Pair<>(Resource.SERVANT, 4);
+        //costTest2 = new Pair<>(Resource.SHIELD, 2);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        //requirementsTest.add(costTest2);
+        victoryPoints=5;
+        level=2;
+        color=DevelopmentCardColor.PURPLE;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+        //11
+
+        addProd=new Production(new int[]{0,1,0,0,0,0,0},new int[]{0,0,0,0,2,0,0});
+        costTest = new Pair<>(Resource.GOLD, 4);
+        //costTest2 = new Pair<>(Resource.SHIELD, 2);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        //requirementsTest.add(costTest2);
+        victoryPoints=5;
+        level=2;
+        color=DevelopmentCardColor.BLUE;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+
+        //12
+        addProd=new Production(new int[]{0,0,0,1,0,0,0},new int[]{0,0,0,0,1,0,0});
+        costTest = new Pair<>(Resource.SERVANT, 2);
+        //costTest2 = new Pair<>(Resource.SHIELD, 2);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        //requirementsTest.add(costTest2);
+        victoryPoints=1;
+        level=1;
+        color=DevelopmentCardColor.PURPLE;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+
+
+        //13
+        addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,0,0,0,2,0,0});
+        costTest = new Pair<>(Resource.STONE, 4);
+        //costTest2 = new Pair<>(Resource.SHIELD, 2);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        //requirementsTest.add(costTest2);
+        victoryPoints=5;
+        level=2;
+        color=DevelopmentCardColor.YELLOW;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+
+
+        //14
+        addProd=new Production(new int[]{0,1,1,0,0,0,0},new int[]{0,0,0,3,0,0,0});
+        costTest = new Pair<>(Resource.SHIELD, 3);
+        costTest2 = new Pair<>(Resource.SERVANT, 2);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        requirementsTest.add(costTest2);
+        victoryPoints=5;
+        level=2;
+        color=DevelopmentCardColor.GREEN;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+
+
+        //15
+        addProd=new Production(new int[]{1,1,0,0,0,0,0},new int[]{0,0,3,0,0,0,0});
+        costTest = new Pair<>(Resource.GOLD, 2);
+        costTest2 = new Pair<>(Resource.SERVANT, 3);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        requirementsTest.add(costTest2);
+        victoryPoints=6 ;
+        level=2;
+        color=DevelopmentCardColor.PURPLE;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+
+        //16
+        addProd=new Production(new int[]{1,0,0,1,0,0,0},new int[]{0,3,0,0,0,0,0});
+        costTest = new Pair<>(Resource.GOLD, 3);
+        costTest2 = new Pair<>(Resource.STONE, 2);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        requirementsTest.add(costTest2);
+        victoryPoints=6 ;
+        level=2;
+        color=DevelopmentCardColor.BLUE;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+
+        //17
+        addProd=new Production(new int[]{0,1,0,1,0,0,0},new int[]{3,0,0,0,0,0,0});
+        costTest = new Pair<>(Resource.STONE, 3);
+        costTest2 = new Pair<>(Resource.SHIELD, 2);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        requirementsTest.add(costTest2);
+        victoryPoints=6 ;
+        level=2;
+        color=DevelopmentCardColor.YELLOW;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+
+
+        //18
+        addProd=new Production(new int[]{2,0,0,1,0,0,0},new int[]{0,0,0,2,2,0,0});
+        costTest = new Pair<>(Resource.SHIELD, 5);
+        //costTest2 = new Pair<>(Resource.SHIELD, 2);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        //requirementsTest.add(costTest2);
+        victoryPoints=7 ;
+        level=2;
+        color=DevelopmentCardColor.GREEN;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+        //19
+        addProd=new Production(new int[]{0,0,0,2,0,0,0},new int[]{2,0,0,0,2,0,0});
+        costTest = new Pair<>(Resource.SERVANT, 5);
+        //costTest2 = new Pair<>(Resource.SHIELD, 2);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        //requirementsTest.add(costTest2);
+        victoryPoints=7 ;
+        level=2;
+        color=DevelopmentCardColor.PURPLE;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+        //20
+        addProd=new Production(new int[]{0,2,0,0,0,0,0},new int[]{0,0,2,0,2,0,0});
+        costTest = new Pair<>(Resource.GOLD, 5);
+        //costTest2 = new Pair<>(Resource.SHIELD, 2);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        //requirementsTest.add(costTest2);
+        victoryPoints=7 ;
+        level=2;
+        color=DevelopmentCardColor.BLUE;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+
+        //21
+        addProd=new Production(new int[]{0,0,2,0,0,0,0},new int[]{0,2,0,0,2,0,0});
+        costTest = new Pair<>(Resource.STONE, 5);
+        //costTest2 = new Pair<>(Resource.SHIELD, 2);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        //requirementsTest.add(costTest2);
+        victoryPoints=7 ;
+        level=2;
+        color=DevelopmentCardColor.YELLOW;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+
+        //22
+        addProd=new Production(new int[]{1,0,0,0,0,0,0},new int[]{0,0,2,0,1,0,0});
+        costTest = new Pair<>(Resource.SHIELD, 3);
+        costTest2 = new Pair<>(Resource.GOLD, 3);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        requirementsTest.add(costTest2);
+        victoryPoints=8;
+        level=2;
+        color=DevelopmentCardColor.GREEN;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+
+        //23
+        addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,0,0,0,1,0,0});
+        costTest = new Pair<>(Resource.GOLD, 2);
+        //costTest2 = new Pair<>(Resource.GOLD, 3);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        //requirementsTest.add(costTest2);
+        victoryPoints=1;
+        level=1;
+        color=DevelopmentCardColor.BLUE;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+
+        //24
+        addProd=new Production(new int[]{0,0,0,1,0,0,0},new int[]{0,2,0,0,1,0,0});
+        costTest = new Pair<>(Resource.SERVANT, 3);
+        costTest2 = new Pair<>(Resource.SHIELD, 3);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        requirementsTest.add(costTest2);
+        victoryPoints=8;
+        level=2;
+        color=DevelopmentCardColor.PURPLE;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+
+
+        //25
+        addProd=new Production(new int[]{0,1,0,0,0,0,0},new int[]{0,0,0,2,1,0,0});
+        costTest = new Pair<>(Resource.GOLD, 3);
+        costTest2 = new Pair<>(Resource.STONE, 3);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        requirementsTest.add(costTest2);
+        victoryPoints=8;
+        level=2;
+        color=DevelopmentCardColor.BLUE;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+
+
+        //26
+        addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{2,0,0,0,1,0,0});
+        costTest = new Pair<>(Resource.SERVANT, 3);
+        costTest2 = new Pair<>(Resource.STONE, 3);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        requirementsTest.add(costTest2);
+        victoryPoints=8;
+        level=2;
+        color=DevelopmentCardColor.YELLOW;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+
+        //27
+        addProd=new Production(new int[]{2,0,0,0,0,0,0},new int[]{0,0,0,3,2,0,0});
+        costTest = new Pair<>(Resource.SHIELD, 6);
+        //costTest2 = new Pair<>(Resource.STONE, 3);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        //requirementsTest.add(costTest2);
+        victoryPoints=9;
+        level=3;
+        color=DevelopmentCardColor.GREEN;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+
+        //28
+        addProd=new Production(new int[]{0,0,0,2,0,0,0},new int[]{3,0,0,0,2,0,0});
+        costTest = new Pair<>(Resource.SERVANT, 6);
+        //costTest2 = new Pair<>(Resource.STONE, 3);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        //requirementsTest.add(costTest2);
+        victoryPoints=9;
+        level=3;
+        color=DevelopmentCardColor.PURPLE;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+
+
+
+        //29
+        addProd=new Production(new int[]{0,2,0,0,0,0,0},new int[]{0,0,3,0,2,0,0});
+        costTest = new Pair<>(Resource.GOLD, 6);
+        //costTest2 = new Pair<>(Resource.STONE, 3);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        //requirementsTest.add(costTest2);
+        victoryPoints=9;
+        level=3;
+        color=DevelopmentCardColor.BLUE;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+
+
+        //30
+        addProd=new Production(new int[]{0,0,2,0,0,0,0},new int[]{0,3,0,0,2,0,0});
+        costTest = new Pair<>(Resource.STONE, 6);
+        //costTest2 = new Pair<>(Resource.STONE, 3);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        //requirementsTest.add(costTest2);
+        victoryPoints=9;
+        level=3;
+        color=DevelopmentCardColor.YELLOW;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+
+        //31
+        addProd=new Production(new int[]{1,1,0,0,0,0,0},new int[]{0,0,2,2,1,0,0});
+        costTest = new Pair<>(Resource.SHIELD, 5);
+        costTest2 = new Pair<>(Resource.SERVANT, 2);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        requirementsTest.add(costTest2);
+        victoryPoints=10;
+        level=3;
+        color=DevelopmentCardColor.GREEN;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+        //32
+        addProd=new Production(new int[]{0,0,1,1,0,0,0},new int[]{2,2,0,0,1,0,0});
+        costTest = new Pair<>(Resource.SERVANT, 5);
+        costTest2 = new Pair<>(Resource.GOLD, 2);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        requirementsTest.add(costTest2);
+        victoryPoints=10;
+        level=3;
+        color=DevelopmentCardColor.PURPLE;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+
+
+        //33
+        addProd=new Production(new int[]{1,0,1,0,0,0,0},new int[]{0,2,0,2,1,0,0});
+        costTest = new Pair<>(Resource.GOLD, 5);
+        costTest2 = new Pair<>(Resource.STONE, 2);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        requirementsTest.add(costTest2);
+        victoryPoints=10;
+        level=3;
+        color=DevelopmentCardColor.BLUE;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+
+        //34
+        addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,1,0,0,0,0,0});
+        costTest = new Pair<>(Resource.STONE, 2);
+        //costTest2 = new Pair<>(Resource.STONE, 2);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        //requirementsTest.add(costTest2);
+        victoryPoints=1;
+        level=1;
+        color=DevelopmentCardColor.YELLOW;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+
+
+        //35
+        addProd=new Production(new int[]{0,1,0,1,0,0,0},new int[]{2,0,2,0,1,0,0});
+        costTest = new Pair<>(Resource.STONE, 5);
+        costTest2 = new Pair<>(Resource.SERVANT, 2);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        requirementsTest.add(costTest2);
+        victoryPoints=10;
+        level=3;
+        color=DevelopmentCardColor.YELLOW;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+
+
+        //36
+        addProd=new Production(new int[]{0,1,0,0    ,0,0,0},new int[]{1,0,0,0,3,0,0});
+        costTest = new Pair<>(Resource.SHIELD, 7);
+        costTest2 = new Pair<>(Resource.SERVANT, 2);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        //requirementsTest.add(costTest2);
+        victoryPoints=11;
+        level=3;
+        color=DevelopmentCardColor.GREEN;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+
+
+
+        //37
+        addProd=new Production(new int[]{0,1,0,0,0,0,0},new int[]{0,0,0,1,3,0,0});
+        costTest = new Pair<>(Resource.SERVANT, 7);
+        costTest2 = new Pair<>(Resource.SERVANT, 2);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        //requirementsTest.add(costTest2);
+        victoryPoints=11;
+        level=3;
+        color=DevelopmentCardColor.PURPLE;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+
+
+
+        //38
+        addProd=new Production(new int[]{0,0,0,1,0,0,0},new int[]{0,0,1,0,3,0,0});
+        costTest = new Pair<>(Resource.GOLD, 7);
+        costTest2 = new Pair<>(Resource.SERVANT, 2);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        //requirementsTest.add(costTest2);
+        victoryPoints=11;
+        level=3;
+        color=DevelopmentCardColor.BLUE;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+
+        //39
+        addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,1,0,0,0,3,0,0});
+        costTest = new Pair<>(Resource.STONE, 7);
+        costTest2 = new Pair<>(Resource.SERVANT, 2);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        //requirementsTest.add(costTest2);
+        victoryPoints=11;
+        level=3;
+        color=DevelopmentCardColor.YELLOW;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+
+
+        //40
+        addProd=new Production(new int[]{0,0,0,1,0,0,0},new int[]{3,0,1,0,0,0,0});
+        costTest = new Pair<>(Resource.SHIELD, 4);
+        costTest2 = new Pair<>(Resource.GOLD, 4);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        requirementsTest.add(costTest2);
+        victoryPoints=12;
+        level=3;
+        color=DevelopmentCardColor.GREEN;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+
+
+
+
+
+        //41
+        addProd=new Production(new int[]{1,0,0,0,0,0,0},new int[]{0,1,0,3,0,0,0});
+        costTest = new Pair<>(Resource.SERVANT, 4);
+        costTest2 = new Pair<>(Resource.SHIELD, 4);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        requirementsTest.add(costTest2);
+        victoryPoints=12;
+        level=3;
+        color=DevelopmentCardColor.PURPLE;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+
+        //42
+        addProd=new Production(new int[]{0,1,0,0,0,0,0},new int[]{1,0,3,0,0,0,0});
+        costTest = new Pair<>(Resource.GOLD, 4);
+        costTest2 = new Pair<>(Resource.STONE, 4);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        requirementsTest.add(costTest2);
+        victoryPoints=12;
+        level=3;
+        color=DevelopmentCardColor.BLUE ;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+
+
+        //43
+        addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{0,3,0,1,0,0,0});
+        costTest = new Pair<>(Resource.STONE, 4);
+        costTest2 = new Pair<>(Resource.SERVANT, 4);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        requirementsTest.add(costTest2);
+        victoryPoints=12;
+        level=3;
+        color=DevelopmentCardColor.YELLOW ;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+
+
+        //44
+        addProd=new Production(new int[]{0,2,0,0,0,0,0},new int[]{1,0,1,1,0,0,0});
+        costTest = new Pair<>(Resource.SHIELD, 3);
+        costTest2 = new Pair<>(Resource.SERVANT, 4);
+
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        //requirementsTest.add(costTest2);
+        victoryPoints=3;
+        level=1;
+        color=DevelopmentCardColor.GREEN ;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+
+
+        //45
+        addProd=new Production(new int[]{0,0,1,0,0,0,0},new int[]{1,0,0,0,0,0,0});
+        costTest = new Pair<>(Resource.STONE, 1);
+        costTest2 = new Pair<>(Resource.SHIELD, 1);
+        costTest3 = new Pair<>(Resource.GOLD, 1);
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        requirementsTest.add(costTest2);
+        requirementsTest.add(costTest3);
+
+        victoryPoints=2;
+        level=1;
+        color=DevelopmentCardColor.YELLOW ;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+
+        //46
+        addProd=new Production(new int[]{0,1,0,0,0,0,0},new int[]{0,0,0,1,0,0,0});
+        costTest = new Pair<>(Resource.STONE, 1);
+        costTest2 = new Pair<>(Resource.SERVANT, 1);
+        costTest3 = new Pair<>(Resource.GOLD, 1);
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        requirementsTest.add(costTest2);
+        requirementsTest.add(costTest3);
+
+        victoryPoints=2;
+        level=1;
+        color=DevelopmentCardColor.BLUE ;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+
+        //47
+        addProd=new Production(new int[]{1,0,0,0,0,0,0},new int[]{0,0,1,0,0,0,0});
+        costTest = new Pair<>(Resource.SHIELD, 1);
+        costTest2 = new Pair<>(Resource.SERVANT, 1);
+        costTest3 = new Pair<>(Resource.GOLD, 1);
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        requirementsTest.add(costTest2);
+        requirementsTest.add(costTest3);
+
+        victoryPoints=2;
+        level=1;
+        color=DevelopmentCardColor.PURPLE ;
+
+        series.add(new DevelopmentCard(level, color,addProd,victoryPoints,requirementsTest));
+
+
+
+        //48
+        addProd=new Production(new int[]{1,0,0,0,0,0,0},new int[]{0,0,1,0,0,0,0});
+        costTest = new Pair<>(Resource.SHIELD, 1);
+        costTest2 = new Pair<>(Resource.SERVANT, 1);
+        costTest3 = new Pair<>(Resource.STONE, 1);
+        requirementsTest = new ArrayList<>();
+        requirementsTest.add(costTest);
+        requirementsTest.add(costTest2);
+        requirementsTest.add(costTest3);
+
+        victoryPoints=2;
+        level=1;
+        color=DevelopmentCardColor.GREEN ;
+
+        series.add(new DevelopmentCard(level, color,addProd, victoryPoints,requirementsTest));
+        Gson gsonprint= new GsonBuilder().setPrettyPrinting().create();
+        System.out.println(gsonprint.toJson(series));
+
+    }
+
     public static void leaderCardsMapSerialization(){
         Type type = (new TypeToken<Map<UUID, Leader>>() {}).getType();
         serialize("src/main/resources/config/LeadersCardMapConfig.json", Deserializator.leadersCardMapBuilder(), type, customGsonBuilder.registerTypeAdapterFactory(GsonAdapters.gsonLeaderAdapter).create());
@@ -1239,46 +2000,14 @@ public class Serializator extends JsonUtility {
 
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, IllegalAccessException, InstantiationException {
-/*
-        leaderCardsArraySerialization();
+
+
+    /*    List<DevelopmentCard> cards = Deserializator.devCardsListDeserialization();
+        cards.forEach(DevelopmentCard::fun);
+        Gson gsonprint= new GsonBuilder().setPrettyPrinting().create();
+        System.out.println(gsonprint.toJson(cards));*/
+
         devCardsAssetsMapSerialization();
-        networkLeaderCardsAssetsMapSerialization();
-
-        serializeMarbles();
-         serializeSinglePlayerStatesTransitionTable();
-        serializeMultiPlayerStatesTransitionTable();
-        cardShopSerialization();
-        serializeTokensAssets();
-        it.polimi.ingsw.client.json.Deserializator.initializeActionTokenFromConfig();
-        List<ActionTokenAsset> assets = Arrays.asList(ActionTokenAsset.values().clone());
-        int cioa= 5;
-          serializeResources();
-        leaderCardsArraySerialization();
-
-       leaderCardsArraySerialization();
-        devCardsAssetsMapSerialization();
-        networkLeaderCardsAssetsMapSerialization();
-
-
-        serializeMarblesAssets();
-
-        cardShopSerialization();
-        serializeTokensAssets();
-
-                serializeSinglePlayerStatesTransitionTable();
-        serializeMultiPlayerStatesTransitionTable();
-
-
-        Match matchDeserialized = Deserializator.deserializeMatch("/savedMatches/pa|076cc1e7-5606-4710-92a9-fd907f564b5e.json");
-                serializeSinglePlayerStatesTransitionTable();
-        serializeMultiPlayerStatesTransitionTable();
-
- */
-
-        leaderCardsArraySerialization();
-
-
-
 
     }
 }

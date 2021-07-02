@@ -228,7 +228,7 @@ public class Deserializator extends JsonUtility {
 
     public static List<NetworkDevelopmentCard> networkDevCardsListDeserialization(){
         NetworkDevelopmentCard[] cardsArray = deserializeFromSourceRoot(
-                readConfigPathString + "cardsfixed.json", NetworkDevelopmentCard[].class,
+                readConfigPathString + "prova.json", NetworkDevelopmentCard[].class,
                 customGsonBuilder.registerTypeAdapterFactory(CommonGsonAdapters.gsonNetworkLeaderAdapter)
                         .registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).create());
 

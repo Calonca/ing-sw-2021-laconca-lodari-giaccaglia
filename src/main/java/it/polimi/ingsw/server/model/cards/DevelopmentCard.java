@@ -22,7 +22,10 @@ public class DevelopmentCard
      */
     private DevelopmentCardColor cardType;
     private List<Pair<Resource,Integer>> costList;
-    private int points;
+    private int victoryPoints;
+    private Map<Integer, Integer> productionInputResources;
+    private Map<Integer, Integer> productionOutputResources;
+
     private int level;
     private UUID cardId;
     public int getLevel() {
@@ -50,15 +53,21 @@ public class DevelopmentCard
         this.production = production;
         this.level = level;
         this.cardType = cardType;
-        this.points = points;
+        this.victoryPoints = points;
         this.costList=costList;
+
+    }
+
+    public void fun(){
+        this.productionInputResources = production.getInputsMap();
+        this.productionOutputResources = production.getOutputsMap();
     }
 
     public DevelopmentCard(DevelopmentCard another) {
         this.production = another.production;
         this.level = another.level;
         this.cardType = another.cardType;
-        this.points = another.points;
+        this.victoryPoints = another.victoryPoints;
         this.costList= another.costList;
         this.cardId = another.cardId;
     }
@@ -105,8 +114,10 @@ public class DevelopmentCard
     }
 
     public int getPoints(){
-        return points;
+        return victoryPoints;
     }
+
+
 
 
 }
