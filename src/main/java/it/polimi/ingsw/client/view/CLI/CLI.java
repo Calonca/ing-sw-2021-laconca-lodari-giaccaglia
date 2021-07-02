@@ -22,8 +22,17 @@ import java.util.stream.IntStream;
 public class CLI {
 
     private final Client client;
+    /**
+     * Title is the top part of the CLI view
+     */
     private Optional<Title> title;
+    /**
+     * Subtitle is below the title
+     */
     private Optional<Title> subTitle;
+    /**
+     * Body is the main part of the CLI view
+     */
     private Optional<CLIelem> body;
 
     private String inputMessage, errorMessage;
@@ -129,14 +138,23 @@ public class CLI {
 
     public void enableTitleChanges(){ isTitleBlocked = false;}
 
+    /**
+     * @return the last digited input in the cli
+     */
     public int getLastInt() {
         return lastInt;
     }
 
+    /**
+     * @return the last digited string in the cli
+     */
     public String getLastInput() {
         return lastInput;
     }
 
+    /**
+     * Resets the cli
+     */
     public void clearScreen(){
         try {
             clearOptions(this);
@@ -145,6 +163,9 @@ public class CLI {
         }
     }
 
+    /**
+     * Removes the old cli title and body and delectes text from the terminal
+     */
     private static void clearOptions(CLI cli) throws ChangingViewBuilderBeforeTakingInput {
 
         cli.title.ifPresent(t->t.removeFromListeners(cli.client));
@@ -157,21 +178,48 @@ public class CLI {
         cli.deleteText();
     }
 
+    /**
+     * Prints the new cli
+     */
     public void show(){
         deleteText();
         display();
     }
 
+    /**
+     * Runs the provided runnable after the user presses enter
+     * @param message the message to display to the user
+     * @param r1 the runnable to run
+     */
     public void runOnInput(String message, Runnable r1){
         inputMessage = message;
         errorMessage = null;
         afterInput = r1;
     }
 
+    /**
+     * Runs the provided runnable if the user inputs a number or displays the
+     * error message and asks again for input if the input is not acceptable.
+     * @param message Shown to the user to specify the kind of input the function needs
+     * @param errorMessage Shown in case the input is not acceptable
+     * @param min The minimum accepted number
+     * @param max The maximum accepted number
+     * @param r1 The runnable to run when the input number is acceptable
+     */
     public void runOnIntInput(String message, String errorMessage, int min, int max, Runnable r1){
         runOnIntInput(message, errorMessage, min, max, r1, null);
     }
 
+    /**
+     * Runs the provided runnable if the user inputs a number, the onEnter runnable if the user inputs nothing or displays the
+     * error message and asks again for input if the input is not acceptable.
+     * @param message Shown to the user to specify the kind of input the function needs
+     * @param errorMessage Shown in case the input is not acceptable
+     * @param min The minimum accepted number
+     * @param max The maximum accepted number
+     * @param r1 The runnable to run when the input number is acceptable
+     * @param onEnter The runnable to run when the user input nothing and presses enter
+     */
     public void runOnIntInput(String message, String errorMessage, int min, int max, Runnable r1,Runnable onEnter){
 
         inputMessage = message;
@@ -212,10 +260,16 @@ public class CLI {
 
     }
 
-    public void runOnIntListInput(String message, String errorMessage, IntStream possibleValues, Runnable onInt){
-        runOnIntListInput(message, errorMessage, possibleValues, onInt,null);
-    }
-
+    /**
+     * Runs the provided runnable if the user inputs a number present in the possible values,
+     * the onEnter runnable if the user inputs nothing or displays the
+     * error message and asks again for input if the input is not acceptable.
+     * @param message Shown to the user to specify the kind of input the function needs
+     * @param errorMessage Shown in case the input is not acceptable
+     * @param possibleValues The list of the possible accepted values
+     * @param onInt The runnable to run when the input number is acceptable
+     * @param onEnter The runnable to run when the user input nothing and presses enter
+     */
     public void runOnIntListInput(String message, String errorMessage, IntStream possibleValues, Runnable onInt, Runnable onEnter){
 
         int[] supplier = possibleValues.toArray();
@@ -242,6 +296,9 @@ public class CLI {
         System.out.print(s);
     }
 
+    /**
+     * Prints the error string formatted as and error (red text)
+     */
     private void printError(String error){
         print(Color.colorString(error,Color.RED));
     }
@@ -262,23 +319,6 @@ public class CLI {
         printLine(Color.colorString(inputMessage,Color.GREEN));
     }
 
-    static void cleanConsole() {
-        final String os = System.getProperty("os.name");
-        if (os.contains("Windows")) {
-            try {
-                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            } catch (InterruptedException | IOException e) {
-                e.printStackTrace();
-            }
-        }
-        else {
-            try {
-                Runtime.getRuntime().exec("clear");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     public void putDivider(){
         printLine(
@@ -304,10 +344,17 @@ public class CLI {
         );
     }
 
+    /**
+     * Puts spaces between a cli view and the next
+     */
     public void scroll(){
         System.out.println("\n".repeat(height/10));
     }
 
+
+    /**
+     * Clears the terminal
+     */
     public void deleteText(){
         //System.out.print("\033[H\033[2J");
         //System.out.flush();
