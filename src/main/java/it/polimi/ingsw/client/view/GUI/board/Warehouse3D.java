@@ -67,7 +67,7 @@ public class Warehouse3D implements PropertyChangeListener {
     private void buildView(){
         List<Node> wareNodes = new ArrayList<>();
 
-        final double wareWidth = 500;
+        final double wareWidth = 450;
         final double lineHeight = 150;
         SimpleWarehouseLeadersDepot simpleWarehouseLeadersDepot = cache.getElem(SimpleWarehouseLeadersDepot.class).orElseThrow();
 
@@ -76,15 +76,23 @@ public class Warehouse3D implements PropertyChangeListener {
         for (Map.Entry<Integer, List<Pair<ResourceAsset, Boolean>>> line: simpleWarehouseLeadersDepot.getDepots().entrySet()){
             final int finalLineN = Math.min(lineN, 2);
             AtomicInteger nInLine = lineN>2? new AtomicInteger(-lineN-2): new AtomicInteger();
+            int finalLineN1 = lineN;
             line.getValue().forEach(e->{
                 double x  = (wareWidth/(1+line.getValue().size())*(1+nInLine.get()));
+                if (finalLineN1 >3){
+                    x-=150;
+                }
                 Point3D shift = new Point3D(x,lineHeight* finalLineN,0);
+                if (finalLineN1 >2){
+                    shift = shift.subtract(0,-50,0);
+                }
                 nInLine.getAndIncrement();
                 final int globalPos = gPos.get();
                 ResourceGUI resourceGUI = ResourceGUI.fromAsset(e.getKey());
                 Shape3D testShape = resourceGUI.generateShape();
                 testShape.setTranslateX(shift.getX());
                 testShape.setTranslateY(shift.getY());
+
                 wareNodes.add(testShape);
                 if (view3D.mode.equals(BoardView3D.Mode.MOVING_RES))
                     addToDropHandler(view3D, dropHandler, simpleWarehouseLeadersDepot, globalPos, resourceGUI, testShape);

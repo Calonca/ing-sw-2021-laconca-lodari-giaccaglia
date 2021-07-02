@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view.GUI;
 import it.polimi.ingsw.client.view.GUI.board.CamState;
 import it.polimi.ingsw.client.view.GUI.util.BoardStateController;
 import it.polimi.ingsw.client.view.GUI.util.ModelImporter;
+import it.polimi.ingsw.server.model.player.Player;
 import javafx.application.Platform;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
@@ -107,6 +108,7 @@ public class Playground {
 
     public static void changeCamState(CamState state){
         Playground p = getPlayground();
+        p.camState = state;
         p.camState.animateToState(state);
     }
 
@@ -169,8 +171,8 @@ public class Playground {
         refreshMarket();
         refreshCardShop();
 
+        Playground.changeCamState(CamState.TOP);
         return scene;
-
     }
 
     public BoardView3D getBoard(int i){
@@ -196,12 +198,6 @@ public class Playground {
         final int thisPlayerIndex = getCommonData().getThisPlayerIndex();
         return getPlayground().boards.getOrDefault(thisPlayerIndex,getPlayground().boards.get(0));
     }
-
-
-    public static void setCamState(CamState camState) {
-        getPlayground().camState = camState;
-    }
-
 
 }
 

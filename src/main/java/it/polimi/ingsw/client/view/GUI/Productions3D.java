@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.view.GUI.util.CardSelector;
 import it.polimi.ingsw.client.view.GUI.util.NodeAdder;
 import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ProductionViewBuilder;
+import it.polimi.ingsw.network.assets.CardAsset;
 import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
@@ -116,6 +117,7 @@ public class Productions3D implements PropertyChangeListener {
             rectangle.setLayoutX(400 + 250 * key);
             rectangle.setLayoutY(0);
             rectangle.setOnMouseClicked(p -> {
+                System.out.println("Card id is: "+value.map(CardAsset::getCardId));
                 if (mode.equals(BoardView3D.Mode.CHOOSE_POS_FOR_CARD) && (true || simpleCardCells.isSpotAvailable(key))) {
                     CardShopViewBuilder.sendCardPlacementPosition(key);
                 } else if (mode.equals(BoardView3D.Mode.CHOOSE_PRODUCTION) && ( true || simpleCardCells.isProductionAtPositionAvailable(key).orElse(false)))
