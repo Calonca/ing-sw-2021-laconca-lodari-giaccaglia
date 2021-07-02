@@ -11,7 +11,6 @@ import java.util.Optional;
 public class ToggleProductionAtPosition extends it.polimi.ingsw.network.messages.clienttoserver.events.productionevent.ToggleProductionAtPosition implements Validable {
 
     private transient PersonalBoard currentPlayerPersonalBoard;
-    private transient Production selectedProduction;
 
     /**
      * Server-side initializer to setup common attributes among {@link State#MIDDLE_PHASE MIDDLE_PHASE}
@@ -37,12 +36,10 @@ public class ToggleProductionAtPosition extends it.polimi.ingsw.network.messages
     private boolean checkProductionType(){
         Optional<Production> optOfSelectedProduction = currentPlayerPersonalBoard.getProductionFromPosition(productionPosition);
         if (optOfSelectedProduction.isPresent()) {
-            selectedProduction = optOfSelectedProduction.get();
-            return true;
+            return !currentPlayerPersonalBoard.getSelectedProduction()[productionPosition];
         }
         return false;
     }
-
 
     private boolean validateProductionRequirements(){
     return currentPlayerPersonalBoard.getAvailableProductions()[productionPosition];
@@ -51,6 +48,7 @@ public class ToggleProductionAtPosition extends it.polimi.ingsw.network.messages
     public int getProductionPosition(){
         return productionPosition;
     }
+
 
 
 
