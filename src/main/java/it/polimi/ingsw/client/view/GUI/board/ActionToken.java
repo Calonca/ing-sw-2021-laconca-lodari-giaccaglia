@@ -26,9 +26,13 @@ public class ActionToken implements PropertyChangeListener {
     Group tokenGroup = null;
 
     public void actionTokenBuilder(BoardView3D view3D){
-        if (tokenGroup==null)
+        if (tokenGroup==null) {
             tokenGroup = new Group();
-            NodeAdder.addNodeToParent(view3D.parent, view3D.boardRec, tokenGroup, new Point3D(70,70,-10));
+            NodeAdder.addNodeToParent(view3D.parent, view3D.boardRec, tokenGroup, new Point3D(70, 70, -10));
+            SimpleSoloActionToken actionToken = getSimpleModel().getPlayerCache(0).getElem(SimpleSoloActionToken.class).orElseThrow();
+            setActionToken(actionToken);
+
+        }
 
     }
 
@@ -40,17 +44,27 @@ public class ActionToken implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(SimpleSoloActionToken.class.getSimpleName())){
             SimpleSoloActionToken actionToken =  (SimpleSoloActionToken) evt.getNewValue();
-            if (getSimpleModel().getPlayersCaches().length==1)
-            {
-                ActionTokenAsset tokenAsset = actionToken.getSoloActionToken();
+            setActionToken(actionToken);
+            Playground.refreshCardShop();
 
-                Rectangle actionTokenRectangle=new Rectangle(200,200);
-                System.out.println(tokenAsset.getFrontPath().toString().replace("\\","/"));
-                actionTokenRectangle.setFill(new ImagePattern(new Image(tokenAsset.getFrontPath().toString().replace("\\","/"))));
-                tokenGroup.getChildren().setAll(actionTokenRectangle);
-                if (tokenAsset.isDiscardingCard())
-                    Playground.refreshCardShop();
-            }
         }
     }
+
+
+    public void setActionToken(SimpleSoloActionToken actionToken){
+        if (getSimpleModel().getPlayersCaches().length==1)
+        {
+            ActionTokenAsset tokenAsset = actionToken.getSoloActionToken();
+
+            Rectangle actionTokenRectangle=new Rectangle(200,200);
+            System.out.println(tokenAsset.getFrontPath().toString().replace("\\","/"));
+            actionTokenRectangle.setFill(new ImagePattern(new Image(tokenAsset.getFrontPath().toString().replace("\\","/"))));
+            tokenGroup.getChildren().setAll(actionTokenRectangle);
+            Playground.refreshCardShop();
+
+
+        }
+    }
+
+
 }
