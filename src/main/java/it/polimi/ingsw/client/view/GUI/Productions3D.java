@@ -88,6 +88,9 @@ public class Productions3D implements PropertyChangeListener {
         productionButton.setOnAction(e -> {
             if (mode.equals(BoardView3D.Mode.CHOOSE_PRODUCTION))
                 ProductionViewBuilder.sendProduce();
+            System.out.println(cache.getCurrentState());
+            productionButton.setOpacity(0);
+            basicButton.setOpacity(0);
         });
 
 
@@ -173,7 +176,7 @@ public class Productions3D implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         //Event is a state
-        if (evt.getPropertyName().equals(evt.getNewValue()))
+        if (evt.getPropertyName().equals(evt.getNewValue())&&view3D.mode.equals(BoardView3D.Mode.BACKGROUND))
             Platform.runLater(this::updateProds);
     }
 }

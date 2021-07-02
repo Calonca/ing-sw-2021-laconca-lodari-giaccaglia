@@ -128,7 +128,7 @@ public class SetupPhaseGUI extends SetupPhaseViewBuilder implements GUIView {
      * @return the corresponding List of ImageViews
      */
     public List<ImageView> getSetupLeaderIcons() {
-        SimplePlayerLeaders simplePlayerLeaders = getSimpleModel().getPlayerCache(getClient().getCommonData().getThisPlayerIndex()).getElem(SimplePlayerLeaders.class).orElseThrow();
+        SimplePlayerLeaders simplePlayerLeaders = getSimpleModel().getPlayerCache(CommonData.getThisPlayerIndex()).getElem(SimplePlayerLeaders.class).orElseThrow();
         List<LeaderCardAsset> leaderCardAssets=simplePlayerLeaders.getPlayerLeaders();
         List<ImageView> resultList=new ArrayList<>();
 
@@ -149,7 +149,7 @@ public class SetupPhaseGUI extends SetupPhaseViewBuilder implements GUIView {
      * service method
      * @return a button according to parameters
      */
-    public Button validationButton()
+    public Button getValidationButton()
     {
         Button confirm=new Button();
         confirm.setText("CONFIRM");
@@ -312,7 +312,7 @@ public class SetupPhaseGUI extends SetupPhaseViewBuilder implements GUIView {
         }
 
 
-        setupAnchor.getChildren().add(validationButton());
+        setupAnchor.getChildren().add(getValidationButton());
         setupAnchor.setId("background3");
         getClient().getStage().show();
 
