@@ -233,12 +233,12 @@ public class SessionController {
                     });
                     */
 
-                      /*  for (UUID uuid : sessionController.matches.keySet()) {
+                      for (UUID uuid : sessionController.matches.keySet()) {
 
                             if (sessionController.checkGameTimeout(uuid))
                                 sessionController.deleteGame(uuid);
 
-                        } */
+                        }
                     }
 
                 } catch (InterruptedException e) {

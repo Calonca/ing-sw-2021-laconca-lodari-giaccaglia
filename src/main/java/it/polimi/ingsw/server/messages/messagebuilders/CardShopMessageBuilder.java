@@ -127,7 +127,11 @@ public class CardShopMessageBuilder {
     }
 
     private static boolean checkCardRequirements(GameModel gameModel, DevelopmentCard card, int playerIndex){
-        return gameModel.getPlayer(playerIndex).get().getPersonalBoard().areDevCardRequirementsSatisfied(card);
+
+        if(gameModel.getPlayer(playerIndex).isPresent())
+            return gameModel.getPlayer(playerIndex).get().getPersonalBoard().areDevCardRequirementsSatisfied(card);
+        else
+            return false;
 
     }
 }

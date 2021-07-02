@@ -340,10 +340,12 @@ public class PersonalBoardBody extends CLIelem {
     public Row productionsBuilder(SimpleCardCells simpleCardCells){
 
         Option basicProdOption = buildBasicProduction(simpleCardCells);
+
         Stream<Option> leaderProdsList = simpleCardCells.getActiveProductionLeaders().size()>0 ? buildLeaderProductionsList(simpleCardCells) : Stream.empty();
         Stream<Option> normalProdsList = buildNormalProductionsList(simpleCardCells);
 
         return new Row(Stream.concat(Stream.concat(Stream.ofNullable(basicProdOption),leaderProdsList) , normalProdsList));
+
     }
 
     private Stream<Option> buildNormalProductionsList(SimpleCardCells simpleCardCells){

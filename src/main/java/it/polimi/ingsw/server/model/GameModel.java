@@ -289,7 +289,7 @@ public class GameModel {
      * @return <em>numberOfPlayerSendingEvent</em> associated with the Player if present, otherwise -1;
      */
     public int getPlayerIndex(Player player){
-        return Util.getKeyByValue(players, player).orElse(-1);
+        return Util.getKeyByValue(players, player).orElse(0);
     }
 
     public List<UUID> getRemainingLeadersUUIDs (){
@@ -730,7 +730,7 @@ public class GameModel {
 
     //updates player with inkwell by giving it to the previous player to the current following counterclockwise order
     public void updateIndexOfPlayerWithInkWell(){
-        indexOfPlayerWithInkWell = getPlayerIndex(getNextPlayer().get());
+        indexOfPlayerWithInkWell = getPlayerIndex(getNextPlayer().orElse(players.get(0)));
     }
 
 }
