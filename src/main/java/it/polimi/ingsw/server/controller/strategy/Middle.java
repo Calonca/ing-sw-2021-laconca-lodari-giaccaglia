@@ -30,8 +30,10 @@ public class Middle implements GameStrategy {
         if(msg==0)
             return new Pair<>(State.CHOOSING_MARKET_LINE, elementsToUpdate);
 
-        else if(msg==1)
-            return new Pair<>(State.CHOOSING_DEVELOPMENT_CARD, elementsToUpdate);
+        else if(msg==1) {
+            elementsToUpdate.add(Element.SimpleCardShop);
+            return new Pair<>(State.CHOOSING_DEVELOPMENT_CARD , elementsToUpdate);
+        }
 
         else
             return new Pair<>(State.CHOOSING_PRODUCTION, elementsToUpdate);

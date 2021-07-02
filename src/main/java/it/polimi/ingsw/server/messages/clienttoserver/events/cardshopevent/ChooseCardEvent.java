@@ -73,6 +73,9 @@ public class ChooseCardEvent extends it.polimi.ingsw.network.messages.clienttose
     @Override
     public boolean validate(GameModel gameModel) {
         initializeMiddlePhaseEventValidation(gameModel);
+        if(gameModel.getCardShop().isDeckEmpty(DevelopmentCardColor.fromInt(cardColorNumber), cardLevel))
+            return false;
+
         DevelopmentCard cardToPurchase = gameModel.getCardShop().getCopyOfCardOnTop(DevelopmentCardColor.fromInt(cardColorNumber), cardLevel);
         return isGameStarted(gameModel) && validateLevel() && validateColor() && isCardAvailable() && validateDevCardRequirements(cardToPurchase);
     }
