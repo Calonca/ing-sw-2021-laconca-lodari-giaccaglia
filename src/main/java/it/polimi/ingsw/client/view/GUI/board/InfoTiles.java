@@ -22,7 +22,9 @@ import java.util.List;
 
 import static it.polimi.ingsw.client.view.abstractview.ViewBuilder.getSimpleModel;
 
-
+/**
+ * Contains faith track tiles and player info tiles
+ */
 public class InfoTiles implements PropertyChangeListener {
 
 
