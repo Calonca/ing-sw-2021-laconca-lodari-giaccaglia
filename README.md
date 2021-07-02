@@ -6,7 +6,7 @@ Prof: Pierluigi San Pietro
 #### Group: SP10
 
 #### Students:
-* Giaccaglia Pablo
+* Giaccaglia Pablo 913542
 * Laconca Alessandro
 * Lodari Gianmarco 907448
 
@@ -71,6 +71,5 @@ Modes:
   implemented are stable in all cases.
 
 * Clicking repeatedly during the drag and drop action may cause issues.
-
 
 * All the unit test have been run before each commit
