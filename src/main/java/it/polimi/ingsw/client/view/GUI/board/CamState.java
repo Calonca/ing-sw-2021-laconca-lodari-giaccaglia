@@ -15,12 +15,12 @@ import javafx.util.Duration;
 public enum CamState {
     TOP(new Point3D(0,-300,-900),new Point3D(0,0,0)),
     LOOK_AT_OTHERS(new Point3D(-500,5000,-3500),new Point3D(75,0,0)),
-    LOOK_AT_SECOND(new Point3D(0,0,-2000),new Point3D(0,0,270)),
-    LOOK_AT_THIRD(new Point3D(0,0,-2000),new Point3D(0,0,180)),
-    LOOK_AT_FOURTH(new Point3D(0,0,-2000),new Point3D(0,0,90)),
+    LOOK_AT_SECOND(new Point3D(0,0,-1000),new Point3D(0,0,270)),
+    LOOK_AT_THIRD(new Point3D(0,0,-1000),new Point3D(0,0,180)),
+    LOOK_AT_FOURTH(new Point3D(0,0,-1000),new Point3D(0,0,90)),
     SEE_SHOP_MARKET(new Point3D(-400,-500,-900),new Point3D(40,0,0)),
     SEE_SHOP(new Point3D(-1000,300,-1700),new Point3D(45,0,0)),
-    SELECT_CARD_SHOP(new Point3D(-200,0,-600),new Point3D(0,0,0)),
+    SELECT_CARD_SHOP(new Point3D(-200,0,-800),new Point3D(0,0,0)),
     SEE_RESOURCE_MARKET(new Point3D(0,300,-1700),new Point3D(45,0,0));
 
 
@@ -120,7 +120,6 @@ public enum CamState {
         }
     }
 
-    private boolean animationInPlaying=false;
     public void animateToState(CamState nextState) {
         if (nextState==null)
             return;
@@ -153,9 +152,15 @@ public enum CamState {
                         new KeyValue(rotateCam3.angleProperty(), (nextState.getRot().getZ()==0&&getRot().getZ()>180)?360:nextState.getRot().getZ(),Interpolator.EASE_BOTH)
                 )
         );
-        animationInPlaying= true;
         timeline.play();
-        timeline.setOnFinished(e->animationInPlaying=false);
+
+        timeline.setOnFinished(e-> {
+                if (rotateCam3.getAngle()==360){
+                    rotateCam3.setAngle(0);
+                    camera.getTransforms().set(2,rotateCam3);}
+                Playground.getPlayground().setCamState(nextState);
+            }
+        );
         camera.getTransforms().setAll(t,rotateCam1,rotateCam3);
     }
 }

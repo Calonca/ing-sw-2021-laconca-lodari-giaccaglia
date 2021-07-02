@@ -108,8 +108,11 @@ public class Playground {
 
     public static void changeCamState(CamState state){
         Playground p = getPlayground();
-        p.camState = state;
         p.camState.animateToState(state);
+    }
+
+    public void setCamState(CamState camState) {
+        this.camState = camState;
     }
 
     public SubScene getRoot() {
