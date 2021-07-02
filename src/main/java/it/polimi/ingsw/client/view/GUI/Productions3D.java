@@ -5,12 +5,10 @@ import it.polimi.ingsw.client.view.GUI.util.CardSelector;
 import it.polimi.ingsw.client.view.GUI.util.NodeAdder;
 import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.ProductionViewBuilder;
-import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
+import it.polimi.ingsw.network.assets.CardAsset;
 import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
 import it.polimi.ingsw.network.jsonUtils.JsonUtility;
-import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
-import it.polimi.ingsw.network.messages.clienttoserver.events.productionevent.FinalProductionPhaseEvent;
 import it.polimi.ingsw.network.simplemodel.SimpleCardCells;
 import javafx.application.Platform;
 import javafx.geometry.Point3D;
@@ -119,10 +117,11 @@ public class Productions3D implements PropertyChangeListener {
             rectangle.setLayoutX(400 + 250 * key);
             rectangle.setLayoutY(0);
             rectangle.setOnMouseClicked(p -> {
-                if (mode.equals(BoardView3D.Mode.CHOOSE_POS_FOR_CARD) && simpleCardCells.isSpotAvailable(key)) {
+                System.out.println("Card id is: "+value.map(CardAsset::getCardId));
+                if (mode.equals(BoardView3D.Mode.CHOOSE_POS_FOR_CARD) && (true || simpleCardCells.isSpotAvailable(key))) {
                     CardShopViewBuilder.sendCardPlacementPosition(key);
-                } else if (mode.equals(BoardView3D.Mode.CHOOSE_PRODUCTION) && simpleCardCells.isProductionAtPositionAvailable(key).orElse(false))
-                        ProductionViewBuilder.sendChosenProduction(key);
+                } else if (mode.equals(BoardView3D.Mode.CHOOSE_PRODUCTION) && ( true || simpleCardCells.isProductionAtPositionAvailable(key).orElse(false)))
+                    ProductionViewBuilder.sendChosenProduction(key);
             });
             rectangle.setFill(tempImage);
 
@@ -130,17 +129,26 @@ public class Productions3D implements PropertyChangeListener {
             NodeAdder.shiftAndAddToList(prodList, rectangle, new Point3D(20 + 220 * key, 700, -20));
         }
 
-        Collection<LeaderCardAsset> activeBonus = simpleCardCells.getActiveProductionLeaders().values();
-        Rectangle temp;
-        for (LeaderCardAsset bonus : activeBonus) {
+         Map<Integer,LeaderCardAsset> activeBonus = simpleCardCells.getActiveProductionLeaders();
+
+        activeBonus.forEach((key, value) -> {
+            Rectangle temp;
             int count = 0;
             temp = new Rectangle(462, 698);
             temp.setTranslateY(250);
             temp.setLayoutX(400 + 750 + 250 * (count + 1));
 
-            temp.setFill(CardSelector.imagePatternFromAsset(bonus.getCardPaths().getKey()));
+            temp.setFill(CardSelector.imagePatternFromAsset(value.getCardPaths().getKey()));
+
+            temp.setOnMouseClicked(p -> {
+                if (mode.equals(BoardView3D.Mode.CHOOSE_POS_FOR_CARD) && (true || simpleCardCells.isSpotAvailable(key))) {
+                    CardShopViewBuilder.sendCardPlacementPosition(key);
+                } else if (mode.equals(BoardView3D.Mode.CHOOSE_PRODUCTION) && (true || simpleCardCells.isProductionAtPositionAvailable(key).orElse(false)))
+                    ProductionViewBuilder.sendChosenProduction(key);
+            });
             NodeAdder.shiftAndAddToList(prodList, temp, new Point3D(680 + 220 * (count + 1), 700, -20));
-        }
+        });
+
         prodGroup.getChildren().setAll(prodList);
     }
 
@@ -165,7 +173,7 @@ public class Productions3D implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         //Event is a state
-        if (evt.getPropertyName().equals(evt.getNewValue())&&view3D.mode.equals(BoardView3D.Mode.BACKGROUND))
+        if (evt.getPropertyName().equals(evt.getNewValue()))
             Platform.runLater(this::updateProds);
     }
 }
