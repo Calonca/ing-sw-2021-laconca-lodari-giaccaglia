@@ -18,6 +18,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * This method adds a subscene which lets the player create a match, proposing a selection
+ */
 public class CreateMatchGUI extends CreateJoinLoadMatchViewBuilder implements GUIView {
 
 
@@ -84,35 +87,6 @@ public class CreateMatchGUI extends CreateJoinLoadMatchViewBuilder implements GU
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-      /*  a=new Button();
-        a.setLayoutX((2*width)/3);
-        a.setLayoutY((2*len)/3);
-        a.setGraphic(new Text("1"));
-        createPane.getChildren().add(a);
-        bindCreateButton(a,1);
-
-
-        b=new Button();
-        b.setLayoutX((2*width)/3);
-        b.setLayoutY((len)/3);
-        b.setGraphic(new Text("2"));
-        createPane.getChildren().add(b);
-        bindCreateButton(b,2);
-
-
-        c=new Button();
-        c.setLayoutX((width)/3);
-        c.setLayoutY((len)/3);
-        c.setGraphic(new Text("3"));
-        createPane.getChildren().add(c);
-        bindCreateButton(c,3);
-
-
-        d=new Button();
-        d.setLayoutX((width)/3);
-        d.setLayoutY((2*len)/3);
-        d.setGraphic(new Text("4"));
-        createPane.getChildren().add(d);*/
         bindCreateButton(a,1);
         bindCreateButton(b,2);
         bindCreateButton(c,3);

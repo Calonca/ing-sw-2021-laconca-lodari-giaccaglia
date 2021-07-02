@@ -46,6 +46,10 @@ public class CreateJoinLoadMatchGUI extends CreateJoinLoadMatchViewBuilder imple
     public double tileWidth=(-100+width)/(maxcolumn+1);
     public double tileheight=len/7;
 
+
+    /**
+     * Private class used as an adaptor to convert matchesData
+     */
     public static class MatchRow {
         Map.Entry<UUID, Pair<String[], String[]>> uuidPair;
         boolean isSaved;

@@ -33,7 +33,7 @@ public class ActionToken implements PropertyChangeListener {
     }
 
     /**
-     * This method updates the information regarding the Vatican event and Faith track in real time
+     * This method updates the information regarding the Action token
      * @param evt is not null
      */
     @Override

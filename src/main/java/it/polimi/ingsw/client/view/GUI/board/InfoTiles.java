@@ -36,7 +36,7 @@ public class InfoTiles implements PropertyChangeListener {
     private PlayerCache cache;
 
     /**
-     * This method adds the infoGroup to the Board 3D for future updates
+     * This method adds the infoGroup to the Board 3D for future updates, and preloads the faith track images
      * @param view3D is the Board 3D
      * @param parent is the Board 3D main group
      * @param board is the Board 3D image rectangle

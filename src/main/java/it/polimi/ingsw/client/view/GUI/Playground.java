@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.GUI;
 
+import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.view.GUI.board.CamState;
 import it.polimi.ingsw.client.view.GUI.util.BoardStateController;
 import it.polimi.ingsw.client.view.GUI.util.ModelImporter;
@@ -61,7 +62,14 @@ public class Playground {
         return tableCenter;
     }
 
+
+    /**
+     * Method used to refresh card shop
+     */
     public static void refreshCardShop() {
+
+        if(getClient().getCommonData().getCurrentPlayerIndex() != CommonData.getThisPlayerIndex())
+            return;
         Playground p = getPlayground();
         System.out.println("REFRESHING CARD SHOP");
         if(p.cardShop!=null)
@@ -72,6 +80,9 @@ public class Playground {
         p.root.getChildren().add(cardShop);
     }
 
+    /**
+     * Method used to refresh card shop
+     */
     public static void refreshMarket() {
         Playground p = getPlayground();
         System.out.println("REFRESHING MARKET");
@@ -95,6 +106,9 @@ public class Playground {
 
     }
 
+    /**
+     * Method used to bootstrap the GUI
+     */
     private synchronized void runforStart() {
         if (!active)
         {
@@ -106,6 +120,10 @@ public class Playground {
         }
     }
 
+    /**
+     * This method is connected to the camera state machine
+     * @param state is the next camera state
+     */
     public static void changeCamState(CamState state){
         Playground p = getPlayground();
         p.camState.animateToState(state);
@@ -115,6 +133,10 @@ public class Playground {
         this.camState = camState;
     }
 
+
+    /**
+     * @return the main board scene, constructin all the game element representations
+     */
     public SubScene getRoot() {
 
         PerspectiveCamera camera = new PerspectiveCamera();
@@ -186,6 +208,11 @@ public class Playground {
         return controller;
     }
 
+    /**
+     * Helper method used to add nodes
+     * @param shape is the shape to add
+     * @param shift is the starting point
+     */
     public static void addNodeToThisPlayer(Node shape, Point3D shift){
         Point3D boardTopLeft = getThisPlayerBoard().parent.localToParent(new Point3D(0,0,0));
         shape.setTranslateX(boardTopLeft.getX()+shift.getX());
