@@ -91,7 +91,7 @@ public class Box3D implements PropertyChangeListener {
             boolean finalIsSelectable = isSelectable;
             int finalAddedLines = addedLines;
             shape.setOnMousePressed((u)->{
-                if (toSelect!=null) {
+                if (toSelect!=null && finalIsSelectable) {
                     if (toSelect.choosingInput())
                         view3D.getToSelect().setNextInputPos(gPos, line.getValue().getKey());
                     else view3D.getToSelect().setNextInputPos(0, line.getValue().getKey());

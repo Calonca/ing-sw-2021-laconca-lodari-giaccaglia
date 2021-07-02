@@ -129,7 +129,7 @@ public class Warehouse3D implements PropertyChangeListener {
                 boolean isSelectable = selectedPositionsMap.getOrDefault(globalPos, 0) > 0;
                 ResourceGUI.setColor(resourceGUI, testShape, toSelect.getChosenInputPos().contains(globalPos), isSelectable);
                 testShape.setOnMousePressed((u) -> {
-                    if (true) {
+                    if (isSelectable) {
                         toSelect.setNextInputPos(globalPos, e.getKey());
                         updateSelected();
                         view3D.getStrongBox().updateStrongBox();
