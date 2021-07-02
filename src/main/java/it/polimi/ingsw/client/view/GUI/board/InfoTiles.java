@@ -103,33 +103,37 @@ public class InfoTiles implements PropertyChangeListener {
         text.setLayoutX(50);
         text.setLayoutY(50);
         anchor.getChildren().add(text);
+        text.setStyle("-fx-font-size: 20;");
 
-        anchor.setMinSize(200,200);
+        anchor.setMinSize(400,200);
 
         if(playerInfo.isOnline())
-            text=new Text("STATUS:  "+state);
+            text=new Text("STATE:  "+state);
         else
-            text=new Text("STATUS: OFFLINE");
+            text=new Text("STATE: OFFLINE");
         text.setLayoutX(50);
         text.setLayoutY(20);
-
+        text.setStyle("-fx-font-size: 20;");
         anchor.getChildren().add(text);
 
         text=new Text("FAITH:  " + playerInfo.getCurrentPosition());
         text.setLayoutX(50);
         text.setLayoutY(110);
+        text.setStyle("-fx-font-size: 20;");
 
         anchor.getChildren().add(text);
 
         text=new Text("PLAYER INDEX:  " + playerInfo.getPlayerIndex());
         text.setLayoutX(50);
         text.setLayoutY(80);
+        text.setStyle("-fx-font-size: 20;");
 
         anchor.getChildren().add(text);
 
         text=new Text("VICTORY POINTS:  " + playerInfo.getCurrentVictoryPoints());
         text.setLayoutX(50);
         text.setLayoutY(150);
+        text.setStyle("-fx-font-size: 20;");
 
 
 
@@ -184,7 +188,7 @@ public class InfoTiles implements PropertyChangeListener {
 
                 for(int i=0;i<playersInfo.getSimplePlayerInfoMap().size();i++)
                 {
-                        NodeAdder.addNodeToParent(infoGroup, infoGroup,playerStatsTile(playersInfo.getSimplePlayerInfoMap().get(i),getSimpleModel().getPlayerCache(i).getCurrentState()),new Point3D(-400,210*i,1100));
+                        NodeAdder.addNodeToParent(infoGroup, infoGroup,playerStatsTile(playersInfo.getSimplePlayerInfoMap().get(i),getSimpleModel().getPlayerCache(i).getCurrentState()),new Point3D(-675,210*i,1450));
 
                 }
 

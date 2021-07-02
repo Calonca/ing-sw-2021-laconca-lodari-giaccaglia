@@ -69,7 +69,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
     double leadersTranslateX=-200;
     double leadersTranslateY=350;
 
-    double buttonsTranslateX=-100;
+    double buttonsTranslateX=-150;
     double buttonsTranslateY=550;
     public List<List<Sphere>> rows=new ArrayList<>();
     public List<List<Sphere>> columns=new ArrayList<>();
@@ -170,7 +170,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
 
 
         toPut.setMaterial(new PhongMaterial(colors.get(getSimpleMarketBoard().getSlideMarble().ordinal())));
-        generateRow(rows,columnButtonOffset);
+        generateRow(rows,columnButtonOffset+100);
 
 
         MarbleAsset[][] marketMatrix=getMarketMatrix();
@@ -238,8 +238,8 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
         }
 
         Button button=new Button();
-        button.setTranslateX(columnButtonX);
-        button.setTranslateZ(-100);
+        button.setTranslateX(columnButtonX+150);
+        button.setTranslateZ(-10);
 
         button.setTranslateY(- columnButtonY+100*buttonIndexY);
         button.setGraphic(new Text(Integer.toString(7 -1-buttonIndexY)));
@@ -307,7 +307,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
 
             setBut(button,i);
             buttons.getChildren().add(button);
-            button.setTranslateZ(-100);
+            button.setTranslateZ(-10);
 
 
             ArrayList<Sphere> column= new ArrayList<>();
@@ -419,7 +419,7 @@ public class ResourceMarketGUI extends ResourceMarketViewBuilder {
 
             res.get((toChoose.get(finalI).getResourceNumber())).setLayoutX(-bonusStartingX+200*finalI);
             res.get((toChoose.get(finalI).getResourceNumber())).setLayoutY(bonusY);
-            res.get((toChoose.get(finalI).getResourceNumber())).setTranslateZ(-100);
+            res.get((toChoose.get(finalI).getResourceNumber())).setTranslateZ(-10);
 
             resourceGroup.getChildren().add(res.get((toChoose.get(finalI).getResourceNumber())));
             res.get(toChoose.get(i).getResourceNumber()).setOnMouseClicked(p->
