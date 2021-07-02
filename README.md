@@ -48,7 +48,7 @@ Modes:
                   without arguments it will let you choose them later
   -g,--gui        Starts the GUI and connects to server with port, ip and nickname
                   without arguments it will let you choose them later
-  -s,--server     Starts server with portoose them later");
+  -s,--server     Starts server with port.
 ```
 
 5. If you want to run the server, use the -s or the --server argument, along with the desired TCP port. You will be asked to insert a TCP port if it's not in the argument
