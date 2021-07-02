@@ -165,16 +165,17 @@ public class SetupPhaseGUI extends SetupPhaseViewBuilder implements GUIView {
                 if(selectedLeaders.get(i))
                     event.addChosenLeader(leadersUUIDs.get(i));
 
-            System.out.println(resToChoose);
-
-            if (resToChoose>0)
+            if (resToChoose>0 && resourceSelector.getChosenOutputRes().size()>0)
                 event.addResource(new Pair<>(0,resourceSelector.getChosenOutputRes().get(0)));
-            if (resToChoose>1)
+            if (resToChoose>1 && resourceSelector.getChosenOutputRes().size()>1)
                 event.addResource(new Pair<>(1,resourceSelector.getChosenOutputRes().get(1)));
 
             System.out.println(JsonUtility.serialize(event));
-            setupAnchor.getChildren().clear();
-            getClient().getServerHandler().sendCommandMessage(new EventMessage(event));
+
+           if (resourceSelector.getChosenOutputRes().size()==resToChoose) {
+               setupAnchor.getChildren().clear();
+               getClient().getServerHandler().sendCommandMessage(new EventMessage(event));
+           }
 
         });
         return confirm;
