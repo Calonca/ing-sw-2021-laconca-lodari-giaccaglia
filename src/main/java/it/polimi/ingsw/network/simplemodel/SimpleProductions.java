@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 
 public class SimpleProductions extends SimpleModelElement{
 
-//             position          production
+//              position      production
     private Map<Integer, SimpleProduction> availableProductions;
 
     private int lastSelectedProductionPosition;
@@ -29,6 +29,10 @@ public class SimpleProductions extends SimpleModelElement{
        this.availableProductions = serverElement.availableProductions;
        this.lastSelectedProductionPosition = serverElement.lastSelectedProductionPosition;
 
+    }
+
+    public int getIndexOfLastProduction(){
+        return availableProductions.keySet().stream().mapToInt(i -> i).max().getAsInt();
     }
 
     public boolean isAnyProductionAvailable(){
@@ -113,28 +117,12 @@ public class SimpleProductions extends SimpleModelElement{
                     .flatMap(p -> Stream.generate(p::getKey).limit(p.getValue()))
                     .collect(Collectors.toList());}
 
-        public int getResourceInputQuantity(int resourceNumber){
-
-            if(ResourceAsset.fromInt(resourceNumber).equals(ResourceAsset.EMPTY))
-                return 0;
-
-            return inputResources.get(resourceNumber);
-        }
-
         public Map<ResourceAsset, Integer> getOutputResources() {
 
             return outputResources.entrySet().stream().collect(Collectors.toMap(
                     entry -> ResourceAsset.fromInt(entry.getKey()),
                     Map.Entry::getValue
             ));
-        }
-
-        public int getResourceOutputQuantity(int resourceNumber){
-
-            if(ResourceAsset.fromInt(resourceNumber).equals(ResourceAsset.EMPTY))
-                return 0;
-
-            return outputResources.get(resourceNumber);
         }
 
         public boolean isAvailable(){
@@ -144,22 +132,6 @@ public class SimpleProductions extends SimpleModelElement{
         public boolean isSelected(){
             return isSelected;
         }
-
-        public boolean choicesCanBeMadeOnInput(){
-
-            return inputResources.keySet()
-                    .stream()
-                    .anyMatch(resourceInt -> resourceInt.equals(ResourceAsset.TO_CHOOSE.getResourceNumber()));
-        }
-
-        public boolean choicesCanBeMadeOnOutput(){
-
-            return outputResources.keySet()
-                    .stream()
-                    .anyMatch(resourceInt -> resourceInt.equals(ResourceAsset.TO_CHOOSE.getResourceNumber()));
-
-        }
-
     }
 
 }

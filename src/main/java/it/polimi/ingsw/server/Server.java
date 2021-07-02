@@ -20,7 +20,7 @@ public class Server
     /**
      * Timeout for the socket.
      */
-    public static final int SOCKET_TIMEOUT_S = 20;
+    public static final int SOCKET_TIMEOUT_S = 2000;
 
     /**
      * Main Server loop

@@ -173,7 +173,12 @@ public class ClientHandler implements Runnable
      */
     public void sendAnswerMessage(ServerToClientMessage answerMsg) throws IOException
     {
-        output.writeObject(answerMsg.serialized());
+        try {
+            output.writeObject(answerMsg.serialized());
+        } catch (IOException e){ //thrown when 2 or more players disconnects simultaneously and this method is called before updating online clients;
+
+    }
+
     }
 
     private void stopPing(){

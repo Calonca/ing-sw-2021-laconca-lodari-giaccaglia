@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.view.abstractview;
 
-import it.polimi.ingsw.client.view.CLI.CardShopCLI;
+import it.polimi.ingsw.client.view.CLI.middle.MiddleCardShopCLI;
 import it.polimi.ingsw.client.view.GUI.CardShopGUI;
 import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.events.cardshopevent.ChooseCardEvent;
@@ -18,31 +18,16 @@ public abstract class CardShopViewBuilder extends ViewBuilder{
 
     public static boolean viewing;
 
-    public static boolean isIdlePhase;
-
     /**
      * Method to initialize the viewBuilder
      * @param viewing represents the card shop state
      */
     public CardShopViewBuilder(boolean viewing) {
         CardShopViewBuilder.viewing = viewing;
-        isIdlePhase = false;
     }
-
-
-    /**
-     *
-     * @param viewing represents the card shop state
-     * @param isIdle represents the player state
-     */
-    public CardShopViewBuilder(boolean viewing, boolean isIdle){
-        CardShopViewBuilder.viewing = viewing;
-        isIdlePhase = isIdle;
-    }
-
 
     public static ViewBuilder getBuilder(boolean isCLI, boolean viewing) {
-        if (isCLI) return new CardShopCLI(viewing);
+        if (isCLI) return new MiddleCardShopCLI(viewing);
         else return new CardShopGUI(viewing);
     }
 
@@ -60,7 +45,7 @@ public abstract class CardShopViewBuilder extends ViewBuilder{
      * @param cardColor represents a valid development card color
      * @param cardLevel is a valid development card level
      */
-    protected void sendChosenCard(int cardColor, int cardLevel){
+    public static void sendChosenCard(int cardColor, int cardLevel){
         getClient().getServerHandler().sendCommandMessage(new EventMessage(new ChooseCardEvent(cardColor,cardLevel)));
     }
 

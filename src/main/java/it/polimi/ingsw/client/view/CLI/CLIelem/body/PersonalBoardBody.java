@@ -162,7 +162,7 @@ public class PersonalBoardBody extends CLIelem {
         },
 
         /**
-         * This is IDLE mode
+         * This is View mode for both IDLE and MIDDLE_PHASE
          */
         VIEWING() {
 
@@ -284,13 +284,10 @@ public class PersonalBoardBody extends CLIelem {
         this.message = message;
     }
 
-    public void setWareHouseLeadersDepot(Column wareHouseLeadersDepot) {
-        this.wareHouseLeadersDepot = wareHouseLeadersDepot;
-    }
-
     public void setProductions(Row productions) {
         this.productions = productions;
     }
+
 
     //todo review this doc
     /**
@@ -341,36 +338,94 @@ public class PersonalBoardBody extends CLIelem {
      * @return a column containing the SimpleCardCells informations
      */
     public Row productionsBuilder(SimpleCardCells simpleCardCells){
-        Map<Integer,Optional<NetworkDevelopmentCard>> frontCards=simpleCardCells.getDevCardsOnTop().entrySet().stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, e->e.getValue().map(DevelopmentCardAsset::getDevelopmentCard)));
-        Option basicProdOption = simpleCardCells.getSimpleProductions().getProductionAtPos(0).map(p->{
-            Drawable basicProdDrawable = new Drawable();
-            basicProdDrawable.add(0,"╔═ Basic Production ═════╗");
-            basicProdDrawable.add(Drawable.copyShifted(0,1,DrawableProduction
-                    .fromInputAndOutput(p.getInputResources(),p.getOutputResources())
-            ));
-            basicProdDrawable.add(0,"╚════════════════════════╝");
-            Option o = Option.from(basicProdDrawable,getProdRunnable(0));
-            o.setMode(Option.VisMode.NUMBER_TO_BOTTOM);
-            o.setSelected(p.isSelected());
-            setProdAvailable(simpleCardCells, 0, o);
-            return o;
-        }).orElse(null);
 
+        Option basicProdOption = buildBasicProduction(simpleCardCells);
+        Stream<Option> leaderProdsList = simpleCardCells.getActiveProductionLeaders().size()>0 ? buildLeaderProductionsList(simpleCardCells) : Stream.empty();
+        Stream<Option> normalProdsList = buildNormalProductionsList(simpleCardCells);
 
-        Stream<Option> normalProdsList = frontCards.entrySet().stream().map(e-> {
-            int prodPos = e.getKey();
-            Option cell = prodOption(
-                    getProdRunnable(prodPos),
-                    e.getValue().orElse(null),
-                    simpleCardCells.getCellHeight(e.getKey()).orElse(0)
-            );
-            setProdAvailable(simpleCardCells, prodPos, cell);
-            cell.setSelected(simpleCardCells.getSimpleProductions().getProductionAtPos(e.getKey()).map(SimpleProductions.SimpleProduction::isSelected).orElse(false));
+        return new Row(Stream.concat(Stream.concat(Stream.ofNullable(basicProdOption),leaderProdsList) , normalProdsList));
+    }
+
+    private Stream<Option> buildNormalProductionsList(SimpleCardCells simpleCardCells){
+
+        Map<Integer,Optional<NetworkDevelopmentCard>> frontCards=simpleCardCells
+                .getDevCardsOnTop()
+                .entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, e->e.getValue()
+                        .map(DevelopmentCardAsset::getDevelopmentCard)));
+
+        Stream<Option> normalProdsList = frontCards
+                .entrySet()
+                .stream()
+                .filter(e -> e.getKey()<4)
+                .map(e-> {
+                    int prodPos = e.getKey();
+                     Option cell = prodOption(getProdRunnable(prodPos), e.getValue().orElse(null), simpleCardCells.getCellHeight(e.getKey()).orElse(0));
+
+                     setProdAvailable(simpleCardCells, prodPos, cell);
+                     cell.setSelected(simpleCardCells.getSimpleProductions()
+                             .getProductionAtPos(e.getKey())
+                             .map(SimpleProductions.SimpleProduction::isSelected)
+                             .orElse(false));
             return cell;
         });
-        return new Row(Stream.concat(Stream.ofNullable(basicProdOption),normalProdsList));
+
+        return normalProdsList;
     }
+
+    private Option buildBasicProduction(SimpleCardCells simpleCardCells){
+
+        Option basicProdOption = simpleCardCells
+                .getSimpleProductions()
+                .getProductionAtPos(0)
+                .map(p->{
+
+                    Drawable basicProdDrawable = new Drawable();
+                    basicProdDrawable.add(0,"╔═  Basic  Production  ══╗");
+                    basicProdDrawable.add(Drawable.copyShifted(0,1,DrawableProduction.fromInputAndOutput(p.getInputResources(),p.getOutputResources())));
+
+                    basicProdDrawable.add(0,"╚════════════════════════╝");
+                    Option o = Option.from(basicProdDrawable,getProdRunnable(0));
+                    o.setMode(Option.VisMode.NUMBER_TO_BOTTOM);
+                    o.setSelected(p.isSelected());
+                    setProdAvailable(simpleCardCells, 0, o);
+                    return o; }).orElse(null);
+
+        return basicProdOption;
+
+    }
+
+    private Stream<Option> buildLeaderProductionsList(SimpleCardCells simpleCardCells){
+
+        SimpleProductions simpleProductions = simpleCardCells.getSimpleProductions();
+
+        int indexOfLastProduction = simpleProductions.getIndexOfLastProduction();
+
+        Stream<Option> leaderProdsOptions =  IntStream.rangeClosed(4, indexOfLastProduction).boxed().filter(index -> simpleProductions.getProductionAtPos(index).isPresent())
+                .map(index -> {
+
+                    SimpleProductions.SimpleProduction production = simpleProductions.getProductionAtPos(index).get();
+
+                    Drawable leaderProdDrawable = new Drawable();
+
+                    leaderProdDrawable.add(0,"╔═  Leader Production  ══╗");
+
+                    leaderProdDrawable.add(
+                            Drawable.copyShifted(0,1,DrawableProduction.fromInputAndOutput(production.getInputResources(),production.getOutputResources())));
+
+                    leaderProdDrawable.add(0,"╚════════════════════════╝");
+
+                    Option o = Option.from(leaderProdDrawable,getProdRunnable(index));
+                    o.setMode(Option.VisMode.NUMBER_TO_BOTTOM);
+                    o.setSelected(production.isSelected());
+                    setProdAvailable(simpleCardCells, index, o);
+                    return o;
+                });
+
+        return leaderProdsOptions;
+    }
+
 
     /**
      * This method is called for player's interaction with DevelopmentCard
@@ -557,7 +612,6 @@ public class PersonalBoardBody extends CLIelem {
         wareHouseLeadersDepot = wareBuilder(cache.getElem(SimpleWarehouseLeadersDepot.class).orElseThrow(), this);
         strongBox = strongBoxBuilder(cache.getElem(SimpleStrongBox.class).orElseThrow(), this);
     }
-
 
     /**
      * @param simpleWare is a SimpleModel element

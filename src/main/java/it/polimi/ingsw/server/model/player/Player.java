@@ -41,8 +41,6 @@ public class Player {
      */
     private State currentState;
 
-    private boolean wasInIDLE;
-
     /**
      * Boolean value used by {@link GameModel} to determine currently unavailable players, to handle game logic
      * with online players.
@@ -160,8 +158,6 @@ public class Player {
      * @param currentState Current Player's{@link State}.
      * */
     public void setCurrentState(State currentState) {
-
-        wasInIDLE = this.currentState.equals(State.IDLE) || this.currentState.equals(State.SETUP_PHASE);
 
         this.currentState = currentState;
 

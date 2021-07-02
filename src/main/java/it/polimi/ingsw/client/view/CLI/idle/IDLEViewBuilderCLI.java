@@ -4,7 +4,6 @@ import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.view.CLI.CLIBuilder;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.PersonalBoardBody;
-import it.polimi.ingsw.client.view.CLI.CardShopCLI;
 import it.polimi.ingsw.client.view.CLI.commonViews.CLIReportInfoBuilder;
 import it.polimi.ingsw.client.view.CLI.layout.Option;
 import it.polimi.ingsw.client.view.CLI.layout.SizedBox;
@@ -87,7 +86,7 @@ public class IDLEViewBuilderCLI extends IDLEViewBuilder implements CLIBuilder {
         Drawable viewCardShop = new Drawable();
         viewCardShop.add(0, "  Look at cards");
         viewCardShop.add(0, "from the Card Shop");
-        row.addElem(idlePhaseOption(viewCardShop, () -> getClient().changeViewBuilder(new CardShopCLI(true, true)), true));
+        row.addElem(idlePhaseOption(viewCardShop, () -> getClient().changeViewBuilder(new IDLECardShopCLI()), true));
         row.addElem(new SizedBox(6, 0));
 
 
@@ -112,7 +111,7 @@ public class IDLEViewBuilderCLI extends IDLEViewBuilder implements CLIBuilder {
             if (getSimpleModel().getPlayersCaches().length != 1) {
                 run(); // to update players info leader option
 
-                Timer.showSecondsOnCLI(getCLIView(), "It's almost your turn! Seconds left : ", 2);
+                Timer.showSecondsOnCLI(getCLIView(), "It's almost your turn! Seconds left : ", 3);
             }
             getClient().changeViewBuilder(InitialOrFinalPhaseViewBuilder.getBuilder(getClient().isCLI(), true));
 
@@ -120,7 +119,7 @@ public class IDLEViewBuilderCLI extends IDLEViewBuilder implements CLIBuilder {
 
             if (getSimpleModel().getPlayersCaches().length != 1) {
                 run(); // to update players info leader option
-                Timer.showSecondsOnCLI(getCLIView(), "It's almost your turn! Seconds left : ", 2);
+                Timer.showSecondsOnCLI(getCLIView(), "It's almost your turn! Seconds left : ", 3);
             }
 
             getClient().changeViewBuilder(MiddlePhaseViewBuilder.getBuilder(getClient().isCLI()));

@@ -100,7 +100,7 @@ public class CreateJoinLoadMatchCLI extends CreateJoinLoadMatchViewBuilder imple
         return () -> {
 
             getClient().changeViewBuilder( joinMatch );
-            Timer.showSecondsOnCLI(getCLIView(), "Loading data, seconds left : ", 2);
+            Timer.showSecondsOnCLI(getCLIView(), "Loading data, seconds left : ", 3);
             getClient().getServerHandler().sendCommandMessage(new JoinMatchRequest(matchId,getCommonData().getThisPlayerNickname()));
 
         };

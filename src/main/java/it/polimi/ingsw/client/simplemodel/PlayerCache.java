@@ -5,10 +5,10 @@ import it.polimi.ingsw.network.simplemodel.*;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.TreeMap;
 
 
 /**
@@ -19,7 +19,7 @@ public class PlayerCache {
     private String currentState;
     private final PropertyChangeSupport support;
 
-    private Map<String , SimpleModelElement> playerSimpleModelElementsMap = new HashMap<>();
+    private Map<String , SimpleModelElement> playerSimpleModelElementsMap = new TreeMap<>();
 
     /**
      * Method to subscribe to the Property Change Support
@@ -104,15 +104,14 @@ public class PlayerCache {
 
         playerSimpleModelElementsMap.put(SimplePlayerLeaders.class.getSimpleName(), new SimplePlayerLeaders());
         playerSimpleModelElementsMap.put(SimpleFaithTrack.class.getSimpleName(), new SimpleFaithTrack());
+        playerSimpleModelElementsMap.put(SimpleProductions.class.getSimpleName(), new SimpleProductions());
         playerSimpleModelElementsMap.put(SimpleCardCells.class.getSimpleName(), new SimpleCardCells());
         playerSimpleModelElementsMap.put(SimpleWarehouseLeadersDepot.class.getSimpleName(), new SimpleWarehouseLeadersDepot());
         playerSimpleModelElementsMap.put(SimpleStrongBox.class.getSimpleName(), new SimpleStrongBox());
         playerSimpleModelElementsMap.put(SimpleDiscardBox.class.getSimpleName(), new SimpleDiscardBox());
         playerSimpleModelElementsMap.put(ActiveLeaderBonusInfo.class.getSimpleName(), new ActiveLeaderBonusInfo());
-        playerSimpleModelElementsMap.put(SimpleProductions.class.getSimpleName(), new SimpleProductions());
         playerSimpleModelElementsMap.put(SelectablePositions.class.getSimpleName(), new SelectablePositions());
         playerSimpleModelElementsMap.put(SimpleSoloActionToken.class.getSimpleName(), new SimpleSoloActionToken());
-
 
         SimplePlayerLeaders playerLeadersElement = ((SimplePlayerLeaders) playerSimpleModelElementsMap.get(SimplePlayerLeaders.class.getSimpleName()));
         SimpleProductions simpleProductions = ((SimpleProductions) playerSimpleModelElementsMap.get(SimpleProductions.class.getSimpleName()));

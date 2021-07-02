@@ -35,8 +35,7 @@ public final class CLIReportInfoBuilder {
 
     public static void showReportWithTimer(){
 
-        String coloredTitle = Color.colorString("Vatican Report occurred! . Seconds left for viewing : 6", Color.GREEN);
-        Title title = new Title("Vatican Report occurred! . Seconds left for viewing : 6", Color.GREEN);
+        Title title = new Title("Vatican Report occurred! . Seconds left for viewing : 4", Color.GREEN);
         getCLIView().setTitle(title.toString());
 
         Column grid = buildReports(getSimpleModel());
@@ -45,7 +44,7 @@ public final class CLIReportInfoBuilder {
         getCLIView().setBody(body);
         getCLIView().show();
 
-        Timer.showSecondsOnCLI(getCLIView(), "Vatican Report occurred! . Seconds left for viewing : ", 2);
+        Timer.showSecondsOnCLI(getCLIView(), "Vatican Report occurred! . Seconds left for viewing : ", 3);
         getClient().changeViewBuilder(getClient().getSavedViewBuilder());
 
     }

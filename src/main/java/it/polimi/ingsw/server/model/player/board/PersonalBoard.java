@@ -85,7 +85,7 @@ public class PersonalBoard {
         warehouseLeadersDepots = new WarehouseLeadersDepots();
         strongBox = Box.strongBox();
         discardBox = Box.discardBox();
-      /*  strongBox.addResources(new int[]{20,20,20,20});   //to test CardShop
+       /* strongBox.addResources(new int[]{20,20,20,20});   //to test CardShop
         warehouseLeadersDepots.addResource(new Pair<>(0,Resource.GOLD));
         warehouseLeadersDepots.addResource(new Pair<>(1,Resource.SERVANT));
         warehouseLeadersDepots.addResource(new Pair<>(3,Resource.STONE)); */
@@ -128,19 +128,14 @@ public class PersonalBoard {
 
     public Map<Integer, Pair <Pair<Map<Integer, Integer> , Map<Integer, Integer>>, Pair<Boolean, Boolean>>> getSimpleProductionsMap(){
 
-        int productionsLastPosition = productions.keySet().stream().mapToInt(pos -> pos).max().getAsInt();
+        return productions.keySet().stream().collect(Collectors.toMap(
 
-        if(productionsLastPosition<cardCells.length + 2)
-            productionsLastPosition = cardCells.length + 2;
-
-        return IntStream.rangeClosed(0, productionsLastPosition).boxed().collect(Collectors.toMap(
                 productionIndex-> productionIndex,
                 productionIndex -> {
 
                     Map<Integer, Integer> inputs =  productions.containsKey(productionIndex) ? productions.get(productionIndex).getInputsMap() : new HashMap<>();
 
                     Map<Integer, Integer> outputs = productions.containsKey(productionIndex) ?  productions.get(productionIndex).getOutputsMap() : new HashMap<>();
-
 
 
                     boolean isSelected = prodsSelected.containsKey(productionIndex) && prodsSelected.get(productionIndex);
@@ -155,6 +150,8 @@ public class PersonalBoard {
         ));
 
     }
+
+
 
     /**
      * Takes the selected {@link Resource resources} from the selected {@link Production productions}
@@ -378,7 +375,8 @@ public class PersonalBoard {
     public void addProduction(Production production)
     {
 
-        int productionsLastPosition = productions.keySet().stream().mapToInt(pos -> pos).max().getAsInt();
+        int maxIndexOfExistingProduction =  productions.keySet().stream().mapToInt(pos -> pos).max().getAsInt();
+        int productionsLastPosition = Math.max(maxIndexOfExistingProduction, cardCells.length);
 
         productions.put(productionsLastPosition+1, production);
         prodsSelected.put(productionsLastPosition+1, false);

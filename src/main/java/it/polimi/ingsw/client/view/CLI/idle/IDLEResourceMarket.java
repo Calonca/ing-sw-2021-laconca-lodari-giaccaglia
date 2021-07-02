@@ -10,6 +10,7 @@ public class IDLEResourceMarket extends IDLEViewBuilderCLI{
 
     public void run(){
 
+        getCLIView().setTitle("This is the resource market");
         Row root = new Row();
         Column grid = root.addAndGetColumn();
         SimpleMarketBoard marketBoard = getSimpleModel().getElem(SimpleMarketBoard.class).orElseThrow();

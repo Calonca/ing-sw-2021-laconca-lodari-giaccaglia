@@ -24,7 +24,7 @@ public class CLIActionToken extends ViewBuilder{
     @Override
     public void run() {
 
-        Title title = new Title("Here is this turn Action Token! . Seconds left for viewing : 6", Color.GREEN);
+        Title title = new Title("Here is this turn Action Token! . Seconds left for viewing : 4", Color.GREEN);
 
         getCLIView().setTitle(title.toString());
 
@@ -37,7 +37,7 @@ public class CLIActionToken extends ViewBuilder{
 
         getCLIView().show();
         getCLIView().runOnInput("", () -> {});
-        Timer.showSecondsOnCLI(getCLIView(), "Here is this turn Action Token! . Seconds left for viewing : ", 2);
+        Timer.showSecondsOnCLI(getCLIView(), "Here is this turn Action Token! . Seconds left for viewing : ", 3);
         getClient().changeViewBuilder(getClient().getSavedViewBuilder());
 
 

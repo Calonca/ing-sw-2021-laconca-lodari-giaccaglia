@@ -27,9 +27,10 @@ public class ActivatingLeader implements GameStrategy {
 
         gamemodel.getCurrentPlayer().getLeader(((InitialOrFinalPhaseEvent) event).getLeaderId()).get().activate(gamemodel);
 
-        elementsToUpdate.add(Element.SimpleWareHouseLeadersDepot);
         elementsToUpdate.add(Element.SimplePlayerLeaders);
         elementsToUpdate.add(Element.SimpleProductions);
+        elementsToUpdate.add(Element.SimpleWareHouseLeadersDepot);
+        elementsToUpdate.add(Element.SimpleCardCells);
         elementsToUpdate.add(Element.ActiveLeaderInfo);
 
         return gamemodel.getCurrentPlayer().anyLeaderPlayable()

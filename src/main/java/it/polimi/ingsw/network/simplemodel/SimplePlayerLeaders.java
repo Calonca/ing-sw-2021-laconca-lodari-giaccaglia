@@ -27,10 +27,6 @@ public class SimplePlayerLeaders extends SimpleModelElement{
         this.playerLeadersMap = playerLeadersMap;
     }
 
-    public SimplePlayerLeaders(List<UUID> leaders){
-        playerLeaders = leaders.stream().map(leaderId -> (LeaderCardAsset) Cards.getCardAsset(leaderId).orElseThrow()).collect(Collectors.toList());
-        playerLeadersMap = new HashMap<>();
-    }
 
     @Override
     public void update(SimpleModelElement element){

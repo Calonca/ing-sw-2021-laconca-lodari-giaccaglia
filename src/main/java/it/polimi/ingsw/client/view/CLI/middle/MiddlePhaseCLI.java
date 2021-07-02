@@ -5,7 +5,6 @@ import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.view.CLI.CLIBuilder;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.PersonalBoardBody;
-import it.polimi.ingsw.client.view.CLI.CardShopCLI;
 import it.polimi.ingsw.client.view.CLI.commonViews.CLIActionToken;
 import it.polimi.ingsw.client.view.CLI.commonViews.CLIReportInfoBuilder;
 import it.polimi.ingsw.client.view.CLI.layout.Option;
@@ -76,7 +75,7 @@ public class MiddlePhaseCLI extends MiddlePhaseViewBuilder implements CLIBuilder
         Drawable viewCardShop = new Drawable();
         viewCardShop.add(0,"  Look at cards");
         viewCardShop.add(0,"from the Card Shop");
-        row.addElem(middlePhaseOption(viewCardShop,()-> getClient().changeViewBuilder(new CardShopCLI(true)), true));
+        row.addElem(middlePhaseOption(viewCardShop,()-> getClient().changeViewBuilder(new MiddleCardShopCLI(true)), true));
         row.addElem(new SizedBox(4,0));
 
         Drawable viewPersonalBoard = new Drawable();

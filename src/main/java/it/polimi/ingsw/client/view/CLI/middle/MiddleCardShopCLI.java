@@ -1,8 +1,8 @@
-package it.polimi.ingsw.client.view.CLI;
+package it.polimi.ingsw.client.view.CLI.middle;
 
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.CanvasBody;
 import it.polimi.ingsw.client.view.CLI.CLIelem.body.PersonalBoardBody;
-import it.polimi.ingsw.client.view.CLI.idle.IDLEViewBuilderCLI;
+import it.polimi.ingsw.client.view.CLI.commonViews.CLICardShop;
 import it.polimi.ingsw.client.view.CLI.layout.GridElem;
 import it.polimi.ingsw.client.view.CLI.layout.Option;
 import it.polimi.ingsw.client.view.CLI.layout.ResChoiceRowCLI;
@@ -13,14 +13,11 @@ import it.polimi.ingsw.client.view.CLI.layout.drawables.DrawableLine;
 import it.polimi.ingsw.client.view.CLI.layout.drawables.ResourceCLI;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Column;
 import it.polimi.ingsw.client.view.CLI.layout.recursivelist.Row;
-import it.polimi.ingsw.client.view.CLI.middle.MiddlePhaseCLI;
 import it.polimi.ingsw.client.view.CLI.textUtil.Background;
 import it.polimi.ingsw.client.view.CLI.textUtil.Color;
 import it.polimi.ingsw.client.view.abstractview.CardShopViewBuilder;
-import it.polimi.ingsw.client.view.abstractview.ViewBuilder;
 import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
-import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCardColor;
 import it.polimi.ingsw.network.assets.resources.ResourceAsset;
 import it.polimi.ingsw.network.simplemodel.ActiveLeaderBonusInfo;
 import it.polimi.ingsw.network.simplemodel.SimpleCardCells;
@@ -30,15 +27,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class CardShopCLI extends CardShopViewBuilder {
+public class MiddleCardShopCLI extends CardShopViewBuilder {
 
 
-    public CardShopCLI(boolean viewing) {
+    /**
+     * Method to initialize the viewBuilder
+     *
+     * @param viewing represents the card shop state
+     */
+    public MiddleCardShopCLI(boolean viewing) {
         super(viewing);
-    }
-
-    public CardShopCLI(boolean viewing, boolean isIdle){
-        super(viewing, isIdle);
     }
 
     /**
@@ -46,15 +44,13 @@ public class CardShopCLI extends CardShopViewBuilder {
      */
     @Override
     public void run() {
-        getCLIView().setTitle("Card Shop");
 
+        getCLIView().setTitle("Card Shop");
 
         Column grid = new Column();
 
 
         ActiveLeaderBonusInfo activeDiscounts = getThisPlayerCache().getElem(ActiveLeaderBonusInfo.class).orElseThrow();
-
-
         List<Pair<ResourceAsset,Integer>> discountResources= activeDiscounts.getDiscountedResources();
 
         Column bonusColumn= grid.addAndGetColumn();
@@ -63,28 +59,17 @@ public class CardShopCLI extends CardShopViewBuilder {
             buildDiscountsColumn(bonusColumn, activeDiscounts);
         grid.addElem(bonusColumn);
 
-        for (int i = 3; i >= 1; i--) {
-            Row verTest = new Row();
-            for (int color = 0; color< NetworkDevelopmentCardColor.values().length-1; color++) {
-                final NetworkDevelopmentCardColor cardColor = NetworkDevelopmentCardColor.fromInt(color);
-                NetworkDevelopmentCard netCard = getSimpleCardShop()
-                        .getCardFront(cardColor, i)
-                        .map(DevelopmentCardAsset::getDevelopmentCard)
-                        .orElse(null);
-                int stackHeight = getSimpleCardShop().getStackHeight(cardColor,i);
-                int finalI = i;
-                Option o = Option.from(DrawableDevCard.fromDevCardAsset(netCard,stackHeight), () -> sendChosenCard(cardColor.ordinal(), finalI));
-                o.setEnabled(netCard != null && netCard.isSelectable());
-                verTest.addElem(o);
-            }
-            grid.addElem(verTest);
-        }
+
+
+        CLICardShop cliCardShop = new CLICardShop();
+
+        cliCardShop.buildCardShop(grid, viewing);
 
         getCLIView().setBody(CanvasBody.centered(grid));
-        boolean viewing = CardShopViewBuilder.viewing;
+
         if (viewing) {
-            ViewBuilder nextViewBuilder = isIdlePhase ? new IDLEViewBuilderCLI() : new MiddlePhaseCLI();
-            getCLIView().runOnInput("Press enter to go back", () -> getClient().changeViewBuilder(nextViewBuilder));
+
+            getCLIView().runOnInput("Press enter to go back", () -> getClient().changeViewBuilder(new MiddlePhaseCLI()));
         }
         else grid.selectInEnabledOption(getCLIView(),"Select a card to buy it");
         getCLIView().show();

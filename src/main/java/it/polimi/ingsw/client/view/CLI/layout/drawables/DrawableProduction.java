@@ -11,6 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class DrawableProduction {
+
     public static Drawable fromInputAndOutput(Map<ResourceAsset,Integer> in, Map<ResourceAsset,Integer> out){
         Drawable toReturn = new Drawable();
 

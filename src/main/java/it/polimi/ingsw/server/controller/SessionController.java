@@ -18,8 +18,8 @@ import java.util.stream.Collectors;
 public class SessionController {
     
     private final ConcurrentHashMap<UUID,Match> matches = new ConcurrentHashMap<>();
-
     private final ConcurrentHashMap<UUID, Long> matchesDisconnectionTimes = new ConcurrentHashMap<>();
+
     private final transient List<ClientHandler> clientsNotInLobby = new ArrayList<>();
     private static SessionController single_instance = null;
     private static final String sessionPath = "session.json";
@@ -174,6 +174,7 @@ public class SessionController {
         }
 
     }
+
 
     public void deleteGame(UUID gameId){
         matches.remove(gameId);

@@ -97,7 +97,7 @@ public class Production {
      * @return how many {@link Resource resources} there are in the {@link #output} array
      */
     public int getNumOfResInOutput(){
-        return Arrays.stream(output).reduce(0,Integer::sum);
+        return Arrays.stream(output).reduce(0,Integer::sum) - output[4]; //faith points are excluded
     }
 
 

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.CLI.match;
 
+import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.simplemodel.State;
 import it.polimi.ingsw.client.view.CLI.CLIBuilder;
 import it.polimi.ingsw.client.view.CLI.CLIelem.Title;
@@ -22,6 +23,8 @@ public class LobbyViewBuilderCLI extends LobbyViewBuilder implements CLIBuilder 
         if (getCommonData().getAvailableMatchesData().isPresent() && getCommonData().getMatchId().isPresent()) {
             getCLIView().setTitle(new Title("Joining match"));
             LobbyCLI.buildLobbyCLI();
+            if (getCommonData().getCurrentPlayerIndex() == CommonData.getThisPlayerIndex())
+                Timer.showSecondsOnCLI(getCLIView(), "Ready for Setup Phase, seconds left : ", 3);
         } else {
             getCLIView().setTitle(new Title("Lobby Creation"));
             getCLIView().clearScreen();
@@ -34,7 +37,6 @@ public class LobbyViewBuilderCLI extends LobbyViewBuilder implements CLIBuilder 
     public void propertyChange(PropertyChangeEvent evt) {
 
         if (evt.getPropertyName().equals(State.SETUP_PHASE.toString())) {
-            Timer.showSecondsOnCLI(getCLIView(), "Ready for Setup Phase, seconds left : ", 5);
             getClient().changeViewBuilder(new SetupPhaseCLI());
         }
 
