@@ -25,9 +25,10 @@ import static org.junit.Assert.assertEquals;
 public class ChoosingMarketBonusTest {
 
 
+    boolean oneMarbleWay=false;
+    boolean moreThanOneMarbleWay=false;
     //we cannot know what are the lines which contain more than two white marble, and we
     //do not think it's worth making a stochastic test
-    @Test
     public void execute() {
 
         Event clientEvent = new ChooseWhiteMarbleConversionEvent(1);
@@ -48,9 +49,25 @@ public class ChoosingMarketBonusTest {
         gamemodel.chooseLineFromMarketBoard(MarketLine.FIRST_COLUMN);
 
         if(gamemodel.getNumberOfWhiteMarblesInPickedLine()>1)
+        {
             assertEquals(new ChoosingMarketBonus().execute(gamemodel, serverEvent).getKey(), State.CHOOSING_WHITEMARBLE_CONVERSION);
+            moreThanOneMarbleWay=true;
+        }
         else
+        {
             assertEquals(new ChoosingMarketBonus().execute(gamemodel, serverEvent).getKey(), State.CHOOSING_POSITION_FOR_RESOURCES);
+            oneMarbleWay=true;
+        }
     }
+
+
+    @Test
+    public void executeTest() {
+
+        do {
+            execute();
+        }while (!(oneMarbleWay&&moreThanOneMarbleWay));
+    }
+
 
 }

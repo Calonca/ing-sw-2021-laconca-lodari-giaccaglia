@@ -30,6 +30,11 @@ public class MarketLeader extends Leader
         this(state, victoryPoints,requirementsResources,requirementsCards,bonus, 1);
     }
 
+
+    /**
+     * Applies the leader's bonus to the Player
+     * @param gamemodel != NULL
+     */
     public void activate(GameModel gamemodel)
     {
         state = LeaderState.ACTIVE;
