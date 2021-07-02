@@ -156,7 +156,12 @@ public class SimpleDepotsMessageBuilder {
 
         PersonalBoard playerBoard = gameModel.getPlayer(playerRequestingUpdate).get().getPersonalBoard();
         int lastSelectedProduction = playerBoard.getLastSelectedProductionPosition();
-        Production production = playerBoard.getProductionFromPosition(lastSelectedProduction).get();
+        Production production;
+        if(playerBoard.getProductionFromPosition(lastSelectedProduction).isPresent())
+             production = playerBoard.getProductionFromPosition(lastSelectedProduction).get();
+        else
+            return new HashMap<>();
+
         Map<Integer, Integer> productionInputsMap = production.getInputsMap();
         return getSelectableWarehousePositions(playerBoard.getWarehouseLeadersDepots(), productionInputsMap);
 

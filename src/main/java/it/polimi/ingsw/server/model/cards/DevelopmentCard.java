@@ -23,8 +23,6 @@ public class DevelopmentCard
     private DevelopmentCardColor cardType;
     private List<Pair<Resource,Integer>> costList;
     private int victoryPoints;
-    private Map<Integer, Integer> productionInputResources;
-    private Map<Integer, Integer> productionOutputResources;
 
     private int level;
     private UUID cardId;
@@ -56,11 +54,6 @@ public class DevelopmentCard
         this.victoryPoints = points;
         this.costList=costList;
 
-    }
-
-    public void fun(){
-        this.productionInputResources = production.getInputsMap();
-        this.productionOutputResources = production.getOutputsMap();
     }
 
     public DevelopmentCard(DevelopmentCard another) {

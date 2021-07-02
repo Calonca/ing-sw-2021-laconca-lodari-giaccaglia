@@ -19,12 +19,20 @@ public class LobbyViewBuilderCLI extends LobbyViewBuilder implements CLIBuilder 
      */
     @Override
     public void run() {
-
+        String text = "";
         if (getCommonData().getAvailableMatchesData().isPresent() && getCommonData().getMatchId().isPresent()) {
             getCLIView().setTitle(new Title("Joining match"));
             LobbyCLI.buildLobbyCLI();
-            if (getCommonData().getCurrentPlayerIndex() == CommonData.getThisPlayerIndex())
-                Timer.showSecondsOnCLI(getCLIView(), "Ready for Setup Phase, seconds left : ", 3);
+
+            if (getCommonData().getCurrentPlayerIndex() == CommonData.getThisPlayerIndex()){
+                if(getThisPlayerCache() != null && getThisPlayerCache().getCurrentState().equals("SETUP_PHASE"))
+                    text = "Ready for Setup Phase, seconds left : ";
+                else
+                    text = "Ready for your turn, seconds left : ";
+
+                Timer.showSecondsOnCLI(getCLIView(), text, 3);
+            }
+
         } else {
             getCLIView().setTitle(new Title("Lobby Creation"));
             getCLIView().clearScreen();

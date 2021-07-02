@@ -16,7 +16,7 @@ import java.util.TreeMap;
  */
 public class PlayerCache {
 
-    private String currentState;
+    private String currentState = "";
     private final PropertyChangeSupport support;
 
     private Map<String , SimpleModelElement> playerSimpleModelElementsMap = new TreeMap<>();

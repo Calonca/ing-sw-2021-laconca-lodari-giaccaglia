@@ -49,19 +49,24 @@ public class LobbyCLI extends LobbyViewBuilderCLI {
 
     private static Drawable lobbyBox(String[] onlinePlayers, String[] offlinePlayers){
 
-        String playerInSetup;
+        String yellowText;
 
         Drawable drawable= new Drawable();
         int yPos = 1;
 
         if(!getCommonData().getCurrentPlayerNickname().isBlank()) {
 
-            if (getCommonData().getCurrentPlayerIndex() == CommonData.getThisPlayerIndex())
-                playerInSetup = "Your Setup Phase is starting!";
-            else
-                playerInSetup = getCommonData().getCurrentPlayerNickname() + " is in Setup Phase";
+            if (getCommonData().getCurrentPlayerIndex() == CommonData.getThisPlayerIndex()){
+                if(getThisPlayerCache() != null && getThisPlayerCache().getCurrentState().equals("SETUP_PHASE"))
+                    yellowText = "Your setup phase is starting!";
+                else
+                    yellowText = "   Your turn is starting!";
+            }
 
-            drawable.add(0, " " + playerInSetup, Color.BRIGHT_YELLOW, Background.DEFAULT);
+            else
+                yellowText = getCommonData().getCurrentPlayerNickname() + " is in Setup Phase";
+
+            drawable.add(0, " " + yellowText, Color.BRIGHT_YELLOW, Background.DEFAULT);
             drawable.add(0, "");
             yPos = 3;
 

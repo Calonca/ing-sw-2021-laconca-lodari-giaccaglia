@@ -8,6 +8,7 @@ import it.polimi.ingsw.client.view.CLI.CLI;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Objects;
 
 
 /**
@@ -27,6 +28,8 @@ public abstract class ViewBuilder implements Runnable, PropertyChangeListener
 
 
     public static PlayerCache getThisPlayerCache(){
+        if(Objects.isNull(getSimpleModel()))
+            return null;
         return getSimpleModel().getPlayerCache(CommonData.getThisPlayerIndex());
     }
 

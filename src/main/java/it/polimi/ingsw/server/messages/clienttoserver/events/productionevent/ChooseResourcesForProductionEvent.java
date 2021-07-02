@@ -188,9 +188,10 @@ public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.m
              //   resource, numOf
         Set<Pair<Integer, Integer>> pairSetWithLocalPositions = inputPositionsToChoose.stream().map(
                 position -> {
-                    int positionOccurrences = inputPositionsToChoose.stream().filter(positionToFind -> positionToFind.equals(position)).mapToInt(positionToFind -> 1).sum();
                     int resourceNumber = currentPlayerPersonalBoard.getResourceAtPosition(position).getResourceNumber();
-                    return new Pair<>(resourceNumber, positionOccurrences);
+                    int resourceOccurrences = inputPositionsToChoose.stream().filter(positionToFind ->
+                            currentPlayerPersonalBoard.getResourceAtPosition(positionToFind).getResourceNumber() == resourceNumber).mapToInt(positionToFind -> 1).sum();
+                    return new Pair<>(resourceNumber, resourceOccurrences);
                 }
 
         ).collect(Collectors.toSet());
