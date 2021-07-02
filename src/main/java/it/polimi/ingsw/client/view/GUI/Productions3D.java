@@ -8,9 +8,7 @@ import it.polimi.ingsw.client.view.abstractview.ProductionViewBuilder;
 import it.polimi.ingsw.network.assets.CardAsset;
 import it.polimi.ingsw.network.assets.DevelopmentCardAsset;
 import it.polimi.ingsw.network.assets.LeaderCardAsset;
-import it.polimi.ingsw.network.jsonUtils.JsonUtility;
 import it.polimi.ingsw.network.simplemodel.SimpleCardCells;
-import it.polimi.ingsw.network.simplemodel.SimpleProductions;
 import javafx.application.Platform;
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
@@ -25,6 +23,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Productions3D implements PropertyChangeListener {
 
@@ -132,13 +131,13 @@ public class Productions3D implements PropertyChangeListener {
         }
 
          Map<Integer,LeaderCardAsset> activeBonus = simpleCardCells.getActiveProductionLeaders();
+        AtomicInteger count = new AtomicInteger();
 
         activeBonus.forEach((key, value) -> {
             Rectangle temp;
-            int count = 0;
             temp = new Rectangle(462, 698);
             temp.setTranslateY(250);
-            temp.setLayoutX(400 + 750 + 250 * (count + 1));
+            temp.setLayoutX(400 + 750 + 250 * (count.get() + 1));
 
             temp.setFill(CardSelector.imagePatternFromAsset(value.getCardPaths().getKey()));
             setProdAvailable(simpleCardCells,key, temp);
@@ -149,7 +148,8 @@ public class Productions3D implements PropertyChangeListener {
                 } else if (mode.equals(BoardView3D.Mode.CHOOSE_PRODUCTION) && (true || simpleCardCells.isProductionAtPositionAvailable(key).orElse(false)))
                     ProductionViewBuilder.sendChosenProduction(key);
             });
-            NodeAdder.shiftAndAddToList(prodList, temp, new Point3D(680 + 220 * (count + 1), 700, -20));
+            NodeAdder.shiftAndAddToList(prodList, temp, new Point3D(680 + 220 * (count.get() + 1), 700, -20));
+            count.getAndIncrement();
         });
 
         prodGroup.getChildren().setAll(prodList);

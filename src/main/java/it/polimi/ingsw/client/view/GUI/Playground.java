@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.GUI;
 
+import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.view.GUI.board.CamState;
 import it.polimi.ingsw.client.view.GUI.util.BoardStateController;
 import it.polimi.ingsw.client.view.GUI.util.ModelImporter;
@@ -62,6 +63,9 @@ public class Playground {
     }
 
     public static void refreshCardShop() {
+
+        if(getClient().getCommonData().getCurrentPlayerIndex() != CommonData.getThisPlayerIndex())
+            return;
         Playground p = getPlayground();
         System.out.println("REFRESHING CARD SHOP");
         if(p.cardShop!=null)
