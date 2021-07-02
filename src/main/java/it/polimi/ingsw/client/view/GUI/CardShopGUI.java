@@ -122,10 +122,8 @@ public class CardShopGUI extends CardShopViewBuilder {
 
                     for(int k=1;k<stackHeight;k++)
                     {
-                        if(k==stackHeight-1)
-                            path=simpleCardShop.getSecondCard(NetworkDevelopmentCardColor.fromInt(j),3-i).get().getCardPaths().getKey();
-                        else
-                            path=simpleCardShop.getCardFront(NetworkDevelopmentCardColor.fromInt(j),3-i).get().getCardPaths().getKey();
+
+                        path=simpleCardShop.getCardFront(NetworkDevelopmentCardColor.fromInt(j),3-i).get().getCardPaths().getKey();
                         tempStackImage=CardSelector.imageViewFromAsset(path);
                         tempStackImage.setLayoutX(cardsHGap+(cardsHGap+cardWidth)*j);
                         tempStackImage.setLayoutY(20+(cardsHGap+cardWidth*(741/504.0))*i);
