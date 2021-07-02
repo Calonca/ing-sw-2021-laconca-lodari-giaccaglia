@@ -64,6 +64,10 @@ public class GUI extends Application {
 
     private static StackPane realPane = null;
 
+    /**
+     * This method is used
+     * @return the basic stackPane
+     */
     public static StackPane getRealPane()
     {
         if (realPane == null)
@@ -77,12 +81,19 @@ public class GUI extends Application {
         return realPane;
     }
 
+    /**
+     * This method removes the last scene added, if it exist
+     */
     public static void removeLast()
     {
         Runnable run = () -> realPane.getChildren().remove(appendedScene);
         Platform.runLater(run);
     }
 
+    /**
+     * This method adds a node as the last element of realPane
+     * @param scene is the node to add
+     */
     public static void addLast(Node scene)
     {
         if(realPane.getChildren().size()<3)

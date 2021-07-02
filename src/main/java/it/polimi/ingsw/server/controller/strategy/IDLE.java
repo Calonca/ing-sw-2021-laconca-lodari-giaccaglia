@@ -66,11 +66,11 @@ public class IDLE implements GameStrategy {
     }
 
     private void executeActionTokenStrategy(GameModel gameModel, List<Element> elementsToUpdate){
+
         gameModel.activateSoloActionToken();
         elementsToUpdate.add(Element.SimpleSoloActionToken);
         elementsToUpdate.add(Element.SimpleCardShop);
         elementsToUpdate.add(Element.SimpleFaithTrack);
-
 
     }
 

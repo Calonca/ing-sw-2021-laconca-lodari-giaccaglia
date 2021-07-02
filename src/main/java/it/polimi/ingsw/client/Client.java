@@ -233,7 +233,8 @@ public class Client implements Runnable
     public synchronized void terminate()
     {
         //Terminates the app
-        serverHandler.stop();
+        if(Objects.nonNull(serverHandler))
+            serverHandler.stop();
         if (isCLI)
             ViewBuilder.getCLIView().clearScreen();
     }

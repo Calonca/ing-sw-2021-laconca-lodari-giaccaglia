@@ -47,25 +47,24 @@ public class MiddleCardShopCLI extends CardShopViewBuilder {
 
         getCLIView().setTitle("Card Shop");
 
-        Column grid = new Column();
+        Row row = new Row();
 
 
         ActiveLeaderBonusInfo activeDiscounts = getThisPlayerCache().getElem(ActiveLeaderBonusInfo.class).orElseThrow();
         List<Pair<ResourceAsset,Integer>> discountResources= activeDiscounts.getDiscountedResources();
 
-        Column bonusColumn= grid.addAndGetColumn();
+        Column bonusColumn= row.addAndGetColumn();
 
         if(activeDiscounts.getDiscountedResources().size()>0)
             buildDiscountsColumn(bonusColumn, activeDiscounts);
-        grid.addElem(bonusColumn);
-
 
 
         CLICardShop cliCardShop = new CLICardShop();
+        Column grid = row.addAndGetColumn();
 
         cliCardShop.buildCardShop(grid, viewing);
 
-        getCLIView().setBody(CanvasBody.centered(grid));
+        getCLIView().setBody(CanvasBody.centered(row));
 
         if (viewing) {
 
@@ -77,24 +76,28 @@ public class MiddleCardShopCLI extends CardShopViewBuilder {
     }
 
     private void buildDiscountsColumn(Column bonusColumn, ActiveLeaderBonusInfo discounts){
+
         Drawable dr = new Drawable();
-        dr.add(new DrawableLine(-27, 0, "Active Discounts: ", Color.YELLOW, Background.DEFAULT));
-        bonusColumn.addElem(Option.noNumber(dr));
+        dr.add(new DrawableLine(-18, 0, "Active Discounts: ", Color.YELLOW, Background.DEFAULT));
+        Row row = bonusColumn.addAndGetRow();
+        row.addElem(Option.noNumber(dr));
 
         List<Pair<ResourceAsset,Integer>> discountsList = discounts.getDiscountedResources();
         for(Pair<ResourceAsset, Integer> pair : discountsList){
-           bonusColumn.addElem(addDiscountToColumn(pair));
+          addDiscountToColumn(bonusColumn, pair);
         }
     }
 
-    private Option addDiscountToColumn(Pair<ResourceAsset,Integer> discountPair){
+    private void addDiscountToColumn(Column column, Pair<ResourceAsset,Integer> discountPair){
 
         ResourceCLI resourceCLI = ResourceCLI.fromAsset(discountPair.getKey());
         String resourceSymbol =resourceCLI.getFullName();
-        DrawableLine resource = new DrawableLine(-27, -2, resourceSymbol, Color.BRIGHT_WHITE, resourceCLI.getB());
+        DrawableLine resource = new DrawableLine(-18, -1, resourceSymbol + ": -1", Color.BRIGHT_WHITE, resourceCLI.getB());
+
         Drawable dw = new Drawable();
         dw.add(resource);
-        return Option.noNumber(dw);
+        Row row = column.addAndGetRow();
+        row.addElem(Option.noNumber(dw));
     }
 
 

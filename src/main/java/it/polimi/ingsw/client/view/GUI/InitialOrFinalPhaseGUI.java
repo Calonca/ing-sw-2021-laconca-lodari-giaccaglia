@@ -26,6 +26,9 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.UUID;
 
+/**
+ * This is the INITIAL and FINAL phases controller. It is totally decoupled from the game phase
+ */
 public class InitialOrFinalPhaseGUI extends InitialOrFinalPhaseViewBuilder implements GUIView {
     public AnchorPane leaderPane;
     public Button c;

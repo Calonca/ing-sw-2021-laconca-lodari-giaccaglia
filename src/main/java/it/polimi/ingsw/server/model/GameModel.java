@@ -442,8 +442,10 @@ public class GameModel {
             return players.values().stream()
                     .filter(player -> !(player == currentPlayer))
                     .map(player -> {
+
                         player.moveOnePosition();
                         return player.isInPopeSpaceForTheFirstTime();
+
                     }).anyMatch(player -> true);
         }
         else

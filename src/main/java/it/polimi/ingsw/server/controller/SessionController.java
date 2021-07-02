@@ -62,7 +62,7 @@ public class SessionController {
         return Optional.of(matches.get(matchId));
     }
 
-    public Match addNewMatch(int maxPlayers, ClientHandler clientHandler){
+    public synchronized Match addNewMatch(int maxPlayers, ClientHandler clientHandler){
         Match match = new Match(maxPlayers);
         matches.put(match.getMatchId(),match);
         clientHandler.setMatch(match);
@@ -176,7 +176,7 @@ public class SessionController {
     }
 
 
-    public void deleteGame(UUID gameId){
+    public synchronized void deleteGame(UUID gameId){
         matches.remove(gameId);
         matchesDisconnectionTimes.remove(gameId);
         saveSessionController();
@@ -185,13 +185,19 @@ public class SessionController {
     public boolean checkGameTimeout(UUID gameId){
 
         long currentTime =  System.currentTimeMillis();
-        long disconnectionTime = matchesDisconnectionTimes.get(gameId);
+        long disconnectionTime;
+        if(Objects.isNull(matchesDisconnectionTimes.get(gameId)))
+            return false;
+        else
+           disconnectionTime = matchesDisconnectionTimes.get(gameId);
+
+
         long elapsedTimeInSeconds = currentTime - disconnectionTime;
         return elapsedTimeInSeconds > maxSecondsOffline;
 
     }
 
-    public void registerDisconnection(Match match){
+    public synchronized void registerDisconnection(Match match){
         matchesDisconnectionTimes.put(match.getMatchId(), System.currentTimeMillis());
         match.stopGameIfPresent();
 
@@ -235,10 +241,12 @@ public class SessionController {
 
                       for (UUID uuid : sessionController.matches.keySet()) {
 
+                          if(!Objects.isNull(sessionController.matches.get(uuid))){
                             if (sessionController.checkGameTimeout(uuid))
                                 sessionController.deleteGame(uuid);
 
                         }
+                      }
                     }
 
                 } catch (InterruptedException e) {
