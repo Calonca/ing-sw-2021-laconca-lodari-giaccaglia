@@ -1,7 +1,14 @@
 # Software Engineering Project 2020-2021
+<img src="http://www.craniocreations.it/wp-content/uploads/2019/06/Masters-of-Renaissance_box3D_ombra.png" width=400px height=400px align="right" />
+
+![latest commit](https://img.shields.io/github/last-commit/Calonca/ing-sw-2021-laconca-lodari-giaccaglia?color=red)
+![latest release](https://img.shields.io/github/v/release/Calonca/ing-sw-2021-laconca-lodari-giaccaglia?color=green)
 
 
-Prof: Pierluigi San Pietro
+
+Maestri del Rinascimento is the final test of **"Software Engineering"**, course of **"Computer Science Engineering"** held at Politecnico di Milano (20/2020).
+
+**Teacher** Pierluigi San Pietro
 
 #### Group: SP10
 
@@ -10,24 +17,40 @@ Prof: Pierluigi San Pietro
 * Laconca Alessandro
 * Lodari Gianmarco 907448
 
+## Project specification
+The project consists of a Java version of the board game *Maestri del Rinascimento*, made by Cranio Creations.
 
+You can find the full game [here](http://www.craniocreations.it/prodotto/masters-of-renaissance/).
+
+The final version includes:
+* initial UML diagram;
+* final UML diagram, generated from the code by automated tools;
+* working game implementation, which has to be rules compliant;
+* source code of the implementation;
+* source code of unity tests.
 
 ## Implemented Features
 
+| Functionality | Status |
+|:-----------------------|:------------------------------------:|
+| Basic rules | [![GREEN](http://placehold.it/15/44bb44/44bb44)](https://github.com/Calonca/ing-sw-2021-laconca-lodari-giaccaglia/tree/master/src/main/java/it/polimi/ingsw/server/model) |
+| Complete rules | [![GREEN](http://placehold.it/15/44bb44/44bb44)](https://github.com/Calonca/ing-sw-2021-laconca-lodari-giaccaglia/tree/master/src/main/java/it/polimi/ingsw/server/model) |
+| Socket |[![GREEN](http://placehold.it/15/44bb44/44bb44)](https://github.com/Calonca/ing-sw-2021-laconca-lodari-giaccaglia/tree/master/src/main/java/it/polimi/ingsw/server) |
+| GUI | [![GREEN](http://placehold.it/15/44bb44/44bb44)](https://github.com/Calonca/ing-sw-2021-laconca-lodari-giaccaglia/tree/master/src/main/java/it/polimi/ingsw/client/view/GUI) |
+| CLI |[![GREEN](http://placehold.it/15/44bb44/44bb44)](https://github.com/Calonca/ing-sw-2021-laconca-lodari-giaccaglia/tree/master/src/main/java/it/polimi/ingsw/client/view/CLI) |
+| Multiple games | [![GREEN](http://placehold.it/15/44bb44/44bb44)](https://github.com/Calonca/ing-sw-2021-laconca-lodari-giaccaglia/tree/master/src/main/java/it/polimi/ingsw/server/controller)|
+| Persistence | [![GREEN](http://placehold.it/15/44bb44/44bb44)](https://github.com/Calonca/ing-sw-2021-laconca-lodari-giaccaglia/tree/master/src/main/java/it/polimi/ingsw/server/controller) |
+| Disconnection resilience | [![GREEN](http://placehold.it/15/44bb44/44bb44)](https://github.com/Calonca/ing-sw-2021-laconca-lodari-giaccaglia/tree/master/src/main/java/it/polimi/ingsw/server/controller) |
 
-| Syntax | Description |
-| ----------- | ----------- |
-| BASIC RULES | YES |
-| COMPLETE RULES | YES |
-| CLI | YES |
-| GUI | YES |
-| SOCKET | YES |
-| AF1 | MULTIPLE MATCHES |
-| AF2  | PERSISTENCE  |
-| AF3 | DISCONNECTION RESILIENCE|
+#### Legend
+[![RED](http://placehold.it/15/f03c15/f03c15)]() Not Implemented &nbsp;&nbsp;&nbsp;&nbsp;[![YELLOW](http://placehold.it/15/ffdd00/ffdd00)]() Implementing&nbsp;&nbsp;&nbsp;&nbsp;[![GREEN](http://placehold.it/15/44bb44/44bb44)]() Implemented
 
 
-
+<!--
+[![RED](http://placehold.it/15/f03c15/f03c15)](#)
+[![YELLOW](http://placehold.it/15/ffdd00/ffdd00)](#)
+[![GREEN](http://placehold.it/15/44bb44/44bb44)](#)
+-->
 
 ## Usage
 
@@ -73,3 +96,14 @@ Modes:
 * Clicking repeatedly during the drag and drop action may cause issues.
 
 * All the unit test have been run before each commit
+
+## Software used
+**sequencediagram.org** - sequence diagrams
+
+**Draw.io** - UML diagrams
+
+**Intellij IDEA Ultimate** - main IDE 
+
+## Copyright and license
+
+Maestri del Rinascimento is copyrighted 2020.
