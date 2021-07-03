@@ -98,9 +98,9 @@
         <version>3.8.1</version>
         <configuration>
           <!-- Version of the Java language to use -->
-          <source>16.0.1</source>
+          <source>15</source>
           <!-- Minimum JRE version the JAR will be compatible with -->
-          <target>16.0.1</target>
+          <target>15</target>
 
         </configuration>
       </plugin>
