@@ -14,20 +14,26 @@ Prof: Pierluigi San Pietro
 
 ## Implemented Features
 
+| Functionality | Status |
+|:-----------------------|:------------------------------------:|
+| Basic rules | [![GREEN](http://placehold.it/15/44bb44/44bb44)](https://github.com/Calonca/ing-sw-2021-laconca-lodari-giaccaglia/tree/master/src/main/java/it/polimi/ingsw/server/model) |
+| Complete rules | [![GREEN](http://placehold.it/15/44bb44/44bb44)](https://github.com/Calonca/ing-sw-2021-laconca-lodari-giaccaglia/tree/master/src/main/java/it/polimi/ingsw/server/model) |
+| Socket |[![GREEN](http://placehold.it/15/44bb44/44bb44)](https://github.com/Calonca/ing-sw-2021-laconca-lodari-giaccaglia/tree/master/src/main/java/it/polimi/ingsw/server) |
+| GUI | [![GREEN](http://placehold.it/15/44bb44/44bb44)](https://github.com/Calonca/ing-sw-2021-laconca-lodari-giaccaglia/tree/master/src/main/java/it/polimi/ingsw/client/view/GUI) |
+| CLI |[![GREEN](http://placehold.it/15/44bb44/44bb44)](https://github.com/Calonca/ing-sw-2021-laconca-lodari-giaccaglia/tree/master/src/main/java/it/polimi/ingsw/client/view/CLI) |
+| Multiple games | [![GREEN](http://placehold.it/15/44bb44/44bb44)](https://github.com/Calonca/ing-sw-2021-laconca-lodari-giaccaglia/tree/master/src/main/java/it/polimi/ingsw/server/controller)|
+| Persistence | [![GREEN](http://placehold.it/15/44bb44/44bb44)](https://github.com/Calonca/ing-sw-2021-laconca-lodari-giaccaglia/tree/master/src/main/java/it/polimi/ingsw/server/controller) |
+| Disconnection resilience | [![GREEN](http://placehold.it/15/f03c15/f03c15)](https://github.com/Calonca/ing-sw-2021-laconca-lodari-giaccaglia/tree/master/src/main/java/it/polimi/ingsw/server/controller) |
 
-| Syntax | Description |
-| ----------- | ----------- |
-| BASIC RULES | YES |
-| COMPLETE RULES | YES |
-| CLI | YES |
-| GUI | YES |
-| SOCKET | YES |
-| AF1 | MULTIPLE MATCHES |
-| AF2  | PERSISTENCE  |
-| AF3 | DISCONNECTION RESILIENCE|
+#### Legend
+[![RED](http://placehold.it/15/f03c15/f03c15)]() Not Implemented &nbsp;&nbsp;&nbsp;&nbsp;[![YELLOW](http://placehold.it/15/ffdd00/ffdd00)]() Implementing&nbsp;&nbsp;&nbsp;&nbsp;[![GREEN](http://placehold.it/15/44bb44/44bb44)]() Implemented
 
 
-
+<!--
+[![RED](http://placehold.it/15/f03c15/f03c15)](#)
+[![YELLOW](http://placehold.it/15/ffdd00/ffdd00)](#)
+[![GREEN](http://placehold.it/15/44bb44/44bb44)](#)
+-->
 
 ## Usage
 
