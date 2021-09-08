@@ -52,16 +52,6 @@ public class SimpleProductions extends SimpleModelElement{
         else return Optional.of(productionPairAtPos.isAvailable());
     }
 
-    public Optional<Boolean> isProductionAtPositionSelected(int productionPosition){
-
-        SimpleProduction productionPairAtPos = availableProductions.get(productionPosition);
-
-        if(productionPairAtPos==null)
-            return Optional.empty();
-
-        else return Optional.of(productionPairAtPos.isAvailable());
-    }
-
     public Optional<SimpleProduction> getProductionAtPos(int productionPosition){
 
         if(availableProductions == null)

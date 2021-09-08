@@ -199,12 +199,4 @@ public enum ActionTokenAsset {
     }
 
 
-    public boolean isDiscardingCard(){
-        return
-                this.equals(DISCARD2BLUE)||
-                this.equals(DISCARD2GREEN)||
-                this.equals(DISCARD2YELLOW)||
-                this.equals(DISCARD2PURPLE);
-    }
-
 }

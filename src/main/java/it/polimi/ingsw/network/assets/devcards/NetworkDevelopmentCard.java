@@ -25,8 +25,6 @@ public class NetworkDevelopmentCard {
     private UUID cardId;
     private boolean selectable;
 
-    public NetworkDevelopmentCard(){}
-
     public void setSelectable(boolean isSelectable){
         this.selectable = isSelectable;
     }

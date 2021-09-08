@@ -1,8 +1,8 @@
 package it.polimi.ingsw.client.view.abstractview;
 
 import it.polimi.ingsw.client.simplemodel.State;
-import it.polimi.ingsw.client.view.CLI.SetupPhaseCLI;
-import it.polimi.ingsw.client.view.GUI.SetupPhaseGUI;
+import it.polimi.ingsw.client.view.cli.SetupPhaseCLI;
+import it.polimi.ingsw.client.view.gui.SetupPhaseGUI;
 
 import java.beans.PropertyChangeEvent;
 

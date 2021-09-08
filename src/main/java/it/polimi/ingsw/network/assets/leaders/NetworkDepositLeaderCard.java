@@ -5,8 +5,6 @@ public class NetworkDepositLeaderCard extends NetworkLeaderCard {
 
     private ResourceAsset resourcesTypeInDepot;
 
-    public NetworkDepositLeaderCard(){}
-
     public void setResourcesTypeInDepot(int resourcesTypeInDepot) {
         this.resourcesTypeInDepot = ResourceAsset.fromInt(resourcesTypeInDepot);
     }

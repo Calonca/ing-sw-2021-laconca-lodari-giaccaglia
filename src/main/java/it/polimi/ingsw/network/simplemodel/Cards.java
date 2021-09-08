@@ -11,13 +11,10 @@ import java.util.UUID;
 
 public class Cards {
 
-    private final static Map<UUID, LeaderCardAsset> leaderCardAssetsMap = Deserializator.networkLeaderCardsAssetsMapDeserialization();
-    private final static Map<UUID, DevelopmentCardAsset> developmentCardAssetsMap = Deserializator.networkDevCardsAssetsDeserialization();
+    private Cards(){}
 
-    public static Optional<LeaderCardAsset> getLeaderCardAsset(UUID leaderCardId){
-        return  leaderCardAssetsMap.containsKey(leaderCardId) ? Optional.of(new LeaderCardAsset(leaderCardAssetsMap.get(leaderCardId)))
-                : Optional.empty();
-    }
+    private static final Map<UUID, LeaderCardAsset> leaderCardAssetsMap = Deserializator.networkLeaderCardsAssetsMapDeserialization();
+    private static final Map<UUID, DevelopmentCardAsset> developmentCardAssetsMap = Deserializator.networkDevCardsAssetsDeserialization();
 
     public static Optional<DevelopmentCardAsset> getDevelopmentCardAsset(UUID devCardId){
         return developmentCardAssetsMap.containsKey(devCardId) ? Optional.of((new DevelopmentCardAsset(developmentCardAssetsMap.get(devCardId))))

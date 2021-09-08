@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.messages.servertoclient.ClientMessage;
-import it.polimi.ingsw.client.view.CLI.match.CreateJoinLoadMatchCLI;
+import it.polimi.ingsw.client.view.cli.match.CreateJoinLoadMatchCLI;
 import it.polimi.ingsw.client.view.abstractview.ConnectToServerViewBuilder;
 import it.polimi.ingsw.client.view.abstractview.DisconnectViewBuilder;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
@@ -92,7 +92,6 @@ public class ServerHandler implements Runnable
             while (!stop) {
                 /* read commands from the server and process them */
                 try {
-
                     String next = input.readObject().toString();
                     ClientMessage command = ClientMessage.deserialize(next);
                     command.processMessage(this);
@@ -115,7 +114,7 @@ public class ServerHandler implements Runnable
                         stop = true;
                     } throw e;
                 } catch (ClassNotFoundException | ClassCastException e) {
-                    System.out.println("invalid stream from server" + e.toString());
+                    System.out.println("invalid stream from server : " + e.toString());
                     break;
                 }
 

@@ -48,11 +48,6 @@ public class EndGameInfo extends SimpleModelElement{
 
     }
 
-
-    public List<Integer> getPlayersEndingTheGame(){
-        return playersEndingTheGame;
-    }
-
     public Map<Integer, Boolean> getMatchOutcomeMap(){
         return matchOutcomeMap;
     }

@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static it.polimi.ingsw.network.jsonUtils.JsonUtility.serialize;
+import static it.polimi.ingsw.network.jsonutils.JsonUtility.serialize;
 
 /**
  * Contains both warehouse and leader depots,
@@ -36,7 +36,7 @@ public class WarehouseLeadersDepots implements StorageUnit {
     WarehouseLeadersDepots(List<Depot> depots){
         this.depots = depots;
         depotAtPosition = IntStream.range(0,depots.size()).
-                flatMap((value)-> IntStream.generate(()->value).limit(depots.get(value).getSize()))
+                flatMap(value-> IntStream.generate(()->value).limit(depots.get(value).getSize()))
                 .boxed().collect(Collectors.toList());
     }
 
@@ -123,11 +123,11 @@ public class WarehouseLeadersDepots implements StorageUnit {
     /**
      * Adds the given {@link Resource resource} to the right {@link Depot} at the given global position
      *
-     * @param gPos_res a {@link Pair} of global position and {@link Resource}
+     * @param gPosRes a {@link Pair} of global position and {@link Resource}
      */
     @Override
-    public void addResource(Pair<Integer, Resource> gPos_res) {
-        depotThatHasPos(gPos_res.getKey()).addResource(gPos_res);
+    public void addResource(Pair<Integer, Resource> gPosRes) {
+        depotThatHasPos(gPosRes.getKey()).addResource(gPosRes);
     }
 
     /**
@@ -163,7 +163,7 @@ public class WarehouseLeadersDepots implements StorageUnit {
      */
     public IntStream availableMovingPositionsForResource(Resource resource){
         return depots.stream()
-                .flatMapToInt((depot)->depot.availableSpotsFor(resource));
+                .flatMapToInt(depot->depot.availableSpotsFor(resource));
     }
 
     /**
@@ -172,7 +172,7 @@ public class WarehouseLeadersDepots implements StorageUnit {
      */
     Map<Integer,int[]> availableMovingPositionsForAllResources(){
         return IntStream.range(0, depotAtPosition.size())
-                .mapToObj((pos)->new Pair<>(pos,availableMovingPositionsForResourceAt(pos).toArray()))
+                .mapToObj(pos->new Pair<>(pos,availableMovingPositionsForResourceAt(pos).toArray()))
                 .collect(Collectors.toMap(
                         Pair::getKey,
                         Pair::getValue
@@ -204,19 +204,17 @@ public class WarehouseLeadersDepots implements StorageUnit {
     public  Map<Integer, List<Pair<Resource, Boolean>>> getSimpleWarehouseLeadersDepots(){
 
         Map<Integer, List<Pair<Integer, Pair<Resource, Boolean>>>> a = IntStream.range(0, depotAtPosition.size())
-                .mapToObj((pos)->new Pair<>(pos,getResourceAndSelectedAt(pos)))
+                .mapToObj(pos->new Pair<>(pos,getResourceAndSelectedAt(pos)))
                 .collect(Collectors.groupingBy(
-                        (p)->depotAtPosition.get(p.getKey())
+                        p->depotAtPosition.get(p.getKey())
                         )
                 );
 
-        Map<Integer, List<Pair<Resource, Boolean>>> b = a.entrySet().stream().map((entry)->
+        return a.entrySet().stream().map(entry->
         {
             List<Pair<Resource, Boolean>> test = entry.getValue().stream().map(Pair::getValue).collect(Collectors.toList());
             return new Pair<>(entry.getKey(),test);
         }).collect(Collectors.toMap(Pair::getKey,Pair::getValue));
-
-        return b;
 
     }
 
@@ -265,7 +263,7 @@ public class WarehouseLeadersDepots implements StorageUnit {
      */
     @Override
     public void  removeSelected(){
-        removeResources(IntStream.range(0,depotAtPosition.size()).filter((pos)->depotThatHasPos(pos).getSelected(pos)).toArray());
+        removeResources(IntStream.range(0,depotAtPosition.size()).filter(pos->depotThatHasPos(pos).getSelected(pos)).toArray());
     }
 
     /**
@@ -283,7 +281,7 @@ public class WarehouseLeadersDepots implements StorageUnit {
      * @return number of {@link Resource resources} of the given type in the deposit
      */
     public int getNumberOf(Resource type){
-        return depots.stream().mapToInt((dep)->dep.getNumberOf(type)).reduce(0, Integer::sum);
+        return depots.stream().mapToInt(dep->dep.getNumberOf(type)).reduce(0, Integer::sum);
     }
 
     public int getNumOfCellsInAllDepots(){
@@ -295,7 +293,7 @@ public class WarehouseLeadersDepots implements StorageUnit {
      */
     @Override
     public int getTotalSelected(){
-        return (int) IntStream.range(0,depotAtPosition.size()).filter((pos)->depotThatHasPos(pos).getSelected(pos)).count();
+        return (int) IntStream.range(0,depotAtPosition.size()).filter(pos->depotThatHasPos(pos).getSelected(pos)).count();
     }
 
     public int getLeaderDepotAtPosResourceType(int spotPosition){

@@ -45,10 +45,10 @@ public class SetupPhaseEvent extends it.polimi.ingsw.network.messages.clienttose
      */
     private boolean validateLeaders() {
 
-        Player player = gamemodel.getPlayer(playerNumber).get();
 
-        if(chosenLeaders.size() == initialDiscardedLeaders && initialDiscardedLeaders == 2)
+        if( gamemodel.getPlayer(playerNumber).isPresent() && chosenLeaders.size() == initialDiscardedLeaders && initialDiscardedLeaders == 2)
         {
+            Player player = gamemodel.getPlayer(playerNumber).get();
             boolean validationOk;
             for (UUID leaderId: chosenLeaders) {
                 validationOk = player.isLeaderAvailable(leaderId);
@@ -119,13 +119,11 @@ public class SetupPhaseEvent extends it.polimi.ingsw.network.messages.clienttose
                     availablePositionsAsList.get(resource.getKey()).set(resource.getKey(), resource.getValue());
                     value = false;
                 } else if (resource.getKey() < 3) {
-                    {
-                        if (availablePositionsAsList.get(1).stream().noneMatch(i -> (i != -1 && !i.equals(resource.getValue())))) {
-                            availablePositionsAsList.get(1).set(resource.getKey() - 1, resource.getValue());
-                            value = false;
-                        } else
-                            value = true;
-                    }
+                    if (availablePositionsAsList.get(1).stream().noneMatch(i -> (i != -1 && !i.equals(resource.getValue())))) {
+                        availablePositionsAsList.get(1).set(resource.getKey() - 1 , resource.getValue());
+                        value = false;
+                    } else
+                        value = true;
                 } else if (resource.getKey() < 6) {
                     if (availablePositionsAsList.get(2).stream().noneMatch(i -> (i != -1 && !i.equals(resource.getValue())))) {
                         availablePositionsAsList.get(2).set(resource.getKey() - 3, resource.getValue());

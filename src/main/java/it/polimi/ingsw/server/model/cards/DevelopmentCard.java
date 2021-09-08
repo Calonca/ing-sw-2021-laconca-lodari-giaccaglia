@@ -65,19 +65,11 @@ public class DevelopmentCard
         this.cardId = another.cardId;
     }
 
-    public void setCardId(UUID cardId){
-        this.cardId = cardId;
-    }
-
     public UUID getCardId(){
         return cardId;
     }
     public DevelopmentCardColor getCardType() {
         return cardType;
-    }
-
-    public List<Pair<Resource,Integer>> getCostList(){
-        return costList;
     }
 
     public Map<Resource, Integer> getCostMap(){

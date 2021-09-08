@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class ExecuteLeaderAction implements GameStrategy {
 
-    List<Element> elementsToUpdate = new ArrayList<>();
+    final List<Element> elementsToUpdate = new ArrayList<>();
 
     @Override
     public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event) {
@@ -39,7 +39,7 @@ public class ExecuteLeaderAction implements GameStrategy {
         else { //choice == 3 -> skip
             State nextState = gamemodel.getCurrentPlayer().getCurrentState().equals(State.INITIAL_PHASE) ? State.MIDDLE_PHASE : State.IDLE;
 
-            elementsToUpdate.add(Element.SimpleCardShop);
+            elementsToUpdate.add(Element.SIMPLE_CARD_SHOP);
             return new Pair<>(nextState, elementsToUpdate);
 
         }

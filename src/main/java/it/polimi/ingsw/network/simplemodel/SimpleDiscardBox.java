@@ -10,7 +10,7 @@ import java.util.Objects;
 
 public class SimpleDiscardBox extends SimpleModelElement{
 
-    Map<Integer, Pair<ResourceAsset, Integer>> simpleDiscardBox;
+    Map<Integer, Pair<ResourceAsset, Integer>> simpleBox;
 
     private Map<Integer, List<Integer>> availableMovingPositions;
 
@@ -19,7 +19,7 @@ public class SimpleDiscardBox extends SimpleModelElement{
     public SimpleDiscardBox(){}
 
     public SimpleDiscardBox(Map<Integer, Pair<ResourceAsset, Integer>> simpleStrongBox, Map<Integer, List<Integer>> availableMovingPositions, boolean isDiscardable){
-        this.simpleDiscardBox = simpleStrongBox;
+        this.simpleBox = simpleStrongBox;
         this.isDiscardable = isDiscardable;
         this.availableMovingPositions = availableMovingPositions;
     }
@@ -28,14 +28,14 @@ public class SimpleDiscardBox extends SimpleModelElement{
     public void update(SimpleModelElement element) {
 
         SimpleDiscardBox serverDiscardBox = (SimpleDiscardBox) element;
-        this.simpleDiscardBox = serverDiscardBox.simpleDiscardBox;
+        this.simpleBox = serverDiscardBox.simpleBox;
         this.isDiscardable = serverDiscardBox.isDiscardable;
         this.availableMovingPositions = serverDiscardBox.availableMovingPositions;
 
     }
 
     public boolean isPosAvailable(int pos){
-        return availableMovingPositions.containsKey(pos)&&availableMovingPositions.get(pos).size()>0;
+        return availableMovingPositions.containsKey(pos)&&!availableMovingPositions.get(pos).isEmpty();
     }
 
     public boolean isDiscardable() {
@@ -43,9 +43,9 @@ public class SimpleDiscardBox extends SimpleModelElement{
     }
 
     public Map<Integer, Pair<ResourceAsset, Integer>> getResourceMap() {
-        if(Objects.isNull(simpleDiscardBox))
+        if(Objects.isNull(simpleBox))
             return new HashMap<>();
-        return simpleDiscardBox;
+        return simpleBox;
     }
 
     public Map<Integer, List<Integer>> getAvailableMovingPositions(){

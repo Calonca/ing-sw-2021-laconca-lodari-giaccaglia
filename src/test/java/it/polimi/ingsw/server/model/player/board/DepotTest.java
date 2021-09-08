@@ -8,13 +8,12 @@ import org.junit.Test;
 import java.util.stream.IntStream;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertArrayEquals;
 
 public class DepotTest {
     private Depot depotGold,depotEmpty;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         depotGold = new Depot(4,10, Resource.GOLD) {};
         depotEmpty = new Depot(3,0, Resource.EMPTY) {};
     }

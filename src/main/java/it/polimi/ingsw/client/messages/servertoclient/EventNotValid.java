@@ -2,10 +2,8 @@ package it.polimi.ingsw.client.messages.servertoclient;
 
 import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.ServerHandler;
-import it.polimi.ingsw.client.view.CLI.textUtil.Color;
-import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
+import it.polimi.ingsw.client.view.cli.textutil.Color;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -13,18 +11,14 @@ import java.util.ArrayList;
  */
 public class EventNotValid extends it.polimi.ingsw.network.messages.servertoclient.EventNotValid implements ClientMessage {
 
-    public EventNotValid(ClientToServerMessage clientToServerMessage) {
-        super(clientToServerMessage);
-    }
 
 
     /**
      * Notifies the last valid state when the last event was not valid
      * @param serverHandler is the corresponding Client's ServerHandler
-     * @throws IOException
      */
     @Override
-    public void processMessage(ServerHandler serverHandler) throws IOException {
+    public void processMessage(ServerHandler serverHandler) {
 
         int playerIndex = CommonData.getThisPlayerIndex();
         int currentPlayerIndex = serverHandler.getClient().getCommonData().getCurrentPlayerIndex();
@@ -37,6 +31,5 @@ public class EventNotValid extends it.polimi.ingsw.network.messages.servertoclie
         serverHandler.getClient().setState(new StateInNetwork(playerIndex,currentPlayerIndex, currentPlayerNickname,state,new ArrayList<>(),new ArrayList<>()));
 
         System.out.println(Color.colorString("The last event send was not valid, going back to the last valid state",Color.RED));
-        //Todo better handling
     }
 }

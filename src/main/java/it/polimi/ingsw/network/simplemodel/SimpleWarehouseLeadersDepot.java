@@ -10,7 +10,7 @@ import java.util.Objects;
 
 public class SimpleWarehouseLeadersDepot extends SimpleModelElement{
 
-    private Map<Integer, List<Pair<ResourceAsset, Boolean>>> simpleWarehouseLeadersDepot;
+    private Map<Integer, List<Pair<ResourceAsset, Boolean>>> simpleDepot;
 
     private Map<Integer, List<Integer>> availableMovingPositions;
 
@@ -19,25 +19,25 @@ public class SimpleWarehouseLeadersDepot extends SimpleModelElement{
     public SimpleWarehouseLeadersDepot(){}
 
     public SimpleWarehouseLeadersDepot(Map<Integer, List<Pair<ResourceAsset, Boolean>>> simpleWarehouseLeadersDepot, Map<Integer, List<Integer>> availableMovingPositions,  Map<Integer, ResourceAsset> resourcesTypesOfLeaderDepots){
-        this.simpleWarehouseLeadersDepot = simpleWarehouseLeadersDepot;
+        this.simpleDepot = simpleWarehouseLeadersDepot;
         this.availableMovingPositions = availableMovingPositions;
         this.resourcesTypesOfLeaderDepots = resourcesTypesOfLeaderDepots;
     }
 
     public Map<Integer, List<Pair<ResourceAsset, Boolean>>> getDepots() {
-        if(Objects.isNull(simpleWarehouseLeadersDepot))
-            return Collections.EMPTY_MAP;
-        return simpleWarehouseLeadersDepot;
+        if(Objects.isNull(simpleDepot))
+            return Collections.emptyMap();
+        return simpleDepot;
     }
 
     public boolean isPosAvailable(int pos){
-        return availableMovingPositions.containsKey(pos)&&availableMovingPositions.get(pos).size()>0;
+        return availableMovingPositions.containsKey(pos)&&!availableMovingPositions.get(pos).isEmpty();
     }
 
     @Override
     public void update(SimpleModelElement element) {
         SimpleWarehouseLeadersDepot serverWarehouseLeadersDepot= (SimpleWarehouseLeadersDepot) element;
-        this.simpleWarehouseLeadersDepot = serverWarehouseLeadersDepot.simpleWarehouseLeadersDepot;
+        this.simpleDepot = serverWarehouseLeadersDepot.simpleDepot;
         this.availableMovingPositions = serverWarehouseLeadersDepot.availableMovingPositions;
         this.resourcesTypesOfLeaderDepots = serverWarehouseLeadersDepot.resourcesTypesOfLeaderDepots;
     }

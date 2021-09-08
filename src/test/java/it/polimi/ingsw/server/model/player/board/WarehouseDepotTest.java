@@ -13,7 +13,7 @@ public class WarehouseDepotTest {
     private WarehouseDepot warehouseDepot;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         warehouseDepot = new WarehouseDepot(3,0);
     }
 

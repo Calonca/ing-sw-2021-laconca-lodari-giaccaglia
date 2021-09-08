@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.view.abstractview;
 
-import it.polimi.ingsw.client.view.CLI.endgame.WinLooseCLI;
-import it.polimi.ingsw.client.view.GUI.WinLooseGUI;
+import it.polimi.ingsw.client.view.cli.endgame.WinLooseCLI;
+import it.polimi.ingsw.client.view.gui.WinLooseGUI;
 
 public abstract class WinLooseBuilder extends ViewBuilder{
     public static ViewBuilder getBuilder(boolean isCLI){

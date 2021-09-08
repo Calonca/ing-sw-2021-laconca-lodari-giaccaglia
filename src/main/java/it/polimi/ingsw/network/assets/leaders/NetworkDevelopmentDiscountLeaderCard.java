@@ -7,9 +7,6 @@ public class NetworkDevelopmentDiscountLeaderCard extends NetworkLeaderCard {
 
     Pair<ResourceAsset, Integer> resourcesDiscount;
 
-    public NetworkDevelopmentDiscountLeaderCard() {
-    }
-
     public void setResourcesDiscount(Pair<Integer, Integer> resourcesDiscount){
         this.resourcesDiscount = new Pair<>(ResourceAsset.fromInt(resourcesDiscount.getKey()), resourcesDiscount.getValue());
     }

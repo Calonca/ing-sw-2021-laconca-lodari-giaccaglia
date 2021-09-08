@@ -2,12 +2,11 @@ package it.polimi.ingsw.server.controller.strategy.leader;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import it.polimi.ingsw.network.jsonUtils.CommonGsonAdapters;
-import it.polimi.ingsw.network.jsonUtils.JsonUtility;
+import it.polimi.ingsw.network.jsonutils.CommonGsonAdapters;
+import it.polimi.ingsw.network.jsonutils.JsonUtility;
 import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
 import it.polimi.ingsw.server.controller.Match;
 import it.polimi.ingsw.server.controller.strategy.ExecuteLeaderAction;
-import it.polimi.ingsw.server.controller.strategy.cardmarket.PayingResourcesForDevelopmentCard;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.states.State;
@@ -18,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class ActivatingLeaderTest {
 
@@ -32,9 +31,8 @@ public class ActivatingLeaderTest {
         players.put(0,"testPlayer1");
         List<Integer> onlineUsers = new ArrayList<>(players.keySet());
 
-        boolean isSinglePlayer = true;
         Match match= new Match(1);
-        GameModel gamemodel = new GameModel(players, isSinglePlayer,match, onlineUsers);
+        GameModel gamemodel = new GameModel(players, true ,match, onlineUsers);
 
         Event clientEvent = new it.polimi.ingsw.network.messages.clienttoserver.events.InitialOrFinalPhaseEvent(3,gamemodel.getCurrentPlayer().getLeadersUUIDs().get(0));
 
@@ -59,9 +57,8 @@ public class ActivatingLeaderTest {
         players.put(0,"testPlayer1");
         List<Integer> onlineUsers = new ArrayList<>(players.keySet());
 
-        boolean isSinglePlayer = true;
         Match match= new Match(1);
-        GameModel gamemodel = new GameModel(players, isSinglePlayer,match, onlineUsers);
+        GameModel gamemodel = new GameModel(players, true ,match, onlineUsers);
 
         Event clientEvent = new it.polimi.ingsw.network.messages.clienttoserver.events.InitialOrFinalPhaseEvent(1,gamemodel.getCurrentPlayer().getLeadersUUIDs().get(0));
 
@@ -87,9 +84,8 @@ public class ActivatingLeaderTest {
         players.put(0,"testPlayer1");
         List<Integer> onlineUsers = new ArrayList<>(players.keySet());
 
-        boolean isSinglePlayer = true;
         Match match= new Match(1);
-        GameModel gamemodel = new GameModel(players, isSinglePlayer,match, onlineUsers);
+        GameModel gamemodel = new GameModel(players, true ,match, onlineUsers);
 
         Event clientEvent = new it.polimi.ingsw.network.messages.clienttoserver.events.InitialOrFinalPhaseEvent(1,gamemodel.getCurrentPlayer().getLeadersUUIDs().get(0));
 
@@ -119,9 +115,8 @@ public class ActivatingLeaderTest {
         players.put(0,"testPlayer1");
         List<Integer> onlineUsers = new ArrayList<>(players.keySet());
 
-        boolean isSinglePlayer = true;
         Match match= new Match(1);
-        GameModel gamemodel = new GameModel(players, isSinglePlayer,match, onlineUsers);
+        GameModel gamemodel = new GameModel(players, true ,match, onlineUsers);
 
         Event clientEvent = new it.polimi.ingsw.network.messages.clienttoserver.events.InitialOrFinalPhaseEvent(1,gamemodel.getCurrentPlayer().getLeadersUUIDs().get(0));
 
@@ -148,9 +143,8 @@ public class ActivatingLeaderTest {
         players.put(0,"testPlayer1");
         List<Integer> onlineUsers = new ArrayList<>(players.keySet());
 
-        boolean isSinglePlayer = true;
         Match match= new Match(1);
-        GameModel gamemodel = new GameModel(players, isSinglePlayer,match, onlineUsers);
+        GameModel gamemodel = new GameModel(players, true ,match, onlineUsers);
 
         Event clientEvent = new it.polimi.ingsw.network.messages.clienttoserver.events.InitialOrFinalPhaseEvent(1,gamemodel.getCurrentPlayer().getLeadersUUIDs().get(0));
 

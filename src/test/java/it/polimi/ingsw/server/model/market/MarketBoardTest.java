@@ -13,12 +13,10 @@ import static org.junit.Assert.*;
 public class MarketBoardTest {
 
     GameModel gameModelTest;
-    boolean areThereWhiteMarbles;
     int numberOfWhiteMarbles;
-    Box mappedResources;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         Map<Integer, String> players = new HashMap<>();
         players.put(0,"testPlayer1");
         players.put(1,"testPlayer2");
@@ -27,7 +25,6 @@ public class MarketBoardTest {
         List<Integer> onlineUsers = new ArrayList<>(players.keySet());
 
         gameModelTest = new GameModel(players, true, null, onlineUsers);
-        areThereWhiteMarbles = false;
     }
 
     @Test
@@ -51,13 +48,11 @@ public class MarketBoardTest {
 
         gameModelTest.chooseLineFromMarketBoard(line);
 
-        areThereWhiteMarbles = gameModelTest.areThereWhiteMarblesInPickedLine();
         numberOfWhiteMarbles = gameModelTest.getNumberOfWhiteMarblesInPickedLine();
 
         for (int i = 0; i < numberOfWhiteMarbles; i++)
             gameModelTest.convertWhiteMarbleInPickedLine(mappedResource.get(i).getResourceNumber());
 
-        mappedResources = gameModelTest.getBoxOfResourcesFromMarketBoard();
         gameModelTest.updateMatrixAfterTakingResources();
 
 

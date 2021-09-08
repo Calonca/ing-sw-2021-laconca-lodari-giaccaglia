@@ -3,7 +3,7 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.layout.*?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.GUI.SetupPhaseGUI">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.SetupPhaseGUI">
     <AnchorPane fx:id="setupAnchor" prefHeight="200.0" prefWidth="200.0" styleClass="pane" StackPane.alignment="BOTTOM_LEFT" />
    <cursor>
       <Cursor fx:constant="OPEN_HAND" />

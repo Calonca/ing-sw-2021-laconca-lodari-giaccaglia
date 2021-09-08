@@ -2,8 +2,8 @@ package it.polimi.ingsw.server.controller.strategy.cardmarket;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import it.polimi.ingsw.network.jsonUtils.CommonGsonAdapters;
-import it.polimi.ingsw.network.jsonUtils.JsonUtility;
+import it.polimi.ingsw.network.jsonutils.CommonGsonAdapters;
+import it.polimi.ingsw.network.jsonutils.JsonUtility;
 import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
 import it.polimi.ingsw.network.messages.clienttoserver.events.cardshopevent.ChooseCardEvent;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 public class AcquiringDevelopmentCardTest {
 
@@ -38,8 +37,7 @@ public class AcquiringDevelopmentCardTest {
         players.put(0,"testPlayer1");
         List<Integer> onlineUsers = new ArrayList<>(players.keySet());
 
-        boolean isSinglePlayer = true;
-        GameModel gamemodel = new GameModel(players, isSinglePlayer,null, onlineUsers);
+        GameModel gamemodel = new GameModel(players, true ,null, onlineUsers);
 
         assertEquals(State.CHOOSING_RESOURCES_FOR_DEVCARD, new AcquiringDevelopmentCard().execute(gamemodel, serverEvent).getKey());
 

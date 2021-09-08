@@ -1,10 +1,8 @@
 package it.polimi.ingsw.client.messages.servertoclient;
 
 import it.polimi.ingsw.client.ServerHandler;
-import it.polimi.ingsw.client.view.CLI.match.CreateJoinLoadMatchCLI;
-import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
+import it.polimi.ingsw.client.view.cli.match.CreateJoinLoadMatchCLI;
 
-import java.io.IOException;
 import java.util.UUID;
 
 
@@ -13,18 +11,16 @@ import java.util.UUID;
  */
 public class JoinStatus extends it.polimi.ingsw.network.messages.servertoclient.JoinStatus implements ClientMessage {
 
-
-    public JoinStatus(ClientToServerMessage parent, UUID joinedMatchUUID, motive m, int playerIndex) {
-        super(parent, joinedMatchUUID, m, playerIndex);
+    public JoinStatus(UUID joinedMatchUUID, motive m, int playerIndex) {
+        super(joinedMatchUUID, m, playerIndex);
     }
 
     /**
      * This method sets the correct data to be acquired by the listener
      * @param serverHandler is the corresponding Client's ServerHandler
-     * @throws IOException
      */
     @Override
-    public void processMessage(ServerHandler serverHandler) throws IOException {
+    public void processMessage(ServerHandler serverHandler) {
         if (joinedMatchUUID==null)
             serverHandler.getClient().changeViewBuilder(CreateJoinLoadMatchCLI.getBuilder(serverHandler.getClient().isCLI()));
 

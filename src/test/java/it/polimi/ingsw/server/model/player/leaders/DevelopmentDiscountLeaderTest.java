@@ -35,9 +35,7 @@ public class DevelopmentDiscountLeaderTest
         players.put(0,"testPlayer1");
 
         List<Integer> onlineUsers = new ArrayList<>(players.keySet());
-
-        boolean isSinglePlayer = true;
-        GameModel gamemodel = new GameModel(players, isSinglePlayer,null, onlineUsers);
+        GameModel gamemodel = new GameModel(players, true ,null, onlineUsers);
 
         assertNotNull(discountTest);
         DevelopmentDiscountLeader leadertest = new DevelopmentDiscountLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, discountTest);

@@ -10,20 +10,13 @@ import java.util.Optional;
  * top Card with {@link DevelopmentCardDeck#getCard()} and check whether deck is empty or not.
  */
 public class DevelopmentCardDeck {
-    private int level;
-    private DevelopmentCardColor color;
-    private List<DevelopmentCard> deck;
-    private int deckCapacity;
+    private final List<DevelopmentCard> deck;
     private int deckSize;
 
     // basic constructor
 
-    public DevelopmentCardDeck(int level, DevelopmentCardColor color, List<DevelopmentCard> deck, int deckCapacity, int deckSize) {
-
-        this.level = level;
-        this.color = color;
+    public DevelopmentCardDeck(List<DevelopmentCard> deck, int deckSize) {
         this.deck = deck;
-        this.deckCapacity = deckCapacity;
         this.deckSize = deckSize;
 
     }

@@ -6,7 +6,6 @@ import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.server.utils.Deserializator;
 import javafx.util.Pair;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -73,7 +72,7 @@ public class MarketBoard {
      */
     private MarketLine line;
 
-    public static MarketBoard initializeMarketBoard() throws IOException {
+    public static MarketBoard initializeMarketBoard() {
 
         MarketBoard marketBoard = Deserializator.marketBoardDeserialization();
 
@@ -84,8 +83,8 @@ public class MarketBoard {
         Collections.shuffle(marbles);
 
         marketBoard.marbleMatrix = IntStream.range(0,marketBoard.columns * marketBoard.rows)
-                .mapToObj((pos)->new Pair<>(pos,marbles.get(pos)))
-                .collect(groupingBy((e)->e.getKey()% marketBoard.rows))
+                .mapToObj(pos->new Pair<>(pos,marbles.get(pos)))
+                .collect(groupingBy(e->e.getKey()% marketBoard.rows))
                 .values()
                 .stream()
                 .map(MarketBoard::pairToValue)
@@ -121,8 +120,8 @@ public class MarketBoard {
         return columns;
     }
 
-    private static Marble[] pairToValue(List<Pair<Integer, Marble>> pos_marArray){
-        return pos_marArray.stream().map(Pair::getValue).toArray(Marble[]::new);
+    private static Marble[] pairToValue(List<Pair<Integer, Marble>> marblesPairList){
+        return marblesPairList.stream().map(Pair::getValue).toArray(Marble[]::new);
     }
 
     /**
@@ -282,14 +281,6 @@ public class MarketBoard {
                     .collect(Collectors.toList())
         );
     }
-
-    /* public static void main(String[] args) {
-        MarketBoard resourcesMarket = initializeMarketBoard("/Users/pablo/IdeaProjects/ing-sw-2021-laconca-lodari-giaccaglia/target/classes/config/MarketBoardConfig.json");
-        System.out.println(Arrays.deepToString(resourcesMarket.marbleMatrix));
-        System.out.println(Arrays.toString(resourcesMarket.chooseMarketLine(MarketLine.FIRST_COLUMN)));
-        resourcesMarket.updateMatrix(MarketLine.FIRST_ROW);
-        System.out.println(Arrays.deepToString(resourcesMarket.marbleMatrix));
-    }*/
 
 }
 

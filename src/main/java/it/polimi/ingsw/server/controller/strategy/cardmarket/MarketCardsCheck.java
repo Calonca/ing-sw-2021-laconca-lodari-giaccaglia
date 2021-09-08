@@ -12,10 +12,12 @@ import java.util.List;
 
 public class MarketCardsCheck {
 
+    private MarketCardsCheck(){}
+
     public static Pair<State, List<Element>> checkMarketCards(GameModel gamemodel, List<Element> elementsToUpdate){
 
         String endGameReason = null;
-        elementsToUpdate.add(Element.EndGameInfo);
+        elementsToUpdate.add(Element.END_GAME_INFO);
         PersonalBoard currentBoard = gamemodel.getCurrentPlayer().getPersonalBoard();
 
 

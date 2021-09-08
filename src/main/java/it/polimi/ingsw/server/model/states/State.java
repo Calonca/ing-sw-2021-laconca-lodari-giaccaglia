@@ -26,8 +26,6 @@ import java.util.Map;
  *
  *  <li>{@link #INITIAL_PHASE}</li>  <br>
  *
- *  <li>{@link #LEADER_END}</li>    <br>
- *
  *  <li>{@link #MIDDLE_PHASE} <em>"Normal actions"</em>
  *      <ul>
  *          <li><em>Activate the Production :</em>
@@ -45,7 +43,6 @@ import java.util.Map;
  *          <li>{@link #CHOOSING_POSITION_FOR_DEVCARD}</li>
  *      </ul>
  *  <li> {@link #FINAL_PHASE} <em>"Leader action"</em> </li><br>
- *  <li> {@link #LEADER_END}</li><br>
  *  <li>{@link #IDLE}</li><br>
  *  <li>{@link #END_PHASE}</li><br>
  *
@@ -123,15 +120,6 @@ public enum State {
      * Final turn phase where player can perform a <em>"Leader action"</em>
      */
     FINAL_PHASE,
-
-    /**
-     * When a Leader Turn ends, this state decides if it's a leader action before or after middle phase,
-     * returning the correct next state as the game rules.
-     */
-    LEADER_END,
-
-
-    TOKEN_PHASE,
 
     /**
      * Default player state during others' turn.

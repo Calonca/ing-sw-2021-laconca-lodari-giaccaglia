@@ -88,8 +88,7 @@ public class SinglePlayerDeckTest {
         players.put(0,"testPlayer1");
         List<Integer> onlineUsers = new ArrayList<>(players.keySet());
 
-        boolean isSinglePlayer = true;
-        GameModel gameModelTest = new GameModel(players, isSinglePlayer,null, onlineUsers);
+        GameModel gameModelTest = new GameModel(players, true ,null, onlineUsers);
         SoloActionToken tokenTest = gameModelTest.getSoloActionTokenOnTop();
         gameModelTest.activateSoloActionToken();
 
@@ -98,7 +97,6 @@ public class SinglePlayerDeckTest {
         field.setAccessible(true);
         CardShop cardShopTest = (CardShop) field.get(gameModelTest);
 
-        Map<DevelopmentCardColor, Map<Integer, DevelopmentCardDeck>> devDecks;
         Class<?> cardShopClassTest = cardShopTest.getClass();
         field = cardShopClassTest.getDeclaredField("devDecks");
         field.setAccessible(true);

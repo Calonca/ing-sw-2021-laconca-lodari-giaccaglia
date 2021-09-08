@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.view.abstractview;
 
-import it.polimi.ingsw.client.view.CLI.middle.MiddleCardShopCLI;
-import it.polimi.ingsw.client.view.GUI.CardShopGUI;
+import it.polimi.ingsw.client.view.cli.middle.MiddleCardShopCLI;
+import it.polimi.ingsw.client.view.gui.CardShopGUI;
 import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.events.cardshopevent.ChooseCardEvent;
 import it.polimi.ingsw.network.messages.clienttoserver.events.cardshopevent.ChooseCardPositionEvent;
@@ -16,13 +16,13 @@ import static it.polimi.ingsw.client.simplemodel.State.CHOOSING_RESOURCES_FOR_DE
 
 public abstract class CardShopViewBuilder extends ViewBuilder{
 
-    public static boolean viewing;
+    protected static boolean viewing;
 
     /**
      * Method to initialize the viewBuilder
      * @param viewing represents the card shop state
      */
-    public CardShopViewBuilder(boolean viewing) {
+    protected CardShopViewBuilder(boolean viewing) {
         CardShopViewBuilder.viewing = viewing;
     }
 

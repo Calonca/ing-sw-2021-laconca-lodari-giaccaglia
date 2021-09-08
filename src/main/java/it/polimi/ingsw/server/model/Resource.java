@@ -25,7 +25,7 @@ public enum Resource
     /**
      * Indicated the number of "physical" resources
      */
-    public static final int nRes = 4;
+    public static final int N_RES = 4;
 
     /**
      * Array containing "physical" resources, used to get resource from it's number in the ordering.

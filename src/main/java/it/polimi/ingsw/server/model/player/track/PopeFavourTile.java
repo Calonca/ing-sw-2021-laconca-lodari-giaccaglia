@@ -20,24 +20,9 @@ public class PopeFavourTile {
      */
     private FaithZone zone;
 
-    private int x_pos;
+    private int xPos;
 
-    private int y_pos;
-
-
-    /*
-    /**
-     * This constructor creates a <em>PopeFavourTile</em> when the {@link FaithTrack} is populated during game setup.
-     * When the object is created, the initialization process sets the {@link TileState} to the default
-     * {@link TileState#INACTIVE INACTIVE} value.
-     *
-    public PopeFavourTile(int points, FaithZone zone) {
-        this.points = points;
-        this.state = TileState.INACTIVE;
-        this.zone = zone;
-    }
-
-    */
+    private int yPos ;
 
     /**
      * @return <em>Victory Points</em> associated with this tile.
@@ -62,13 +47,4 @@ public class PopeFavourTile {
     public void setTileState(TileState tileState) {
         this.state = tileState;
     }
-
-    /*
-    /**
-     * @return The {@link FaithZone} to which this tile belongs.
-     *
-    public FaithZone getZone() {
-        return zone;
-    }
-   */
 }

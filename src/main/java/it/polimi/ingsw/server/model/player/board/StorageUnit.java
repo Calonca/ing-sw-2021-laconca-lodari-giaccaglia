@@ -17,9 +17,9 @@ public interface StorageUnit {
 
     /**
      * Adds the given {@link Resource resource} to the {@link StorageUnit} at the given global position
-     * @param gPos_res a {@link Pair} of global position and {@link it.polimi.ingsw.server.model.Resource}
+     * @param gPosRes a {@link Pair} of global position and {@link it.polimi.ingsw.server.model.Resource}
      */
-    void addResource(Pair<Integer, Resource> gPos_res);
+    void addResource(Pair<Integer, Resource> gPosRes);
 
 
     /**
@@ -55,10 +55,4 @@ public interface StorageUnit {
     void removeSelected();
 
 
-    ///**
-    // * Returns if the {@link Resource resource} at the given global position in the {@link StorageUnit} is selected for production
-    // * @param globalPos the global position of the {@link Resource resource}
-    // * @return if the {@link Resource resource} at the given global position in the {@link StorageUnit} is selected for production
-    // */
-    //boolean getResSelectedAt(int globalPos);
 }

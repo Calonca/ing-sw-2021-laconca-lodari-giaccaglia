@@ -15,10 +15,6 @@ import it.polimi.ingsw.server.model.states.State;
  */
 public class MoveResourceEvent extends it.polimi.ingsw.network.messages.clienttoserver.events.marketboardevent.MoveResourceEvent implements Validable {
 
-    /**
-     * {@link GameModel} of the event's current game on which event validation has to be performed.
-     */
-    private transient GameModel gameModel;
     private transient PersonalBoard playerPersonalBoard;
 
     /**
@@ -27,7 +23,7 @@ public class MoveResourceEvent extends it.polimi.ingsw.network.messages.clientto
      * @param gameModel {@link GameModel} of the event's current game on which event validation has to be performed.
      */
     private boolean initializeMiddlePhaseEventValidation(GameModel gameModel){
-        this.gameModel = gameModel;
+
         if(gameModel.getPlayer(playerNickname).isEmpty())
             return false;
 
@@ -43,25 +39,6 @@ public class MoveResourceEvent extends it.polimi.ingsw.network.messages.clientto
                 checkResourceAvailability() &&
                 validateResourceToMove(startPos, endPos);
     }
-
-    /*
-
-    /**
-     * Method to validate initial and final positions for {@Resource Resources} taken from
-     * {@link it.polimi.ingsw.server.model.market.MarketBoard MarketBoard} and placed in
-     * {@link it.polimi.ingsw.server.model.player.board.WarehouseDepot WarehouseDepot}
-     *
-     * @param endPos  int value of the destination position for the {@link Resource Resource} to move.
-     *
-     * @return true if starting position is among ones in the picked {@link Resource Resources} and
-     * ending position is among available ones inside {@link it.polimi.ingsw.server.model.player.board.WarehouseDepot WarehouseDepot}
-     *
-    private boolean validateNewResourceToAdd(int endPos){
-        return endPos >=0;
-
-    }
-
-    */
 
     /**
      * Method to validate initial and final position for {@link Resource Resources} moved

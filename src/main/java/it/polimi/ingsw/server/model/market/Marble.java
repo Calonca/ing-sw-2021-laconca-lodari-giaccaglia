@@ -2,8 +2,6 @@ package it.polimi.ingsw.server.model.market;
 
 import it.polimi.ingsw.server.model.Resource;
 
-import java.util.Arrays;
-
 /**
  *  <p>Enum class for <em>Market Marbles</em> of  {@link MarketBoard }<br>
  *  Each Marble but White is mapped to a different {@link Resource}.
@@ -65,11 +63,6 @@ public enum Marble {
     public static Marble fromInt(int marbleNum){
         return marbleNum>vals.length|| marbleNum<0 ? INVALID: vals[marbleNum];
     }
-
-    public static int getMarbleNumber(Marble marble){
-        return Arrays.asList(vals).indexOf(marble);
-    }
-
     /** Returns
       * @return mapped {@link Resource} corresponding to the <em>Marble</em> on which method is called
     */

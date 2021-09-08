@@ -175,7 +175,7 @@ public class LeaderTest
         List<Integer> onlineUsers = new ArrayList<>(players.keySet());
 
         boolean isSinglePlayer = true;
-        GameModel gamemodel = new GameModel(players, isSinglePlayer,null, onlineUsers);
+        GameModel gamemodel = new GameModel(players, true ,null, onlineUsers);
 
 
         Leader test=new MarketLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, bonus);
@@ -205,7 +205,7 @@ public class LeaderTest
         List<Integer> onlineUsers = new ArrayList<>(players.keySet());
 
         boolean isSinglePlayer = true;
-        GameModel gamemodel = new GameModel(players, isSinglePlayer,null, onlineUsers);
+        GameModel gamemodel = new GameModel(players, true ,null, onlineUsers);
 
         Leader test=new MarketLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, bonus);
         assertTrue(gamemodel.anyLeaderPlayableForCurrentPlayer());

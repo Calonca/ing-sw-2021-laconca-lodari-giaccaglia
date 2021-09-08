@@ -3,7 +3,6 @@ package it.polimi.ingsw.client.messages.servertoclient;
 import it.polimi.ingsw.client.ServerHandler;
 import javafx.util.Pair;
 
-import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -21,10 +20,9 @@ public class MatchesData extends it.polimi.ingsw.network.messages.servertoclient
     /**
      * This method sets the correct data to be acquired by the listener
      * @param serverHandler
-     * @throws IOException
      */
     @Override
-    public void processMessage(ServerHandler serverHandler) throws IOException {
-        serverHandler.getClient().getCommonData().setMatchesData(Optional.ofNullable(matchesData));
+    public void processMessage(ServerHandler serverHandler) {
+        serverHandler.getClient().getCommonData().setMatchesData(Optional.ofNullable(data));
     }
 }

@@ -15,7 +15,6 @@ public class SetupPhaseEvent extends Event {
 
     protected Pair<Integer, Integer> [] resources; //key = position, value = resource number
     protected List<UUID> chosenLeaders;
-    protected int initialResources;
     protected int initialDiscardedLeaders;
     protected int actualSize = 0;
     protected int playerNumber;
@@ -29,7 +28,6 @@ public class SetupPhaseEvent extends Event {
      * @param playerNumber int value ranging from 1 to 4 representing the number of the player performing setup phase.
      */
     public SetupPhaseEvent(int initialResources,int initialDiscardedLeaders, int playerNumber){
-        this.initialResources = initialResources;
         this.initialDiscardedLeaders = initialDiscardedLeaders;
         this.chosenLeaders = new ArrayList<>(initialDiscardedLeaders);
         this.playerNumber = playerNumber;

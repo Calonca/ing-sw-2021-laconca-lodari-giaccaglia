@@ -39,7 +39,7 @@ public class ChooseCardPositionEvent extends it.polimi.ingsw.network.messages.cl
      * {@link it.polimi.ingsw.server.model.player.board.PersonalBoard PersonalBoard}, otherwise false.
      */
     private boolean checkCardPosition(){
-        return !(currentPlayerPersonalBoard.getCardCells().size() < position);
+        return currentPlayerPersonalBoard.getCardCells().size() >= position;
     }
 
     /**

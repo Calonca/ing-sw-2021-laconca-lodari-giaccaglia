@@ -20,41 +20,45 @@ import java.util.stream.IntStream;
  */
 public class Setup implements GameStrategy {
 
-    List<Element> elementsToUpdate = new ArrayList<>();
+    private final List<Element> elementsToUpdate = new ArrayList<>();
     int indexOfPlayerInSetupPhase;
 
     public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event)
     {
 
+
         SetupPhaseEvent clientEvent = ((SetupPhaseEvent) event);
 
         List<UUID> chosenLeaders = clientEvent.getChosenLeaders();
         indexOfPlayerInSetupPhase = clientEvent.getPlayerNumber();
-        Player playerInSetupPhase = gamemodel.getPlayer(indexOfPlayerInSetupPhase).get();
 
-        List<Pair<Integer, Resource>> resources = clientEvent.getChosenResources();
+        if(gamemodel.getPlayer(indexOfPlayerInSetupPhase).isPresent()) {
+            Player playerInSetupPhase = gamemodel.getPlayer(indexOfPlayerInSetupPhase).get();
 
-
-        for(Pair<Integer, Resource> resource : resources)
-            playerInSetupPhase.getPersonalBoard().getWarehouseLeadersDepots().addResource(resource);
+            List<Pair<Integer, Resource>> resources = clientEvent.getChosenResources();
 
 
-        gamemodel.discardLeadersOnSetupPhase(playerInSetupPhase, chosenLeaders);
-        IntStream.range(0, Util.initialFaithPoints(indexOfPlayerInSetupPhase)).forEach(i -> playerInSetupPhase.moveOnePosition());
+            for (Pair<Integer, Resource> resource : resources)
+                playerInSetupPhase.getPersonalBoard().getWarehouseLeadersDepots().addResource(resource);
 
-        buildElementsList();
 
-        return new Pair<>(State.IDLE, elementsToUpdate);
+            gamemodel.discardLeadersOnSetupPhase(playerInSetupPhase , chosenLeaders);
+            IntStream.range(0 , Util.initialFaithPoints(indexOfPlayerInSetupPhase)).forEach(i -> playerInSetupPhase.moveOnePosition());
+
+            buildElementsList();
+        }
+
+        return new Pair<>(State.IDLE , elementsToUpdate);
 
     }
 
     private void buildElementsList(){
 
-        elementsToUpdate.add(Element.SimpleWareHouseLeadersDepot);
-        elementsToUpdate.add(Element.SimplePlayerLeaders);
+        elementsToUpdate.add(Element.SIMPLE_WARE_HOUSE_LEADERS_DEPOT);
+        elementsToUpdate.add(Element.SIMPLE_PLAYER_LEADERS);
 
         if(Util.initialFaithPoints(indexOfPlayerInSetupPhase)!=0)
-            elementsToUpdate.add(Element.SimpleFaithTrack);
+            elementsToUpdate.add(Element.SIMPLE_FAITH_TRACK);
     }
 
 }

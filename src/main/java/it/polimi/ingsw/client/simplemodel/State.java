@@ -117,12 +117,6 @@ public enum State {
     FINAL_PHASE,
 
     /**
-     * When a Leader Turn ends, this state decides if it's a leader action before or after middle phase,
-     * returning the correct next state as the game rules.
-     */
-    LEADER_END,
-
-    /**
      * Default player state during others' turn.
      */
     IDLE,

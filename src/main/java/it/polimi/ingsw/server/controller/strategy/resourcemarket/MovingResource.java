@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class MovingResource implements GameStrategy {
 
-    List<Element> elementsToUpdate = new ArrayList<>();
+    private final List<Element> elementsToUpdate = new ArrayList<>();
 
     public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event)
     {
@@ -35,9 +35,9 @@ public class MovingResource implements GameStrategy {
            playerSendingEvent.getPersonalBoard().move(startPos, endPos);
 
 
-        elementsToUpdate.add(Element.SimpleWareHouseLeadersDepot);
-        elementsToUpdate.add(Element.SimpleDiscardBox);
-        elementsToUpdate.add(Element.SimpleProductions);
+        elementsToUpdate.add(Element.SIMPLE_WARE_HOUSE_LEADERS_DEPOT);
+        elementsToUpdate.add(Element.SIMPLE_DISCARD_BOX);
+        elementsToUpdate.add(Element.SIMPLE_PRODUCTIONS);
 
         State currentState = playerSendingEvent.getCurrentState();
 

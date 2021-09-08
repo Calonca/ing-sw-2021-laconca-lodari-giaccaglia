@@ -1,10 +1,8 @@
 package it.polimi.ingsw.client.messages.servertoclient;
 
 import it.polimi.ingsw.client.ServerHandler;
-import it.polimi.ingsw.client.view.CLI.match.CreateJoinLoadMatchCLI;
-import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
+import it.polimi.ingsw.client.view.cli.match.CreateJoinLoadMatchCLI;
 
-import java.io.IOException;
 import java.util.UUID;
 
 /**
@@ -14,24 +12,21 @@ public class CreatedMatchStatus extends it.polimi.ingsw.network.messages.servert
 
 
     /**
-     * @param parent is a sample message
      * @param matchId is the match UUID
      * @param m is a message for the user
      */
-    public CreatedMatchStatus(ClientToServerMessage parent, UUID matchId, motive m) {
-        super(parent, matchId, m);
+    public CreatedMatchStatus(UUID matchId, motive m) {
+        super(matchId, m);
     }
 
     /**
      * This message sets the the correct data to be acquired by the listener
      * @param serverHandler is the corresponding Client's ServerHandler
-     * @throws IOException
      */
     @Override
-    public void processMessage(ServerHandler serverHandler) throws IOException {
+    public void processMessage(ServerHandler serverHandler) {
         if (matchId==null)
             serverHandler.getClient().changeViewBuilder(CreateJoinLoadMatchCLI.getBuilder(serverHandler.getClient().isCLI()));
-        //Todo make a view do the transition
         else serverHandler.getClient().getCommonData().setStartData(matchId,0);
     }
 

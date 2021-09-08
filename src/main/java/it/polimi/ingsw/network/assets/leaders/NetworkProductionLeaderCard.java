@@ -10,9 +10,6 @@ public class NetworkProductionLeaderCard extends NetworkLeaderCard {
     private Map<Integer, Integer> productionInputResources;
     private Map<Integer, Integer> productionOutputResources;
 
-    public NetworkProductionLeaderCard() {
-    }
-
     public void setProductionInputResources(Map<Integer, Integer> productionInputResources){
         this.productionInputResources = productionInputResources;
     }

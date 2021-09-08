@@ -14,6 +14,8 @@ import java.util.List;
  */
 public class VaticanReportStrategy {
 
+    private VaticanReportStrategy(){}
+
     public static Pair<State, List<Element>> addFaithPointsStrategy(GameModel gameModel, List<Element> elementsToUpdate) {
 
         String endGameReason;
@@ -27,9 +29,9 @@ public class VaticanReportStrategy {
 
             gameModel.addFaithPointToOtherPlayers();
             if (gameModel.handleVaticanReport())
-                elementsToUpdate.add(Element.VaticanReportInfo);
+                elementsToUpdate.add(Element.VATICAN_REPORT_INFO);
 
-            if (gameModel.checkTrackStatus() && !gameModel.getMacroGamePhase().equals(GameModel.MacroGamePhase.LastTurn)) { //lorenzo or a different player from current reached track end
+            if (gameModel.checkTrackStatus() && !gameModel.getMacroGamePhase().equals(GameModel.MacroGamePhase.LAST_TURN)) { //lorenzo or a different player from current reached track end
                 FinalStrategy.setLastTurnMacroGamePhase(gameModel, elementsToUpdate);
 
                 if(gameModel.isSinglePlayer()) {
@@ -62,9 +64,9 @@ public class VaticanReportStrategy {
         {
             gameModel.getCurrentPlayer().moveOnePosition();
             if (gameModel.handleVaticanReport())
-                elementsToUpdate.add(Element.VaticanReportInfo);
+                elementsToUpdate.add(Element.VATICAN_REPORT_INFO);
 
-            if (gameModel.checkTrackStatus() && !gameModel.getMacroGamePhase().equals(GameModel.MacroGamePhase.LastTurn)) {
+            if (gameModel.checkTrackStatus() && !gameModel.getMacroGamePhase().equals(GameModel.MacroGamePhase.LAST_TURN)) {
                 FinalStrategy.setLastTurnMacroGamePhase(gameModel, elementsToUpdate);// player reached end
 
                 if (gameModel.isSinglePlayer() && gameModel.getSinglePlayer().getPlayerPosition() == 24) {

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model.player.board;
 
-import it.polimi.ingsw.network.jsonUtils.JsonUtility;
+import it.polimi.ingsw.network.jsonutils.JsonUtility;
 import it.polimi.ingsw.server.model.Resource;
 import javafx.util.Pair;
 import org.junit.Before;
@@ -15,7 +15,7 @@ public class WarehouseLeadersDepotsTest {
 
     @Before
     @SuppressWarnings({"unchecked", "rawtypes"})
-    public void setUp() throws Exception {
+    public void setUp() {
         house = new WarehouseLeadersDepots();
         house.addDepot(new LeaderDepot(house.getNextGlobalPosition(), Resource.GOLD));
         Pair[] pa = Stream.of(

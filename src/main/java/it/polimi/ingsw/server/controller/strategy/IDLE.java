@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class IDLE implements GameStrategy {
 
-    List<Element> elementsToUpdate = new ArrayList<>();
+    private final List<Element> elementsToUpdate = new ArrayList<>();
     GameModel gameModel;
     public static boolean isSinglePlayerInFirstIDLE = true;
 
@@ -26,12 +26,10 @@ public class IDLE implements GameStrategy {
 
         this.gameModel = gameModel;
 
-        if(gameModel.getMacroGamePhase().equals(GameModel.MacroGamePhase.LastTurn)) {
-            if (gameModel.getPlayerIndex(gameModel.getCurrentPlayer()) == gameModel.getIndexOfPlayerWithInkWell()) {
-                gameModel.setMacroGamePhase(GameModel.MacroGamePhase.GameEnded);
-                elementsToUpdate.add(Element.EndGameInfo);
+        if(gameModel.getMacroGamePhase().equals(GameModel.MacroGamePhase.LAST_TURN) && gameModel.getPlayerIndex(gameModel.getCurrentPlayer()) == gameModel.getIndexOfPlayerWithInkWell()) {
+                gameModel.setMacroGamePhase(GameModel.MacroGamePhase.GAME_ENDED);
+                elementsToUpdate.add(Element.END_GAME_INFO);
                 return new Pair<>(State.END_PHASE, elementsToUpdate);
-            }
         }
 
 
@@ -68,9 +66,9 @@ public class IDLE implements GameStrategy {
     private void executeActionTokenStrategy(GameModel gameModel, List<Element> elementsToUpdate){
 
         gameModel.activateSoloActionToken();
-        elementsToUpdate.add(Element.SimpleSoloActionToken);
-        elementsToUpdate.add(Element.SimpleCardShop);
-        elementsToUpdate.add(Element.SimpleFaithTrack);
+        elementsToUpdate.add(Element.SIMPLE_SOLO_ACTION_TOKEN);
+        elementsToUpdate.add(Element.SIMPLE_CARD_SHOP);
+        elementsToUpdate.add(Element.SIMPLE_FAITH_TRACK);
 
     }
 

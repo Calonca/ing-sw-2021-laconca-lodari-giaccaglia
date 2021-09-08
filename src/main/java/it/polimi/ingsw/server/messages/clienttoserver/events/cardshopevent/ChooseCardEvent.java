@@ -14,10 +14,7 @@ import it.polimi.ingsw.server.model.states.State;
  * game turn action processed to accomplish server-side client validation.
  */
 public class ChooseCardEvent extends it.polimi.ingsw.network.messages.clienttoserver.events.cardshopevent.ChooseCardEvent implements Validable {
-
-    public ChooseCardEvent() {}
-
-
+    
     /**
      * {@link GameModel} of the event's current game on which event validation has to be performed.
      */

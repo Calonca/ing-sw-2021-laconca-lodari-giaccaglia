@@ -1,15 +1,13 @@
 package it.polimi.ingsw.client.view.abstractview;
 
-import it.polimi.ingsw.client.view.CLI.DisconnectCLI;
-import it.polimi.ingsw.client.view.GUI.CreateMatchGUI;
-import it.polimi.ingsw.client.view.GUI.DisconnectGUI;
-import javafx.application.Platform;
+import it.polimi.ingsw.client.view.cli.DisconnectCLI;
+import it.polimi.ingsw.client.view.gui.DisconnectGUI;
 
 import java.beans.PropertyChangeEvent;
 
 public abstract class DisconnectViewBuilder extends ViewBuilder {
-    protected final static int seconds = 5;
-    public static final String disconnectedString = "Disconnected, the client will close in ";
+    protected static final int SECONDS = 5;
+    public static final String DISCONNECTED_STRING = "Disconnected, the client will close in ";
 
     public static ViewBuilder getBuilder(boolean isCLI){
         if (isCLI)
@@ -21,7 +19,7 @@ public abstract class DisconnectViewBuilder extends ViewBuilder {
         Thread thread=new Thread(()->
         {
             try {
-                for(int i=seconds;i>0;i--)
+                for(int i = SECONDS; i>0; i--)
                 {
                     Thread.sleep(1000);
                     int finalI = i-1;

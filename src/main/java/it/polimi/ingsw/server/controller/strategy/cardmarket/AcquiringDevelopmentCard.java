@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class AcquiringDevelopmentCard implements GameStrategy {
 
-    List<Element> elementsToUpdate = new ArrayList<>(0);
+    final List<Element> elementsToUpdate = new ArrayList<>(0);
 
     public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event)
 
@@ -31,9 +31,9 @@ public class AcquiringDevelopmentCard implements GameStrategy {
         gamemodel.purchaseCardFromCardShop(DevelopmentCardColor.fromInt(color),level);
 
 
-        elementsToUpdate.add(Element.SimpleCardShop);
-        elementsToUpdate.add(Element.SimpleCardCells);
-        elementsToUpdate.add(Element.SelectablePositions);
+        elementsToUpdate.add(Element.SIMPLE_CARD_SHOP);
+        elementsToUpdate.add(Element.SIMPLE_CARD_CELLS);
+        elementsToUpdate.add(Element.SELECTABLE_POSITIONS);
 
 
 

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.view.abstractview;
 
-import it.polimi.ingsw.client.view.CLI.idle.IDLEViewBuilderCLI;
-import it.polimi.ingsw.client.view.GUI.IDLEViewBuilderGUI;
+import it.polimi.ingsw.client.view.cli.idle.IDLEViewBuilderCLI;
+import it.polimi.ingsw.client.view.gui.IDLEViewBuilderGUI;
 
 import java.beans.PropertyChangeEvent;
 
@@ -33,7 +33,5 @@ public abstract class IDLEViewBuilder extends ViewBuilder{
         else if (END_PHASE.name().equals(propertyName)) {
             getClient().changeViewBuilder(WinLooseBuilder.getBuilder(getClient().isCLI()));
         }
-
-        else ViewBuilder.printWrongStateReceived(evt);
     }
 }

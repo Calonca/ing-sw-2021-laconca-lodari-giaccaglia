@@ -2,12 +2,10 @@ package it.polimi.ingsw.server.controller.strategy;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import it.polimi.ingsw.network.jsonUtils.CommonGsonAdapters;
-import it.polimi.ingsw.network.jsonUtils.JsonUtility;
+import it.polimi.ingsw.network.jsonutils.CommonGsonAdapters;
+import it.polimi.ingsw.network.jsonutils.JsonUtility;
 import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
 import it.polimi.ingsw.network.messages.clienttoserver.events.MiddlePhaseEvent;
-import it.polimi.ingsw.network.messages.clienttoserver.events.productionevent.ToggleProductionAtPosition;
-import it.polimi.ingsw.server.controller.strategy.production.TogglingForProduction;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.states.State;
@@ -35,8 +33,7 @@ public class MiddleTest {
         players.put(0,"testPlayer1");
         List<Integer> onlineUsers = new ArrayList<>(players.keySet());
 
-        boolean isSinglePlayer = true;
-        GameModel gamemodel = new GameModel(players, isSinglePlayer,null, onlineUsers);
+        GameModel gamemodel = new GameModel(players, true ,null, onlineUsers);
 
         assertEquals(new Middle().execute(gamemodel, serverEvent).getKey(), State.CHOOSING_MARKET_LINE);
 
@@ -55,8 +52,7 @@ public class MiddleTest {
         players.put(0,"testPlayer1");
         List<Integer> onlineUsers = new ArrayList<>(players.keySet());
 
-        boolean isSinglePlayer = true;
-        GameModel gamemodel = new GameModel(players, isSinglePlayer,null, onlineUsers);
+        GameModel gamemodel = new GameModel(players, true ,null, onlineUsers);
 
         assertEquals(new Middle().execute(gamemodel, serverEvent).getKey(), State.CHOOSING_PRODUCTION);
 
@@ -76,8 +72,7 @@ public class MiddleTest {
         players.put(0,"testPlayer1");
         List<Integer> onlineUsers = new ArrayList<>(players.keySet());
 
-        boolean isSinglePlayer = true;
-        GameModel gamemodel = new GameModel(players, isSinglePlayer,null, onlineUsers);
+        GameModel gamemodel = new GameModel(players, true ,null, onlineUsers);
 
         assertEquals(new Middle().execute(gamemodel, serverEvent).getKey(), State.CHOOSING_DEVELOPMENT_CARD);
 

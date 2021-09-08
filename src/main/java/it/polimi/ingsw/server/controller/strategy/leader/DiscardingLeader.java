@@ -18,23 +18,23 @@ import java.util.List;
  */
 public class DiscardingLeader implements GameStrategy {
 
-    List<Element> elementsToUpdate = new ArrayList<>();
+    final List<Element> elementsToUpdate = new ArrayList<>();
 
     public Pair<State, List<Element>> execute(GameModel gameModel, Validable event) {
 
         State currentState = gameModel.getCurrentPlayer().getCurrentState();
 
         State nextPossibleState = currentState.equals(State.INITIAL_PHASE) ? State.MIDDLE_PHASE : State.IDLE;
-        elementsToUpdate.add(Element.SimpleFaithTrack);
-        elementsToUpdate.add(Element.SimplePlayerLeaders);
+        elementsToUpdate.add(Element.SIMPLE_FAITH_TRACK);
+        elementsToUpdate.add(Element.SIMPLE_PLAYER_LEADERS);
 
         gameModel.getCurrentPlayer().discardLeader(((InitialOrFinalPhaseEvent) event).getLeaderId());
         gameModel.getCurrentPlayer().moveOnePosition();
 
         if(gameModel.handleVaticanReport())
-            elementsToUpdate.add(Element.VaticanReportInfo);
+            elementsToUpdate.add(Element.VATICAN_REPORT_INFO);
 
-        if (gameModel.checkTrackStatus() && !gameModel.getMacroGamePhase().equals(GameModel.MacroGamePhase.LastTurn)) {
+        if (gameModel.checkTrackStatus() && !gameModel.getMacroGamePhase().equals(GameModel.MacroGamePhase.LAST_TURN)) {
 
             String endGameReason;
 
@@ -43,7 +43,7 @@ public class DiscardingLeader implements GameStrategy {
                 endGameReason = EndGameReason.TRACK_END_SOLO.getEndGameReason();
                 gameModel.getThisMatch().setReasonOfGameEnd(endGameReason);
                 gameModel.getSinglePlayer().setMatchOutcome(true);
-                elementsToUpdate.add(Element.EndGameInfo);
+                elementsToUpdate.add(Element.END_GAME_INFO);
                 return FinalStrategy.handleSinglePlayerEndGameStrategy(elementsToUpdate, gameModel, endGameReason);
 
             }

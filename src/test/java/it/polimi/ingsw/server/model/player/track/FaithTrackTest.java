@@ -17,7 +17,7 @@ public class FaithTrackTest {
     private MutablePair<FaithTrack.Piece, Integer>  player;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
        testTrack = Deserializator.faithTrackDeserialization();
        testTrack.initTrackCells();
        testTrack.moveLorenzoOnePosition();
@@ -70,7 +70,7 @@ public class FaithTrackTest {
     }
 
     @Test
-    public void isPieceInPopeSpace() throws Exception {
+    public void isPieceInPopeSpace() {
 
         testNotInPopeSpace(6);
 
@@ -81,7 +81,7 @@ public class FaithTrackTest {
         testNotInPopeSpace(23);
 
         setUp();
-        testInPopeSpace(24);
+        testInPopeSpace();
 
     }
 
@@ -99,9 +99,9 @@ public class FaithTrackTest {
 
     }
 
-    private void testInPopeSpace(int position){
+    private void testInPopeSpace(){
 
-        for(int i=0; i<position; i++) {
+        for(int i = 0; i< 24; i++) {
             testTrack.moveLorenzoOnePosition();
             testTrack.moveOnePosition();
         }
@@ -115,7 +115,7 @@ public class FaithTrackTest {
     }
 
     @Test
-    public void testPosition() throws Exception {
+    public void testPosition() {
 
         testGetPiecePosition(0);
 
@@ -209,7 +209,7 @@ public class FaithTrackTest {
     }
 
     @Test
-    public void victoryPointsFromFaithTrackCell() throws Exception {
+    public void victoryPointsFromFaithTrackCell() {
 
         verifyCellVictoryPoints(2, 0);
         verifyCellVictoryPoints(5, 1);
@@ -223,7 +223,7 @@ public class FaithTrackTest {
 
     }
 
-    private void verifyCellVictoryPoints(int position, int expectedVictoryPoints) throws Exception {
+    private void verifyCellVictoryPoints(int position, int expectedVictoryPoints) {
 
         setUp();
 
@@ -237,7 +237,7 @@ public class FaithTrackTest {
     }
 
     @Test
-    public void victoryPointsFromPopeFavourTiles() throws Exception {
+    public void victoryPointsFromPopeFavourTiles() {
 
         verifyPopeFavourTilesVictoryPoints(10, 16,0);
         verifyPopeFavourTilesVictoryPoints(10, 8,2);
@@ -248,7 +248,7 @@ public class FaithTrackTest {
 
     }
 
-    private void verifyPopeFavourTilesVictoryPoints(int piecePosition, int popeSpacePosition, int expectedVictoryPoints) throws Exception{
+    private void verifyPopeFavourTilesVictoryPoints(int piecePosition, int popeSpacePosition, int expectedVictoryPoints) {
 
         setUp();
 

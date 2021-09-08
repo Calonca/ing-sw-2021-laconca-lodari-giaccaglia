@@ -4,8 +4,6 @@ import it.polimi.ingsw.network.messages.servertoclient.MatchesData;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.controller.SessionController;
 
-import java.io.IOException;
-
 public class SendNickname extends it.polimi.ingsw.network.messages.clienttoserver.SendNickname implements ServerMessage {
 
     public SendNickname(String nickname) {
@@ -13,7 +11,7 @@ public class SendNickname extends it.polimi.ingsw.network.messages.clienttoserve
     }
 
     @Override
-    public void processMessage(ClientHandler clientHandler) throws IOException {
+    public void processMessage(ClientHandler clientHandler) {
         clientHandler.setNickname(nickname);
         clientHandler.sendAnswerMessage(new MatchesData(SessionController.getInstance().matchesData(clientHandler)));
     }

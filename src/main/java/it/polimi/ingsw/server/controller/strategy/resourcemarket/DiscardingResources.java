@@ -22,9 +22,9 @@ public class DiscardingResources implements GameStrategy {
 
         List<Element> elementsToUpdate = new ArrayList<>();
 
-        elementsToUpdate.add(Element.SimpleFaithTrack);
-        elementsToUpdate.add(Element.SimpleDiscardBox);
-        elementsToUpdate.add(Element.SimplePlayerLeaders);
+        elementsToUpdate.add(Element.SIMPLE_FAITH_TRACK);
+        elementsToUpdate.add(Element.SIMPLE_DISCARD_BOX);
+        elementsToUpdate.add(Element.SIMPLE_PLAYER_LEADERS);
 
         PersonalBoard currentBoard = gameModel.getCurrentPlayer().getPersonalBoard();
 

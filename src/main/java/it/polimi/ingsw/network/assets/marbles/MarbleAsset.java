@@ -57,8 +57,6 @@ public enum MarbleAsset {
     private Path marbleAssetPath;
     private static final MarbleAsset[] vals = MarbleAsset.values();
 
-    MarbleAsset(){}
-
     MarbleAsset(final Path marbleAssetPath) {
         this.marbleAssetPath = marbleAssetPath;
         }
@@ -66,10 +64,6 @@ public enum MarbleAsset {
 
     public Path getPath() {
         return this.marbleAssetPath;
-    }
-
-    public static MarbleAsset fromInt(int marbleNum){
-        return marbleNum>vals.length|| marbleNum<0 ? INVALID: vals[marbleNum];
     }
 
     public static MarbleAsset fromUUID(UUID marbleId){

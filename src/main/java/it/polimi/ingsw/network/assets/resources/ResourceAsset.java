@@ -3,8 +3,7 @@ package it.polimi.ingsw.network.assets.resources;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import it.polimi.ingsw.network.jsonUtils.JsonUtility;
-import it.polimi.ingsw.server.utils.Deserializator;
+import it.polimi.ingsw.network.jsonutils.JsonUtility;
 import javafx.util.Pair;
 
 import java.lang.reflect.Type;
@@ -36,11 +35,6 @@ public enum ResourceAsset
     private Path resourcePath;
 
     /**
-     * Indicated the number of "physical" resources
-     */
-    public static final int nRes = 4;
-
-    /**
      * Array containing "physical" resources, used to get resource from it's number in the ordering.
      */
     private static final ResourceAsset[] vals = ResourceAsset.values();
@@ -52,11 +46,11 @@ public enum ResourceAsset
         this.resourcePath = resourcePath;
     }
 
-    public void setResourceNumber(int resourceNumber){
+    private void setResourceNumber(int resourceNumber){
         this.resourceNumber = resourceNumber;
     }
 
-    public void setResourcePath(Path resourcePath){
+    private void setResourcePath(Path resourcePath){
         this.resourcePath = resourcePath;
     }
 
@@ -83,7 +77,7 @@ public enum ResourceAsset
         Gson gson = new GsonBuilder().enableComplexMapKeySerialization().registerTypeHierarchyAdapter(Path.class, new JsonUtility.PathConverter()).create();
         Type type = new TypeToken<Map<ResourceAsset, Pair<Integer, Path>>>(){}.getType();
 
-        Map<ResourceAsset, Pair<Integer, Path>> resourcesMap = Deserializator.deserializeFromSourceRoot(path, type, gson);
+        Map<ResourceAsset, Pair<Integer, Path>> resourcesMap = JsonUtility.deserializeFromSourceRoot(path, type, gson);
         resourcesMap.forEach((key, pair) -> {
             key.setResourceNumber(pair.getKey());
             key.setResourcePath(pair.getValue());

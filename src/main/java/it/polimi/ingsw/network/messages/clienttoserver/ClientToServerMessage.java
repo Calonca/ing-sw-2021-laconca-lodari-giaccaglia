@@ -2,8 +2,8 @@ package it.polimi.ingsw.network.messages.clienttoserver;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import it.polimi.ingsw.network.jsonUtils.CommonGsonAdapters;
-import it.polimi.ingsw.network.jsonUtils.JsonUtility;
+import it.polimi.ingsw.network.jsonutils.CommonGsonAdapters;
+import it.polimi.ingsw.network.jsonutils.JsonUtility;
 import it.polimi.ingsw.network.messages.NetworkMessage;
 
 

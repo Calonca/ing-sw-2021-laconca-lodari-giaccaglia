@@ -4,7 +4,6 @@ import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.states.State;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -20,11 +19,6 @@ public class GameModelTest {
     DevelopmentCard purchaseCardTest;
     Player testPlayer;
 
-
-    @Before
-    public void setUp() throws Exception {
-
-    }
 
     @Test
     public void singlePlayerGameTest() {
@@ -59,8 +53,7 @@ public class GameModelTest {
         players.put(0,"testPlayer1");
         List<Integer> onlineUsers = new ArrayList<>(players.keySet());
 
-        boolean isSinglePlayer = true;
-        gameModelTest = new GameModel(players, isSinglePlayer, null, onlineUsers);
+        gameModelTest = new GameModel(players, true , null, onlineUsers);
         testPlayer = gameModelTest.getPlayer(players.get(0)).get();
 
         assertEquals(testPlayer, gameModelTest.getSinglePlayer());

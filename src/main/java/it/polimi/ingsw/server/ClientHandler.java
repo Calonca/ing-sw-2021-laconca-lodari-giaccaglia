@@ -128,14 +128,12 @@ public class ClientHandler implements Runnable
                 int counter = 0;
                 while (true) {
                     Thread.sleep(5000);  // send a ping every SOCKET_TIMEOUT/4 seconds
-                    ServerToClientMessage pingMessage = (new PingMessageFromServer("Ping #" + counter));
+                    ServerToClientMessage pingMessage = (new PingMessageFromServer());
                     sendAnswerMessage(pingMessage);
                     counter++;
                 }
             } catch (InterruptedException e) {
                 System.out.println("Ping Communication Interrupted with " + client.getInetAddress());
-            } catch (IOException e) {
-                System.out.println("Unable to send event to client");
             } finally {
                 Thread.currentThread().interrupt();
             }
@@ -171,7 +169,7 @@ public class ClientHandler implements Runnable
      * @param answerMsg The message to be sent.
      * @throws IOException If a communication error occurs.
      */
-    public void sendAnswerMessage(ServerToClientMessage answerMsg) throws IOException
+    public void sendAnswerMessage(ServerToClientMessage answerMsg)
     {
         try {
             output.writeObject(answerMsg.serialized());

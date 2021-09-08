@@ -11,12 +11,12 @@ import java.util.List;
 
 public class EndGameStrategy implements GameStrategy{
 
-    List<Element> elementsToUpdate = new ArrayList<>();
+    private final List<Element> elementsToUpdate = new ArrayList<>();
 
     @Override
     public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event) {
 
-        elementsToUpdate.add(Element.EndGameInfo);
+        elementsToUpdate.add(Element.END_GAME_INFO);
         
         return new Pair<>(State.END_PHASE, elementsToUpdate);
 

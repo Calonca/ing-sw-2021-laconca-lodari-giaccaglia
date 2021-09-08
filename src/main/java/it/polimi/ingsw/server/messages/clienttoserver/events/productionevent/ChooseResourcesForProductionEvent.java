@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.messages.clienttoserver.events.productionevent.ChooseResourcesForProductionEvent implements Validable {
 
@@ -63,7 +62,6 @@ public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.m
                     if(pair.getKey()>=-8 && pair.getKey()<=-5){
                         int localPos = pair.getKey() + 8;
                         Resource resource = Resource.fromIntFixed(localPos);
-                     //   int alreadySelectedResources = currentPlayerPersonalBoard.getStrongBox().getNSelected(resource);
                         int availableResources = currentPlayerPersonalBoard.getStrongBox().getNumberOfNotSelected(resource);
 
                         return availableResources >= pair.getValue();
@@ -87,22 +85,6 @@ public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.m
         return currentPlayerPersonalBoard.hasResources(resourcesToConvertArray);
     }
 
-    private boolean checkPositionOfResourcesToConvert(){
-
-        return IntStream.range(0, inputPositionsToChoose.size())
-                .boxed()
-                .allMatch(
-                        index -> {
-
-                            int globalPos = inputPositionsToChoose.get(index);
-                            int localPos = globalPos>=0 ? globalPos : globalPos + 8;
-                            return currentPlayerPersonalBoard.getResourceAtPosition(inputPositionsToChoose.get(index))
-                                .equals
-                                        (Resource.fromIntFixed(localPos));
-                        });
-
-    }
-
     private boolean checkTypeOfResourcesToConvert(){
         return inputPositionsToChoose.stream().noneMatch(resourcePos -> currentPlayerPersonalBoard.getResourceAtPosition(resourcePos).equals(Resource.EMPTY));
     }
@@ -122,10 +104,7 @@ public class ChooseResourcesForProductionEvent extends it.polimi.ingsw.network.m
                             Resource resourceAtPos = currentPlayerPersonalBoard.getResourceAtPosition(position);
                             return currentPlayerPersonalBoard.getStrongBox().getNumberOfNotSelected(resourceAtPos) >= positionOccurrences;
                         }
-                    else if(positionOccurrences>1)
-                        return false;
-
-                    return true;
+                    else return positionOccurrences <= 1;
                 });
     }
 

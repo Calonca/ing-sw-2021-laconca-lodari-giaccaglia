@@ -37,8 +37,7 @@ public class ProductionLeaderTest {
 
         List<Integer> onlineUsers = new ArrayList<>(players.keySet());
 
-        boolean isSinglePlayer = true;
-        GameModel gamemodel = new GameModel(players, isSinglePlayer,null, onlineUsers);
+        GameModel gamemodel = new GameModel(players, true ,null, onlineUsers);
         Player player = gamemodel.getCurrentPlayer();
 
         Leader leadertest = new ProductionLeader(LeaderState.INACTIVE, 3, requirementsTest, requirementsCardsTest, productiontest);

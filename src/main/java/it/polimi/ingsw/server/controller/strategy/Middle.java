@@ -16,7 +16,7 @@ import java.util.List;
 
 public class Middle implements GameStrategy {
 
-    List<Element> elementsToUpdate = new ArrayList<>(0);
+    private final List<Element> elementsToUpdate = new ArrayList<>(0);
 
     public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event)
     {
@@ -31,7 +31,7 @@ public class Middle implements GameStrategy {
             return new Pair<>(State.CHOOSING_MARKET_LINE, elementsToUpdate);
 
         else if(msg==1) {
-            elementsToUpdate.add(Element.SimpleCardShop);
+            elementsToUpdate.add(Element.SIMPLE_CARD_SHOP);
             return new Pair<>(State.CHOOSING_DEVELOPMENT_CARD , elementsToUpdate);
         }
 

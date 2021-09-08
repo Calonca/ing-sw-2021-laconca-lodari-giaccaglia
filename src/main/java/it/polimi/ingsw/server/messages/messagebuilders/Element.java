@@ -14,7 +14,7 @@ public enum Element {
 
     //----------common elements----------//
 
-    SimpleCardShop(true) {
+    SIMPLE_CARD_SHOP(true) {
         @Override
         public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate) {
             return new SimpleCardShop(
@@ -24,7 +24,7 @@ public enum Element {
 
     },
 
-    SimpleMarketBoard(true) {
+    SIMPLE_MARKET_BOARD(true) {
         @Override
         public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate) {
             return new SimpleMarketBoard(
@@ -38,7 +38,7 @@ public enum Element {
         }
     },
 
-    EndGameInfo(true){
+    END_GAME_INFO(true){
         @Override
         public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate){
             return new EndGameInfo(
@@ -47,15 +47,15 @@ public enum Element {
         }
     },
 
-    PlayersInfo(true){
+    PLAYERS_INFO(true){
         @Override
         public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate){
-            int LorenzoPosition = gameModel.isSinglePlayer() ? gameModel.getSinglePlayer().getLorenzoPosition() : -1;
-            return new PlayersInfo(GameInfoMessageBuilder.getSimplePlayerInfoMap(gameModel), LorenzoPosition);
+            int lorenzoPosition = gameModel.isSinglePlayer() ? gameModel.getSinglePlayer().getLorenzoPosition() : -1;
+            return new PlayersInfo(GameInfoMessageBuilder.getSimplePlayerInfoMap(gameModel), lorenzoPosition);
         }
     },
 
-    VaticanReportInfo(true){
+    VATICAN_REPORT_INFO(true){
         @Override
         public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate){
             return new VaticanReportInfo(
@@ -66,14 +66,14 @@ public enum Element {
 
     //--------player elements-----------//
 
-        SimplePlayerLeaders(false) {
+        SIMPLE_PLAYER_LEADERS(false) {
             @Override
             public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate) {
                 return new SimplePlayerLeaders(PlayerLeadersMessageBuilder.playerLeadersMap(gameModel, playerRequestingUpdate));
             }
         },
 
-        SimpleFaithTrack(false) {
+        SIMPLE_FAITH_TRACK(false) {
             @Override
             public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate){
                 it.polimi.ingsw.network.simplemodel.SimpleFaithTrack track = new SimpleFaithTrack();
@@ -82,14 +82,14 @@ public enum Element {
 
         },
 
-        SimpleStrongBox(false) {
+        SIMPLE_STRONG_BOX(false) {
             @Override
             public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate){
                 return new SimpleStrongBox(SimpleDepotsMessageBuilder.getSimpleStrongBox(gameModel, playerRequestingUpdate));
             }
         },
 
-        SimpleDiscardBox(false) {
+        SIMPLE_DISCARD_BOX(false) {
             @Override
             public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate){
                 return new SimpleDiscardBox(
@@ -101,7 +101,7 @@ public enum Element {
             }
         },
 
-        SimpleWareHouseLeadersDepot(false) {
+        SIMPLE_WARE_HOUSE_LEADERS_DEPOT(false) {
             @Override
             public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate){
                 return new SimpleWarehouseLeadersDepot(
@@ -113,7 +113,7 @@ public enum Element {
             }
         },
 
-        SimpleCardCells(false) {
+        SIMPLE_CARD_CELLS(false) {
             @Override
             public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate){
                 return new SimpleCardCells(
@@ -124,7 +124,7 @@ public enum Element {
         },
 
 
-        ActiveLeaderInfo(false) {
+        ACTIVE_LEADER_INFO(false) {
             @Override
             public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate){
                 return new ActiveLeaderBonusInfo(
@@ -136,7 +136,7 @@ public enum Element {
             }
         },
 
-        SimpleProductions(false){
+        SIMPLE_PRODUCTIONS(false){
         @Override
         public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate){
             return new SimpleProductions(
@@ -147,7 +147,7 @@ public enum Element {
            }
         },
 
-        SimpleSoloActionToken(false){
+        SIMPLE_SOLO_ACTION_TOKEN(false){
 
         @Override
         public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate){
@@ -155,7 +155,7 @@ public enum Element {
         }
         },
 
-        SelectablePositions(false){
+        SELECTABLE_POSITIONS(false){
         @Override
         public SimpleModelElement buildSimpleModelElement(GameModel gameModel, int playerRequestingUpdate){
                 State currentPlayerState = gameModel.getCurrentPlayer().getCurrentState();
@@ -208,24 +208,20 @@ public enum Element {
 
         public static List<SimpleModelElement> buildPlayerSimpleModelElements(GameModel gameModel, List<Element> elementsToUpdate, int playerRequestingUpdate){
 
-            List<SimpleModelElement> playerSimpleModelElements = elementsToUpdate
+            return elementsToUpdate
                     .stream()
                     .filter(element -> !element.isCommonElement())
                     .map(element -> element.buildSimpleModelElement(gameModel, playerRequestingUpdate))
                     .collect(Collectors.toList());
-
-            return playerSimpleModelElements;
         }
 
         public static List<SimpleModelElement> buildCommonSimpleModelElements(GameModel gameModel, List<Element> elementsToUpdate, int playerRequestingUpdate){
 
-        List<SimpleModelElement> commonSimpleModelElements = elementsToUpdate
-                .stream()
-                .filter(Element::isCommonElement)
-                .map(element -> element.buildSimpleModelElement(gameModel, playerRequestingUpdate))
-                .collect(Collectors.toList());
-
-        return commonSimpleModelElements;
+            return elementsToUpdate
+                    .stream()
+                    .filter(Element::isCommonElement)
+                    .map(element -> element.buildSimpleModelElement(gameModel, playerRequestingUpdate))
+                    .collect(Collectors.toList());
     }
 
         public boolean isCommonElement() {

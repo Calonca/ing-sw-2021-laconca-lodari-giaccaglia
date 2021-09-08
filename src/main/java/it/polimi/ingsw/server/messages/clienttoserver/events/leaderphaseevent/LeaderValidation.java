@@ -22,9 +22,9 @@ public interface LeaderValidation {
     }
 
     /**
-     * Method to verify if chosen {@link PlayLeaderEvent#leaderId} is a legit value according to {@link Leader Leaders}
+     * Method to verify if chosen  is a legit value according to {@link Leader Leaders}
      * map key values.
-     * @return true if {@link PlayLeaderEvent#leaderId} has a positive value ranging inside {@link Leader Leaders}
+     * @return true if  has a positive value ranging inside {@link Leader Leaders}
      * map key values, otherwise false.
      */
     private boolean validateLeaderId(GameModel gameModel, UUID leaderNumber){

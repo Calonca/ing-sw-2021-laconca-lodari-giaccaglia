@@ -1,27 +1,15 @@
 package it.polimi.ingsw.server;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
-import it.polimi.ingsw.network.messages.clienttoserver.CreateMatchRequest;
-import it.polimi.ingsw.network.messages.clienttoserver.JoinMatchRequest;
-import it.polimi.ingsw.network.messages.servertoclient.CreatedMatchStatus;
-import it.polimi.ingsw.network.messages.servertoclient.JoinStatus;
-import it.polimi.ingsw.network.messages.servertoclient.MatchesData;
-import it.polimi.ingsw.network.messages.servertoclient.ServerToClientMessage;
+import com.google.gson.*;
+import it.polimi.ingsw.network.messages.clienttoserver.*;
+import it.polimi.ingsw.network.messages.servertoclient.*;
 import it.polimi.ingsw.network.messages.servertoclient.state.StateInNetwork;
 import javafx.util.Pair;
 import org.junit.After;
 import org.junit.Before;
-
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 
@@ -29,7 +17,7 @@ public class ClientHandlerTest {
     Socket server1,server2;
     ObjectOutputStream output1,output2;
     ObjectInputStream input1,input2;
-    private static int testPort = 2653;
+    private static final int testPort = 2653;
 
     @Before
     public void setUp() throws InterruptedException, IOException {
@@ -64,7 +52,6 @@ public class ClientHandlerTest {
         input2.close();
     }
 
-
     public void createMatch() throws IOException, ClassNotFoundException {
 
         //1 Received matches data
@@ -91,7 +78,7 @@ public class ClientHandlerTest {
         //1 Receive create match status
         JsonObject jsonObject = toJsonObject(input1.readObject().toString());
         UUID matchId = UUID.fromString(jsonObject.get("matchId").getAsString());
-        JsonObject expected = toJsonObject(new CreatedMatchStatus(request,matchId,null));
+        JsonObject expected = toJsonObject(new CreatedMatchStatus(matchId,null));
         assertEquals(expected,
                 jsonObject);
 
@@ -106,7 +93,7 @@ public class ClientHandlerTest {
                 toJsonObject(input2.readObject().toString()).get("type").getAsString());
         //2 Receive join status
         jsonObject = toJsonObject(input2.readObject().toString());
-        expected = toJsonObject(new JoinStatus(request,matchId,null,1));
+        expected = toJsonObject(new JoinStatus(matchId,null,1));
         assertEquals(expected,
                 jsonObject);
         //1 Received state message
@@ -114,8 +101,6 @@ public class ClientHandlerTest {
         assertEquals(StateInNetwork.class.getSimpleName(),obj.get("type").getAsString());
         assertEquals("SETUP_PHASE",obj.get("state").getAsString());
     }
-
-
 
     public void singlePlayerCreation() throws IOException, ClassNotFoundException {
 
@@ -143,23 +128,12 @@ public class ClientHandlerTest {
         //1 Receive create match status
         JsonObject jsonObject = toJsonObject(input1.readObject().toString());
         UUID matchId = UUID.fromString(jsonObject.get("matchId").getAsString());
-        JsonObject expected = toJsonObject(new CreatedMatchStatus(request,matchId,null));
+        JsonObject expected = toJsonObject(new CreatedMatchStatus(matchId,null));
         assertEquals(expected,
                 jsonObject);
         //1 Received state message
         JsonObject obj = toJsonObject(input1.readObject().toString());
         assertEquals(StateInNetwork.class.getSimpleName(),obj.get("type").getAsString());
-    }
-
-
-    public void testEvents() throws IOException, ClassNotFoundException {
-        String matchData = input1.readObject().toString();
-        ClientToServerMessage request = new CreateMatchRequest(2,"Name1");
-
-    }
-
-    public void setInput(String s){
-        System.setIn( new ByteArrayInputStream(s.getBytes()));
     }
 
     public JsonObject toJsonObject(String s){

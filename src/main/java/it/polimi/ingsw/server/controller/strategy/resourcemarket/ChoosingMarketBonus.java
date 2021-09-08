@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class ChoosingMarketBonus implements GameStrategy {
 
-    List<Element> elementsToUpdate = new ArrayList<>();
+    final List<Element> elementsToUpdate = new ArrayList<>();
 
     public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event)
     {
@@ -27,7 +27,7 @@ public class ChoosingMarketBonus implements GameStrategy {
        int resourceNumber =  ((ChooseWhiteMarbleConversionEvent) event).getResourceNumber();
        gamemodel.convertWhiteMarbleInPickedLine(resourceNumber);
 
-        elementsToUpdate.add(Element.SimpleMarketBoard);
+        elementsToUpdate.add(Element.SIMPLE_MARKET_BOARD);
 
         if(gamemodel.areThereWhiteMarblesInPickedLine())
             return new Pair<>(State.CHOOSING_WHITEMARBLE_CONVERSION, elementsToUpdate);
@@ -35,8 +35,8 @@ public class ChoosingMarketBonus implements GameStrategy {
         Box marketBox = gamemodel.getBoxOfResourcesFromMarketBoard();
         gamemodel.getCurrentPlayer().getPersonalBoard().setMarketBox(marketBox);
 
-        elementsToUpdate.add(Element.SimpleStrongBox);
-        elementsToUpdate.add(Element.SimpleDiscardBox);
+        elementsToUpdate.add(Element.SIMPLE_STRONG_BOX);
+        elementsToUpdate.add(Element.SIMPLE_DISCARD_BOX);
         return new Pair<>(State.CHOOSING_POSITION_FOR_RESOURCES, elementsToUpdate);
 
     }

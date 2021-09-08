@@ -5,7 +5,7 @@ import org.apache.commons.lang3.tuple.MutablePair;
 
 import java.util.List;
 
-import static it.polimi.ingsw.network.jsonUtils.JsonUtility.deserializeFromString;
+import static it.polimi.ingsw.network.jsonutils.JsonUtility.deserializeFromString;
 
 public class SimpleFaithTrack extends SimpleModelElement {
 
@@ -36,7 +36,6 @@ public class SimpleFaithTrack extends SimpleModelElement {
     public void update(SimpleModelElement element){
 
         SimpleFaithTrack serverFaithTrack = (SimpleFaithTrack) element;
-        //serverFaithTrack = updateTrack(config);
 
         config = serverFaithTrack.config;
         playerPiece = serverFaithTrack.playerPiece;

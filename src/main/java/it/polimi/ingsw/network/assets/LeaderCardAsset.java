@@ -32,7 +32,7 @@ public class LeaderCardAsset extends CardAsset{
     }
 
     @Override
-    public Pair<Path, Path> getCardPaths() {
+    public Pair<Path, Path> getActiveCardPaths() {
        return networkLeaderCard.isLeaderActive() ? getActiveCardPaths() : getInactiveCardPaths();
     }
 }

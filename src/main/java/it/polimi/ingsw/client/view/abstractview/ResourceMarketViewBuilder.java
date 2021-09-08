@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.view.abstractview;
 
-import it.polimi.ingsw.client.view.CLI.middle.MiddleResourceMarketCLI;
-import it.polimi.ingsw.client.view.GUI.ResourceMarketGUI;
+import it.polimi.ingsw.client.view.cli.middle.MiddleResourceMarketCLI;
+import it.polimi.ingsw.client.view.gui.ResourceMarketGUI;
 import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
 import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.events.marketboardevent.ChooseLineEvent;
@@ -71,7 +71,7 @@ public abstract class ResourceMarketViewBuilder extends ViewBuilder{
 
     /**
      * This listener centralizes the interaction with ResourceMarket
-     * @param evt
+     * @param evt observed event
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {

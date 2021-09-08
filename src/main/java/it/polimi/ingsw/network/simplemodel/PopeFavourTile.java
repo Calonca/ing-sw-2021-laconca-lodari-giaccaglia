@@ -28,9 +28,9 @@ public class PopeFavourTile {
      */
     private FaithZone zone;
 
-    private int x_pos;
+    private int xPos;
 
-    private int y_pos;
+    private int yPos;
 
     public Optional<Path> getFavourTileAssetPath(){
 
@@ -43,35 +43,11 @@ public class PopeFavourTile {
     }
 
     /**
-     * @return <em>Victory Points</em> associated with this tile.
-     */
-    public int getVictoryPoints() {
-        return victoryPoints;
-    }
-
-    /**
      * @return The current {@link TileState} associated with this tile.
      */
     public TileState getTileState() {
         return state;
     }
 
-    /**
-     * Updates the {@link TileState} if a <em>Vatican Report</em> occurs and the Tile hasn't been previously
-     * activated or discarded.
-     *
-     * @param tileState The updated {@link TileState} associated with this tile.
-     */
-    public void setTileState(TileState tileState) {
-        this.state = tileState;
-    }
-
-    public int getX_pos(){
-        return x_pos;
-    }
-
-    public int getY_pos(){
-        return y_pos;
-    }
 
 }

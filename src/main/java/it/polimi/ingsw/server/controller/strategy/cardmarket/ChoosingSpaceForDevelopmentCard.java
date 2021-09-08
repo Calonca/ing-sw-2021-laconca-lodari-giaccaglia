@@ -24,7 +24,7 @@ import java.util.Map;
  */
 public class ChoosingSpaceForDevelopmentCard implements GameStrategy {
 
-    List<Element> elementsToUpdate = new ArrayList<>();
+    final List<Element> elementsToUpdate = new ArrayList<>();
 
     public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event)
     {
@@ -36,10 +36,10 @@ public class ChoosingSpaceForDevelopmentCard implements GameStrategy {
 
         currentBoard.addDevelopmentCardToCell(purchaseCard, chosenPosition);
 
-        elementsToUpdate.add(Element.SimpleCardCells);
-        elementsToUpdate.add(Element.SimpleCardShop);
-        elementsToUpdate.add(Element.SimplePlayerLeaders);
-        elementsToUpdate.add(Element.SimpleProductions);
+        elementsToUpdate.add(Element.SIMPLE_CARD_CELLS);
+        elementsToUpdate.add(Element.SIMPLE_CARD_SHOP);
+        elementsToUpdate.add(Element.SIMPLE_PLAYER_LEADERS);
+        elementsToUpdate.add(Element.SIMPLE_PRODUCTIONS);
 
         if(gamemodel.isSinglePlayer() && (gamemodel.isSomeDevCardColourOutOfStock() || currentBoard.playerHasSevenCards())) {
            return MarketCardsCheck.checkMarketCards(gamemodel, elementsToUpdate);
@@ -51,10 +51,11 @@ public class ChoosingSpaceForDevelopmentCard implements GameStrategy {
 
         {
 
-                int currentPlayerIndex = gamemodel.getPlayerPosition(gamemodel.getCurrentPlayer());
+                int currentPlayerIndex = gamemodel.getPlayerIndex(gamemodel.getCurrentPlayer());
 
 
                 Map<Integer, Player> playersEndingTheGame = new HashMap<>();
+
                 playersEndingTheGame.put(currentPlayerIndex, gamemodel.getPlayer(currentPlayerIndex).get());
                 gamemodel.setPlayersEndingTheGame(playersEndingTheGame);
 

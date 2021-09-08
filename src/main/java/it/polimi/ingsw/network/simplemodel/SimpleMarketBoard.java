@@ -17,7 +17,7 @@ public class SimpleMarketBoard extends SimpleModelElement{
     private MarbleAsset slideMarble;
     private List<MarbleAsset> pickedMarbles;
     private int whiteMarblesQuantity;
-    private transient Path boardAsset = Paths.get("src/main/resources/assets/punchboard/MarketBoard.png");
+    private final transient Path boardAsset = Paths.get("src/main/resources/assets/punchboard/MarketBoard.png");
 
 
     public SimpleMarketBoard(){}
@@ -52,25 +52,12 @@ public class SimpleMarketBoard extends SimpleModelElement{
         this.whiteMarblesQuantity = serverMarketBoard.whiteMarblesQuantity;
 
     }
-
-    public void setBoardAsset(String path){
-        this.boardAsset = Paths.get(path);
-    }
-
     public MarbleAsset getSlideMarble(){
         return slideMarble;
     }
 
-    public List<MarbleAsset> getPickedMarbles(){
-        return pickedMarbles;
-    }
-
     public MarbleAsset[][] getMarbleMatrix(){
         return marbleMatrix;
-    }
-
-    public int getFaithPointsFromPickedMarbles(){
-        return faithPointsFromPickedMarbles;
     }
 
 

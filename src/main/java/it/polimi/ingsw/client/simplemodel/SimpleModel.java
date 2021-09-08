@@ -18,7 +18,7 @@ public class SimpleModel {
 
     private static int numOfPlayers;
 
-    private Map<String , SimpleModelElement> commonSimpleModelElementsMap = new HashMap<>();
+    private final Map<String , SimpleModelElement> commonSimpleModelElementsMap = new HashMap<>();
 
     private final List<PlayerCache> playersCacheList;
 

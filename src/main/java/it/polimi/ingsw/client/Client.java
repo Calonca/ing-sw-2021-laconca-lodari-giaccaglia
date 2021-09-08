@@ -3,8 +3,8 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.messages.servertoclient.StateInNetwork;
 import it.polimi.ingsw.client.simplemodel.SimpleModel;
 import it.polimi.ingsw.client.simplemodel.State;
-import it.polimi.ingsw.client.view.CLI.CLI;
-import it.polimi.ingsw.client.view.CLI.CLIelem.CLIelem;
+import it.polimi.ingsw.client.view.cli.CLI;
+import it.polimi.ingsw.client.view.cli.CLIelem.CLIelem;
 import it.polimi.ingsw.client.view.abstractview.*;
 import javafx.application.Platform;
 import javafx.stage.Stage;
@@ -31,7 +31,7 @@ public class Client implements Runnable
     private boolean isCLI;
     private Map<ViewBuilder, List<State>> viewBuilderMap;
     private boolean gameHasBeenLoaded;
-    public final int SOCKET_TIMEOUT_S = 20;
+    public final int SOCKET_TIMEOUT_S = 20000;
 
 
     /**

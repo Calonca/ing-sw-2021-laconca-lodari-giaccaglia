@@ -65,7 +65,7 @@ public class Box implements StorageUnit {
      * @param toRemove is an array containing the resources to remove represented using the convention for the arrays in this class
      */
     public void removeResources(int[] toRemove){
-        IntStream.range(0, toRemove.length).forEach((i)->nResAtPos[i]=max(0,nResAtPos[i]-toRemove[i]));
+        IntStream.range(0, toRemove.length).forEach(i->nResAtPos[i]=max(0,nResAtPos[i]-toRemove[i]));
     }
 
     /**
@@ -73,7 +73,7 @@ public class Box implements StorageUnit {
      * @param toAdd is an array containing the resources to add represented using the convention for the arrays in this class
      */
     public void addResources(int[] toAdd){
-        IntStream.range(0, toAdd.length).forEach((i)->nResAtPos[i]+=toAdd[i]);
+        IntStream.range(0, toAdd.length).forEach(i->nResAtPos[i]+=toAdd[i]);
     }
 
 
@@ -90,11 +90,11 @@ public class Box implements StorageUnit {
     /**
      * Adds the given {@link Resource resource} to the {@link StorageUnit} at the given global position
      *
-     * @param gPos_res a {@link Pair} of global position and {@link Resource}
+     * @param gPosRes a {@link Pair} of global position and {@link Resource}
      */
     @Override
-    public void addResource(Pair<Integer, Resource> gPos_res) {
-        nResAtPos[gPos_res.getKey()-globalPosition]+=1;
+    public void addResource(Pair<Integer, Resource> gPosRes) {
+        nResAtPos[gPosRes.getKey()-globalPosition]+=1;
     }
 
     /**
@@ -147,19 +147,19 @@ public class Box implements StorageUnit {
     /**
      * Marks n resources as selected for an action
      * @param nToSel number of resources to select
-     * @param R2Sel type of the resource to select
+     * @param resToSel type of the resource to select
      */
-    public void selectN(int nToSel, Resource R2Sel){
-        nSel[R2Sel.getResourceNumber()]=min(nSel[R2Sel.getResourceNumber()]+nToSel,nResAtPos[R2Sel.getResourceNumber()]);
+    public void selectN(int nToSel, Resource resToSel){
+        nSel[resToSel.getResourceNumber()]=min(nSel[resToSel.getResourceNumber()]+nToSel,nResAtPos[resToSel.getResourceNumber()]);
     }
 
     /**
      * Removes n resources from the ones selected for an action
      * @param nToDesel number of resources to deselect
-     * @param R2Desel type of the resource to deselect
+     * @param resToDesel type of the resource to deselect
      */
-    public void deselectN(int nToDesel, Resource R2Desel){
-        nSel[R2Desel.getResourceNumber()]=max(nSel[R2Desel.getResourceNumber()]-nToDesel,0);
+    public void deselectN(int nToDesel, Resource resToDesel){
+        nSel[resToDesel.getResourceNumber()]=max(nSel[resToDesel.getResourceNumber()]-nToDesel,0);
     }
 
     /**
@@ -205,7 +205,7 @@ public class Box implements StorageUnit {
      */
     @Override
     public void removeSelected(){
-        nResAtPos = IntStream.range(0, length).map((i)->nResAtPos[i]-nSel[i]).toArray();
+        nResAtPos = IntStream.range(0, length).map(i->nResAtPos[i]-nSel[i]).toArray();
         nSel = IntStream.generate(()->0).limit(nSel.length).toArray();
     }
 

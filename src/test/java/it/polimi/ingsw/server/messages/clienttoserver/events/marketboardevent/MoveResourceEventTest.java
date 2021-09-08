@@ -14,8 +14,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static it.polimi.ingsw.network.jsonUtils.JsonUtility.deserializeFromString;
-import static it.polimi.ingsw.network.jsonUtils.JsonUtility.serialize;
+import static it.polimi.ingsw.network.jsonutils.JsonUtility.deserializeFromString;
+import static it.polimi.ingsw.network.jsonutils.JsonUtility.serialize;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -29,7 +29,7 @@ public class MoveResourceEventTest {
     int resourceNumber = 100;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         initializeGameModel();
         gameModelTest.setCurrentPlayer(gameModelTest.getPlayer("testPlayer4").get());
         gson = new Gson();

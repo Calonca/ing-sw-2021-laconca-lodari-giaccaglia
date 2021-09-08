@@ -16,30 +16,31 @@ import java.util.stream.Collectors;
 
 
 public class SessionController {
-    
+
+    private static SessionController singleInstance = null;
+    private static final String SESSION_PATH = "session.json";
+    private static final int MAX_SECONDS_OFFLINE = 1800000; //30 minutes
     private final ConcurrentHashMap<UUID,Match> matches = new ConcurrentHashMap<>();
     private final ConcurrentHashMap<UUID, Long> matchesDisconnectionTimes = new ConcurrentHashMap<>();
-
-    private final transient List<ClientHandler> clientsNotInLobby = new ArrayList<>();
-    private static SessionController single_instance = null;
-    private static final String sessionPath = "session.json";
-    private final int maxSecondsOffline = 1800000; //30 minutes
-    private final AtomicBoolean isDebugMode = new AtomicBoolean(false);
     private transient Thread deadMatchesChecker;
+    private final transient List<ClientHandler> clientsNotInLobby = new ArrayList<>();
+
+    private final AtomicBoolean isDebugMode = new AtomicBoolean(false);
+
 
     public static SessionController getInstance()
     {
-        if (Objects.isNull(single_instance)) {
-            CreateSessionController();
+        if (Objects.isNull(singleInstance)) {
+            createSessionController();
             startDeadMatchesChecker();
         }
-        return single_instance;
+        return singleInstance;
     }
-    private static void CreateSessionController(){
+    private static void createSessionController(){
 
         reloadSessionIfPresent().ifPresentOrElse(
-                loadedSession -> single_instance = loadedSession,
-                () -> single_instance = new SessionController());
+                loadedSession -> singleInstance = loadedSession,
+                () -> singleInstance = new SessionController());
 
     }
 
@@ -96,24 +97,12 @@ public class SessionController {
 
     public void sendUpdatedAvailableMatches(){
 
-        clientsNotInLobby.forEach(client -> {
-            try {
-                client.sendAnswerMessage(new MatchesData(SessionController.getInstance().matchesData(client)));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+        clientsNotInLobby.forEach(client -> client.sendAnswerMessage(new MatchesData(SessionController.getInstance().matchesData(client))));
     }
 
-    public void notifyPlayersInLobby(ClientHandler cl){
+    public void notifyPlayersInLobby(){
         clientsNotInLobby.forEach(
-                clientHandler -> {
-                    try {
-                        clientHandler.sendAnswerMessage(new MatchesData(matchesData(clientHandler)));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+                clientHandler -> clientHandler.sendAnswerMessage(new MatchesData(matchesData(clientHandler)))
         );
     }
     //                  isSaved    onlineUsers, offlineUsers
@@ -146,9 +135,9 @@ public class SessionController {
 
     private static Optional<SessionController> reloadSessionIfPresent() {
 
-        File f = new File(sessionPath);
+        File f = new File(SESSION_PATH);
         if(f.exists() && !f.isDirectory()) {
-                SessionController session = Deserializator.deserializeSession(sessionPath);
+                SessionController session = Deserializator.deserializeSession(SESSION_PATH);
 
             if(Objects.nonNull(session)) {
                 session.matches.values().forEach(Match::restoreMatch);
@@ -166,7 +155,7 @@ public class SessionController {
         if(!isDebugMode.get()) {
 
             try {
-                Serializator.serializeSession(sessionPath);
+                Serializator.serializeSession(SESSION_PATH);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -192,7 +181,7 @@ public class SessionController {
            disconnectionTime = matchesDisconnectionTimes.get(gameId);
 
         long elapsedTimeInSeconds = currentTime - disconnectionTime;
-        return elapsedTimeInSeconds > maxSecondsOffline;
+        return elapsedTimeInSeconds > MAX_SECONDS_OFFLINE;
 
     }
 
@@ -232,16 +221,10 @@ public class SessionController {
 
                     while(true){
                         Thread.sleep(300000);  // check every 5 minutes
-               /*     sessionController.matches.keySet().forEach(matchId -> {
-                        if(sessionController.checkGameTimeout(matchId))
-                            sessionController.deleteGame(matchId);
-                    });
-                    */
 
-                      for (UUID uuid : sessionController.matches.keySet()) {
+                        for (UUID uuid : sessionController.matches.keySet()) {
 
-                          if(!Objects.isNull(sessionController.matches.get(uuid))){
-                            if (sessionController.checkGameTimeout(uuid))
+                          if(!Objects.isNull(sessionController.matches.get(uuid)) && sessionController.checkGameTimeout(uuid)){
                                 sessionController.deleteGame(uuid);
 
                         }

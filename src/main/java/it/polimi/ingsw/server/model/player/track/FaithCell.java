@@ -21,18 +21,9 @@ public class FaithCell {
     private boolean popeSpace;
 
 
-    private int x_pos;
+    private int xPos;
 
-    private int y_pos;
-
-   /* /**
-     * This constructor creates a FaithCell when the {@link FaithTrack} is populated during game setup.
-
-    public FaithCell(int points, FaithZone zone, boolean popeSpace) {
-        this.zone = zone;
-        this.points = points;
-        this.popeSpace = popeSpace;
-    }*/
+    private int yPos;
 
     /**
      * @return The <em>Victory Points</em> associated with this cell.

@@ -15,6 +15,8 @@ import java.util.stream.Collectors;
 
 public class CardShopMessageBuilder {
 
+    private CardShopMessageBuilder(){}
+
     public static Map<NetworkDevelopmentCardColor, Map<Integer, Pair<Integer, List<DevelopmentCardAsset>>>> cardShopAdapter(GameModel gameModel) {
 
         Map<DevelopmentCardColor, Map<Integer, Pair<Integer, List<DevelopmentCard>>>> simpleCardShop = gameModel.getSimpleCardShop();
@@ -46,7 +48,7 @@ public class CardShopMessageBuilder {
                                                     .map(card -> (new DevelopmentCardAsset((DevelopmentCardAsset) card.get())))
                                                     .collect(Collectors.toList()));
 
-                                            if (netCards.size() > 0) {
+                                            if (!netCards.isEmpty()) {
                                                 DevelopmentCardAsset cardOnTop = netCards.get(0);
                                                 DevelopmentCard card = gameModel.getDevCardsMap().get(cardOnTop.getCardId());
                                                 int playerIndex = gameModel.getPlayerIndex(gameModel.getCurrentPlayer());
@@ -102,7 +104,7 @@ public class CardShopMessageBuilder {
 
         Map<Integer, Integer> costList = new HashMap<>();
 
-        if (gameModel.getCardShop().getCopyOfPurchasedCard() != null) {
+        if (gameModel.getCardShop().getCopyOfPurchasedCard() != null && gameModel.getPlayer(playerRequestingUpdate).isPresent()) {
 
             List<Integer> discounts = Arrays.stream((gameModel.getPlayer(playerRequestingUpdate).get().getPersonalBoard().getDiscounts())).boxed().collect(Collectors.toList());
 
@@ -115,8 +117,7 @@ public class CardShopMessageBuilder {
                     entry -> {
 
                 int resourceIntValue = entry.getKey().getResourceNumber();
-                int updatedCost = entry.getValue() - discounts.get(resourceIntValue);
-                return updatedCost;
+                        return entry.getValue() - discounts.get(resourceIntValue);
 
             }));
         }

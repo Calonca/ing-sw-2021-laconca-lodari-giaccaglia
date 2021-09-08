@@ -1,17 +1,9 @@
 package it.polimi.ingsw.client.view.abstractview;
 
-import it.polimi.ingsw.client.view.CLI.match.LobbyViewBuilderCLI;
-import it.polimi.ingsw.client.view.GUI.LobbyViewBuilderGUI;
-
-import java.util.UUID;
+import it.polimi.ingsw.client.view.cli.match.LobbyViewBuilderCLI;
+import it.polimi.ingsw.client.view.gui.LobbyViewBuilderGUI;
 
 public abstract class LobbyViewBuilder extends ViewBuilder {
-
-    protected UUID matchId;
-
-    public void setMatchId(UUID matchId) {
-        this.matchId = matchId;
-    }
 
     public static ViewBuilder getBuilder(boolean isCLI){
         if (isCLI)

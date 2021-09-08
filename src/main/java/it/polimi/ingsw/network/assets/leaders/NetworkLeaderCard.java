@@ -11,11 +11,9 @@ public class NetworkLeaderCard {
     protected int victoryPoints;
     protected List<Pair<ResourceAsset, Integer>> requirementsResources;
     protected List<Pair<NetworkDevelopmentCardColor, Integer>> requirementsCards;
-    protected int requirementsCardsLevel=1;
+    protected static final int REQUIREMENTS_CARDS_LEVEL =1;
     protected boolean isActive;
     protected boolean isPlayable;
-
-    public NetworkLeaderCard(){}
 
     public List<Pair<ResourceAsset, Integer>> getRequirementsResources() {
         return requirementsResources;
@@ -26,7 +24,7 @@ public class NetworkLeaderCard {
     }
 
     public int getRequirementsCardsLevel() {
-        return requirementsCardsLevel;
+        return REQUIREMENTS_CARDS_LEVEL;
     }
 
     public boolean isLeaderActive(){
@@ -48,6 +46,5 @@ public class NetworkLeaderCard {
     public boolean isPlayable(){
         return isPlayable;
     }
-
 
 }

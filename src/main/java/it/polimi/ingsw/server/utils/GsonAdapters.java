@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.utils;
 
-import it.polimi.ingsw.network.jsonUtils.RuntimeTypeAdapterFactory;
+import it.polimi.ingsw.network.jsonutils.RuntimeTypeAdapterFactory;
 import it.polimi.ingsw.server.controller.strategy.*;
 import it.polimi.ingsw.server.controller.strategy.cardmarket.AcquiringDevelopmentCard;
 import it.polimi.ingsw.server.controller.strategy.cardmarket.ChoosingSpaceForDevelopmentCard;
@@ -30,6 +30,8 @@ import it.polimi.ingsw.server.model.player.board.WarehouseDepot;
 import it.polimi.ingsw.server.model.player.leaders.*;
 
 public class GsonAdapters {
+
+    private GsonAdapters(){}
 
 
     public static final RuntimeTypeAdapterFactory<Leader> gsonLeaderAdapter = gsonLeaderAdapter();
@@ -90,8 +92,6 @@ public class GsonAdapters {
     private static RuntimeTypeAdapterFactory<Validable> gsonEventMessageAdapter(){
 
         RuntimeTypeAdapterFactory<Validable> eventMessageAdapter = RuntimeTypeAdapterFactory.of(Validable.class);
-
-        eventMessageAdapter.registerSubtype(TestEvent.class);
 
         eventMessageAdapter.registerSubtype(MiddlePhaseEvent.class);
         eventMessageAdapter.registerSubtype(InitialOrFinalPhaseEvent.class);

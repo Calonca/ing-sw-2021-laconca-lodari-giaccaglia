@@ -52,7 +52,7 @@ public class PersonalBoard {
      * that are initialized to Optional.empty() before being set
      * and then the ones from {@link ProductionLeader cards.leaders}
      */
-    private Map<Integer, Production> productions;
+    private final Map<Integer, Production> productions;
     /**
      * An array of the spots where the player can place cards
      */
@@ -60,9 +60,9 @@ public class PersonalBoard {
     /**
      * A list that stores if a {@link Production} is selected, it has the same order of {@link #productions}
      */
-    private Map<Integer, Boolean> prodsSelected;
+    private final Map<Integer, Boolean> prodsSelected;
 
-    private Map<Integer, List<Integer>> historyOfInputResourcesForProduction;  //key -> position of production; value -> position of chosen resources
+    private final Map<Integer, List<Integer>> historyOfInputResourcesForProduction;  //key -> position of production; value -> position of chosen resources
 
     private int lastSelectedProductionPosition;
 
@@ -85,10 +85,6 @@ public class PersonalBoard {
         warehouseLeadersDepots = new WarehouseLeadersDepots();
         strongBox = Box.strongBox();
         discardBox = Box.discardBox();
-        /*strongBox.addResources(new int[]{20,20,20,20});   //to test CardShop
-        warehouseLeadersDepots.addResource(new Pair<>(0,Resource.GOLD));
-        warehouseLeadersDepots.addResource(new Pair<>(1,Resource.SERVANT));
-        warehouseLeadersDepots.addResource(new Pair<>(3,Resource.STONE));*/
         productions = Stream.of((Production.basicProduction())).collect(Collectors.toMap(production  -> 0, production -> production));
         cardCells = Stream.generate(ProductionCardCell::new).limit(3).toArray(ProductionCardCell[]::new);
         prodsSelected = new HashMap<>();
@@ -161,21 +157,21 @@ public class PersonalBoard {
      */
     public void produce(){
 
-        removeSelected();
+        removeSelectedResources();
 
         int productionsLastPosition = productions.keySet().stream().mapToInt(pos -> pos).max().getAsInt();
 
         if(productionsLastPosition<cardCells.length + 2)
             productionsLastPosition = cardCells.length + 2;
 
-        int[] resources = IntStream.rangeClosed(0,productionsLastPosition).filter((pos)->prodsSelected.containsKey(pos))
-                .filter((pos)->prodsSelected.get(pos))
-                .mapToObj((pos)->productions.get(pos).getOutputs())
+        int[] resources = IntStream.rangeClosed(0,productionsLastPosition).filter(prodsSelected::containsKey)
+                .filter(prodsSelected::get)
+                .mapToObj(pos->productions.get(pos).getOutputs())
                 .reduce(IntStream.generate(()->0).limit(6).toArray(),(a,b)-> Util.sumArray(a,b,6));
 
         faithPointsToAdd = resources[4];
         badFaithToAdd = resources[5];
-        strongBox.addResources(Arrays.stream(resources).limit(Resource.nRes).toArray());
+        strongBox.addResources(Arrays.stream(resources).limit(Resource.N_RES).toArray());
 
         resetChoices();
         resetSelectedProductions();
@@ -186,7 +182,7 @@ public class PersonalBoard {
     /**
      * Removes the selected {@link Resource resources} from the {@link PersonalBoard}
      */
-    public void removeSelected(){
+    public void removeSelectedResources(){
         warehouseLeadersDepots.removeSelected();
         strongBox.removeSelected();
     }
@@ -235,10 +231,10 @@ public class PersonalBoard {
 
 
         return IntStream.rangeClosed(0,productionsLastPosition)
-                .filter((i)-> prodsSelected.containsKey(i))
-                .filter((i) -> prodsSelected.get(i))
-                .filter((i)->productions.get(i).choiceCanBeMade())
-                .mapToObj((i)->productions.get(i)).findFirst();
+                .filter(prodsSelected::containsKey)
+                .filter(prodsSelected::get)
+                .filter(i->productions.get(i).choiceCanBeMade())
+                .mapToObj(productions::get).findFirst();
     }
 
     /**
@@ -337,7 +333,7 @@ public class PersonalBoard {
         }
     }
 
-    public void resetAllSelectedProductions(){
+    public void resetAllSelectedProductionsAndChoices(){
 
         resetChoices();
         resetSelectedProductions();
@@ -395,19 +391,17 @@ public class PersonalBoard {
         cardCells[pos].addToTop(card);
     }
 
-
-    //todo send warning message when player has 6 cards!
     /**
      * Returns true if the player has bought six or more cards at the development market
      * @return true if the player has bought six or more cards at the development market
      */
     public boolean playerHasSixOrMoreCards() {
-        return Arrays.stream(cardCells).map((p)->p.getStackedCards().size())
+        return Arrays.stream(cardCells).map(p->p.getStackedCards().size())
                 .reduce(0, Integer::sum)>=6;
     }
 
     public boolean playerHasSevenCards(){
-        return Arrays.stream(cardCells).map((p)->p.getStackedCards().size())
+        return Arrays.stream(cardCells).map(p->p.getStackedCards().size())
                 .reduce(0, Integer::sum)==7;
     }
 
@@ -425,7 +419,7 @@ public class PersonalBoard {
      * Returns the total number of {@link Resource resource} the player has in all the {@link StorageUnit deposits}
      * @return total number of {@link Resource resource} contained in all the {@link StorageUnit deposits}
      */
-    public int numOfResources(){return Resource.getStream(Resource.nRes).map(this::getNumberOf).reduce(0,Integer::sum);}
+    public int numOfResources(){return Resource.getStream(Resource.N_RES).map(this::getNumberOf).reduce(0,Integer::sum);}
 
 
     /**
@@ -440,8 +434,8 @@ public class PersonalBoard {
             productionsLastPosition = cardCells.length + 2;
 
         return  Math.max(0,
-                IntStream.rangeClosed(0,productionsLastPosition).filter((pos) -> prodsSelected.containsKey(pos))
-                        .filter((pos)->prodsSelected.get(pos)).map((pos)->productions.get(pos).getNumOfResInInput())
+                IntStream.rangeClosed(0,productionsLastPosition).filter(prodsSelected::containsKey)
+                        .filter(prodsSelected::get).map(pos->productions.get(pos).getNumOfResInInput())
                         .reduce(0,Integer::sum)
                         -
                         (warehouseLeadersDepots.getTotalSelected()+strongBox.getTotalSelected()));
@@ -481,7 +475,7 @@ public class PersonalBoard {
      * since each resource discarded corresponds to one faith point that the other players will get
      */
     public void discardResources(){
-        badFaithToAdd += Resource.getStream(Resource.nRes).map(discardBox::getNumberOf).reduce(0,Integer::sum);
+        badFaithToAdd += Resource.getStream(Resource.N_RES).map(discardBox::getNumberOf).reduce(0,Integer::sum);
         faithPointsToAdd += discardBox.getNumberOf(Resource.FAITH);
         discardBox = Box.discardBox();
     }
@@ -516,7 +510,7 @@ public class PersonalBoard {
      */
     public void performChoiceOnInput(int resPos){
 
-        firstProductionSelectedWithChoice().ifPresent((production)-> {
+        firstProductionSelectedWithChoice().ifPresent(production-> {
             Resource res = storageUnitFromPos(resPos).getResourceAt(resPos);
 
             Production firstProductionSelectedWithChoice = firstProductionSelectedWithChoice().get();
@@ -562,7 +556,7 @@ public class PersonalBoard {
      * @param res a "Physical" {@link Resource}
      */
     public void performChoiceOnOutput(Resource res){
-        firstProductionSelectedWithChoice().filter(Production::choiceCanBeMadeOnOutput).ifPresent((production)-> production.performChoiceOnOutput(res));
+        firstProductionSelectedWithChoice().filter(Production::choiceCanBeMadeOnOutput).ifPresent(production-> production.performChoiceOnOutput(res));
     }
 
     /**
@@ -591,17 +585,17 @@ public class PersonalBoard {
     {
 
         //Goes up to toChoose
-        int[] inputOfLengthResources = IntStream.concat(Arrays.stream(toCheck),IntStream.generate(()->0)).limit(Resource.nRes+3).toArray();
+        int[] inputOfLengthResources = IntStream.concat(Arrays.stream(toCheck),IntStream.generate(()->0)).limit((long)Resource.N_RES +3).toArray();
 
         //For physical resources
-        int[] toFindInWarehouse =IntStream.range(0,Resource.nRes).sorted()
+        int[] toFindInWarehouse =IntStream.range(0,Resource.N_RES).sorted()
                 .map(pos -> inputOfLengthResources[pos]- strongBox.getNumberOfNotSelected(Resource.fromInt(pos)))
                 .map(res -> Math.max(res, 0))
                 .toArray();
 
         if(!getWarehouseLeadersDepots().enoughResourcesForProductions(toFindInWarehouse))
             return false;
-        return Arrays.stream(inputOfLengthResources).limit(Resource.nRes).reduce(0, Integer::sum) + inputOfLengthResources[6]<=numOfResources();
+        return Arrays.stream(inputOfLengthResources).limit(Resource.N_RES).reduce(0, Integer::sum) + inputOfLengthResources[6]<=numOfResources();
 
     }
 
@@ -762,11 +756,6 @@ public class PersonalBoard {
     public void applyDiscount(Pair<Resource,Integer> discount)
     {
         discounts[discount.getKey().getResourceNumber()]+=discount.getValue();
-    }
-
-
-    public List<Integer> getPosOfChosenResourcesOnInputForProduction(int productionPosition){
-        return historyOfInputResourcesForProduction.get(productionPosition);
     }
 
     public void resetHistoryOfProductionResources(int productionPosition){

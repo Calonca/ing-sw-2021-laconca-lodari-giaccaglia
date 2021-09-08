@@ -7,7 +7,7 @@ import java.util.UUID;
  */
 public abstract class NetworkMessage
 {
-    public UUID identifier = UUID.randomUUID();
+    public final UUID identifier = UUID.randomUUID();
 
     /**
      * Unique identifier for the message.
@@ -20,5 +20,4 @@ public abstract class NetworkMessage
         return identifier;
     }
 
-    public NetworkMessage(){}
 }

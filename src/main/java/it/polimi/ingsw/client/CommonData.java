@@ -24,11 +24,10 @@ import java.util.stream.Collectors;
  */
 public class CommonData {
 
-    public static String matchesDataString = "matchesData";
-    public static String thisMatchData = "thisMatchData";
-    public static String currentPlayerString = "currentPlayer";
-    public static String connectionStatusString = "connectionStatus";
-    public static boolean isSetupPhase = true;
+    public static final String matchesDataString = "matchesData";
+    public static final String thisMatchData = "thisMatchData";
+    public static final String currentPlayerString = "currentPlayer";
+    private static boolean isSetupPhase = true;
 
 
     private Optional<Map<Pair<UUID,Boolean>,Pair<String[], String[]>>> matchesData = Optional.empty();
@@ -42,7 +41,6 @@ public class CommonData {
     private String currentPlayerNickname = "";
     private UUID matchId;
     private String currentNick;
-    private boolean connectionStatus = false;
     private final PropertyChangeSupport support;
 
 
@@ -65,10 +63,6 @@ public class CommonData {
      */
     public Optional<UUID> getMatchId() {
         return Optional.ofNullable(matchId);
-    }
-
-    public Optional<Map<Pair<UUID,Boolean>,Pair<String[], String[]>>> getMatchesData() {
-        return matchesData;
     }
 
     public Optional<Map<UUID, Pair<String[], String[]>>> getAvailableMatchesData(){
@@ -153,25 +147,12 @@ public class CommonData {
         support.firePropertyChange(currentPlayerString,oldPlayerIndex,currentPlayerIndex);
     }
 
-    /**
-     * Method called to update a player's connection status
-     * @param connectionStatus is true if online
-     */
-    public void setConnectionStatus(boolean connectionStatus){
-        boolean oldConnectionStatus = this.connectionStatus;
-        this.connectionStatus = connectionStatus;
-        support.firePropertyChange(connectionStatusString, oldConnectionStatus, connectionStatus);
-    }
-
     public void setStartData(UUID matchId,int thisPlayerIndex) {
 
-        UUID oldMatchId = matchId;
-        int oldPlayerIndex = thisPlayerIndex;
-
         this.matchId = matchId;
-        this.thisPlayerIndex = thisPlayerIndex;
+        CommonData.thisPlayerIndex = thisPlayerIndex;
 
-        support.firePropertyChange(thisMatchData,oldMatchId,matchId);
+        support.firePropertyChange(thisMatchData, matchId ,matchId);
     }
 
     public void setThisPlayerNickname(String currentNick) {
@@ -185,5 +166,13 @@ public class CommonData {
 
     public String getCurrentPlayerNickname(){
         return currentPlayerNickname;
+    }
+
+    public static void setIsSetupPhase(boolean isSetupPhase){
+        CommonData.isSetupPhase = isSetupPhase;
+    }
+
+    public static boolean isSetupPhase(){
+        return isSetupPhase;
     }
 }

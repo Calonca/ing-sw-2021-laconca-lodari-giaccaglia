@@ -19,7 +19,6 @@ import it.polimi.ingsw.server.model.states.StatesTransitionTable;
 import it.polimi.ingsw.server.utils.Deserializator;
 import javafx.util.Pair;
 
-import java.io.IOException;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -55,9 +54,9 @@ public class GameModel {
 
     public enum MacroGamePhase
     {
-        ActiveGame,
-        LastTurn,
-        GameEnded
+        ACTIVE_GAME,
+        LAST_TURN,
+        GAME_ENDED
     }
 
     private MacroGamePhase macroGamePhase;
@@ -104,9 +103,8 @@ public class GameModel {
 
     /**
      *
-     * @throws IOException
      */
-    private void initializeLeadersList() throws IOException {
+    private void initializeLeadersList() {
        leaders = Deserializator.leadersCardMapDeserialization();
     }
 
@@ -134,16 +132,10 @@ public class GameModel {
      */
     private void commonInit(Map<Integer, String> playersMap, List<Integer> onlineUsersIndexes){
 
-        try {
-            resourcesMarket = MarketBoard.initializeMarketBoard();
-            cardShop = CardShop.initializeCardShop();
-            initializeLeadersList();
-            devCardsMap = Deserializator.devCardsMap();
-
-        } catch (IOException e) {
-            System.out.println("Error while class initialization from config file");
-            e.printStackTrace();
-        }
+        resourcesMarket = MarketBoard.initializeMarketBoard();
+        cardShop = CardShop.initializeCardShop();
+        initializeLeadersList();
+        devCardsMap = Deserializator.devCardsMap();
 
         players = playersMap.entrySet().stream()
                 .collect(Collectors.toMap(Map.Entry::getKey,
@@ -173,7 +165,7 @@ public class GameModel {
 
         onlinePlayers.values().forEach(player -> player.setCurrentStatus(true));
 
-        players.values().forEach((player)-> player.setStatesTransitionTable(StatesTransitionTable.fromIsSinglePlayer(isSinglePlayer))
+        players.values().forEach(player -> player.setStatesTransitionTable(StatesTransitionTable.fromIsSinglePlayer(isSinglePlayer))
         );
 
         setCurrentPlayer(players.get(onlineUsersIndexes.get(0)));
@@ -197,7 +189,7 @@ public class GameModel {
         if(!isStarted)
             isStarted = true;
 
-        macroGamePhase = MacroGamePhase.ActiveGame;
+        macroGamePhase = MacroGamePhase.ACTIVE_GAME;
     }
 
     public void stop(){
@@ -214,10 +206,6 @@ public class GameModel {
 
     public boolean isGameActive(){
         return isActiveGame;
-    }
-
-    public boolean isGameStarted(){
-        return isStarted;
     }
 
     public boolean isSinglePlayer(){
@@ -296,14 +284,6 @@ public class GameModel {
         return new ArrayList<>(leaders.keySet());
     }
 
-    public Leader getLeader(UUID leaderNumber){
-        return leaders.remove(leaderNumber);
-    }
-
-    public Map<UUID, Leader> getLeaders () {
-        return leaders;
-    }
-
     public boolean anyLeaderPlayableForCurrentPlayer(){
         return currentPlayer.anyLeaderPlayable();
     }
@@ -326,12 +306,6 @@ public class GameModel {
 
         if(!isActiveGame)
             isActiveGame = true;
-    }
-
-    private int getPlayerIndex(Player player, Map<Integer, Player> playersMap){
-        return playersMap.keySet().stream()
-                .filter(index -> playersMap.get(index).equals(player))
-                .findFirst().orElse(-1);
     }
 
     /**
@@ -434,22 +408,19 @@ public class GameModel {
      * Makes the players different from the current player advance of one position in the faith track, then checks if
      * any of them is in a Pope Space.
      *
-     * @return true if any player is in Pope Space, otherwise false.
      */
-    public boolean addFaithPointToOtherPlayers() {
+    public void addFaithPointToOtherPlayers() {
 
         if(!isSinglePlayer) {
             players.values().stream()
-                    .filter(player -> !(player == currentPlayer))
+                    .filter(player -> (player != currentPlayer))
                     .forEach(Player::moveOnePosition);
 
-            return players.values().stream()
-                    .filter(player -> !(player == currentPlayer)).anyMatch(Player::isInPopeSpaceForTheFirstTime);
         }
         else
             singlePlayer.moveLorenzoOnePosition();
-            return singlePlayer.isLorenzoInPopeSpaceForTheFirstTime();
-        }
+
+    }
 
     /**
       * @return List of integers corresponding to the players triggering a VaticanReport. In case of <em>Solo mode</em>
@@ -462,7 +433,7 @@ public class GameModel {
             List<Integer> list = new ArrayList<>();
             if(singlePlayer.isLorenzoInPopeSpaceForTheFirstTime())
                 list.add(-1);
-            else if(singlePlayer.isInPopeSpaceForTheFirstTime())
+            else if(singlePlayer.isInPopeSpaceForTheFirstTime() && players.keySet().stream().findFirst().isPresent())
                 list.add(players.keySet().stream().findFirst().get());
             vaticanReportTriggers = list;
         }

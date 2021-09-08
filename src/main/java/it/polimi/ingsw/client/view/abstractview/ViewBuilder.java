@@ -4,9 +4,8 @@ import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.CommonData;
 import it.polimi.ingsw.client.simplemodel.PlayerCache;
 import it.polimi.ingsw.client.simplemodel.SimpleModel;
-import it.polimi.ingsw.client.view.CLI.CLI;
+import it.polimi.ingsw.client.view.cli.CLI;
 
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Objects;
 
@@ -21,6 +20,8 @@ public abstract class ViewBuilder implements Runnable, PropertyChangeListener
     private static SimpleModel simpleModel;
     private static CLI cli;
     private static boolean isFirstTurn = true;
+
+    protected ViewBuilder(){}
 
     public static CLI getCLIView() {
         return cli;
@@ -47,7 +48,7 @@ public abstract class ViewBuilder implements Runnable, PropertyChangeListener
      * @return true if it's the first turn
      */
     public static boolean isFirstTurn(){
-        return isFirstTurn;
+        return !isFirstTurn;
     }
 
 
@@ -89,14 +90,5 @@ public abstract class ViewBuilder implements Runnable, PropertyChangeListener
     }
 
 
-    /**
-     * Adds view elements to the CLIView
-     */
-    abstract public void run();
-
-    public static void printWrongStateReceived(PropertyChangeEvent evt){
-      //  String s = getThisPlayerCache().getCurrentState()+" received: " + JsonUtility.serialize(evt.getNewValue());
-        //System.out.println(Color.colorString(s,Color.RED));
-    }
 
 }

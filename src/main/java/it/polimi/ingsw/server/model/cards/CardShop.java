@@ -5,7 +5,6 @@ import it.polimi.ingsw.server.model.states.State;
 import it.polimi.ingsw.server.utils.Deserializator;
 import javafx.util.Pair;
 
-import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -20,7 +19,7 @@ public class CardShop {
     /**
      * Indicates the maximum level a {@link DevelopmentCardColor} inside <em>devDecks</em> may have.
      */
-    private int maxLevel;
+    private final int maxLevel;
 
 
     /**
@@ -33,7 +32,7 @@ public class CardShop {
         this.devDecks = devDecks;
     }
 
-    public static CardShop initializeCardShop() throws IOException {
+    public static CardShop initializeCardShop() {
 
         return Deserializator.cardShopDeserialization();
     }
@@ -45,7 +44,7 @@ public class CardShop {
      * Each List member is a Deck containing {@link DevelopmentCard DevelopmentCards} of the same level. No different decks
      * inside the same List have the same level value.
      */
-        private Map<DevelopmentCardColor, Map<Integer, DevelopmentCardDeck>> devDecks;
+        private final Map<DevelopmentCardColor, Map<Integer, DevelopmentCardDeck>> devDecks;
 
     /**
      * <p>Solo mode method to discard development cards from the <em>CardShop</em> when dedicated
@@ -143,7 +142,7 @@ public class CardShop {
         return Arrays.stream(DevelopmentCardColor.values())
                 .filter(this::isColorOutOfStock)
                 .findFirst()
-                .get();
+                .orElse(DevelopmentCardColor.INVALID);
     }
 
     /**

@@ -30,6 +30,7 @@ import it.polimi.ingsw.server.messages.clienttoserver.events.productionevent.Tog
 import it.polimi.ingsw.server.messages.clienttoserver.events.setupphaseevent.SetupPhaseEvent;
 import it.polimi.ingsw.server.utils.Deserializator;
 
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,15 +41,15 @@ public class StatesTransitionTable {
      * The String is the name of the {@link Validable}
      */
     private Map<State, Map<String, GameStrategy>> table;
-    public static final String singlePLayerTableFile = "SinglePlayerStatesTransitionTable.json";
-    public static final String multiPLayerTableFile = "MultiPlayerStatesTransitionTable.json";
+    public static final String SINGLE_PLAYER_TABLE_FILE = "SinglePlayerStatesTransitionTable.json";
+    public static final String MULTI_PLAYER_TABLE_FILE = "MultiPlayerStatesTransitionTable.json";
 
 
     /**
      * Returns name of a class
      */
-    private static String name(Class classClass){
-        return classClass.getSimpleName();
+    private static String name(Class classInstance){
+        return classInstance.getSimpleName();
     }
 
 
@@ -72,7 +73,7 @@ public class StatesTransitionTable {
     public static StatesTransitionTable setupCommonStatesTransitionTable(){
 
         StatesTransitionTable statesTransitionTable = new StatesTransitionTable();
-        statesTransitionTable.table = new HashMap<>();
+        statesTransitionTable.table = new EnumMap<>(State.class);
         HashMap<String, GameStrategy> eventsAndStrategy = new HashMap<>();
 
         // player can freely move warehouse resources during idle phase

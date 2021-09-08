@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.messages.clienttoserver.events.marketboardevent;
 import com.google.gson.Gson;
-import it.polimi.ingsw.network.jsonUtils.JsonUtility;
+import it.polimi.ingsw.network.jsonutils.JsonUtility;
 import it.polimi.ingsw.network.messages.clienttoserver.events.setupphaseevent.SetupPhaseEvent;
 import it.polimi.ingsw.server.model.GameModel;
 import javafx.util.Pair;
@@ -9,8 +9,8 @@ import org.junit.Test;
 
 import java.util.*;
 
-import static it.polimi.ingsw.network.jsonUtils.JsonUtility.deserializeFromString;
-import static it.polimi.ingsw.network.jsonUtils.JsonUtility.serialize;
+import static it.polimi.ingsw.network.jsonutils.JsonUtility.deserializeFromString;
+import static it.polimi.ingsw.network.jsonutils.JsonUtility.serialize;
 import static org.junit.Assert.*;
 
 public class SetupPhaseEventTest {

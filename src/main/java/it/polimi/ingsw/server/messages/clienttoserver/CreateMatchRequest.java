@@ -6,8 +6,6 @@ import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.controller.Match;
 import it.polimi.ingsw.server.controller.SessionController;
 
-import java.io.IOException;
-
 public class CreateMatchRequest extends it.polimi.ingsw.network.messages.clienttoserver.CreateMatchRequest implements ServerMessage {
 
     public CreateMatchRequest(int maxPlayers, String nickName) {
@@ -18,30 +16,23 @@ public class CreateMatchRequest extends it.polimi.ingsw.network.messages.clientt
      * Method invoked in the server to process the message.
      */
     @Override
-    public void processMessage(ClientHandler clientHandler) throws IOException {
+    public void processMessage(ClientHandler clientHandler) {
 
         clientHandler.getMatch().ifPresentOrElse(
-             (match)->{
-                    try {
-                        //Player is already in a match, resend matches data
-                        clientHandler.sendAnswerMessage(new MatchesData(SessionController.getInstance().matchesData(clientHandler)));
-                        clientHandler.sendAnswerMessage(new CreatedMatchStatus(this,null, CreatedMatchStatus.motive.OTHER));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }},
+             match->{
+                 //Player is already in a match, resend matches data
+                 clientHandler.sendAnswerMessage(new MatchesData(SessionController.getInstance().matchesData(clientHandler)));
+                 clientHandler.sendAnswerMessage(new CreatedMatchStatus(null, CreatedMatchStatus.motive.OTHER));
+             },
              ()->{
-                     try {
-                         //Match created successfully
-                         Match match = SessionController.getInstance().addNewMatch(maxPlayers, clientHandler);
-                         SessionController.getInstance().addPlayerToMatch(match.getMatchId(),nickName,clientHandler);
-                         SessionController.getInstance().notifyPlayersInLobby(clientHandler);
-                         clientHandler.sendAnswerMessage(new CreatedMatchStatus(this,match.getMatchId(),null));
-                         clientHandler.sendAnswerMessage(new MatchesData(SessionController.getInstance().matchesData(clientHandler)));
-                         SessionController.getInstance().startMatchAndNotifyStateIfPossible(match);
+                 //Match created successfully
+                 Match match = SessionController.getInstance().addNewMatch(maxPlayers, clientHandler);
+                 SessionController.getInstance().addPlayerToMatch(match.getMatchId(),nickName,clientHandler);
+                 SessionController.getInstance().notifyPlayersInLobby();
+                 clientHandler.sendAnswerMessage(new CreatedMatchStatus(match.getMatchId(),null));
+                 clientHandler.sendAnswerMessage(new MatchesData(SessionController.getInstance().matchesData(clientHandler)));
+                 SessionController.getInstance().startMatchAndNotifyStateIfPossible(match);
 
-                     } catch (IOException e) {
-                         e.printStackTrace();
-                     }
-                    });
+             });
     }
 }

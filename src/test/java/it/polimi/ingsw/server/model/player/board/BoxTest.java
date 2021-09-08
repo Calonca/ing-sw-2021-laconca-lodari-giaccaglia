@@ -14,7 +14,7 @@ public class BoxTest {
     private Box strongBox,box3;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         strongBox = Box.strongBox();
         box3 = new Box(3,-12);
         box3.addResources(new int[]{5,15,2});
@@ -22,13 +22,13 @@ public class BoxTest {
 
     @Test
     public void strongBoxSetCorrectly() {
-        Resource.getStream(Resource.nRes).forEach((type)->assertEquals(0, strongBox.getNumberOf(type)));
+        Resource.getStream(Resource.N_RES).forEach((type)->assertEquals(0, strongBox.getNumberOf(type)));
     }
 
     @Test
     public void discardBoxSetCorrectly() {
         Box discardBox = Box.discardBox();
-        Resource.getStream(Resource.nRes+1).forEach((type)->assertEquals(0, discardBox.getNumberOf(type)));
+        Resource.getStream(Resource.N_RES +1).forEach((type)->assertEquals(0, discardBox.getNumberOf(type)));
     }
 
     @Test

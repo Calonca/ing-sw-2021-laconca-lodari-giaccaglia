@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class PuttingBallOnLine implements GameStrategy {
 
-    List<Element> elementsToUpdate = new ArrayList<>();
+    private final List<Element> elementsToUpdate = new ArrayList<>();
 
     public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event) {
 
@@ -29,7 +29,7 @@ public class PuttingBallOnLine implements GameStrategy {
         gamemodel.getCurrentPlayer().getPersonalBoard().setMarketBox(gamemodel.getBoxOfResourcesFromMarketBoard());
         gamemodel.updateMatrixAfterTakingResources();
 
-        elementsToUpdate.add(Element.SimpleMarketBoard);
+        elementsToUpdate.add(Element.SIMPLE_MARKET_BOARD);
 
         if (gamemodel.areThereWhiteMarblesInPickedLine()){
 
@@ -42,7 +42,7 @@ public class PuttingBallOnLine implements GameStrategy {
 
         Box marketBox = gamemodel.getBoxOfResourcesFromMarketBoard();
         gamemodel.getCurrentPlayer().getPersonalBoard().setMarketBox(marketBox);
-        elementsToUpdate.add(Element.SimpleDiscardBox);
+        elementsToUpdate.add(Element.SIMPLE_DISCARD_BOX);
 
         return new Pair<>(State.CHOOSING_POSITION_FOR_RESOURCES, elementsToUpdate);
 

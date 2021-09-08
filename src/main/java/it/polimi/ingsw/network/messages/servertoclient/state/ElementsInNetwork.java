@@ -10,7 +10,6 @@ public class ElementsInNetwork extends ServerToClientMessage {
 
     protected Map<Integer, List<SimpleModelElement>> playerElementsMap;
     protected List<SimpleModelElement> playerSimpleModelElements;
-    protected int playerIndex;
 
     public ElementsInNetwork(){}
 

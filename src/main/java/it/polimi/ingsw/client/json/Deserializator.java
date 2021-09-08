@@ -8,9 +8,9 @@ import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import it.polimi.ingsw.network.assets.leaders.NetworkLeaderCard;
 import it.polimi.ingsw.network.assets.marbles.MarbleAsset;
 import it.polimi.ingsw.network.assets.tokens.ActionTokenAsset;
-import it.polimi.ingsw.network.jsonUtils.CommonGsonAdapters;
-import it.polimi.ingsw.network.jsonUtils.JsonUtility;
-import it.polimi.ingsw.network.jsonUtils.UUIDTypeAdapter;
+import it.polimi.ingsw.network.jsonutils.CommonGsonAdapters;
+import it.polimi.ingsw.network.jsonutils.JsonUtility;
+import it.polimi.ingsw.network.jsonutils.UUIDTypeAdapter;
 import javafx.util.Pair;
 
 import java.lang.reflect.Type;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 
 public class Deserializator extends JsonUtility {
 
-    public static final String clientConfigPathString = "/clientconfig/";
+    public static final String CLIENT_CONFIG_PATH_STRING = "/clientconfig/";
 
     /**
      *  @return a Leader array from json of lenght 16
@@ -32,7 +32,7 @@ public class Deserializator extends JsonUtility {
     public static List<NetworkLeaderCard> leaderCardsDeserialization() {
 
         NetworkLeaderCard[] leaders = deserializeFromSourceRoot(
-                clientConfigPathString + "LeadersConfig.json", NetworkLeaderCard[].class,
+                CLIENT_CONFIG_PATH_STRING + "LeadersConfig.json", NetworkLeaderCard[].class,
                 customGsonBuilder.registerTypeAdapterFactory(CommonGsonAdapters.gsonNetworkLeaderAdapter)
                         .registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).create());
 
@@ -43,7 +43,7 @@ public class Deserializator extends JsonUtility {
      */
     public static List<NetworkDevelopmentCard> devCardsListDeserialization() {
         NetworkDevelopmentCard[] cardsArray = deserializeFromSourceRoot(
-                clientConfigPathString + "DevelopmentCardConfig.json", NetworkDevelopmentCard[].class,
+                CLIENT_CONFIG_PATH_STRING + "DevelopmentCardConfig.json", NetworkDevelopmentCard[].class,
                  customGsonBuilder.registerTypeAdapterFactory(CommonGsonAdapters.gsonNetworkLeaderAdapter)
                 .registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).create());
 
@@ -68,7 +68,7 @@ public class Deserializator extends JsonUtility {
 
         Type type = new TypeToken<Map<UUID, DevelopmentCardAsset> >(){}.getType();
         Gson customGson = new GsonBuilder().enableComplexMapKeySerialization().registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).registerTypeHierarchyAdapter(Path.class, new PathConverter()).setPrettyPrinting().create();
-        return deserializeFromSourceRoot(clientConfigPathString + "ClientDevCardsAssetsMapConfig.json", type ,customGson);
+        return deserializeFromSourceRoot(CLIENT_CONFIG_PATH_STRING + "ClientDevCardsAssetsMapConfig.json", type ,customGson);
 
     }
 
@@ -79,7 +79,7 @@ public class Deserializator extends JsonUtility {
     public static Map<UUID, LeaderCardAsset> networkLeaderCardsAssetsMapDeserialization() {
         Gson gson = customGsonBuilder.registerTypeAdapterFactory(CommonGsonAdapters.gsonNetworkLeaderAdapter).registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).create();
         Type type = new TypeToken<Map<UUID, LeaderCardAsset> >(){}.getType();
-        return deserializeFromSourceRoot(clientConfigPathString + "ClientNetLeaderCardsAssetsMap.json", type ,gson);
+        return deserializeFromSourceRoot(CLIENT_CONFIG_PATH_STRING + "ClientNetLeaderCardsAssetsMap.json", type ,gson);
 
     }
     /**
@@ -87,7 +87,7 @@ public class Deserializator extends JsonUtility {
      */
     public static void initializeMarblesFromConfig(){
         Type type = new TypeToken <Map<MarbleAsset, Path>>(){}.getType();
-        Map<MarbleAsset, Path> marblesMap = JsonUtility.deserializeFromSourceRoot(clientConfigPathString + "MarblesAssetsConfig.json", type, customGson);
+        Map<MarbleAsset, Path> marblesMap = JsonUtility.deserializeFromSourceRoot(CLIENT_CONFIG_PATH_STRING + "MarblesAssetsConfig.json", type, customGson);
         marblesMap.forEach(MarbleAsset::setPath);
     }
 
@@ -97,7 +97,7 @@ public class Deserializator extends JsonUtility {
      */
     public static void initializeActionTokenFromConfig(){
         Type type = new TypeToken<Map<ActionTokenAsset, Pair<Path, String>>>(){}.getType();
-        Map<ActionTokenAsset, Pair<Path, String>> tokensMap = Deserializator.deserializeFromSourceRoot(clientConfigPathString + "TokenAssetsConfig.json", type, customGson);
+        Map<ActionTokenAsset, Pair<Path, String>> tokensMap = Deserializator.deserializeFromSourceRoot(CLIENT_CONFIG_PATH_STRING + "TokenAssetsConfig.json", type, customGson);
 
         tokensMap.forEach((asset, value) -> {
             asset.setFrontPath(value.getKey());

@@ -4,9 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.network.assets.devcards.NetworkDevelopmentCard;
 import it.polimi.ingsw.network.assets.leaders.*;
-import it.polimi.ingsw.network.jsonUtils.CommonGsonAdapters;
-import it.polimi.ingsw.network.jsonUtils.JsonUtility;
-import it.polimi.ingsw.network.jsonUtils.UUIDTypeAdapter;
+import it.polimi.ingsw.network.jsonutils.CommonGsonAdapters;
+import it.polimi.ingsw.network.jsonutils.JsonUtility;
+import it.polimi.ingsw.network.jsonutils.UUIDTypeAdapter;
 import it.polimi.ingsw.server.controller.Match;
 import it.polimi.ingsw.server.controller.SessionController;
 import it.polimi.ingsw.server.model.cards.CardShop;
@@ -30,11 +30,11 @@ import java.util.stream.IntStream;
 public class Deserializator extends JsonUtility {
 
     public static MarketBoard marketBoardDeserialization(){
-        return deserialize(readConfigPathString + "MarketBoardConfig.json", MarketBoard.class);
+        return deserialize(READ_CONFIG_PATH_STRING + "MarketBoardConfig.json", MarketBoard.class);
     }
 
     public static CardShop cardShopDeserialization(){
-        return deserializeFromSourceRoot(readConfigPathString + "CardShopConfig.json", CardShop.class,
+        return deserializeFromSourceRoot(READ_CONFIG_PATH_STRING + "CardShopConfig.json", CardShop.class,
                 customGsonBuilder.registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).create());
     }
 
@@ -98,16 +98,16 @@ public class Deserializator extends JsonUtility {
                         level -> level, level -> decksOfCardsByColor.get(DevelopmentCardColor.PURPLE).get(level-1)));
 
         Map<Integer, DevelopmentCardDeck> blueDecks = IntStream.range(1, cardsInDeck).boxed().collect(Collectors.toMap(level -> level, level ->
-                new DevelopmentCardDeck(level, DevelopmentCardColor.BLUE, blueCardsList.get(level), blueCardsList.get(level).size(), blueCardsList.get(level).size())));
+                new DevelopmentCardDeck(blueCardsList.get(level), blueCardsList.get(level).size())));
 
         Map<Integer, DevelopmentCardDeck> purpleDecks = IntStream.range(1, cardsInDeck).boxed().collect(Collectors.toMap(level -> level, level ->
-                new DevelopmentCardDeck(level, DevelopmentCardColor.PURPLE, purpleCardsList.get(level), purpleCardsList.get(level).size(), purpleCardsList.get(level).size() )));
+                new DevelopmentCardDeck(purpleCardsList.get(level), purpleCardsList.get(level).size() )));
 
         Map<Integer, DevelopmentCardDeck> yellowDecks = IntStream.range(1, cardsInDeck).boxed().collect(Collectors.toMap(level -> level, level ->
-                new DevelopmentCardDeck(level, DevelopmentCardColor.YELLOW, yellowCardsList.get(level), yellowCardsList.get(level).size(), yellowCardsList.get(level).size() )));
+                new DevelopmentCardDeck(yellowCardsList.get(level), yellowCardsList.get(level).size() )));
 
         Map<Integer, DevelopmentCardDeck> greenDecks = IntStream.range(1, cardsInDeck).boxed().collect(Collectors.toMap(level -> level, level ->
-                new DevelopmentCardDeck(level, DevelopmentCardColor.GREEN, greenCardsList.get(level), greenCardsList.get(level).size(), greenCardsList.get(level).size() )));
+                new DevelopmentCardDeck(greenCardsList.get(level), greenCardsList.get(level).size() )));
 
         Map<DevelopmentCardColor, Map<Integer, DevelopmentCardDeck>> listOfDecks = new HashMap<>();
         listOfDecks.put(DevelopmentCardColor.BLUE, blueDecks);
@@ -122,7 +122,7 @@ public class Deserializator extends JsonUtility {
     public static List<Leader> leaderCardsDeserialization(){
 
         Leader[] leaders = deserializeFromSourceRoot(
-                readConfigPathString + "LeadersConfig.json", Leader[].class,
+                READ_CONFIG_PATH_STRING + "LeadersConfig.json", Leader[].class,
                 JsonUtility.customGsonBuilder.registerTypeAdapterFactory(GsonAdapters.gsonLeaderAdapter).create());
 
         return (Arrays.asList(leaders));
@@ -142,8 +142,8 @@ public class Deserializator extends JsonUtility {
 
             Leader leader = modelLeadersMap.get(leaderKey);
             if(leader instanceof DepositLeader){
-                String jsonString = Serializator.serialize(leader);
-                NetworkDepositLeaderCard depositLeaderCard = Deserializator.deserializeFromString(jsonString, NetworkDepositLeaderCard.class, customGson);
+                String jsonString = JsonUtility.serialize(leader);
+                NetworkDepositLeaderCard depositLeaderCard = JsonUtility.deserializeFromString(jsonString, NetworkDepositLeaderCard.class, customGson);
                 depositLeaderCard.setResourcesTypeInDepot(((DepositLeader) leader).getDepotResourcesType());
 
 
@@ -155,8 +155,8 @@ public class Deserializator extends JsonUtility {
 
             if(leader instanceof MarketLeader){
 
-                String jsonString = Serializator.serialize(leader);
-                NetworkMarketLeaderCard marketLeaderCard = Deserializator.deserializeFromString(jsonString, NetworkMarketLeaderCard.class, customGson);
+                String jsonString = JsonUtility.serialize(leader);
+                NetworkMarketLeaderCard marketLeaderCard = JsonUtility.deserializeFromString(jsonString, NetworkMarketLeaderCard.class, customGson);
                 marketLeaderCard.setMarketBonusResource(((MarketLeader) leader).getResourceBonusType());
 
 
@@ -166,8 +166,8 @@ public class Deserializator extends JsonUtility {
 
             if(leader instanceof ProductionLeader){
 
-                String jsonString = Serializator.serialize(leader);
-                NetworkProductionLeaderCard productionLeaderCard = Deserializator.deserializeFromString(jsonString, NetworkProductionLeaderCard.class, customGson);
+                String jsonString = JsonUtility.serialize(leader);
+                NetworkProductionLeaderCard productionLeaderCard = JsonUtility.deserializeFromString(jsonString, NetworkProductionLeaderCard.class, customGson);
 
                 Map<Integer,Integer> inputsMap = ((ProductionLeader) leader).getProductionInputsMap();
                 Map<Integer,Integer> outputsMap = ((ProductionLeader) leader).getProductionOutputsMap();
@@ -182,8 +182,8 @@ public class Deserializator extends JsonUtility {
             }
 
             if(leader instanceof DevelopmentDiscountLeader){
-                String jsonString = Serializator.serialize(leader);
-                NetworkDevelopmentDiscountLeaderCard developmentDiscountLeaderCard= Deserializator.deserializeFromString(jsonString, NetworkDevelopmentDiscountLeaderCard.class, customGson);
+                String jsonString = JsonUtility.serialize(leader);
+                NetworkDevelopmentDiscountLeaderCard developmentDiscountLeaderCard= JsonUtility.deserializeFromString(jsonString, NetworkDevelopmentDiscountLeaderCard.class, customGson);
                 developmentDiscountLeaderCard.setResourcesDiscount(((DevelopmentDiscountLeader) leader).getDiscountAsIntegerPair());
 
 
@@ -214,13 +214,13 @@ public class Deserializator extends JsonUtility {
     }
 
     public static FaithTrack faithTrackDeserialization(){
-        return deserialize(readConfigPathString + "FaithTrackConfig.json", FaithTrack.class);
+        return deserialize(READ_CONFIG_PATH_STRING + "FaithTrackConfig.json", FaithTrack.class);
     }
 
     //helper method to load a 48 devcards array from json
     public static List<DevelopmentCard> devCardsListDeserialization() {
         DevelopmentCard[] cardsArray = deserializeFromSourceRoot(
-                readConfigPathString + "DevelopmentCardConfig.json", DevelopmentCard[].class,
+                READ_CONFIG_PATH_STRING + "DevelopmentCardConfig.json", DevelopmentCard[].class,
                 customGsonBuilder.registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).create());
 
         return (Arrays.asList(cardsArray));
@@ -228,7 +228,7 @@ public class Deserializator extends JsonUtility {
 
     public static List<NetworkDevelopmentCard> networkDevCardsListDeserialization(){
         NetworkDevelopmentCard[] cardsArray = deserializeFromSourceRoot(
-                readConfigPathString + "prova.json", NetworkDevelopmentCard[].class,
+                READ_CONFIG_PATH_STRING + "prova.json", NetworkDevelopmentCard[].class,
                 customGsonBuilder.registerTypeAdapterFactory(CommonGsonAdapters.gsonNetworkLeaderAdapter)
                         .registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).create());
 
@@ -247,7 +247,7 @@ public class Deserializator extends JsonUtility {
 
         Type type = new TypeToken<Map<UUID, Leader> >(){}.getType();
         return deserializeFromSourceRoot(
-                readConfigPathString + "LeadersCardMapConfig.json", type ,
+                READ_CONFIG_PATH_STRING + "LeadersCardMapConfig.json", type ,
                 customGsonBuilder.registerTypeAdapterFactory(GsonAdapters.gsonLeaderAdapter).create()
         );
 
@@ -255,7 +255,7 @@ public class Deserializator extends JsonUtility {
 
     public static StatesTransitionTable deserializeSinglePlayerStatesTransitionTable() {
         return JsonUtility.deserializeFromSourceRoot(
-                JsonUtility.readConfigPathString + StatesTransitionTable.singlePLayerTableFile,
+                JsonUtility.READ_CONFIG_PATH_STRING + StatesTransitionTable.SINGLE_PLAYER_TABLE_FILE ,
                 StatesTransitionTable.class,
                 customGsonBuilder.registerTypeAdapterFactory(GsonAdapters.gsonStrategyAdapter).create()
         );
@@ -264,7 +264,7 @@ public class Deserializator extends JsonUtility {
     public static StatesTransitionTable deserializeMultiPlayerStatesTransitionTable() {
 
         return JsonUtility.deserializeFromSourceRoot(
-                JsonUtility.readConfigPathString + StatesTransitionTable.multiPLayerTableFile,
+                JsonUtility.READ_CONFIG_PATH_STRING + StatesTransitionTable.MULTI_PLAYER_TABLE_FILE ,
                 StatesTransitionTable.class,
                 customGsonBuilder.registerTypeAdapterFactory(GsonAdapters.gsonStrategyAdapter).create()
         );
@@ -280,8 +280,7 @@ public class Deserializator extends JsonUtility {
                 .registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).create();
 
 
-        Match match = JsonUtility.deserialize(path, Match.class, gson);
-        return match;
+        return JsonUtility.deserialize(path, Match.class, gson);
     }
 
     public static SessionController deserializeSession(String path){
@@ -294,8 +293,7 @@ public class Deserializator extends JsonUtility {
                 .registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).create();
 
 
-        SessionController sessionController = JsonUtility.deserialize(path, SessionController.class, gson);
-        return sessionController;
+        return JsonUtility.deserialize(path, SessionController.class, gson);
     }
 
 

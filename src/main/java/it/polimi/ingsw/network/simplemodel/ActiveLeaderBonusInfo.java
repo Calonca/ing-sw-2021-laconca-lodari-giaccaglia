@@ -38,20 +38,12 @@ public class ActiveLeaderBonusInfo extends SimpleModelElement{
 
     }
 
-    public List<ResourceAsset> getResourcesInLeaderDepot() {
-        return resourcesInLeaderDepot;
-    }
-
     public List<Pair<ResourceAsset, Integer>> getDiscountedResources() {
         return discountedResources;
     }
 
     public List<ResourceAsset> getMarketBonusResources() {
         return marketBonusResources;
-    }
-
-    public List<SimpleProductionBonus> getSimpleProductionBonus() {
-        return simpleProductionBonus;
     }
 
     public static class SimpleProductionBonus
@@ -67,13 +59,6 @@ public class ActiveLeaderBonusInfo extends SimpleModelElement{
 
         }
 
-        public List<ResourceAsset> getInputResources() {
-            return inputResources;
-        }
-
-        public List<ResourceAsset> getOutputResources() {
-            return outputResources;
-        }
     }
 
 }

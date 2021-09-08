@@ -1,9 +1,9 @@
 package it.polimi.ingsw.client.view.abstractview;
 
 import it.polimi.ingsw.client.CommonData;
-import it.polimi.ingsw.client.view.CLI.match.CreateJoinLoadMatchCLI;
-import it.polimi.ingsw.client.view.CLI.textUtil.Color;
-import it.polimi.ingsw.client.view.GUI.CreateJoinLoadMatchGUI;
+import it.polimi.ingsw.client.view.cli.match.CreateJoinLoadMatchCLI;
+import it.polimi.ingsw.client.view.cli.textutil.Color;
+import it.polimi.ingsw.client.view.gui.CreateJoinLoadMatchGUI;
 import javafx.util.Pair;
 import org.apache.commons.lang3.ArrayUtils;
 

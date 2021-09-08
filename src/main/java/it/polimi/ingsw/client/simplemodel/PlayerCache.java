@@ -16,10 +16,10 @@ import java.util.TreeMap;
  */
 public class PlayerCache {
 
-    private String currentState = "";
+    private String currentState;
     private final PropertyChangeSupport support;
 
-    private Map<String , SimpleModelElement> playerSimpleModelElementsMap = new TreeMap<>();
+    private final Map<String , SimpleModelElement> playerSimpleModelElementsMap = new TreeMap<>();
 
     /**
      * Method to subscribe to the Property Change Support
@@ -52,8 +52,8 @@ public class PlayerCache {
     public void updateState(String state){
         String oldState = currentState;
         currentState = state;
-        if((!currentState.equals(State.SETUP_PHASE.toString()) && !currentState.equals(State.IDLE.toString())) && CommonData.isSetupPhase){
-            CommonData.isSetupPhase = false;
+        if((!currentState.equals(State.SETUP_PHASE.toString()) && !currentState.equals(State.IDLE.toString())) && CommonData.isSetupPhase()){
+            CommonData.setIsSetupPhase(false);
         }
 
         support.firePropertyChange(currentState,"old:"+oldState, currentState);
@@ -62,7 +62,7 @@ public class PlayerCache {
 
     /**
      * Method used by the client to access player-specific informations
-     * @param name
+     * @param name element name
      * @return a valid SimpleModelElement
      */
     public SimpleModelElement getElem(String name){

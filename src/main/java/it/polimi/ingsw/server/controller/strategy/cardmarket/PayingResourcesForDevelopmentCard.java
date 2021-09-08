@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class PayingResourcesForDevelopmentCard implements GameStrategy {
 
-    List<Element> elementsToUpdate = new ArrayList<>();
+   private  final List<Element> elementsToUpdate = new ArrayList<>();
 
     public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event)
     {
@@ -28,12 +28,11 @@ public class PayingResourcesForDevelopmentCard implements GameStrategy {
 
         resourcesToRemove.forEach(playerBoard::selectResourceAt);
 
-        playerBoard.removeSelected();
+        playerBoard.removeSelectedResources();
 
-        elementsToUpdate.add(Element.SimpleStrongBox);
-        elementsToUpdate.add(Element.SimpleWareHouseLeadersDepot);
-        elementsToUpdate.add(Element.SimpleCardCells);
-       // elementsToUpdate.add(Element.SelectablePositions);
+        elementsToUpdate.add(Element.SIMPLE_STRONG_BOX);
+        elementsToUpdate.add(Element.SIMPLE_WARE_HOUSE_LEADERS_DEPOT);
+        elementsToUpdate.add(Element.SIMPLE_CARD_CELLS);
 
         return new Pair<>(State.CHOOSING_POSITION_FOR_DEVCARD, elementsToUpdate);
 

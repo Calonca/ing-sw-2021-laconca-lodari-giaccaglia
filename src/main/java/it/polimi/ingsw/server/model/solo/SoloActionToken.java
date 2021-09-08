@@ -109,7 +109,9 @@ public enum SoloActionToken {
 
     EMPTY{
         @Override
-        public void applyEffect(GameModel gameModel) {}
+        public void applyEffect(GameModel gameModel) {
+            //empty method to handle errors while keeping overriding applyEffect method.
+        }
     };
 
     /**

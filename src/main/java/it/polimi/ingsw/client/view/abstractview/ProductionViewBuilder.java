@@ -1,12 +1,11 @@
 package it.polimi.ingsw.client.view.abstractview;
 
-import it.polimi.ingsw.client.view.CLI.middle.MiddleProductionViewCLI;
-import it.polimi.ingsw.client.view.GUI.ProductionViewGUI;
+import it.polimi.ingsw.client.view.cli.middle.MiddleProductionViewCLI;
+import it.polimi.ingsw.client.view.gui.ProductionViewGUI;
 import it.polimi.ingsw.network.messages.clienttoserver.events.EventMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.events.productionevent.ChooseResourcesForProductionEvent;
 import it.polimi.ingsw.network.messages.clienttoserver.events.productionevent.FinalProductionPhaseEvent;
 import it.polimi.ingsw.network.messages.clienttoserver.events.productionevent.ToggleProductionAtPosition;
-import it.polimi.ingsw.network.simplemodel.SimpleCardCells;
 
 import java.beans.PropertyChangeEvent;
 import java.util.List;
@@ -20,14 +19,10 @@ public abstract class ProductionViewBuilder extends ViewBuilder{
         if (isCLI) return new MiddleProductionViewCLI();
         else return new ProductionViewGUI();
     }
-   public SimpleCardCells getSimpleCardCells(){
-       return getSimpleModel().getElem(SimpleCardCells.class).orElseThrow();
-   }
-
 
     /**
      * Method called during CHOOSING_PRODUCTION
-     * @param pos
+     * @param pos chosen production position on PersonalBoard
      */
     public static void sendChosenProduction(int pos){
         getClient().getServerHandler().sendCommandMessage(new EventMessage(new ToggleProductionAtPosition(pos)));

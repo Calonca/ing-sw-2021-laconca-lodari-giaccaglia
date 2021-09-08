@@ -8,7 +8,7 @@ import org.junit.Test;
 import java.lang.reflect.Type;
 import java.util.List;
 
-import static it.polimi.ingsw.network.jsonUtils.JsonUtility.deserialize;
+import static it.polimi.ingsw.network.jsonutils.JsonUtility.deserialize;
 import static org.junit.Assert.*;
 
 public class FaithCellTest {
@@ -16,7 +16,7 @@ public class FaithCellTest {
     FaithCell testFaithCell;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
 
         JsonObject jsonFaithTrackClass = deserialize("/config/FaithTrackConfig.json",JsonObject.class);
         JsonElement jsonFaithTrackList = jsonFaithTrackClass.get("track");

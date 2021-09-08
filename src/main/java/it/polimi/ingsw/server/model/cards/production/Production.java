@@ -17,9 +17,9 @@ public class Production {
      * then the counter will decrease and the basic resource's cells will increase. The two arrays are restored at
      * the end of the operations.
      */
-    private int[] input;
+    private final int[] input;
     private final int[] restoreinput;
-    private int[] output;
+    private final int[] output;
     private final int[] restoreoutput;
 
 
@@ -125,27 +125,24 @@ public class Production {
     //         resNum   amount
     public Map<Integer, Integer> getInputsMap(){
 
-        Map<Integer, Integer> inputsMap = IntStream.range(0, input.length).boxed().collect(Collectors.toMap(
+        return IntStream.range(0, input.length).boxed().collect(Collectors.toMap(
 
                 resourceNumber -> resourceNumber,
                 resourceNumber -> input[resourceNumber]
 
         ));
 
-        return inputsMap;
-
     }
 
     public Map<Integer, Integer> getOutputsMap()
     {
-        Map<Integer, Integer> outputsMap = IntStream.range(0, output.length).boxed().collect(Collectors.toMap(
+
+        return IntStream.range(0, output.length).boxed().collect(Collectors.toMap(
 
                 resourceNumber -> resourceNumber,
                 resourceNumber -> output[resourceNumber]
 
         ));
-
-        return outputsMap;
 
     }
 

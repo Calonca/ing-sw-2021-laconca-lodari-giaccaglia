@@ -13,7 +13,7 @@ import java.util.List;
 
 public class MarketLeader extends Leader
 {
-    private Resource bonus;
+    private final Resource bonus;
 
     public MarketLeader(LeaderState state, int victoryPoints, List<Pair<Resource,Integer>> requirementsResources, List<Pair<DevelopmentCardColor, Integer>> requirementsCards, Resource bonus, int requirementsCardsLevel)
     {

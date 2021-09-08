@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 
 public class MarketBoardMessageBuilder {
 
+    private MarketBoardMessageBuilder(){}
+
     public static UUID[][] marketBoardAdapter(GameModel gameModel){
 
         Marble[][] marketMarbles  = gameModel.getMarketMarbles();

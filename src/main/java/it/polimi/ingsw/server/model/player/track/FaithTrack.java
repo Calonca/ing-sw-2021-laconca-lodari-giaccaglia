@@ -13,7 +13,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static it.polimi.ingsw.network.jsonUtils.JsonUtility.serialize;
+import static it.polimi.ingsw.network.jsonutils.JsonUtility.serialize;
 
 /**
  * Represents the {@link Player} <em>FaithTrack</em>
@@ -54,12 +54,6 @@ public class FaithTrack {
      * The default number of elements is 3, which is set on the game setup.<br>
      */
     private List<PopeFavourTile> tiles;
-
-
-    public void cheat(){
-        playerPiece.setValue(5);
-        lorenzoPiece.setValue(6);
-    }
 
     public String serializeFaithTrack(){
         return serialize(this);
@@ -128,36 +122,6 @@ public class FaithTrack {
         return playerTilesStatus.get(track.get(piece.getValue()).getZone().getZoneNumber());
     }
 
-
-    private boolean hasNextPopeSpaceBeenReported(){
-
-        int playerPosition = playerPiece.getValue();
-        int lorenzoPosition = lorenzoPiece.getValue();
-        int maxPosition = Math.max(playerPosition, lorenzoPosition);
-
-        int zoneOfNextPopeSpace = track.get(maxPosition).getZone().getZoneNumber();
-        if(zoneOfNextPopeSpace == -1)
-            zoneOfNextPopeSpace = findNumberOfNextPopeTile(maxPosition);
-
-        return playerTilesStatus.get(zoneOfNextPopeSpace);
-    }
-
-
-
-    private int findNumberOfNextPopeTile(int maxPosition){
-        int currentZone = track.get(maxPosition).getZone().getZoneNumber();
-        if(currentZone!=-1)
-            return currentZone;
-        else
-           return IntStream.rangeClosed(maxPosition, track.size())
-                   .sorted()
-                   .map(position -> track.get(position).getZone().getZoneNumber())
-                   .filter(zone -> zone!=-1)
-                   .findFirst()
-                   .getAsInt();
-    }
-
-
     /**
      * @return  true if the PlayerPiece is currently in a Pope Space along FaithTrack.
      */
@@ -174,10 +138,10 @@ public class FaithTrack {
     }
 
     private MutablePair<Piece, Integer> getPiece(MutablePair<Piece, Integer> piece){
-        MutablePair<Piece, Integer> PieceCopy = new MutablePair<>();
-        PieceCopy.setLeft(piece.getLeft());
-        PieceCopy.setRight(piece.getRight());
-        return PieceCopy;
+        MutablePair<Piece, Integer> pieceCopy = new MutablePair<>();
+        pieceCopy.setLeft(piece.getLeft());
+        pieceCopy.setRight(piece.getRight());
+        return pieceCopy;
     }
 
     /**

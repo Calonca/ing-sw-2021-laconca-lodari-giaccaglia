@@ -1,9 +1,9 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.client.Client;
-import it.polimi.ingsw.client.view.CLI.CLI;
-import it.polimi.ingsw.client.view.CLI.textUtil.Color;
-import it.polimi.ingsw.client.view.GUI.GUI;
+import it.polimi.ingsw.client.view.cli.CLI;
+import it.polimi.ingsw.client.view.cli.textutil.Color;
+import it.polimi.ingsw.client.view.gui.GUI;
 import it.polimi.ingsw.server.Server;
 import org.apache.commons.cli.*;
 
@@ -96,8 +96,8 @@ public class Maestri {
         PrintWriter printWriter = new PrintWriter(System.out);
         printWriter.println("Maestri del rinascimento");
         printWriter.println();
-        helpFormatter.printUsage(printWriter,CLI.width,"java -jar Maestri.jar whatToStart [port] [ip] [nickname]");
-        helpFormatter.printOptions(printWriter,CLI.width,options,2,5);
+        helpFormatter.printUsage(printWriter, CLI.WIDTH,"java -jar Maestri.jar whatToStart [port] [ip] [nickname]");
+        helpFormatter.printOptions(printWriter,CLI.WIDTH,options,2,5);
         printWriter.close();
     }
 

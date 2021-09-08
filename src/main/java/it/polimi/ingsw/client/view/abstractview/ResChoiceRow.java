@@ -81,14 +81,6 @@ public class ResChoiceRow {
         return (int) out.stream().filter(r->r.equals(ResourceAsset.TO_CHOOSE)).count();
     }
 
-
-    /**
-     * Number of already chosen resources
-     */
-    public int getIndex() {
-        return arrowPos;
-    }
-
     /**
      * Sets the next resource to send
      * @param pos global position of the resource in the Warehouse or Strongbox

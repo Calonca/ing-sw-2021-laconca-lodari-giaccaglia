@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class ActivatingLeader implements GameStrategy {
 
-    List<Element> elementsToUpdate = new ArrayList<>();
+    final List<Element> elementsToUpdate = new ArrayList<>();
 
     public Pair<State, List<Element>> execute(GameModel gamemodel, Validable event)
     {
@@ -25,13 +25,14 @@ public class ActivatingLeader implements GameStrategy {
         State currentState = gamemodel.getGamePhase();
         State nextPossibleState = currentState.equals(State.INITIAL_PHASE) ? State.MIDDLE_PHASE : State.IDLE;
 
-        gamemodel.getCurrentPlayer().getLeader(((InitialOrFinalPhaseEvent) event).getLeaderId()).get().activate(gamemodel);
+        if(gamemodel.getCurrentPlayer().getLeader(((InitialOrFinalPhaseEvent) event).getLeaderId()).isPresent())
+            gamemodel.getCurrentPlayer().getLeader(((InitialOrFinalPhaseEvent) event).getLeaderId()).get().activate(gamemodel);
 
-        elementsToUpdate.add(Element.SimplePlayerLeaders);
-        elementsToUpdate.add(Element.SimpleProductions);
-        elementsToUpdate.add(Element.SimpleWareHouseLeadersDepot);
-        elementsToUpdate.add(Element.SimpleCardCells);
-        elementsToUpdate.add(Element.ActiveLeaderInfo);
+        elementsToUpdate.add(Element.SIMPLE_PLAYER_LEADERS);
+        elementsToUpdate.add(Element.SIMPLE_PRODUCTIONS);
+        elementsToUpdate.add(Element.SIMPLE_WARE_HOUSE_LEADERS_DEPOT);
+        elementsToUpdate.add(Element.SIMPLE_CARD_CELLS);
+        elementsToUpdate.add(Element.ACTIVE_LEADER_INFO);
 
         return gamemodel.getCurrentPlayer().anyLeaderPlayable()
                 ? new Pair<>(currentState, elementsToUpdate)

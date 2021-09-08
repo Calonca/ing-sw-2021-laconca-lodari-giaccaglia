@@ -14,7 +14,7 @@ public class ProductionCardCell {
 
     private DevelopmentCard cardOnTop;
 
-    private int maxsize=3;
+    private static final int MAX_SIZE=3;
 
     private final List<DevelopmentCard> stackedCards;
 
@@ -28,7 +28,7 @@ public class ProductionCardCell {
     }
 
     public int getMaxsize() {
-        return maxsize;
+        return MAX_SIZE;
     }
 
     /**
@@ -50,7 +50,7 @@ public class ProductionCardCell {
      */
     public boolean isSpotAvailable(DevelopmentCard card)
     {
-        return (stackedCards.size()<maxsize) && (card.getLevel()==stackedCards.size()+1);
+        return (stackedCards.size()<MAX_SIZE) && (card.getLevel()==stackedCards.size()+1);
     }
 
     /**
@@ -71,8 +71,7 @@ public class ProductionCardCell {
     {
         int temp=0;
         for (DevelopmentCard stackedCard : stackedCards) {
-            if (stackedCard.getCardType() == color)
-                if(stackedCard.getLevel() >= level)
+            if (stackedCard.getCardType() == color && stackedCard.getLevel() >= level)
                     temp++;
         }
         return temp;

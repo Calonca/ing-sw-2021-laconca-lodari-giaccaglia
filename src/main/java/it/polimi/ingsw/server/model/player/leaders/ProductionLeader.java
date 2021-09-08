@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public class ProductionLeader extends Leader
 {
-    private Production production;
+    private final Production production;
 
 
     public ProductionLeader(LeaderState state, int victoryPoints, List<Pair<Resource,Integer>> requirementsResources, List<Pair<DevelopmentCardColor, Integer>> requirementsCards, Production production, int requirementsCardsLevel )

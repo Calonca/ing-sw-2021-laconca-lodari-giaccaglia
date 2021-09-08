@@ -1,8 +1,8 @@
 package it.polimi.ingsw.client.view.abstractview;
 
 import it.polimi.ingsw.client.simplemodel.State;
-import it.polimi.ingsw.client.view.CLI.InitialOrFinalPhaseCLI;
-import it.polimi.ingsw.client.view.GUI.InitialOrFinalPhaseGUI;
+import it.polimi.ingsw.client.view.cli.InitialOrFinalPhaseCLI;
+import it.polimi.ingsw.client.view.gui.InitialOrFinalPhaseGUI;
 
 import java.beans.PropertyChangeEvent;
 
@@ -10,18 +10,18 @@ import static it.polimi.ingsw.client.simplemodel.State.INITIAL_PHASE;
 import static it.polimi.ingsw.client.simplemodel.State.MIDDLE_PHASE;
 
 public abstract class InitialOrFinalPhaseViewBuilder extends ViewBuilder {
-    public static boolean isInitial;
 
+    private static boolean isInitial;
 
     /**
      * @param isInitial is a boolean to control the next transition
      */
-    public InitialOrFinalPhaseViewBuilder(boolean isInitial) {
+    protected InitialOrFinalPhaseViewBuilder(boolean isInitial) {
         InitialOrFinalPhaseViewBuilder.isInitial = isInitial;
 
     }
 
-    public InitialOrFinalPhaseViewBuilder() {
+    protected InitialOrFinalPhaseViewBuilder() {
         isInitial=true;
 
     }
@@ -30,6 +30,10 @@ public abstract class InitialOrFinalPhaseViewBuilder extends ViewBuilder {
         if (isCLI)
             return new InitialOrFinalPhaseCLI(initial);
         else return new InitialOrFinalPhaseGUI(initial);
+    }
+
+    public static boolean isInitialPhase(){
+        return isInitial;
     }
 
     /**

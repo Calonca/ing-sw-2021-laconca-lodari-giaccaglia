@@ -12,8 +12,10 @@ import java.util.List;
  */
 public class FinalStrategy {
 
+    private FinalStrategy(){}
+
     public static Pair<State, List<Element>> handleCommonEndGameStrategy(List<Element> elementsToUpdate,GameModel gameModel){
-            elementsToUpdate.add(Element.SimpleCardShop);
+            elementsToUpdate.add(Element.SIMPLE_CARD_SHOP);
             State nextState;
                 if (gameModel.getCurrentPlayer().anyLeaderPlayable())
                     nextState = State.FINAL_PHASE;
@@ -27,15 +29,15 @@ public class FinalStrategy {
 
     public static Pair<State, List<Element>> handleSinglePlayerEndGameStrategy(List<Element> elementsToUpdate,GameModel gameModel, String endGameReason){
         gameModel.getThisMatch().setReasonOfGameEnd(endGameReason);
-        elementsToUpdate.add(Element.EndGameInfo);
+        elementsToUpdate.add(Element.END_GAME_INFO);
         return new Pair<>(State.END_PHASE, elementsToUpdate);
     }
 
     public static void setLastTurnMacroGamePhase(GameModel gameModel, List<Element> elementsToUpdate){
 
-            if (gameModel.getMacroGamePhase().equals(GameModel.MacroGamePhase.ActiveGame)) {
-                elementsToUpdate.add(Element.EndGameInfo);
-                gameModel.setMacroGamePhase(GameModel.MacroGamePhase.LastTurn);
+            if (gameModel.getMacroGamePhase().equals(GameModel.MacroGamePhase.ACTIVE_GAME)) {
+                elementsToUpdate.add(Element.END_GAME_INFO);
+                gameModel.setMacroGamePhase(GameModel.MacroGamePhase.LAST_TURN);
             }
         }
     }

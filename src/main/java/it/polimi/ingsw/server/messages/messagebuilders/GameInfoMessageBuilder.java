@@ -19,6 +19,8 @@ import java.util.stream.IntStream;
 
 public class GameInfoMessageBuilder {
 
+    private GameInfoMessageBuilder(){}
+
     public static List<Integer> getPlayersEndingTheGame(GameModel gameModel) {
         return new ArrayList<>(gameModel.getPlayersEndingTheGame().keySet());
     }
@@ -33,57 +35,50 @@ public class GameInfoMessageBuilder {
 
     public static List<ResourceAsset> depotBonusResources(GameModel gameModel, int playerIndex){
 
-        return gameModel.getPlayer(playerIndex).get().getActiveLeaders().stream().filter(leader ->
-                leader instanceof DepositLeader).map(depositLeader -> {
-
-                    ResourceAsset asset = ResourceAsset.fromInt(((DepositLeader) depositLeader).getLeaderDepot().geResourceType());
-
-                    return asset;
-
-        }).collect(Collectors.toList());
-
+        if(gameModel.getPlayer(playerIndex).isPresent())
+            return gameModel.getPlayer(playerIndex).get().getActiveLeaders().stream().filter(DepositLeader.class::isInstance).map(depositLeader -> ResourceAsset.fromInt(((DepositLeader) depositLeader).getLeaderDepot().geResourceType())).collect(Collectors.toList());
+        else
+            return new ArrayList<>();
     }
 
     public static List<Pair<ResourceAsset, Integer>> discountBonusResources(GameModel gameModel, int playerIndex){
 
-        return gameModel.getPlayer(playerIndex).get().getActiveLeaders().stream().filter(leader -> leader instanceof DevelopmentDiscountLeader).map(discountLeader -> {
+        if(gameModel.getPlayer(playerIndex).isPresent())
+            return gameModel.getPlayer(playerIndex).get().getActiveLeaders().stream().filter(DevelopmentDiscountLeader.class::isInstance).map(discountLeader -> {
 
-                    DevelopmentDiscountLeader developmentDiscountLeader = (DevelopmentDiscountLeader) discountLeader;
+                        Pair<Resource, Integer> resourcePair = ((DevelopmentDiscountLeader) discountLeader).getDiscount();
+                        ResourceAsset resourceAsset = ResourceAsset.fromInt(resourcePair.getKey().getResourceNumber());
+                        int discountAmount = resourcePair.getValue();
 
-                    Pair<Resource, Integer> resourcePair = ((DevelopmentDiscountLeader) discountLeader).getDiscount();
-                    ResourceAsset resourceAsset = ResourceAsset.fromInt(resourcePair.getKey().getResourceNumber());
-                    int discountAmount = resourcePair.getValue();
+                        return new Pair<>(resourceAsset, discountAmount);
 
-                    return new Pair<>(resourceAsset, discountAmount);
-
-        }).collect(Collectors.toList());
+            }).collect(Collectors.toList());
+        else return new ArrayList<>();
     }
 
     public static List<ResourceAsset> marketBonusResources(GameModel gameModel, int playerIndex){
 
-        return gameModel.getPlayer(playerIndex).get().getActiveLeaders().stream().filter(leader -> leader instanceof MarketLeader).map(marketBonusLeader -> {
-
-                    ResourceAsset asset = ResourceAsset.fromInt(((MarketLeader) marketBonusLeader).getResourceBonusType());
-
-                    return asset;
-
-        }).collect(Collectors.toList());
+        if(gameModel.getPlayer(playerIndex).isPresent())
+            return gameModel.getPlayer(playerIndex).get().getActiveLeaders().stream().filter(MarketLeader.class::isInstance).map(marketBonusLeader -> ResourceAsset.fromInt(((MarketLeader) marketBonusLeader).getResourceBonusType())).collect(Collectors.toList());
+        else return new ArrayList<>();
 
     }
 
     public static List<ActiveLeaderBonusInfo.SimpleProductionBonus> productionBonusResources(GameModel gameModel, int playerIndex){
 
-        return gameModel.getPlayer(playerIndex).get().getActiveLeaders().stream().filter(leader -> leader instanceof ProductionLeader).map(productionLeader -> {
+        if(gameModel.getPlayer(playerIndex).isPresent())
+            return gameModel.getPlayer(playerIndex).get().getActiveLeaders().stream().filter(ProductionLeader.class::isInstance).map(productionLeader -> {
 
-            ProductionLeader leader = ((ProductionLeader) productionLeader);
+                ProductionLeader leader = ((ProductionLeader) productionLeader);
 
-                return new ActiveLeaderBonusInfo.SimpleProductionBonus(
-                        leader.getProductionInputsMap().keySet().stream().map(ResourceAsset::fromInt).collect(Collectors.toList()),
-                        leader.getProductionOutputsMap().keySet().stream().map(ResourceAsset::fromInt).collect(Collectors.toList()));
+                    return new ActiveLeaderBonusInfo.SimpleProductionBonus(
+                            leader.getProductionInputsMap().keySet().stream().map(ResourceAsset::fromInt).collect(Collectors.toList()),
+                            leader.getProductionOutputsMap().keySet().stream().map(ResourceAsset::fromInt).collect(Collectors.toList()));
 
-                }
+                    }
 
-        ).collect(Collectors.toList());
+            ).collect(Collectors.toList());
+        else return new ArrayList<>();
 
     }
 
@@ -91,7 +86,7 @@ public class GameInfoMessageBuilder {
 
         int numOfPlayers = gameModel.getMatchPlayers().size();
 
-        Map<Integer, SimplePlayerInfo> simplePlayerInfoMap = IntStream.range(0, numOfPlayers).boxed().collect(Collectors.toMap(
+        return IntStream.range(0, numOfPlayers).boxed().collect(Collectors.toMap(
 
                 playerIndex -> playerIndex,
 
@@ -104,18 +99,15 @@ public class GameInfoMessageBuilder {
                     String nickname = player.getNickname();
                     boolean isOnline = player.isOnline();
 
-                    SimplePlayerInfo playerInfo = new SimplePlayerInfo(
+                    return new SimplePlayerInfo(
                             currentVictoryPoints,
                             currentPosition,
                             currentLorenzoPosition,
                             isOnline,
                             playerIndex,
                             nickname);
-                    return playerInfo;
                 }
         ));
-
-        return simplePlayerInfoMap;
     }
 
     public static Set<Integer> getPlayersTriggeringVaticanReport(GameModel gameModel){

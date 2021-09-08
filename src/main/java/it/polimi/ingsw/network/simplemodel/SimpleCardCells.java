@@ -131,10 +131,6 @@ public class SimpleCardCells extends SimpleModelElement{
         return simpleProductions.getProductionAtPos(position);
     }
 
-    public Optional<Boolean> isProductionAtPositionSelected(int productionPosition){
-        return simpleProductions.isProductionAtPositionSelected(productionPosition);
-    }
-
     public Optional<Boolean> isProductionAtPositionAvailable(int productionPosition){
         return simpleProductions.isProductionAtPositionAvailable(productionPosition);
     }

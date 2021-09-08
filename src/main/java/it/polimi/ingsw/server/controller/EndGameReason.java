@@ -21,16 +21,16 @@ public enum EndGameReason {
 
     LORENZO_REACHED_END("Black Cross token reaches the final space of your Faith Track before your Faith Marker, you lose the game!");
 
-    private final String endGameReason;
+    private final String reason;
 
     EndGameReason(final String endGameReason)
     {
-        this.endGameReason = endGameReason;
+        this.reason = endGameReason;
     }
 
     public String getEndGameReason(){
 
-        return this.endGameReason;
+        return this.reason;
     }
 
 

@@ -16,7 +16,6 @@ import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.states.State;
 import javafx.util.Pair;
 
-import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -123,7 +122,7 @@ public class Match {
             if(Objects.nonNull(game)) {  // if game has been created set player online after reconnecting
                 Player player = game.getPlayer(nickName).get();
                 game.setOnlinePlayer(player);
-                if (game.getCurrentPlayer().getNickname().equals(player.getNickname()))
+                if (game.getOnlinePlayers().size() == 1)
                     game.setCurrentPlayer(player);
             }
 
@@ -189,12 +188,6 @@ public class Match {
             game.stop();
     }
 
-    private Optional<ClientHandler> currentUser(){
-
-        String nickname = game.getCurrentPlayer().getNickname();
-        return onlineUsers.values().stream().filter(user->user.getNickname().equals(nickname)).findFirst();
-    }
-
     public UUID getMatchId() {
         return matchId;
     }
@@ -202,10 +195,10 @@ public class Match {
     public String[] getOnlinePlayers(){
 
         if(onlineUsers.isEmpty())
-            return Stream.generate(() -> "available slot").limit(maxPlayers - offlineUsers.size()).toArray(String[]::new);
+            return Stream.generate(() -> "available slot").limit(((long)maxPlayers - offlineUsers.size())).toArray(String[]::new);
 
         return Stream.concat(onlineUsers.values().stream().map(ClientHandler::getNickname),
-                Stream.generate(()-> "available slot")).limit(maxPlayers - offlineUsers.size()).toArray(String[]::new);
+                Stream.generate(()-> "available slot")).limit((long)maxPlayers - offlineUsers.size()).toArray(String[]::new);
 
     }
 
@@ -214,8 +207,6 @@ public class Match {
         return offlineUsers.values().stream().map(ClientHandler::getNickname).toArray(String[]::new);
 
     }
-
-    public boolean sameID(UUID uuid) {return uuid.equals(matchId);}
 
     public Stream<ClientHandler> clientsStream(){
         return onlineUsers.values().stream();
@@ -242,11 +233,11 @@ public class Match {
             throw new EventValidationFailedException();
 
         Pair<State, List<Element>> data = gameStrategy.execute(game, event);
-        data.getValue().add(Element.PlayersInfo);
+        data.getValue().add(Element.PLAYERS_INFO);
 
-      if(data.getValue().contains(Element.SimpleFaithTrack)) {
+      if(data.getValue().contains(Element.SIMPLE_FAITH_TRACK)) {
             List<Element> elements = new ArrayList<>();
-            elements.add(Element.SimpleFaithTrack);
+            elements.add(Element.SIMPLE_FAITH_TRACK);
             updateElementsForAllPlayers(elements);
         }
 
@@ -255,9 +246,7 @@ public class Match {
 
 
         if ((playerSendingEvent.getCurrentState().equals(State.IDLE)
-                        && playerSendingEvent.equals(game.getCurrentPlayer()))){
-
-            if(game.getCurrentPlayer().equals(playerSendingEvent)) {
+                        && playerSendingEvent.equals(game.getCurrentPlayer())) && game.getCurrentPlayer().equals(playerSendingEvent)){
 
                 game.setCurrentPlayer(game.getNextPlayer().get());
 
@@ -270,12 +259,12 @@ public class Match {
                 } else {
 
                     playerSendingEvent = game.getCurrentPlayer();
-                    IDLE IDLEStrategy = new IDLE();
-                    Pair<State, List<Element>> data2 = IDLEStrategy.execute(game, null);
+                    IDLE idleStrategy = new IDLE();
+                    Pair<State, List<Element>> data2 = idleStrategy.execute(game, null);
                     playerSendingEvent.setCurrentState(data2.getKey());
 
 
-                    if(playerSendingEvent.getCurrentState().equals(State.END_PHASE) && game.getMacroGamePhase().equals(GameModel.MacroGamePhase.GameEnded) && !game.isSinglePlayer()){
+                    if(playerSendingEvent.getCurrentState().equals(State.END_PHASE) && game.getMacroGamePhase().equals(GameModel.MacroGamePhase.GAME_ENDED) && !game.isSinglePlayer()){
 
                         setMatchPlayersOutcomes();
                         notifyStateToAllPlayers(data2.getValue(), playerSendingEvent.getNickname());
@@ -284,7 +273,7 @@ public class Match {
 
                             if(!player.equals(playerSendingEvent)){
                                 List<Element> elementsToUpdate = new ArrayList<>();
-                                elementsToUpdate.add(Element.EndGameInfo);
+                                elementsToUpdate.add(Element.END_GAME_INFO);
                                 player.setCurrentState(State.END_PHASE);
                                 game.setCurrentPlayer(player);
 
@@ -297,7 +286,6 @@ public class Match {
                         notifyStateToAllPlayers(data2.getValue(), playerSendingEvent.getNickname());
 
                 }
-            }
 
         }
 
@@ -316,17 +304,16 @@ public class Match {
             game.updateIndexOfPlayerWithInkWell();
 
 
-        if(game.getCurrentPlayer().equals(playerDisconnected)){
+        if(game.getCurrentPlayer().equals(playerDisconnected) && game.getNextPlayer().isPresent()){
 
-            if(game.getNextPlayer().isPresent()) {
                 game.setCurrentPlayer(game.getNextPlayer().get());
 
                 Player newCurrentPlayer = game.getCurrentPlayer();
 
                 if (newCurrentPlayer.getCurrentState().equals(State.IDLE)) {
 
-                    IDLE IDLEStrategy = new IDLE();
-                    Pair<State, List<Element>> data = IDLEStrategy.execute(game, null);
+                    IDLE idleStrategy = new IDLE();
+                    Pair<State, List<Element>> data = idleStrategy.execute(game, null);
 
                     newCurrentPlayer.setCurrentState(data.getKey());
                     notifyStateToAllPlayers(data.getValue(), newCurrentPlayer.getNickname());
@@ -340,9 +327,6 @@ public class Match {
                     notifyStateToAllPlayers(elements, newCurrentPlayer.getNickname());
                 }
 
-
-
-            }
         }
 
 
@@ -358,11 +342,7 @@ public class Match {
 
             StateInNetwork stateInNetwork = state.toStateMessage(game, elements, game.getPlayerIndex(player));
 
-            try {
-                clientHandler.sendAnswerMessage(stateInNetwork);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            clientHandler.sendAnswerMessage(stateInNetwork);
         });
 
     }
@@ -385,14 +365,7 @@ public class Match {
 
         ElementsInNetwork elementsInNetwork = new ElementsInNetwork(commonElements, playersElems);
 
-        clientsStream().forEach(clientHandler -> {
-        try{
-            clientHandler.sendAnswerMessage(elementsInNetwork);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    });
+        clientsStream().forEach(clientHandler -> clientHandler.sendAnswerMessage(elementsInNetwork));
     }
 
     public void updateElementsForAllPlayers(List<Element> elements){
@@ -412,24 +385,10 @@ public class Match {
 
             ElementsInNetwork elementsInNetwork = new ElementsInNetwork(commonElements, playersElems);
 
-            try{
-                clientHandler.sendAnswerMessage(elementsInNetwork);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            clientHandler.sendAnswerMessage(elementsInNetwork);
 
         });
 
-    }
-
-    public String getSaveName(){
-
-        return onlineUsers.values()
-                .stream()
-                .map(ClientHandler::getNickname)
-                .collect(Collectors.joining("," , "[","]"))
-                .concat("|")
-                .concat(matchId.toString());
     }
 
     public String getReasonOfGameEnd(){
@@ -465,7 +424,7 @@ public class Match {
     public void notifyPlayerDisconnection(String playerNickname){
 
         List<Element> elements = new ArrayList<>();
-        elements.add(Element.PlayersInfo);
+        elements.add(Element.PLAYERS_INFO);
 
         if(getGameIfPresent().isPresent()) { // if game is present, notify players
 
@@ -479,13 +438,7 @@ public class Match {
 
     private void sendUpdatedMatchInfo(){
 
-        onlineUsers.values().forEach(client -> {
-            try {
-                client.sendAnswerMessage(new MatchesData(SessionController.getInstance().matchesData(client)));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+        onlineUsers.values().forEach(client -> client.sendAnswerMessage(new MatchesData(SessionController.getInstance().matchesData(client))));
     }
 
     public void joinMatchAndNotifyStateIfPossible(String playerNickname){
@@ -495,9 +448,8 @@ public class Match {
         updateOtherPlayersCachesMessage(playerNickname);
         sendUpdatedMatchInfo();
 
-        if(Objects.nonNull(game)){
+        if(Objects.nonNull(game) && !game.isSinglePlayer() && game.getPlayer(playerNickname).isPresent()){
 
-            if(!game.isSinglePlayer() && game.getPlayer(playerNickname).isPresent()) {
                 Player player = game.getPlayer(playerNickname).get();
                 if(!player.getCurrentState().equals(State.SETUP_PHASE)) { //if player disconnected not during/before setup
 
@@ -510,8 +462,8 @@ public class Match {
 
                 }
 
-                player.getPersonalBoard().removeSelected(); // selected resources are deselected
-            }
+                player.getPersonalBoard().removeSelectedResources(); // selected resources are deselected
+                player.getPersonalBoard().resetAllSelectedProductionsAndChoices(); //selected productions and related selected productions are deselected
         }
 
         notifyStateToAllPlayers(elements, playerNickname);

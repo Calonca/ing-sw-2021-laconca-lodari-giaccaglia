@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model.player.board;
 
-import it.polimi.ingsw.network.jsonUtils.JsonUtility;
+import it.polimi.ingsw.network.jsonutils.JsonUtility;
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.DevelopmentCardColor;
@@ -20,7 +20,7 @@ public class PersonalBoardTest {
     PersonalBoard board;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         board = new PersonalBoard();
         board.addDevelopmentCardToCell(new DevelopmentCard(
                         0, DevelopmentCardColor.GREEN,

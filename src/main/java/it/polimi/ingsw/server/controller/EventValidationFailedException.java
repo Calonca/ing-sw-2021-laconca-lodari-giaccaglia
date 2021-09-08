@@ -8,7 +8,4 @@ public class EventValidationFailedException extends Exception{
 
     EventValidationFailedException(){super();}
 
-    EventValidationFailedException(String message){
-        super(message);
-    }
 }

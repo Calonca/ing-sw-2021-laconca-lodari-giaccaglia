@@ -2,8 +2,8 @@ package it.polimi.ingsw.server.controller.strategy;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import it.polimi.ingsw.network.jsonUtils.CommonGsonAdapters;
-import it.polimi.ingsw.network.jsonUtils.JsonUtility;
+import it.polimi.ingsw.network.jsonutils.CommonGsonAdapters;
+import it.polimi.ingsw.network.jsonutils.JsonUtility;
 import it.polimi.ingsw.network.messages.clienttoserver.events.Event;
 import it.polimi.ingsw.network.messages.clienttoserver.events.MiddlePhaseEvent;
 import it.polimi.ingsw.server.messages.clienttoserver.events.Validable;
@@ -33,11 +33,9 @@ public class IDLETest {
         players.put(0,"testPlayer1");
         List<Integer> onlineUsers = new ArrayList<>(players.keySet());
 
+        GameModel gamemodel = new GameModel(players, true ,null, onlineUsers);
 
-        boolean isSinglePlayer = true;
-        GameModel gamemodel = new GameModel(players, isSinglePlayer,null, onlineUsers);
-
-        gamemodel.setMacroGamePhase(GameModel.MacroGamePhase.LastTurn);
+        gamemodel.setMacroGamePhase(GameModel.MacroGamePhase.LAST_TURN);
         assertEquals(new IDLE().execute(gamemodel, serverEvent).getKey(), State.END_PHASE);
 
     }
@@ -55,10 +53,9 @@ public class IDLETest {
         players.put(0,"testPlayer1");
         List<Integer> onlineUsers = new ArrayList<>(players.keySet());
 
-        boolean isSinglePlayer = true;
-        GameModel gamemodel = new GameModel(players, isSinglePlayer,null, onlineUsers);
+        GameModel gamemodel = new GameModel(players, true ,null, onlineUsers);
 
-        gamemodel.setMacroGamePhase(GameModel.MacroGamePhase.GameEnded);
+        gamemodel.setMacroGamePhase(GameModel.MacroGamePhase.GAME_ENDED);
         assertEquals(new IDLE().execute(gamemodel, serverEvent).getKey(), State.INITIAL_PHASE);
     }
 
@@ -76,15 +73,14 @@ public class IDLETest {
         players.put(0,"testPlayer1");
         List<Integer> onlineUsers = new ArrayList<>(players.keySet());
 
-        boolean isSinglePlayer = true;
-        GameModel gamemodel = new GameModel(players, isSinglePlayer,null, onlineUsers);
+        GameModel gamemodel = new GameModel(players, true ,null, onlineUsers);
 
         gamemodel.getCurrentPlayer().getLeader(gamemodel.getCurrentPlayer().getLeadersUUIDs().get(0)).orElseThrow().discard(gamemodel);
         gamemodel.getCurrentPlayer().getLeader(gamemodel.getCurrentPlayer().getLeadersUUIDs().get(1)).orElseThrow().discard(gamemodel);
         gamemodel.getCurrentPlayer().getLeader(gamemodel.getCurrentPlayer().getLeadersUUIDs().get(2)).orElseThrow().discard(gamemodel);
         gamemodel.getCurrentPlayer().getLeader(gamemodel.getCurrentPlayer().getLeadersUUIDs().get(3)).orElseThrow().discard(gamemodel);
 
-        gamemodel.setMacroGamePhase(GameModel.MacroGamePhase.ActiveGame);
+        gamemodel.setMacroGamePhase(GameModel.MacroGamePhase.ACTIVE_GAME);
         assertEquals(new IDLE().execute(gamemodel, serverEvent).getKey(), State.MIDDLE_PHASE);
 
     }

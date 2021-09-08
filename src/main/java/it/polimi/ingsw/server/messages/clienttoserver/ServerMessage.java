@@ -5,16 +5,14 @@ import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.utils.GsonAdapters;
 
-import java.io.IOException;
-
-import static it.polimi.ingsw.network.jsonUtils.JsonUtility.deserializeFromString;
+import static it.polimi.ingsw.network.jsonutils.JsonUtility.deserializeFromString;
 
 /**
  * All the messages from the client to the server implement this interface.
  * It contains methods that can only be used in the server.
  */
 public interface ServerMessage {
-    void processMessage(ClientHandler clientHandler) throws IOException;
+    void processMessage(ClientHandler clientHandler);
 
     static ServerMessage deserialize(String jsonString){
 

@@ -70,7 +70,6 @@ public class Player {
         marketBonus=new boolean[4];
         this.nickName = nickName;
         initializeFaithTrack();
-      //  faithTrack.cheat();
 
     }
 
@@ -99,10 +98,6 @@ public class Player {
 
     public void discardLeader(UUID leaderId){
         leaders.remove(leaderId);
-    }
-
-    public Optional<Leader> getLeaderToActivate(UUID leaderId){
-        return Optional.ofNullable(leaders.get(leaderId));
     }
 
     /**

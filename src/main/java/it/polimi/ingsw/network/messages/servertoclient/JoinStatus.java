@@ -1,7 +1,5 @@
 package it.polimi.ingsw.network.messages.servertoclient;
 
-import it.polimi.ingsw.network.messages.clienttoserver.ClientToServerMessage;
-
 import java.util.UUID;
 
 public class JoinStatus extends ServerToClientMessage {
@@ -12,8 +10,7 @@ public class JoinStatus extends ServerToClientMessage {
 
     public JoinStatus(){}
 
-    public JoinStatus(ClientToServerMessage parent, UUID joinedMatchUUID, motive m, int playerIndex) {
-        super(parent);
+    public JoinStatus(UUID joinedMatchUUID, motive m, int playerIndex) {
         this.joinedMatchUUID = joinedMatchUUID;
         this.m = m;
         this.playerIndex = playerIndex;

@@ -9,20 +9,20 @@ import java.util.Objects;
 
 public class SimpleStrongBox extends SimpleModelElement {
 
-    private Map<Integer, Pair<ResourceAsset, Pair<Integer, Integer>>> simpleStrongBox;
+    private Map<Integer, Pair<ResourceAsset, Pair<Integer, Integer>>> simpleBox;
 
     public SimpleStrongBox(){}
 
     public SimpleStrongBox(Map<Integer, Pair<ResourceAsset, Pair<Integer, Integer>>>  simpleStrongBox){
-        this.simpleStrongBox = simpleStrongBox;
+        this.simpleBox = simpleStrongBox;
     }
 
     //         Pos           Res                 number   selected
     public Map<Integer, Pair<ResourceAsset, Pair<Integer, Integer>>> getResourceMap() {
-        if(Objects.isNull(simpleStrongBox))
-            return Collections.EMPTY_MAP;
+        if(Objects.isNull(simpleBox))
+            return Collections.emptyMap();
 
-        return simpleStrongBox;
+        return simpleBox;
     }
 
     /**
@@ -35,7 +35,7 @@ public class SimpleStrongBox extends SimpleModelElement {
     @Override
     public void update(SimpleModelElement element) {
         SimpleStrongBox serverStrongBox = (SimpleStrongBox) element;
-        this.simpleStrongBox = serverStrongBox.simpleStrongBox;
+        this.simpleBox = serverStrongBox.simpleBox;
     }
 
 }

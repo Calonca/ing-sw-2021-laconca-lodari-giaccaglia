@@ -24,11 +24,11 @@ public class FinalProductionStrategy implements GameStrategy {
 
         List<Element> elementsToUpdate = new ArrayList<>();
 
-        elementsToUpdate.add(Element.SimpleProductions);
-        elementsToUpdate.add(Element.SimpleCardCells);
-        elementsToUpdate.add(Element.SimpleWareHouseLeadersDepot);
-        elementsToUpdate.add(Element.SimpleStrongBox);
-        elementsToUpdate.add(Element.SimpleFaithTrack);
+        elementsToUpdate.add(Element.SIMPLE_PRODUCTIONS);
+        elementsToUpdate.add(Element.SIMPLE_CARD_CELLS);
+        elementsToUpdate.add(Element.SIMPLE_WARE_HOUSE_LEADERS_DEPOT);
+        elementsToUpdate.add(Element.SIMPLE_STRONG_BOX);
+        elementsToUpdate.add(Element.SIMPLE_FAITH_TRACK);
 
 
         PersonalBoard personalBoard = gamemodel.getCurrentPlayer().getPersonalBoard();
@@ -42,9 +42,9 @@ public class FinalProductionStrategy implements GameStrategy {
         }
 
         else // 1 revert all and go back to middle phase
+                personalBoard.resetAllSelectedProductionsAndChoices();
 
-                personalBoard.resetAllSelectedProductions();
-                return new Pair<>(State.MIDDLE_PHASE, elementsToUpdate);
+        return new Pair<>(State.MIDDLE_PHASE, elementsToUpdate);
 
         }
 
