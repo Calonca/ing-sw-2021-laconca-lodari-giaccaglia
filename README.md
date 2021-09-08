@@ -2,7 +2,6 @@
 <img src="http://www.craniocreations.it/wp-content/uploads/2019/06/Masters-of-Renaissance_box3D_ombra.png" width=400px height=400px align="right" />
 
 ![latest commit](https://img.shields.io/github/last-commit/Calonca/ing-sw-2021-laconca-lodari-giaccaglia?color=red)
-![latest release](https://img.shields.io/github/v/release/Calonca/ing-sw-2021-laconca-lodari-giaccaglia?color=green)
 ![license](https://img.shields.io/badge/license-MIT-green)
 
 Maestri del Rinascimento is the final test of **"Software Engineering"**, course of **"Computer Science Engineering"** held at Politecnico di Milano (20/2020).
