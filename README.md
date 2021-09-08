@@ -12,7 +12,7 @@ Maestri del Rinascimento is the final test of **"Software Engineering"**, course
 
 #### Students:
 * [Giaccaglia Pablo](https://github.com/pablogiaccaglia)
-* [Laconca Alessandro](https://github.com/Calonca)
+* [La Conca Alessandro](https://github.com/Calonca)
 * [Lodari Gianmarco](https://github.com/m3f157O) 
 
 ## Project specification
