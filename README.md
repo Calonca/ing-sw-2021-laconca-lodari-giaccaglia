@@ -4,7 +4,7 @@
 ![latest commit](https://img.shields.io/github/last-commit/Calonca/ing-sw-2021-laconca-lodari-giaccaglia?color=red)
 ![license](https://img.shields.io/badge/license-MIT-green)
 
-Maestri del Rinascimento is the final test of **"Software Engineering"**, course of **"Computer Science Engineering"** held at Politecnico di Milano (20/2020).
+Maestri del Rinascimento is the final test of **"Software Engineering"**, course of **"Computer Science Engineering"** held at Politecnico di Milano (2020/2021).
 
 **Teacher** Pierluigi San Pietro
 
@@ -18,7 +18,7 @@ Maestri del Rinascimento is the final test of **"Software Engineering"**, course
 ## Project specification
 The project consists of a Java version of the board game *Maestri del Rinascimento*, made by Cranio Creations.
 
-You can find the full game [here](http://www.craniocreations.it/prodotto/masters-of-renaissance/).
+You can find the full game [here](http://www.craniocreations.it/prodotto/masters-of-renaissance/) and the rules [here](https://github.com/Calonca/ing-sw-2021-laconca-lodari-giaccaglia/blob/master/maestri-rules-en.pdf).
 
 The final version includes:
 * initial UML diagram;
@@ -78,26 +78,59 @@ Modes:
 
 7. If you want to run the GUI, use the -g or the --gui argument, along with the desired TCP port, IP addres and nickname. The user will be asked to insert them again if some of them are missing in the argument
 
+## Game screenshots
 
-##### CLI
+
+<h2><p align="center"><b>CLI</b></></h2>
+  
+  ---
+  
+ <img src="https://raw.githubusercontent.com/pablogiaccaglia/ing-sw-2021-laconca-lodari-giaccaglia/master/screenshots/cli-1.png" align="center" />
+  
+  ---
 
 ![name-of-you-image](https://github.com/Calonca/ing-sw-2021-laconca-lodari-giaccaglia/blob/master/deliverables/final/startCLI.png?raw=true)
+  
+  ---
 
 ![name-of-you-image](https://github.com/Calonca/ing-sw-2021-laconca-lodari-giaccaglia/blob/master/deliverables/final/boardCLI.png?raw=true)
+  
+  ---
 
 ![name-of-you-image](https://github.com/Calonca/ing-sw-2021-laconca-lodari-giaccaglia/blob/master/deliverables/final/cardshopCLI.png?raw=true)
+  
+  ---
 
 ![name-of-you-image](https://github.com/Calonca/ing-sw-2021-laconca-lodari-giaccaglia/blob/master/deliverables/final/marketCLI.png?raw=true)
+  
+  ---
 
-##### GUI
+<h2><p align="center"><b>GUI</b></></h2>
 
-![name-of-you-image](https://github.com/Calonca/ing-sw-2021-laconca-lodari-giaccaglia/blob/master/deliverables/final/startGUI.png?raw=true)
+ ---
+  
+<img src="https://raw.githubusercontent.com/pablogiaccaglia/ing-sw-2021-laconca-lodari-giaccaglia/master/screenshots/gui-1.png" align="center" />
+
+---
 
 ![name-of-you-image](https://github.com/Calonca/ing-sw-2021-laconca-lodari-giaccaglia/blob/master/deliverables/final/boardGUI.png?raw=true)
 
+---
+
 ![name-of-you-image](https://github.com/Calonca/ing-sw-2021-laconca-lodari-giaccaglia/blob/master/deliverables/final/cardshopGUI.png?raw=true)
 
-![name-of-you-image](https://github.com/Calonca/ing-sw-2021-laconca-lodari-giaccaglia/blob/master/deliverables/final/marketGUI.png?raw=true)
+---
+
+<img src="https://raw.githubusercontent.com/pablogiaccaglia/ing-sw-2021-laconca-lodari-giaccaglia/master/screenshots/gui-2.png" align="center" />
+
+---
+
+<img src="https://raw.githubusercontent.com/pablogiaccaglia/ing-sw-2021-laconca-lodari-giaccaglia/master/screenshots/gui-3.png" align="center" />
+
+---
+
+<img src="https://raw.githubusercontent.com/pablogiaccaglia/ing-sw-2021-laconca-lodari-giaccaglia/master/screenshots/gui-4.png" align="center" />
+
 
 
 * We implemented a 3D gui based on a simplified model of the server's state machine. The user can freely see their board, using W and S to cycle between Board view, Market view, and Frontal view, which covers every game component. While looking from the Frontal view, the player can use D and S keys to rotate around the table, with 90 degree steps. Both the CLI and GUI implement real time updates on the game state. Common elements, such as CardShop and ResourceMarket are shared between all players, each players sees them in front of their board but they are actually synchronized
@@ -125,3 +158,6 @@ Modes:
 ## Copyright and license
 
 Maestri del Rinascimento is copyrighted 2020.
+
+Licensed under the **[MIT License](https://github.com/Calonca/ing-sw-2021-laconca-lodari-giaccaglia/blob/master/LICENSE)**.
+You may not use this software except in compliance with the License.
