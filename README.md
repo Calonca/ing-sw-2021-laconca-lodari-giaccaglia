@@ -4,11 +4,11 @@
 ![latest commit](https://img.shields.io/github/last-commit/Calonca/ing-sw-2021-laconca-lodari-giaccaglia?color=red)
 ![license](https://img.shields.io/badge/license-MIT-green)
 
-Maestri del Rinascimento is the final test of **"Software Engineering"**, course of **"Computer Science Engineering"** held at Politecnico di Milano (2020/2021).
+Maestri del Rinascimento is the final test of **"Software Engineering"** course of **"Computer Science Engineering"** held at Politecnico di Milano (2020/2021).
 
-**Teacher** Pierluigi San Pietro
+**Teacher**: Pierluigi San Pietro
 
-#### Group: SP10
+**Group**: SP10
 
 #### Students:
 * [Giaccaglia Pablo](https://github.com/pablogiaccaglia)
@@ -20,10 +20,11 @@ Maestri del Rinascimento is the final test of **"Software Engineering"**, course
 1. [Project specification](#project-specification)
 2. [Implemented Features](#implemented-features)
 3. [Usage](#usage)
-4. [Game GIFs](#game-gifs)
-5. [Game Screenshots](#game-screenshots)
-6. [Software Used](#software-used)
-7. [License](#copyright-and-license)
+4. [Communication Protocol](https://github.com/Calonca/ing-sw-2021-laconca-lodari-giaccaglia/blob/master/deliverables/final/communication%20protocol.pdf)
+5. [Game GIFs](#game-gifs)
+6. [Game Screenshots](#game-screenshots)
+7. [Software Used](#software-used)
+8. [License](#copyright-and-license)
 ---
 
 ## Project specification
