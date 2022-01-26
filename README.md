@@ -78,6 +78,26 @@ Modes:
 
 7. If you want to run the GUI, use the -g or the --gui argument, along with the desired TCP port, IP addres and nickname. The user will be asked to insert them again if some of them are missing in the argument
 
+## Game GIFs
+
+<h2><p align="center"><b>GUI</b></></h2>
+  
+Game Turn                  |  Real time updates
+:-------------------------:|:-------------------------:
+![](https://github.com/Calonca/ing-sw-2021-laconca-lodari-giaccaglia/blob/master/deliverables/final/gifs/gui1.gif)|  ![](https://github.com/Calonca/ing-sw-2021-laconca-lodari-giaccaglia/blob/master/deliverables/final/gifs/gui2.gif)
+
+
+<h2><p align="center"><b>CLI</b></></h2> 
+  
+  <p align= "center">
+ <kbd> 
+ <img src="https://github.com/Calonca/ing-sw-2021-laconca-lodari-giaccaglia/blob/master/deliverables/final/gifs/cli.gif" align="center" /> |
+ </kbd>
+ </>
+    
+    
+  ---
+
 ## Game screenshots
 
 
