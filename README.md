@@ -15,6 +15,17 @@ Maestri del Rinascimento is the final test of **"Software Engineering"**, course
 * [La Conca Alessandro](https://github.com/Calonca)
 * [Lodari Gianmarco](https://github.com/m3f157O) 
 
+## Table of Contents
+
+1. [Project specification](#project-specification)
+2. [Implemented Features](#implemented-features)
+3. [Usage](#usage)
+4. [Game GIFs](#game-gifs)
+5. [Game Screenshots](#game-screenshots)
+6. [Software Used](#software-used)
+7. [License](#copyright-and-license)
+---
+
 ## Project specification
 The project consists of a Java version of the board game *Maestri del Rinascimento*, made by Cranio Creations.
 
@@ -25,7 +36,7 @@ The final version includes:
 * final UML diagram, generated from the code by automated tools;
 * working game implementation, which has to be rules compliant;
 * source code of the implementation;
-* source code of unity tests.
+* source code of unit tests.
 
 ## Implemented Features
 
@@ -52,31 +63,25 @@ The final version includes:
 
 ## Usage
 
-### Windows
+### Windows/Linux/MacOS 
 
 1. Open the command line
 2. Clone the repository
 3. In the repository's directory, run:
 ```bash
-java -jar Maestri.jar
-```
-4. With the following arguments:
-```bash
 java -jar Maestri.jar [mode] [port] [ip] [nickname]
+```
 
 Modes:
-  -c,--cli        Starts the CLI and connects to server with port, ip and nickname
-                  without arguments it will let you choose them later
-  -g,--gui        Starts the GUI and connects to server with port, ip and nickname
-                  without arguments it will let you choose them later
-  -s,--server     Starts server with port.
-```
+  
+| Shortcut | Name | Description |
+| -------------- | ----------- | ----------------- |
+| ` -c` | `-cli`   |Starts the CLI and connects to server with port|
+| `-g` | `-gui`|Starts the GUI and connects to server with port|
+| `-s` | `--server`|Starts server with port|
 
-5. If you want to run the server, use the -s or the --server argument, along with the desired TCP port. You will be asked to insert a TCP port if it's not in the argument
+Mode argument can be run without further arguments(TCP port & nickname). In such case or in case of mssing arguments these will be asked later. 
 
-6. If you want to run the client, use the -c or the --cli argument, along with the desired TCP port, IP addres and nickname. The user will be asked to insert them again if some of them are missing in the argument
-
-7. If you want to run the GUI, use the -g or the --gui argument, along with the desired TCP port, IP addres and nickname. The user will be asked to insert them again if some of them are missing in the argument
 
 ## Game GIFs
 
@@ -91,14 +96,14 @@ Game Turn                  |  Real time updates
   
   <p align= "center">
  <kbd> 
- <img src="https://github.com/Calonca/ing-sw-2021-laconca-lodari-giaccaglia/blob/master/deliverables/final/gifs/cli.gif" align="center" /> |
+ <img src="https://github.com/Calonca/ing-sw-2021-laconca-lodari-giaccaglia/blob/master/deliverables/final/gifs/cli.gif" align="center" />
  </kbd>
  </>
     
     
   ---
 
-## Game screenshots
+## Game Screenshots
 
 
 <h2><p align="center"><b>CLI</b></></h2>
@@ -168,14 +173,14 @@ Game Turn                  |  Real time updates
 
 * All the unit test have been run before each commit
 
-## Software used
+## Software Used
 **sequencediagram.org** - sequence diagrams
 
 **Draw.io** - UML diagrams
 
 **Intellij IDEA Ultimate** - main IDE 
 
-## Copyright and license
+## Copyright and License
 
 Maestri del Rinascimento is copyrighted 2020.
 
