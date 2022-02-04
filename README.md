@@ -86,7 +86,7 @@ Mode argument can be run without further arguments(TCP port & nickname). In such
 
 ## Game GIFs
 
-> Note that the following GIFs related to the GUI show the state of the game when it was delivered for evaluation. Due to copyright reasons the assets, which were provided without permission of making them freely available, have been later substituted with ones made by ourselves.
+> Note that the following GIFs related to the GUI show the state of the game when it was delivered for evaluation. Due to copyright reasons, the assets, which were provided without permission of making them freely available, have been later substituted with ones made by ourselves.
 
 <h2><p align="center"><b>GUI</b></></h2>
   
