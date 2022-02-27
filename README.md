@@ -112,7 +112,7 @@ Game Turn                  |  Real time updates
   
   ---
   
- <img src="https://raw.githubusercontent.com/pablogiaccaglia/ing-sw-2021-laconca-lodari-giaccaglia/master/screenshots/cli-1.png" align="center" />
+ <img src="https://raw.githubusercontent.com/Calonca/ing-sw-2021-laconca-lodari-giaccaglia/master/deliverables/final/cli-name.png" align="center" />
   
   ---
 
@@ -138,7 +138,7 @@ Game Turn                  |  Real time updates
 
  ---
   
-<img src="https://raw.githubusercontent.com/pablogiaccaglia/ing-sw-2021-laconca-lodari-giaccaglia/master/screenshots/gui-1.png" align="center" />
+<img src="https://raw.githubusercontent.com/Calonca/ing-sw-2021-laconca-lodari-giaccaglia/master/deliverables/final/gui-1.png" align="center" />
 
 ---
 
@@ -150,15 +150,15 @@ Game Turn                  |  Real time updates
 
 ---
 
-<img src="https://raw.githubusercontent.com/pablogiaccaglia/ing-sw-2021-laconca-lodari-giaccaglia/master/screenshots/gui-2.png" align="center" />
+<img src="https://raw.githubusercontent.com/Calonca/ing-sw-2021-laconca-lodari-giaccaglia/master/deliverables/final/gui-2.png" align="center" />
 
 ---
 
-<img src="https://raw.githubusercontent.com/pablogiaccaglia/ing-sw-2021-laconca-lodari-giaccaglia/master/screenshots/gui-3.png" align="center" />
+<img src="https://github.com/Calonca/ing-sw-2021-laconca-lodari-giaccaglia/blob/master/deliverables/final/gui-3%20(1).png" align="center" />
 
 ---
 
-<img src="https://raw.githubusercontent.com/pablogiaccaglia/ing-sw-2021-laconca-lodari-giaccaglia/master/screenshots/gui-4.png" align="center" />
+<img src="https://raw.githubusercontent.com/Calonca/ing-sw-2021-laconca-lodari-giaccaglia/master/deliverables/final/gui-4.png" align="center" />
 
 
 
