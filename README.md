@@ -163,6 +163,8 @@ Game Turn                  |  Real time updates
 
 
 * We implemented a 3D gui based on a simplified model of the server's state machine. The user can freely see their board, using W and S to cycle between Board view, Market view, and Frontal view, which covers every game component. While looking from the Frontal view, the player can use D and S keys to rotate around the table, with 90 degree steps. Both the CLI and GUI implement real time updates on the game state. Common elements, such as CardShop and ResourceMarket are shared between all players, each players sees them in front of their board but they are actually synchronized
+* The CLI we made can contain vertical, horizontal lists of elements and custom drawn elements. Each list can contain other lists or elements. The user can select an option from each list or sublist and our input handler checks if the input is correct or asks to retype if it is not.
+  A simplified standalone version of the CLI can be found [here](https://github.com/Calonca/maestri-cli).
 
 ## Testing
 * All unit test have been automated when possible. For some network functionalities it has been necessary to perform some manual QA instead
